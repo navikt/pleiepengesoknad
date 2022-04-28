@@ -4,6 +4,8 @@ import {
     DateDurationMap,
     dateToISODate,
     decimalDurationToDuration,
+    durationToDecimalDuration,
+    DurationWeekdays,
     getDatesInDateRange,
     getDurationForISOWeekdayNumber,
     ISODateToDate,
@@ -13,7 +15,7 @@ import isoWeek from 'dayjs/plugin/isoWeek';
 
 dayjs.extend(isoWeek);
 
-export const getRedusertArbeidstidSomDuration = (
+const getRedusertArbeidstidSomDuration = (
     jobberNormaltTimerPerDagNumber: number,
     skalJobbeProsent: number
 ): InputTime => {
@@ -22,8 +24,11 @@ export const getRedusertArbeidstidSomDuration = (
 };
 
 export const getDagerMedTidFraArbeidstidPeriodeData = (
-    normalTimer: number,
-    { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData
+    { fom, tom, prosent, tidFasteDager }: ArbeidstidPeriodeData,
+    tid: {
+        timerSnittPerUke?: number;
+        timerFasteUkedager?: DurationWeekdays;
+    }
 ): DateDurationMap => {
     const datoerIPeriode = getDatesInDateRange({ from: fom, to: tom }, true);
     const dagerMedTid: DateDurationMap = {};
@@ -37,8 +42,24 @@ export const getDagerMedTidFraArbeidstidPeriodeData = (
             if (prosentNumber === 0) {
                 dagerMedTid[isoDate] = { hours: '0', minutes: '0', percentage: prosentNumber };
             } else {
-                const isoDurationPerDag = getRedusertArbeidstidSomDuration(normalTimer / 5, prosentNumber);
-                dagerMedTid[isoDate] = { ...isoDurationPerDag, percentage: prosentNumber };
+                if (tid.timerSnittPerUke) {
+                    const isoDurationPerDag = getRedusertArbeidstidSomDuration(tid.timerSnittPerUke / 5, prosentNumber);
+                    dagerMedTid[isoDate] = { ...isoDurationPerDag, percentage: prosentNumber };
+                } else if (tid.timerFasteUkedager) {
+                    const fastArbeidstidDenneDagen = getDurationForISOWeekdayNumber(
+                        tid.timerFasteUkedager,
+                        dayjs(dato).isoWeekday()
+                    );
+                    if (fastArbeidstidDenneDagen) {
+                        const isoDurationPerDag = getRedusertArbeidstidSomDuration(
+                            durationToDecimalDuration(fastArbeidstidDenneDagen),
+                            prosentNumber
+                        );
+                        dagerMedTid[isoDate] = { ...isoDurationPerDag, percentage: prosentNumber };
+                    } else {
+                        dagerMedTid[isoDate] = { hours: '0', minutes: '0' };
+                    }
+                }
             }
         } else if (tidFasteDager) {
             const varighet = getDurationForISOWeekdayNumber(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
