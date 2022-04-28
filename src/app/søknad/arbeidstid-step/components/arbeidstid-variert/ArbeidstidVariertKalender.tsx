@@ -41,6 +41,7 @@ interface Props extends ArbeidstidRegistrertLogProps {
     arbeidstid?: DateDurationMap;
     intlValues: ArbeidIPeriodeIntlValues;
     kanLeggeTilPeriode: boolean;
+    disableDagerUtenforFasteDager?: boolean;
     onArbeidstidVariertChanged?: (arbeidstid: DateDurationMap) => void;
 }
 
@@ -54,6 +55,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
     periode,
     intlValues,
     kanLeggeTilPeriode,
+    disableDagerUtenforFasteDager = false,
     onArbeidstidVariertChanged,
     onArbeidstidEnkeltdagRegistrert,
     onArbeidPeriodeRegistrert,
@@ -73,9 +75,10 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
     };
 
     /** Dager som en ikke jobber på normalt */
-    const utilgjengeligeUkedager = arbeiderNormaltTimerFasteUkedager
-        ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
-        : undefined;
+    const utilgjengeligeUkedager =
+        disableDagerUtenforFasteDager && arbeiderNormaltTimerFasteUkedager
+            ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
+            : undefined;
 
     const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
         if (onArbeidPeriodeRegistrert) {
