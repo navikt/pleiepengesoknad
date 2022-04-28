@@ -1,4 +1,4 @@
-import { apiStringDateToDate, DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
 import {
     DateDurationMap,
@@ -52,27 +52,4 @@ export const getEnkeltdagerIPeriodeApiData = (
         }
     });
     return dager.sort(sortTidEnkeltdagApiData);
-};
-
-export const fjernArbeidstimerUtenforPeriodeOgHelgedager = (
-    periode: Partial<DateRange>,
-    arbeidstidEnkeltdag?: ArbeidstidEnkeltdagApiData[]
-): ArbeidstidEnkeltdagApiData[] | undefined => {
-    const { from, to } = periode;
-    if (!arbeidstidEnkeltdag || (!from && !to)) {
-        return arbeidstidEnkeltdag;
-    }
-    return arbeidstidEnkeltdag.filter((dag) => {
-        const dato = apiStringDateToDate(dag.dato);
-        if (isDateWeekDay(dato) === false) {
-            return false;
-        }
-        if (from && dayjs(dato).isBefore(from, 'day')) {
-            return false;
-        }
-        if (to && dayjs(dato).isAfter(to, 'day')) {
-            return false;
-        }
-        return true;
-    });
 };

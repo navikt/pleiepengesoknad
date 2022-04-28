@@ -1,10 +1,5 @@
 import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger';
-import {
-    fjernArbeidstimerUtenforPeriodeOgHelgedager,
-    getEnkeltdagerIPeriodeApiData,
-    getFasteDagerApiData,
-} from '../tidsbrukApiUtils';
+import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../tidsbrukApiUtils';
 
 describe('tidsbrukApiUtils', () => {
     describe('getFasteDagerApiData', () => {
@@ -63,45 +58,6 @@ describe('tidsbrukApiUtils', () => {
             expect(result[1].dato).toEqual('2021-02-03');
             expect(result[2].dato).toEqual('2021-02-04');
             expect(result[3].dato).toEqual('2021-02-05');
-        });
-    });
-    describe('fjernTidUtenforPeriode', () => {
-        it('fjerner tid som er før eller etter periode', () => {
-            const periode: Partial<DateRange> = {
-                from: apiStringDateToDate('2021-02-05'),
-                to: apiStringDateToDate('2021-02-06'),
-            };
-            const tidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [
-                { dato: '2021-02-04', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-05', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-06', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-07', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-            ];
-            const result = fjernArbeidstimerUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
-            expect(result).toBeDefined();
-            if (result) {
-                expect(result.length).toBe(1);
-                expect(result[0].dato).toEqual('2021-02-05');
-            }
-        });
-        it('fjerner tid som er på helgedager', () => {
-            const periode: Partial<DateRange> = {
-                from: apiStringDateToDate('2021-02-01'),
-                to: apiStringDateToDate('2021-02-10'),
-            };
-            const tidEnkeltdager: ArbeidstidEnkeltdagApiData[] = [
-                { dato: '2021-02-05', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-06', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-07', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-                { dato: '2021-02-08', arbeidstimer: { faktiskTimer: '2', normalTimer: '5' } },
-            ];
-            const result = fjernArbeidstimerUtenforPeriodeOgHelgedager(periode, tidEnkeltdager);
-            expect(result).toBeDefined();
-            if (result) {
-                expect(result.length).toBe(2);
-                expect(result[0].dato).toEqual('2021-02-05');
-                expect(result[1].dato).toEqual('2021-02-08');
-            }
         });
     });
 });

@@ -3,7 +3,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
 import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
@@ -48,8 +48,6 @@ export enum SøknadFormField {
     omsorgstilbud__enkeltdager = 'omsorgstilbud.enkeltdager',
     ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
     harVærtEllerErVernepliktig = 'harVærtEllerErVernepliktig',
-    mottarAndreYtelser = 'mottarAndreYtelser',
-    andreYtelser = 'andreYtelser',
     frilans = 'frilans',
     selvstendig = 'selvstendig',
     frilansoppdrag = 'frilansoppdrag',
@@ -95,8 +93,6 @@ export interface SøknadFormData {
     [SøknadFormField.harBeredskap]: YesOrNo;
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
-    [SøknadFormField.mottarAndreYtelser]?: YesOrNo;
-    [SøknadFormField.andreYtelser]?: AndreYtelserFraNAV[];
     [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
@@ -130,7 +126,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [SøknadFormField.andreYtelser]: [],
     [SøknadFormField.frilans]: {
         harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
     },

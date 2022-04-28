@@ -1,12 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../../types/SøknadFormData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
 
 export const extractOmsorgstibudSøknadsdata = (
-    { omsorgstilbud }: Partial<SøknadFormData>,
-    søknadsperiode: DateRange
+    søknadsperiode: DateRange,
+    omsorgstilbud?: OmsorgstilbudFormData
 ): OmsorgstilbudSøknadsdata | undefined => {
     if (!omsorgstilbud || omsorgstilbud.erIOmsorgstilbud !== YesOrNo.YES) {
         return undefined;

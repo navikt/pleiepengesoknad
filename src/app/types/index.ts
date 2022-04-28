@@ -1,4 +1,3 @@
-export * from './AndreYtelserFraNavn';
 export * from './Arbeidsgiver';
 export * from './BarnRelasjon';
 export * from './ResourceType';

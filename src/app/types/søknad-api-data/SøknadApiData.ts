@@ -1,7 +1,7 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
 import { FrilansApiData } from './frilansApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
@@ -112,7 +112,6 @@ export interface SøknadApiData {
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
-    andreYtelserFraNAV?: AndreYtelserFraNAV[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
 }
