@@ -12,11 +12,7 @@ import {
 } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
-import {
-    decimalDurationToDuration,
-    getAllWeekdaysWithoutDuration,
-    hasWeekdaysWithoutDuration,
-} from '@navikt/sif-common-utils/lib';
+import { decimalDurationToDuration, hasWeekdaysWithoutDuration } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
@@ -24,7 +20,6 @@ import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import { ArbeidstidRegistrertLogProps } from '../../types';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
-import ArbeidstidVariertUkedager from '../arbeidstid-variert/ArbeidstidVariertUkedager';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -212,33 +207,19 @@ const ArbeidIPeriodeSpørsmål = ({
                             {erLiktHverUke === YesOrNo.NO && (
                                 <FormBlock margin="l">
                                     <ResponsivePanel>
-                                        {1 + 1 === 2 && (
-                                            <ArbeidstidVariertUkedager
-                                                arbeidstid={arbeidIPeriode?.enkeltdager}
-                                                kanLeggeTilPeriode={false}
-                                                arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
-                                                periode={periode}
-                                                intlValues={intlValues}
-                                                formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-                                                onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-                                                onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-                                            />
-                                        )}
-                                        {1 + 1 === 3 && (
-                                            <ArbeidstidVariertKalender
-                                                arbeidstid={arbeidIPeriode?.enkeltdager}
-                                                kanLeggeTilPeriode={false}
-                                                arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
-                                                periode={periode}
-                                                intlValues={intlValues}
-                                                arbeidsstedNavn={arbeidsstedNavn}
-                                                arbeidsforholdType={arbeidsforholdType}
-                                                formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
-                                                onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
-                                                onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
-                                                onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
-                                            />
-                                        )}
+                                        <ArbeidstidVariertKalender
+                                            arbeidstid={arbeidIPeriode?.enkeltdager}
+                                            kanLeggeTilPeriode={true}
+                                            arbeiderNormaltTimerFasteUkedager={normalarbeidstid.timerFasteUkedager}
+                                            periode={periode}
+                                            intlValues={intlValues}
+                                            arbeidsstedNavn={arbeidsstedNavn}
+                                            arbeidsforholdType={arbeidsforholdType}
+                                            formFieldName={getFieldName(ArbeidIPeriodeFormField.enkeltdager)}
+                                            onArbeidstidVariertChanged={() => setArbeidstidChanged(true)}
+                                            onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
+                                            onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
+                                        />
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
@@ -275,10 +256,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     jobber: 'Jobber timer',
                                                     ariaLabelTidInput: (dagNavn) => `Hvor mye jobber du ${dagNavn}`,
                                                 }}
-                                                skjulUtilgjengeligeUkedager={true}
-                                                utilgjengeligeUkedager={getAllWeekdaysWithoutDuration(
-                                                    normalarbeidstid.timerFasteUkedager
-                                                )}
                                                 tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
                                                     normalarbeidstid.timerFasteUkedager,
                                                     intlValues,

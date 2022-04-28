@@ -132,7 +132,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                             <FormattedMessage id="arbeidstidVariert.periode.info.3" />
                         </li>
                     </ul>
-                    <Box margin="l">
+                    <Box margin="l" padBottom="xl">
                         <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}
                             registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}

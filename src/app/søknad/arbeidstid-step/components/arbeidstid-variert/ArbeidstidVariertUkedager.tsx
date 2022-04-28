@@ -10,7 +10,6 @@ import {
     DateDurationMap,
     durationToDecimalDuration,
     DurationWeekdays,
-    getAllWeekdaysWithoutDuration,
     getDurationsInDateRange,
     getValidDurations,
     summarizeDateDurationMap,
@@ -37,10 +36,6 @@ const ArbeidstidVariertUkedager: React.FunctionComponent<Props> = ({
     intlValues,
     kanLeggeTilPeriode,
 }) => {
-    const utilgjengeligeUkedager = arbeiderNormaltTimerFasteUkedager
-        ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
-        : undefined;
-
     const enkeltdagValidator = arbeiderNormaltTimerFasteUkedager
         ? getArbeidIPeriodeEnkeltdagValidator(arbeiderNormaltTimerFasteUkedager, intlValues)
         : undefined;
@@ -85,7 +80,6 @@ const ArbeidstidVariertUkedager: React.FunctionComponent<Props> = ({
                 periode={periode}
                 arbeidstid={arbeidstid}
                 fieldName={formFieldName}
-                utilgjengeligeUkedager={utilgjengeligeUkedager}
                 normalarbeidstidUkedager={arbeiderNormaltTimerFasteUkedager}
                 tekster={{
                     dag: 'Dag',
