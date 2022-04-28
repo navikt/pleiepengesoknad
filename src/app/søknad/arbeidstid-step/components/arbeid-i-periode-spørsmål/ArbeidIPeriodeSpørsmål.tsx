@@ -257,7 +257,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     ariaLabelTidInput: (dagNavn) => `Hvor mye jobber du ${dagNavn}`,
                                                 }}
                                                 tidPerDagValidator={getArbeidIPeriodeFasteDagerDagValidator(
-                                                    normalarbeidstid.timerFasteUkedager,
                                                     intlValues,
                                                     (weekday) => intlHelper(intl, `${weekday}.plural`)
                                                 )}

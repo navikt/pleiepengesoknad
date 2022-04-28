@@ -1,11 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
-import {
-    getDurationsInDateRange,
-    removeDurationWeekdaysNotInDurationWeekdays,
-    removeDurationWeekdaysWithNoDuration,
-} from '@navikt/sif-common-utils';
+import { getDurationsInDateRange, removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import {
@@ -50,9 +46,7 @@ export const cleanupArbeidIPeriode = (
             arbeid.erLiktHverUke = erLiktHverUke;
             arbeid.fasteDager =
                 normalarbeidstid.timerFasteUkedager && fasteDager
-                    ? removeDurationWeekdaysWithNoDuration(
-                          removeDurationWeekdaysNotInDurationWeekdays(fasteDager, normalarbeidstid.timerFasteUkedager)
-                      )
+                    ? removeDurationWeekdaysWithNoDuration(fasteDager)
                     : undefined;
             return arbeid;
         }
