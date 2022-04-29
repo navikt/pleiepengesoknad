@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
@@ -26,10 +26,12 @@ import {
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
-import { Element } from 'nav-frontend-typografi';
+// import { Element } from 'nav-frontend-typografi';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import ArbeidstidPeriodeKnapp from '../arbeidstid-periode-knapp/ArbeidstidPeriodeKnapp';
 import { ArbeidstidRegistrertLogProps } from '../../types';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import ArbeidstidMånedTittel from './ArbeidstidMånedTittel';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -110,6 +112,16 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                 tidArbeidstid={arbeidstid}
                 utilgjengeligeDatoer={utilgjengeligeDatoerIMåned}
                 periode={periode}
+                månedTittelRenderer={(måned) =>
+                    arbeiderNormaltTimerFasteUkedager ? (
+                        <ArbeidstidMånedTittel
+                            måned={måned}
+                            headingLevel={2}
+                            faktiskArbeid={arbeidstid}
+                            normalarbeidstidFasteUkedager={arbeiderNormaltTimerFasteUkedager}
+                        />
+                    ) : undefined
+                }
                 skjulIngenTidEnkeltdag={true}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
             />
@@ -143,10 +155,13 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                 </>
             )}
 
-            <Element tag="h3">
+            {/* <Element tag="h3">
                 <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
-            </Element>
-            <Box margin="l">
+            </Element> */}
+            <Box margin="s">
+                <Box>
+                    <ExpandableInfo title="Er det viktig hvilken dag jeg fører på?">Det varierer</ExpandableInfo>
+                </Box>
                 <SøknadsperioderMånedListe
                     periode={periode}
                     årstallHeadingLevel={3}
