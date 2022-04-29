@@ -124,12 +124,14 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
         : [];
 
     const SPØR_OM_PROSENT = false;
+    const MÅ_VELGE_PERIODE_FØRST = 1 + 1 == 2;
 
     return (
         <div>
             <Undertittel tag="h1" className="dialogFormTitle">
                 {arbIntl.intlText('arbeidstidPeriodeForm.tittel', { arbeidsstedNavn })}
             </Undertittel>
+            <p>Arbeidstid i perioden du velger her, vil overskrive det som evt. allerede ligger i kalenderen.</p>
             <FormBlock margin="xl">
                 <FormComponents.FormikWrapper
                     initialValues={initialFormValues}
@@ -223,144 +225,157 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                                     </FormBlock>
                                 </div>
 
-                                <FormBlock>
-                                    <FormComponents.RadioPanelGroup
-                                        name={FormFields.arbeiderHvordan}
-                                        legend="Hvordan jobber du her i denne perioden?"
-                                        radios={[
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke'
-                                                ),
-                                                value: ArbeiderIPeriodenSvar.heltFravær,
-                                            },
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert'
-                                                ),
-                                                value: ArbeiderIPeriodenSvar.redusert,
-                                            },
-                                            {
-                                                label: intlHelper(
-                                                    intl,
-                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig'
-                                                ),
-                                                value: ArbeiderIPeriodenSvar.somVanlig,
-                                            },
-                                        ]}></FormComponents.RadioPanelGroup>
-                                </FormBlock>
-
-                                {arbeiderHvordan === ArbeiderIPeriodenSvar.redusert && SPØR_OM_PROSENT && (
+                                {((fom && tom) || MÅ_VELGE_PERIODE_FØRST === false) && (
                                     <>
                                         <FormBlock>
                                             <FormComponents.RadioPanelGroup
-                                                name={FormFields.tidFasteDagerEllerProsent}
-                                                legend={arbIntl.intlText(
-                                                    'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.label',
-                                                    intlValues
-                                                )}
-                                                useTwoColumns={true}
-                                                /** Usikker på hvorfor valideringen feiler her, men delay fikser det midlertidig */
-                                                afterOnChange={() => setTimeout(validateForm, 10)}
+                                                name={FormFields.arbeiderHvordan}
+                                                legend="Hvordan jobber du her i denne perioden?"
                                                 radios={[
                                                     {
-                                                        label: 'Prosent av normalt per dag',
-                                                        value: TidFasteDagerEllerProsent.prosent,
+                                                        label: intlHelper(
+                                                            intl,
+                                                            'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke'
+                                                        ),
+                                                        value: ArbeiderIPeriodenSvar.heltFravær,
                                                     },
                                                     {
-                                                        label: 'Timer per ukedag',
-                                                        value: TidFasteDagerEllerProsent.tidFasteDager,
+                                                        label: intlHelper(
+                                                            intl,
+                                                            'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert'
+                                                        ),
+                                                        value: ArbeiderIPeriodenSvar.redusert,
                                                     },
-                                                ]}
-                                                validate={(value) => {
-                                                    const error = getRequiredFieldValidator()(value);
-                                                    if (error) {
-                                                        return {
-                                                            key: error,
-                                                            values: intlValues,
-                                                        };
-                                                    }
-                                                    return undefined;
-                                                }}
-                                            />
+                                                    {
+                                                        label: intlHelper(
+                                                            intl,
+                                                            'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig'
+                                                        ),
+                                                        value: ArbeiderIPeriodenSvar.somVanlig,
+                                                    },
+                                                ]}></FormComponents.RadioPanelGroup>
                                         </FormBlock>
+
+                                        {arbeiderHvordan === ArbeiderIPeriodenSvar.redusert && SPØR_OM_PROSENT && (
+                                            <>
+                                                <FormBlock>
+                                                    <FormComponents.RadioPanelGroup
+                                                        name={FormFields.tidFasteDagerEllerProsent}
+                                                        legend={arbIntl.intlText(
+                                                            'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.label',
+                                                            intlValues
+                                                        )}
+                                                        useTwoColumns={true}
+                                                        /** Usikker på hvorfor valideringen feiler her, men delay fikser det midlertidig */
+                                                        afterOnChange={() => setTimeout(validateForm, 10)}
+                                                        radios={[
+                                                            {
+                                                                label: 'Prosent av normalt per dag',
+                                                                value: TidFasteDagerEllerProsent.prosent,
+                                                            },
+                                                            {
+                                                                label: 'Timer per ukedag',
+                                                                value: TidFasteDagerEllerProsent.tidFasteDager,
+                                                            },
+                                                        ]}
+                                                        validate={(value) => {
+                                                            const error = getRequiredFieldValidator()(value);
+                                                            if (error) {
+                                                                return {
+                                                                    key: error,
+                                                                    values: intlValues,
+                                                                };
+                                                            }
+                                                            return undefined;
+                                                        }}
+                                                    />
+                                                </FormBlock>
+                                            </>
+                                        )}
+                                        {tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.prosent && (
+                                            <FormBlock>
+                                                <FormComponents.NumberInput
+                                                    name={FormFields.prosent}
+                                                    bredde="XS"
+                                                    maxLength={4}
+                                                    label={arbIntl.intlText(
+                                                        'arbeidstidPeriodeForm.prosent.label',
+                                                        intlValues
+                                                    )}
+                                                    description={
+                                                        jobberNormaltTimer === undefined ? (
+                                                            <ExpandableInfo title="Vi reduserer likt hver dag du jobber">
+                                                                Dette vil si at dersom du jobber normalt 4 timer på
+                                                                mandag og 8 timer på onsdag, og du skal nå jobbe 50%,
+                                                                vil vi endre arbeidstiden din til 2 timer på mandag og 4
+                                                                timer på onsdag.
+                                                            </ExpandableInfo>
+                                                        ) : undefined
+                                                    }
+                                                    validate={(value) => {
+                                                        const error = getArbeidstidFastProsentValidator({
+                                                            min: 0,
+                                                            max: 100,
+                                                        })(value);
+                                                        return error
+                                                            ? {
+                                                                  key: error.key,
+                                                                  values: { ...intlValues, ...error.values },
+                                                              }
+                                                            : undefined;
+                                                    }}
+                                                    suffix={
+                                                        jobberNormaltTimer !== undefined
+                                                            ? getRedusertArbeidstidPerUkeInfo(
+                                                                  intl,
+                                                                  jobberNormaltTimer,
+                                                                  prosent
+                                                              )
+                                                            : undefined
+                                                    }
+                                                    suffixStyle="text"
+                                                />
+                                            </FormBlock>
+                                        )}
+                                        {(tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager ||
+                                            (!SPØR_OM_PROSENT &&
+                                                arbeiderHvordan === ArbeiderIPeriodenSvar.redusert)) && (
+                                            <FormBlock>
+                                                <FormComponents.InputGroup
+                                                    legend={'Fyll ut hvor mye du jobber de ulike ukedagene perioden:'}
+                                                    // legend={arbIntl.intlText(
+                                                    //     'arbeidstidPeriodeForm.tidFasteDager.label',
+                                                    //     intlValues
+                                                    // )}
+                                                    validate={() => {
+                                                        const error = validateFasteArbeidstimerIUke(tidFasteDager);
+                                                        return error
+                                                            ? {
+                                                                  key: error.key,
+                                                                  values: intlValues,
+                                                              }
+                                                            : undefined;
+                                                    }}
+                                                    name={'fasteDager.gruppe' as any}>
+                                                    <TidFasteUkedagerInput
+                                                        name={FormFields.tidFasteDager}
+                                                        disabledDays={utilgjengeligeUkedager}
+                                                        hideDisabledDays={skjulUtilgjengeligeUkedager}
+                                                        validateDag={(dag, value) => {
+                                                            const error = getArbeidstimerFastDagValidator()(value);
+                                                            return error
+                                                                ? {
+                                                                      key: `arbeidstidPeriodeForm.validation.tidFasteDager.tid.${error}`,
+                                                                      keepKeyUnaltered: true,
+                                                                      values: { ...intlValues, dag },
+                                                                  }
+                                                                : undefined;
+                                                        }}
+                                                    />
+                                                </FormComponents.InputGroup>
+                                            </FormBlock>
+                                        )}
                                     </>
-                                )}
-                                {tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.prosent && (
-                                    <FormBlock>
-                                        <FormComponents.NumberInput
-                                            name={FormFields.prosent}
-                                            bredde="XS"
-                                            maxLength={4}
-                                            label={arbIntl.intlText('arbeidstidPeriodeForm.prosent.label', intlValues)}
-                                            description={
-                                                jobberNormaltTimer === undefined ? (
-                                                    <ExpandableInfo title="Vi reduserer likt hver dag du jobber">
-                                                        Dette vil si at dersom du jobber normalt 4 timer på mandag og 8
-                                                        timer på onsdag, og du skal nå jobbe 50%, vil vi endre
-                                                        arbeidstiden din til 2 timer på mandag og 4 timer på onsdag.
-                                                    </ExpandableInfo>
-                                                ) : undefined
-                                            }
-                                            validate={(value) => {
-                                                const error = getArbeidstidFastProsentValidator({
-                                                    min: 0,
-                                                    max: 100,
-                                                })(value);
-                                                return error
-                                                    ? {
-                                                          key: error.key,
-                                                          values: { ...intlValues, ...error.values },
-                                                      }
-                                                    : undefined;
-                                            }}
-                                            suffix={
-                                                jobberNormaltTimer !== undefined
-                                                    ? getRedusertArbeidstidPerUkeInfo(intl, jobberNormaltTimer, prosent)
-                                                    : undefined
-                                            }
-                                            suffixStyle="text"
-                                        />
-                                    </FormBlock>
-                                )}
-                                {(tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager ||
-                                    (!SPØR_OM_PROSENT && arbeiderHvordan === ArbeiderIPeriodenSvar.redusert)) && (
-                                    <FormBlock>
-                                        <FormComponents.InputGroup
-                                            legend={'Fyll ut hvor mye du jobber de ulike ukedagene perioden:'}
-                                            // legend={arbIntl.intlText(
-                                            //     'arbeidstidPeriodeForm.tidFasteDager.label',
-                                            //     intlValues
-                                            // )}
-                                            validate={() => {
-                                                const error = validateFasteArbeidstimerIUke(tidFasteDager);
-                                                return error
-                                                    ? {
-                                                          key: error.key,
-                                                          values: intlValues,
-                                                      }
-                                                    : undefined;
-                                            }}
-                                            name={'fasteDager.gruppe' as any}>
-                                            <TidFasteUkedagerInput
-                                                name={FormFields.tidFasteDager}
-                                                disabledDays={utilgjengeligeUkedager}
-                                                hideDisabledDays={skjulUtilgjengeligeUkedager}
-                                                validateDag={(dag, value) => {
-                                                    const error = getArbeidstimerFastDagValidator()(value);
-                                                    return error
-                                                        ? {
-                                                              key: `arbeidstidPeriodeForm.validation.tidFasteDager.tid.${error}`,
-                                                              keepKeyUnaltered: true,
-                                                              values: { ...intlValues, dag },
-                                                          }
-                                                        : undefined;
-                                                }}
-                                            />
-                                        </FormComponents.InputGroup>
-                                    </FormBlock>
                                 )}
                             </FormComponents.Form>
                         );
