@@ -21,6 +21,7 @@ import { ArbeidstidPeriodeData } from '../../types';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { ArbeiderIPeriodenSvar } from '../../../../types/ArbeidIPeriodeFormData';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 
 export interface ArbeidstidPeriodeFormProps {
     arbeidsstedNavn: string;
@@ -226,15 +227,24 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                                         legend="Hvordan jobber du her i denne perioden?"
                                         radios={[
                                             {
-                                                label: 'Jeg er helt borte fra jobb',
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke'
+                                                ),
                                                 value: ArbeiderIPeriodenSvar.heltFravær,
                                             },
                                             {
-                                                label: 'Jeg kombinerer jobb og pleiepenger',
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert'
+                                                ),
                                                 value: ArbeiderIPeriodenSvar.redusert,
                                             },
                                             {
-                                                label: 'Jeg jobber som vanlig og har ikke fravær på grunn av pleiepenger',
+                                                label: intlHelper(
+                                                    intl,
+                                                    'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig'
+                                                ),
                                                 value: ArbeiderIPeriodenSvar.somVanlig,
                                             },
                                         ]}></FormComponents.RadioPanelGroup>
@@ -254,15 +264,11 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                                                 afterOnChange={() => setTimeout(validateForm, 10)}
                                                 radios={[
                                                     {
-                                                        label: arbIntl.intlText(
-                                                            'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.prosent'
-                                                        ),
+                                                        label: 'I prosent av normalt per ukedag',
                                                         value: TidFasteDagerEllerProsent.prosent,
                                                     },
                                                     {
-                                                        label: arbIntl.intlText(
-                                                            'arbeidstidPeriodeForm.tidFasteDagerEllerProsent.timer'
-                                                        ),
+                                                        label: 'I timer per ukedag',
                                                         value: TidFasteDagerEllerProsent.tidFasteDager,
                                                     },
                                                 ]}
