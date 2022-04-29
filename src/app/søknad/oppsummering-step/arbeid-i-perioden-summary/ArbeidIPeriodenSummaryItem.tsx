@@ -6,7 +6,11 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-enkeltdager-liste/ArbeidstidEnkeltdagerListe';
 import { decimalDurationToDuration, ISODurationToDuration } from '@navikt/sif-common-utils/lib';
-import { ArbeidsforholdApiData, NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import {
+    ArbeidsforholdApiData,
+    NormalarbeidstidApiData,
+    ArbeidIPeriodeApiData,
+} from '../../../types/søknad-api-data/SøknadApiData';
 import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
 
 interface Props {
@@ -31,28 +35,14 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
         return undefined;
     };
 
-    const { arbeidIPeriode, normalarbeidstid } = arbeidsforhold;
-
-    if (arbeidIPeriode) {
+    const getArbeidIPeriodenDetaljer = (arbeidIPeriode: ArbeidIPeriodeApiData) => {
         switch (arbeidIPeriode.type) {
             case ArbeidIPeriodeType.arbeiderVanlig:
-                return (
-                    <p style={{ marginTop: 0 }}>
-                        <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig`} />
-                    </p>
-                );
+                return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig`} />;
             case ArbeidIPeriodeType.arbeiderIkke:
-                return (
-                    <p style={{ marginTop: 0 }}>
-                        <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.nei`} />
-                    </p>
-                );
+                return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.nei`} />;
             case ArbeidIPeriodeType.arbeiderEnkeltdager:
-                return (
-                    <Box margin="m">
-                        <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />
-                    </Box>
-                );
+                return <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />;
             case ArbeidIPeriodeType.arbeiderFasteUkedager:
                 return (
                     <>
@@ -67,32 +57,39 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
             case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
                 return (
                     <>
-                        <Box margin="m">
-                            {arbeidIPeriode.type === ArbeidIPeriodeType.arbeiderProsentAvNormalt && (
-                                <>{getArbeidProsentTekst(arbeidIPeriode.prosentAvNormalt, normalarbeidstid)}</>
-                            )}
-                        </Box>
+                        {arbeidIPeriode.type === ArbeidIPeriodeType.arbeiderProsentAvNormalt && (
+                            <>
+                                {getArbeidProsentTekst(
+                                    arbeidIPeriode.prosentAvNormalt,
+                                    arbeidsforhold.normalarbeidstid
+                                )}
+                            </>
+                        )}
                     </>
                 );
             case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
                 return (
-                    <>
-                        <Box margin="m">
-                            <FormattedMessage
-                                id="oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke"
-                                values={{
-                                    timer: formatTimerOgMinutter(
-                                        intl,
-                                        decimalDurationToDuration(arbeidIPeriode.timerPerUke)
-                                    ),
-                                }}
-                            />
-                        </Box>
-                    </>
+                    <FormattedMessage
+                        id="oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke"
+                        values={{
+                            timer: formatTimerOgMinutter(intl, decimalDurationToDuration(arbeidIPeriode.timerPerUke)),
+                        }}
+                    />
                 );
         }
-    }
-    return <>Informasjon om arbeid i perioden mangler</>;
+    };
+
+    return (
+        <ul>
+            <li>
+                {arbeidsforhold.arbeidIPeriode ? (
+                    getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)
+                ) : (
+                    <>Informasjon om arbeid i perioden mangler</>
+                )}
+            </li>
+        </ul>
+    );
 };
 
 export default ArbeidIPeriodeSummaryItem;
