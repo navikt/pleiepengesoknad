@@ -4,13 +4,17 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import {
     DateDurationMap,
     DateRange,
+    dateToISODate,
     decimalDurationToDuration,
+    Duration,
     durationToDecimalDuration,
     DurationWeekdays,
     getDateDurationMapFromDurationWeekdaysInDateRange,
+    getDatesInDateRange,
     getDatesWithDurationLongerThanZero,
     // getDatesWithDurationLongerThanZero,
     getDurationsInDateRange,
+    numberDurationAsDuration,
     // numberDurationAsDuration,
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils/lib';
@@ -26,6 +30,21 @@ interface Props {
     // antallDagerMedTid: number;
 }
 
+const summerFraværIPeriode = (periode: DateRange, normalt: DateDurationMap, faktisk: DateDurationMap): Duration => {
+    const fravær: DateDurationMap = {};
+    getDatesInDateRange(periode)
+        .map((d) => dateToISODate(d))
+        .forEach((isoDate) => {
+            const dNormalt = normalt[isoDate];
+            const dFaktisk = faktisk[isoDate];
+
+            const tidNormalt = dNormalt ? durationToDecimalDuration(dNormalt) : 0;
+            const tidFaktisk = dFaktisk ? durationToDecimalDuration(dFaktisk) : 0;
+            fravær[isoDate] = decimalDurationToDuration(Math.max(tidNormalt - tidFaktisk, 0));
+        });
+    return numberDurationAsDuration(summarizeDateDurationMap(fravær));
+};
+
 const ArbeidstidMånedTittel: React.FunctionComponent<Props> = ({
     headingLevel,
     faktiskArbeid,
@@ -33,13 +52,11 @@ const ArbeidstidMånedTittel: React.FunctionComponent<Props> = ({
     måned,
 }) => {
     const intl = useIntl();
-    const arbeidIMåned = getDurationsInDateRange(faktiskArbeid, måned);
+    const faktiskArbeidIMåned = getDurationsInDateRange(faktiskArbeid, måned);
     const normaltArbeidIMåned = getDateDurationMapFromDurationWeekdaysInDateRange(måned, normalarbeidstidFasteUkedager);
 
-    const antallDagerMedTid = getDatesWithDurationLongerThanZero(arbeidIMåned).length;
-    const faktiskTimerIMåned = summarizeDateDurationMap(arbeidIMåned);
-    const normaltTimerIMåned = summarizeDateDurationMap(normaltArbeidIMåned);
-    const fravær = durationToDecimalDuration(normaltTimerIMåned) - durationToDecimalDuration(faktiskTimerIMåned);
+    const antallDagerMedTid = getDatesWithDurationLongerThanZero(faktiskArbeidIMåned).length;
+    const samletFravær = summerFraværIPeriode(måned, normaltArbeidIMåned, faktiskArbeidIMåned);
 
     return (
         <Element tag={`h${headingLevel}`}>
@@ -57,16 +74,13 @@ const ArbeidstidMånedTittel: React.FunctionComponent<Props> = ({
                             id="arbeidstidMånedTittel.iPeriodePanel.info"
                             values={{ dager: antallDagerMedTid }}
                         />{' '}
-                        Fravær:{' '}
-                        <DurationText
-                            duration={decimalDurationToDuration(fravær)}
-                            fullText={true}
-                            hideEmptyValues={true}
-                        />
                         {/* <DurationText duration={numberDurationAsDuration(faktiskTimerIMåned)} />/
                         <DurationText duration={numberDurationAsDuration(normaltTimerIMåned)} /> */}
                     </>
-                )}
+                )}{' '}
+                <>
+                    Fravær <DurationText duration={samletFravær} fullText={true} hideEmptyValues={true} />
+                </>
             </Normaltekst>
         </Element>
     );
