@@ -7,8 +7,10 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import {
     ArbeidIPeriodeIntlValues,
-    ArbeidstidFasteUkedagerInput,
+    // ArbeidstidFasteUkedagerInput,
     formatTimerOgMinutter,
+    getArbeidstimerFastDagValidator,
+    TidFasteUkedagerInput,
 } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
@@ -25,7 +27,6 @@ import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKa
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
-    getArbeidIPeriodeFasteDagerDagValidator,
     getArbeidIPeriodeProsentAvNormaltValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
@@ -245,7 +246,22 @@ const ArbeidIPeriodeSpørsmål = ({
                                                 normalarbeidstid,
                                                 arbeidIPeriode
                                             )}>
-                                            <ArbeidstidFasteUkedagerInput
+                                            <TidFasteUkedagerInput
+                                                name={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
+                                                data-testkey="arbeidstid-faste-ukedager"
+                                                validateDag={(dag, value) => {
+                                                    const error = getArbeidstimerFastDagValidator()(value);
+                                                    return error
+                                                        ? {
+                                                              key: `validation.arbeidsforhold.fastDag.tid.${error}`,
+                                                              keepKeyUnaltered: true,
+                                                              values: { ...intlValues, dag },
+                                                          }
+                                                        : undefined;
+                                                }}
+                                            />
+
+                                            {/* <ArbeidstidFasteUkedagerInput
                                                 fieldName={getFieldName(ArbeidIPeriodeFormField.fasteDager)}
                                                 data-testkey="arbeidstid-faste-ukedager"
                                                 tekst={{
@@ -257,7 +273,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     intlValues,
                                                     (weekday) => intlHelper(intl, `${weekday}.plural`)
                                                 )}
-                                            />
+                                            /> */}
                                             {arbeiderFasteAndreDagerEnnNormalt(
                                                 normalarbeidstid.timerFasteUkedager,
                                                 arbeidIPeriode?.fasteDager
