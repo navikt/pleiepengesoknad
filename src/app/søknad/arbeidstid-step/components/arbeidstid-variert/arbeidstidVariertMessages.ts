@@ -1,6 +1,6 @@
 const arbeidstidMessages = {
     nb: {
-        'arbeidstidVariert.registrerJobbKnapp.label': 'Registrer jobb for periode',
+        'arbeidstidVariert.registrerJobbKnapp.label': 'Registrer jobb for en periode',
         'arbeidstidVariert.periode.tittel': 'Du kan registrere jobb som',
         'arbeidstidVariert.periode.info.1': 'prosent for én eller flere perioder',
         'arbeidstidVariert.periode.info.2': 'timer per uke i én eller flere perioder',

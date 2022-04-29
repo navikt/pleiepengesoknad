@@ -121,20 +121,11 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode && (
                 <>
-                    <Element tag="h3">
-                        <FormattedMessage id="arbeidstidVariert.periode.tittel" />
-                    </Element>
-                    <ul>
-                        <li>
-                            <FormattedMessage id="arbeidstidVariert.periode.info.1" />
-                        </li>
-                        <li>
-                            <FormattedMessage id="arbeidstidVariert.periode.info.2" />
-                        </li>
-                        <li>
-                            <FormattedMessage id="arbeidstidVariert.periode.info.3" />
-                        </li>
-                    </ul>
+                    <p style={{ marginTop: 0 }}>
+                        Når det varierer, trenger vi å vite hvor mye du jobber de ulike dagene i perioden du søker for.
+                        Du kan oppgi dette ved å legge til timer for enkeltdager i kalenderen, eller du kan legge til
+                        informasjon for flere dager ved å velge &quot;Registrer jobb for en periode&quot;.
+                    </p>
                     <Box margin="l" padBottom="xl">
                         <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}

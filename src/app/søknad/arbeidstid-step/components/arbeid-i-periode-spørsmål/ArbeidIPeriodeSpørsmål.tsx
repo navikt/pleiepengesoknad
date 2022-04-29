@@ -13,12 +13,14 @@ import {
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { decimalDurationToDuration, hasWeekdaysWithoutDuration } from '@navikt/sif-common-utils/lib';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import { ArbeidstidRegistrertLogProps } from '../../types';
+import { arbeiderFasteAndreDagerEnnNormalt } from '../../utils/arbeidstidUtils';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
@@ -103,7 +105,7 @@ const ArbeidIPeriodeSpørsmål = ({
             ? formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt))
             : undefined;
 
-    const jobberFastMenIkkeAlleDager =
+    const jobberFasteUkedagerMenIkkeAlleDager =
         normalarbeidstid.erFasteUkedager && hasWeekdaysWithoutDuration(normalarbeidstid.timerFasteUkedager);
 
     return (
@@ -230,17 +232,12 @@ const ArbeidIPeriodeSpørsmål = ({
                                             name={`${parentFieldName}_fasteDager.gruppe` as any}
                                             legend={intlHelper(intl, 'arbeidIPeriode.ukedager.tittel', intlValues)}
                                             description={
-                                                jobberFastMenIkkeAlleDager ? (
-                                                    <>
-                                                        <p style={{ marginTop: 0 }}>
-                                                            Du kan kun oppgi timer på de dagene du normalt jobber.
-                                                            Dersom du jobber andre dager enn dette i perioden, må timene
-                                                            føres på dagene hvor du opprinnelig skulle jobbet.
-                                                        </p>
-                                                        <ExpandableInfo title="Forklar meg dette en gang til">
-                                                            Dette er litt rart ja, men vi trenger at ... fordi ...
-                                                        </ExpandableInfo>
-                                                    </>
+                                                jobberFasteUkedagerMenIkkeAlleDager ? (
+                                                    <ExpandableInfo title="Dersom du jobber andre dager enn normalt">
+                                                        [Denne eller info når en legger inn på en annen dag, kanskje
+                                                        ikke begge?] Dersom du nå skal jobbe andre dager enn hva du
+                                                        normalt gjør
+                                                    </ExpandableInfo>
                                                 ) : undefined
                                             }
                                             validate={getArbeidIPeriodeTimerPerUkeValidator(
@@ -261,6 +258,16 @@ const ArbeidIPeriodeSpørsmål = ({
                                                     (weekday) => intlHelper(intl, `${weekday}.plural`)
                                                 )}
                                             />
+                                            {arbeiderFasteAndreDagerEnnNormalt(
+                                                normalarbeidstid.timerFasteUkedager,
+                                                arbeidIPeriode?.fasteDager
+                                            ) && (
+                                                <FormBlock>
+                                                    <AlertStripeInfo>
+                                                        Info når en jobber andre dager enn normalt
+                                                    </AlertStripeInfo>
+                                                </FormBlock>
+                                            )}
                                         </SøknadFormComponents.InputGroup>
                                     </ResponsivePanel>
                                 </FormBlock>
