@@ -110,6 +110,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                 tidArbeidstid={arbeidstid}
                 utilgjengeligeDatoer={utilgjengeligeDatoerIMåned}
                 periode={periode}
+                skjulIngenTidEnkeltdag={true}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
             />
         );
