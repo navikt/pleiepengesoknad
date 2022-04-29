@@ -1,4 +1,13 @@
-import { durationToDecimalDuration, DurationWeekdays, Weekday } from '@navikt/sif-common-utils/lib';
+import {
+    DateDurationMap,
+    durationToDecimalDuration,
+    DurationWeekdays,
+    getDatesWithDurationLongerThanZero,
+    getWeekdayFromDate,
+    getWeekdaysWithDuration,
+    ISODateToDate,
+    Weekday,
+} from '@navikt/sif-common-utils/lib';
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,
@@ -16,3 +25,19 @@ export const getDurationWeekdaysNotInDurationWeekdays = (
 
 export const arbeiderFasteAndreDagerEnnNormalt = (normalt: DurationWeekdays, faktisk: DurationWeekdays = {}): boolean =>
     getDurationWeekdaysNotInDurationWeekdays(normalt, faktisk).length > 0;
+
+export const arbeiderAndreEnkeltdagerEnnNormalt = (
+    normalt: DurationWeekdays,
+    enkeltdager: DateDurationMap = {}
+): boolean => {
+    const ukedager = getWeekdaysWithDuration(normalt);
+    if (ukedager.length === 5) {
+        return false; // Jobber alle ukedager
+    }
+    const dagerMedTid = getDatesWithDurationLongerThanZero(enkeltdager);
+    const harDagerPåAndreDager = dagerMedTid.some((isoDate) => {
+        const weekday = getWeekdayFromDate(ISODateToDate(isoDate));
+        return weekday && ukedager.includes(weekday) === false;
+    });
+    return harDagerPåAndreDager;
+};

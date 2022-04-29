@@ -22,7 +22,7 @@ import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../.
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import { ArbeidstidRegistrertLogProps } from '../../types';
-import { arbeiderFasteAndreDagerEnnNormalt } from '../../utils/arbeidstidUtils';
+import { arbeiderAndreEnkeltdagerEnnNormalt, arbeiderFasteAndreDagerEnnNormalt } from '../../utils/arbeidstidUtils';
 import ArbeidstidVariertKalender from '../arbeidstid-variert/ArbeidstidVariertKalender';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
@@ -223,6 +223,16 @@ const ArbeidIPeriodeSpørsmål = ({
                                             onArbeidPeriodeRegistrert={onArbeidPeriodeRegistrert}
                                             onArbeidstidEnkeltdagRegistrert={onArbeidstidEnkeltdagRegistrert}
                                         />
+                                        {arbeiderAndreEnkeltdagerEnnNormalt(
+                                            normalarbeidstid.timerFasteUkedager,
+                                            arbeidIPeriode?.enkeltdager
+                                        ) && (
+                                            <FormBlock margin="s">
+                                                <AlertStripeInfo>
+                                                    Info når en jobber andre dager enn normalt
+                                                </AlertStripeInfo>
+                                            </FormBlock>
+                                        )}
                                     </ResponsivePanel>
                                 </FormBlock>
                             )}
