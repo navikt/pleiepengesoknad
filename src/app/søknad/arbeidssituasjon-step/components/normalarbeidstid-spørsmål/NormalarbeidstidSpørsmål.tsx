@@ -28,6 +28,7 @@ interface Props {
     arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData | ArbeidsforholdSelvstendigFormData;
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
+    brukKunSnittPerUke: boolean;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
@@ -38,6 +39,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     arbeidsforholdType,
     erAktivtArbeidsforhold,
     arbeidsstedNavn,
+    brukKunSnittPerUke,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -79,7 +81,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             />
         );
     };
-    return (
+    return brukKunSnittPerUke ? (
+        <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
+    ) : (
         <>
             <FormComponents.YesOrNoQuestion
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}

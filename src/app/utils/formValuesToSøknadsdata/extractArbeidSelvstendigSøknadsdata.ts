@@ -1,4 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import dayjs from 'dayjs';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
@@ -16,7 +17,7 @@ export const extractArbeidSelvstendigSøknadsdata = (
     }
 
     const arbeidsforhold = selvstendig.arbeidsforhold
-        ? extractArbeidsforholdSøknadsdata(selvstendig.arbeidsforhold, søknadsperiode)
+        ? extractArbeidsforholdSøknadsdata(selvstendig.arbeidsforhold, søknadsperiode, ArbeidsforholdType.SELVSTENDIG)
         : undefined;
 
     const virksomhet = selvstendig.virksomhet;

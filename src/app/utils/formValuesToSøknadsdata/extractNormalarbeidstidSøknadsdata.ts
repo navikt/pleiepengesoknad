@@ -1,4 +1,5 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/søknadsdata/Søknadsdata';
 import { isYesOrNoAnswered } from '../../validation/fieldValidations';
@@ -6,10 +7,26 @@ import { isYesOrNoAnswered } from '../../validation/fieldValidations';
 export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';
 
 export const extractNormalarbeidstid = (
-    normalarbeidstid?: NormalarbeidstidFormData
+    normalarbeidstid: NormalarbeidstidFormData | undefined,
+    arbeidsforholdType: ArbeidsforholdType
 ): NormalarbeidstidSøknadsdata | undefined => {
-    if (!normalarbeidstid || isYesOrNoAnswered(normalarbeidstid.erLikeMangeTimerHverUke) === false) {
+    if (
+        !normalarbeidstid ||
+        (arbeidsforholdType === ArbeidsforholdType.ANSATT &&
+            isYesOrNoAnswered(normalarbeidstid.erLikeMangeTimerHverUke) === false)
+    ) {
         return undefined;
+    }
+    if (arbeidsforholdType === ArbeidsforholdType.FRILANSER || arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG) {
+        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+        return timerPerUkeISnitt !== undefined
+            ? {
+                  type: NormalarbeidstidType.varierendeUker,
+                  erLiktHverUke: false,
+                  erFasteUkedager: false,
+                  timerPerUkeISnitt: timerPerUkeISnitt,
+              }
+            : undefined;
     }
     if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.YES) {
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);

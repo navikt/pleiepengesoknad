@@ -108,10 +108,11 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                     fom,
                     tom,
                     prosent:
-                        values.tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.prosent
+                        SPØR_OM_PROSENT && values.tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.prosent
                             ? values.prosent
                             : undefined,
                     tidFasteDager:
+                        SPØR_OM_PROSENT === false ||
                         values.tidFasteDagerEllerProsent === TidFasteDagerEllerProsent.tidFasteDager
                             ? values.tidFasteDager
                             : undefined,
@@ -185,7 +186,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                                                 maxDate: to || periode.to,
                                                 validate: getDateRangeValidator({
                                                     required: true,
-                                                    onlyWeekdays: true,
+                                                    onlyWeekdays: false,
                                                     toDate: to,
                                                     fromDate: from,
                                                     min: periode.from,
@@ -207,7 +208,7 @@ const ArbeidstidPeriodeForm: React.FunctionComponent<ArbeidstidPeriodeFormProps>
                                                 },
                                                 validate: getDateRangeValidator({
                                                     required: true,
-                                                    onlyWeekdays: true,
+                                                    onlyWeekdays: false,
                                                     toDate: to,
                                                     fromDate: from,
                                                     min: from || periode.from,

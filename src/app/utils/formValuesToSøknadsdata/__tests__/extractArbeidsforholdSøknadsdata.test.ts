@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../types/ArbeidIPeriodeFormData';
@@ -22,14 +23,16 @@ describe('extractArbeidsforholdSøknadsdata', () => {
     it('returnerer undefined dersom normalarbeidstid er ugyldig', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, normalarbeidstid: undefined },
-            søknadsperiode
+            søknadsperiode,
+            ArbeidsforholdType.ANSATT
         );
         expect(result).toBeUndefined();
     });
     it('returnerer arbeidsforhold korrekt når arbeidIPeriode ikke er satt', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, arbeidIPeriode: undefined },
-            søknadsperiode
+            søknadsperiode,
+            ArbeidsforholdType.ANSATT
         );
         expect(result).toBeDefined();
         expect(result?.normalarbeidstid).toBeDefined();
@@ -46,7 +49,8 @@ describe('extractArbeidsforholdSøknadsdata', () => {
                     timerEllerProsent: TimerEllerProsent.TIMER,
                 },
             },
-            søknadsperiode
+            søknadsperiode,
+            ArbeidsforholdType.ANSATT
         );
         expect(result).toBeDefined();
         expect(result?.normalarbeidstid).toBeDefined();

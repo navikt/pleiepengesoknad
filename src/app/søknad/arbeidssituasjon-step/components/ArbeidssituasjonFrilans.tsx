@@ -144,6 +144,7 @@ const ArbeidssituasjonFrilans = ({
                                     arbeidsforhold={arbeidsforhold || {}}
                                     arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                     erAktivtArbeidsforhold={erFortsattFrilanser === YesOrNo.YES}
+                                    brukKunSnittPerUke={true}
                                 />
                             </FormBlock>
                         )}

@@ -773,6 +773,7 @@
     "validation.arbeidIPeriode.fast.tid.durationIsTooShort": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
     "validation.arbeidIPeriode.fast.tid.hoursAreNegative": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
     "validation.arbeidIPeriode.fast.tid.minutesAreNegative": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
+    "validation.arbeidIPeriode.fast.ukedager.ingenTidRegistrert": "Du må fylle ut timer og minutter på de dagene du jobber {hvor}.",
     "validation.arbeidIPeriode.enkeltdagerFastNormaltid.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag} {hvor}.",
     "validation.arbeidIPeriode.enkeltdagerFastNormaltid.tid.hoursAreInvalid": "Antall timer på {dag} {hvor} er ikke et gyldig tall.",
     "validation.arbeidIPeriode.enkeltdagerFastNormaltid.tid.minutesAreInvalid": "Antall minutter på {dag} {hvor} er ikke et gyldig tall.",

@@ -91,6 +91,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
                                 arbeidsforhold={arbeidsforhold || {}}
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 erAktivtArbeidsforhold={true}
+                                brukKunSnittPerUke={true}
                             />
                         )}
                     </ResponsivePanel>

@@ -96,6 +96,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                     arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
                                     erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
                                     arbeidsforholdFieldName={parentFieldName}
+                                    brukKunSnittPerUke={false}
                                 />
                             </>
                         )}

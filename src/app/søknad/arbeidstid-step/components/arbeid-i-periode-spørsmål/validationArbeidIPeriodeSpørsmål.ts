@@ -11,12 +11,10 @@ import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepe
 import {
     dateFormatter,
     decimalDurationToDuration,
-    Duration,
     durationToDecimalDuration,
     DurationWeekdays,
     getWeekdayFromDate,
     summarizeDurationInDurationWeekdays,
-    Weekday,
 } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
@@ -49,42 +47,22 @@ export const getArbeidIPeriodeEnkeltdagValidator =
         return undefined;
     };
 
-export const getArbeidIPeriodeFasteDagerDagValidator =
-    (intlValues: ArbeidIPeriodeIntlValues, getNavnPåUkedag: (weekday: Weekday) => string) =>
-    (weekday: Weekday, value: Duration | undefined) => {
-        const dag = getNavnPåUkedag(weekday);
-        const error = getTimeValidator({
-            min: { hours: 0, minutes: 0 },
-            max: { hours: 24, minutes: 0 },
-        })(value);
-        return error
-            ? {
-                  key: `validation.arbeidIPeriode.fast.tid.${error}`,
-                  keepKeyUnaltered: true,
-                  values: { ...intlValues, dag },
-              }
-            : undefined;
-    };
-
-export const getFasteArbeidstimerPerUkeValidator =
-    (maksTimer: number = 24 * 5, tillatLiktAntallTimer: boolean) =>
-    (fasteDager: DurationWeekdays | undefined): IntlErrorObject | undefined => {
-        const timer = fasteDager ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager)) : 0;
-        if (timer === 0) {
-            return {
-                key: `ingenTidRegistrert`,
-            };
-        }
-        if (tillatLiktAntallTimer && timer <= maksTimer) {
-            return undefined;
-        }
-        if (timer >= maksTimer) {
-            return {
-                key: `forMangeTimer`,
-            };
-        }
-        return undefined;
-    };
+// export const getArbeidIPeriodeFasteDagerDagValidator =
+//     (intlValues: ArbeidIPeriodeIntlValues, getNavnPåUkedag: (weekday: Weekday) => string) =>
+//     (weekday: Weekday, value: Duration | undefined) => {
+//         const dag = getNavnPåUkedag(weekday);
+//         const error = getTimeValidator({
+//             min: { hours: 0, minutes: 0 },
+//             max: { hours: 24, minutes: 0 },
+//         })(value);
+//         return error
+//             ? {
+//                   key: `validation.arbeidIPeriode.fast.tid.${error}`,
+//                   keepKeyUnaltered: true,
+//                   values: { ...intlValues, dag },
+//               }
+//             : undefined;
+//     };
 
 export const getArbeidIPeriodeProsentAvNormaltValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: string) => {
     const min = 1;
@@ -157,10 +135,51 @@ export const getArbeidIPeriodeTimerPerUkeValidator = (
 ) =>
     normalarbeidstid.erLiktHverUke === false && normalarbeidstid.timerPerUkeISnitt
         ? () => {
-              const error = getFasteArbeidstimerPerUkeValidator(
+              const error = validateArbeidstimerFasteUkedager(
                   normalarbeidstid.timerPerUkeISnitt,
                   false
               )(arbeidIPeriode?.fasteDager);
+              return error
+                  ? {
+                        key: `validation.arbeidIPeriode.timer.${error.key}`,
+                        values: intlValues,
+                        keepKeyUnaltered: true,
+                    }
+                  : undefined;
+          }
+        : undefined;
+
+const validateArbeidstimerFasteUkedager =
+    (maksTimer: number = 24 * 5, tillatLiktAntallTimer: boolean) =>
+    (fasteDager: DurationWeekdays | undefined): IntlErrorObject | undefined => {
+        const timer = fasteDager ? durationToDecimalDuration(summarizeDurationInDurationWeekdays(fasteDager)) : 0;
+        if (timer === 0) {
+            return {
+                key: `ingenTidRegistrert`,
+            };
+        }
+        if (tillatLiktAntallTimer && timer <= maksTimer) {
+            return undefined;
+        }
+        if (timer >= maksTimer) {
+            return {
+                key: `forMangeTimer`,
+            };
+        }
+        return undefined;
+    };
+export const getArbeidIPeriodeFasteUkedagerValidator = (
+    intlValues: ArbeidIPeriodeIntlValues,
+    normalarbeidstid: NormalarbeidstidSøknadsdata,
+    arbeidIPeriode?: ArbeidIPeriodeFormData
+) =>
+    normalarbeidstid.erLiktHverUke === true && normalarbeidstid.erFasteUkedager && normalarbeidstid.timerFasteUkedager
+        ? () => {
+              const { fasteDager } = arbeidIPeriode || {};
+              const timerNormaltPerUke = durationToDecimalDuration(
+                  summarizeDurationInDurationWeekdays(normalarbeidstid.timerFasteUkedager)
+              );
+              const error = validateArbeidstimerFasteUkedager(timerNormaltPerUke, false)(fasteDager);
               return error
                   ? {
                         key: `validation.arbeidIPeriode.timer.${error.key}`,

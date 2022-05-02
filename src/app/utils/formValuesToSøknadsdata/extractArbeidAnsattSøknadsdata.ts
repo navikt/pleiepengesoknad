@@ -1,4 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
 import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
@@ -21,7 +22,11 @@ export const extractArbeidAnsattSøknadsdata = (
             arbeidsgiver: arbeidsforhold.arbeidsgiver,
         };
     }
-    const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(arbeidsforhold, søknadsperiode);
+    const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(
+        arbeidsforhold,
+        søknadsperiode,
+        ArbeidsforholdType.ANSATT
+    );
     if (arbeidsforholdSøknadsdata) {
         if (erAnsatt === false && sluttetFørSøknadsperiode === false) {
             return {
