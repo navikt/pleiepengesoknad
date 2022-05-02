@@ -139,6 +139,11 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                         Du kan oppgi dette ved å legge til timer for enkeltdager i kalenderen, eller du kan legge til
                         informasjon for flere dager ved å velge &quot;Registrer jobb for en periode&quot;.
                     </p>
+                    <p>
+                        Fremover i tid kan det være vanskelig å si noe om hvordan en kommer til å jobbe, men da legger
+                        du inn slik du tror det blir, frem til det blir for usikkert. Da kan du senere, når du vet litt
+                        bedre, melde fra til oss hvordan du skal jobbe.
+                    </p>
                     <Box margin="l" padBottom="xl">
                         <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}
