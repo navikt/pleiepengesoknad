@@ -4,6 +4,7 @@ import { TimerFasteDagerApiData } from './SøknadApiData';
 type NormalarbeidstidSnittPerUkeApiData = {
     erLiktHverUke: false;
     timerPerUkeISnitt: ISODuration;
+    _arbeiderHelg: boolean;
 };
 
 type NormalarbeidstidFasteDagerPerUkeApiData = {

@@ -1,5 +1,5 @@
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils/lib';
-import { ArbeiderIPeriodenSvar } from '../ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeType } from '../søknadsdata/arbeidIPeriodeSøknadsdata';
 import { TimerFasteDagerApiData } from './SøknadApiData';
 

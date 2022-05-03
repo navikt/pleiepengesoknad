@@ -1,17 +1,19 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidType } from '../../../types/søknadsdata/Søknadsdata';
 import { extractNormalarbeidstid } from '../extractNormalarbeidstidSøknadsdata';
 
 describe('extractNormalarbeidstid', () => {
-    describe('ArbeidsforholdType.ANSATT: false', () => {
+    describe('ArbeidsforholdType.ANSATT', () => {
         it('returnerer undefined dersom normalarbeidstid === undefined', () => {
             expect(extractNormalarbeidstid(undefined, ArbeidsforholdType.ANSATT)).toBeUndefined();
         });
-        it('returnerer undefined dersom erLiktHverUke === undefined', () => {
+        it(`returnerer undefined dersom ${ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg} === undefined`, () => {
             expect(
                 extractNormalarbeidstid(
                     {
+                        arbeiderFastHelg: undefined,
                         erLikeMangeTimerHverUke: undefined,
                         timerFasteUkedager: undefined,
                         timerPerUke: undefined,
@@ -23,6 +25,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer undefined dersom erLiktHverUke === false && timerPerUke er ugyldig', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.NO,
                     erFasteUkedager: YesOrNo.YES,
                     timerPerUke: 'abc',
@@ -35,6 +38,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer likeUkerOgDager dersom erLiktHverUke === true og jobberFasteUkedager === true', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.YES,
                     erFasteUkedager: YesOrNo.YES,
                     timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },
@@ -53,6 +57,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer timerPerUke og dersom erLiktHverUke === false', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.NO,
                     erFasteUkedager: YesOrNo.NO,
                     timerFasteUkedager: {},
@@ -61,9 +66,9 @@ describe('extractNormalarbeidstid', () => {
                 ArbeidsforholdType.ANSATT
             );
             expect(result).toBeDefined();
-            expect(result?.type).toEqual(NormalarbeidstidType.varierendeUker);
+            expect(result?.type).toEqual(NormalarbeidstidType.ulikeUker);
             expect(result?.erLiktHverUke).toBeFalsy();
-            if (result?.type === NormalarbeidstidType.varierendeUker) {
+            if (result?.type === NormalarbeidstidType.ulikeUker) {
                 expect(result?.timerPerUkeISnitt).toEqual(30);
                 expect((result as any).timerFasteUkedager).toBeUndefined();
             }
@@ -81,8 +86,8 @@ describe('extractNormalarbeidstid', () => {
                 ArbeidsforholdType.FRILANSER
             );
             expect(result).toBeDefined();
-            expect(result?.type).toEqual(NormalarbeidstidType.varierendeUker);
-            if (result?.type === NormalarbeidstidType.varierendeUker) {
+            expect(result?.type).toEqual(NormalarbeidstidType.ulikeUker);
+            if (result?.type === NormalarbeidstidType.ulikeUker) {
                 expect(Object.keys(result).length).toBe(4);
                 expect(result?.timerPerUkeISnitt).toEqual(12);
                 expect(result?.erFasteUkedager).toBeFalsy();
@@ -97,8 +102,8 @@ describe('extractNormalarbeidstid', () => {
                 ArbeidsforholdType.SELVSTENDIG
             );
             expect(result).toBeDefined();
-            expect(result?.type).toEqual(NormalarbeidstidType.varierendeUker);
-            if (result?.type === NormalarbeidstidType.varierendeUker) {
+            expect(result?.type).toEqual(NormalarbeidstidType.ulikeUker);
+            if (result?.type === NormalarbeidstidType.ulikeUker) {
                 expect(Object.keys(result).length).toBe(4);
                 expect(result?.timerPerUkeISnitt).toEqual(12);
                 expect(result?.erFasteUkedager).toBeFalsy();

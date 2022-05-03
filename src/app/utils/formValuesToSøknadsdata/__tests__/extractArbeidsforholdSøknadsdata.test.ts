@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormData, ArbeiderIPeriodenSvar } from '../../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
 import { extractArbeidsforholdSøknadsdata } from '../extractArbeidsforholdSøknadsdata';
 
@@ -15,6 +15,7 @@ describe('extractArbeidsforholdSøknadsdata', () => {
         erAnsatt: YesOrNo.YES,
         arbeidIPeriode: mockArbeidIPeriodeFormData,
         normalarbeidstid: {
+            arbeiderFastHelg: YesOrNo.NO,
             erLikeMangeTimerHverUke: YesOrNo.YES,
             erFasteUkedager: YesOrNo.YES,
             timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },

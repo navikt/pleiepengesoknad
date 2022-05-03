@@ -10,7 +10,13 @@ import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/f
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
 const cleanupNormalarbeidstid = (
-    { erLikeMangeTimerHverUke, timerFasteUkedager, erFasteUkedager, timerPerUke }: NormalarbeidstidFormData,
+    {
+        erLikeMangeTimerHverUke,
+        timerFasteUkedager,
+        erFasteUkedager,
+        timerPerUke,
+        arbeiderFastHelg,
+    }: NormalarbeidstidFormData,
     erFrilanserEllerSN: boolean /** Skal kun oppgi informasjon om timer i uken */
 ): NormalarbeidstidFormData => {
     if (erFrilanserEllerSN) {
@@ -19,14 +25,22 @@ const cleanupNormalarbeidstid = (
             timerPerUke,
         };
     }
+    if (arbeiderFastHelg === YesOrNo.YES) {
+        return {
+            arbeiderFastHelg,
+            timerPerUke,
+        };
+    }
     if (erLikeMangeTimerHverUke === YesOrNo.NO) {
         return {
+            arbeiderFastHelg,
             erLikeMangeTimerHverUke,
             timerPerUke,
         };
     }
     if (erFasteUkedager === YesOrNo.YES) {
         return {
+            arbeiderFastHelg,
             erLikeMangeTimerHverUke,
             erFasteUkedager: erFasteUkedager,
             timerFasteUkedager: timerFasteUkedager
@@ -35,6 +49,7 @@ const cleanupNormalarbeidstid = (
         };
     }
     return {
+        arbeiderFastHelg,
         erLikeMangeTimerHverUke,
         erFasteUkedager: erFasteUkedager,
         timerPerUke,

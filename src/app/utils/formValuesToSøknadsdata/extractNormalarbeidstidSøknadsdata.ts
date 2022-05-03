@@ -13,7 +13,7 @@ export const extractNormalarbeidstid = (
     if (
         !normalarbeidstid ||
         (arbeidsforholdType === ArbeidsforholdType.ANSATT &&
-            isYesOrNoAnswered(normalarbeidstid.erLikeMangeTimerHverUke) === false)
+            isYesOrNoAnswered(normalarbeidstid.arbeiderFastHelg) === false)
     ) {
         return undefined;
     }
@@ -21,7 +21,18 @@ export const extractNormalarbeidstid = (
         const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         return timerPerUkeISnitt !== undefined
             ? {
-                  type: NormalarbeidstidType.varierendeUker,
+                  type: NormalarbeidstidType.ulikeUker,
+                  erLiktHverUke: false,
+                  erFasteUkedager: false,
+                  timerPerUkeISnitt: timerPerUkeISnitt,
+              }
+            : undefined;
+    }
+    if (normalarbeidstid.arbeiderFastHelg === YesOrNo.YES) {
+        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+        return timerPerUkeISnitt !== undefined
+            ? {
+                  type: NormalarbeidstidType.arbeiderHelg,
                   erLiktHverUke: false,
                   erFasteUkedager: false,
                   timerPerUkeISnitt: timerPerUkeISnitt,
@@ -51,7 +62,7 @@ export const extractNormalarbeidstid = (
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (timerPerUke !== undefined) {
             return {
-                type: NormalarbeidstidType.varierendeUker,
+                type: NormalarbeidstidType.ulikeUker,
                 erLiktHverUke: false,
                 erFasteUkedager: false,
                 timerPerUkeISnitt: timerPerUke,
