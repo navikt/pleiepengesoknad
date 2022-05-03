@@ -21,6 +21,7 @@ import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValue
 import InfoArbeiderLiktHverUke from '../info/InfoArbeiderLiktHverUke';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -81,92 +82,124 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             />
         );
     };
-    return brukKunSnittPerUke ? (
-        <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
-    ) : (
+    if (brukKunSnittPerUke) {
+        return <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>;
+    }
+    return (
         <>
             <FormComponents.YesOrNoQuestion
-                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}
-                legend={intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.spm`, intlValues)}
-                description={<InfoArbeiderLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
-                data-testkey="like-mange-timer-hver-uke"
+                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg)}
+                legend={intlHelper(intl, `arbeidsforhold.arbeiderFastHelg.spm`, intlValues)}
+                description={<ExpandableInfo title="Hva betyr det?">Hva betyr fast helg?</ExpandableInfo>}
+                data-testkey="jobber-fast-helg"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);
                     return error
                         ? {
-                              key: 'validation.arbeidsforhold.erLikeMangeTimerHverUke',
+                              key: 'validation.arbeidsforhold.arbeiderFastHelg',
                               values: intlValues,
                               keepKeyUnaltered: true,
                           }
                         : undefined;
                 }}
                 useTwoColumns={true}
-                labels={{
-                    yes: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.ja`),
-                    no: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.nei`),
-                }}
             />
-
-            {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.NO && (
+            {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.YES && (
                 <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
             )}
-            {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.YES && (
+            {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.NO && (
                 <>
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
-                            name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erFasteUkedager)}
-                            legend={intlHelper(intl, `arbeidsforhold.erFasteUkedager.spm`, intlValues)}
-                            labels={{
-                                yes: intlHelper(intl, `arbeidsforhold.erFasteUkedager.ja`),
-                                no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
+                            name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}
+                            legend={intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.spm`, intlValues)}
+                            description={<InfoArbeiderLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
+                            data-testkey="like-mange-timer-hver-uke"
+                            validate={(value: any) => {
+                                const error = getRequiredFieldValidator()(value);
+                                return error
+                                    ? {
+                                          key: 'validation.arbeidsforhold.erLikeMangeTimerHverUke',
+                                          values: intlValues,
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
                             }}
-                            data-testkey="er-faste-ukedager"
                             useTwoColumns={true}
+                            labels={{
+                                yes: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.ja`),
+                                no: intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.nei`),
+                            }}
                         />
                     </FormBlock>
-                    {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.YES && (
-                        <FormBlock>
-                            <FormComponents.InputGroup
-                                legend={
-                                    erAktivtArbeidsforhold
-                                        ? intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)
-                                        : intlHelper(intl, 'arbeidsforhold.ukedager.avsluttet.tittel', intlValues)
-                                }
-                                validate={() => {
-                                    const error = validateFasteArbeidstimerIUke(
-                                        arbeidsforhold.normalarbeidstid?.timerFasteUkedager
-                                    );
-                                    return error
-                                        ? {
-                                              key: `validation.arbeidsforhold.erFasteUkedager.${error.key}`,
-                                              values: {
-                                                  ...intlValues,
-                                                  jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
-                                              },
-                                              keepKeyUnaltered: true,
-                                          }
-                                        : undefined;
-                                }}
-                                name={'erFasteUkedager.gruppe' as any}>
-                                <TidFasteUkedagerInput
-                                    name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_timerFasteUkedager)}
-                                    data-testkey="tid-faste-ukedager"
-                                    validateDag={(dag, value) => {
-                                        const error = getArbeidstimerFastDagValidator()(value);
-                                        return error
-                                            ? {
-                                                  key: `validation.arbeidsforhold.fastDag.tid.${error}`,
-                                                  keepKeyUnaltered: true,
-                                                  values: { ...intlValues, dag },
-                                              }
-                                            : undefined;
-                                    }}
-                                />
-                            </FormComponents.InputGroup>
-                        </FormBlock>
-                    )}
-                    {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.NO && (
+                    {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.NO && (
                         <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
+                    )}
+                    {arbeidsforhold.normalarbeidstid?.erLikeMangeTimerHverUke === YesOrNo.YES && (
+                        <>
+                            <FormBlock>
+                                <FormComponents.YesOrNoQuestion
+                                    name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erFasteUkedager)}
+                                    legend={intlHelper(intl, `arbeidsforhold.erFasteUkedager.spm`, intlValues)}
+                                    labels={{
+                                        yes: intlHelper(intl, `arbeidsforhold.erFasteUkedager.ja`),
+                                        no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
+                                    }}
+                                    data-testkey="er-faste-ukedager"
+                                    useTwoColumns={true}
+                                />
+                            </FormBlock>
+                            {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.YES && (
+                                <FormBlock>
+                                    <FormComponents.InputGroup
+                                        legend={
+                                            erAktivtArbeidsforhold
+                                                ? intlHelper(intl, 'arbeidsforhold.ukedager.tittel', intlValues)
+                                                : intlHelper(
+                                                      intl,
+                                                      'arbeidsforhold.ukedager.avsluttet.tittel',
+                                                      intlValues
+                                                  )
+                                        }
+                                        validate={() => {
+                                            const error = validateFasteArbeidstimerIUke(
+                                                arbeidsforhold.normalarbeidstid?.timerFasteUkedager
+                                            );
+                                            return error
+                                                ? {
+                                                      key: `validation.arbeidsforhold.erFasteUkedager.${error.key}`,
+                                                      values: {
+                                                          ...intlValues,
+                                                          jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                                                      },
+                                                      keepKeyUnaltered: true,
+                                                  }
+                                                : undefined;
+                                        }}
+                                        name={'erFasteUkedager.gruppe' as any}>
+                                        <TidFasteUkedagerInput
+                                            name={getFieldName(
+                                                ArbeidsforholdFormField.normalarbeidstid_timerFasteUkedager
+                                            )}
+                                            data-testkey="tid-faste-ukedager"
+                                            validateDag={(dag, value) => {
+                                                const error = getArbeidstimerFastDagValidator()(value);
+                                                return error
+                                                    ? {
+                                                          key: `validation.arbeidsforhold.fastDag.tid.${error}`,
+                                                          keepKeyUnaltered: true,
+                                                          values: { ...intlValues, dag },
+                                                      }
+                                                    : undefined;
+                                            }}
+                                        />
+                                    </FormComponents.InputGroup>
+                                </FormBlock>
+                            )}
+                            {arbeidsforhold.normalarbeidstid.erFasteUkedager === YesOrNo.NO && (
+                                <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
+                            )}
+                        </>
                     )}
                 </>
             )}

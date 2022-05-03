@@ -26,7 +26,7 @@ const periode: DateRange = {
 };
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
-    type: NormalarbeidstidType.varierendeUker,
+    type: NormalarbeidstidType.ulikeUker,
     erFasteUkedager: false,
     erLiktHverUke: false,
     timerPerUkeISnitt: 20,

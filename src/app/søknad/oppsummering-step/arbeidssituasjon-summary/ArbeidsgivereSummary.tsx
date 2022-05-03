@@ -35,6 +35,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
         <>
             {arbeidsgivere.map((arbeidsgiver) => {
                 const { navn, organisasjonsnummer, erAnsatt } = arbeidsgiver;
+                const normalarbeidstid = arbeidsgiver.arbeidsforhold?.normalarbeidstid;
                 return (
                     <SummaryBlock
                         key={organisasjonsnummer}
@@ -59,6 +60,15 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                             normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
                                         />
                                     </li>
+                                    {normalarbeidstid && normalarbeidstid.erLiktHverUke === false && (
+                                        <li>
+                                            {normalarbeidstid._arbeiderHelg ? (
+                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
+                                            ) : (
+                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                            )}
+                                        </li>
+                                    )}
                                 </>
                             )}
                             {erAnsatt === false && (

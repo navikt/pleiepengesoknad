@@ -25,14 +25,12 @@ const NormalarbeidstidSummary: React.FunctionComponent<Props> = ({ erAnsatt, nor
         );
     }
     return (
-        <>
-            <FormattedMessage
-                id={erAnsatt ? `oppsummering.arbeidssituasjon.tid` : `oppsummering.arbeidssituasjon.avsluttet.tid`}
-                values={{
-                    timer: ISODurationToDecimalDuration(normalarbeidstidApiData.timerPerUkeISnitt),
-                }}
-            />
-        </>
+        <FormattedMessage
+            id={erAnsatt ? `oppsummering.arbeidssituasjon.tid` : `oppsummering.arbeidssituasjon.avsluttet.tid`}
+            values={{
+                timer: ISODurationToDecimalDuration(normalarbeidstidApiData.timerPerUkeISnitt),
+            }}
+        />
     );
 };
 

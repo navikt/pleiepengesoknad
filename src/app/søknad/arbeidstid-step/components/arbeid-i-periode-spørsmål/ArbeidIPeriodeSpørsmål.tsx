@@ -79,7 +79,7 @@ const ArbeidIPeriodeSpørsmål = ({
         : undefined;
 
     const getProsentSuffix = () => {
-        if (normalarbeidstid.type === 'varierendeUker') {
+        if (normalarbeidstid.type === 'ulikeUker') {
             const normalttimer = formatTimerOgMinutter(
                 intl,
                 decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
@@ -129,7 +129,7 @@ const ArbeidIPeriodeSpørsmål = ({
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <>
                     {(normalarbeidstid.type === NormalarbeidstidType.likeUkerVarierendeDager ||
-                        normalarbeidstid.type === NormalarbeidstidType.varierendeUker) && (
+                        normalarbeidstid.type === NormalarbeidstidType.ulikeUker) && (
                         <>
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
