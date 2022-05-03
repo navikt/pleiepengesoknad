@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
-import { DateDurationMap } from '@navikt/sif-common-utils/lib';
-import { Knapp } from 'nav-frontend-knapper';
-import { getDagerMedTidFraArbeidstidPeriodeData } from './arbeidstidPeriodeUtils';
 import {
     ArbeidstidPeriodeData,
     ArbeidstidPeriodeDialog,
     ArbeidstidPeriodeFormProps,
 } from '@navikt/sif-common-pleiepenger/lib';
+import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
+import { Knapp } from 'nav-frontend-knapper';
+import { getDagerMedTidFraArbeidstidPeriodeData } from './arbeidstidPeriodeUtils';
 
 export type ArbeidstidPeriodeKnappFormProps = Pick<
     ArbeidstidPeriodeFormProps,
-    'arbeidsstedNavn' | 'intlValues' | 'periode' | 'arbeiderNormaltTimerFasteUkedager'
+    'arbeidsstedNavn' | 'intlValues' | 'periode'
 > & {
     arbeiderNormaltTimerPerUke?: number;
 };
@@ -18,12 +18,14 @@ export type ArbeidstidPeriodeKnappFormProps = Pick<
 interface Props {
     registrerKnappLabel: string;
     formProps: ArbeidstidPeriodeKnappFormProps;
+    arbeiderNormaltTimerFasteUkedager?: DurationWeekdays;
     onPeriodeChange: (tid: DateDurationMap, formData: ArbeidstidPeriodeData) => void;
 }
 
 const ArbeidstidPeriodeKnapp: React.FunctionComponent<Props> = ({
     registrerKnappLabel,
     formProps,
+    arbeiderNormaltTimerFasteUkedager,
     onPeriodeChange,
 }) => {
     const [visPeriode, setVisPeriode] = useState(false);
@@ -31,14 +33,12 @@ const ArbeidstidPeriodeKnapp: React.FunctionComponent<Props> = ({
     const handleFormSubmit = (data: ArbeidstidPeriodeData) => {
         setVisPeriode(false);
         const dagerMedTid = getDagerMedTidFraArbeidstidPeriodeData(data, {
-            timerFasteUkedager: formProps.arbeiderNormaltTimerFasteUkedager,
+            timerFasteUkedager: arbeiderNormaltTimerFasteUkedager,
             timerSnittPerUke: formProps.arbeiderNormaltTimerPerUke,
         });
-        if (dagerMedTid) {
-            setTimeout(() => {
-                onPeriodeChange(dagerMedTid, data);
-            });
-        }
+        setTimeout(() => {
+            onPeriodeChange(dagerMedTid, data);
+        });
     };
 
     return (

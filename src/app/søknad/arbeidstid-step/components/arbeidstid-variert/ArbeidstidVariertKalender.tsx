@@ -7,7 +7,6 @@ import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib
 import {
     ArbeidIPeriodeIntlValues,
     ArbeidsforholdType,
-    ArbeidstidPeriodeData,
     SøknadsperioderMånedListe,
 } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidMåned from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-måned/ArbeidstidMåned';
@@ -57,7 +56,6 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
     disableDagerUtenforFasteDager = false,
     onArbeidstidVariertChanged,
     onArbeidstidEnkeltdagRegistrert,
-    onArbeidPeriodeRegistrert,
 }) => {
     const intl = useIntl();
     const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
@@ -79,13 +77,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             ? getAllWeekdaysWithoutDuration(arbeiderNormaltTimerFasteUkedager)
             : undefined;
 
-    const handleOnPeriodeChange = (tid: DateDurationMap, periodeData: ArbeidstidPeriodeData) => {
-        if (onArbeidPeriodeRegistrert) {
-            onArbeidPeriodeRegistrert({
-                verdi: periodeData.prosent ? 'prosent' : 'ukeplan',
-                prosent: periodeData.prosent,
-            });
-        }
+    const handleOnPeriodeChange = (tid: DateDurationMap) => {
         const dagerMedArbeid = { ...arbeidstid, ...tid };
         setFieldValue(formFieldName, dagerMedArbeid);
         if (onArbeidstidVariertChanged) {
@@ -135,9 +127,9 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                         <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}
                             registrerKnappLabel={intlHelper(intl, 'arbeidstidVariert.registrerJobbKnapp.label')}
+                            arbeiderNormaltTimerFasteUkedager={arbeiderNormaltTimerFasteUkedager}
                             formProps={{
                                 arbeiderNormaltTimerPerUke,
-                                arbeiderNormaltTimerFasteUkedager,
                                 intlValues,
                                 periode,
                                 arbeidsstedNavn,
