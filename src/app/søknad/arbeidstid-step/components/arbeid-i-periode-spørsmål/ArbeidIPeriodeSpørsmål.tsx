@@ -10,11 +10,11 @@ import {
     getArbeidstimerFastDagValidator,
     TidFasteUkedagerInput,
 } from '@navikt/sif-common-pleiepenger';
-import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode/utils/arbeidstidPeriodeIntlValuesUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
+import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
+import { ArbeidsforholdType, ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib/types';
 import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../../types';
-import { ArbeiderIPeriodenSvar, ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';

@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeiderIPeriodenSvar, ArbeidstidEnkeltdagApiData } from '@navikt/sif-common-pleiepenger/lib';
 import {
     DateDurationMap,
     dateToISODate,
@@ -12,7 +12,6 @@ import {
     ISODuration,
     ISODurationToMaybeDuration,
 } from '@navikt/sif-common-utils';
-import { ArbeiderIPeriodenSvar } from '../../types/ArbeidIPeriodeFormData';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,

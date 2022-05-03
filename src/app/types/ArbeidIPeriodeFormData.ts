@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
@@ -10,12 +11,6 @@ export enum ArbeidIPeriodeFormField {
     timerPerUke = 'timerPerUke',
     fasteDager = 'fasteDager',
     enkeltdager = 'enkeltdager',
-}
-
-export enum ArbeiderIPeriodenSvar {
-    'somVanlig' = 'SOM_VANLIG',
-    'redusert' = 'REDUSERT',
-    'heltFravær' = 'HELT_FRAVÆR',
 }
 
 export interface ArbeidIPeriodeFormData {

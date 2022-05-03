@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../../types';
-import { ArbeiderIPeriodenSvar } from '../../../../types/ArbeidIPeriodeFormData';
 import { FrilansFormData } from '../../../../types/FrilansFormData';
 import { cleanupFrilansArbeidssituasjon } from '../cleanupArbeidssituasjonStep';
 
