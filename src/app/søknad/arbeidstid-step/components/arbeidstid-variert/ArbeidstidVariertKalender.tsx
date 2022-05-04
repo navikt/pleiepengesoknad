@@ -113,6 +113,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode && (
                 <>
+                    <p>Unnskyld</p>
                     <p style={{ marginTop: 0 }}>
                         Når det varierer, trenger vi å vite hvor mye du jobber de ulike dagene i perioden du søker for.
                         Du kan oppgi dette ved å legge til timer for enkeltdager i kalenderen, eller du kan legge til

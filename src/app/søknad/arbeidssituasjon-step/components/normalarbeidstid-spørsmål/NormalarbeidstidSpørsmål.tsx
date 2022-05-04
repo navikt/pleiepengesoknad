@@ -22,6 +22,7 @@ import InfoArbeiderLiktHverUke from '../info/InfoArbeiderLiktHverUke';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { Undertittel } from 'nav-frontend-typografi';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -87,6 +88,13 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     }
     return (
         <>
+            <FormBlock paddingBottom="xl" margin="none">
+                <Undertittel>Hvordan jobber du normalt?</Undertittel>
+                <p>
+                    Vi trenger å vite hvor mye du jobber når du ikke har fravær på grunn av pleiepenger. Kanskje si noe
+                    om hvorfor -&gt; beregne riktig sum
+                </p>
+            </FormBlock>
             <FormComponents.YesOrNoQuestion
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg)}
                 legend={intlHelper(intl, `arbeidsforhold.arbeiderFastHelg.spm`, intlValues)}
