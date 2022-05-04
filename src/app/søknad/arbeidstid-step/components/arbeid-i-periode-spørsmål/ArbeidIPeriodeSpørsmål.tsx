@@ -128,8 +128,7 @@ const ArbeidIPeriodeSpørsmål = ({
             />
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <>
-                    {(normalarbeidstid.type === NormalarbeidstidType.likeUkerVarierendeDager ||
-                        normalarbeidstid.type === NormalarbeidstidType.ulikeUker) && (
+                    {normalarbeidstid.type !== NormalarbeidstidType.likeUkerOgDager && (
                         <>
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
