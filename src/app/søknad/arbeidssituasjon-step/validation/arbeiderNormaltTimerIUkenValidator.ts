@@ -1,6 +1,6 @@
 import { getNumberValidator } from '@navikt/sif-common-formik/lib/validation';
 
-export const MIN_TIMER_NORMAL_ARBEIDSFORHOLD = 0.01;
+export const MIN_TIMER_NORMAL_ARBEIDSFORHOLD = 0;
 export const MAX_TIMER_NORMAL_ARBEIDSFORHOLD = 100;
 export const MAX_TIMER_NORMAL_ARBEIDSFORHOLD_DAG = 24;
 
