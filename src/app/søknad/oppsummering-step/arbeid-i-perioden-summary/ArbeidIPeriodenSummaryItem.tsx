@@ -25,6 +25,10 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
 const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
     const intl = useIntl();
 
+    if (arbeidsforhold.arbeidIPeriode === undefined) {
+        return <>Informasjon om arbeid i perioden mangler</>;
+    }
+
     const getArbeidProsentTekst = (prosent: number, normalarbeidstid: NormalarbeidstidApiData) => {
         if (normalarbeidstid.erLiktHverUke === false) {
             return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
@@ -78,17 +82,14 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                 );
         }
     };
+    const wrapInList = arbeidsforhold.arbeidIPeriode?.type !== ArbeidIPeriodeType.arbeiderEnkeltdager;
 
-    return (
+    return wrapInList ? (
         <ul>
-            <li>
-                {arbeidsforhold.arbeidIPeriode ? (
-                    getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)
-                ) : (
-                    <>Informasjon om arbeid i perioden mangler</>
-                )}
-            </li>
+            <li>{getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)}</li>
         </ul>
+    ) : (
+        getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)
     );
 };
 
