@@ -97,6 +97,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                 arbeidsstedNavn={arbeidsstedNavn}
                 arbeidsforholdType={arbeidsforholdType}
                 måned={måned}
+                månedTittelHeadingLevel={3}
                 åpentEkspanderbartPanel={antallMåneder === 1}
                 tidArbeidstid={arbeidstid}
                 utilgjengeligeDatoer={utilgjengeligeDatoerIMåned}
@@ -138,16 +139,8 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
                     </Box>
                 </>
             )}
-
-            {/* <Element tag="h3">
-                <FormattedMessage id="arbeidstidVariert.månedsliste.tittel" />
-            </Element> */}
             <Box margin="s">
-                <SøknadsperioderMånedListe
-                    periode={periode}
-                    årstallHeadingLevel={3}
-                    månedContentRenderer={månedContentRenderer}
-                />
+                <SøknadsperioderMånedListe periode={periode} månedContentRenderer={månedContentRenderer} />
             </Box>
         </FormikInputGroup>
     );
