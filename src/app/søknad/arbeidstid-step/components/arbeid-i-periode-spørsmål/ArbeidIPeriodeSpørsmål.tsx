@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IntlShape, useIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -28,6 +28,7 @@ import {
     getArbeidIPeriodeTimerEllerProsentValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from './validationArbeidIPeriodeSpørsmål';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -193,6 +194,17 @@ const ArbeidIPeriodeSpørsmål = ({
                                     validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                                     useTwoColumns={true}
                                     data-testkey="er-likt-hver-uke"
+                                    description={
+                                        <ExpandableInfo
+                                            title={intlHelper(intl, 'arbeidIPeriode.erLiktHverUke.info.tittel')}>
+                                            <p>
+                                                <FormattedMessage id="arbeidIPeriode.erLiktHverUke.info.tekst.1" />
+                                            </p>
+                                            <p>
+                                                <FormattedMessage id="arbeidIPeriode.erLiktHverUke.info.tekst.2" />
+                                            </p>
+                                        </ExpandableInfo>
+                                    }
                                     labels={{
                                         yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
                                         no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),

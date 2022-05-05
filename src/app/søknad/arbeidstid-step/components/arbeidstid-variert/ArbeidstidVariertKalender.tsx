@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, FormikInputGroup } from '@navikt/sif-common-formik/lib';
@@ -113,17 +113,16 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode && (
                 <>
-                    <p>Unnskyld</p>
                     <p style={{ marginTop: 0 }}>
-                        Når det varierer, trenger vi å vite hvor mye du jobber de ulike dagene i perioden du søker for.
-                        Du kan oppgi dette ved å legge til timer for enkeltdager i kalenderen, eller du kan legge til
-                        informasjon for flere dager ved å velge &quot;Registrer jobb for en periode&quot;.
+                        <FormattedMessage id="arbeidstidVariert.info.1" />
                     </p>
                     <p>
-                        Fremover i tid kan det være vanskelig å si noe om hvordan en kommer til å jobbe, men da legger
-                        du inn slik du tror det blir, frem til det blir for usikkert. Da kan du senere, når du vet litt
-                        bedre, melde fra til oss hvordan du skal jobbe.
+                        <FormattedMessage id="arbeidstidVariert.info.2" />
                     </p>
+                    <p>
+                        <FormattedMessage id="arbeidstidVariert.info.3" />
+                    </p>
+
                     <Box margin="l" padBottom="xl">
                         <ArbeidstidPeriodeKnapp
                             onPeriodeChange={handleOnPeriodeChange}

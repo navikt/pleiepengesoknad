@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
@@ -22,7 +22,7 @@ import InfoArbeiderLiktHverUke from '../info/InfoArbeiderLiktHverUke';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Ingress } from 'nav-frontend-typografi';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -88,17 +88,22 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     }
     return (
         <>
-            <FormBlock paddingBottom="xl" margin="none">
-                <Undertittel>Hvordan jobber du normalt?</Undertittel>
+            <FormBlock paddingBottom="l" margin="none">
+                <Ingress tag="h4">
+                    <FormattedMessage id="arbeidsforhold.normalarbeidstid.intro.tittel" />
+                </Ingress>
                 <p>
-                    Vi trenger å vite hvor mye du jobber når du ikke har fravær på grunn av pleiepenger. Kanskje si noe
-                    om hvorfor -&gt; beregne riktig sum
+                    <FormattedMessage id="arbeidsforhold.normalarbeidstid.intro.tekst" />
                 </p>
             </FormBlock>
             <FormComponents.YesOrNoQuestion
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg)}
                 legend={intlHelper(intl, `arbeidsforhold.arbeiderFastHelg.spm`, intlValues)}
-                description={<ExpandableInfo title="Hva betyr det?">Hva betyr fast helg?</ExpandableInfo>}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeiderFastHelg.info.tittel')}>
+                        <FormattedMessage id="arbeidsforhold.arbeiderFastHelg.info.tekst" />
+                    </ExpandableInfo>
+                }
                 data-testkey="jobber-fast-helg"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);

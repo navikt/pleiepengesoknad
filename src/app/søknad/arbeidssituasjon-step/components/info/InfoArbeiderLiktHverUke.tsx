@@ -10,18 +10,13 @@ const InfoArbeiderLiktHverUke: React.FunctionComponent<Props> = () => {
     return (
         <ExpandableInfo title="Hva betyr dette?">
             <p>
-                Vi trenger å vite hvordan og hvor mye du normalt jobber når du ikke har fravær på grunn av pleiepenger.
+                Her lurer vi på om du jobber like mange timer hver uke, eller om det varierer hvor mye du jobber fra uke
+                til uke.
             </p>
-            <ul style={{ paddingInlineStart: '20px' }}>
-                <li>
-                    Hvis du jobber et fast antall timer hver uke i hele perioden, velger du at hver uke er lik, og
-                    legger inn hvor mye du jobber de ulike ukedagene.
-                </li>
-                <li>
-                    Hvis du jobber turnus eller har annen varierende arbeidstid, velger du at det varierer og legger inn
-                    et snitt per uke.
-                </li>
-            </ul>
+            <p>
+                Hvis du for eksempel hver uke jobber 30 timer, svarer du ja på dette spørsmålet. Hvis det varierer hvor
+                mange timer du jobber per uke, svarer du nei.
+            </p>
         </ExpandableInfo>
     );
 };
