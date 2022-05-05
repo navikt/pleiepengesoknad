@@ -730,6 +730,7 @@
     "validation.skalTaUtFerieIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal ha ferie i perioden du søker for.",
 
     "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
+    "validation.arbeidsforhold.arbeiderFastHelg": "Du må svare ja eller nei på om du jobber fast lørdager og/eller søndager {hvor}.",
     "validation.arbeidsforhold.erLikeMangeTimerHverUke": "Du må svare på om du jobber like mange timer hver uke {hvor} i perioden.",
     "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du sluttet hos {navn} før {fraDato}.",
     "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberHasNoValue": "Du må oppgi hvor mange timer du {jobber} i snitt per uke {hvor} i perioden når du ikke har fravær på grunn av pleiepenger.",
