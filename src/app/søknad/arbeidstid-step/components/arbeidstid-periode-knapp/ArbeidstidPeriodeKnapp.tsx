@@ -48,6 +48,7 @@ const ArbeidstidPeriodeKnapp: React.FunctionComponent<Props> = ({
             </Knapp>
             <ArbeidstidPeriodeDialog
                 formProps={{
+                    visAlleSpørsmål: true,
                     ...formProps,
                     onCancel: () => setVisPeriode(false),
                     onSubmit: handleFormSubmit,
