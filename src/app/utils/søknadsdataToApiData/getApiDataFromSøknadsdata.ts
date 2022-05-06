@@ -1,6 +1,7 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { RegistrerteBarn } from '../../types';
+import { MELLOMLAGRING_VERSION } from '../../types/SøknadTempStorageData';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
@@ -30,6 +31,7 @@ export const getApiDataFromSøknadsdata = (
         try {
             const sprak = getValidSpråk(locale);
             const apiData: SøknadApiData = {
+                versjon: MELLOMLAGRING_VERSION,
                 språk: sprak,
                 harForståttRettigheterOgPlikter:
                     harForståttRettigheterOgPlikter !== undefined ? harForståttRettigheterOgPlikter : false,

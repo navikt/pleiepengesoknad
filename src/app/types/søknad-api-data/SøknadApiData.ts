@@ -82,6 +82,7 @@ export interface FerieuttakIPeriodenApiData {
 }
 
 export interface SøknadApiData {
+    versjon: string;
     språk: Locale;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
