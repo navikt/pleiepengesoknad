@@ -1,9 +1,9 @@
 const arbeidstidMessages = {
     nb: {
         'arbeidstidVariert.info.1':
-            'Når det varierer hvor mye du jobber, trenger vi å vite hvor mye du jobber de ulike dagene i perioden du søker for. Du kan oppgi dette ved å legge til timer for enkeltdager i kalenderen, eller du kan legge inn jobb for flere dager ved å velge «Registrer jobb for en periode».',
+            'Når det varierer hvor mye du jobber, trenger vi å vite hvor mye du jobber de ulike dagene i perioden du søker for. Du kan oppgi dette ved å legge til timer for enkeltdager i månedsoversikten, eller du kan legge inn jobb for flere dager ved å velge «Registrer jobb for en periode».',
         'arbeidstidVariert.info.2':
-            'Vi beklager at det for noen kan bli mye å fylle inn, men vi må ha denne informasjonen for å sikre at du får så mye pleiepenger som du har rett til å få.',
+            'Vi beklager at det kan bli mye å fylle inn, men vi må ha denne informasjonen for å sikre at du får så mye pleiepenger som du har rett til å få.',
         'arbeidstidVariert.info.3':
             'Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir du oss beskjed i slutten av måneden.',
         'arbeidstidVariert.registrerJobbKnapp.label': 'Registrer jobb for en periode',
