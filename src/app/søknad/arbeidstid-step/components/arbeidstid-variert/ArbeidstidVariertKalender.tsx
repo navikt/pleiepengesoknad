@@ -28,6 +28,7 @@ import { useFormikContext } from 'formik';
 import ArbeidstidPeriodeKnapp from '../arbeidstid-periode-knapp/ArbeidstidPeriodeKnapp';
 import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
 import { ArbeidstidRegistrertLogProps } from '../../types';
+import { Element } from 'nav-frontend-typografi';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     arbeidsstedNavn: string;
@@ -114,14 +115,14 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             tag="div">
             {kanLeggeTilPeriode && (
                 <>
+                    <Box margin="xl" padBottom="m">
+                        <Element>Oppgi hvor mange timer du jobber de dagene du vet du jobber</Element>
+                    </Box>
                     <p style={{ marginTop: 0 }}>
                         <FormattedMessage id="arbeidstidVariert.info.1" />
                     </p>
                     <p>
                         <FormattedMessage id="arbeidstidVariert.info.2" />
-                    </p>
-                    <p>
-                        <FormattedMessage id="arbeidstidVariert.info.3" />
                     </p>
 
                     <Box margin="l" padBottom="xl">
