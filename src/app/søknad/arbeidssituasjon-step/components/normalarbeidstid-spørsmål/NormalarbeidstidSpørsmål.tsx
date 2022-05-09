@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import {
     ArbeidsforholdType,
@@ -159,6 +159,16 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                         no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
                                     }}
                                     data-testkey="er-faste-ukedager"
+                                    validate={(value) => {
+                                        const error = getYesOrNoValidator()(value);
+                                        return error
+                                            ? {
+                                                  key: 'validation.arbeidsforhold.erFasteUkedager.yesOrNoIsUnanswered',
+                                                  values: { ...intlValues },
+                                                  keepKeyUnaltered: true,
+                                              }
+                                            : undefined;
+                                    }}
                                     useTwoColumns={true}
                                 />
                             </FormBlock>

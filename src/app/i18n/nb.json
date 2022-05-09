@@ -739,6 +739,7 @@
     "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooSmall": "Antall timer du normalt {jobber} i snitt per uke {hvor} kan ikke være mindre enn {min}.",
     "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooLarge": "Antall timer du normalt {jobber} i snitt per uke {hvor} kan ikke være mer enn {max}.",
     "validation.arbeidsforhold.erFasteUkedager.ingenTidRegistrert": "Du må fylle ut hvor mange timer du {jobber} hver ukedag {hvor} i perioden.",
+    "validation.arbeidsforhold.erFasteUkedager.yesOrNoIsUnanswered": "Du må svare på om du jobber faste dager {hvor}",
     "validation.arbeidsforhold.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag} {hvor}.",
     "validation.arbeidsforhold.fastDag.tid.hoursAreInvalid": "Antall timer på {dag} {hvor} er ikke et gyldig tall.",
     "validation.arbeidsforhold.fastDag.tid.minutesAreInvalid": "Antall minutter på {dag} {hvor} er ikke et gyldig tall.",
