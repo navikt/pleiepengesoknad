@@ -3,6 +3,7 @@ import { ArbeiderIPeriodenSvar, ArbeidstidEnkeltdagApiData } from '@navikt/sif-c
 import {
     DateDurationMap,
     dateToISODate,
+    decimalDurationToISODuration,
     Duration,
     durationToISODuration,
     DurationWeekdays,
@@ -125,7 +126,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                    timerPerUke: arbeid.timerISnittPerUke,
+                    timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
                 };
             case ArbeidIPeriodeType.arbeiderFasteUkedager:
                 return {

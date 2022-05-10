@@ -5,7 +5,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-enkeltdager-liste/ArbeidstidEnkeltdagerListe';
-import { decimalDurationToDuration, ISODurationToDuration } from '@navikt/sif-common-utils/lib';
+import { ISODurationToDuration } from '@navikt/sif-common-utils/lib';
 import {
     ArbeidsforholdApiData,
     NormalarbeidstidApiData,
@@ -76,7 +76,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                     <FormattedMessage
                         id="oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke"
                         values={{
-                            timer: formatTimerOgMinutter(intl, decimalDurationToDuration(arbeidIPeriode.timerPerUke)),
+                            timer: formatTimerOgMinutter(intl, ISODurationToDuration(arbeidIPeriode.timerPerUke)),
                         }}
                     />
                 );
