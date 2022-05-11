@@ -154,11 +154,9 @@ export const cleanupArbeidstidStep = (
 ): SøknadFormData => {
     const values: SøknadFormData = { ...formData };
 
-    values.ansatt_arbeidsforhold = cleanupArbeidstidAnsatt(
-        values.ansatt_arbeidsforhold,
-        arbeidSøknadsdata.arbeidsgivere,
-        søknadsperiode
-    );
+    values.ansatt_arbeidsforhold = arbeidSøknadsdata.arbeidsgivere
+        ? cleanupArbeidstidAnsatt(values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere, søknadsperiode)
+        : values.ansatt_arbeidsforhold;
     values.frilans.arbeidsforhold = cleanupArbeidstidFrilans(values.frilans, arbeidSøknadsdata.frilans, søknadsperiode);
     values.selvstendig.arbeidsforhold = cleanupArbeidstidSelvstendigNæringdrivende(
         søknadsperiode,
