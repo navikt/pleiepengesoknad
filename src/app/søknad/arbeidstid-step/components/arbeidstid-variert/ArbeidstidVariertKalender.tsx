@@ -116,7 +116,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
             {kanLeggeTilPeriode && (
                 <>
                     <Box margin="xl" padBottom="m">
-                        <Element>Oppgi hvor mange timer du jobber de dagene du vet du jobber</Element>
+                        <Element>Oppgi hvor mange timer du jobber</Element>
                     </Box>
                     <p style={{ marginTop: 0 }}>
                         <FormattedMessage id="arbeidstidVariert.info.1" />
