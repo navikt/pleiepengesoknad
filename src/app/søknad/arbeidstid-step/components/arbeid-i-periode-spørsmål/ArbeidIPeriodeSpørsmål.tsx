@@ -141,6 +141,10 @@ const ArbeidIPeriodeSpørsmål = ({
                             skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir
                             du oss beskjed i slutten av måneden.
                         </p>
+                        <p>
+                            Hvis det varierer hvor mye du jobber, legger du inn et snitt av det du skal jobbe i
+                            søknadsperioden. Du velger om du vil oppgi snittet som prosent, eller i timer.
+                        </p>
 
                         {normalarbeidstid.type !== NormalarbeidstidType.likeUkerOgDager && (
                             <>

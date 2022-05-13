@@ -5,7 +5,11 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-enkeltdager-liste/ArbeidstidEnkeltdagerListe';
-import { ISODurationToDuration } from '@navikt/sif-common-utils/lib';
+import {
+    decimalDurationToDuration,
+    ISODurationToDecimalDuration,
+    ISODurationToDuration,
+} from '@navikt/sif-common-utils/lib';
 import {
     ArbeidsforholdApiData,
     NormalarbeidstidApiData,
@@ -29,11 +33,33 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
         return <>Informasjon om arbeid i perioden mangler</>;
     }
 
+    const getProsentAvNormaltTekstParts = (
+        timer: number,
+        prosent: number
+    ): {
+        timerNormalt: string;
+        timerIPeriode: string;
+    } => {
+        const timerNormalt = formatTimerOgMinutter(intl, decimalDurationToDuration(timer));
+        const timerIPeriode = formatTimerOgMinutter(intl, decimalDurationToDuration((timer / 100) * prosent));
+        return {
+            timerNormalt,
+            timerIPeriode,
+        };
+    };
+
     const getArbeidProsentTekst = (prosent: number, normalarbeidstid: NormalarbeidstidApiData) => {
         if (normalarbeidstid.erLiktHverUke === false) {
+            const timer = ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt);
+            if (!timer) {
+                return undefined;
+            }
+            const { timerNormalt, timerIPeriode } = getProsentAvNormaltTekstParts(timer, prosent);
+
             return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
                 prosent: Intl.NumberFormat().format(prosent),
-                timerPerUke: formatTimerOgMinutter(intl, ISODurationToDuration(normalarbeidstid.timerPerUkeISnitt)),
+                timerNormalt,
+                timerIPeriode,
             });
         }
         return undefined;

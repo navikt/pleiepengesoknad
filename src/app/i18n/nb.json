@@ -615,7 +615,7 @@
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.nei": "Jobber ikke i perioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig": "Jobber som normalt, har ikke fravær på grunn av pleiepenger.",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke": "Jobber likt hver uke i perioden",
-    "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent": "Jobber {prosent} prosent av normalt i perioden",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent": "Jobber {prosent} prosent av normalt {timerNormalt} timer i uken (tilsvarer {timerIPeriode} i uken).",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke": "Jobber {timer} i snitt per uke i perioden",
 
     "timerPerUke": "{timer, plural, one {# time} other {# timer}} per uke",
