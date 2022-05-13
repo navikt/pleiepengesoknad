@@ -94,7 +94,7 @@ const ArbeidIPeriodeSpørsmål = ({
                   )
                 : undefined;
 
-            return `prosent av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken).` : '.'}`;
+            return `prosent av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
         }
         return undefined;
     };
