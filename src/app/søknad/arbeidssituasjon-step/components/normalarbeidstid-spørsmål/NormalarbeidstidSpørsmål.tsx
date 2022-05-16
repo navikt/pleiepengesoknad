@@ -104,7 +104,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         <FormattedMessage id="arbeidsforhold.arbeiderFastHelg.info.tekst" />
                     </ExpandableInfo>
                 }
-                data-testkey="jobber-fast-helg"
+                data-testid="jobber-fast-helg"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);
                     return error
@@ -127,7 +127,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                             name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLikeMangeTimerHverUke)}
                             legend={intlHelper(intl, `arbeidsforhold.erLikeMangeTimerHverUke.spm`, intlValues)}
                             description={<InfoArbeiderLiktHverUke arbeidsforholdType={arbeidsforholdType} />}
-                            data-testkey="like-mange-timer-hver-uke"
+                            data-testid="like-mange-timer-hver-uke"
                             validate={(value: any) => {
                                 const error = getRequiredFieldValidator()(value);
                                 return error
@@ -158,7 +158,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                         yes: intlHelper(intl, `arbeidsforhold.erFasteUkedager.ja`),
                                         no: intlHelper(intl, `arbeidsforhold.erFasteUkedager.nei`),
                                     }}
-                                    data-testkey="er-faste-ukedager"
+                                    data-testid="er-faste-ukedager"
                                     validate={(value) => {
                                         const error = getYesOrNoValidator()(value);
                                         return error
@@ -204,7 +204,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                                             name={getFieldName(
                                                 ArbeidsforholdFormField.normalarbeidstid_timerFasteUkedager
                                             )}
-                                            data-testkey="tid-faste-ukedager"
+                                            data-testid="tid-faste-ukedager"
                                             validateDag={(dag, value) => {
                                                 const error = getArbeidstimerFastDagValidator()(value);
                                                 return error

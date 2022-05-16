@@ -64,13 +64,13 @@ const ArbeidssituasjonFrilans = ({
         erAktivFrilanserIPerioden;
 
     return (
-        <div data-testkey="arbeidssituasjonFrilanser">
+        <div data-testid="arbeidssituasjonFrilanser">
             {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} />}
             {søkerHarFrilansoppdrag === false && (
                 <Box margin="l">
                     <ArbFriFormComponents.YesOrNoQuestion
                         name={FrilansFormField.harHattInntektSomFrilanser}
-                        data-testkey="er-frilanser"
+                        data-testid="er-frilanser"
                         legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                         validate={getYesOrNoValidator()}
                         description={

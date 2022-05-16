@@ -76,7 +76,7 @@ const ArbeidstidVariertUkedager: React.FunctionComponent<Props> = ({
                 <ExpandableInfo title="Dersom du jobber andre dager enn normalt">[TODO]</ExpandableInfo>
             </Box>
             <ArbeidstidUkerInput
-                data-testkey="arbeidstid-variert-uker"
+                data-testid="arbeidstid-variert-uker"
                 periode={periode}
                 arbeidstid={arbeidstid}
                 fieldName={formFieldName}

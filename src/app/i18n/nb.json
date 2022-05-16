@@ -182,7 +182,7 @@
     "step.oppsummering.stepTitle": "Oppsummering",
     "step.oppsummering.stepIndicatorLabel": "Oppsummering",
 
-    "page.unavailable.1": "Den digitale pleiepengesøknaden er dessverre ikke tilgjengelig på grunn av teknisk feil. Vi jobber med å løse feilen slik at du kan søke digitalt. Frem til vi får fikset dette, kan du fylle ut vårt",
+    "page.unavailable.1": "Den digitale pleiepengesøknaden er dessverre ikke tilgjengelig akkurat nå. Vi jobber med saken, slik at du kan søke digitalt. Frem til vi får fikset dette, kan du fylle ut vårt",
     "page.unavailable.2": "papirskjema for pleiepenger sykt barn",
     "page.unavailable.3": "Vi beklager.",
 
@@ -271,12 +271,6 @@
     "steg.omBarnet.relasjonAnnet.info.hjelpetekst.1": "I noen tilfeller kan ikke den eller de som har den daglige omsorgen for barnet ha tilsyn med barn som trenger tilsyn og pleie hele tiden. Da kan andre personer hjelpe til med dette. Andre personer kan for eksempel være en besteforelder, venn, nabo, tante eller onkel.",
     "steg.omBarnet.relasjonAnnet.info.hjelpetekst.2": "Eksempel 1: Mor/far kan ikke selv følge barnet til sykehuset for utredning eller behandling. Da kan andre personer følge barnet til sykehuset, og ha tilsyn med barnet så lenge oppholdet på sykehuset varer.",
     "steg.omBarnet.relasjonAnnet.info.hjelpetekst.3": "Eksempel 2: Hverken mor eller far har mulighet til å pleie barnet hjemme, da kan andre personer gjøre dette og ha tilsyn med barnet i perioden det gjelder. ",
-
-    "steg.tidsrom.hjelpetekst.tittel": "Kan jeg søke for flere perioder samtidig?",
-    "steg.tidsrom.hjelpetekst.1": "Du kan søke om flere perioder i samme søknad hvis du skal jobbe i din fulle stilling mellom periodene du skal ha pleiepenger.",
-    "steg.tidsrom.hjelpetekst.2": "Da setter du fra og med dato til den første dagen du skal ha pleiepenger. Til og med dato setter du til den siste dagen du skal ha pleiepenger i den siste perioden.",
-    "steg.tidsrom.hjelpetekst.3": "Når du senere i søknaden blir spurt om jobb, legger du inn at du skal jobbe fullt i de periodene du ikke skal ha pleiepenger. Du vil ikke få pleiepenger de periodene du jobber fullt.",
-    "steg.tidsrom.hjelpetekst.4": "Hvis du ikke skal jobbe i din fulle stilling mellom periodene med pleiepenger, kan du ikke søke om flere perioder i samme søknad. Da må du sende én søknad for hver periode.",
 
     "steg.tidsrom.hvilketTidsrom.spm": "Hvilken periode søker du for?",
     "steg.tidsrom.hvilketTidsrom.fom": "Fra og med",
