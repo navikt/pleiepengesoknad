@@ -10,24 +10,26 @@ import RouteConfig from '../config/routeConfig';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
+import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
-import { SøknadApiData } from '../types/SøknadApiData';
+import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
+import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
-import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
+import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
 import NattevåkOgBeredskapStep from './nattevåk-og-beredskap-step/NattevåkOgBeredskapStep';
 import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
+import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
-import { KvitteringInfo } from '../types/KvitteringInfo';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -41,6 +43,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+    const { setSøknadsdata } = useSøknadsdataContext();
 
     const sendUserToStep = useCallback(
         async (route: string) => {
@@ -90,6 +93,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
         await logSoknadStartet(SKJEMANAVN);
         persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
         setTimeout(() => {
+            setSøknadsdata(getSøknadsdataFromFormValues(values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });
     };
@@ -109,7 +113,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET)}
                     render={() => (
                         <OpplysningerOmBarnetStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.OPPLYSNINGER_OM_BARNET);
+                                });
+                            }}
                         />
                     )}
                 />
@@ -118,7 +127,16 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
             {isAvailable(StepID.TIDSROM, values) && (
                 <Route
                     path={getSøknadRoute(StepID.TIDSROM)}
-                    render={() => <TidsromStep onValidSubmit={() => navigateToNextStepFrom(StepID.TIDSROM)} />}
+                    render={() => (
+                        <TidsromStep
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.TIDSROM);
+                                });
+                            }}
+                        />
+                    )}
                 />
             )}
 
@@ -127,7 +145,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.ARBEIDSSITUASJON)}
                     render={() => (
                         <ArbeidssituasjonStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSSITUASJON)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.ARBEIDSSITUASJON);
+                                });
+                            }}
                             søknadsdato={søknadsdato}
                             søknadsperiode={søknadsperiode}
                         />
@@ -141,7 +164,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => (
                         <ArbeidstidStep
                             periode={søknadsperiode}
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.ARBEIDSTID)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.ARBEIDSTID);
+                                });
+                            }}
                         />
                     )}
                 />
@@ -153,7 +181,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => {
                         return (
                             <OmsorgstilbudStep
-                                onValidSubmit={() => navigateToNextStepFrom(StepID.OMSORGSTILBUD)}
+                                onValidSubmit={() => {
+                                    setTimeout(() => {
+                                        setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                        navigateToNextStepFrom(StepID.OMSORGSTILBUD);
+                                    });
+                                }}
                                 søknadsperiode={søknadsperiode}
                             />
                         );
@@ -167,7 +200,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     render={() => {
                         return (
                             <NattevåkOgBeredskapStep
-                                onValidSubmit={() => navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP)}
+                                onValidSubmit={() => {
+                                    setTimeout(() => {
+                                        setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                        navigateToNextStepFrom(StepID.NATTEVÅK_OG_BEREDSKAP);
+                                    });
+                                }}
                             />
                         );
                     }}
@@ -179,7 +217,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     path={getSøknadRoute(StepID.MEDLEMSKAP)}
                     render={() => (
                         <MedlemsskapStep
-                            onValidSubmit={() => navigateToNextStepFrom(StepID.MEDLEMSKAP)}
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.MEDLEMSKAP);
+                                });
+                            }}
                             søknadsdato={søknadsdato}
                         />
                     )}
@@ -190,7 +233,14 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 <Route
                     path={getSøknadRoute(StepID.LEGEERKLÆRING)}
                     render={() => (
-                        <LegeerklæringStep onValidSubmit={() => navigateToNextStepFrom(StepID.LEGEERKLÆRING)} />
+                        <LegeerklæringStep
+                            onValidSubmit={() => {
+                                setTimeout(() => {
+                                    setSøknadsdata(getSøknadsdataFromFormValues(values));
+                                    navigateToNextStepFrom(StepID.LEGEERKLÆRING);
+                                });
+                            }}
+                        />
                     )}
                 />
             )}

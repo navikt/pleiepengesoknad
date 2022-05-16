@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { Attachment, PersistedFile } from '@navikt/sif-common-core/lib/types/Attachment';
 import {
     attachmentShouldBeProcessed,

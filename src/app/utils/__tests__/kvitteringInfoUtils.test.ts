@@ -1,7 +1,9 @@
-import { JobberIPeriodeSvar } from '../../types';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
-import { ArbeidsgiverApiData } from '../../types/SøknadApiData';
+import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 
 const arbeidsgiverApiData: ArbeidsgiverApiData = {
@@ -11,10 +13,14 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
     erAnsatt: true,
     arbeidsforhold: {
         arbeidIPeriode: {
-            jobberIPerioden: JobberIPeriodeSvar.NEI,
+            type: ArbeidIPeriodeType.arbeiderIkke,
+            arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
         },
-        harFraværIPeriode: true,
-        jobberNormaltTimer: 2,
+        normalarbeidstid: {
+            erLiktHverUke: false,
+            timerPerUkeISnitt: decimalDurationToISODuration(2),
+            _arbeiderHelg: false,
+        },
     },
     sluttetFørSøknadsperiode: false,
 };
@@ -60,10 +66,15 @@ describe('kvitteringUtils', () => {
                 erAnsatt: false,
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
-                    harFraværIPeriode: true,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUkeISnitt: decimalDurationToISODuration(20),
+                        _arbeiderHelg: false,
+                    },
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                        arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                        prosentAvNormalt: 20,
                     },
                 },
             };
@@ -72,10 +83,15 @@ describe('kvitteringUtils', () => {
                 organisasjonsnummer: '3',
                 erAnsatt: true,
                 arbeidsforhold: {
-                    jobberNormaltTimer: 20,
-                    harFraværIPeriode: true,
+                    normalarbeidstid: {
+                        erLiktHverUke: false,
+                        timerPerUkeISnitt: decimalDurationToISODuration(20),
+                        _arbeiderHelg: false,
+                    },
                     arbeidIPeriode: {
-                        jobberIPerioden: JobberIPeriodeSvar.JA,
+                        type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                        arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                        prosentAvNormalt: 20,
                     },
                 },
             };

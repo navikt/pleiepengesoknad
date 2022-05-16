@@ -1,23 +1,24 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Arbeidsforhold } from '../../../types/Arbeidsforhold';
+import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
+import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 
 export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold,
     frilans,
-    selvstendig_harHattInntektSomSN,
+    selvstendig,
 }: {
-    ansatt_arbeidsforhold: Arbeidsforhold[];
+    ansatt_arbeidsforhold: ArbeidsforholdFormData[];
     frilans: FrilansFormData;
-    selvstendig_harHattInntektSomSN?: YesOrNo;
+    selvstendig: SelvstendigFormData;
 }): boolean => {
     const { harHattInntektSomFrilanser } = frilans || {};
 
     /** Selvstendig næringsdrivende */
     if (
-        isYesOrNoAnswered(selvstendig_harHattInntektSomSN) === false ||
-        selvstendig_harHattInntektSomSN === YesOrNo.YES
+        isYesOrNoAnswered(selvstendig.harHattInntektSomSN) === false ||
+        selvstendig.harHattInntektSomSN === YesOrNo.YES
     ) {
         return false;
     }
@@ -40,6 +41,7 @@ export const visVernepliktSpørsmål = ({
         if (ansatt_arbeidsforhold.some((a) => a.erAnsatt === YesOrNo.YES)) {
             return false;
         }
+
         return (
             ansatt_arbeidsforhold.some(
                 (a) => a.erAnsatt === YesOrNo.NO && a.sluttetFørSøknadsperiode !== YesOrNo.YES

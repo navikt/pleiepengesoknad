@@ -28,7 +28,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     return formIsValid;
 };
 
-export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: SøknadFormData) => {
+export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormData>) => {
     return periodeFra !== undefined && periodeTil !== undefined;
 };
 

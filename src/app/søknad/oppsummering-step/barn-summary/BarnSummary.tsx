@@ -1,6 +1,7 @@
 import React from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Sitat from '@navikt/sif-common-core/lib/components/summary-enkeltsvar//Sitat';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -8,9 +9,8 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { BarnRelasjon, RegistrerteBarn } from '../../../types';
-import { SøknadApiData } from '../../../types/SøknadApiData';
+import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
-import Sitat from '../enkeltsvar/Sitat';
 
 interface Props {
     barn: RegistrerteBarn[];

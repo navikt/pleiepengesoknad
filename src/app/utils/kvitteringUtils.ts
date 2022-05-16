@@ -2,7 +2,7 @@ import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
-import { SøknadApiData } from '../types/SøknadApiData';
+import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 
 export type KvitteringApiData = Pick<SøknadApiData, 'arbeidsgivere' | 'fraOgMed' | 'tilOgMed'>;
 

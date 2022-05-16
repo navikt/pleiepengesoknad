@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect, useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';

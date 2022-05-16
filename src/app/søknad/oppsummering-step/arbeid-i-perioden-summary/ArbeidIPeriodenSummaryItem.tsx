@@ -3,65 +3,119 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { getRedusertArbeidstidSomDuration } from '@navikt/sif-common-pleiepenger';
-import TidEnkeltdager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidEnkeltdager';
-import TidFasteDager from '@navikt/sif-common-pleiepenger/lib/dager-med-tid/TidFasteDager';
-import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib/timer-og-minutter/TimerOgMinutter';
-import { JobberIPeriodeSvar } from '../../../types';
-import { ArbeidIPeriodeApiData, ArbeidsforholdApiData } from '../../../types/SøknadApiData';
+import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger';
+import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-enkeltdager-liste/ArbeidstidEnkeltdagerListe';
+import {
+    decimalDurationToDuration,
+    ISODurationToDecimalDuration,
+    ISODurationToDuration,
+} from '@navikt/sif-common-utils/lib';
+import {
+    ArbeidsforholdApiData,
+    NormalarbeidstidApiData,
+    ArbeidIPeriodeApiData,
+} from '../../../types/søknad-api-data/SøknadApiData';
+import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
 
 interface Props {
     periode: DateRange;
-    arbeidIPeriode: ArbeidIPeriodeApiData;
-    normaltimerUke: number;
+    arbeidsforhold: ArbeidIPeriodenSummaryItemType;
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidIPeriode, normaltimerUke }) => {
+const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
     const intl = useIntl();
 
-    const getArbeidProsentTekst = (prosent: number) => {
-        const tid = getRedusertArbeidstidSomDuration(prosent, normaltimerUke / 5);
-        return intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.prosent', {
-            prosent: Intl.NumberFormat().format(prosent),
-            timer: formatTimerOgMinutter(intl, tid),
-        });
+    if (arbeidsforhold.arbeidIPeriode === undefined) {
+        return <>Informasjon om arbeid i perioden mangler</>;
+    }
+
+    const getProsentAvNormaltTekstParts = (
+        timer: number,
+        prosent: number
+    ): {
+        timerNormalt: string;
+        timerIPeriode: string;
+    } => {
+        const timerNormalt = formatTimerOgMinutter(intl, decimalDurationToDuration(timer));
+        const timerIPeriode = formatTimerOgMinutter(intl, decimalDurationToDuration((timer / 100) * prosent));
+        return {
+            timerNormalt,
+            timerIPeriode,
+        };
     };
 
-    return (
-        <>
-            {arbeidIPeriode.jobberIPerioden === JobberIPeriodeSvar.NEI && (
-                <p style={{ marginTop: 0 }}>
-                    <FormattedMessage id={`oppsummering.arbeidIPeriode.jobberIPerioden.nei`} />
-                </p>
-            )}
+    const getArbeidProsentTekst = (prosent: number, normalarbeidstid: NormalarbeidstidApiData) => {
+        if (normalarbeidstid.erLiktHverUke === false) {
+            const timer = ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt);
+            if (!timer) {
+                return undefined;
+            }
+            const { timerNormalt, timerIPeriode } = getProsentAvNormaltTekstParts(timer, prosent);
 
-            {arbeidIPeriode.enkeltdager && (
-                <Box margin="m">
-                    <TidEnkeltdager dager={arbeidIPeriode.enkeltdager} />
-                </Box>
-            )}
+            return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
+                prosent: Intl.NumberFormat().format(prosent),
+                timerNormalt,
+                timerIPeriode,
+            });
+        }
+        return undefined;
+    };
 
-            {/* Bruker har valgt faste dager eller prosent */}
-            {arbeidIPeriode.fasteDager && (
-                <>
-                    {/* Faste dager */}
-                    {arbeidIPeriode.jobberProsent === undefined && (
-                        <>
-                            <div>{intlHelper(intl, 'oppsummering.arbeidIPeriode.jobberIPerioden.liktHverUke')}:</div>
-                            <Box margin="m">
-                                <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
-                            </Box>
-                        </>
-                    )}
-                    {/* Prosent - men verdi er fordelt likt på  fasteDager */}
-                    {arbeidIPeriode.jobberProsent !== undefined && getArbeidProsentTekst(arbeidIPeriode.jobberProsent)}
-                </>
-            )}
-        </>
+    const getArbeidIPeriodenDetaljer = (arbeidIPeriode: ArbeidIPeriodeApiData) => {
+        switch (arbeidIPeriode.type) {
+            case ArbeidIPeriodeType.arbeiderVanlig:
+                return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig`} />;
+            case ArbeidIPeriodeType.arbeiderIkke:
+                return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.nei`} />;
+            case ArbeidIPeriodeType.arbeiderEnkeltdager:
+                return <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />;
+            case ArbeidIPeriodeType.arbeiderFasteUkedager:
+                return (
+                    <>
+                        <div>
+                            <FormattedMessage id="oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke" />:
+                        </div>
+                        <Box margin="m">
+                            <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
+                        </Box>
+                    </>
+                );
+            case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
+                return (
+                    <>
+                        {arbeidIPeriode.type === ArbeidIPeriodeType.arbeiderProsentAvNormalt && (
+                            <>
+                                {getArbeidProsentTekst(
+                                    arbeidIPeriode.prosentAvNormalt,
+                                    arbeidsforhold.normalarbeidstid
+                                )}
+                            </>
+                        )}
+                    </>
+                );
+            case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
+                return (
+                    <FormattedMessage
+                        id="oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke"
+                        values={{
+                            timer: formatTimerOgMinutter(intl, ISODurationToDuration(arbeidIPeriode.timerPerUke)),
+                        }}
+                    />
+                );
+        }
+    };
+    const wrapInList = arbeidsforhold.arbeidIPeriode?.type !== ArbeidIPeriodeType.arbeiderEnkeltdager;
+
+    return wrapInList ? (
+        <ul>
+            <li>{getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)}</li>
+        </ul>
+    ) : (
+        getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)
     );
 };
 

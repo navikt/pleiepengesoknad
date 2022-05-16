@@ -3,8 +3,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
-import { AndreYtelserFraNAV, BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
-import { Arbeidsforhold } from './Arbeidsforhold';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
@@ -48,14 +48,12 @@ export enum SøknadFormField {
     omsorgstilbud__enkeltdager = 'omsorgstilbud.enkeltdager',
     ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
     harVærtEllerErVernepliktig = 'harVærtEllerErVernepliktig',
-    mottarAndreYtelser = 'mottarAndreYtelser',
-    andreYtelser = 'andreYtelser',
     frilans = 'frilans',
     selvstendig = 'selvstendig',
     frilansoppdrag = 'frilansoppdrag',
 }
 
-export interface Omsorgstilbud {
+export interface OmsorgstilbudFormData {
     erIOmsorgstilbud?: YesOrNo;
     erLiktHverUke?: YesOrNo;
     fasteDager?: DurationWeekdays;
@@ -89,18 +87,16 @@ export interface SøknadFormData {
     [SøknadFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [SøknadFormField.harMedsøker]: YesOrNo;
     [SøknadFormField.samtidigHjemme]: YesOrNo;
-    [SøknadFormField.omsorgstilbud]?: Omsorgstilbud;
+    [SøknadFormField.omsorgstilbud]?: OmsorgstilbudFormData;
     [SøknadFormField.harNattevåk]: YesOrNo;
     [SøknadFormField.harNattevåk_ekstrainfo]?: string;
     [SøknadFormField.harBeredskap]: YesOrNo;
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
-    [SøknadFormField.mottarAndreYtelser]?: YesOrNo;
-    [SøknadFormField.andreYtelser]?: AndreYtelserFraNAV[];
     [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
-    [SøknadFormField.ansatt_arbeidsforhold]: Arbeidsforhold[];
+    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormData[];
 }
 
 export const initialValues: SøknadFormData = {
@@ -130,7 +126,6 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [SøknadFormField.andreYtelser]: [],
     [SøknadFormField.frilans]: {
         harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
     },
@@ -139,3 +134,23 @@ export const initialValues: SøknadFormData = {
     },
     [SøknadFormField.frilansoppdrag]: [],
 };
+
+export type MedlemskapFormData = Pick<
+    SøknadFormData,
+    | SøknadFormField.harBoddUtenforNorgeSiste12Mnd
+    | SøknadFormField.utenlandsoppholdSiste12Mnd
+    | SøknadFormField.skalBoUtenforNorgeNeste12Mnd
+    | SøknadFormField.utenlandsoppholdNeste12Mnd
+>;
+
+export type OmBarnetFormData = Pick<
+    SøknadFormData,
+    | SøknadFormField.barnetSøknadenGjelder
+    | SøknadFormField.barnetsNavn
+    | SøknadFormField.barnetsFødselsnummer
+    | SøknadFormField.barnetHarIkkeFnr
+    | SøknadFormField.årsakManglerIdentitetsnummer
+    | SøknadFormField.barnetsFødselsdato
+    | SøknadFormField.relasjonTilBarnet
+    | SøknadFormField.relasjonTilBarnetBeskrivelse
+>;

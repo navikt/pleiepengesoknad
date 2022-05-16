@@ -24,21 +24,20 @@ import LegeerklæringAttachmentList from '../../components/legeerklæring-file-l
 import routeConfig from '../../config/routeConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import { Søkerdata } from '../../types/Søkerdata';
-import { SøknadApiData } from '../../types/SøknadApiData';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
-import { mapFormDataToApiData } from '../../utils/formToApiMaps/mapFormDataToApiData';
+import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateApiValues } from '../../validation/apiValuesValidation';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
+import { useSøknadsdataContext } from '../SøknadsdataContext';
 import { getSøknadStepConfig, StepID } from '../søknadStepsConfig';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
 import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
 import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
 import BarnSummary from './barn-summary/BarnSummary';
-import JaNeiSvar from './enkeltsvar/JaNeiSvar';
 import OmsorgstilbudSummary from './omsorgstilbud-summary/OmsorgstilbudSummary';
 import {
     renderFerieuttakIPeriodenSummary,
@@ -58,6 +57,8 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const [soknadSent, setSoknadSent] = useState<boolean>(false);
     const intl = useIntl();
     const history = useHistory();
+
+    const { søknadsdata } = useSøknadsdataContext();
 
     const søknadStepConfig = getSøknadStepConfig(values);
 
@@ -94,12 +95,21 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 if (søkerdata === undefined) {
                     return <div>Det oppstod en feil - informasjon om søker mangler</div>;
                 }
+                if (søknadsdata === undefined) {
+                    return <div>Det oppstod en feil - søknadsdata mangler</div>;
+                }
                 const {
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,
                 } = søkerdata;
+                const harBekreftetOpplysninger = values.harBekreftetOpplysninger;
 
-                const apiValues = mapFormDataToApiData(values, søkerdata, barn, intl.locale as Locale);
+                const apiValues = getApiDataFromSøknadsdata(
+                    barn,
+                    søknadsdata,
+                    harBekreftetOpplysninger,
+                    intl.locale as Locale
+                );
                 if (apiValues === undefined) {
                     return <div>Det oppstod en feil - api-data mangler</div>;
                 }
@@ -113,9 +123,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
-                const mottarAndreYtelserFraNAV =
-                    apiValues.andreYtelserFraNAV && apiValues.andreYtelserFraNAV.length > 0;
-
+                console.log(apiValues);
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}
@@ -252,25 +260,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                                 {/* Omsorgstilbud */}
                                 <OmsorgstilbudSummary søknadsperiode={søknadsperiode} apiValues={apiValues} />
-
-                                {/* Andre ytelser */}
-                                {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
-                                    <SummarySection header={intlHelper(intl, 'andreYtelser.summary.header')}>
-                                        <SummaryBlock
-                                            header={intlHelper(intl, 'andreYtelser.summary.mottarAndreYtelser.header')}>
-                                            <JaNeiSvar harSvartJa={mottarAndreYtelserFraNAV} />
-                                        </SummaryBlock>
-                                        {mottarAndreYtelserFraNAV && apiValues.andreYtelserFraNAV && (
-                                            <SummaryBlock
-                                                header={intlHelper(intl, 'andreYtelser.summary.ytelser.header')}>
-                                                <SummaryList
-                                                    items={apiValues.andreYtelserFraNAV}
-                                                    itemRenderer={(ytelse) => intlHelper(intl, `NAV_YTELSE.${ytelse}`)}
-                                                />
-                                            </SummaryBlock>
-                                        )}
-                                    </SummarySection>
-                                )}
 
                                 {/* Medlemskap i folketrygden */}
                                 <SummarySection header={intlHelper(intl, 'medlemskap.summary.header')}>

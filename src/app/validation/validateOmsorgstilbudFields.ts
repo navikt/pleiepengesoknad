@@ -1,10 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
 import { durationToDecimalDuration, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils';
-import { Omsorgstilbud } from '../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../types/SøknadFormData';
 import { AppFieldValidationErrors } from './fieldValidations';
 
-export const validateOmsorgstilbud = (omsorgstilbud: Omsorgstilbud): ValidationResult<ValidationError> => {
+export const validateOmsorgstilbud = (omsorgstilbud: OmsorgstilbudFormData): ValidationResult<ValidationError> => {
     if (omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES) {
         const { fasteDager } = omsorgstilbud;
 

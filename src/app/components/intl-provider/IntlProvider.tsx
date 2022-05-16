@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { IntlProvider as Provider } from 'react-intl';
 import '@formatjs/intl-pluralrules/locale-data/nb';
 import '@formatjs/intl-pluralrules/locale-data/nn';
@@ -12,7 +12,7 @@ import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopph
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
 import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/lib/i18n/index';
 import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
-import arbeidstidMessages from '../../søknad/arbeidstid-step/shared/arbeidstid-variert/arbeidstidVariertMessages';
+import arbeidstidMessages from '../../søknad/arbeidstid-step/components/arbeidstid-variert/arbeidstidVariertMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 

@@ -1,5 +1,5 @@
 import { SanityConfig } from '@navikt/appstatus-react/lib/types';
-import * as React from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
@@ -32,8 +32,6 @@ const getAppStatusSanityConfig = (): SanityConfig | undefined => {
     return !projectId || !dataset ? undefined : { projectId, dataset };
 };
 
-// Trigger build
-
 const App = () => {
     const [locale, setLocale] = React.useState<Locale>(localeFromSessionStorage);
 
@@ -42,8 +40,12 @@ const App = () => {
 
     const content = (
         <Switch>
-            <Route path="/" component={IntroPage} exact={true} />
-            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX} component={Søknad} />
+            <Route path="/" exact={true}>
+                <IntroPage />
+            </Route>
+            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX}>
+                <Søknad />
+            </Route>
         </Switch>
     );
 

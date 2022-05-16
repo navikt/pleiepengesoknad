@@ -1,19 +1,20 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
+import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
-import { FrilansApiData } from '../../../types/SøknadApiData';
-import { prettifyApiDate } from '../enkeltsvar/DatoSvar';
+import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
-    frilans?: FrilansApiData;
+    frilans: FrilansApiData;
     frilansoppdrag: Arbeidsgiver[];
 }
 
 const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     const intl = useIntl();
-    if (frilans === undefined) {
+    if (frilans.harInntektSomFrilanser === false) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul>
@@ -47,25 +48,13 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
                 )}
-                {frilans.arbeidsforhold && (
-                    <>
-                        <li>
-                            <FormattedMessage
-                                id={`oppsummering.arbeidssituasjon.tid`}
-                                values={{ timer: frilans.arbeidsforhold.jobberNormaltTimer }}
-                            />
-                        </li>
-                        <li>
-                            <FormattedMessage
-                                id={
-                                    frilans.arbeidsforhold.harFraværIPeriode
-                                        ? `oppsummering.arbeidssituasjon.harFravær`
-                                        : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                }
-                            />
-                        </li>
-                    </>
-                )}
+                {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
+                <li>
+                    <NormalarbeidstidSummary
+                        erAnsatt={frilans.jobberFortsattSomFrilans}
+                        normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
+                    />
+                </li>
                 {/* Dersom bruker fortsatt er frilanser i perioden (arbeidsforhold finnes), og har frilansoppdrag */}
                 {frilans.arbeidsforhold && frilansoppdrag && frilansoppdrag.length > 0 && (
                     <li>

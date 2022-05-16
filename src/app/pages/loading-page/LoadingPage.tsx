@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';

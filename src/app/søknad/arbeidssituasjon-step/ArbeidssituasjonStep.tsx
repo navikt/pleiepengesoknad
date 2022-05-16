@@ -13,15 +13,13 @@ import { SøkerdataContext } from '../../context/SøkerdataContext';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import getLenker from '../../lenker';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
-import { Feature, isFeatureEnabled } from '../../utils/featureToggleUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import AndreYtelserFormPart from './AndreYtelserFormPart';
-import ArbeidssituasjonStepVeileder from './ArbeidssituasjonStepVeileder';
-import ArbeidssituasjonArbeidsgivere from './shared/ArbeidssituasjonArbeidsgivere';
-import ArbeidssituasjonFrilans from './shared/ArbeidssituasjonFrilans';
-import ArbeidssituasjonSN from './shared/ArbeidssituasjonSN';
+import ArbeidssituasjonStepVeileder from './components/ArbeidssituasjonStepVeileder';
+import ArbeidssituasjonArbeidsgivere from './components/ArbeidssituasjonArbeidsgivere';
+import ArbeidssituasjonFrilans from './components/ArbeidssituasjonFrilans';
+import ArbeidssituasjonSN from './components/ArbeidssituasjonSN';
 import { oppdaterSøknadMedArbeidsgivere } from './utils/arbeidsgivereUtils';
 import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
@@ -119,12 +117,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                     }
                                 />
                             </Box>
-                        </FormSection>
-                    )}
-
-                    {isFeatureEnabled(Feature.ANDRE_YTELSER) && (
-                        <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.andreYtelser.tittel')}>
-                            <AndreYtelserFormPart formValues={values} />
                         </FormSection>
                     )}
                 </>

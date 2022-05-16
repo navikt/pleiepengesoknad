@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
-import { ArbeidsforholdSelvstendig } from './Arbeidsforhold';
+import { ArbeidsforholdSelvstendigFormData } from './ArbeidsforholdFormData';
 
 export enum SelvstendigFormField {
     harHattInntektSomSN = 'selvstendig.harHattInntektSomSN',
@@ -13,5 +13,5 @@ export interface SelvstendigFormData {
     harHattInntektSomSN?: YesOrNo;
     harFlereVirksomheter?: YesOrNo;
     virksomhet?: Virksomhet;
-    arbeidsforhold?: ArbeidsforholdSelvstendig;
+    arbeidsforhold?: ArbeidsforholdSelvstendigFormData;
 }

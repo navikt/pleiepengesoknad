@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Arbeidsforhold } from '../../../../types/Arbeidsforhold';
+import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../../types/Arbeidsgiver';
 import { syncAnsattArbeidsforhold } from '../arbeidsgivereUtils';
 
@@ -8,7 +8,7 @@ const organisasjoner: Arbeidsgiver[] = [
     { type: ArbeidsgiverType.ORGANISASJON, navn: 'Org2', id: '2' },
 ];
 
-const arbeidsforholdOrganisasjoner: Arbeidsforhold[] = [
+const arbeidsforholdOrganisasjoner: ArbeidsforholdFormData[] = [
     {
         arbeidsgiver: { type: ArbeidsgiverType.ORGANISASJON, navn: 'Org1', id: '1' },
     },
@@ -27,27 +27,31 @@ const organisasjonerEqual: Arbeidsgiver[] = [
     { type: ArbeidsgiverType.ORGANISASJON, navn: 'Org4', id: '4' },
 ];
 
-const arbeidsforholdErAnsatt: Arbeidsforhold = {
+const arbeidsforholdErAnsatt: ArbeidsforholdFormData = {
     arbeidsgiver: {
         type: ArbeidsgiverType.ORGANISASJON,
         navn: 'Org3',
         id: '3',
     },
     erAnsatt: YesOrNo.YES,
-    jobberNormaltTimer: '10',
+    normalarbeidstid: {
+        timerPerUke: '10',
+    },
 };
 
-const arbeidsforholdUbesvart: Arbeidsforhold = {
+const arbeidsforholdUbesvart: ArbeidsforholdFormData = {
     arbeidsgiver: {
         type: ArbeidsgiverType.ORGANISASJON,
         navn: 'Org4',
         id: '4',
     },
     erAnsatt: YesOrNo.UNANSWERED,
-    jobberNormaltTimer: '20',
+    normalarbeidstid: {
+        timerPerUke: '20',
+    },
 };
 
-const arbeidsforhold: Arbeidsforhold[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];
+const arbeidsforhold: ArbeidsforholdFormData[] = [arbeidsforholdErAnsatt, arbeidsforholdUbesvart];
 
 jest.mock('../../../../utils/envUtils', () => {
     return {

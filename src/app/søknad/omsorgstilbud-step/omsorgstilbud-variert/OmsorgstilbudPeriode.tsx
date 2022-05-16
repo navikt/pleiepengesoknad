@@ -2,16 +2,17 @@ import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { OmsorgstilbudPeriodeDialog } from '@navikt/sif-common-pleiepenger';
-import { OmsorgstilbudPeriodeData } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud-periode/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
+
 import {
     DateDurationMap,
     dateToISODate,
     getDatesInDateRange,
-    getDurationForISOWeekday,
+    getDurationForISOWeekdayNumber,
     ISODateToDate,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
+import { OmsorgstilbudPeriodeData } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
 
 interface Props {
     periode: DateRange;
@@ -27,7 +28,7 @@ const oppdaterDagerMedOmsorgstilbudIPeriode = ({
     const dagerSomSkalEndres: DateDurationMap = {};
     datoerIPeriode.forEach((dato) => {
         const isoDate = dateToISODate(dato);
-        const varighet = getDurationForISOWeekday(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
+        const varighet = getDurationForISOWeekdayNumber(tidFasteDager, dayjs(ISODateToDate(isoDate)).isoWeekday());
         if (varighet) {
             dagerSomSkalEndres[isoDate] = { ...varighet };
         }

@@ -3,7 +3,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsgiverApiData } from '../../../types/SøknadApiData';
+import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
     arbeidsgivere?: ArbeidsgiverApiData[];
@@ -34,6 +35,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
         <>
             {arbeidsgivere.map((arbeidsgiver) => {
                 const { navn, organisasjonsnummer, erAnsatt } = arbeidsgiver;
+                const normalarbeidstid = arbeidsgiver.arbeidsforhold?.normalarbeidstid;
                 return (
                     <SummaryBlock
                         key={organisasjonsnummer}
@@ -53,24 +55,20 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
                                     <li>
-                                        <FormattedMessage
-                                            id={
-                                                erAnsatt
-                                                    ? `oppsummering.arbeidssituasjon.tid`
-                                                    : `oppsummering.arbeidssituasjon.avsluttet.tid`
-                                            }
-                                            values={{ timer: arbeidsgiver.arbeidsforhold.jobberNormaltTimer }}
+                                        <NormalarbeidstidSummary
+                                            erAnsatt={erAnsatt}
+                                            normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
                                         />
                                     </li>
-                                    <li>
-                                        <FormattedMessage
-                                            id={
-                                                arbeidsgiver.arbeidsforhold.harFraværIPeriode
-                                                    ? `oppsummering.arbeidssituasjon.harFravær`
-                                                    : 'oppsummering.arbeidssituasjon.harIkkeFravær'
-                                            }
-                                        />
-                                    </li>
+                                    {normalarbeidstid && normalarbeidstid.erLiktHverUke === false && (
+                                        <li>
+                                            {normalarbeidstid._arbeiderHelg ? (
+                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
+                                            ) : (
+                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                            )}
+                                        </li>
+                                    )}
                                 </>
                             )}
                             {erAnsatt === false && (

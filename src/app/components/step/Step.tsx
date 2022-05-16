@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React from 'react';
 import { useIntl } from 'react-intl';
 import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
