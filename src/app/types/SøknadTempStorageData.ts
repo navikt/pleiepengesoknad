@@ -1,7 +1,7 @@
 import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from './SøknadFormData';
 
-export const MELLOMLAGRING_VERSION = '10.02';
+export const MELLOMLAGRING_VERSION = '11.0.0';
 
 interface StorageMetadata {
     version: string;
