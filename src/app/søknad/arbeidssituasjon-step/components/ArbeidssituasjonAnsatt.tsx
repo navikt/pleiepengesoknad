@@ -30,7 +30,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
         `${parentFieldName}.${field}` as any;
 
     return (
-        <div data-testkey="arbeidssituasjonAnsatt">
+        <div data-testid="arbeidssituasjonAnsatt">
             <FormBlock margin="xl">
                 <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
@@ -42,7 +42,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
                             navn: arbeidsforhold.arbeidsgiver.navn,
                         })}
-                        data-testkey="er-ansatt"
+                        data-testid="er-ansatt"
                         name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)

@@ -29,12 +29,12 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN }: Props) => {
     const søkerHarFlereVirksomheter = harFlereVirksomheter === YesOrNo.YES;
 
     return (
-        <div data-testkey="arbeidssituasjonSelvstendig">
+        <div data-testid="arbeidssituasjonSelvstendig">
             <Box margin="l">
                 <ArbSNFormComponents.YesOrNoQuestion
                     name={SelvstendigFormField.harHattInntektSomSN}
                     legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
-                    data-testkey="er-selvstendig"
+                    data-testid="er-selvstendig"
                     validate={getYesOrNoValidator()}
                     description={
                         <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>

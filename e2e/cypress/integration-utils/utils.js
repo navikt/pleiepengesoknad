@@ -25,7 +25,7 @@ export const selectRadioNo = (key) => {
 };
 
 export const getTestElement = (key) => {
-    return cy.get(`[data-testkey="${key}"]`);
+    return cy.get(`[data-testid="${key}"]`);
 };
 
 export const setInputValue = (key, value) => {

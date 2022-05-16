@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -18,6 +17,7 @@ import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -28,7 +28,6 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import { søkerKunHelgedager } from '../../utils/formDataUtils';
 
 dayjs.extend(minMax);
 
@@ -80,22 +79,6 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                               )
                               .toDate()
                         : date3YearsAgo
-                }
-                description={
-                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hjelpetekst.tittel')}>
-                        <p>
-                            <FormattedMessage id="steg.tidsrom.hjelpetekst.1" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.tidsrom.hjelpetekst.2" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.tidsrom.hjelpetekst.3" />
-                        </p>
-                        <p>
-                            <FormattedMessage id="steg.tidsrom.hjelpetekst.4" />
-                        </p>
-                    </ExpandableInfo>
                 }
                 fromInputProps={{
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.fom'),
