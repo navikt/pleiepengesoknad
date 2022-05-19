@@ -2,7 +2,7 @@ import React from 'react';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getBarn, getSøker, rehydrate } from '../api/api';
+import { getBarn, getSøker, purge, rehydrate } from '../api/api';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 import LoadingPage from '../pages/loading-page/LoadingPage';
@@ -13,9 +13,8 @@ import appSentryLogger from '../utils/appSentryLogger';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
-export const VERIFY_MELLOMLAGRING_VERSION = true;
-
 interface Props {
+    onUgyldigMellomlagring: () => void;
     onError: () => void;
     contentLoadedRenderer: (
         formdata: SøknadFormData,
@@ -41,6 +40,12 @@ const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
     });
 };
 
+const isMellomlagringValid = (mellomlagring: SøknadTempStorageData): boolean => {
+    return (
+        mellomlagring.metadata?.version === MELLOMLAGRING_VERSION &&
+        mellomlagring.formData?.harForståttRettigheterOgPlikter === true
+    );
+};
 class SøknadEssentialsLoader extends React.Component<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -73,25 +78,25 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         }
     }
 
-    getValidMellomlagring = (data?: SøknadTempStorageData): SøknadTempStorageData | undefined => {
-        if (VERIFY_MELLOMLAGRING_VERSION) {
-            if (
-                data?.metadata?.version === MELLOMLAGRING_VERSION &&
-                data?.formData?.harForståttRettigheterOgPlikter === true
-            ) {
+    getValidMellomlagring = async (data?: SøknadTempStorageData): Promise<SøknadTempStorageData | undefined> => {
+        if (data) {
+            if (isMellomlagringValid(data)) {
                 return data;
+            } else if (Object.keys(data).length > 0) {
+                /** Mellomlagring inneholder data, men er ikke gyldig - slettes */
+                this.props.onUgyldigMellomlagring();
+                await purge();
             }
-            return undefined;
         }
-        return data;
+        return undefined;
     };
 
-    handleSøkerdataFetchSuccess(
+    async handleSøkerdataFetchSuccess(
         mellomlagringResponse: AxiosResponse,
         søkerResponse: AxiosResponse,
         barnResponse?: AxiosResponse
     ) {
-        const mellomlagring = this.getValidMellomlagring(mellomlagringResponse?.data);
+        const mellomlagring = await this.getValidMellomlagring(mellomlagringResponse?.data);
         const formData = mellomlagring?.formData
             ? {
                   ...mellomlagring.formData,
