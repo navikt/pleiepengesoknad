@@ -1,6 +1,6 @@
 {
     "name": "pleiepengesoknad",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "description": "Selvbetjeningsløsning for pleiepengesøknad",
     "repository": "https://github.com/navikt/pleiepengesoknad",
     "license": "MIT",
@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.3.3",
-        "@navikt/sif-common-amplitude": "^2.2.3",
+        "@navikt/sif-common-amplitude": "^2.3.0",
         "@navikt/sif-common-core": "^11.3.0",
         "@navikt/sif-common-formik": "^23.1.0",
         "@navikt/sif-common-forms": "^17.0.1",
