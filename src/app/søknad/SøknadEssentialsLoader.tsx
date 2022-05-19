@@ -95,9 +95,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         søkerResponse: AxiosResponse,
         barnResponse?: AxiosResponse
     ) {
-        const mellomlagring: SøknadTempStorageData | undefined = await this.getValidMellomlagring(
-            mellomlagringResponse?.data
-        );
+        const mellomlagring = await this.getValidMellomlagring(mellomlagringResponse?.data);
         const formData = mellomlagring?.formData
             ? {
                   ...mellomlagring.formData,
