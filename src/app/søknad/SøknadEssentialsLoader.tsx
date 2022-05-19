@@ -82,7 +82,8 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         if (data) {
             if (isMellomlagringValid(data)) {
                 return data;
-            } else {
+            } else if (Object.keys(data).length > 0) {
+                /** Mellomlagring inneholder data, men er ikke gyldig - slettes */
                 this.props.onUgyldigMellomlagring();
                 await purge();
             }
