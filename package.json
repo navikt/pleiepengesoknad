@@ -33,7 +33,7 @@
     },
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.3.3",
-        "@navikt/sif-common-amplitude": "^2.3.0",
+        "@navikt/sif-common-amplitude": "^2.4.0",
         "@navikt/sif-common-core": "^11.3.0",
         "@navikt/sif-common-formik": "^23.1.0",
         "@navikt/sif-common-forms": "^17.0.1",
@@ -75,7 +75,7 @@
         "ts-loader": "^9.3.0"
     },
     "devDependencies": {
-        "@babel/core": "^7.17.10",
+        "@babel/core": "^7.18.0",
         "@babel/plugin-proposal-object-rest-spread": "^7.17.3",
         "@babel/plugin-transform-modules-commonjs": "^7.17.9",
         "@babel/preset-env": "^7.17.10",
