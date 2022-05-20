@@ -9,7 +9,7 @@ import {
     getBarn,
     getPersistUrl,
     getSøker,
-    persist,
+    persistMellomlagring,
     sendApplication,
     uploadFile,
 } from '../api';
@@ -87,7 +87,7 @@ describe('api', () => {
         const stepId: StepID = 'fakeStepID' as any;
         const persistApiUrl = getPersistUrl(stepId);
         it('should call axios.post when no formData', () => {
-            persist(undefined, stepId);
+            persistMellomlagring(undefined, stepId);
             expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosJsonConfig);
         });
     });

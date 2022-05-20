@@ -4,7 +4,7 @@ import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
-import { persist } from '../api/api';
+import { persistMellomlagring, purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
@@ -74,7 +74,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
-                persist(values, stepId)
+                persistMellomlagring(values, stepId)
                     .then(() => {
                         navigateTo(nextStepRoute, history);
                     })
@@ -92,7 +92,16 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
 
     const startSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
-        persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
+        await purge();
+        await persistMellomlagring(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
+            if (apiUtils.isUnauthorized(error)) {
+                userNotLoggedIn();
+            } else {
+                logApiError(ApiError.mellomlagring, { step: 'velkommen' });
+                return navigateToErrorPage(history);
+            }
+        });
+
         setTimeout(() => {
             setSøknadsdata(getSøknadsdataFromFormValues(values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
