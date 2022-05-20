@@ -4,7 +4,7 @@ import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
-import { persistMellomlagring, purge } from '../api/api';
+import { persist, purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
@@ -74,7 +74,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
         setTimeout(() => {
             const nextStepRoute = getNextStepRoute(stepId, values);
             if (nextStepRoute) {
-                persistMellomlagring(values, stepId)
+                persist(values, stepId)
                     .then(() => {
                         navigateTo(nextStepRoute, history);
                     })
@@ -93,7 +93,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
     const startSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
         await purge();
-        await persistMellomlagring(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
+        await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
             if (apiUtils.isUnauthorized(error)) {
                 userNotLoggedIn();
             } else {

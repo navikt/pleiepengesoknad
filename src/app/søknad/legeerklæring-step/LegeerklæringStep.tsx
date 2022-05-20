@@ -15,7 +15,7 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { persistMellomlagring } from '../../api/api';
+import { persist } from '../../api/api';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 import { relocateToLoginPage } from '../../utils/navigationUtils';
@@ -78,7 +78,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             });
             const valuesToPersist = { ...values, legeerklæring: newValues };
             setFieldValue(SøknadFormField.legeerklæring, newValues);
-            persistMellomlagring(valuesToPersist, StepID.LEGEERKLÆRING);
+            persist(valuesToPersist, StepID.LEGEERKLÆRING);
         }
         ref.current = {
             attachments,

@@ -5,7 +5,7 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { persistMellomlagring, purge } from '../api/api';
+import { persist, purge } from '../api/api';
 import { getSøknadStepConfig } from './søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { relocateToDinePleiepenger, relocateToSoknad } from '../utils/navigationUtils';
@@ -53,7 +53,7 @@ const SøknadFormStep = (props: Props) => {
     const handleAvsluttOgFortsettSenere = async () => {
         /** Mellomlagring lagrer forrige steg, derfor må dette hentes ut her **/
         const prevStep = stepConfig[id].prevStep;
-        await persistMellomlagring(formik.values, prevStep);
+        await persist(formik.values, prevStep);
         await logHendelse(ApplikasjonHendelse.fortsettSenere);
         relocateToDinePleiepenger();
     };

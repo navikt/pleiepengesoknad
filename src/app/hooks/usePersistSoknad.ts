@@ -3,7 +3,7 @@ import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError } from 'axios';
 import { useFormikContext } from 'formik';
 import { History } from 'history';
-import { persistMellomlagring } from '../api/api';
+import { persist as apiPersist } from '../api/api';
 import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
@@ -13,7 +13,7 @@ function usePersistSoknad(history: History) {
     const { values } = useFormikContext<SøknadFormData>();
 
     async function doPersist(stepID: StepID) {
-        persistMellomlagring(values, stepID).catch((error: AxiosError) => {
+        apiPersist(values, stepID).catch((error: AxiosError) => {
             if (apiUtils.isUnauthorized(error)) {
                 logUserLoggedOut('Mellomlagring ved navigasjon');
                 relocateToLoginPage();
