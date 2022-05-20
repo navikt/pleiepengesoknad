@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
+import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
-import { persist } from '../api/api';
+import { persist, purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
@@ -42,7 +42,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const { values, resetForm } = useFormikContext<SøknadFormData>();
     const history = useHistory();
-    const { logHendelse, logUserLoggedOut, logSoknadStartet } = useAmplitudeInstance();
+    const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
     const { setSøknadsdata } = useSøknadsdataContext();
 
     const sendUserToStep = useCallback(
@@ -82,6 +82,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                         if (apiUtils.isUnauthorized(error)) {
                             userNotLoggedIn();
                         } else {
+                            logApiError(ApiError.mellomlagring, { stepId });
                             return navigateToErrorPage(history);
                         }
                     });
@@ -91,7 +92,16 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
 
     const startSoknad = async () => {
         await logSoknadStartet(SKJEMANAVN);
-        persist(undefined, StepID.OPPLYSNINGER_OM_BARNET);
+        await purge();
+        await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
+            if (apiUtils.isUnauthorized(error)) {
+                userNotLoggedIn();
+            } else {
+                logApiError(ApiError.mellomlagring, { step: 'velkommen' });
+                return navigateToErrorPage(history);
+            }
+        });
+
         setTimeout(() => {
             setSøknadsdata(getSøknadsdataFromFormValues(values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
