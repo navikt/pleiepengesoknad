@@ -132,11 +132,6 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                     <FormComponents.YesOrNoQuestion
                         name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastDeltid)}
                         legend={intlHelper(intl, `arbeidsforhold.arbeiderFastDeltid.spm`, intlValues)}
-                        // description={
-                        //     <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeiderFastDeltid.info.tittel')}>
-                        //         <FormattedMessage id="arbeidsforhold.arbeiderFastDeltid.info.tekst" />
-                        //     </ExpandableInfo>
-                        // }
                         data-testid="jobber-fast-deltid"
                         validate={(value: any) => {
                             const error = getRequiredFieldValidator()(value);
