@@ -39,6 +39,17 @@ export const extractNormalarbeidstid = (
               }
             : undefined;
     }
+    if (normalarbeidstid.arbeiderFastDeltid === YesOrNo.YES) {
+        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+        return timerPerUkeISnitt !== undefined
+            ? {
+                  type: NormalarbeidstidType.arbeiderDeltid,
+                  erLiktHverUke: false,
+                  erFasteUkedager: false,
+                  timerPerUkeISnitt: timerPerUkeISnitt,
+              }
+            : undefined;
+    }
     if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.YES) {
         const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (normalarbeidstid.erFasteUkedager === YesOrNo.YES && normalarbeidstid.timerFasteUkedager) {

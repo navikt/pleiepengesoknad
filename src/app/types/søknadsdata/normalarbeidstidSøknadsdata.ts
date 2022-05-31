@@ -2,6 +2,7 @@ import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
 
 export enum NormalarbeidstidType {
     arbeiderHelg = 'arbeiderHelg',
+    arbeiderDeltid = 'arbeiderDeltid',
     likeUkerOgDager = 'likeUkerOgDager',
     likeUkerVarierendeDager = 'likeUkerVarierendeDager',
     ulikeUker = 'ulikeUker',
@@ -32,8 +33,16 @@ export interface NormalarbeidstidSøknadsdataArbeiderHelg {
     timerPerUkeISnitt: number;
 }
 
+export interface NormalarbeidstidSøknadsdataArbeiderDeltid {
+    type: NormalarbeidstidType.arbeiderDeltid;
+    erLiktHverUke: false;
+    erFasteUkedager: false;
+    timerPerUkeISnitt: number;
+}
+
 export type NormalarbeidstidSøknadsdata =
     | NormalarbeidstidSøknadsdataArbeiderHelg
+    | NormalarbeidstidSøknadsdataArbeiderDeltid
     | NormalarbeidstidSøknadsdataLikeUker
     | NormalarbeidstidSøknadsdataLikeUkerVarierendeUkedager
     | NormalarbeidstidSøknadsdataUlikeUker;

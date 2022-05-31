@@ -61,13 +61,24 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                         />
                                     </li>
                                     {normalarbeidstid && normalarbeidstid.erLiktHverUke === false && (
-                                        <li>
-                                            {normalarbeidstid._arbeiderHelg ? (
-                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
-                                            ) : (
-                                                <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                        <>
+                                            <li>
+                                                {normalarbeidstid._arbeiderHelg ? (
+                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
+                                                ) : (
+                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                                )}
+                                            </li>
+                                            {normalarbeidstid._arbeiderHelg === false && (
+                                                <li>
+                                                    {normalarbeidstid._arbeiderDeltid ? (
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastDeltid" />
+                                                    ) : (
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastDeltid" />
+                                                    )}
+                                                </li>
                                             )}
-                                        </li>
+                                        </>
                                     )}
                                 </>
                             )}

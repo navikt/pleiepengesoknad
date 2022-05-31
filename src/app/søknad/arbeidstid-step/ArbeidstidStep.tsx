@@ -82,6 +82,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                     {ansatt_arbeidsforhold.map((arbeidsforhold, index) => {
                         const arbeidsgiver = arbeid.arbeidsgivere?.get(arbeidsforhold.arbeidsgiver.id);
 
+                        console.log(arbeid);
+
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
                         if (!arbeidsgiver || arbeidsgiver.erAnsattISøknadsperiode === false) {
                             return null;

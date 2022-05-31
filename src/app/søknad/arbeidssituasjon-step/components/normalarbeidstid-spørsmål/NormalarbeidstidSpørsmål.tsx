@@ -86,6 +86,16 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     if (brukKunSnittPerUke) {
         return <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>;
     }
+
+    const harSvartJobberHelgEllerDeltid =
+        arbeidsforhold.normalarbeidstid?.arbeiderFastHelg !== undefined &&
+        arbeidsforhold.normalarbeidstid?.arbeiderFastDeltid !== undefined;
+
+    const jobberHelgEllerDeltid =
+        arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.YES ||
+        (arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.NO &&
+            arbeidsforhold.normalarbeidstid?.arbeiderFastDeltid === YesOrNo.YES);
+
     return (
         <>
             <FormBlock paddingBottom="l" margin="none">
@@ -117,10 +127,33 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 }}
                 useTwoColumns={true}
             />
-            {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.YES && (
-                <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
-            )}
             {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.NO && (
+                <FormBlock>
+                    <FormComponents.YesOrNoQuestion
+                        name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastDeltid)}
+                        legend={intlHelper(intl, `arbeidsforhold.arbeiderFastDeltid.spm`, intlValues)}
+                        // description={
+                        //     <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeiderFastDeltid.info.tittel')}>
+                        //         <FormattedMessage id="arbeidsforhold.arbeiderFastDeltid.info.tekst" />
+                        //     </ExpandableInfo>
+                        // }
+                        data-testid="jobber-fast-deltid"
+                        validate={(value: any) => {
+                            const error = getRequiredFieldValidator()(value);
+                            return error
+                                ? {
+                                      key: 'validation.arbeidsforhold.arbeiderFastDeltid',
+                                      values: intlValues,
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
+                        useTwoColumns={true}
+                    />
+                </FormBlock>
+            )}
+            {jobberHelgEllerDeltid && <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>}
+            {harSvartJobberHelgEllerDeltid && jobberHelgEllerDeltid === false && (
                 <>
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
