@@ -13,7 +13,6 @@ export const extractArbeidsgivereArbeidsforholdSøknadsdata = (
         if (ansattArbeidsforhold) {
             arbeidsgivereSøknadsdataMap.set(ansattForhold.arbeidsgiver.id, ansattArbeidsforhold);
         }
-        console.log({ arbeidsgivereSøknadsdataMap, ansattForhold });
     });
 
     return arbeidsgivereSøknadsdataMap.size > 0 ? arbeidsgivereSøknadsdataMap : undefined;

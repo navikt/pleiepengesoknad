@@ -123,7 +123,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
-                console.log(apiValues);
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}
