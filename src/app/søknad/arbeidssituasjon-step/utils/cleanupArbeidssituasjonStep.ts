@@ -42,6 +42,7 @@ const cleanupNormalarbeidstid = (
     if (erLikeMangeTimerHverUke === YesOrNo.NO) {
         return {
             arbeiderHeltid,
+            arbeiderFastHelg,
             erLikeMangeTimerHverUke,
             timerPerUke,
         };
@@ -49,6 +50,7 @@ const cleanupNormalarbeidstid = (
     if (erFasteUkedager === YesOrNo.YES) {
         return {
             arbeiderHeltid,
+            arbeiderFastHelg,
             erLikeMangeTimerHverUke,
             erFasteUkedager,
             timerFasteUkedager: timerFasteUkedager
@@ -58,6 +60,7 @@ const cleanupNormalarbeidstid = (
     }
     return {
         arbeiderHeltid,
+        arbeiderFastHelg,
         erLikeMangeTimerHverUke,
         erFasteUkedager,
         timerPerUke,
