@@ -1,4 +1,4 @@
-import { SanityConfig } from '@navikt/appstatus-react/lib/types';
+import { SanityConfig } from '@navikt/appstatus-react-ds/lib/types';
 import React from 'react';
 import { render } from 'react-dom';
 import { Route, Switch } from 'react-router-dom';
@@ -16,6 +16,7 @@ import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
+import '@navikt/ds-css';
 import './app.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
