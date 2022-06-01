@@ -18,6 +18,6 @@ export const getNormalarbeidstidApiDataFromSøknadsdata = (
         erLiktHverUke: false,
         timerPerUkeISnitt: decimalDurationToISODuration(normalarbeidstid.timerPerUkeISnitt),
         _arbeiderHelg: normalarbeidstid.type === NormalarbeidstidType.arbeiderHelg,
-        _arbeiderDeltid: normalarbeidstid.type === NormalarbeidstidType.arbeiderDeltid,
+        _arbeiderHeltid: normalarbeidstid.type === NormalarbeidstidType.arbeiderDeltid,
     };
 };

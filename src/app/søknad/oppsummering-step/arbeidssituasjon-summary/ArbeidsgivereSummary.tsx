@@ -63,18 +63,18 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                     {normalarbeidstid && normalarbeidstid.erLiktHverUke === false && (
                                         <>
                                             <li>
-                                                {normalarbeidstid._arbeiderHelg ? (
-                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
+                                                {normalarbeidstid._arbeiderHeltid ? (
+                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderHeltid" />
                                                 ) : (
-                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeHeltid" />
                                                 )}
                                             </li>
-                                            {normalarbeidstid._arbeiderHelg === false && (
+                                            {normalarbeidstid._arbeiderHeltid === false && (
                                                 <li>
-                                                    {normalarbeidstid._arbeiderDeltid ? (
-                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastDeltid" />
+                                                    {normalarbeidstid._arbeiderHelg ? (
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
                                                     ) : (
-                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastDeltid" />
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
                                                     )}
                                                 </li>
                                             )}

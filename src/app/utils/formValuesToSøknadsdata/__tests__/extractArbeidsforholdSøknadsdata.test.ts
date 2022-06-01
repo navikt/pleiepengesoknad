@@ -15,6 +15,7 @@ describe('extractArbeidsforholdSøknadsdata', () => {
         erAnsatt: YesOrNo.YES,
         arbeidIPeriode: mockArbeidIPeriodeFormData,
         normalarbeidstid: {
+            arbeiderHeltid: YesOrNo.YES,
             arbeiderFastHelg: YesOrNo.NO,
             erLikeMangeTimerHverUke: YesOrNo.YES,
             erFasteUkedager: YesOrNo.YES,

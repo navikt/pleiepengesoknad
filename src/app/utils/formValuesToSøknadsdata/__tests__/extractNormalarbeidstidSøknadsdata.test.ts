@@ -9,10 +9,24 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer undefined dersom normalarbeidstid === undefined', () => {
             expect(extractNormalarbeidstid(undefined, ArbeidsforholdType.ANSATT)).toBeUndefined();
         });
-        it(`returnerer undefined dersom ${ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg} === undefined`, () => {
+        it(`returnerer undefined dersom ${ArbeidsforholdFormField.normalarbeidstid_arbeiderHeltid} === undefined`, () => {
             expect(
                 extractNormalarbeidstid(
                     {
+                        arbeiderHeltid: undefined,
+                        erLikeMangeTimerHverUke: undefined,
+                        timerFasteUkedager: undefined,
+                        timerPerUke: undefined,
+                    },
+                    ArbeidsforholdType.ANSATT
+                )
+            ).toBeUndefined();
+        });
+        it(`returnerer undefined dersom arbeider heltid og ${ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg} === undefined`, () => {
+            expect(
+                extractNormalarbeidstid(
+                    {
+                        arbeiderHeltid: YesOrNo.YES,
                         arbeiderFastHelg: undefined,
                         erLikeMangeTimerHverUke: undefined,
                         timerFasteUkedager: undefined,
@@ -25,6 +39,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer undefined dersom erLiktHverUke === false && timerPerUke er ugyldig', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderHeltid: YesOrNo.YES,
                     arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.NO,
                     erFasteUkedager: YesOrNo.YES,
@@ -38,6 +53,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer likeUkerOgDager dersom erLiktHverUke === true og jobberFasteUkedager === true', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderHeltid: YesOrNo.YES,
                     arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.YES,
                     erFasteUkedager: YesOrNo.YES,
@@ -57,6 +73,7 @@ describe('extractNormalarbeidstid', () => {
         it('returnerer timerPerUke og dersom erLiktHverUke === false', () => {
             const result = extractNormalarbeidstid(
                 {
+                    arbeiderHeltid: YesOrNo.YES,
                     arbeiderFastHelg: YesOrNo.NO,
                     erLikeMangeTimerHverUke: YesOrNo.NO,
                     erFasteUkedager: YesOrNo.NO,

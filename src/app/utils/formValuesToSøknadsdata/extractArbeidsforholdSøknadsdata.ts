@@ -12,6 +12,7 @@ export const extractArbeidsforholdSøknadsdata = (
     maksperiode?: DateRange
 ): ArbeidsforholdSøknadsdata | undefined => {
     const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid, arbeidsforholdType);
+
     if (normalarbeidstid) {
         const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
             ? extractArbeidIPeriodeSøknadsdata(arbeidsforhold.arbeidIPeriode, søknadsperiode, maksperiode)

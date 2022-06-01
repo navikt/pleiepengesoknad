@@ -16,7 +16,7 @@ const cleanupNormalarbeidstid = (
         erFasteUkedager,
         timerPerUke,
         arbeiderFastHelg,
-        arbeiderFastDeltid,
+        arbeiderHeltid,
     }: NormalarbeidstidFormData,
     erFrilanserEllerSN: boolean /** Skal kun oppgi informasjon om timer i uken */
 ): NormalarbeidstidFormData => {
@@ -26,44 +26,40 @@ const cleanupNormalarbeidstid = (
             timerPerUke,
         };
     }
-    if (arbeiderFastHelg === YesOrNo.YES) {
+    if (arbeiderHeltid === YesOrNo.NO) {
         return {
-            arbeiderFastHelg,
+            arbeiderHeltid,
             timerPerUke,
-            arbeiderFastDeltid: undefined,
         };
     }
-    if (arbeiderFastDeltid === YesOrNo.YES) {
+    if (arbeiderFastHelg === YesOrNo.YES) {
         return {
+            arbeiderHeltid,
             arbeiderFastHelg,
-            arbeiderFastDeltid,
             timerPerUke,
         };
     }
     if (erLikeMangeTimerHverUke === YesOrNo.NO) {
         return {
-            arbeiderFastHelg,
-            arbeiderFastDeltid,
+            arbeiderHeltid,
             erLikeMangeTimerHverUke,
             timerPerUke,
         };
     }
     if (erFasteUkedager === YesOrNo.YES) {
         return {
-            arbeiderFastHelg,
-            arbeiderFastDeltid,
+            arbeiderHeltid,
             erLikeMangeTimerHverUke,
-            erFasteUkedager: erFasteUkedager,
+            erFasteUkedager,
             timerFasteUkedager: timerFasteUkedager
                 ? removeDurationWeekdaysWithNoDuration(timerFasteUkedager)
                 : undefined,
         };
     }
     return {
-        arbeiderFastHelg,
-        arbeiderFastDeltid,
+        arbeiderHeltid,
         erLikeMangeTimerHverUke,
-        erFasteUkedager: erFasteUkedager,
+        erFasteUkedager,
         timerPerUke,
     };
 };
