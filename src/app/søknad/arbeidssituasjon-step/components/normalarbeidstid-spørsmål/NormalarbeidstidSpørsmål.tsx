@@ -103,7 +103,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderHeltid)}
                 legend={intlHelper(intl, `arbeidsforhold.arbeiderHeltid.spm`, intlValues)}
                 description={intlHelper(intl, `arbeidsforhold.arbeiderHeltid.description`, intlValues)}
-                data-testid="jobber-fast-deltid"
+                data-testid="jobber-heltid"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);
                     return error
