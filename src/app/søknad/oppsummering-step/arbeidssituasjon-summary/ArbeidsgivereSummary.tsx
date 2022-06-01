@@ -54,22 +54,17 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             </li>
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
-                                    <li>
-                                        <NormalarbeidstidSummary
-                                            erAnsatt={erAnsatt}
-                                            normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
-                                        />
-                                    </li>
-                                    {normalarbeidstid && normalarbeidstid.erLiktHverUke === false && (
+                                    {normalarbeidstid && (
                                         <>
                                             <li>
-                                                {normalarbeidstid._arbeiderHeltid ? (
+                                                {normalarbeidstid._arbeiderDeltid === true && (
+                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderDeltid" />
+                                                )}
+                                                {normalarbeidstid._arbeiderDeltid === false && (
                                                     <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderHeltid" />
-                                                ) : (
-                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeHeltid" />
                                                 )}
                                             </li>
-                                            {normalarbeidstid._arbeiderHeltid === false && (
+                                            {normalarbeidstid._arbeiderDeltid === false && (
                                                 <li>
                                                     {normalarbeidstid._arbeiderHelg ? (
                                                         <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
@@ -80,6 +75,12 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                             )}
                                         </>
                                     )}
+                                    <li>
+                                        <NormalarbeidstidSummary
+                                            erAnsatt={erAnsatt}
+                                            normalarbeidstidApiData={arbeidsgiver.arbeidsforhold.normalarbeidstid}
+                                        />
+                                    </li>
                                 </>
                             )}
                             {erAnsatt === false && (
