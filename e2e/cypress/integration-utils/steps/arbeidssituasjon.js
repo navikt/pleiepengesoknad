@@ -1,6 +1,7 @@
 const { getTestElement, selectRadioNo, selectRadioYes, setInputTime } = require('../utils');
 
 const fyllUtNormalarbeidstidFasteDager = () => {
+    selectRadioYes('jobber-heltid');
     selectRadioNo('jobber-fast-helg');
     selectRadioYes('like-mange-timer-hver-uke');
     selectRadioYes('er-faste-ukedager');

@@ -7,6 +7,7 @@ export enum ArbeidsforholdFormField {
     erAnsatt = 'erAnsatt',
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     normalarbeidstid = 'normalarbeidstid',
+    normalarbeidstid_arbeiderHeltid = 'normalarbeidstid.arbeiderHeltid',
     normalarbeidstid_arbeiderFastHelg = 'normalarbeidstid.arbeiderFastHelg',
     normalarbeidstid_erLikeMangeTimerHverUke = 'normalarbeidstid.erLikeMangeTimerHverUke',
     normalarbeidstid_erFasteUkedager = 'normalarbeidstid.erFasteUkedager',
@@ -17,6 +18,7 @@ export enum ArbeidsforholdFormField {
 
 export type NormalarbeidstidFormData = {
     arbeiderFastHelg?: YesOrNo;
+    arbeiderHeltid?: YesOrNo;
     erLikeMangeTimerHverUke?: YesOrNo;
     erFasteUkedager?: YesOrNo;
     timerPerUke?: string;

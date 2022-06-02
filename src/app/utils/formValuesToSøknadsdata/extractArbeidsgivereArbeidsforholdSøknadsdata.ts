@@ -14,5 +14,6 @@ export const extractArbeidsgivereArbeidsforholdSøknadsdata = (
             arbeidsgivereSøknadsdataMap.set(ansattForhold.arbeidsgiver.id, ansattArbeidsforhold);
         }
     });
+
     return arbeidsgivereSøknadsdataMap.size > 0 ? arbeidsgivereSøknadsdataMap : undefined;
 };

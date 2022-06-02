@@ -86,6 +86,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     if (brukKunSnittPerUke) {
         return <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>;
     }
+
+    const { arbeiderFastHelg, arbeiderHeltid } = arbeidsforhold.normalarbeidstid || {};
+
     return (
         <>
             <FormBlock paddingBottom="l" margin="none">
@@ -97,19 +100,15 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 </p>
             </FormBlock>
             <FormComponents.YesOrNoQuestion
-                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg)}
-                legend={intlHelper(intl, `arbeidsforhold.arbeiderFastHelg.spm`, intlValues)}
-                description={
-                    <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeiderFastHelg.info.tittel')}>
-                        <FormattedMessage id="arbeidsforhold.arbeiderFastHelg.info.tekst" />
-                    </ExpandableInfo>
-                }
-                data-testid="jobber-fast-helg"
+                name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderHeltid)}
+                legend={intlHelper(intl, `arbeidsforhold.arbeiderHeltid.spm`, intlValues)}
+                description={intlHelper(intl, `arbeidsforhold.arbeiderHeltid.description`, intlValues)}
+                data-testid="jobber-heltid"
                 validate={(value: any) => {
                     const error = getRequiredFieldValidator()(value);
                     return error
                         ? {
-                              key: 'validation.arbeidsforhold.arbeiderFastHelg',
+                              key: 'validation.arbeidsforhold.arbeiderHeltid',
                               values: intlValues,
                               keepKeyUnaltered: true,
                           }
@@ -117,10 +116,36 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 }}
                 useTwoColumns={true}
             />
-            {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.YES && (
+            {arbeiderHeltid === YesOrNo.YES && (
+                <FormBlock>
+                    <FormComponents.YesOrNoQuestion
+                        name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_arbeiderFastHelg)}
+                        legend={intlHelper(intl, `arbeidsforhold.arbeiderFastHelg.spm`, intlValues)}
+                        description={
+                            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.arbeiderFastHelg.info.tittel')}>
+                                <FormattedMessage id="arbeidsforhold.arbeiderFastHelg.info.tekst" />
+                            </ExpandableInfo>
+                        }
+                        data-testid="jobber-fast-helg"
+                        validate={(value: any) => {
+                            const error = getRequiredFieldValidator()(value);
+                            return error
+                                ? {
+                                      key: 'validation.arbeidsforhold.arbeiderFastHelg',
+                                      values: intlValues,
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
+                        useTwoColumns={true}
+                    />
+                </FormBlock>
+            )}
+            {(arbeiderHeltid === YesOrNo.NO ||
+                (arbeiderHeltid === YesOrNo.YES && arbeiderFastHelg === YesOrNo.YES)) && (
                 <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>
             )}
-            {arbeidsforhold.normalarbeidstid?.arbeiderFastHelg === YesOrNo.NO && (
+            {arbeiderHeltid === YesOrNo.YES && arbeiderFastHelg === YesOrNo.NO && (
                 <>
                     <FormBlock>
                         <FormComponents.YesOrNoQuestion
