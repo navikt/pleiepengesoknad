@@ -9,6 +9,7 @@ import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
 import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSummary';
 import { Arbeidsgiver } from '../../../types';
+import OpptjeningIUtlandetSummary from './OpptjeningIUtlandetSummary';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -17,7 +18,7 @@ interface Props {
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
-    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig },
+    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende, harVærtEllerErVernepliktig, opptjeningIUtlandet },
     søknadsperiode,
     frilansoppdrag,
 }) => {
@@ -30,6 +31,8 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
             <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
 
             <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
+
+            <OpptjeningIUtlandetSummary opptjeningUtland={opptjeningIUtlandet} />
 
             {/* Vernepliktig */}
             {harVærtEllerErVernepliktig !== undefined && (

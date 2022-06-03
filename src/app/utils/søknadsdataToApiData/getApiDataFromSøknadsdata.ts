@@ -18,6 +18,7 @@ import { getNattevåkApiDataFromSøknadsdata } from './getNattevåkApiDataFromS�
 import { getBeredskapApiDataFromSøknadsdata } from './getBeredskapApiDataFromSøknadsdata';
 import { getOmsorgstilbudApiDataFromSøknadsdata } from './getOmsorgstibudApiDataFromSøknadsdata';
 import { getAttachmentsApiDataFromSøknadsdata } from './getAttachmentsApiDataFromSøknadsdata';
+import { getOpptjeningIUtlandetSøknadsdata } from './getOpptjeningIUtlandetSøknadsdata';
 
 export const getApiDataFromSøknadsdata = (
     barn: RegistrerteBarn[],
@@ -52,6 +53,7 @@ export const getApiDataFromSøknadsdata = (
                     søknadsperiode,
                     locale
                 ),
+                ...getOpptjeningIUtlandetSøknadsdata(sprak, søknadsdata.arbeid?.opptjeningUtland),
                 harVærtEllerErVernepliktig: søknadsdata.harVærtEllerErVernepliktig,
                 ...getOmsorgstilbudApiDataFromSøknadsdata(søknadsperiode, søknadsdata.omsorgstibud),
                 ...getNattevåkApiDataFromSøknadsdata(søknadsdata.nattevåk),

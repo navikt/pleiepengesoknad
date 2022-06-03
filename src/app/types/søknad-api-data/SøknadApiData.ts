@@ -1,4 +1,6 @@
+import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import { OpptjeningAktivitet } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
@@ -81,6 +83,19 @@ export interface FerieuttakIPeriodenApiData {
     ferieuttak: PeriodeApiData[];
 }
 
+export interface LandApi {
+    landkode: string;
+    landnavn: string;
+}
+
+export interface OpptjeningIUtlandetApi {
+    navn: string;
+    opptjeningType: OpptjeningAktivitet;
+    land: LandApi;
+    fraOgMed: ApiStringDate;
+    tilOgMed: ApiStringDate;
+}
+
 export interface SøknadApiData {
     versjon: string;
     språk: Locale;
@@ -113,6 +128,7 @@ export interface SøknadApiData {
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
+    opptjeningIUtlandet?: OpptjeningIUtlandetApi[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
 }
