@@ -106,35 +106,38 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.tittel')}>
-                        <SøknadFormComponents.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.spm')}
-                            name={SøknadFormField.harOpptjeningUtland}
-                            validate={getYesOrNoValidator()}
-                        />
-                        {harOpptjeningUtland === YesOrNo.YES && (
-                            <FormBlock>
-                                <OpptjeningUtlandListAndDialog
-                                    minDate={date1YearAgo}
-                                    maxDate={date1YearFromNow}
-                                    name={SøknadFormField.opptjeningUtland}
-                                    validate={getListValidator({ required: true })}
-                                    labels={{
-                                        addLabel: intlHelper(
-                                            intl,
-                                            'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.addLabel'
-                                        ),
-                                        listTitle: intlHelper(
-                                            intl,
-                                            'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle'
-                                        ),
-                                        modalTitle: intlHelper(
-                                            intl,
-                                            'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle'
-                                        ),
-                                    }}
-                                />
-                            </FormBlock>
-                        )}
+                        <div data-testid="arbeidssituasjonOpptjeningUtland">
+                            <SøknadFormComponents.YesOrNoQuestion
+                                legend={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.spm')}
+                                name={SøknadFormField.harOpptjeningUtland}
+                                validate={getYesOrNoValidator()}
+                                data-testid="har-opptjeningUtland"
+                            />
+                            {harOpptjeningUtland === YesOrNo.YES && (
+                                <FormBlock>
+                                    <OpptjeningUtlandListAndDialog
+                                        minDate={date1YearAgo}
+                                        maxDate={date1YearFromNow}
+                                        name={SøknadFormField.opptjeningUtland}
+                                        validate={getListValidator({ required: true })}
+                                        labels={{
+                                            addLabel: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.addLabel'
+                                            ),
+                                            listTitle: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle'
+                                            ),
+                                            modalTitle: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle'
+                                            ),
+                                        }}
+                                    />
+                                </FormBlock>
+                            )}
+                        </div>
                     </FormSection>
 
                     {visVernepliktSpørsmål(values) && (

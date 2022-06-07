@@ -29,8 +29,15 @@ const fyllUtArbeidssituasjonSelvstendig = () => {
     });
 };
 
+const fyllUtArbeidssituasjonOpptjeningUtland = () => {
+    getTestElement('arbeidssituasjonOpptjeningUtland').within(() => {
+        selectRadioNo('har-opptjeningUtland');
+    });
+};
+
 export const fyllUtArbeidssituasjonSteg = () => {
     fyllUtArbeidssituasjonAnsatt();
     fyllUtArbeidssituasjonFrilanser();
     fyllUtArbeidssituasjonSelvstendig();
+    fyllUtArbeidssituasjonOpptjeningUtland();
 };

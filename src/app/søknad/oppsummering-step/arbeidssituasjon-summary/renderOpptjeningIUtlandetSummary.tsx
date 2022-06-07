@@ -3,7 +3,7 @@ import { apiStringDateToDate, prettifyDateExtended } from '@navikt/sif-common-co
 import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
 import { OpptjeningIUtlandetApi } from '../../../types/søknad-api-data/SøknadApiData';
 
-const bem = bemUtils('utenlandsoppholdSummaryItem');
+const bem = bemUtils('opptjeningIUtlandetSummaryItem');
 
 export const renderOpptjeningIUtlandetSummary = (opptjening: OpptjeningIUtlandetApi): React.ReactNode => {
     return (
@@ -12,9 +12,9 @@ export const renderOpptjeningIUtlandetSummary = (opptjening: OpptjeningIUtlandet
                 {prettifyDateExtended(apiStringDateToDate(opptjening.fraOgMed))} -{' '}
                 {prettifyDateExtended(apiStringDateToDate(opptjening.tilOgMed))}
             </span>
-            <span className={bem.element('country')}>{`Jobbet i ${
-                opptjening.land.landnavn
-            } som ${opptjening.opptjeningType.toLowerCase()} hos ${opptjening.navn}`}</span>
+            <span>{`Jobbet i ${opptjening.land.landnavn} som ${opptjening.opptjeningType.toLowerCase()} hos ${
+                opptjening.navn
+            }`}</span>
         </div>
     );
 };

@@ -300,9 +300,9 @@
     "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
 
     "steg.arbeidssituasjon.opptjeningUtland.tittel": "Jobbet i et annet EØS-land",
-    "steg.arbeidssituasjon.opptjeningUtland.spm": "Har du jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før første dag med pleiepenger?",
+    "steg.arbeidssituasjon.opptjeningUtland.spm": "Har du jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før perioden du søker om?",
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.addLabel": "Legg til jobb i et annet EØS-land",
-    "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle": "Registrerte jobb i et annet EØS-land",
+    "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle": "Registrert jobb i et annet EØS-land",
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle": "Jobbet i et annet EØS-land",
 
     "steg.arbeidssituasjon.verneplikt.tittel": "Verneplikt",
