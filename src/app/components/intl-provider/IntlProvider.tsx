@@ -13,6 +13,7 @@ import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomh
 import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/lib/i18n/index';
 import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
 import arbeidstidMessages from '../../søknad/arbeidstid-step/components/arbeidstid-variert/arbeidstidVariertMessages';
+import opptjeningUtlandMessages from '@navikt/sif-common-forms/lib/opptjening-utland/opptjeningUtlandMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');
 
@@ -26,6 +27,7 @@ const bokmålstekster = {
     ...omsorgstilbudMessages.nb,
     ...arbeidstidMessages.nb,
     ...sifCommonPleiepengerMessages.nb,
+    ...opptjeningUtlandMessages.nb,
     ...appBokmålstekster,
 };
 

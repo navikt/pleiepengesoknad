@@ -8,6 +8,7 @@ import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
+import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -51,6 +52,8 @@ export enum SøknadFormField {
     frilans = 'frilans',
     selvstendig = 'selvstendig',
     frilansoppdrag = 'frilansoppdrag',
+    harOpptjeningUtland = 'harOpptjeningUtland',
+    opptjeningUtland = 'opptjeningUtland',
 }
 
 export interface OmsorgstilbudFormData {
@@ -97,6 +100,8 @@ export interface SøknadFormData {
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
     [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormData[];
+    [SøknadFormField.harOpptjeningUtland]: YesOrNo;
+    [SøknadFormField.opptjeningUtland]: OpptjeningUtland[];
 }
 
 export const initialValues: SøknadFormData = {
@@ -133,6 +138,8 @@ export const initialValues: SøknadFormData = {
         harHattInntektSomSN: YesOrNo.UNANSWERED,
     },
     [SøknadFormField.frilansoppdrag]: [],
+    [SøknadFormField.harOpptjeningUtland]: YesOrNo.UNANSWERED,
+    [SøknadFormField.opptjeningUtland]: [],
 };
 
 export type MedlemskapFormData = Pick<

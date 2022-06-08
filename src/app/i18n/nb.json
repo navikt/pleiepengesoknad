@@ -298,6 +298,13 @@
     "steg.arbeidssituasjon.info.tittel": "Mangler det et arbeidsforhold her?",
     "steg.arbeidssituasjon.frilanser.tittel": "Frilans",
     "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
+
+    "steg.arbeidssituasjon.opptjeningUtland.tittel": "Jobbet i et annet EØS-land",
+    "steg.arbeidssituasjon.opptjeningUtland.spm": "Har du jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før perioden du søker om?",
+    "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.addLabel": "Legg til jobb i et annet EØS-land",
+    "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle": "Registrert jobb i et annet EØS-land",
+    "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle": "Jobbet i et annet EØS-land",
+
     "steg.arbeidssituasjon.verneplikt.tittel": "Verneplikt",
     "steg.arbeidssituasjon.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
     "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",
@@ -603,9 +610,13 @@
 
     "oppsummering.arbeidssituasjon.selvstendig.header": "Selvstendig næringsdrivende",
     "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for",
+
     "oppsummering.arbeidssituasjon.selvstendig.erSn": "Er selvstendig næringsdrivende i perioden",
     "oppsummering.arbeidssituasjon.selvstendig.flereVirksomheter": "Har flere virksomheter",
     "oppsummering.arbeidssituasjon.selvstendig.enVirksomhet": "Har 1 virksomhet",
+
+    "oppsummering.arbeidssituasjon.optjeningIUtlandet.listetittel": "Jobbet i annet EØS-land",
+    "oppsummering.arbeidssituasjon.optjeningIUtlandet.nei": "Nei",
 
     "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i søknadsperioden",
     "oppsummering.arbeidIPeriode.jobbIPerioden": "Jobb i søknadsperioden",
@@ -805,6 +816,9 @@
     "validation.arbeidIPeriode.erFasteUkedager.ingenTidRegistrert": "Du må fylle ut hvor mange timer du jobber i uken {hvor} i perioden.",
     "validation.arbeidIPeriode.erFasteUkedager.forMangeTimer": "Du har oppgitt for mange timer du  i uken {hvor} i perioden. Du kan ikke oppgi like mye eller mer enn det du jobber normalt.",
     "validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert": "Du må oppgi hvor mange timer du jobber {hvor} i perioden.",
+
+    "validation.harOpptjeningUtland.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før første dag med pleiepenger.",
+    "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EQS-land.",
 
     "validation.omsorgstilbud.fastdag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}.",
     "validation.omsorgstilbud.fastdag.tid.hoursAreInvalid": "Antall timer på {dag}  er ikke et gyldig tall.",

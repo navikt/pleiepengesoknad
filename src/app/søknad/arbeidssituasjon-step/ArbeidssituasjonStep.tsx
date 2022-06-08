@@ -4,9 +4,9 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { date1YearAgo, date1YearFromNow, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { useFormikContext } from 'formik';
 import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
@@ -23,6 +23,9 @@ import ArbeidssituasjonSN from './components/ArbeidssituasjonSN';
 import { oppdaterSøknadMedArbeidsgivere } from './utils/arbeidsgivereUtils';
 import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
+import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 interface LoadState {
     isLoading: boolean;
@@ -39,7 +42,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const intl = useIntl();
     const {
         values,
-        values: { ansatt_arbeidsforhold },
+        values: { ansatt_arbeidsforhold, harOpptjeningUtland },
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
@@ -100,6 +103,41 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values.selvstendig}
                             urlSkatteetatenSN={getLenker(intl.locale).skatteetatenSN}
                         />
+                    </FormSection>
+
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.tittel')}>
+                        <div data-testid="arbeidssituasjonOpptjeningUtland">
+                            <SøknadFormComponents.YesOrNoQuestion
+                                legend={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.spm')}
+                                name={SøknadFormField.harOpptjeningUtland}
+                                validate={getYesOrNoValidator()}
+                                data-testid="har-opptjeningUtland"
+                            />
+                            {harOpptjeningUtland === YesOrNo.YES && (
+                                <FormBlock>
+                                    <OpptjeningUtlandListAndDialog
+                                        minDate={date1YearAgo}
+                                        maxDate={date1YearFromNow}
+                                        name={SøknadFormField.opptjeningUtland}
+                                        validate={getListValidator({ required: true })}
+                                        labels={{
+                                            addLabel: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.addLabel'
+                                            ),
+                                            listTitle: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle'
+                                            ),
+                                            modalTitle: intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle'
+                                            ),
+                                        }}
+                                    />
+                                </FormBlock>
+                            )}
+                        </div>
                     </FormSection>
 
                     {visVernepliktSpørsmål(values) && (

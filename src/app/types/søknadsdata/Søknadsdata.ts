@@ -15,6 +15,7 @@ export * from './arbeidIPeriodeSøknadsdata';
 export * from './arbeidAnsattSøknadsdata';
 export * from './arbeidFrilansSøknadsdata';
 export * from './arbeidSelvstendigSøknadsdata';
+export * from './opptjeningUtlandSøknadsdata';
 export * from './arbeidSøknadsdata';
 export * from './arbeidsforholdSøknadsdata';
 export * from './normalarbeidstidSøknadsdata';
