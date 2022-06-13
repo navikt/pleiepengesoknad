@@ -20,7 +20,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [12.16.1] # => lts/erbium
+                node-version: [16.x]
 
         steps:
             - uses: actions/checkout@v1
@@ -37,7 +37,7 @@ jobs:
         runs-on: ubuntu-latest
         strategy:
             matrix:
-                node-version: [12.16.1] # => lts/erbium
+                node-version: [16.x] # => lts/erbium
         steps:
             - uses: actions/checkout@v1
             - name: Setup kernel for react + node, increase watchers
