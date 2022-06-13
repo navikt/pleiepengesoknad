@@ -1,4 +1,4 @@
-FROM node:16-alpine
+FROM node:alpine3.16
 
 WORKDIR /usr/src/app
 COPY api-mock.js .
