@@ -74,7 +74,7 @@
         "@babel/plugin-transform-modules-commonjs": "^7.18.2",
         "@babel/preset-env": "^7.18.2",
         "@babel/preset-react": "^7.17.12",
-        "@snyk/protect": "^1.948.0",
+        "@snyk/protect": "^1.951.0",
         "@types/enzyme": "^3.10.12",
         "@types/jest": "^28.1.1",
         "@types/lodash.groupby": "^4.6.7",
