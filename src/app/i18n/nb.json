@@ -619,6 +619,7 @@
 
     "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i søknadsperioden",
     "oppsummering.arbeidIPeriode.jobbIPerioden": "Jobb i søknadsperioden",
+
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.ja": "jobber",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.nei": "Jobber ikke i perioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig": "Jobber som normalt, har ikke fravær på grunn av pleiepenger.",

@@ -70,6 +70,7 @@ jobs:
                   npm run build
             - name: Build and publish Docker image
               run: |
+                  docker -v
                   docker build --tag ${IMAGE} . -f Dockerfile
                   echo ${GITHUB_TOKEN} | docker login --username ${GITHUB_REPOSITORY} --password-stdin ghcr.io
                   docker push ${IMAGE}
