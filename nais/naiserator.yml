@@ -5,6 +5,10 @@ metadata:
     namespace: {{namespace}}
     labels:
         team: {{team}}
+    annotations:
+        nais.io/read-only-file-system: "false"
+        nais.io/run-as-user: "1001"
+        nais.io/run-as-group: "1002"
 spec:
     image: {{ image }}
     port: 8080
