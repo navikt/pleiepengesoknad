@@ -305,6 +305,14 @@
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle": "Registrert jobb i et annet EØS-land",
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle": "Jobbet i et annet EØS-land",
 
+    "steg.arbeidssituasjon.utenlandskNæring.tittel": "Jobbet som selvstendig næringsdrivende i et annet EØS-land",
+    "steg.arbeidssituasjon.utenlandskNæring.spm": "Har du jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om?",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.infoTittel": "Næringsvirksomhet som du har lagt inn:",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.endreKnapp": "Endre opplysninger",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.fjernKnapp": "Fjern virksomhet",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.registrerKnapp": "Registrer virksomhet",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.modal.tittel": "Opplysninger om virksomheten din",
+
     "steg.arbeidssituasjon.verneplikt.tittel": "Verneplikt",
     "steg.arbeidssituasjon.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
     "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",

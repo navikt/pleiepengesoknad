@@ -140,6 +140,17 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                         </div>
                     </FormSection>
 
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.tittel')}>
+                        <div data-testid="arbeidssituasjonUtenlandskNæring">
+                            <SøknadFormComponents.YesOrNoQuestion
+                                legend={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.spm')}
+                                name={SøknadFormField.harUtenlandskNæring}
+                                validate={getYesOrNoValidator()}
+                                data-testid="har-utenlandskNæring"
+                            />
+                        </div>
+                    </FormSection>
+
                     {visVernepliktSpørsmål(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.tittel')}>
                             <Box margin="l">

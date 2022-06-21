@@ -54,6 +54,8 @@ export enum SøknadFormField {
     frilansoppdrag = 'frilansoppdrag',
     harOpptjeningUtland = 'harOpptjeningUtland',
     opptjeningUtland = 'opptjeningUtland',
+    harUtenlandskNæring = 'harUtenlandskNæring',
+    // utenlandskNæring = 'utenlandskNæring',
 }
 
 export interface OmsorgstilbudFormData {
@@ -102,6 +104,8 @@ export interface SøknadFormData {
     [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormData[];
     [SøknadFormField.harOpptjeningUtland]: YesOrNo;
     [SøknadFormField.opptjeningUtland]: OpptjeningUtland[];
+    [SøknadFormField.harUtenlandskNæring]: YesOrNo;
+    // [SøknadFormField.utenlandskNæring]: UtenlandskNæring[];
 }
 
 export const initialValues: SøknadFormData = {
@@ -140,6 +144,8 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.frilansoppdrag]: [],
     [SøknadFormField.harOpptjeningUtland]: YesOrNo.UNANSWERED,
     [SøknadFormField.opptjeningUtland]: [],
+    [SøknadFormField.harUtenlandskNæring]: YesOrNo.UNANSWERED,
+    // [SøknadFormField.utenlandskNæring]: [],
 };
 
 export type MedlemskapFormData = Pick<
