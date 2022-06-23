@@ -7,7 +7,6 @@ export const getUtenlandskNæringSøknadsdata = (
     locale: string,
     utenlandskNæring?: UtenlandskNæringSøknadsdata
 ): UtenlandskNæringApi[] => {
-    console.log('getUtenlandskNæringSøknadsdata: ', utenlandskNæring);
     if (utenlandskNæring?.type === 'harUtenlandskNæring') {
         const apiData: UtenlandskNæringApi[] = utenlandskNæring.utenlandskNæring.map((næring) => ({
             næringstype: næring.næringstype,
