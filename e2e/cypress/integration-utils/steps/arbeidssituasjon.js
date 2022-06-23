@@ -35,9 +35,15 @@ const fyllUtArbeidssituasjonOpptjeningUtland = () => {
     });
 };
 
+const fyllUtArbeidssituasjonUtenlandskNæring = () => {
+    getTestElement('arbeidssituasjonUtenlandskNæring').within(() => {
+        selectRadioNo('har-utenlandskNæring');
+    });
+};
 export const fyllUtArbeidssituasjonSteg = () => {
     fyllUtArbeidssituasjonAnsatt();
     fyllUtArbeidssituasjonFrilanser();
     fyllUtArbeidssituasjonSelvstendig();
     fyllUtArbeidssituasjonOpptjeningUtland();
+    fyllUtArbeidssituasjonUtenlandskNæring();
 };
