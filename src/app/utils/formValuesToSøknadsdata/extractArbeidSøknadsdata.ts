@@ -5,6 +5,7 @@ import { extractArbeidsgivereArbeidsforholdSøknadsdata } from './extractArbeids
 import { extractArbeidFrilansSøknadsdata } from './extractArbeidFrilansSøknadsdata';
 import { extractArbeidSelvstendigSøknadsdata } from './extractArbeidSelvstendigSøknadsdata';
 import { extractOpptjeningUtlandSøknadsdata } from './extractOpptjeningUtlandSøknadsdata';
+import { extractUtenlandskNæringSøknadsdata } from './extractUtenlandskNæringSøknadsdata';
 
 export const extractArbeidSøknadsdata = (
     values: SøknadFormData,
@@ -14,6 +15,7 @@ export const extractArbeidSøknadsdata = (
     const frilans = extractArbeidFrilansSøknadsdata(values.frilans, values.frilansoppdrag, søknadsperiode);
     const selvstendig = extractArbeidSelvstendigSøknadsdata(values.selvstendig, søknadsperiode);
     const opptjeningUtland = extractOpptjeningUtlandSøknadsdata(values);
+    const utenlandskNæring = extractUtenlandskNæringSøknadsdata(values);
 
     if (!arbeidsgivere && !frilans && !selvstendig) {
         return undefined;
@@ -23,5 +25,6 @@ export const extractArbeidSøknadsdata = (
         frilans,
         selvstendig,
         opptjeningUtland,
+        utenlandskNæring,
     };
 };

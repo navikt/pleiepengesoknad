@@ -626,6 +626,9 @@
     "oppsummering.arbeidssituasjon.optjeningIUtlandet.listetittel": "Jobbet i annet EØS-land",
     "oppsummering.arbeidssituasjon.optjeningIUtlandet.nei": "Nei",
 
+    "oppsummering.arbeidssituasjon.utenlandskNæring.listetittel": "Jobbet som selvstendig næringsdrivende i et annet EØS-land",
+    "oppsummering.arbeidssituasjon.utenlandskNæring.nei": "Nei",
+
     "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i søknadsperioden",
     "oppsummering.arbeidIPeriode.jobbIPerioden": "Jobb i søknadsperioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.ja": "jobber",
@@ -827,6 +830,8 @@
 
     "validation.harOpptjeningUtland.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før første dag med pleiepenger.",
     "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EQS-land.",
+    "validation.harUtenlandskNæring.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om.",
+    "validation.utenlandskNæring.listIsEmpty": "Du må legge til jobb som selvstendig næringsdrivende i et annet EØS-land.",
 
     "validation.omsorgstilbud.fastdag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}.",
     "validation.omsorgstilbud.fastdag.tid.hoursAreInvalid": "Antall timer på {dag}  er ikke et gyldig tall.",

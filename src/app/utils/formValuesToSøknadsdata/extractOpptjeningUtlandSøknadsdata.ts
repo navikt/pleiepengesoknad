@@ -13,7 +13,7 @@ export const extractOpptjeningUtlandSøknadsdata = ({
         };
     } else {
         return {
-            type: 'harIkkeIkkeOpptjeningUtland',
+            type: 'harIkkeOpptjeningUtland',
         };
     }
 };

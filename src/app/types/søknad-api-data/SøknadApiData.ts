@@ -1,6 +1,7 @@
 import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { OpptjeningAktivitet } from '@navikt/sif-common-forms/lib/opptjening-utland';
+import { UtenlandskNæringstype } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
@@ -96,6 +97,15 @@ export interface OpptjeningIUtlandetApi {
     tilOgMed: ApiStringDate;
 }
 
+export interface UtenlandskNæringApi {
+    næringstype: UtenlandskNæringstype;
+    navnPåVirksomheten: string;
+    land: LandApi;
+    identifikasjonsnummer: string;
+    fraOgMed: ApiStringDate;
+    tilOgMed?: ApiStringDate;
+}
+
 export interface SøknadApiData {
     versjon: string;
     språk: Locale;
@@ -129,6 +139,7 @@ export interface SøknadApiData {
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     opptjeningIUtlandet?: OpptjeningIUtlandetApi[];
+    utenlandskNæring: UtenlandskNæringApi[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
 }

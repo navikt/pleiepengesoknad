@@ -26,6 +26,7 @@ import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
 
 interface LoadState {
     isLoading: boolean;
@@ -42,7 +43,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const intl = useIntl();
     const {
         values,
-        values: { ansatt_arbeidsforhold, harOpptjeningUtland },
+        values: { ansatt_arbeidsforhold, harOpptjeningUtland, harUtenlandskNæring },
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
@@ -148,6 +149,21 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                 validate={getYesOrNoValidator()}
                                 data-testid="har-utenlandskNæring"
                             />
+                            {harUtenlandskNæring === YesOrNo.YES && (
+                                <FormBlock>
+                                    <UtenlandskNæringListAndDialog
+                                        name={SøknadFormField.utenlandskNæring}
+                                        validate={getListValidator({ required: true })}
+                                        labels={{
+                                            addLabel: 'Legg til næringsvirksomhet i et annet EØS-land',
+                                            deleteLabel: 'Fjern',
+                                            editLabel: 'Endre',
+                                            infoTitle: 'Virksomhet',
+                                            modalTitle: 'Virksomhet',
+                                        }}
+                                    />
+                                </FormBlock>
+                            )}
                         </div>
                     </FormSection>
 
