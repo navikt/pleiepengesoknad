@@ -42,7 +42,7 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
                         />
                         <FormattedMessage
                             id="sifForms.utenlandskNæringForm.summary.registrertILand.orgnr"
-                            values={{ orgnr: næring.identifikasjonsnummer }}
+                            values={{ orgnr: næring.organisasjonsnummer }}
                         />
                         . <br />
                         {tidsinfo}

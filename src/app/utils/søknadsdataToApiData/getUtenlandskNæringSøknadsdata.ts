@@ -11,7 +11,7 @@ export const getUtenlandskNæringSøknadsdata = (
         const apiData: UtenlandskNæringApi[] = utenlandskNæring.utenlandskNæring.map((næring) => ({
             næringstype: næring.næringstype,
             navnPåVirksomheten: næring.navnPåVirksomheten,
-            identifikasjonsnummer: næring.identifikasjonsnummer,
+            organisasjonsnummer: næring.identifikasjonsnummer,
             land: {
                 landnavn: getCountryName(næring.land, locale),
                 landkode: næring.land,
