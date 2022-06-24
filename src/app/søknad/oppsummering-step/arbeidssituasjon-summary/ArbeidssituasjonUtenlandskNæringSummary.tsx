@@ -15,7 +15,7 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
     const renderUtenlandskNæring = (næring: UtenlandskNæringApi): React.ReactNode => {
         const land = næring.land.landnavn;
 
-        const næringstype = intlHelper(intl, `sifForms.utenlandskNæringForm.næringstype_${næring.næringstype}`) + ', ';
+        const næringstype = intlHelper(intl, `sifForms.utenlandskNæringForm.næringstype_${næring.næringstype}`);
 
         const tidsinfo = næring.tilOgMed
             ? intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.tidsinfo.avsluttet', {

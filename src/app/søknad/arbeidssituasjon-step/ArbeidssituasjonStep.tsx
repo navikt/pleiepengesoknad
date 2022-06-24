@@ -139,32 +139,31 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                 </FormBlock>
                             )}
                         </div>
-                    </FormSection>
-
-                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.tittel')}>
-                        <div data-testid="arbeidssituasjonUtenlandskNæring">
-                            <SøknadFormComponents.YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.spm')}
-                                name={SøknadFormField.harUtenlandskNæring}
-                                validate={getYesOrNoValidator()}
-                                data-testid="har-utenlandskNæring"
-                            />
-                            {harUtenlandskNæring === YesOrNo.YES && (
-                                <FormBlock>
-                                    <UtenlandskNæringListAndDialog
-                                        name={SøknadFormField.utenlandskNæring}
-                                        validate={getListValidator({ required: true })}
-                                        labels={{
-                                            addLabel: 'Legg til næringsvirksomhet i et annet EØS-land',
-                                            deleteLabel: 'Fjern',
-                                            editLabel: 'Endre',
-                                            infoTitle: 'Virksomhet',
-                                            modalTitle: 'Virksomhet',
-                                        }}
-                                    />
-                                </FormBlock>
-                            )}
-                        </div>
+                        <FormBlock>
+                            <div data-testid="arbeidssituasjonUtenlandskNæring">
+                                <SøknadFormComponents.YesOrNoQuestion
+                                    legend={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.spm')}
+                                    name={SøknadFormField.harUtenlandskNæring}
+                                    validate={getYesOrNoValidator()}
+                                    data-testid="har-utenlandskNæring"
+                                />
+                                {harUtenlandskNæring === YesOrNo.YES && (
+                                    <FormBlock>
+                                        <UtenlandskNæringListAndDialog
+                                            name={SøknadFormField.utenlandskNæring}
+                                            validate={getListValidator({ required: true })}
+                                            labels={{
+                                                addLabel: 'Legg til næringsvirksomhet i et annet EØS-land',
+                                                deleteLabel: 'Fjern',
+                                                editLabel: 'Endre',
+                                                infoTitle: 'Virksomhet',
+                                                modalTitle: 'Virksomhet',
+                                            }}
+                                        />
+                                    </FormBlock>
+                                )}
+                            </div>
+                        </FormBlock>
                     </FormSection>
 
                     {visVernepliktSpørsmål(values) && (
