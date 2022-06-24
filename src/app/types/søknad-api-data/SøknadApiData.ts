@@ -138,7 +138,7 @@ export interface SøknadApiData {
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
-    opptjeningIUtlandet?: OpptjeningIUtlandetApi[];
+    opptjeningIUtlandet: OpptjeningIUtlandetApi[];
     utenlandskNæring: UtenlandskNæringApi[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;

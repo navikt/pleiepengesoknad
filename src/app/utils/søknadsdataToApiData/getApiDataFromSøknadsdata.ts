@@ -54,7 +54,7 @@ export const getApiDataFromSøknadsdata = (
                     søknadsperiode,
                     locale
                 ),
-                ...getOpptjeningIUtlandetSøknadsdata(sprak, søknadsdata.arbeid?.opptjeningUtland),
+                opptjeningIUtlandet: getOpptjeningIUtlandetSøknadsdata(sprak, søknadsdata.arbeid?.opptjeningUtland),
                 utenlandskNæring: getUtenlandskNæringSøknadsdata(sprak, søknadsdata.arbeid?.utenlandskNæring),
                 harVærtEllerErVernepliktig: søknadsdata.harVærtEllerErVernepliktig,
                 ...getOmsorgstilbudApiDataFromSøknadsdata(søknadsperiode, søknadsdata.omsorgstibud),
