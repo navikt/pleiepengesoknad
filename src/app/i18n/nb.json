@@ -828,7 +828,7 @@
     "validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert": "Du må oppgi hvor mange timer du jobber {hvor} i perioden.",
 
     "validation.harOpptjeningUtland.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før første dag med pleiepenger.",
-    "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EQS-land.",
+    "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EØS-land.",
     "validation.harUtenlandskNæring.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om.",
     "validation.utenlandskNæring.listIsEmpty": "Du må legge til jobb som selvstendig næringsdrivende i et annet EØS-land.",
 

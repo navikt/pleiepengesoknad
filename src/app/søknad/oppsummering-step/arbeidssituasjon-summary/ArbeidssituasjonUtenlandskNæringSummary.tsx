@@ -5,7 +5,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { UtenlandskNæringApi } from '../../../types/søknad-api-data/SøknadApiData';
 import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
-import IntlLabelValue from '@navikt/sif-common-forms/lib/components/summary/IntlLabelValue';
+
 interface Props {
     utenlandskNæring: UtenlandskNæringApi[];
 }
@@ -27,13 +27,15 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
               });
         return (
             <Box margin="m" padBottom="l" key={næring.navnPåVirksomheten}>
-                <div style={{ paddingLeft: '1rem' }}>
-                    <IntlLabelValue labelKey="sifForms.utenlandskNæringForm.summary.navn">
-                        {næring.navnPåVirksomheten}.
-                    </IntlLabelValue>
-                    <IntlLabelValue labelKey="sifForms.utenlandskNæringForm.summary.næringstype">
-                        {næringstype}.
-                    </IntlLabelValue>
+                <li>
+                    <div>
+                        {`${intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.navn')}: ${
+                            næring.navnPåVirksomheten
+                        }.`}
+                    </div>
+                    <div>
+                        {`${intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.næringstype')}: ${næringstype}.`}
+                    </div>
 
                     <div>
                         <FormattedMessage
@@ -47,7 +49,7 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
                         . <br />
                         {tidsinfo}
                     </div>
-                </div>
+                </li>
             </Box>
         );
     };
@@ -60,7 +62,7 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
                     <FormattedMessage id={'oppsummering.arbeidssituasjon.utenlandskNæring.nei'} tagName="p" />
                 </>
             )}
-            {utenlandskNæring.length > 0 && <>{utenlandskNæring.map((næring) => renderUtenlandskNæring(næring))}</>}
+            {utenlandskNæring.length > 0 && <ul>{utenlandskNæring.map((næring) => renderUtenlandskNæring(næring))}</ul>}
         </SummaryBlock>
     );
 }
