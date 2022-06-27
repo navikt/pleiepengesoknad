@@ -42,13 +42,17 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
                             id="sifForms.utenlandskNæringForm.summary.registrertILand"
                             values={{ land }}
                         />
-                        <FormattedMessage
-                            id="sifForms.utenlandskNæringForm.summary.registrertILand.orgnr"
-                            values={{ orgnr: næring.organisasjonsnummer }}
-                        />
-                        . <br />
-                        {tidsinfo}
+                        {næring.organisasjonsnummer !== undefined && (
+                            <>
+                                <FormattedMessage
+                                    id="sifForms.utenlandskNæringForm.summary.registrertILand.orgnr"
+                                    values={{ orgnr: næring.organisasjonsnummer }}
+                                />
+                            </>
+                        )}
+                        .
                     </div>
+                    <div>{tidsinfo}</div>
                 </li>
             </Box>
         );

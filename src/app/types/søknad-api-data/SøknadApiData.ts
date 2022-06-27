@@ -101,7 +101,7 @@ export interface UtenlandskNæringApi {
     næringstype: UtenlandskNæringstype;
     navnPåVirksomheten: string;
     land: LandApi;
-    organisasjonsnummer: string;
+    organisasjonsnummer?: string;
     fraOgMed: ApiStringDate;
     tilOgMed?: ApiStringDate;
 }
