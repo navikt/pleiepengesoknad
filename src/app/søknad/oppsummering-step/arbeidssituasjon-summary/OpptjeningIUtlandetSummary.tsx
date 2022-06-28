@@ -7,7 +7,7 @@ import { OpptjeningIUtlandetApi } from '../../../types/søknad-api-data/SøknadA
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 export interface Props {
-    opptjeningUtland?: OpptjeningIUtlandetApi[];
+    opptjeningUtland: OpptjeningIUtlandetApi[];
 }
 
 const OpptjeningIUtlandetSummary: React.FC<Props> = (props) => {
@@ -17,10 +17,10 @@ const OpptjeningIUtlandetSummary: React.FC<Props> = (props) => {
     return (
         <>
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.optjeningIUtlandet.listetittel')}>
-                {opptjeningUtland === undefined && (
+                {opptjeningUtland.length === 0 && (
                     <FormattedMessage id="oppsummering.arbeidssituasjon.optjeningIUtlandet.nei" />
                 )}
-                {opptjeningUtland !== undefined && (
+                {opptjeningUtland.length > 0 && (
                     <SummaryList items={opptjeningUtland} itemRenderer={renderOpptjeningIUtlandetSummary} />
                 )}
             </SummaryBlock>
