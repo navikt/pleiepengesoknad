@@ -305,6 +305,13 @@
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.listTitle": "Registrert jobb i et annet EØS-land",
     "steg.arbeidssituasjon.opptjeningUtland.listAndDialog.modalTitle": "Jobbet i et annet EØS-land",
 
+    "steg.arbeidssituasjon.utenlandskNæring.spm": "Har du jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om?",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.infoTittel": "Næringsvirksomhet som du har lagt inn:",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.endreKnapp": "Endre opplysninger",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.fjernKnapp": "Fjern virksomhet",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.registrerKnapp": "Registrer virksomhet",
+    "steg.arbeidssituasjon.utenlandskNæring.infoDialog.modal.tittel": "Opplysninger om virksomheten din",
+
     "steg.arbeidssituasjon.verneplikt.tittel": "Verneplikt",
     "steg.arbeidssituasjon.verneplikt.spm": "Utøvde du verneplikt på tidspunktet du søker pleiepenger fra?",
     "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",
@@ -529,8 +536,12 @@
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.2": "Eksempel når du har jobbet de siste 12 ukene:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.3": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12: 250 timer / 12 uker = 20,8",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
+
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.5": "Slik regner du ut et snitt når du har jobbet mindre enn 12 uker:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.6": "Da deler du antall timer med antall uker du har jobbet. Hvis du for eksempel har jobbet i 7 uker, så deler du antall timer du har jobbet med 7.",
+
+    "arbeidsforhold.normalTimer.info.utbetalingFraNAV.tittel": "Hva om jeg får utbetaling fra NAV nå?",
+    "arbeidsforhold.normalTimer.info.utbetalingFraNAV.avsnitt.1": "Hvis du for dette arbeidsforholdet for eksempel får foreldrepenger, sykepenger eller annet fra NAV nå, registrerer du det som var normalarbeidstiden din før du begynte å få denne utbetalingen fra NAV.",
 
     "arbeidsforhold.frilanser.fast.info.tekst": "Her skal du legge inn antall timer du jobber som frilanser per uke.",
     "arbeidsforhold.avsluttet.frilanser.fast.info.tekst": "Her skal du legge inn antall timer du jobbet per uke da du var frilanser.",
@@ -617,6 +628,9 @@
 
     "oppsummering.arbeidssituasjon.optjeningIUtlandet.listetittel": "Jobbet i annet EØS-land",
     "oppsummering.arbeidssituasjon.optjeningIUtlandet.nei": "Nei",
+
+    "oppsummering.arbeidssituasjon.utenlandskNæring.listetittel": "Jobbet som selvstendig næringsdrivende i et annet EØS-land",
+    "oppsummering.arbeidssituasjon.utenlandskNæring.nei": "Nei",
 
     "oppsummering.arbeidIPeriode.jobbIPerioden.header": "Jobb i søknadsperioden",
     "oppsummering.arbeidIPeriode.jobbIPerioden": "Jobb i søknadsperioden",
@@ -818,7 +832,9 @@
     "validation.arbeidIPeriode.enkeltdager.ingenTidRegistrert": "Du må oppgi hvor mange timer du jobber {hvor} i perioden.",
 
     "validation.harOpptjeningUtland.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som arbeidstaker eller frilanser i et annet EØS-land i løpet av de 3 siste månedene før første dag med pleiepenger.",
-    "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EQS-land.",
+    "validation.opptjeningUtland.listIsEmpty": "Du må legge til jobb i et annet EØS-land.",
+    "validation.harUtenlandskNæring.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om.",
+    "validation.utenlandskNæring.listIsEmpty": "Du må legge til jobb som selvstendig næringsdrivende i et annet EØS-land.",
 
     "validation.omsorgstilbud.fastdag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}.",
     "validation.omsorgstilbud.fastdag.tid.hoursAreInvalid": "Antall timer på {dag}  er ikke et gyldig tall.",

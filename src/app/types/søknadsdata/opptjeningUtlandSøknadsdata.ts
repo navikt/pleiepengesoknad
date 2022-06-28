@@ -1,12 +1,12 @@
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 
-export interface HarIkkeOpptjeningUtlandSøknadsdata {
+export interface HarOpptjeningUtlandSøknadsdata {
     type: 'harOpptjeningUtland';
     opptjeningUtland: OpptjeningUtland[];
 }
 
-export interface HarIkkeIkkeOpptjeningUtlandSøknadsdata {
-    type: 'harIkkeIkkeOpptjeningUtland';
+export interface HarIkkeOpptjeningUtlandSøknadsdata {
+    type: 'harIkkeOpptjeningUtland';
 }
 
-export type OpptjeningUtlandSøknadsdata = HarIkkeOpptjeningUtlandSøknadsdata | HarIkkeIkkeOpptjeningUtlandSøknadsdata;
+export type OpptjeningUtlandSøknadsdata = HarOpptjeningUtlandSøknadsdata | HarIkkeOpptjeningUtlandSøknadsdata;
