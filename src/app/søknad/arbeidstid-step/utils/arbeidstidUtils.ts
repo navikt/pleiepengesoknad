@@ -73,7 +73,10 @@ export const arbeiderMindreEnnNormaltFasteUkedager = (
     timerFasteUkedager: DurationWeekdays,
     normalarbeidstidFasteUkedager: DurationWeekdays
 ): boolean => {
-    return getTimerPerUkeFraFasteUkedager(timerFasteUkedager) < normalarbeidstidFasteUkedager;
+    return (
+        getTimerPerUkeFraFasteUkedager(timerFasteUkedager) <
+        getTimerPerUkeFraFasteUkedager(normalarbeidstidFasteUkedager)
+    );
 };
 
 export const erArbeidsforholdMedFravær = ({
