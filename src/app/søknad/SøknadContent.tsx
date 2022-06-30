@@ -8,6 +8,7 @@ import { useFormikContext } from 'formik';
 import { persist, purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
+import useLogSøknadInfo from '../hooks/useLogSøknadInfo';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -49,6 +50,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
     const { setSøknadsdata } = useSøknadsdataContext();
+    const { logBekreftIngenFraværFraJobb } = useLogSøknadInfo();
 
     const sendUserToStep = useCallback(
         async (route: string) => {
@@ -202,8 +204,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                                         ) {
                                             setConfirmationDialog(
                                                 getIngenFraværConfirmationDialog({
-                                                    onCancel: () => setConfirmationDialog(undefined),
+                                                    onCancel: () => {
+                                                        logBekreftIngenFraværFraJobb(false);
+                                                        setConfirmationDialog(undefined);
+                                                    },
                                                     onConfirm: () => {
+                                                        logBekreftIngenFraværFraJobb(true);
                                                         setConfirmationDialog(undefined);
                                                         navigateToNextStepFrom(StepID.ARBEIDSTID);
                                                     },

@@ -1,6 +1,9 @@
 export enum LogSøknadInfoType {
     'arbeidPeriodeRegistrert' = 'arbeidPeriodeRegistrert',
     'arbeidEnkeltdagRegistrert' = 'arbeidEnkeltdagRegistrert',
+    'bekrefterIngenFraværFraArbeid' = 'bekrefterIngenFraværFraArbeid',
+    'avkrefterIngenFraværFraArbeid' = 'avkrefterIngenFraværFraArbeid',
+    'senderInnSøknadMedIngenFravær' = 'senderInnSøknadMedIngenFravær',
 }
 
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
@@ -22,7 +25,25 @@ function useLogSøknadInfo() {
         });
     };
 
-    return { logArbeidPeriodeRegistrert, logArbeidEnkeltdagRegistrert };
+    const logBekreftIngenFraværFraJobb = (bekrefterIngenFravær: boolean) => {
+        logInfo({
+            hendelse: bekrefterIngenFravær
+                ? LogSøknadInfoType.bekrefterIngenFraværFraArbeid
+                : LogSøknadInfoType.avkrefterIngenFraværFraArbeid,
+        });
+    };
+    const logSenderInnSøknadMedIngenFravær = () => {
+        logInfo({
+            hendelse: LogSøknadInfoType.senderInnSøknadMedIngenFravær,
+        });
+    };
+
+    return {
+        logArbeidPeriodeRegistrert,
+        logArbeidEnkeltdagRegistrert,
+        logBekreftIngenFraværFraJobb,
+        logSenderInnSøknadMedIngenFravær,
+    };
 }
 
 export default useLogSøknadInfo;

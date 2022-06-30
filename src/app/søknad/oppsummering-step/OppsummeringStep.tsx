@@ -23,13 +23,15 @@ import { SKJEMANAVN } from '../../App';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
 import routeConfig from '../../config/routeConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
+import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
+import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
 import { validateApiValues } from '../../validation/apiValuesValidation';
+import { getArbeidsforhold, harFraværIPerioden } from '../arbeidstid-step/utils/arbeidstidUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
@@ -63,12 +65,16 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const søknadStepConfig = getSøknadStepConfig(values);
 
     const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
+    const { logSenderInnSøknadMedIngenFravær } = useLogSøknadInfo();
 
-    const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata) => {
+    const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata, harArbeidMenIngenFravær: boolean) => {
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
             await logSoknadSent(SKJEMANAVN);
+            if (harArbeidMenIngenFravær) {
+                await logSenderInnSøknadMedIngenFravær();
+            }
             await purge();
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
@@ -98,6 +104,11 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 if (søknadsdata === undefined) {
                     return <div>Det oppstod en feil - søknadsdata mangler</div>;
                 }
+
+                const harArbeidMenIngenFravær: boolean =
+                    søknadsdata.arbeid !== undefined &&
+                    harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false;
+
                 const {
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
                     barn,
@@ -130,7 +141,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                             if (apiValuesValidationErrors === undefined) {
                                 setTimeout(() => {
                                     // La view oppdatere seg først
-                                    sendSoknad(apiValues, søkerdata);
+                                    sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
                                 });
                             } else {
                                 document.getElementsByClassName('validationErrorSummary');
