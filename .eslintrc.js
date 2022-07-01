@@ -22,6 +22,7 @@ module.exports = {
         'react-hooks/exhaustive-deps': 'warn',
         'react/display-name': 'off',
         'react/prop-types': 'off',
+        'no-fallthrough': 'error',
     },
     plugins: ['jsx-a11y', 'react-hooks'],
     settings: {
