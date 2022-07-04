@@ -18,11 +18,22 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     return true;
 };
 
+export const skalViseUsikker = (periode: DateRange): boolean => {
+    return dayjs(periode.to).isAfter(dayjs()) === true;
+};
+
 export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
     const cleanedValues = { ...values };
     const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
     if (cleanedValues.omsorgstilbud) {
-        if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud !== YesOrNo.YES) {
+        if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud === YesOrNo.NO) {
+            cleanedValues.omsorgstilbud.enkeltdager = undefined;
+            cleanedValues.omsorgstilbud.fasteDager = undefined;
+            cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
+        } else if (
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW &&
+            cleanedValues.omsorgstilbud?.fastIOmsorgstilbud === YesOrNo.NO
+        ) {
             cleanedValues.omsorgstilbud.enkeltdager = undefined;
             cleanedValues.omsorgstilbud.fasteDager = undefined;
             cleanedValues.omsorgstilbud.erLiktHverUke = undefined;

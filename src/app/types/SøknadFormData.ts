@@ -46,6 +46,7 @@ export enum SøknadFormField {
     omsorgstilbud_gruppe = 'omsorgstilbud_gruppe',
     omsorgstilbud__erIOmsorgstilbud = 'omsorgstilbud.erIOmsorgstilbud',
     omsorgstilbud__erLiktHverUke = 'omsorgstilbud.erLiktHverUke',
+    omsorgstilbud__fastIOmsorgstilbud = 'omsorgstilbud.fastIOmsorgstilbud',
     omsorgstilbud__fasteDager = 'omsorgstilbud.fasteDager',
     omsorgstilbud__enkeltdager = 'omsorgstilbud.enkeltdager',
     ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
@@ -62,6 +63,7 @@ export enum SøknadFormField {
 export interface OmsorgstilbudFormData {
     erIOmsorgstilbud?: YesOrNo;
     erLiktHverUke?: YesOrNo;
+    fastIOmsorgstilbud?: YesOrNo;
     fasteDager?: DurationWeekdays;
     enkeltdager?: DateDurationMap;
 }

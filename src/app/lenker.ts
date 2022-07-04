@@ -10,6 +10,7 @@ interface Lenker {
     ettersend: string;
     skatteetaten: string;
     skatteetatenSN: string;
+    skrivTilOss: string;
 }
 
 const LenkerBokmål: Lenker = {
@@ -29,6 +30,7 @@ const LenkerBokmål: Lenker = {
     skatteetaten: 'https://www.skatteetaten.no/skjema/mine-inntekter-og-arbeidsforhold/',
     skatteetatenSN:
         'https://www.skatteetaten.no/person/skatt/hjelp-til-riktig-skatt/arbeid-trygd-og-pensjon/hobby-ekstrainntekt-og-smajobber/lonnsarbeid-i-hjemmet/lonn-betalt-over-60-000/naringsdrivende-oppdragstakere',
+    skrivTilOss: 'https://www.nav.no/person/kontakt-oss/nb/skriv-til-oss',
 };
 
 const LenkerNynorsk: Partial<Lenker> = {
@@ -43,6 +45,7 @@ const LenkerNynorsk: Partial<Lenker> = {
     skatteetaten: 'https://www.skatteetaten.no/nn/skjema/mine-inntekter-og-arbeidsforhold/',
     skatteetatenSN:
         'https://www.skatteetaten.no/person/skatt/hjelp-til-riktig-skatt/arbeid-trygd-og-pensjon/hobby-ekstrainntekt-og-smajobber/lonnsarbeid-i-hjemmet/lonn-betalt-over-60-000/naringsdrivende-oppdragstakere',
+    skrivTilOss: 'https://www.nav.no/person/kontakt-oss/nb/skriv-til-oss',
 };
 
 const getLenker = (locale?: string): Lenker => {

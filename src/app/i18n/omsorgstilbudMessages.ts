@@ -2,6 +2,11 @@ const omsorgstilbudMessages = {
     nb: {
         'omsorgstilbud.svar.ja': 'Ja',
         'omsorgstilbud.svar.nei': 'Nei',
+        'omsorgstilbud.svar.usikker': 'Usikker',
+        'omsorgstilbud.svar.usikker.nei':
+            'Barnet har ikke vært fast og regelmessig i omsorgstilbud frem til nå, og jeg er usikker på om det kommer til å være det etter hvert.',
+        'omsorgstilbud.svar.usikker.ja':
+            'Barnet er fast og regelmessig i omsorgstilbud nå, men jeg er usikker på hvor mye barnet skal være der fremover.',
 
         'omsorgstilbudPeriode.leggTilTidIOmsorgstilbudLabel': 'Registrer tid i omsorgstilbud',
         'omsorgstilbudMåned.tittel': 'Omsorgstilbud - {måned}',

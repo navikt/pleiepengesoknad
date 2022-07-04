@@ -17,7 +17,7 @@ interface Props {
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
-    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
+    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud, _omsorgstilbudUsikker },
     søknadsperiode,
 }) => {
     const intl = useIntl();
@@ -28,7 +28,7 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     fra: prettifyDateExtended(søknadsperiode.from),
                     til: prettifyDateExtended(søknadsperiode.to),
                 })}>
-                {omsorgstilbud === undefined && (
+                {omsorgstilbud === undefined && _omsorgstilbudUsikker !== true && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
                             fra: prettifyDateExtended(søknadsperiode.from),
@@ -37,6 +37,23 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                         <FormattedMessage id={`omsorgstilbud.svar.nei`} />
                     </SummaryBlock>
                 )}
+
+                {omsorgstilbud === undefined && _omsorgstilbudUsikker === true && (
+                    <>
+                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                            <FormattedMessage id={`omsorgstilbud.svar.usikker.nei`} />
+                        </SummaryBlock>
+                    </>
+                )}
+
+                {omsorgstilbud !== undefined && omsorgstilbud._usikker === true && (
+                    <>
+                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                            <FormattedMessage id={`omsorgstilbud.svar.usikker.ja`} />
+                        </SummaryBlock>
+                    </>
+                )}
+
                 {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}

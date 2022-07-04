@@ -8,8 +8,18 @@ export const extractOmsorgstibudSøknadsdata = (
     søknadsperiode: DateRange,
     omsorgstilbud?: OmsorgstilbudFormData
 ): OmsorgstilbudSøknadsdata | undefined => {
-    if (!omsorgstilbud || omsorgstilbud.erIOmsorgstilbud !== YesOrNo.YES) {
+    if (
+        !omsorgstilbud ||
+        omsorgstilbud.erIOmsorgstilbud === YesOrNo.NO ||
+        omsorgstilbud.erIOmsorgstilbud === YesOrNo.UNANSWERED
+    ) {
         return undefined;
+    }
+
+    if (omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW && omsorgstilbud.fastIOmsorgstilbud === YesOrNo.NO) {
+        return {
+            type: 'erIOmsorgstilbudUsikkerFastIOmsorgstilbudNO',
+        };
     }
 
     const { erLiktHverUke, fasteDager, enkeltdager } = omsorgstilbud;
@@ -17,12 +27,14 @@ export const extractOmsorgstibudSøknadsdata = (
     if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
             type: 'erIOmsorgstilbudFasteDager',
+            usikker: omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW,
             fasteDager: fasteDager,
         };
     }
     if (erLiktHverUke !== YesOrNo.YES && enkeltdager) {
         return {
             type: 'erIOmsorgstilbudEnkeltDager',
+            usikker: omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW,
             enkeltdager: enkeltdager,
         };
     }

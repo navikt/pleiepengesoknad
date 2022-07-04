@@ -38,6 +38,7 @@ export interface OmsorgstilbudApiData {
     erLiktHverUke: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     ukedager?: TimerFasteDagerApiData;
+    _usikker: boolean;
 }
 
 export interface BarnetSøknadenGjelderApiData {
@@ -142,4 +143,5 @@ export interface SøknadApiData {
     utenlandskNæring: UtenlandskNæringApi[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
+    _omsorgstilbudUsikker?: boolean;
 }

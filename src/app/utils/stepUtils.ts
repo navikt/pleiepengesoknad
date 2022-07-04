@@ -80,7 +80,9 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES
+        (formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES ||
+            (formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW &&
+                formValues.omsorgstilbud.fastIOmsorgstilbud === YesOrNo.YES))
     );
 };
 
