@@ -108,6 +108,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <PictureScanningGuide />
             </Box>
+            <Box>{`total Size ${totalSize / 1024 / 1024} MB`}</Box>
+            <Box>{`max total Size ${MAX_TOTAL_ATTACHMENT_SIZE_BYTES / 1024 / 1024} MB`}</Box>
+
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin="l">
                     <FormikFileUploader

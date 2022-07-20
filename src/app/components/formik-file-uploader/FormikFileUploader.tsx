@@ -15,6 +15,7 @@ import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import imageCompression from 'browser-image-compression';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -77,6 +78,26 @@ const FormikFileUploader = ({
         return attachments.filter(attachmentShouldBeUploaded);
     }
 
+    async function compressFile(file: File) {
+        if (file.type.toLowerCase() === 'application/pdf') {
+            return file;
+        }
+
+        const options = {
+            maxSizeMB: 1,
+            maxWidthOrHeight: 1920,
+            useWebWorker: true,
+        };
+
+        try {
+            const compressedFile = await imageCompression(file, options);
+            return compressedFile;
+        } catch (error) {
+            console.log('Feil ved compressFile: ', error);
+            return file;
+        }
+    }
+
     function addPendingAttachmentToFieldArray(file: File, pushFn: FieldArrayPushFn) {
         const attachment = getPendingAttachmentFromFile(file);
         pushFn(attachment);
@@ -118,13 +139,22 @@ const FormikFileUploader = ({
             onFileUploadComplete();
         }
     }
+
     return (
         <FormikFileInput<SøknadFormField, ValidationError>
             name={name}
             acceptedExtensions={VALID_EXTENSIONS.join(', ')}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
-                const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
+                const compressedFiles: File[] = await Promise.all(
+                    files.map(async (file): Promise<File> => {
+                        return await compressFile(file);
+                    })
+                );
+
+                const attachments = compressedFiles.map((file) => addPendingAttachmentToFieldArray(file, push));
+
                 await uploadAttachments([...values[name], ...attachments], replace);
+
                 if (onFileUploadComplete) {
                     onFileUploadComplete();
                 }
