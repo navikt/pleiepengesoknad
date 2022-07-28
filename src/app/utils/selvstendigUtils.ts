@@ -1,6 +1,8 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { SelvstendigFormData } from '../types/SelvstendigFormData';
 import dayjs from 'dayjs';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 /**
  *
@@ -25,4 +27,33 @@ export const getPeriodeSomSelvstendigInnenforPeriode = (
         from: dayjs.max([dayjs(periode.from), dayjs(virksomhet.fom)]).toDate(),
         to: periode.to,
     };
+};
+
+export const erSNITidsrom = (tidsrom: DateRange, snStartdato: Date, snSluttdato?: Date): boolean => {
+    if (dayjs(snStartdato).isAfter(tidsrom.to, 'day')) {
+        return false;
+    }
+    if (snSluttdato && dayjs(snSluttdato).isBefore(tidsrom.from, 'day')) {
+        return false;
+    }
+    return true;
+};
+
+export const erSNISøknadsperiode = (
+    søknadsperiode: DateRange,
+    { harHattInntektSomSN, virksomhet }: SelvstendigFormData
+): boolean => {
+    if (harHattInntektSomSN !== YesOrNo.YES) {
+        return false;
+    }
+
+    if (!virksomhet) {
+        return false;
+    }
+
+    if (!virksomhet.fom) {
+        return false;
+    }
+
+    return erSNITidsrom(søknadsperiode, virksomhet.fom, virksomhet.tom);
 };
