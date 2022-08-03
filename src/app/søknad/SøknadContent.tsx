@@ -133,10 +133,12 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                 </BekreftDialog>
             )}
             <Switch>
-                <Route
-                    path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                    render={() => <WelcomingPage onValidSubmit={startSoknad} />}
-                />
+                {søknadHasBeenSent === false && (
+                    <Route
+                        path={RouteConfig.WELCOMING_PAGE_ROUTE}
+                        render={() => <WelcomingPage onValidSubmit={startSoknad} />}
+                    />
+                )}
 
                 {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
                     <Route
