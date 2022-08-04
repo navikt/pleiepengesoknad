@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useHistory } from 'react-router-dom';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
@@ -140,7 +140,10 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                         onValidFormSubmit={
                             apiValuesValidationErrors === undefined
                                 ? () => {
-                                      sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
+                                      setTimeout(() => {
+                                          // Sette timeout for å la view rendre seg først før en starter innsending - unngå error i console
+                                          sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
+                                      });
                                   }
                                 : undefined
                         }
