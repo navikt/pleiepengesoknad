@@ -305,9 +305,9 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                                 values={values}
                                 søknadsdato={søknadsdato}
                                 onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
+                                    resetForm();
                                     setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                     setSøknadHasBeenSent(true);
-                                    resetForm();
                                     navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                                 }}
                             />

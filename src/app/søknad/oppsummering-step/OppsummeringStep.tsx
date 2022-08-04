@@ -137,16 +137,13 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}
-                        onValidFormSubmit={() => {
-                            if (apiValuesValidationErrors === undefined) {
-                                setTimeout(() => {
-                                    // La view oppdatere seg først
-                                    sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
-                                });
-                            } else {
-                                document.getElementsByClassName('validationErrorSummary');
-                            }
-                        }}
+                        onValidFormSubmit={
+                            apiValuesValidationErrors === undefined
+                                ? () => {
+                                      sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
+                                  }
+                                : undefined
+                        }
                         useValidationErrorSummary={false}
                         showSubmitButton={apiValuesValidationErrors === undefined}
                         buttonDisabled={sendingInProgress}
