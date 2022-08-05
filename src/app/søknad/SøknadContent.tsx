@@ -296,7 +296,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                     />
                 )}
 
-                {isAvailable(StepID.SUMMARY, values, søknadHasBeenSent) && søknadsperiode && (
+                {isAvailable(StepID.SUMMARY, values) && søknadsperiode && (
                     <Route
                         path={getSøknadRoute(StepID.SUMMARY)}
                         render={() => (
@@ -314,7 +314,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                     />
                 )}
 
-                {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && (
+                {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values, søknadHasBeenSent) && (
                     <Route
                         path={RouteConfig.SØKNAD_SENDT_ROUTE}
                         render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}

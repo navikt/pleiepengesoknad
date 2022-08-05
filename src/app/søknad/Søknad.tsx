@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
@@ -13,6 +13,7 @@ import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-am
 const Søknad = () => {
     const history = useHistory();
     const { logHendelse } = useAmplitudeInstance();
+    const [søknadSent, setSøknadSent] = useState<boolean>(false);
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
@@ -27,13 +28,18 @@ const Søknad = () => {
                                 null;
                             }}
                             renderForm={(formik) => {
+                                if (søknadSent) {
+                                    setTimeout(() => {
+                                        formik.resetForm();
+                                        formik.setValues(initialValues);
+                                    });
+                                }
                                 return (
                                     <SøknadContent
                                         lastStepID={lastStepID}
-                                        harMellomlagring={harMellomlagring}
+                                        harMellomlagring={søknadSent ? false : harMellomlagring}
                                         onSøknadSent={() => {
-                                            formik.resetForm();
-                                            formik.setValues(initialValues);
+                                            setSøknadSent(true);
                                         }}
                                     />
                                 );
