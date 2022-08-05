@@ -14,6 +14,7 @@ const Søknad = () => {
     const history = useHistory();
     const { logHendelse } = useAmplitudeInstance();
     const [søknadSent, setSøknadSent] = useState<boolean>(false);
+    const [søknadReset, setSøknadReset] = useState<boolean>(false);
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
@@ -28,10 +29,11 @@ const Søknad = () => {
                                 null;
                             }}
                             renderForm={(formik) => {
-                                if (søknadSent) {
+                                if (søknadSent && søknadReset === false) {
                                     setTimeout(() => {
-                                        formik.resetForm();
-                                        formik.setValues(initialValues);
+                                        setSøknadReset(true);
+                                        formik.resetForm({ values: initialValues, submitCount: 0 });
+                                        // formik.setValues(initialValues);
                                     });
                                 }
                                 return (
@@ -40,6 +42,12 @@ const Søknad = () => {
                                         harMellomlagring={søknadSent ? false : harMellomlagring}
                                         onSøknadSent={() => {
                                             setSøknadSent(true);
+                                        }}
+                                        onSøknadStart={() => {
+                                            setTimeout(() => {
+                                                setSøknadSent(false);
+                                                setSøknadReset(false);
+                                            });
                                         }}
                                     />
                                 );

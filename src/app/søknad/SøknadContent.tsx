@@ -40,9 +40,10 @@ interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
     onSøknadSent: () => void;
+    onSøknadStart: () => void;
 }
 
-const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -99,6 +100,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
     };
 
     const startSoknad = async () => {
+        onSøknadStart();
         await logSoknadStartet(SKJEMANAVN);
         await purge();
         await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
