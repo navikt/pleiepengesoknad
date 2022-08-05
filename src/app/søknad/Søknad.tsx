@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
@@ -13,12 +13,17 @@ import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-am
 const Søknad = () => {
     const history = useHistory();
     const { logHendelse } = useAmplitudeInstance();
+    const [søknadSent, setSøknadSent] = useState<boolean>(false);
+    const [søknadReset, setSøknadReset] = useState<boolean>(false);
+    console.log('render me');
+    let søknadResetCount = 0;
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
             contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
-                const initialFormValues = formdata || initialValues;
+                const initialFormValues = søknadSent ? initialValues : formdata || initialValues;
+                console.log('render me too', søknadSent, initialFormValues);
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
                         <TypedFormikWrapper<SøknadFormData>
@@ -26,8 +31,26 @@ const Søknad = () => {
                             onSubmit={() => {
                                 null;
                             }}
-                            renderForm={() => {
-                                return <SøknadContent lastStepID={lastStepID} harMellomlagring={harMellomlagring} />;
+                            renderForm={(formik) => {
+                                if (søknadSent && søknadReset === false && søknadResetCount === 0) {
+                                    setTimeout(() => {
+                                        setSøknadReset(true);
+                                        søknadResetCount++;
+                                        formik.resetForm();
+                                        formik.setValues(initialValues);
+                                    });
+                                }
+                                console.log('and meee');
+                                return (
+                                    <SøknadContent
+                                        lastStepID={lastStepID}
+                                        harMellomlagring={søknadSent ? false : harMellomlagring}
+                                        onSøknadSent={() => {
+                                            console.log('Søknad sendt satt');
+                                            setSøknadSent(true);
+                                        }}
+                                    />
+                                );
                             }}
                         />
                     </SøknadsdataWrapper>

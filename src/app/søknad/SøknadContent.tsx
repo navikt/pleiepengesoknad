@@ -39,9 +39,10 @@ import TidsromStep from './tidsrom-step/TidsromStep';
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
+    onSøknadSent: () => void;
 }
 
-const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -295,7 +296,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                     />
                 )}
 
-                {isAvailable(StepID.SUMMARY, values) && søknadsperiode && (
+                {isAvailable(StepID.SUMMARY, values, søknadHasBeenSent) && søknadsperiode && (
                     <Route
                         path={getSøknadRoute(StepID.SUMMARY)}
                         render={() => (
@@ -306,6 +307,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring }: PleiepengesøknadConte
                                     setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                     setSøknadHasBeenSent(true);
                                     resetForm();
+                                    onSøknadSent();
                                     navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                                 }}
                             />

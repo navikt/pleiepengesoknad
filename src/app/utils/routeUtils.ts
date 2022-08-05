@@ -46,7 +46,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData,
         case StepID.MEDLEMSKAP:
             return medlemskapStepAvailable(values);
         case StepID.SUMMARY:
-            return oppsummeringStepAvailable(values);
+            return søknadHasBeenSent !== true && oppsummeringStepAvailable(values);
         case RouteConfig.SØKNAD_SENDT_ROUTE:
             return søknadHasBeenSent === true;
     }
