@@ -47,7 +47,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialog | undefined>(undefined);
-    const { values, resetForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
     const { setSøknadsdata } = useSøknadsdataContext();
@@ -306,7 +306,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                                 onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
                                     setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                     setSøknadHasBeenSent(true);
-                                    resetForm();
                                     onSøknadSent();
                                     navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                                 }}
@@ -315,7 +314,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                     />
                 )}
 
-                {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values, søknadHasBeenSent) && (
+                {isAvailable(RouteConfig.SØKNAD_SENDT_ROUTE, values) && (
                     <Route
                         path={RouteConfig.SØKNAD_SENDT_ROUTE}
                         render={() => <ConfirmationPage kvitteringInfo={kvitteringInfo} />}
