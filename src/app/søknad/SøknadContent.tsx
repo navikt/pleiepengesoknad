@@ -40,14 +40,15 @@ interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
     onSøknadSent: () => void;
+    onSøknadStart: () => void;
 }
 
-const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialog | undefined>(undefined);
-    const { values, resetForm } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormData>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
     const { setSøknadsdata } = useSøknadsdataContext();
@@ -99,6 +100,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
     };
 
     const startSoknad = async () => {
+        onSøknadStart();
         await logSoknadStartet(SKJEMANAVN);
         await purge();
         await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
@@ -296,7 +298,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                     />
                 )}
 
-                {isAvailable(StepID.SUMMARY, values, søknadHasBeenSent) && søknadsperiode && (
+                {isAvailable(StepID.SUMMARY, values) && søknadsperiode && (
                     <Route
                         path={getSøknadRoute(StepID.SUMMARY)}
                         render={() => (
@@ -306,7 +308,6 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent }: Pleiepe
                                 onApplicationSent={(apiData: SøknadApiData, søkerdata: Søkerdata) => {
                                     setKvitteringInfo(getKvitteringInfoFromApiData(apiData, søkerdata));
                                     setSøknadHasBeenSent(true);
-                                    resetForm();
                                     onSøknadSent();
                                     navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
                                 }}

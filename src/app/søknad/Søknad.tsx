@@ -15,15 +15,12 @@ const Søknad = () => {
     const { logHendelse } = useAmplitudeInstance();
     const [søknadSent, setSøknadSent] = useState<boolean>(false);
     const [søknadReset, setSøknadReset] = useState<boolean>(false);
-    console.log('render me');
-    let søknadResetCount = 0;
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
             contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
-                const initialFormValues = søknadSent ? initialValues : formdata || initialValues;
-                console.log('render me too', søknadSent, initialFormValues);
+                const initialFormValues = formdata || initialValues;
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
                         <TypedFormikWrapper<SøknadFormData>
@@ -32,22 +29,24 @@ const Søknad = () => {
                                 null;
                             }}
                             renderForm={(formik) => {
-                                if (søknadSent && søknadReset === false && søknadResetCount === 0) {
+                                if (søknadSent && søknadReset === false) {
                                     setTimeout(() => {
                                         setSøknadReset(true);
-                                        søknadResetCount++;
-                                        formik.resetForm();
-                                        formik.setValues(initialValues);
+                                        formik.resetForm({ values: initialValues, submitCount: 0 });
                                     });
                                 }
-                                console.log('and meee');
                                 return (
                                     <SøknadContent
                                         lastStepID={lastStepID}
                                         harMellomlagring={søknadSent ? false : harMellomlagring}
                                         onSøknadSent={() => {
-                                            console.log('Søknad sendt satt');
                                             setSøknadSent(true);
+                                        }}
+                                        onSøknadStart={() => {
+                                            setTimeout(() => {
+                                                setSøknadSent(false);
+                                                setSøknadReset(false);
+                                            });
                                         }}
                                     />
                                 );
