@@ -33,7 +33,6 @@ const Søknad = () => {
                                     setTimeout(() => {
                                         setSøknadReset(true);
                                         formik.resetForm({ values: initialValues, submitCount: 0 });
-                                        // formik.setValues(initialValues);
                                     });
                                 }
                                 return (
