@@ -125,6 +125,9 @@
         "webpack": "^5.73.0",
         "webpack-dev-server": "^4.9.2"
     },
+    "overrides": {
+        "@navikt/sif-common-formik": "^23.2.0-beta.0"
+    },
     "resolutions": {
         "babel-core": "7.0.0-bridge.0"
     },
