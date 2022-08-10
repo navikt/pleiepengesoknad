@@ -11,6 +11,6 @@
     "license": "ISC",
     "dependencies": {
         "cypress-file-upload": "^5.0.8",
-        "dayjs": "^1.11.3"
+        "dayjs": "^1.11.4"
     }
 }
