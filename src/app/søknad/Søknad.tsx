@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormData } from '../types/SøknadFormData';
@@ -13,6 +13,8 @@ import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-am
 const Søknad = () => {
     const history = useHistory();
     const { logHendelse } = useAmplitudeInstance();
+    const [søknadSent, setSøknadSent] = useState<boolean>(false);
+    const [søknadReset, setSøknadReset] = useState<boolean>(false);
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
@@ -26,8 +28,28 @@ const Søknad = () => {
                             onSubmit={() => {
                                 null;
                             }}
-                            renderForm={() => {
-                                return <SøknadContent lastStepID={lastStepID} harMellomlagring={harMellomlagring} />;
+                            renderForm={(formik) => {
+                                if (søknadSent && søknadReset === false) {
+                                    setTimeout(() => {
+                                        setSøknadReset(true);
+                                        formik.resetForm({ values: initialValues, submitCount: 0 });
+                                    });
+                                }
+                                return (
+                                    <SøknadContent
+                                        lastStepID={lastStepID}
+                                        harMellomlagring={søknadSent ? false : harMellomlagring}
+                                        onSøknadSent={() => {
+                                            setSøknadSent(true);
+                                        }}
+                                        onSøknadStart={() => {
+                                            setTimeout(() => {
+                                                setSøknadSent(false);
+                                                setSøknadReset(false);
+                                            });
+                                        }}
+                                    />
+                                );
                             }}
                         />
                     </SøknadsdataWrapper>
