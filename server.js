@@ -13,6 +13,7 @@ const server = express();
 server.use(
     helmet({
         contentSecurityPolicy: false,
+        crossOriginEmbedderPolicy: false,
     })
 );
 server.use(compression());
