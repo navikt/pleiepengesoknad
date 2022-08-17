@@ -9,7 +9,7 @@ import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-sum
 import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger';
-import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import { OmsorgstilbudSvar, SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 
 interface Props {
     søknadsperiode: DateRange;
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
-    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud, _omsorgstilbudUsikker },
+    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
     søknadsperiode,
 }) => {
     const intl = useIntl();
@@ -28,7 +28,7 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     fra: prettifyDateExtended(søknadsperiode.from),
                     til: prettifyDateExtended(søknadsperiode.to),
                 })}>
-                {omsorgstilbud === undefined && _omsorgstilbudUsikker !== true && (
+                {omsorgstilbud.svar === OmsorgstilbudSvar.NEI && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
                             fra: prettifyDateExtended(søknadsperiode.from),
@@ -37,8 +37,7 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                         <FormattedMessage id={`omsorgstilbud.svar.nei`} />
                     </SummaryBlock>
                 )}
-
-                {omsorgstilbud === undefined && _omsorgstilbudUsikker === true && (
+                {omsorgstilbud.svar === OmsorgstilbudSvar.USIKKER && omsorgstilbud.erLiktHverUke === undefined && (
                     <>
                         <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
                             <FormattedMessage id={`omsorgstilbud.svar.usikker.nei`} />
@@ -46,22 +45,21 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     </>
                 )}
 
-                {omsorgstilbud !== undefined && omsorgstilbud._usikker === true && (
+                {omsorgstilbud.svar === OmsorgstilbudSvar.USIKKER && omsorgstilbud.erLiktHverUke !== undefined && (
                     <>
                         <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
                             <FormattedMessage id={`omsorgstilbud.svar.usikker.ja`} />
                         </SummaryBlock>
                     </>
                 )}
-
-                {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
+                {omsorgstilbud.svar !== OmsorgstilbudSvar.NEI && omsorgstilbud.ukedager && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
                         headerTag="h3">
                         <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
                     </SummaryBlock>
                 )}
-                {omsorgstilbud !== undefined && omsorgstilbud.enkeltdager && (
+                {omsorgstilbud.svar !== OmsorgstilbudSvar.NEI && omsorgstilbud.enkeltdager && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
                         headerTag="h3">

@@ -1,21 +1,20 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { OmsorgstilbudSvar, SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 export type OmsorgstilbudApiData = Pick<SøknadApiData, 'omsorgstilbud'>;
-export type OmsorgstilbudUsikkerApiData = Pick<SøknadApiData, '_omsorgstilbudUsikker'>;
 
 export const getOmsorgstilbudApiDataFromSøknadsdata = (
     søknadsperiode: DateRange,
     omsorgstilbud?: OmsorgstilbudSøknadsdata
-): OmsorgstilbudApiData | OmsorgstilbudUsikkerApiData | undefined => {
+): OmsorgstilbudApiData => {
     if (omsorgstilbud?.type === 'erIOmsorgstilbudFasteDager') {
         return {
             omsorgstilbud: {
                 erLiktHverUke: true,
                 ukedager: getFasteDagerApiData(omsorgstilbud.fasteDager),
-                _usikker: omsorgstilbud.usikker,
+                svar: omsorgstilbud.usikker === true ? OmsorgstilbudSvar.USIKKER : OmsorgstilbudSvar.JA,
             },
         };
     }
@@ -24,14 +23,20 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
             omsorgstilbud: {
                 erLiktHverUke: false,
                 enkeltdager: getEnkeltdagerIPeriodeApiData(omsorgstilbud.enkeltdager, søknadsperiode),
-                _usikker: omsorgstilbud.usikker,
+                svar: omsorgstilbud.usikker === true ? OmsorgstilbudSvar.USIKKER : OmsorgstilbudSvar.JA,
             },
         };
     }
     if (omsorgstilbud?.type === 'erIOmsorgstilbudUsikkerFastIOmsorgstilbudNO') {
         return {
-            _omsorgstilbudUsikker: true,
+            omsorgstilbud: {
+                svar: OmsorgstilbudSvar.USIKKER,
+            },
         };
     }
-    return undefined;
+    return {
+        omsorgstilbud: {
+            svar: OmsorgstilbudSvar.NEI,
+        },
+    };
 };

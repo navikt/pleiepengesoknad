@@ -168,7 +168,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                     </FormBlock>
                     {omsorgstilbud.fastIOmsorgstilbud === YesOrNo.YES && (
                         <>
-                            <Box margin="xxxl">
+                            <Box margin="l">
                                 <AlertStripe type={'info'}>
                                     <Box padBottom="m">
                                         <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.ja.info.avsnitt.1" />
