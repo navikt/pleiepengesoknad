@@ -39,7 +39,7 @@
         "@navikt/sif-common-forms": "^17.4.1",
         "@navikt/sif-common-pleiepenger": "^4.1.1",
         "@navikt/sif-common-sentry": "0.3.1",
-        "@navikt/sif-common-utils": "^3.9.0",
+        "@navikt/sif-common-utils": "^3.14.1",
         "amplitude-js": "^8.19.0",
         "axios": "^0.27.2",
         "classnames": "^2.3.1",
