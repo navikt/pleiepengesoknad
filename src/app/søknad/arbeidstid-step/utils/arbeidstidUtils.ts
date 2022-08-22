@@ -114,7 +114,13 @@ export const harFraværIPerioden = (arbeidsforhold: ArbeidsforholdSøknadsdata[]
     return arbeidsforhold.some(erArbeidsforholdMedFravær);
 };
 
-export const getArbeidsforhold = (arbeid: ArbeidSøknadsdata): ArbeidsforholdSøknadsdata[] => {
+export const harArbeidIPerioden = (arbeid?: ArbeidSøknadsdata): boolean =>
+    arbeid !== undefined && getArbeidsforhold(arbeid).length > 0;
+
+export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdSøknadsdata[] => {
+    if (arbeid === undefined) {
+        return [];
+    }
     const arbeidsgivere: ArbeidsforholdSøknadsdata[] = [];
     arbeid.arbeidsgivere?.forEach((a) => {
         if (a.erAnsattISøknadsperiode) {
