@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
 import { persist, purge } from '../api/api';
@@ -35,6 +34,7 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
@@ -88,7 +88,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
                         navigateTo(nextStepRoute, history);
                     })
                     .catch((error) => {
-                        if (apiUtils.isUnauthorized(error)) {
+                        if (isUnauthorized(error)) {
                             userNotLoggedIn();
                         } else {
                             logApiError(ApiError.mellomlagring, { stepId });
@@ -104,7 +104,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
         await logSoknadStartet(SKJEMANAVN);
         await purge();
         await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
-            if (apiUtils.isUnauthorized(error)) {
+            if (isUnauthorized(error)) {
                 userNotLoggedIn();
             } else {
                 logApiError(ApiError.mellomlagring, { step: 'velkommen' });

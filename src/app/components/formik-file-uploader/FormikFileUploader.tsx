@@ -12,9 +12,9 @@ import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-comm
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
 import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -92,7 +92,7 @@ const FormikFileUploader = ({
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
             } catch (error: any) {
-                if (apiUtils.isUnauthorized(error)) {
+                if (isUnauthorized(error)) {
                     onUnauthorizedOrForbiddenUpload();
                 } else {
                     appSentryLogger.logApiError(error);

@@ -1,4 +1,4 @@
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
+import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { ISODate, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { getArbeidsgiver } from './api';
@@ -69,7 +69,7 @@ export async function getArbeidsgivereRemoteData(fromDate: Date, toDate: Date): 
         const arbeidsgivere = mapAAregArbeidsgiverRemoteDataToArbeidsgiver(response.data);
         return Promise.resolve(arbeidsgivere);
     } catch (error: any) {
-        if (apiUtils.isUnauthorized(error)) {
+        if (isUnauthorized(error)) {
             relocateToLoginPage();
         } else {
             appSentryLogger.logApiError(error);

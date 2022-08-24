@@ -1,5 +1,5 @@
 import { ApiError, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
+import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError } from 'axios';
 import { useFormikContext } from 'formik';
 import { History } from 'history';
@@ -14,7 +14,7 @@ function usePersistSoknad(history: History) {
 
     async function doPersist(stepID: StepID) {
         apiPersist(values, stepID).catch((error: AxiosError) => {
-            if (apiUtils.isUnauthorized(error)) {
+            if (isUnauthorized(error)) {
                 logUserLoggedOut('Mellomlagring ved navigasjon');
                 relocateToLoginPage();
             } else {
