@@ -38,7 +38,7 @@ export const rehydrate = () =>
 export const purge = () =>
     axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
 
-export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
+export const getBarn = async () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<AAregArbeidsgiverRemoteData>> => {
     return axios.get(
