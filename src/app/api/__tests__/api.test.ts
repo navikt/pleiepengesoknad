@@ -29,6 +29,8 @@ jest.mock('../../utils/featureToggleUtils', () => {
     };
 });
 
+jest.mock('axios');
+
 describe('api', () => {
     describe('getBarn', () => {
         it('should call axios.get with correct URL and axios config', () => {

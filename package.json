@@ -15,8 +15,8 @@
         "start-no-decorator": "node ./src/build/scripts/start-dev-no-decorator.js",
         "snd": "node ./src/build/scripts/start-dev-no-decorator.js",
         "start-express": "node ./server.js",
-        "test": "jest --maxWorkers=2 --config ./jest/jest.config.js",
-        "test-w": "jest --maxWorkers=2 --config ./jest/jest.config.js --watch",
+        "test": "react-scripts test --watchAll=false --env=jsdom --runInBand",
+        "test-w": "react-scripts test --env=jsdom",
         "prepare": "npm run snyk-protect",
         "snyk-protect": "snyk-protect",
         "cypress:install": "npm add -D cypress cypress-file-upload",
@@ -28,18 +28,18 @@
         "e2e-docker-compose": "docker-compose -f ./e2e/docker-compose.yml up --build --exit-code-from e2e",
         "e2e-docker-rm": "docker rm $(docker ps -a -f status=exited -q) ",
         "e2e-docker-rmi": "docker images -a | grep e2e | awk '{print $3}' | xargs docker rmi",
-        "server-test": "node ./server-test.js",
-        "test-søknadsdata": "jest --coverage --config ./jest/jest.config.js --watchAll"
+        "server-test": "node ./server-test.js"
     },
     "dependencies": {
         "@formatjs/intl-pluralrules": "^4.3.3",
         "@navikt/sif-common-amplitude": "^2.5.1",
-        "@navikt/sif-common-core": "^12.0.5",
+        "@navikt/sif-common-core": "^12.0.6",
         "@navikt/sif-common-formik": "^23.2.0",
         "@navikt/sif-common-forms": "^17.5.1",
         "@navikt/sif-common-pleiepenger": "^4.1.1",
         "@navikt/sif-common-sentry": "0.3.1",
-        "@navikt/sif-common-utils": "^3.9.0",
+        "@navikt/sif-common-utils": "3.15.0",
+        "ajv": "^8.11.0",
         "amplitude-js": "^8.19.0",
         "axios": "^0.27.2",
         "classnames": "^2.3.1",
@@ -69,6 +69,7 @@
         "promise": "^8.1.0",
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
+        "react-router": "^5.3.3",
         "ts-loader": "^9.3.1"
     },
     "devDependencies": {
@@ -77,8 +78,12 @@
         "@babel/preset-env": "^7.18.10",
         "@babel/preset-react": "^7.18.6",
         "@snyk/protect": "^1.984.0",
+        "@testing-library/jest-dom": "^5.16.5",
+        "@testing-library/react": "^12.1.5",
+        "@testing-library/react-hooks": "^8.0.1",
+        "@testing-library/user-event": "^14.4.3",
         "@types/enzyme": "^3.10.12",
-        "@types/jest": "^28.1.6",
+        "@types/jest": "^28.1.8",
         "@types/lodash.groupby": "^4.6.7",
         "@types/react": "^17.0.40",
         "@types/react-dom": "^17.0.16",
@@ -86,8 +91,8 @@
         "@typescript-eslint/eslint-plugin": "^5.32.0",
         "@typescript-eslint/parser": "5.32.0",
         "@wojtekmaj/enzyme-adapter-react-17": "^0.6.7",
+        "axios-mock-adapter": "^1.21.2",
         "babel-core": "^7.0.0-bridge.0",
-        "babel-jest": "^28.1.3",
         "babel-polyfill": "^6.26.0",
         "busboy": "^1.6.0",
         "case-sensitive-paths-webpack-plugin": "^2.4.0",
@@ -105,8 +110,6 @@
         "html-webpack-harddisk-plugin": "^2.0.0",
         "html-webpack-plugin": "^5.5.0",
         "intl": "^1.2.5",
-        "jest": "^28.1.3",
-        "jest-css-modules": "^2.1.0",
         "jsdom": "^19.0.0",
         "less": "^4.1.3",
         "less-loader": "^11.0.0",
@@ -116,12 +119,18 @@
         "prettier": "^2.7.1",
         "react-dom": "^17.0.2",
         "react-intl": "^5.25.1",
+        "react-scripts": "^5.0.1",
         "source-map-loader": "^4.0.0",
         "style-loader": "^3.3.1",
-        "ts-jest": "^28.0.7",
         "typescript": "^4.7.4",
         "webpack": "^5.74.0",
         "webpack-dev-server": "^4.9.3"
+    },
+    "jest": {
+        "transformIgnorePatterns": [
+            "node_modules/(?!(@navikt)).*\\.js$"
+        ],
+        "resetMocks": false
     },
     "resolutions": {
         "babel-core": "7.0.0-bridge.0"
