@@ -1,31 +1,32 @@
 # Pleiepenger sykt barn - forhåndsutfylle søknad
 
-## Enklest mulig
+## Enklest mulig løsning
 
-    Som mellomlagring  - en baserer seg på forrige innsendte søknad. Det er ingen funksjonelle endringer i selve søknadsdialogen etter at en har gått videre fra velkommen-siden. Muligheter for å legge til ekstra informasjon.
+Som mellomlagring - en baserer seg på forrige innsendte søknad. Det er ingen funksjonelle endringer i selve søknadsdialogen etter at en har gått videre fra velkommen-steget. Det kan være muligheter for å legge til ekstra informasjon.
 
-### Endringer i steg
+### Steg for steg
 
 -   Velkommen
-    -   Dersom forrige innsendte søknad fortsatt er kompatibel med dialogen, og ikke er for gammel, får bruker valg om en ønsker å fylle ut ny søknad med informasjon fra forrige søknad innsendt "x.x.xxxx".
-    -   Dersom vi endrer noe av informasjonen, må vi kanskje opplyse om hva som er endret - eller holder det at søker ser det når en går gjennom søknaden?
-    -   Dersom forrige søknad ikke er kompatibel, er dialogen som i dag.
+
+    -   Dersom forrige innsendte søknad er gyldig, får bruker valg om en ønsker å fylle ut ny søknad med informasjon fra forrige søknad.
+    -   Dersom forrige søknad ikke er gyldig, blir dialogen som i dag.
+    -   Avklaring: må vi opplyse hva vi endrer, dersom vi endrer på noe av informasjonen som ble sendt inn i forrige søknad, eller holder det at bruker ser det når hen fyller ut søknaden?
+
 -   Periode
-    -   Periodefelter bør tømmes
-    -   Utenlandsopphold/ferie valideres som vanlig. Det er vanskelig å fjerne disse i og med periode velges på samme steg.
+    -   Periodefelter tømmes
+    -   Utenlandsopphold/ferie valideres som vanlig. Det er vanskelig å endre disse automatisk, i og med periode velges på samme steg.
 -   Arbeidssituasjon
-    -   Arbeidsgivere kan komme til/falle bort - må håndteres. Dersom det er en endring må søker oppgi informasjonen på nytt.
-    -   Frilans og selvestendig næringsdrivende valideres
-    -   Jobbet i annet EØS-land valideres ikke på periode (bør det ikke valideres?)
+    -   Arbeidsgivere kan komme til/falle bort - må håndteres. Enklest: dersom det er en endring i registrerte arbeidsgivere må søker oppgi informasjonen på nytt.
+    -   Frilans og selvestendig næringsdrivende valideres som vanlig
+    -   Jobbet i annet EØS-land valideres ikke på periode (skal det ikke være validering her?)
 -   Jobb i perioden
-    -   Evt. enkeltdager utenfor periode fjernes automatisk (samme som i dag)
+    -   Evt. enkeltdager utenfor periode fjernes automatisk - som i dag når periode endres
 -   Omsorgstilbud i perioden
-    -   Evt. enkeltdager utenfor periode fjernes automatisk (samme som i dag)
+    -   Evt. enkeltdager utenfor periode fjernes automatisk - som i dag når periode endres
 -   Nattevåk og beredskap
     -   Svar kan beholdes?
 -   Utenlandsopphold
-    -   Tidligere utenlandsopphold må endres i forhold til ny søknadsdato
-    -   Fremtidige utenlandsopphold må endres i forhold til ny søknadsdato
+    -   Tidligere/fremtidige opphold var basert på forrige søknadsdato. Disse må korrigeres, evt. søker må oppgi på nytt
 -   Legeerklæring
     -   Evt. forrige erklæring må fjernes
 -   Oppsummering
