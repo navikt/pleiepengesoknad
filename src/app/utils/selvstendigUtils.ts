@@ -13,7 +13,8 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
  * @returns DateRange
  *
  * Avkort periode med startdato for virksomhet
- * Returnerer undefined dersom start er etter periodes start
+ * Returnerer undefined dersom start er etter periodes slutt
+ * Returnerer undefined dersom slutt er før periodes start
  */
 
 export const getPeriodeSomSelvstendigInnenforPeriode = (
@@ -21,6 +22,12 @@ export const getPeriodeSomSelvstendigInnenforPeriode = (
     virksomhet?: Virksomhet
 ): DateRange | undefined => {
     if (virksomhet === undefined || dayjs(virksomhet.fom).isAfter(periode.to, 'day')) {
+        return undefined;
+    }
+    if (
+        virksomhet === undefined ||
+        (virksomhet.tom !== undefined && dayjs(virksomhet.tom).isBefore(periode.from, 'day'))
+    ) {
         return undefined;
     }
     return {
