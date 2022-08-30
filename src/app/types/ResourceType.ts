@@ -1,5 +1,6 @@
 export enum ResourceType {
     ARBEIDSGIVER = 'arbeidsgiver',
+    FORRIGE_SOKNAD = 'forrige_soknad',
     BARN = 'barn',
     SEND_SØKNAD = 'soknad',
     SØKER = 'soker',

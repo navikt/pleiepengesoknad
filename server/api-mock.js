@@ -1,9 +1,9 @@
+const _ = require('lodash');
+const busboyCons = require('busboy');
+const express = require('express');
+const fs = require('fs');
 const os = require('os');
 const process = require('process');
-const fs = require('fs');
-const express = require('express');
-const busboyCons = require('busboy');
-const _ = require('lodash');
 
 const platformNIC = () => {
     const interfaces = os.networkInterfaces();
@@ -93,6 +93,8 @@ const arbeidsgivereMock = {
     privatarbeidsgiver: [],
 };
 
+const FORRIGE_SØKNAD = './server/mockdata/søknad.json';
+
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
 const isJSON = (str) => {
@@ -153,6 +155,14 @@ const startExpressServer = () => {
         res.sendStatus(200);
     });
 
+    server.get('/forrige_soknad', (req, res) => {
+        if (existsSync(FORRIGE_SØKNAD)) {
+            const body = readFileSync(FORRIGE_SØKNAD);
+            res.send(JSON.parse(body));
+        } else {
+            res.send({});
+        }
+    });
     server.get('/mellomlagring', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
             const body = readFileSync(MELLOMLAGRING_JSON);

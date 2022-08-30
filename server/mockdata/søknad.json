@@ -1,0 +1,465 @@
+{
+    "versjon": "11.0.1",
+    "språk": "nb",
+    "harForståttRettigheterOgPlikter": true,
+    "harBekreftetOpplysninger": true,
+    "barn": {
+        "navn": "Barn Barne Barnesen",
+        "aktørId": "1",
+        "fødselsdato": "2021-01-01"
+    },
+    "fraOgMed": "2022-07-01",
+    "tilOgMed": "2022-08-31",
+    "harMedsøker": false,
+    "utenlandsoppholdIPerioden": {
+        "skalOppholdeSegIUtlandetIPerioden": true,
+        "opphold": [
+            {
+                "landnavn": "Albania",
+                "landkode": "ALB",
+                "fraOgMed": "2022-08-23",
+                "tilOgMed": "2022-08-27"
+            }
+        ]
+    },
+    "ferieuttakIPerioden": {
+        "skalTaUtFerieIPerioden": true,
+        "ferieuttak": [
+            {
+                "fraOgMed": "2022-08-18",
+                "tilOgMed": "2022-08-21"
+            }
+        ]
+    },
+    "arbeidsgivere": [
+        {
+            "erAnsatt": true,
+            "type": "ORGANISASJON",
+            "navn": "Karis gullfisker",
+            "organisasjonsnummer": "112233445",
+            "sluttetFørSøknadsperiode": false,
+            "arbeidsforhold": {
+                "normalarbeidstid": {
+                    "erLiktHverUke": true,
+                    "timerFasteDager": {
+                        "mandag": "PT2H0M",
+                        "tirsdag": "PT2H0M",
+                        "onsdag": "PT2H0M",
+                        "torsdag": "PT2H0M",
+                        "fredag": "PT2H0M"
+                    },
+                    "_arbeiderDeltid": false,
+                    "_arbeiderHelg": false
+                },
+                "arbeidIPeriode": {
+                    "type": "ARBEIDER_ENKELTDAGER",
+                    "arbeiderIPerioden": "REDUSERT",
+                    "enkeltdager": [
+                        {
+                            "dato": "2022-07-01",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-04",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT5H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-05",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT5H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-06",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT5H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-07",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT5H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-08",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT5H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-11",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-12",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-13",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-14",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-15",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-18",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-19",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-20",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-21",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-22",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-25",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-26",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-27",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-28",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-07-29",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-01",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-02",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-03",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-04",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-05",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-08",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-09",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-10",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-11",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-12",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-15",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-16",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-17",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-18",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-19",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-22",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT0H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-23",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-24",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-25",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-26",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-29",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-30",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        },
+                        {
+                            "dato": "2022-08-31",
+                            "arbeidstimer": {
+                                "faktiskTimer": "PT2H0M",
+                                "normalTimer": "PT2H0M"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "frilans": {
+        "harInntektSomFrilanser": true,
+        "jobberFortsattSomFrilans": true,
+        "startdato": "2012-08-09",
+        "arbeidsforhold": {
+            "normalarbeidstid": {
+                "erLiktHverUke": false,
+                "timerPerUkeISnitt": "PT20H0M",
+                "_arbeiderHelg": false,
+                "_arbeiderDeltid": false
+            },
+            "arbeidIPeriode": {
+                "type": "ARBEIDER_IKKE",
+                "arbeiderIPerioden": "HELT_FRAVÆR"
+            }
+        }
+    },
+    "selvstendigNæringsdrivende": {
+        "harInntektSomSelvstendig": true,
+        "arbeidsforhold": {
+            "normalarbeidstid": {
+                "erLiktHverUke": false,
+                "timerPerUkeISnitt": "PT5H0M",
+                "_arbeiderHelg": false,
+                "_arbeiderDeltid": false
+            },
+            "arbeidIPeriode": {
+                "type": "ARBEIDER_VANLIG",
+                "arbeiderIPerioden": "SOM_VANLIG"
+            }
+        },
+        "virksomhet": {
+            "næringstype": "JORDBRUK_SKOGBRUK",
+            "navnPåVirksomheten": "MySpace",
+            "registrertINorge": false,
+            "registrertIUtlandet": {
+                "landkode": "SYC",
+                "landnavn": "Seychellene"
+            },
+            "fraOgMed": "2004-08-02",
+            "tilOgMed": null,
+            "erNyoppstartet": false,
+            "harFlereAktiveVirksomheter": true
+        }
+    },
+    "opptjeningIUtlandet": [
+        {
+            "navn": "ABC",
+            "opptjeningType": "ARBEIDSTAKER",
+            "land": {
+                "landnavn": "Bulgaria",
+                "landkode": "BGR"
+            },
+            "fraOgMed": "2022-01-03",
+            "tilOgMed": "2022-03-09"
+        }
+    ],
+    "utenlandskNæring": [],
+    "omsorgstilbud": {
+        "erLiktHverUke": true,
+        "ukedager": {
+            "mandag": "PT3H0M",
+            "onsdag": "PT3H0M"
+        }
+    },
+    "nattevåk": {
+        "harNattevåk": true,
+        "tilleggsinformasjon": "Jeg sover om dagen"
+    },
+    "beredskap": {
+        "beredskap": true,
+        "tilleggsinformasjon": "Beredskap må jeg ha"
+    },
+    "medlemskap": {
+        "harBoddIUtlandetSiste12Mnd": true,
+        "utenlandsoppholdSiste12Mnd": [
+            {
+                "landnavn": "Algerie",
+                "landkode": "DZA",
+                "fraOgMed": "2022-06-01",
+                "tilOgMed": "2022-08-29"
+            }
+        ],
+        "skalBoIUtlandetNeste12Mnd": true,
+        "utenlandsoppholdNeste12Mnd": [
+            {
+                "landnavn": "Antigua og Barbuda",
+                "landkode": "ATG",
+                "fraOgMed": "2022-08-30",
+                "tilOgMed": "2022-12-17"
+            }
+        ]
+    },
+    "vedlegg": []
+}
