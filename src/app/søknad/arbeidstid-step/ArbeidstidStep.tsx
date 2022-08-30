@@ -54,7 +54,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const handleArbeidstidChanged = () => {
         persist(StepID.ARBEIDSTID);
     };
-    console.log('periodeSomSelvstendigISøknadsperiode: ', periodeSomSelvstendigISøknadsperiode);
+
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSTID}
