@@ -7,7 +7,7 @@ import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import { Søkerdata } from '../types/Søkerdata';
-import { initialValues, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
+import { initialValues, SøknadFormValues, SøknadFormField } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
@@ -17,7 +17,7 @@ interface Props {
     onUgyldigMellomlagring: () => void;
     onError: () => void;
     contentLoadedRenderer: (
-        formdata: SøknadFormData,
+        formdata: SøknadFormValues,
         harMellomlagring: boolean,
         lastStepID?: StepID,
         søkerdata?: Søkerdata
@@ -28,7 +28,7 @@ interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
-    formdata: SøknadFormData;
+    formdata: SøknadFormValues;
     søkerdata?: Søkerdata;
     harMellomlagring: boolean;
     harIkkeTilgang: boolean;
@@ -122,7 +122,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     }
 
     updateSøkerdata(
-        formdata: SøknadFormData,
+        formdata: SøknadFormValues,
         søkerdata: Søkerdata,
         harMellomlagring: boolean,
         lastStepID?: StepID,

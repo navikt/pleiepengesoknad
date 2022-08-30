@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { navigateToErrorPage } from '../utils/navigationUtils';
 import SøknadContent from './SøknadContent';
@@ -19,11 +19,11 @@ const Søknad = () => {
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
-            contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
+            contentLoadedRenderer={(formdata: SøknadFormValues, harMellomlagring, lastStepID: StepID | undefined) => {
                 const initialFormValues = formdata || initialValues;
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
-                        <TypedFormikWrapper<SøknadFormData>
+                        <TypedFormikWrapper<SøknadFormValues>
                             initialValues={initialFormValues}
                             onSubmit={() => {
                                 null;

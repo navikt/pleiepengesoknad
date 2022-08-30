@@ -2,7 +2,7 @@ import React from 'react';
 import { useFormikContext } from 'formik';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormStep from '../SøknadFormStep';
 import AnnetBarnPart from './AnnetBarnPart';
 import RegistrertBarnPart from './RegistrertBarnPart';
@@ -13,7 +13,7 @@ const harRegistrerteBarn = ({ barn }: Søkerdata) => {
 };
 
 const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
     const { søknadenGjelderEtAnnetBarn } = values;
     const søkerdata = React.useContext(SøkerdataContext);
     return (

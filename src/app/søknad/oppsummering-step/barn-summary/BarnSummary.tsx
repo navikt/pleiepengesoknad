@@ -10,11 +10,11 @@ import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { BarnRelasjon, RegistrerteBarn } from '../../../types';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 
 interface Props {
     barn: RegistrerteBarn[];
-    formValues: SøknadFormData;
+    formValues: SøknadFormValues;
     apiValues: SøknadApiData;
 }
 

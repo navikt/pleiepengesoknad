@@ -16,7 +16,7 @@ import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import {
     validateFerieuttakIPerioden,
@@ -32,7 +32,7 @@ import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './h
 dayjs.extend(minMax);
 
 const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
 

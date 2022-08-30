@@ -12,7 +12,7 @@ import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import getLenker from '../../lenker';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
@@ -39,7 +39,7 @@ interface Props {
 }
 
 const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: StepConfigProps & Props) => {
-    const formikProps = useFormikContext<SøknadFormData>();
+    const formikProps = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const {
         values,

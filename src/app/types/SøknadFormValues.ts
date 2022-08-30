@@ -3,7 +3,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
-import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from './';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
 import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
@@ -66,7 +66,7 @@ export interface OmsorgstilbudFormData {
     enkeltdager?: DateDurationMap;
 }
 
-export interface SøknadFormData {
+export interface SøknadFormValues {
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
     [SøknadFormField.barnetsNavn]: string;
@@ -109,7 +109,7 @@ export interface SøknadFormData {
     [SøknadFormField.utenlandskNæring]: UtenlandskNæring[];
 }
 
-export const initialValues: SøknadFormData = {
+export const initialValues: SøknadFormValues = {
     [SøknadFormField.periodeFra]: undefined,
     [SøknadFormField.periodeTil]: undefined,
     [SøknadFormField.barnetsNavn]: '',
@@ -150,7 +150,7 @@ export const initialValues: SøknadFormData = {
 };
 
 export type MedlemskapFormData = Pick<
-    SøknadFormData,
+    SøknadFormValues,
     | SøknadFormField.harBoddUtenforNorgeSiste12Mnd
     | SøknadFormField.utenlandsoppholdSiste12Mnd
     | SøknadFormField.skalBoUtenforNorgeNeste12Mnd
@@ -158,7 +158,7 @@ export type MedlemskapFormData = Pick<
 >;
 
 export type OmBarnetFormData = Pick<
-    SøknadFormData,
+    SøknadFormValues,
     | SøknadFormField.barnetSøknadenGjelder
     | SøknadFormField.barnetsNavn
     | SøknadFormField.barnetsFødselsnummer

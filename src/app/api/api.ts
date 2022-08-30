@@ -5,7 +5,7 @@ import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';
 import { StepID } from '../søknad/søknadStepsConfig';
 import { ResourceType } from '../types/ResourceType';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
 
@@ -14,7 +14,7 @@ export const getPersistUrl = (stepID?: StepID) =>
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: SøknadFormData | undefined, lastStepID?: StepID) => {
+export const persist = (formData: SøknadFormValues | undefined, lastStepID?: StepID) => {
     const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: SøknadTempStorageData = {

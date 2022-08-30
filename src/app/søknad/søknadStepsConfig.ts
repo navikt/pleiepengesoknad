@@ -1,4 +1,4 @@
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvareArbeidstid, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
@@ -49,7 +49,7 @@ interface ConfigStepHelperType {
     included: boolean;
 }
 
-export const getSøknadStepConfig = (formValues: SøknadFormData | undefined): StepConfigInterface => {
+export const getSøknadStepConfig = (formValues: SøknadFormValues | undefined): StepConfigInterface => {
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
     const includeArbeidstid =

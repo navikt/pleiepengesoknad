@@ -14,7 +14,7 @@ import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
@@ -34,7 +34,7 @@ type Props = {
     søknadsdato: Date;
 };
 const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const neste12FomDate = getFomForBostedNeste12(values.utenlandsoppholdSiste12Mnd, søknadsdato);
     return (

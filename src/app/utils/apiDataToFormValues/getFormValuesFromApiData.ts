@@ -1,9 +1,9 @@
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 
-export const getApiDataFromSøknadsdata = (søknad: SøknadApiData | undefined): Partial<SøknadFormData> | undefined => {
+export const getApiDataFromSøknadsdata = (søknad: SøknadApiData | undefined): Partial<SøknadFormValues> | undefined => {
     if (!søknad) return undefined;
-    const formValues: Partial<SøknadFormData> = {
+    const formValues: Partial<SøknadFormValues> = {
         harForståttRettigheterOgPlikter: søknad.harForståttRettigheterOgPlikter,
         harBekreftetOpplysninger: false,
     };

@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { ArbeidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsgivereArbeidsforholdSøknadsdata } from './extractArbeidsgivereArbeidsforholdSøknadsdata';
 import { extractArbeidFrilansSøknadsdata } from './extractArbeidFrilansSøknadsdata';
@@ -8,7 +8,7 @@ import { extractOpptjeningUtlandSøknadsdata } from './extractOpptjeningUtlandS�
 import { extractUtenlandskNæringSøknadsdata } from './extractUtenlandskNæringSøknadsdata';
 
 export const extractArbeidSøknadsdata = (
-    values: SøknadFormData,
+    values: SøknadFormValues,
     søknadsperiode: DateRange
 ): ArbeidSøknadsdata | undefined => {
     const arbeidsgivere = extractArbeidsgivereArbeidsforholdSøknadsdata(values.ansatt_arbeidsforhold, søknadsperiode);

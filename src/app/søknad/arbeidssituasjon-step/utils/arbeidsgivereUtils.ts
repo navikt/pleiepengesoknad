@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../types';
 import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../../types/SøknadFormValues';
 import appSentryLogger from '../../../utils/appSentryLogger';
 
 const erOrganisasjonElerPrivatArbeidsgiver = (a: Arbeidsgiver) =>
@@ -41,7 +41,7 @@ export const syncAnsattArbeidsforhold = (
 };
 
 /**
- * Oppdaterer SøknadFormData med nye arbeidsforhold etter at en har hentet
+ * Oppdaterer SøknadFormValues med nye arbeidsforhold etter at en har hentet
  * arbeidsgivere i søknadsperiode
  *
  * @param arbeidsgivere Arbeidsgivere i søknadsperioden
@@ -49,7 +49,7 @@ export const syncAnsattArbeidsforhold = (
  */
 export const oppdaterSøknadMedArbeidsgivere = (
     arbeidsgivere: Arbeidsgiver[],
-    { values, setFieldValue }: FormikProps<SøknadFormData>
+    { values, setFieldValue }: FormikProps<SøknadFormValues>
 ) => {
     const ansattArbeidsforhold = syncAnsattArbeidsforhold(
         arbeidsgivere.filter(erOrganisasjonElerPrivatArbeidsgiver),

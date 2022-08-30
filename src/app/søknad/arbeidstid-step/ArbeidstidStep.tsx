@@ -15,7 +15,7 @@ import usePersistSoknad from '../../hooks/usePersistSoknad';
 import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
 import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
@@ -32,7 +32,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const history = useHistory();
     const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
     const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
-    const formikProps = useFormikContext<SøknadFormData>();
+    const formikProps = useFormikContext<SøknadFormValues>();
     const { persist } = usePersistSoknad(history);
     const {
         søknadsdata: { arbeid },

@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
 
@@ -18,7 +18,7 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     return true;
 };
 
-export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperiode: DateRange): SøknadFormValues => {
     const cleanedValues = { ...values };
     const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
     if (cleanedValues.omsorgstilbud) {

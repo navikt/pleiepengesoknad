@@ -1,12 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { BeredskapSøknadsdata } from '../../types/søknadsdata/beredskapSøknadsdata';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 
 export const extractBeredskapSøknadsdata = ({
     harBeredskap,
     harBeredskap_ekstrainfo,
     omsorgstilbud,
-}: Partial<SøknadFormData>): BeredskapSøknadsdata | undefined => {
+}: Partial<SøknadFormValues>): BeredskapSøknadsdata | undefined => {
     if (omsorgstilbud !== undefined && omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES) {
         if (harBeredskap === YesOrNo.YES) {
             return {

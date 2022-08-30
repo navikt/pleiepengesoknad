@@ -5,7 +5,7 @@ import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
@@ -145,11 +145,11 @@ const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): Selvst
 };
 
 export const cleanupArbeidssituasjonStep = (
-    formValues: SøknadFormData,
+    formValues: SøknadFormValues,
     søknadsperiode: DateRange,
     frilansoppdrag: Arbeidsgiver[] | undefined
-): SøknadFormData => {
-    const values: SøknadFormData = { ...formValues };
+): SøknadFormValues => {
+    const values: SøknadFormValues = { ...formValues };
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(cleanupAnsattArbeidsforhold);
     values.frilans = cleanupFrilansArbeidssituasjon(søknadsperiode, values.frilans, frilansoppdrag);

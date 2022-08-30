@@ -18,13 +18,13 @@ import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Undertittel } from 'nav-frontend-typografi';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
-import { initialValues, SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { initialValues, SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
-    formValues: SøknadFormData;
+    formValues: SøknadFormValues;
     søkersFødselsnummer: string;
 }
 
@@ -37,7 +37,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
     const {
         values: { barnetHarIkkeFnr },
         setFieldValue,
-    } = useFormikContext<SøknadFormData>();
+    } = useFormikContext<SøknadFormValues>();
 
     return (
         <Box margin="xl">

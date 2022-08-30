@@ -1,4 +1,4 @@
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getHarVærtEllerErVernepliktigFromFormData, getSøknadsperiodeFromFormData } from '../formDataUtils';
 import { extractArbeidSøknadsdata } from './extractArbeidSøknadsdata';
@@ -11,7 +11,7 @@ import { extractNattevåkSøknadsdata } from './extractNattevåkSøknadsdata';
 import { extractOmsorgstibudSøknadsdata } from './extractOmsorgstibudSøknadsdata';
 import { extractUtenlandsoppholdIPeriodenSøknadsdata } from './extractUtenlandsoppholdIPeriodenSøknadsdata';
 
-export const getSøknadsdataFromFormValues = (values: SøknadFormData): Søknadsdata => {
+export const getSøknadsdataFromFormValues = (values: SøknadFormValues): Søknadsdata => {
     const harForståttRettigheterOgPlikter = values.harForståttRettigheterOgPlikter;
     const søknadsperiode = getSøknadsperiodeFromFormData(values);
     if (søknadsperiode === undefined) {

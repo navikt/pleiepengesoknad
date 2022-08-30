@@ -5,12 +5,12 @@ import { useFormikContext } from 'formik';
 import { History } from 'history';
 import { persist as apiPersist } from '../api/api';
 import { StepID } from '../søknad/søknadStepsConfig';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 
 function usePersistSoknad(history: History) {
     const { logUserLoggedOut, logApiError } = useAmplitudeInstance();
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
 
     async function doPersist(stepID: StepID) {
         apiPersist(values, stepID).catch((error: AxiosError) => {

@@ -1,5 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudFormData } from '../../../types/SøknadFormData';
+import { OmsorgstilbudFormData } from '../../../types/SøknadFormValues';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
 
 const søknadsperiode: DateRange = {

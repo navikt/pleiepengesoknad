@@ -11,7 +11,7 @@ import {
     ArbeidsforholdSelvstendigFormData,
 } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import {
     ArbeidFrilansSøknadsdata,
     ArbeidSelvstendigSøknadsdata,
@@ -148,11 +148,11 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
 };
 
 export const cleanupArbeidstidStep = (
-    formData: SøknadFormData,
+    formData: SøknadFormValues,
     arbeidSøknadsdata: ArbeidSøknadsdata,
     søknadsperiode: DateRange
-): SøknadFormData => {
-    const values: SøknadFormData = { ...formData };
+): SøknadFormValues => {
+    const values: SøknadFormValues = { ...formData };
 
     values.ansatt_arbeidsforhold = arbeidSøknadsdata.arbeidsgivere
         ? cleanupArbeidstidAnsatt(values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere, søknadsperiode)

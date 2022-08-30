@@ -26,7 +26,7 @@ import {
 } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import ArbeidstidPeriodeKnapp from '../arbeidstid-periode-knapp/ArbeidstidPeriodeKnapp';
-import { SøknadFormData, SøknadFormField } from '../../../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../../../types/SøknadFormValues';
 import { ArbeidstidRegistrertLogProps } from '../../types';
 import { Element } from 'nav-frontend-typografi';
 
@@ -59,7 +59,7 @@ const ArbeidstidVariertKalender: React.FunctionComponent<Props> = ({
     onArbeidstidEnkeltdagRegistrert,
 }) => {
     const intl = useIntl();
-    const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
+    const { setFieldValue } = useFormikContext<SøknadFormValues>() || {};
 
     const antallMåneder = getMonthsInDateRange(periode).length;
 

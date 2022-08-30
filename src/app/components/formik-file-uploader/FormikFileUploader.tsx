@@ -11,7 +11,7 @@ import {
 import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
@@ -39,7 +39,7 @@ const FormikFileUploader = ({
     onUnauthorizedOrForbiddenUpload,
     ...otherProps
 }: Props) => {
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
 
     function updateAttachmentListElement(
         attachments: Attachment[],

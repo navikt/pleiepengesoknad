@@ -17,7 +17,7 @@ import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { persist } from '../../api/api';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../validation/fieldValidations';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
@@ -27,7 +27,7 @@ import getLenker from '../../lenker';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const attachments: Attachment[] = React.useMemo(() => {
         return values ? values[SøknadFormField.legeerklæring] : [];

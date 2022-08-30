@@ -8,7 +8,7 @@ import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/in
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
     onOpenDinePlikterModal: () => void;
 }
 
-const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormData, ValidationError>();
+const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormValues, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
 
