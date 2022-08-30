@@ -18,7 +18,8 @@ Som mellomlagring - en baserer seg på forrige innsendte søknad. Det er ingen f
 -   Arbeidssituasjon
     -   Arbeidsgivere kan komme til/falle bort - må håndteres. Enklest: dersom det er en endring i registrerte arbeidsgivere må søker oppgi informasjonen på nytt.
     -   Frilans og selvestendig næringsdrivende valideres som vanlig
-    -   Jobbet i annet EØS-land valideres ikke på periode (skal det ikke være validering her?)
+    -   Jobbet i annet EØS-land valideres ikke på periode
+    -   Oppslag på frilans må håndteres
 -   Jobb i perioden
     -   Evt. enkeltdager utenfor periode fjernes automatisk - som i dag når periode endres
 -   Omsorgstilbud i perioden
