@@ -12,6 +12,8 @@ Som mellomlagring - en baserer seg på forrige innsendte søknad. Det er ingen f
     -   Dersom forrige søknad ikke er gyldig, blir dialogen som i dag.
     -   Avklaring: må vi opplyse hva vi endrer, dersom vi endrer på noe av informasjonen som ble sendt inn i forrige søknad, eller holder det at bruker ser det når hen fyller ut søknaden?
 
+-   Barn
+    -   Dersom barnet er et "annet barn", vil ikke bruker kunne sende inn samme søknad på nytt.
 -   Periode
     -   Periodefelter tømmes
     -   Utenlandsopphold/ferie valideres som vanlig. Det er vanskelig å endre disse automatisk, i og med periode velges på samme steg.

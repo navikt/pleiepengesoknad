@@ -106,6 +106,11 @@ export interface UtenlandskNæringApi {
     tilOgMed?: ApiStringDate;
 }
 
+export type UtenlandsoppholdIPeriodenSøknadApiData = {
+    skalOppholdeSegIUtlandetIPerioden: boolean;
+    opphold: UtenlandsoppholdIPeriodenApiData[];
+};
+
 export interface SøknadApiData {
     versjon: string;
     språk: Locale;
@@ -120,10 +125,7 @@ export interface SøknadApiData {
     samtidigHjemme?: boolean;
     vedlegg: string[];
     medlemskap: MedlemskapApiData;
-    utenlandsoppholdIPerioden?: {
-        skalOppholdeSegIUtlandetIPerioden: boolean;
-        opphold: UtenlandsoppholdIPeriodenApiData[];
-    };
+    utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadApiData;
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     omsorgstilbud?: OmsorgstilbudApiData;
     nattevåk?: {
