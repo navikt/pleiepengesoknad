@@ -12,6 +12,8 @@ import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 
 export enum SøknadFormField {
+    brukForrigeSøknad = 'brukForrigeSøknad',
+    forrigeSøknadId = 'forrigeSøknadId',
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
     harBekreftetOpplysninger = 'harBekreftetOpplysninger',
     barnetsNavn = 'barnetsNavn',
@@ -67,6 +69,8 @@ export interface OmsorgstilbudFormData {
 }
 
 export interface SøknadFormValues {
+    [SøknadFormField.brukForrigeSøknad]?: YesOrNo;
+    [SøknadFormField.forrigeSøknadId]?: string;
     [SøknadFormField.harForståttRettigheterOgPlikter]: boolean;
     [SøknadFormField.harBekreftetOpplysninger]: boolean;
     [SøknadFormField.barnetsNavn]: string;
@@ -110,6 +114,8 @@ export interface SøknadFormValues {
 }
 
 export const initialValues: SøknadFormValues = {
+    [SøknadFormField.brukForrigeSøknad]: undefined,
+    [SøknadFormField.forrigeSøknadId]: undefined,
     [SøknadFormField.periodeFra]: undefined,
     [SøknadFormField.periodeTil]: undefined,
     [SøknadFormField.barnetsNavn]: '',

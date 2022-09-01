@@ -1,7 +1,7 @@
-import { getFormValuesFromApiData } from '../getFormValuesFromInnsendtSøknad';
+import { getFormValuesFromInnsendtSøknad } from '../getFormValuesFromInnsendtSøknad';
 
-describe('getFormValuesFromApiData', () => {
+describe('getFormValuesFromInnsendtSøknad', () => {
     it('returnerer undefined dersom det ikke er noen registrerte barn på søker', () => {
-        expect(getFormValuesFromApiData({} as any, [])).toBeUndefined();
+        expect(getFormValuesFromInnsendtSøknad({} as any, [])).toBeUndefined();
     });
 });

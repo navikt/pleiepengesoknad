@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
@@ -13,6 +14,7 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { ConfirmationDialog } from '../types/ConfirmationDialog';
+import { ForrigeSøknad } from '../types/ForrigeSøknad';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
@@ -39,16 +41,23 @@ import TidsromStep from './tidsrom-step/TidsromStep';
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
     harMellomlagring: boolean;
+    forrigeSøknad: ForrigeSøknad | undefined;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
 
-const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({
+    lastStepID,
+    harMellomlagring,
+    forrigeSøknad,
+    onSøknadSent,
+    onSøknadStart,
+}: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialog | undefined>(undefined);
-    const { values } = useFormikContext<SøknadFormValues>();
+    const { values, setValues } = useFormikContext<SøknadFormValues>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
     const { setSøknadsdata } = useSøknadsdataContext();
@@ -103,7 +112,14 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
         onSøknadStart();
         await logSoknadStartet(SKJEMANAVN);
         await purge();
-        await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
+
+        const initialFormValues =
+            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES ? forrigeSøknad?.values : undefined;
+
+        if (initialFormValues) {
+            setValues(initialFormValues);
+        }
+        await persist(initialFormValues, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
             if (apiUtils.isUnauthorized(error)) {
                 userNotLoggedIn();
             } else {
@@ -113,7 +129,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
         });
 
         setTimeout(() => {
-            setSøknadsdata(getSøknadsdataFromFormValues(values));
+            setSøknadsdata(getSøknadsdataFromFormValues(initialFormValues || values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });
     };
@@ -138,7 +154,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
             <Switch>
                 <Route
                     path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                    render={() => <WelcomingPage onValidSubmit={startSoknad} />}
+                    render={() => <WelcomingPage onValidSubmit={startSoknad} forrigeSøknad={forrigeSøknad} />}
                 />
 
                 {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (

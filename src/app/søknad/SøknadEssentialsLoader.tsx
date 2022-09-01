@@ -2,26 +2,30 @@ import React from 'react';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';
-import { getBarn, getSøker, purge, rehydrate } from '../api/api';
+import { getBarn, getForrigeSoknad, getSøker, purge, rehydrate } from '../api/api';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 import LoadingPage from '../pages/loading-page/LoadingPage';
+import { ForrigeSøknad } from '../types/ForrigeSøknad';
+import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
-import { initialValues, SøknadFormValues, SøknadFormField } from '../types/SøknadFormValues';
+import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
+import { getFormValuesFromInnsendtSøknad } from '../utils/innsendtSøknadToFormValues/getFormValuesFromInnsendtSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
 interface Props {
     onUgyldigMellomlagring: () => void;
     onError: () => void;
-    contentLoadedRenderer: (
-        formdata: SøknadFormValues,
-        harMellomlagring: boolean,
-        lastStepID?: StepID,
-        søkerdata?: Søkerdata
-    ) => React.ReactNode;
+    contentLoadedRenderer: (content: {
+        formdata: SøknadFormValues;
+        harMellomlagring: boolean;
+        lastStepID?: StepID;
+        søkerdata?: Søkerdata;
+        forrigeSøknad?: ForrigeSøknad;
+    }) => React.ReactNode;
 }
 
 interface State {
@@ -30,6 +34,7 @@ interface State {
     lastStepID?: StepID;
     formdata: SøknadFormValues;
     søkerdata?: Søkerdata;
+    forrigeSøknad?: ForrigeSøknad;
     harMellomlagring: boolean;
     harIkkeTilgang: boolean;
 }
@@ -67,12 +72,13 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
     async loadAppEssentials() {
         try {
-            const [mellomlagringResponse, søkerResponse, barnResponse] = await Promise.all([
+            const [mellomlagringResponse, søkerResponse, barnResponse, forrigeSøknadResponse] = await Promise.all([
                 rehydrate(),
                 getSøker(),
                 getBarn(),
+                getForrigeSoknad(),
             ]);
-            this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse);
+            this.handleSøkerdataFetchSuccess(mellomlagringResponse, søkerResponse, barnResponse, forrigeSøknadResponse);
         } catch (error: any) {
             this.handleSøkerdataFetchError(error);
         }
@@ -94,8 +100,10 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     async handleSøkerdataFetchSuccess(
         mellomlagringResponse: AxiosResponse,
         søkerResponse: AxiosResponse,
-        barnResponse?: AxiosResponse
+        barnResponse?: AxiosResponse,
+        forrigeSøknadReponse?: AxiosResponse<InnsendtSøknad>
     ) {
+        const registrerteBarn = barnResponse ? barnResponse.data.barn : undefined;
         const mellomlagring = await this.getValidMellomlagring(mellomlagringResponse?.data);
         const formData = mellomlagring?.formData
             ? {
@@ -104,13 +112,28 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
               }
             : undefined;
         const lastStepID = mellomlagring?.metadata?.lastStepID;
+        const harMellomlagring = mellomlagring?.metadata?.version !== undefined;
+
+        let forrigeSøknad: ForrigeSøknad | undefined;
+
+        if (harMellomlagring === false && forrigeSøknadReponse?.data !== undefined) {
+            const values = getFormValuesFromInnsendtSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
+            if (values) {
+                forrigeSøknad = {
+                    søknadId: forrigeSøknadReponse.data.søknadId,
+                    values,
+                };
+            }
+        }
+
         this.updateSøkerdata(
             formData || { ...initialValues },
             {
                 søker: søkerResponse.data,
-                barn: barnResponse ? barnResponse.data.barn : undefined,
+                barn: registrerteBarn,
             },
-            mellomlagring?.metadata?.version !== undefined,
+            forrigeSøknad,
+            harMellomlagring,
             lastStepID,
             () => {
                 this.stopLoading();
@@ -124,6 +147,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     updateSøkerdata(
         formdata: SøknadFormValues,
         søkerdata: Søkerdata,
+        forrigeSøknad: ForrigeSøknad | undefined,
         harMellomlagring: boolean,
         lastStepID?: StepID,
         callback?: () => void
@@ -134,6 +158,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
                 formdata: formdata || this.state.formdata,
                 søkerdata: søkerdata || this.state.søkerdata,
                 harMellomlagring,
+                forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
             },
             callback
         );
@@ -171,6 +196,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             formdata,
             søkerdata,
             harMellomlagring,
+            forrigeSøknad,
         } = this.state;
         if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
@@ -180,7 +206,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         }
         return (
             <SøkerdataContextProvider value={søkerdata}>
-                {contentLoadedRenderer(formdata, harMellomlagring, lastStepID, søkerdata)}
+                {contentLoadedRenderer({ formdata, harMellomlagring, lastStepID, søkerdata, forrigeSøknad })}
             </SøkerdataContextProvider>
         );
     }

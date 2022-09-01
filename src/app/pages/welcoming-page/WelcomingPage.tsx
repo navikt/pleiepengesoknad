@@ -1,29 +1,32 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import InfoDialog from '@navikt/sif-common-core/lib/components/dialogs/info-dialog/InfoDialog';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import InfoDialog from '@navikt/sif-common-core/lib/components/dialogs/info-dialog/InfoDialog';
 import FrontPageBanner from '@navikt/sif-common-core/lib/components/front-page-banner/FrontPageBanner';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { StepConfigProps } from '../../søknad/søknadStepsConfig';
-import SamtykkeForm from './SamtykkeForm';
-import './welcomingPage.less';
+import { ForrigeSøknad } from '../../types/ForrigeSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import DinePlikterContent from './dine-plikter-content/DinePlikterContent';
+import SamtykkeForm from './SamtykkeForm';
+import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
-type Props = Omit<StepConfigProps, 'formValues'>;
+type Props = Omit<StepConfigProps, 'formValues'> & {
+    forrigeSøknad?: ForrigeSøknad;
+};
 interface DialogState {
     dinePlikterModalOpen?: boolean;
     behandlingAvPersonopplysningerModalOpen?: boolean;
 }
 
-const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
+const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeSøknad }) => {
     const [dialogState, setDialogState] = useState<DialogState>({});
     const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
 
@@ -53,6 +56,7 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit }) => {
 
                 <SamtykkeForm
                     onConfirm={onValidSubmit}
+                    forrigeSøknad={forrigeSøknad}
                     onOpenDinePlikterModal={() => setDialogState({ dinePlikterModalOpen: true })}
                 />
 

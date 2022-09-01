@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
@@ -7,8 +8,6 @@ import { navigateToErrorPage } from '../utils/navigationUtils';
 import SøknadContent from './SøknadContent';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import SøknadsdataWrapper from './SøknadsdataWrapper';
-import { StepID } from './søknadStepsConfig';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 
 const Søknad = () => {
     const history = useHistory();
@@ -19,7 +18,7 @@ const Søknad = () => {
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
-            contentLoadedRenderer={(formdata: SøknadFormValues, harMellomlagring, lastStepID: StepID | undefined) => {
+            contentLoadedRenderer={({ formdata, harMellomlagring, lastStepID, forrigeSøknad }) => {
                 const initialFormValues = formdata || initialValues;
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
@@ -39,6 +38,7 @@ const Søknad = () => {
                                     <SøknadContent
                                         lastStepID={lastStepID}
                                         harMellomlagring={søknadSent ? false : harMellomlagring}
+                                        forrigeSøknad={forrigeSøknad}
                                         onSøknadSent={() => {
                                             setSøknadSent(true);
                                         }}
