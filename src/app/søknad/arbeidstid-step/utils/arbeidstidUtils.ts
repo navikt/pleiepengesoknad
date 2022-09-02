@@ -9,7 +9,7 @@ import {
     summarizeDurationInDurationWeekdays,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
-import { ArbeidIPeriodeType } from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
+import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import {

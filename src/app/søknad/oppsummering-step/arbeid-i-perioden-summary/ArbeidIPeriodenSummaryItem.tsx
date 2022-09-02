@@ -15,7 +15,7 @@ import {
     NormalarbeidstidApiData,
     ArbeidIPeriodeApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
-import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 
 interface Props {
     periode: DateRange;

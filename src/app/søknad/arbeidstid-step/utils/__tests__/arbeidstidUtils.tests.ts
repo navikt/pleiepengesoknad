@@ -1,4 +1,5 @@
-import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
+import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
+import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import {
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,

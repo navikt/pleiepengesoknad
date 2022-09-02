@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeType } from '../../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import { extractArbeidIPeriodeSøknadsdata } from '../extractArbeidIPeriodeSøknadsdata';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');

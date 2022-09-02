@@ -13,3 +13,41 @@ export interface ArbeidsgiverApiData {
     sluttetFørSøknadsperiode?: boolean;
     arbeidsforhold?: ArbeidsforholdApiData;
 }
+
+export type OrganisasjonArbeidsgiverApiData = Omit<ArbeidsgiverApiData, 'offentligIdent' | 'organisasjonsnummer'> & {
+    type: ArbeidsgiverType.ORGANISASJON;
+    organisasjonsnummer: string;
+};
+
+/**
+ * interface ArbeidsgiverApiDataBase {
+    navn: string;
+    ansattFom?: ISODate;
+    ansattTom?: ISODate;
+    erAnsatt: boolean;
+    sluttetFørSøknadsperiode?: boolean;
+    arbeidsforhold?: ArbeidsforholdApiData;
+}
+
+export type OrganisasjonArbeidsgiverApiData = ArbeidsgiverApiDataBase & {
+    type: ArbeidsgiverType.ORGANISASJON;
+    organisasjonsnummer: string;
+};
+
+export type FrilansoppdragArbeidsgiverApiData = ArbeidsgiverApiDataBase & {
+    type: ArbeidsgiverType.FRILANSOPPDRAG;
+    organisasjonsnummer?: string;
+    offentligIdent?: string;
+};
+
+export type PrivatpersonArbeidsgiverApiData = ArbeidsgiverApiDataBase & {
+    type: ArbeidsgiverType.PRIVATPERSON;
+    offentligIdent: string;
+};
+
+export type ArbeidsgiverApiData =
+    | OrganisasjonArbeidsgiverApiData
+    | FrilansoppdragArbeidsgiverApiData
+    | PrivatpersonArbeidsgiverApiData;
+
+ */

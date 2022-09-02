@@ -3,6 +3,7 @@ import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues'
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { extractBarnFormValues } from './extractBarnFormValues';
 import { extractTidsromFormValues } from './extractTidsromFormValues';
+import { extractArbeidFormValues } from './extractArbeidFormValues';
 
 export const getFormValuesFromInnsendtSøknad = (
     søknad: InnsendtSøknadInnhold,
@@ -15,16 +16,14 @@ export const getFormValuesFromInnsendtSøknad = (
     if (!barnFormValues) {
         return undefined;
     }
-    console.log(barnFormValues);
-
-    const tidsromFormValues = extractTidsromFormValues(søknad);
 
     const formValues: SøknadFormValues = {
         ...initialValues,
         harForståttRettigheterOgPlikter: true,
         harBekreftetOpplysninger: false,
         ...barnFormValues,
-        ...tidsromFormValues,
+        ...extractTidsromFormValues(søknad),
+        ...extractArbeidFormValues(søknad),
     };
     return formValues;
 };

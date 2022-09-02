@@ -16,3 +16,14 @@ export type NormalarbeidstidFasteDagerPerUkeApiData = {
 };
 
 export type NormalarbeidstidApiData = NormalarbeidstidSnittPerUkeApiData | NormalarbeidstidFasteDagerPerUkeApiData;
+
+export const isNormalarbeidstidSnittPerUkeApiData = (
+    normalarbeidstid: NormalarbeidstidApiData
+): normalarbeidstid is NormalarbeidstidSnittPerUkeApiData => {
+    return normalarbeidstid.erLiktHverUke === false;
+};
+export const isNormalarbeidstidFasteDagerPerUkeApiData = (
+    normalarbeidstid: NormalarbeidstidApiData
+): normalarbeidstid is NormalarbeidstidFasteDagerPerUkeApiData => {
+    return normalarbeidstid.erLiktHverUke === true;
+};

@@ -1,9 +1,9 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
 import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 
 const arbeidsgiverApiData: ArbeidsgiverApiData = {

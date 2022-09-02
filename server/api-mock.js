@@ -58,6 +58,13 @@ const søkerMock = {
 
 const barnMock = {
     barn: [
+        {
+            fornavn: 'ALFABETISK',
+            etternavn: 'FAGGOTT',
+            aktørId: '2811762539343',
+            fødselsdato: '2019-06-08',
+            fødselsnummer: '08861999573',
+        },
         { fødselsdato: '2020-04-20', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '123' },
         { fødselsdato: '2015-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
     ],
@@ -85,15 +92,12 @@ const frilansoppdrag2 = {
 };
 
 const arbeidsgivereMock = {
-    organisasjoner: [
-        // { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
-        { navn: 'Karis gullfisker', organisasjonsnummer: '112233445' },
-    ],
+    organisasjoner: [{ navn: 'SJOKKERENDE ELEKTRIKER', organisasjonsnummer: '947064649' }],
     frilansoppdrag: [],
     privatarbeidsgiver: [],
 };
 
-const FORRIGE_SØKNAD = './server/mockdata/søknad.json';
+const FORRIGE_SØKNAD = './server/mockdata/søknad-timer-i-snitt.json';
 
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 

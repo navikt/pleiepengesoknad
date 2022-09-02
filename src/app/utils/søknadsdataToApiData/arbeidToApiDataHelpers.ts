@@ -13,6 +13,7 @@ import {
     ISODuration,
     ISODurationToMaybeDuration,
 } from '@navikt/sif-common-utils';
+import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
@@ -20,7 +21,6 @@ import {
 } from '../../types/søknad-api-data/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
-    ArbeidIPeriodeType,
     ArbeidsforholdSøknadsdata,
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,

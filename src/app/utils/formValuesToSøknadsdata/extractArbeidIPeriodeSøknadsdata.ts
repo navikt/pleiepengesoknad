@@ -3,7 +3,8 @@ import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { dateUtils, getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
+import { ArbeidIPeriodeSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): DateRange => ({
     from: dateUtils.getLastOfTwoDates(dr1.from, dr2.from),
