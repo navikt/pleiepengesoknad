@@ -17,6 +17,7 @@
         "start-express": "node ./server.js",
         "test": "react-scripts test --watchAll=false --env=jsdom --runInBand",
         "test-w": "react-scripts test --env=jsdom",
+        "test-wc": "react-scripts test --env=jsdom --coverage",
         "prepare": "npm run snyk-protect",
         "snyk-protect": "snyk-protect",
         "cypress:install": "npm add -D cypress cypress-file-upload",

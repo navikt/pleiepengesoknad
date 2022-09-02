@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import {
     DateDurationMap,
-    DurationWeekdays,
     ISODateToDate,
     ISODurationToDecimalDuration,
     ISODurationToMaybeDuration,
@@ -11,7 +10,7 @@ import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
-import { ArbeidsgiverApiData, OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
+import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
 import { NormalarbeidstidApiData } from '../../types/søknad-api-data/normalarbeidstidApiData';
 import {
     ArbeidIPeriodeApiData,
@@ -19,10 +18,10 @@ import {
     ArbeidIPeriodeApiDataProsent,
     ArbeidIPeriodeApiDataTimerPerUke,
     ArbeidIPeriodeApiDataVariert,
-    TimerFasteDagerApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
+import { arbeidsgiverHarOrganisasjonsnummer, timerFasteDagerApiDataToDurationWeekdays } from './extractArbeidUtils';
 
 type ArbeidFormValues = Pick<
     SøknadFormValues,
@@ -35,22 +34,6 @@ type ArbeidFormValues = Pick<
     | SøknadFormField.harOpptjeningUtland
     | SøknadFormField.harUtenlandskNæring
 >;
-
-export const timerFasteDagerApiDataToDurationWeekdays = ({
-    mandag,
-    tirsdag,
-    onsdag,
-    torsdag,
-    fredag,
-}: TimerFasteDagerApiData): DurationWeekdays => {
-    return {
-        monday: mandag ? ISODurationToMaybeDuration(mandag) : undefined,
-        tuesday: tirsdag ? ISODurationToMaybeDuration(tirsdag) : undefined,
-        wednesday: onsdag ? ISODurationToMaybeDuration(onsdag) : undefined,
-        thursday: torsdag ? ISODurationToMaybeDuration(torsdag) : undefined,
-        friday: fredag ? ISODurationToMaybeDuration(fredag) : undefined,
-    };
-};
 
 export const mapNormalarbeidstidApiDataToFormValues = (
     normalarbeidstid?: NormalarbeidstidApiData
@@ -164,10 +147,6 @@ export const mapArbeidsgiverToFormValues = (arbeidsgiver: OrganisasjonArbeidsgiv
         arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(arbeidsgiver.arbeidsforhold?.arbeidIPeriode),
     };
     return formValues;
-};
-
-export const arbeidsgiverHarOrganisasjonsnummer = (a: ArbeidsgiverApiData): a is OrganisasjonArbeidsgiverApiData => {
-    return a.organisasjonsnummer !== undefined;
 };
 
 export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): ArbeidFormValues | undefined => {

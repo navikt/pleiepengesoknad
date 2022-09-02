@@ -1,57 +1,17 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { durationToISODuration } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
-import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/arbeidsgiverApiData';
-import { ArbeidIPeriodeApiData, TimerFasteDagerApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import { ArbeidIPeriodeApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import {
-    arbeidsgiverHarOrganisasjonsnummer,
+    mapArbeidIPeriodeApiDataProsentToFormValues,
     mapArbeidIPeriodeApiDataTimerPerUkeToFormValues,
     mapArbeidIPeriodeApiDataToFormValues,
     mapNormalarbeidstidApiDataToFormValues,
-    timerFasteDagerApiDataToDurationWeekdays,
 } from '../extractArbeidFormValues';
 
 describe('arbeidFormValues', () => {
-    describe('arbeidsgiverHarOrganisasjonsnummer', () => {
-        it('returnerer true når det er et org-nummer', () => {
-            expect(
-                arbeidsgiverHarOrganisasjonsnummer({ organisasjonsnummer: '234' } as ArbeidsgiverApiData)
-            ).toBeTruthy();
-        });
-        it('returnerer false når det ikke er ett org-nummer', () => {
-            expect(arbeidsgiverHarOrganisasjonsnummer({} as ArbeidsgiverApiData)).toBeFalsy();
-        });
-    });
-
-    describe('timerFasteDagerApiDataToDurationWeekdays', () => {
-        const timer: TimerFasteDagerApiData = {
-            mandag: 'PT1H0M',
-            tirsdag: 'PT2H0M',
-            onsdag: 'PT3H30M',
-            torsdag: 'PT4H0M',
-            fredag: 'PT5H0M',
-        };
-        it('returnerer riktig for uke mer timer hver dag', () => {
-            const result = timerFasteDagerApiDataToDurationWeekdays(timer);
-            expect(durationToISODuration(result.monday!)).toEqual('PT1H0M');
-            expect(durationToISODuration(result.tuesday!)).toEqual('PT2H0M');
-            expect(durationToISODuration(result.wednesday!)).toEqual('PT3H30M');
-            expect(durationToISODuration(result.thursday!)).toEqual('PT4H0M');
-            expect(durationToISODuration(result.friday!)).toEqual('PT5H0M');
-        });
-        it('returnerer riktig for tom uke', () => {
-            const result = timerFasteDagerApiDataToDurationWeekdays({});
-            expect(result.monday).toBeUndefined();
-            expect(result.tuesday).toBeUndefined();
-            expect(result.wednesday).toBeUndefined();
-            expect(result.thursday).toBeUndefined();
-            expect(result.friday).toBeUndefined();
-        });
-    });
-
     describe('mapNormalarbeidstidApiDataToNormalarbeidstidFormData', () => {
         it('returnerer riktig for normalarbeidstid med snitt', () => {
             const result = mapNormalarbeidstidApiDataToFormValues({
@@ -105,9 +65,23 @@ describe('arbeidFormValues', () => {
                 };
                 const { timerEllerProsent, timerPerUke, arbeiderIPerioden } =
                     mapArbeidIPeriodeApiDataTimerPerUkeToFormValues(arbeid);
-                expect(timerEllerProsent).toEqual(TimerEllerProsent.TIMER);
                 expect(arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.redusert);
+                expect(timerEllerProsent).toEqual(TimerEllerProsent.TIMER);
                 expect(timerPerUke).toEqual('20,5');
+            });
+        });
+        describe('arbeid prosent av vanlig', () => {
+            it('returnerer riktig når en arbeider prosent av vanlig', () => {
+                const arbeid: ArbeidIPeriodeApiData = {
+                    type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
+                    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
+                    prosentAvNormalt: 15,
+                };
+                const { timerEllerProsent, prosentAvNormalt, arbeiderIPerioden } =
+                    mapArbeidIPeriodeApiDataProsentToFormValues(arbeid);
+                expect(arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.redusert);
+                expect(timerEllerProsent).toEqual(TimerEllerProsent.PROSENT);
+                expect(prosentAvNormalt).toEqual('15');
             });
         });
         describe('arbeider enkeltdager', () => {
