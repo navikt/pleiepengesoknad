@@ -55,6 +55,7 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
                         </p>
                     </ExpandableInfo>
                     <AppForm.YesOrNoQuestion
+                        data-testid="brukForrigeSøknad"
                         name={SøknadFormField.brukForrigeSøknad}
                         labels={{
                             yes: 'Ja, bruk informasjon fra forrige søknaden',

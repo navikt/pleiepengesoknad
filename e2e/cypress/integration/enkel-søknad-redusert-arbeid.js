@@ -1,6 +1,11 @@
 const dayjs = require('dayjs');
 const isoWeek = require('dayjs/plugin/isoWeek');
-const { clickFortsett, clickNeiPaAlleSporsmal, clickSendInnSøknad } = require('../integration-utils/utils');
+const {
+    clickFortsett,
+    clickNeiPaAlleSporsmal,
+    clickSendInnSøknad,
+    getTestElement,
+} = require('../integration-utils/utils');
 const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon');
 const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeidIPeriode');
 
@@ -18,6 +23,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.visit(`${PUBLIC_PATH}/soknad`);
         });
         it('Velkommenside', () => {
+            getTestElement(`brukForrigeSøknad_no`).parent().click();
             cy.get('.bekreftCheckboksPanel label').click();
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
