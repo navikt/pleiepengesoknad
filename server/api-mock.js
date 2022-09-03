@@ -160,13 +160,12 @@ const startExpressServer = () => {
     });
 
     server.get('/forrige_soknad', (req, res) => {
-        res.send({});
-        // if (existsSync(FORRIGE_SØKNAD)) {
-        //     const body = readFileSync(FORRIGE_SØKNAD);
-        //     res.send(JSON.parse(body));
-        // } else {
-        //     res.send({});
-        // }
+        if (existsSync(FORRIGE_SØKNAD)) {
+            const body = readFileSync(FORRIGE_SØKNAD);
+            res.send(JSON.parse(body));
+        } else {
+            res.send({});
+        }
     });
     server.get('/mellomlagring', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
