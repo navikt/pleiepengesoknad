@@ -111,6 +111,15 @@ export type UtenlandsoppholdIPeriodenSøknadApiData = {
     opphold: UtenlandsoppholdIPeriodenApiData[];
 };
 
+export interface NattevåkApiData {
+    harNattevåk: boolean;
+    tilleggsinformasjon?: string;
+}
+
+export interface BeredskapApiData {
+    beredskap: boolean;
+    tilleggsinformasjon?: string;
+}
 export interface SøknadApiData {
     versjon: string;
     språk: Locale;
@@ -128,14 +137,8 @@ export interface SøknadApiData {
     utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadApiData;
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     omsorgstilbud?: OmsorgstilbudApiData;
-    nattevåk?: {
-        harNattevåk: boolean;
-        tilleggsinformasjon?: string;
-    };
-    beredskap?: {
-        beredskap: boolean;
-        tilleggsinformasjon?: string;
-    };
+    nattevåk?: NattevåkApiData;
+    beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;

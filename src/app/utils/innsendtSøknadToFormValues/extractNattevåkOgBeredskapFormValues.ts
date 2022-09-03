@@ -13,7 +13,7 @@ type NattevåkOgBeredskapFormValues = Pick<
 export const extractNattevåkOgBeredskapFormValues = ({
     nattevåk,
     beredskap,
-}: InnsendtSøknadInnhold): NattevåkOgBeredskapFormValues => {
+}: Pick<InnsendtSøknadInnhold, 'beredskap' | 'nattevåk'>): NattevåkOgBeredskapFormValues => {
     const harBeredskap = beredskap !== undefined && beredskap.beredskap === true;
     const harNattevåk = nattevåk !== undefined && nattevåk.harNattevåk === true;
     return {
