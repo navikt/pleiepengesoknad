@@ -12,10 +12,10 @@ import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
+import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 import { getFormValuesFromInnsendtSøknad } from '../utils/innsendtSøknadToFormValues/getFormValuesFromInnsendtSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
-import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 
 interface Props {
     onUgyldigMellomlagring: () => void;

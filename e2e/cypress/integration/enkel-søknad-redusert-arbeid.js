@@ -23,7 +23,7 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.visit(`${PUBLIC_PATH}/soknad`);
         });
         it('Velkommenside', () => {
-            getTestElement(`brukForrigeSøknad_no`).parent().click();
+            // getTestElement(`brukForrigeSøknad_no`).parent().click();
             cy.get('.bekreftCheckboksPanel label').click();
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
