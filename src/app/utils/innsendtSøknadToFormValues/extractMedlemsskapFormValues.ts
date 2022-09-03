@@ -1,7 +1,6 @@
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
-import { BostedUtlandApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
 
@@ -23,13 +22,11 @@ export const mapBostedUtlandToUtenlandsopphold = (bostedUtland: BostedUtlandApiD
 };
 
 export const extractMedlemsskapFormValues = ({
-    medlemskap: {
-        harBoddIUtlandetSiste12Mnd,
-        skalBoIUtlandetNeste12Mnd,
-        utenlandsoppholdNeste12Mnd,
-        utenlandsoppholdSiste12Mnd,
-    },
-}: InnsendtSøknadInnhold): MedlesskapFormValues => {
+    harBoddIUtlandetSiste12Mnd,
+    skalBoIUtlandetNeste12Mnd,
+    utenlandsoppholdNeste12Mnd,
+    utenlandsoppholdSiste12Mnd,
+}: MedlemskapApiData): MedlesskapFormValues => {
     return {
         harBoddUtenforNorgeSiste12Mnd: booleanToYesOrNo(harBoddIUtlandetSiste12Mnd),
         skalBoUtenforNorgeNeste12Mnd: booleanToYesOrNo(skalBoIUtlandetNeste12Mnd),

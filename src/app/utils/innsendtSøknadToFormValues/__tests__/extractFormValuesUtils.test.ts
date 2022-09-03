@@ -1,7 +1,12 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { durationToISODuration } from '@navikt/sif-common-utils/lib';
-import { TidEnkeltdagApiData, TimerFasteDagerApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import {
+    ArbeidsgiverApiData,
+    TidEnkeltdagApiData,
+    TimerFasteDagerApiData,
+} from '../../../types/søknad-api-data/SøknadApiData';
+import {
+    arbeidsgiverHarOrganisasjonsnummer,
     mapTidEnkeltdagApiDataToDateDurationMap,
     mapTimerFasteDagerToDurationWeekdays,
 } from '../extractFormValuesUtils';
@@ -56,5 +61,14 @@ describe('mapTimerFasteDagerToDurationWeekdays', () => {
         expect(result.wednesday).toBeUndefined();
         expect(result.thursday).toBeUndefined();
         expect(result.friday).toBeUndefined();
+    });
+});
+
+describe('arbeidsgiverHarOrganisasjonsnummer', () => {
+    it('returnerer true når det er et org-nummer', () => {
+        expect(arbeidsgiverHarOrganisasjonsnummer({ organisasjonsnummer: '234' } as ArbeidsgiverApiData)).toBeTruthy();
+    });
+    it('returnerer false når det ikke er ett org-nummer', () => {
+        expect(arbeidsgiverHarOrganisasjonsnummer({} as ArbeidsgiverApiData)).toBeFalsy();
     });
 });

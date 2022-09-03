@@ -29,7 +29,7 @@ export const getFormValuesFromInnsendtSøknad = (
         ...extractArbeidFormValues(søknad),
         ...extractOmsorgstilbudFormValues(søknad),
         ...extractNattevåkOgBeredskapFormValues(søknad),
-        ...extractMedlemsskapFormValues(søknad),
+        ...extractMedlemsskapFormValues(søknad.medlemskap),
     };
     return formValues;
 };
