@@ -119,7 +119,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
         if (
             harMellomlagring === false &&
-            forrigeSøknadReponse?.data &&
+            forrigeSøknadReponse?.data.søknad &&
             forrigeSøknadErGyldig(forrigeSøknadReponse.data.søknad)
         ) {
             const values = getFormValuesFromInnsendtSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
