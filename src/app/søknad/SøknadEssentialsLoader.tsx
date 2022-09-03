@@ -15,6 +15,7 @@ import appSentryLogger from '../utils/appSentryLogger';
 import { getFormValuesFromInnsendtSøknad } from '../utils/innsendtSøknadToFormValues/getFormValuesFromInnsendtSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
+import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 
 interface Props {
     onUgyldigMellomlagring: () => void;
@@ -116,7 +117,11 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
         let forrigeSøknad: ForrigeSøknad | undefined;
 
-        if (harMellomlagring === false && forrigeSøknadReponse?.data !== undefined) {
+        if (
+            harMellomlagring === false &&
+            forrigeSøknadReponse?.data &&
+            forrigeSøknadErGyldig(forrigeSøknadReponse.data.søknad)
+        ) {
             const values = getFormValuesFromInnsendtSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
             if (values) {
                 forrigeSøknad = {

@@ -16,6 +16,7 @@ export type InnsendtSøknadBarn = {
 
 export type InnsendtSøknadInnhold = Omit<SøknadApiData, 'barn'> & {
     barn: InnsendtSøknadBarn;
+    mottatt: Date;
 };
 
 export interface InnsendtSøknad {
