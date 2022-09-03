@@ -1,9 +1,12 @@
 import { RegistrerteBarn } from '../../types';
-import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
-import { extractBarnFormValues } from './extractBarnFormValues';
-import { extractTidsromFormValues } from './extractTidsromFormValues';
+import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { extractArbeidFormValues } from './extractArbeidFormValues';
+import { extractBarnFormValues } from './extractBarnFormValues';
+import { extractMedlemsskapFormValues } from './extractMedlemsskapFormValues';
+import { extractNattevåkOgBeredskapFormValues } from './extractNattevåkOgBeredskapFormValues';
+import { extractOmsorgstilbudFormValues } from './extractOmsorgtilbudFormValues';
+import { extractTidsromFormValues } from './extractTidsromFormValues';
 
 export const getFormValuesFromInnsendtSøknad = (
     søknad: InnsendtSøknadInnhold,
@@ -24,6 +27,9 @@ export const getFormValuesFromInnsendtSøknad = (
         ...barnFormValues,
         ...extractTidsromFormValues(søknad),
         ...extractArbeidFormValues(søknad),
+        ...extractOmsorgstilbudFormValues(søknad),
+        ...extractNattevåkOgBeredskapFormValues(søknad),
+        ...extractMedlemsskapFormValues(søknad),
     };
     return formValues;
 };

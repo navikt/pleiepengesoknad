@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidApiData } from '../../types/søknad-api-data/normalarbeidstidApiData';
-import { mapTimerFasteDagerToDurationWeekdays } from './extractArbeidUtils';
+import { mapTimerFasteDagerToDurationWeekdays } from './extractFormValuesUtils';
 
 export const mapNormalarbeidstidApiDataToFormValues = (
     normalarbeidstid?: NormalarbeidstidApiData

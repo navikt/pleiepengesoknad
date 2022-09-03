@@ -10,7 +10,7 @@ import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
 import { SelvstendigApiData } from '../../types/søknad-api-data/selvstendigApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
-import { arbeidsgiverHarOrganisasjonsnummer } from './extractArbeidUtils';
+import { arbeidsgiverHarOrganisasjonsnummer } from './extractFormValuesUtils';
 import { mapArbeidIPeriodeApiDataToFormValues } from './mapArbeidIPeriodeToFormValues';
 import { mapNormalarbeidstidApiDataToFormValues } from './mapNormalarbeidstidToFormValues';
 import { mapOpptjeningIUtlandetApiDataToOpptjeningUtland } from './mapOpptjeningIUtlandetApiDataToOpptjeningUtland';

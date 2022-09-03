@@ -860,9 +860,11 @@
     "validation.harBoddUtenforNorgeSiste12Mnd.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har bodd i utlandet i hele eller deler av de siste 12 månedene.",
     "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_ikke_registrert": "Du har oppgitt at du har vært i utlandet de siste 12 månedene. Du må registrere dette utenlandsoppholdet.",
     "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene du har lagt inn for de siste 12 månedene, har datoer som overlapper hverandre.",
+    "validation.utenlandsoppholdSiste12Mnd.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene du har lagt inn for de siste 12 månedene, har datoer som ikke er innenfor siste 12 måneder.",
     "validation.skalBoUtenforNorgeNeste12Mnd.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du planlegger å bo i utlandet i hele eller deler av de neste 12 månedene.",
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_ikke_registrert": "Du har oppgitt at du skal oppholde deg i utlandet de neste 12 månedene. Du må registrere dette utenlandsoppholdet.",
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_overlapper": "Ett eller flere av utenlandsoppholdene du har lagt inn for de neste 12 månedene, har datoer som overlapper hverandre.",
+    "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene du har lagt inn for de neste 12 månedene, har datoer som ikke er innenfor neste 12 måneder.",
     "validation.harBekreftetOpplysninger.notChecked": "Du må bekrefte at opplysningene du har gitt er riktige.",
 
     "virksomhetForm.næringstype.noValue": "Du må velge hvilken type virksomhet du har.",

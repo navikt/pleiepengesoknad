@@ -14,7 +14,7 @@ import {
     ArbeidIPeriodeApiDataTimerPerUke,
     ArbeidIPeriodeApiDataVariert,
 } from '../../types/søknad-api-data/arbeidIPeriodeApiData';
-import { mapTimerFasteDagerToDurationWeekdays } from './extractArbeidUtils';
+import { mapTimerFasteDagerToDurationWeekdays } from './extractFormValuesUtils';
 
 export const mapArbeidstidEnkeltdagerApiDataToFormValues = (
     arbeid: ArbeidIPeriodeApiDataVariert

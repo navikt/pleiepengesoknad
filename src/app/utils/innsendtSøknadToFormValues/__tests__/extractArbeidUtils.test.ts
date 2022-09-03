@@ -2,7 +2,7 @@
 import { durationToISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/arbeidsgiverApiData';
 import { TimerFasteDagerApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { arbeidsgiverHarOrganisasjonsnummer, mapTimerFasteDagerToDurationWeekdays } from '../extractArbeidUtils';
+import { arbeidsgiverHarOrganisasjonsnummer, mapTimerFasteDagerToDurationWeekdays } from '../extractFormValuesUtils';
 
 describe('extractArbeidUtils', () => {
     describe('arbeidsgiverHarOrganisasjonsnummer', () => {
