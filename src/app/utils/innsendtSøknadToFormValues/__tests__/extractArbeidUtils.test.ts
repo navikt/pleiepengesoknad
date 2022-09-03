@@ -1,7 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { durationToISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/arbeidsgiverApiData';
-import { TimerFasteDagerApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { arbeidsgiverHarOrganisasjonsnummer } from '../extractFormValuesUtils';
 
 describe('extractArbeidUtils', () => {
