@@ -3,16 +3,16 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { UtenlandskNæringApi } from '../../../types/søknad-api-data/SøknadApiData';
+import { UtenlandskNæringApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 
 interface Props {
-    utenlandskNæring: UtenlandskNæringApi[];
+    utenlandskNæring: UtenlandskNæringApiData[];
 }
 
 function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
     const intl = useIntl();
-    const renderUtenlandskNæring = (næring: UtenlandskNæringApi): React.ReactNode => {
+    const renderUtenlandskNæring = (næring: UtenlandskNæringApiData): React.ReactNode => {
         const land = næring.land.landnavn;
 
         const næringstype = intlHelper(intl, `sifForms.utenlandskNæringForm.næringstype_${næring.næringstype}`);

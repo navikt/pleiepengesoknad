@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { durationToISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/arbeidsgiverApiData';
 import { TimerFasteDagerApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { arbeidsgiverHarOrganisasjonsnummer, timerFasteDagerApiDataToDurationWeekdays } from '../extractArbeidUtils';
+import { arbeidsgiverHarOrganisasjonsnummer, mapTimerFasteDagerToDurationWeekdays } from '../extractArbeidUtils';
 
 describe('extractArbeidUtils', () => {
     describe('arbeidsgiverHarOrganisasjonsnummer', () => {
@@ -24,7 +25,7 @@ describe('extractArbeidUtils', () => {
             fredag: 'PT5H0M',
         };
         it('returnerer riktig for uke mer timer hver dag', () => {
-            const result = timerFasteDagerApiDataToDurationWeekdays(timer);
+            const result = mapTimerFasteDagerToDurationWeekdays(timer);
             expect(durationToISODuration(result.monday!)).toEqual('PT1H0M');
             expect(durationToISODuration(result.tuesday!)).toEqual('PT2H0M');
             expect(durationToISODuration(result.wednesday!)).toEqual('PT3H30M');
@@ -32,7 +33,7 @@ describe('extractArbeidUtils', () => {
             expect(durationToISODuration(result.friday!)).toEqual('PT5H0M');
         });
         it('returnerer riktig for tom uke', () => {
-            const result = timerFasteDagerApiDataToDurationWeekdays({});
+            const result = mapTimerFasteDagerToDurationWeekdays({});
             expect(result.monday).toBeUndefined();
             expect(result.tuesday).toBeUndefined();
             expect(result.wednesday).toBeUndefined();

@@ -89,7 +89,7 @@ export interface LandApi {
     landnavn: string;
 }
 
-export interface OpptjeningIUtlandetApi {
+export interface OpptjeningIUtlandetApiData {
     navn: string;
     opptjeningType: OpptjeningAktivitet;
     land: LandApi;
@@ -97,7 +97,7 @@ export interface OpptjeningIUtlandetApi {
     tilOgMed: ApiStringDate;
 }
 
-export interface UtenlandskNæringApi {
+export interface UtenlandskNæringApiData {
     næringstype: UtenlandskNæringstype;
     navnPåVirksomheten: string;
     land: LandApi;
@@ -140,8 +140,8 @@ export interface SøknadApiData {
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
-    opptjeningIUtlandet: OpptjeningIUtlandetApi[];
-    utenlandskNæring: UtenlandskNæringApi[];
+    opptjeningIUtlandet: OpptjeningIUtlandetApiData[];
+    utenlandskNæring: UtenlandskNæringApiData[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
 }

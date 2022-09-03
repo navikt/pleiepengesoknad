@@ -1,27 +1,21 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import {
-    DateDurationMap,
-    ISODateToDate,
-    ISODurationToDecimalDuration,
-    ISODurationToMaybeDuration,
-} from '@navikt/sif-common-utils/lib';
-import { ArbeidsgiverType, TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
-import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
+import { ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { ArbeidsgiverType } from '../../types';
+import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
+import { FrilansFormData } from '../../types/FrilansFormData';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
+import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
-import { NormalarbeidstidApiData } from '../../types/søknad-api-data/normalarbeidstidApiData';
-import {
-    ArbeidIPeriodeApiData,
-    ArbeidIPeriodeApiDataFasteDager,
-    ArbeidIPeriodeApiDataProsent,
-    ArbeidIPeriodeApiDataTimerPerUke,
-    ArbeidIPeriodeApiDataVariert,
-} from '../../types/søknad-api-data/SøknadApiData';
+import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
+import { SelvstendigApiData } from '../../types/søknad-api-data/selvstendigApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
-import { arbeidsgiverHarOrganisasjonsnummer, timerFasteDagerApiDataToDurationWeekdays } from './extractArbeidUtils';
+import { arbeidsgiverHarOrganisasjonsnummer } from './extractArbeidUtils';
+import { mapArbeidIPeriodeApiDataToFormValues } from './mapArbeidIPeriodeToFormValues';
+import { mapNormalarbeidstidApiDataToFormValues } from './mapNormalarbeidstidToFormValues';
+import { mapOpptjeningIUtlandetApiDataToOpptjeningUtland } from './mapOpptjeningIUtlandetApiDataToOpptjeningUtland';
+import { mapUtenlandskNæringApiDataToUtenlandskNæring } from './mapUtenlandskNæringApiDataToUtenlandskNæring';
+import { mapVirksomhetApiDataToVirksomhet } from './mapVirksomhetApiDataToVirksomhet';
 
 type ArbeidFormValues = Pick<
     SøknadFormValues,
@@ -34,103 +28,6 @@ type ArbeidFormValues = Pick<
     | SøknadFormField.harOpptjeningUtland
     | SøknadFormField.harUtenlandskNæring
 >;
-
-export const mapNormalarbeidstidApiDataToFormValues = (
-    normalarbeidstid?: NormalarbeidstidApiData
-): NormalarbeidstidFormData | undefined => {
-    if (!normalarbeidstid) {
-        return undefined;
-    }
-    if (normalarbeidstid.erLiktHverUke) {
-        return {
-            erLikeMangeTimerHverUke: YesOrNo.YES,
-            arbeiderFastHelg: YesOrNo.NO,
-            arbeiderHeltid: YesOrNo.YES,
-            erFasteUkedager: YesOrNo.YES,
-            timerFasteUkedager: timerFasteDagerApiDataToDurationWeekdays(normalarbeidstid.timerFasteDager),
-        };
-    }
-    return {
-        erLikeMangeTimerHverUke: YesOrNo.NO,
-        timerPerUke: `${ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt)}`.replace('.', ','),
-        /** WhatTodo
-         * lage støtte for at bruker får spørsmål om snitt er det samme
-
-         */
-    };
-};
-
-export const mapArbeidstidEnkeltdagerApiDataToFormValues = (
-    arbeid: ArbeidIPeriodeApiDataVariert
-): ArbeidIPeriodeFormData => {
-    const enkeltdager: DateDurationMap = {};
-    arbeid.enkeltdager.forEach((enkeltdag) => {
-        const arbeidstid = ISODurationToMaybeDuration(enkeltdag.arbeidstimer.faktiskTimer);
-        if (arbeidstid) {
-            enkeltdager[enkeltdag.dato] = arbeidstid;
-        }
-    });
-    return {
-        arbeiderIPerioden: arbeid.arbeiderIPerioden,
-        erLiktHverUke: YesOrNo.NO,
-        enkeltdager,
-    };
-};
-
-export const mapArbeidIPeriodeApiDataFasteDagerToFormValues = (
-    arbeid: ArbeidIPeriodeApiDataFasteDager
-): ArbeidIPeriodeFormData => {
-    return {
-        arbeiderIPerioden: arbeid.arbeiderIPerioden,
-        erLiktHverUke: YesOrNo.YES,
-        fasteDager: timerFasteDagerApiDataToDurationWeekdays(arbeid.fasteDager),
-    };
-};
-
-export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
-    arbeid: ArbeidIPeriodeApiDataTimerPerUke
-): ArbeidIPeriodeFormData => {
-    return {
-        arbeiderIPerioden: arbeid.arbeiderIPerioden,
-        erLiktHverUke: YesOrNo.YES,
-        timerEllerProsent: TimerEllerProsent.TIMER,
-        timerPerUke: `${ISODurationToDecimalDuration(arbeid.timerPerUke)}`.replace('.', ','),
-    };
-};
-
-export const mapArbeidIPeriodeApiDataProsentToFormValues = (
-    arbeid: ArbeidIPeriodeApiDataProsent
-): ArbeidIPeriodeFormData => {
-    return {
-        arbeiderIPerioden: arbeid.arbeiderIPerioden,
-        erLiktHverUke: YesOrNo.YES,
-        timerEllerProsent: TimerEllerProsent.PROSENT,
-        prosentAvNormalt: `${arbeid.prosentAvNormalt}`.replace('.', ','),
-    };
-};
-
-export const mapArbeidIPeriodeApiDataToFormValues = (
-    arbeid?: ArbeidIPeriodeApiData
-): ArbeidIPeriodeFormData | undefined => {
-    if (!arbeid) {
-        return undefined;
-    }
-    switch (arbeid.type) {
-        case ArbeidIPeriodeType.arbeiderIkke:
-        case ArbeidIPeriodeType.arbeiderVanlig:
-            return {
-                arbeiderIPerioden: arbeid.arbeiderIPerioden,
-            };
-        case ArbeidIPeriodeType.arbeiderEnkeltdager:
-            return mapArbeidstidEnkeltdagerApiDataToFormValues(arbeid);
-        case ArbeidIPeriodeType.arbeiderFasteUkedager:
-            return mapArbeidIPeriodeApiDataFasteDagerToFormValues(arbeid);
-        case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
-            return mapArbeidIPeriodeApiDataProsentToFormValues(arbeid);
-        case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
-            return mapArbeidIPeriodeApiDataTimerPerUkeToFormValues(arbeid);
-    }
-};
 
 export const mapArbeidsgiverToFormValues = (arbeidsgiver: OrganisasjonArbeidsgiverApiData): ArbeidsforholdFormData => {
     const formValues: ArbeidsforholdFormData = {
@@ -149,6 +46,43 @@ export const mapArbeidsgiverToFormValues = (arbeidsgiver: OrganisasjonArbeidsgiv
     return formValues;
 };
 
+export const mapFrilanserToFormValues = (frilanser: FrilansApiData): FrilansFormData => {
+    if (frilanser.harInntektSomFrilanser) {
+        const erFortsattFrilanser = booleanToYesOrNo(frilanser.jobberFortsattSomFrilans);
+        return {
+            harHattInntektSomFrilanser: YesOrNo.YES,
+            erFortsattFrilanser: booleanToYesOrNo(frilanser.jobberFortsattSomFrilans),
+            startdato: frilanser.startdato,
+            sluttdato: erFortsattFrilanser ? frilanser.sluttdato : '',
+            arbeidsforhold: {
+                arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(frilanser.arbeidsforhold.arbeidIPeriode),
+                normalarbeidstid: mapNormalarbeidstidApiDataToFormValues(frilanser.arbeidsforhold.normalarbeidstid),
+                sluttetFørSøknadsperiode: YesOrNo.NO,
+            },
+        };
+    }
+    return {
+        harHattInntektSomFrilanser: YesOrNo.NO,
+    };
+};
+
+export const mapSelvstendigToFormValues = (selvstendig: SelvstendigApiData): SelvstendigFormData => {
+    if (selvstendig.harInntektSomSelvstendig) {
+        return {
+            harHattInntektSomSN: YesOrNo.YES,
+            harFlereVirksomheter: YesOrNo.NO /** ToDo: må diskuteres */,
+            virksomhet: mapVirksomhetApiDataToVirksomhet(selvstendig.virksomhet),
+            arbeidsforhold: {
+                arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(selvstendig.arbeidsforhold.arbeidIPeriode),
+                normalarbeidstid: mapNormalarbeidstidApiDataToFormValues(selvstendig.arbeidsforhold.normalarbeidstid),
+            },
+        };
+    }
+    return {
+        harHattInntektSomSN: YesOrNo.NO,
+    };
+};
+
 export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): ArbeidFormValues | undefined => {
     const ansatt_arbeidsforhold = søknad.arbeidsgivere
         .filter(arbeidsgiverHarOrganisasjonsnummer)
@@ -156,12 +90,12 @@ export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): Arbeid
 
     return {
         ansatt_arbeidsforhold: ansatt_arbeidsforhold,
-        frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
-        selvstendig: { harHattInntektSomSN: YesOrNo.NO },
-        harOpptjeningUtland: YesOrNo.NO,
-        harUtenlandskNæring: YesOrNo.NO,
+        frilans: mapFrilanserToFormValues(søknad.frilans),
         frilansoppdrag: [],
-        opptjeningUtland: [],
-        utenlandskNæring: [],
+        selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
+        harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),
+        opptjeningUtland: søknad.opptjeningIUtlandet.map(mapOpptjeningIUtlandetApiDataToOpptjeningUtland),
+        harUtenlandskNæring: booleanToYesOrNo(søknad.utenlandskNæring.length > 0),
+        utenlandskNæring: søknad.utenlandskNæring.map(mapUtenlandskNæringApiDataToUtenlandskNæring),
     };
 };

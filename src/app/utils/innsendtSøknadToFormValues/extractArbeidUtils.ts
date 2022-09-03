@@ -6,7 +6,7 @@ export const arbeidsgiverHarOrganisasjonsnummer = (a: ArbeidsgiverApiData): a is
     return a.organisasjonsnummer !== undefined;
 };
 
-export const timerFasteDagerApiDataToDurationWeekdays = ({
+export const mapTimerFasteDagerToDurationWeekdays = ({
     mandag,
     tirsdag,
     onsdag,
