@@ -15,6 +15,12 @@ export const extractOmsorgstilbudFormValues = ({
     if (!omsorgstilbud) {
         return undefined;
     }
+    if (omsorgstilbud.erLiktHverUke && omsorgstilbud.ukedager === undefined) {
+        throw new Error('extractOmsorgstilbudFormValues: erLiktHverUke===true, ukedager===undefined');
+    }
+    if (omsorgstilbud.erLiktHverUke === false && omsorgstilbud.enkeltdager === undefined) {
+        throw new Error('extractOmsorgstilbudFormValues: erLiktHverUke===false, enkeltdager===undefined');
+    }
     const formValues: OmsorgstilbudFormValues = {
         omsorgstilbud: {
             erIOmsorgstilbud: YesOrNo.YES,

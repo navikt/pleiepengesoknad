@@ -15,21 +15,26 @@ export const getFormValuesFromInnsendtSøknad = (
     if (registrerteBarn.length === 0) {
         return undefined;
     }
-    const barnFormValues = extractBarnFormValues(søknad.barn, registrerteBarn);
-    if (!barnFormValues) {
+    try {
+        const barnFormValues = extractBarnFormValues(søknad.barn, registrerteBarn);
+        if (!barnFormValues) {
+            return undefined;
+        }
+
+        const formValues: SøknadFormValues = {
+            ...initialValues,
+            harForståttRettigheterOgPlikter: true,
+            harBekreftetOpplysninger: false,
+            ...barnFormValues,
+            ...extractTidsromFormValues(søknad),
+            ...extractArbeidFormValues(søknad),
+            ...extractOmsorgstilbudFormValues(søknad),
+            ...extractNattevåkOgBeredskapFormValues(søknad),
+            ...extractMedlemsskapFormValues(søknad.medlemskap),
+        };
+        return formValues;
+    } catch (e) {
+        console.error(`getFormValuesFromInnsendtSøknad feilet: ${e}`);
         return undefined;
     }
-
-    const formValues: SøknadFormValues = {
-        ...initialValues,
-        harForståttRettigheterOgPlikter: true,
-        harBekreftetOpplysninger: false,
-        ...barnFormValues,
-        ...extractTidsromFormValues(søknad),
-        ...extractArbeidFormValues(søknad),
-        ...extractOmsorgstilbudFormValues(søknad),
-        ...extractNattevåkOgBeredskapFormValues(søknad),
-        ...extractMedlemsskapFormValues(søknad.medlemskap),
-    };
-    return formValues;
 };
