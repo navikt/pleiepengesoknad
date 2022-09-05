@@ -1,5 +1,4 @@
 import { IntlShape } from 'react-intl';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
