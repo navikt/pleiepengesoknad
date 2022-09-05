@@ -852,6 +852,7 @@
     "validation.harUtenlandskNæring.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har jobbet som selvstendig næringsdrivende i et annet EØS-land i løpet av de 3 siste årene før perioden du søker om.",
     "validation.utenlandskNæring.listIsEmpty": "Du må legge til jobb som selvstendig næringsdrivende i et annet EØS-land.",
 
+    "validation.omsorgstilbud.erIOmsorgstilbud.noValue": "Du må velge hvilken situasjon gjelder for bruk av omsorgstilbud i perioden du søker for.",
     "validation.omsorgstilbud.fastdag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag}.",
     "validation.omsorgstilbud.fastdag.tid.hoursAreInvalid": "Antall timer på {dag}  er ikke et gyldig tall.",
     "validation.omsorgstilbud.fastdag.tid.minutesAreInvalid": "Antall minutter på {dag}  er ikke et gyldig tall.",
