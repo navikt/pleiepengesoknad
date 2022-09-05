@@ -18,12 +18,11 @@ const Søknad = () => {
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
-            contentLoadedRenderer={({ formdata, mellomlagringMetadata, lastStepID, forrigeSøknad }) => {
-                const initialFormValues = formdata || initialValues;
+            contentLoadedRenderer={({ formValues, mellomlagringMetadata, lastStepID, forrigeSøknad }) => {
                 return (
-                    <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
+                    <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(formValues)}>
                         <TypedFormikWrapper<SøknadFormValues>
-                            initialValues={initialFormValues}
+                            initialValues={formValues}
                             onSubmit={() => {
                                 null;
                             }}

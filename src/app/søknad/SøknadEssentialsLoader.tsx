@@ -21,7 +21,7 @@ interface Props {
     onUgyldigMellomlagring: () => void;
     onError: () => void;
     contentLoadedRenderer: (content: {
-        formdata: SøknadFormValues;
+        formValues: SøknadFormValues;
         mellomlagringMetadata?: MellomlagringMetadata;
         lastStepID?: StepID;
         søkerdata?: Søkerdata;
@@ -33,7 +33,7 @@ interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
     lastStepID?: StepID;
-    formdata: SøknadFormValues;
+    formValues: SøknadFormValues;
     søkerdata?: Søkerdata;
     forrigeSøknad?: ForrigeSøknad;
     mellomlagringMetadata?: MellomlagringMetadata;
@@ -59,7 +59,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             isLoading: true,
             willRedirectToLoginPage: false,
             lastStepID: undefined,
-            formdata: initialValues,
+            formValues: initialValues,
             mellomlagringMetadata: undefined,
             harIkkeTilgang: false,
         };
@@ -137,33 +137,25 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             }
         }
 
-        this.updateSøkerdata(
-            formValuesToUse,
-            søkerdata,
-            forrigeSøknad,
-            mellomlagring?.metadata,
-            mellomlagring?.metadata.lastStepID,
-            () => {
-                this.stopLoading();
-                if (userIsCurrentlyOnErrorPage()) {
-                    this.props.onError();
-                }
+        this.updateSøkerdata(formValuesToUse, søkerdata, forrigeSøknad, mellomlagring?.metadata, () => {
+            this.stopLoading();
+            if (userIsCurrentlyOnErrorPage()) {
+                this.props.onError();
             }
-        );
+        });
     }
 
     updateSøkerdata(
-        formdata: SøknadFormValues,
+        formValues: SøknadFormValues,
         søkerdata: Søkerdata,
         forrigeSøknad: ForrigeSøknad | undefined,
         mellomlagringMetadata?: MellomlagringMetadata,
-        lastStepID?: StepID,
         callback?: () => void
     ) {
         this.setState(
             {
-                lastStepID: lastStepID || this.state.lastStepID,
-                formdata: formdata || this.state.formdata,
+                lastStepID: mellomlagringMetadata?.lastStepID || this.state.lastStepID,
+                formValues: formValues || this.state.formValues,
                 søkerdata: søkerdata || this.state.søkerdata,
                 mellomlagringMetadata,
                 forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
@@ -201,7 +193,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             harIkkeTilgang,
             willRedirectToLoginPage,
             lastStepID,
-            formdata,
+            formValues,
             søkerdata,
             mellomlagringMetadata,
             forrigeSøknad,
@@ -214,7 +206,13 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         }
         return (
             <SøkerdataContextProvider value={søkerdata}>
-                {contentLoadedRenderer({ formdata, mellomlagringMetadata, lastStepID, søkerdata, forrigeSøknad })}
+                {contentLoadedRenderer({
+                    formValues,
+                    mellomlagringMetadata,
+                    lastStepID,
+                    søkerdata,
+                    forrigeSøknad,
+                })}
             </SøkerdataContextProvider>
         );
     }
