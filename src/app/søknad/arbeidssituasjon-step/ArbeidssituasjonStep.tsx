@@ -103,6 +103,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                         <ArbeidssituasjonSN
                             formValues={values.selvstendig}
                             urlSkatteetatenSN={getLenker(intl.locale).skatteetatenSN}
+                            søknadsperiode={søknadsperiode}
                         />
                     </FormSection>
 

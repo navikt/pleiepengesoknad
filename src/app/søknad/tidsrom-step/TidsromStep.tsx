@@ -71,6 +71,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     };
 
     const visInfoOmUtenlandsopphold =
+        values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES &&
         values.utenlandsoppholdIPerioden &&
         harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 

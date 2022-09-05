@@ -8,6 +8,8 @@ jest.mock('../../utils/envUtils.ts', () => {
     return { getEnvironmentVariable: () => mockedApiUrl };
 });
 
+jest.mock('axios');
+
 describe('apiUtils', () => {
     describe('sendMultipartPostRequest', () => {
         it('should use axios to send a multipart post request', () => {
