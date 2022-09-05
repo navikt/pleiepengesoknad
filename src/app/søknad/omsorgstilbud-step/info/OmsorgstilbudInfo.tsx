@@ -66,7 +66,10 @@ const ErIOmsorgstilbud: React.FunctionComponent = () => {
     return (
         <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.tittel')}>
             <p>
-                <FormattedMessage id={'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.info.1'} />
+                <FormattedMessage id={'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.info.1.1'} />
+            </p>
+            <p>
+                <FormattedMessage id={'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.description.info.1.2'} />
             </p>
         </ExpandableInfo>
     );

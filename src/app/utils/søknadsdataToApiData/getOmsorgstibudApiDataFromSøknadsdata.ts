@@ -14,29 +14,32 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
             omsorgstilbud: {
                 erLiktHverUke: true,
                 ukedager: getFasteDagerApiData(omsorgstilbud.fasteDager),
-                svar: omsorgstilbud.usikker === true ? OmsorgstilbudSvar.USIKKER : OmsorgstilbudSvar.JA,
+                svar: omsorgstilbud.svar,
             },
         };
     }
-    if (omsorgstilbud?.type === 'erIOmsorgstilbudEnkeltDager') {
+    if (
+        omsorgstilbud?.type === 'erIOmsorgstilbudEnkeltDager' ||
+        omsorgstilbud?.type === 'erIOmsorgstilbudDelvisEnkeltDager'
+    ) {
         return {
             omsorgstilbud: {
                 erLiktHverUke: false,
                 enkeltdager: getEnkeltdagerIPeriodeApiData(omsorgstilbud.enkeltdager, søknadsperiode),
-                svar: omsorgstilbud.usikker === true ? OmsorgstilbudSvar.USIKKER : OmsorgstilbudSvar.JA,
+                svar: omsorgstilbud.svar,
             },
         };
     }
-    if (omsorgstilbud?.type === 'erIOmsorgstilbudUsikkerFastIOmsorgstilbudNO') {
+    if (omsorgstilbud?.type === 'erIkkeFastOgRegelmessig') {
         return {
             omsorgstilbud: {
-                svar: OmsorgstilbudSvar.USIKKER,
+                svar: omsorgstilbud.svar,
             },
         };
     }
     return {
         omsorgstilbud: {
-            svar: OmsorgstilbudSvar.NEI,
+            svar: OmsorgstilbudSvar.IKKE_OMSORGSTILBUD,
         },
     };
 };

@@ -35,9 +35,10 @@ export interface TidEnkeltdagApiData {
 }
 
 export enum OmsorgstilbudSvar {
-    'JA' = 'JA',
-    'NEI' = 'NEI',
-    'USIKKER' = 'USIKKER',
+    'FAST_OG_REGELMESSIG' = 'FAST_OG_REGELMESSIG',
+    'DELVIS_FAST_OG_REGELMESSIG' = 'DELVIS_FAST_OG_REGELMESSIG',
+    'IKKE_FAST_OG_REGELMESSIG' = 'IKKE_FAST_OG_REGELMESSIG',
+    'IKKE_OMSORGSTILBUD' = 'IKKE_OMSORGSTILBUD',
 }
 
 export interface OmsorgstilbudApiData {

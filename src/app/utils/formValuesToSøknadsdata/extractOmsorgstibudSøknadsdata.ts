@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { OmsorgstilbudSvar } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudFormData } from '../../types/SøknadFormData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
@@ -8,33 +9,35 @@ export const extractOmsorgstibudSøknadsdata = (
     søknadsperiode: DateRange,
     omsorgstilbud?: OmsorgstilbudFormData
 ): OmsorgstilbudSøknadsdata | undefined => {
-    if (
-        !omsorgstilbud ||
-        omsorgstilbud.erIOmsorgstilbud === YesOrNo.NO ||
-        omsorgstilbud.erIOmsorgstilbud === YesOrNo.UNANSWERED
-    ) {
+    if (!omsorgstilbud || omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.IKKE_OMSORGSTILBUD) {
         return undefined;
     }
 
-    if (omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW && omsorgstilbud.fastIOmsorgstilbud === YesOrNo.NO) {
-        return {
-            type: 'erIOmsorgstilbudUsikkerFastIOmsorgstilbudNO',
-        };
+    if (omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG) {
+        return { type: 'erIkkeFastOgRegelmessig', svar: OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG };
     }
 
     const { erLiktHverUke, fasteDager, enkeltdager } = omsorgstilbud;
 
+    if (omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG && enkeltdager) {
+        return {
+            type: 'erIOmsorgstilbudDelvisEnkeltDager',
+            svar: OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG,
+            enkeltdager: enkeltdager,
+        };
+    }
+
     if (erLiktHverUke === YesOrNo.YES && fasteDager) {
         return {
             type: 'erIOmsorgstilbudFasteDager',
-            usikker: omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW,
+            svar: OmsorgstilbudSvar.FAST_OG_REGELMESSIG,
             fasteDager: fasteDager,
         };
     }
     if (erLiktHverUke !== YesOrNo.YES && enkeltdager) {
         return {
             type: 'erIOmsorgstilbudEnkeltDager',
-            usikker: omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW,
+            svar: OmsorgstilbudSvar.FAST_OG_REGELMESSIG,
             enkeltdager: enkeltdager,
         };
     }

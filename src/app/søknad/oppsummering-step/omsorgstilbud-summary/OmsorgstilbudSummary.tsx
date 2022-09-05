@@ -16,7 +16,7 @@ interface Props {
     apiValues: SøknadApiData;
 }
 
-const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
+const OmsorgstilbudSummary: React.FC<Props> = ({
     apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
     søknadsperiode,
 }) => {
@@ -37,29 +37,31 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                         <FormattedMessage id={`omsorgstilbud.svar.nei`} />
                     </SummaryBlock>
                 )}
-                {omsorgstilbud.svar === OmsorgstilbudSvar.USIKKER && omsorgstilbud.erLiktHverUke === undefined && (
-                    <>
-                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
-                            <FormattedMessage id={`omsorgstilbud.svar.usikker.nei`} />
-                        </SummaryBlock>
-                    </>
-                )}
+                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_OMSORGSTILBUD &&
+                    omsorgstilbud.erLiktHverUke === undefined && (
+                        <>
+                            <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                                <FormattedMessage id={`omsorgstilbud.svar.usikker.nei`} />
+                            </SummaryBlock>
+                        </>
+                    )}
 
-                {omsorgstilbud.svar === OmsorgstilbudSvar.USIKKER && omsorgstilbud.erLiktHverUke !== undefined && (
-                    <>
-                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
-                            <FormattedMessage id={`omsorgstilbud.svar.usikker.ja`} />
-                        </SummaryBlock>
-                    </>
-                )}
-                {omsorgstilbud.svar !== OmsorgstilbudSvar.NEI && omsorgstilbud.ukedager && (
+                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG &&
+                    omsorgstilbud.erLiktHverUke !== undefined && (
+                        <>
+                            <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                                <FormattedMessage id={`omsorgstilbud.svar.usikker.ja`} />
+                            </SummaryBlock>
+                        </>
+                    )}
+                {omsorgstilbud.svar !== OmsorgstilbudSvar.FAST_OG_REGELMESSIG && omsorgstilbud.ukedager && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
                         headerTag="h3">
                         <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
                     </SummaryBlock>
                 )}
-                {omsorgstilbud.svar !== OmsorgstilbudSvar.NEI && omsorgstilbud.enkeltdager && (
+                {omsorgstilbud.svar !== OmsorgstilbudSvar.FAST_OG_REGELMESSIG && omsorgstilbud.enkeltdager && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
                         headerTag="h3">

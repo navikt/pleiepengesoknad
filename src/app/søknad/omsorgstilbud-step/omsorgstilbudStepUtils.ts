@@ -5,6 +5,7 @@ import isBetween from 'dayjs/plugin/isBetween';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
+import { OmsorgstilbudSvar } from '../../types/søknad-api-data/SøknadApiData';
 
 dayjs.extend(isBetween);
 
@@ -18,20 +19,19 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     return true;
 };
 
-export const skalViseUsikker = (periode: DateRange): boolean => {
-    return dayjs(periode.to).isAfter(dayjs()) === true;
-};
-
 export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
     const cleanedValues = { ...values };
     const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
     if (cleanedValues.omsorgstilbud) {
-        if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud === YesOrNo.NO) {
+        if (
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === OmsorgstilbudSvar.IKKE_OMSORGSTILBUD ||
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG
+        ) {
             cleanedValues.omsorgstilbud.enkeltdager = undefined;
             cleanedValues.omsorgstilbud.fasteDager = undefined;
             cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
         } else if (
-            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW &&
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG &&
             cleanedValues.omsorgstilbud?.fastIOmsorgstilbud === YesOrNo.NO
         ) {
             cleanedValues.omsorgstilbud.enkeltdager = undefined;

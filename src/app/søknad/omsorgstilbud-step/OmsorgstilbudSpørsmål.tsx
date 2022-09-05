@@ -7,7 +7,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { getOmsorgstilbudFastDagValidator, TidFasteUkedagerInput } from '@navikt/sif-common-pleiepenger';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { OmsorgstilbudFormData, SøknadFormField } from '../../types/SøknadFormData';
@@ -15,9 +15,10 @@ import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFie
 import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
 import OmsorgstilbudVariert from './omsorgstilbud-variert/OmsorgstilbudVariert';
-import { skalViseSpørsmålOmProsentEllerLiktHverUke, skalViseUsikker } from './omsorgstilbudStepUtils';
+import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
 import getLenker from '../../lenker';
 import Lenke from 'nav-frontend-lenker';
+import { OmsorgstilbudSvar } from 'app/types/søknad-api-data/SøknadApiData';
 
 interface Props {
     periode: DateRange;
@@ -29,7 +30,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
     const intl = useIntl();
 
     const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
-    const inkluderUsikker = skalViseUsikker(periode);
+
     const getSpmErLiktHverUke = () => {
         return (
             <FormBlock>
@@ -94,38 +95,44 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
 
     return (
         <>
-            <SøknadFormComponents.YesOrNoQuestion
+            <SøknadFormComponents.RadioPanelGroup
                 name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud}
-                legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
-                    fra: prettifyDateFull(periode.from),
-                    til: prettifyDateFull(periode.to),
-                })}
+                legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}
+                radios={[
+                    {
+                        label: intlHelper(intl, 'steg.omsorgstilbud.fastOgRegelmessig'),
+                        value: OmsorgstilbudSvar.FAST_OG_REGELMESSIG,
+                        'data-testid': 'fastOgRegelmessig',
+                    },
+                    {
+                        label: intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudEnkeltDager'),
+                        value: OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG,
+                        'data-testid': 'delvisFastOgRegelmessig',
+                    },
+                    {
+                        label: intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.delvisFastOgRegelmessig'),
+                        value: OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG,
+                        'data-testid': 'ikkeFastOgRegelmessig',
+                    },
+
+                    {
+                        label: intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.ikkeOmsorgstilbud'),
+                        value: OmsorgstilbudSvar.IKKE_OMSORGSTILBUD,
+                        'data-testid': 'ikkeOmsorgstilbud',
+                    },
+                ]}
                 description={omsorgstilbudInfo.erIOmsorgstilbud}
-                validate={(value) => {
-                    const error = getYesOrNoValidator()(value);
-                    if (error) {
-                        return {
-                            key: error,
-                            values: {
-                                fra: prettifyDateFull(periode.from),
-                                til: prettifyDateFull(periode.to),
-                            },
-                        };
-                    }
-                    return undefined;
-                }}
-                includeDoNotKnowOption={inkluderUsikker}
-                labels={{ doNotKnow: 'Usikker' }}
+                validate={getRequiredFieldValidator()}
             />
 
-            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === YesOrNo.NO && (
+            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG && (
                 <Box margin="l">
                     <AlertStripe type={'info'}>
                         <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbud.nei.info" />
                     </AlertStripe>
                 </Box>
             )}
-            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES && (
+            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.FAST_OG_REGELMESSIG && (
                 <>
                     {inkluderFastPlan && getSpmErLiktHverUke()}
 
@@ -152,7 +159,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 </>
             )}
 
-            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW && (
+            {omsorgstilbud && (
                 <>
                     <FormBlock>
                         <SøknadFormComponents.YesOrNoQuestion

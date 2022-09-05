@@ -10,6 +10,7 @@ import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
+import { OmsorgstilbudSvar } from './søknad-api-data/SøknadApiData';
 
 export enum SøknadFormField {
     harForståttRettigheterOgPlikter = 'harForståttRettigheterOgPlikter',
@@ -61,7 +62,7 @@ export enum SøknadFormField {
 }
 
 export interface OmsorgstilbudFormData {
-    erIOmsorgstilbud?: YesOrNo;
+    erIOmsorgstilbud?: OmsorgstilbudSvar;
     erLiktHverUke?: YesOrNo;
     fastIOmsorgstilbud?: YesOrNo;
     fasteDager?: DurationWeekdays;
