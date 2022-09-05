@@ -1,13 +1,9 @@
 const omsorgstilbudMessages = {
     nb: {
-        'omsorgstilbud.svar.ja': 'Ja',
-        'omsorgstilbud.svar.nei': 'Nei',
-        'omsorgstilbud.svar.usikker': 'Usikker',
-        'omsorgstilbud.svar.usikker.nei':
-            'Barnet har ikke vært fast og regelmessig i et omsorgstilbud frem til nå. Jeg er usikker på hvordan det blir fremover.',
-        'omsorgstilbud.svar.usikker.ja':
-            'Barnet er fast og regelmessig i et omsorgstilbud nå, men jeg er usikker på hvor mye barnet skal være der fremover.',
-
+        'omsorgstilbud.svar.FAST_OG_REGELMESSIG': 'Barnet er der fast og regelmessig i hele perioden',
+        'omsorgstilbud.svar.DELVIS_FAST_OG_REGELMESSIG': 'Barnet er der fast og regelmessig i kun deler av perioden',
+        'omsorgstilbud.svar.IKKE_OMSORGSTILBUD': 'Barnet er ikke i omsorgstilbud',
+        'omsorgstilbud.svar.IKKE_FAST_OG_REGELMESSIG': 'Barnet er noe i omsorgstilbud, men ikke fast og regelmessig',
         'omsorgstilbudPeriode.leggTilTidIOmsorgstilbudLabel': 'Registrer tid i omsorgstilbud',
         'omsorgstilbudMåned.tittel': 'Omsorgstilbud - {måned}',
         'omsorgstilbudMåned.intro.1':

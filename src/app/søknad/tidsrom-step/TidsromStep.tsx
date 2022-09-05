@@ -28,18 +28,16 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import { skalViseUsikker } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
 
 dayjs.extend(minMax);
 
-export const cleanupTidsromStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+export const cleanupTidsromStep = (values: SøknadFormData): SøknadFormData => {
     const cleanedValues = { ...values };
-    const inkluderUsikker = skalViseUsikker(søknadsperiode);
 
-    if (cleanedValues.omsorgstilbud && !inkluderUsikker) {
+    /*if (cleanedValues.omsorgstilbud) {
         cleanedValues.omsorgstilbud.erIOmsorgstilbud = YesOrNo.UNANSWERED;
         cleanedValues.omsorgstilbud.fastIOmsorgstilbud = undefined;
-    }
+    }*/
 
     return cleanedValues;
 };
@@ -81,7 +79,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             id={StepID.TIDSROM}
             onValidFormSubmit={onValidSubmit}
             showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}
-            onStepCleanup={() => cleanupTidsromStep(values, periode)}>
+            onStepCleanup={() => cleanupTidsromStep(values)}>
             <SøknadFormComponents.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
                 minDate={

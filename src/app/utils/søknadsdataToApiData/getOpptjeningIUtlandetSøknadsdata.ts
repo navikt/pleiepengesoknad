@@ -1,5 +1,5 @@
 import { OpptjeningIUtlandetApi } from '../../types/søknad-api-data/SøknadApiData';
-import { OpptjeningUtlandSøknadsdata } from 'app/types/søknadsdata/opptjeningUtlandSøknadsdata';
+import { OpptjeningUtlandSøknadsdata } from '../../types/søknadsdata/opptjeningUtlandSøknadsdata';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 

@@ -64,7 +64,6 @@ export enum SøknadFormField {
 export interface OmsorgstilbudFormData {
     erIOmsorgstilbud?: OmsorgstilbudSvar;
     erLiktHverUke?: YesOrNo;
-    fastIOmsorgstilbud?: YesOrNo;
     fasteDager?: DurationWeekdays;
     enkeltdager?: DateDurationMap;
 }

@@ -8,6 +8,15 @@ export const clickNeiPaAlleSporsmal = () => {
         }
     });
 };
+
+export const clickNeiPaOmsorgstibudSporsmal = () => {
+    cy.get('label[class="inputPanel radioPanel"]').each((element) => {
+        if (element.text() === 'Barnet er ikke i omsorgstilbud') {
+            element.click();
+        }
+    });
+};
+
 export const clickJaPaAlleSporsmal = () => {
     cy.get('label[class="inputPanel radioPanel"]').each((element) => {
         if (element.text() === 'Ja') {

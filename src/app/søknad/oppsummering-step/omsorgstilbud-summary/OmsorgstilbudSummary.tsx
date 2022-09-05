@@ -6,7 +6,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import Sitat from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/Sitat';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
-import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import { OmsorgstilbudSvar, SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
@@ -16,58 +16,51 @@ interface Props {
     apiValues: SøknadApiData;
 }
 
-const OmsorgstilbudSummary: React.FC<Props> = ({
-    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
-    søknadsperiode,
-}) => {
+const OmsorgstilbudSummary: React.FC<Props> = ({ apiValues: { nattevåk, beredskap, omsorgstilbud } }) => {
     const intl = useIntl();
+    console.log('omsorgstilbud: ', omsorgstilbud);
     return (
         <>
-            <SummarySection
-                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header', {
-                    fra: prettifyDateExtended(søknadsperiode.from),
-                    til: prettifyDateExtended(søknadsperiode.to),
-                })}>
-                {omsorgstilbud.svar === OmsorgstilbudSvar.NEI && (
-                    <SummaryBlock
-                        header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
-                            fra: prettifyDateExtended(søknadsperiode.from),
-                            til: prettifyDateExtended(søknadsperiode.to),
-                        })}>
-                        <FormattedMessage id={`omsorgstilbud.svar.nei`} />
+            <SummarySection header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.header')}>
+                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_OMSORGSTILBUD && (
+                    <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                        <FormattedMessage id={`omsorgstilbud.svar.IKKE_OMSORGSTILBUD`} />
                     </SummaryBlock>
                 )}
-                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_OMSORGSTILBUD &&
-                    omsorgstilbud.erLiktHverUke === undefined && (
-                        <>
-                            <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
-                                <FormattedMessage id={`omsorgstilbud.svar.usikker.nei`} />
-                            </SummaryBlock>
-                        </>
-                    )}
 
-                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG &&
-                    omsorgstilbud.erLiktHverUke !== undefined && (
+                {omsorgstilbud.svar === OmsorgstilbudSvar.IKKE_FAST_OG_REGELMESSIG && (
+                    <>
+                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                            <FormattedMessage id={`omsorgstilbud.svar.IKKE_FAST_OG_REGELMESSIG`} />
+                        </SummaryBlock>
+                    </>
+                )}
+                {omsorgstilbud.svar === OmsorgstilbudSvar.FAST_OG_REGELMESSIG && omsorgstilbud.ukedager && (
+                    <>
+                        <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
+                            <FormattedMessage id={`omsorgstilbud.svar.FAST_OG_REGELMESSIG`} />
+                        </SummaryBlock>
+                        <SummaryBlock
+                            header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
+                            headerTag="h3">
+                            <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
+                        </SummaryBlock>
+                    </>
+                )}
+                {(omsorgstilbud.svar === OmsorgstilbudSvar.FAST_OG_REGELMESSIG ||
+                    omsorgstilbud.svar === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG) &&
+                    omsorgstilbud.enkeltdager && (
                         <>
                             <SummaryBlock header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm')}>
-                                <FormattedMessage id={`omsorgstilbud.svar.usikker.ja`} />
+                                <FormattedMessage id={`omsorgstilbud.svar.${omsorgstilbud.svar}`} />
+                            </SummaryBlock>
+                            <SummaryBlock
+                                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
+                                headerTag="h3">
+                                <TidEnkeltdager dager={omsorgstilbud.enkeltdager} />
                             </SummaryBlock>
                         </>
                     )}
-                {omsorgstilbud.svar !== OmsorgstilbudSvar.FAST_OG_REGELMESSIG && omsorgstilbud.ukedager && (
-                    <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
-                        headerTag="h3">
-                        <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
-                    </SummaryBlock>
-                )}
-                {omsorgstilbud.svar !== OmsorgstilbudSvar.FAST_OG_REGELMESSIG && omsorgstilbud.enkeltdager && (
-                    <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
-                        headerTag="h3">
-                        <TidEnkeltdager dager={omsorgstilbud.enkeltdager} />
-                    </SummaryBlock>
-                )}
             </SummarySection>
             {(nattevåk || beredskap) && (
                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.nattevåkBeredskap.header')}>

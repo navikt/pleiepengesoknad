@@ -14,6 +14,7 @@ import {
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
+import { OmsorgstilbudSvar } from '../types/søknad-api-data/SøknadApiData';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -80,9 +81,8 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        (formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES ||
-            (formValues.omsorgstilbud.erIOmsorgstilbud === YesOrNo.DO_NOT_KNOW &&
-                formValues.omsorgstilbud.fastIOmsorgstilbud === YesOrNo.YES))
+        (formValues.omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.FAST_OG_REGELMESSIG ||
+            formValues.omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG)
     );
 };
 

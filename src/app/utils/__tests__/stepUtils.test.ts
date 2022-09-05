@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { OmsorgstilbudSvar } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../types/SøknadFormData';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
@@ -112,18 +112,18 @@ describe('stepUtils', () => {
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 2', () => {
-            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.NO };
+            formData.omsorgstilbud = { erIOmsorgstilbud: OmsorgstilbudSvar.IKKE_OMSORGSTILBUD };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 3', () => {
-            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.UNANSWERED };
+            formData.omsorgstilbud = { erIOmsorgstilbud: OmsorgstilbudSvar.IKKE_OMSORGSTILBUD };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer nattevåk/beredskap dersom barn er i omsorgstilbud', () => {
             formData.omsorgstilbud = {
-                erIOmsorgstilbud: YesOrNo.YES,
+                erIOmsorgstilbud: OmsorgstilbudSvar.FAST_OG_REGELMESSIG,
                 enkeltdager: {
                     '2020-01-01': { hours: '1', minutes: '0' },
                 },

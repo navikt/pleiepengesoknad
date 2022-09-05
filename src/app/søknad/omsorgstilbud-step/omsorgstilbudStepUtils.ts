@@ -30,11 +30,7 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiod
             cleanedValues.omsorgstilbud.enkeltdager = undefined;
             cleanedValues.omsorgstilbud.fasteDager = undefined;
             cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
-        } else if (
-            cleanedValues.omsorgstilbud?.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG &&
-            cleanedValues.omsorgstilbud?.fastIOmsorgstilbud === YesOrNo.NO
-        ) {
-            cleanedValues.omsorgstilbud.enkeltdager = undefined;
+        } else if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG) {
             cleanedValues.omsorgstilbud.fasteDager = undefined;
             cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
         } else {

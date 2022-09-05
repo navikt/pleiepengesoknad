@@ -16,9 +16,9 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
 import OmsorgstilbudVariert from './omsorgstilbud-variert/OmsorgstilbudVariert';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from './omsorgstilbudStepUtils';
-import getLenker from '../../lenker';
-import Lenke from 'nav-frontend-lenker';
-import { OmsorgstilbudSvar } from 'app/types/søknad-api-data/SøknadApiData';
+// import getLenker from '../../lenker';
+// import Lenke from 'nav-frontend-lenker';
+import { OmsorgstilbudSvar } from '../../types/søknad-api-data/SøknadApiData';
 
 interface Props {
     periode: DateRange;
@@ -158,71 +158,22 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                     )}
                 </>
             )}
-
-            {omsorgstilbud && (
+            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === OmsorgstilbudSvar.DELVIS_FAST_OG_REGELMESSIG && (
                 <>
                     <FormBlock>
-                        <SøknadFormComponents.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.omsorgstilbud.fastIOmsorgstilbud.spm')}
-                            useTwoColumns={false}
-                            labels={{
-                                yes: intlHelper(intl, 'steg.omsorgstilbud.fastIOmsorgstilbud.yes'),
-                                no: intlHelper(intl, 'steg.omsorgstilbud.fastIOmsorgstilbud.no'),
-                            }}
-                            name={SøknadFormField.omsorgstilbud__fastIOmsorgstilbud}
-                            validate={getYesOrNoValidator()}
-                        />
+                        <ResponsivePanel>
+                            <OmsorgstilbudVariert
+                                omsorgsdager={omsorgstilbud.enkeltdager || {}}
+                                tittel={intlHelper(intl, 'steg.omsorgstilbud.hvormyetittel')}
+                                formFieldName={SøknadFormField.omsorgstilbud__enkeltdager}
+                                periode={periode}
+                                tidIOmsorgstilbud={omsorgstilbud.enkeltdager || {}}
+                                onOmsorgstilbudChanged={() => {
+                                    onOmsorgstilbudChanged();
+                                }}
+                            />
+                        </ResponsivePanel>
                     </FormBlock>
-                    {omsorgstilbud.fastIOmsorgstilbud === YesOrNo.YES && (
-                        <>
-                            <Box margin="l">
-                                <AlertStripe type={'info'}>
-                                    <Box padBottom="m">
-                                        <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.ja.info.avsnitt.1" />
-                                    </Box>
-                                    <Box>
-                                        <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.ja.info.avsnitt.2" />
-                                        <Lenke href={getLenker(intl.locale).skrivTilOss} target="_blank">
-                                            <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.skrivTilOss" />
-                                        </Lenke>
-                                    </Box>
-                                </AlertStripe>
-                            </Box>
-
-                            {inkluderFastPlan && getSpmErLiktHverUke()}
-
-                            {inkluderFastPlan &&
-                                omsorgstilbud.erLiktHverUke === YesOrNo.YES &&
-                                getValgHvorMyeTidIOmsorgstilbud(omsorgstilbud)}
-
-                            {(inkluderFastPlan === false || omsorgstilbud.erLiktHverUke === YesOrNo.NO) && (
-                                <FormBlock>
-                                    <ResponsivePanel>
-                                        <OmsorgstilbudVariert
-                                            omsorgsdager={omsorgstilbud.enkeltdager || {}}
-                                            tittel={intlHelper(intl, 'steg.omsorgstilbud.hvormyetittel')}
-                                            formFieldName={SøknadFormField.omsorgstilbud__enkeltdager}
-                                            periode={periode}
-                                            tidIOmsorgstilbud={omsorgstilbud.enkeltdager || {}}
-                                            onOmsorgstilbudChanged={() => {
-                                                onOmsorgstilbudChanged();
-                                            }}
-                                        />
-                                    </ResponsivePanel>
-                                </FormBlock>
-                            )}
-                        </>
-                    )}
-                    {omsorgstilbud.fastIOmsorgstilbud === YesOrNo.NO && (
-                        <Box margin="l">
-                            <AlertStripe type={'info'}>
-                                <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.nei.info" />
-                                <Lenke href={getLenker(intl.locale).skrivTilOss} target="_blank">
-                                    <FormattedMessage id="steg.omsorgstilbud.fastIOmsorgstilbud.skrivTilOss" />
-                                </Lenke>
-                            </AlertStripe>
-                        </Box>
-                    )}
                 </>
             )}
         </>

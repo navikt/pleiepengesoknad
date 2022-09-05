@@ -1,4 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { OmsorgstilbudSvar } from '../../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudFormData } from '../../../types/SøknadFormData';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
 
@@ -8,7 +9,7 @@ const søknadsperiode: DateRange = {
 };
 
 const omsorgstilbud: OmsorgstilbudFormData = {
-    erIOmsorgstilbud: YesOrNo.YES,
+    erIOmsorgstilbud: OmsorgstilbudSvar.FAST_OG_REGELMESSIG,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,
 };
@@ -33,10 +34,10 @@ describe('extractOmsorgstibudSøknadsdata', () => {
         expect(result?.type).toEqual('erIOmsorgstilbudFasteDager');
     });
 
-    it('returnerer undefined dersom erIOmsorgstilbud === NO', () => {
+    it('returnerer undefined dersom erIOmsorgstilbud === IKKE_OMSORGSTILBUD', () => {
         const result = extractOmsorgstibudSøknadsdata(søknadsperiode, {
             ...omsorgstilbud,
-            erIOmsorgstilbud: YesOrNo.NO,
+            erIOmsorgstilbud: OmsorgstilbudSvar.IKKE_OMSORGSTILBUD,
         });
         expect(result).toBeUndefined();
     });
