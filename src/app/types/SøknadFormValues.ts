@@ -10,6 +10,7 @@ import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
+import { BostedUtland } from '@navikt/sif-common-forms/lib';
 
 export enum SøknadFormField {
     brukForrigeSøknad = 'brukForrigeSøknad',
@@ -88,9 +89,9 @@ export interface SøknadFormValues {
     [SøknadFormField.beskrivelseOmsorgsrolleIPerioden]?: string;
     [SøknadFormField.legeerklæring]: Attachment[];
     [SøknadFormField.harBoddUtenforNorgeSiste12Mnd]: YesOrNo;
-    [SøknadFormField.utenlandsoppholdSiste12Mnd]: Utenlandsopphold[];
+    [SøknadFormField.utenlandsoppholdSiste12Mnd]: BostedUtland[];
     [SøknadFormField.skalBoUtenforNorgeNeste12Mnd]: YesOrNo;
-    [SøknadFormField.utenlandsoppholdNeste12Mnd]: Utenlandsopphold[];
+    [SøknadFormField.utenlandsoppholdNeste12Mnd]: BostedUtland[];
     [SøknadFormField.skalOppholdeSegIUtlandetIPerioden]?: YesOrNo;
     [SøknadFormField.utenlandsoppholdIPerioden]?: Utenlandsopphold[];
     [SøknadFormField.skalTaUtFerieIPerioden]?: YesOrNo;

@@ -1,5 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
+import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
 import { ArbeidsgiverType } from '../../types';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../types/FrilansFormData';
@@ -8,6 +11,7 @@ import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
 import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
 import { SelvstendigApiData } from '../../types/søknad-api-data/selvstendigApiData';
+import { OpptjeningIUtlandetApiData, UtenlandskNæringApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
 import { arbeidsgiverHarOrganisasjonsnummer } from './extractFormValuesUtils';
@@ -16,6 +20,9 @@ import { mapNormalarbeidstidApiDataToFormValues } from './mapNormalarbeidstidToF
 import { mapOpptjeningIUtlandetApiDataToOpptjeningUtland } from './mapOpptjeningIUtlandetApiDataToOpptjeningUtland';
 import { mapUtenlandskNæringApiDataToUtenlandskNæring } from './mapUtenlandskNæringApiDataToUtenlandskNæring';
 import { mapVirksomhetApiDataToVirksomhet } from './mapVirksomhetApiDataToVirksomhet';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+
+dayjs.extend(isSameOrAfter);
 
 type ArbeidFormValues = Pick<
     SøknadFormValues,
@@ -83,6 +90,20 @@ export const mapSelvstendigToFormValues = (selvstendig: SelvstendigApiData): Sel
     };
 };
 
+export const datoErInnenforSiste3Måneder = (dato: Date): boolean => {
+    return dayjs(dato).isSameOrAfter(dayjs().subtract(3, 'months'), 'day');
+};
+
+export const extractOpptjeningUtlandFormValues = (opptjening: OpptjeningIUtlandetApiData[]): OpptjeningUtland[] => {
+    const result = opptjening.map(mapOpptjeningIUtlandetApiDataToOpptjeningUtland);
+    return result.filter((o) => (o.tom ? datoErInnenforSiste3Måneder(o.tom) : true));
+};
+
+export const extractUtenlandskNæringFormValues = (utenlandskNæring: UtenlandskNæringApiData[]): UtenlandskNæring[] => {
+    const result = utenlandskNæring.map(mapUtenlandskNæringApiDataToUtenlandskNæring);
+    return result.filter((u) => (u.tilOgMed ? datoErInnenforSiste3Måneder(u.tilOgMed) : true));
+};
+
 export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): ArbeidFormValues | undefined => {
     const ansatt_arbeidsforhold = søknad.arbeidsgivere
         .filter(arbeidsgiverHarOrganisasjonsnummer)
@@ -94,8 +115,8 @@ export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): Arbeid
         frilansoppdrag: [],
         selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
         harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),
-        opptjeningUtland: søknad.opptjeningIUtlandet.map(mapOpptjeningIUtlandetApiDataToOpptjeningUtland),
+        opptjeningUtland: extractOpptjeningUtlandFormValues(søknad.opptjeningIUtlandet),
         harUtenlandskNæring: booleanToYesOrNo(søknad.utenlandskNæring.length > 0),
-        utenlandskNæring: søknad.utenlandskNæring.map(mapUtenlandskNæringApiDataToUtenlandskNæring),
+        utenlandskNæring: extractUtenlandskNæringFormValues(søknad.utenlandskNæring),
     };
 };
