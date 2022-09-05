@@ -18,6 +18,7 @@
     "HvaBetyrDette": "Hva betyr dette?",
 
     "locale.nb": "Bokmål - norsk",
+
     "locale.nn": "Nynorsk - norsk",
 
     "uke": "uke",
@@ -790,6 +791,8 @@
     "validation.selvstendig.harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
     "validation.selvstendig.virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
     "validation.harVærtEllerErVernepliktig.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du utøvde verneplikt på tidspunktet du søker pleiepenger fra.",
+    "validation.selvstendig.virksomhet.startetEtterSøknadsperiode": "Du har oppgitt at du startet som selvstendig næringsdrivende etter perioden du søker for. Dersom dette stemmer, kand du svare \"Nei\" på spørsmålet om du var selvstendig næringsdrivende i perioden du søker for.",
+    "validation.selvstendig.virksomhet.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som selvstendig næringsdrivende før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var selvstendig næringsdrivende i perioden du søker for.",
 
     "validation.arbeidIPeriode.fast.prosent.numberHasNoValue": "Du må oppgi hvor mange prosent av din normale arbeidstid du jobber {hvor}.",
     "validation.arbeidIPeriode.fast.prosent.numberHasInvalidFormat": "Antall prosent du jobber {hvor} kan kun bestå av tall.",

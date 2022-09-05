@@ -14,6 +14,7 @@ import {
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
+import { erSNISøknadsperiode } from './selvstendigUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -90,7 +91,7 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
     const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag);
-    const erSelvstendig = formValues.selvstendig.harHattInntektSomSN === YesOrNo.YES;
+    const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
 
     return erAnsatt || erFrilanser || erSelvstendig;
 };
