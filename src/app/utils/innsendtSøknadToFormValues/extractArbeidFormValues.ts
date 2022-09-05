@@ -3,6 +3,7 @@ import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { ArbeidsgiverType } from '../../types';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../types/FrilansFormData';
@@ -20,7 +21,6 @@ import { mapNormalarbeidstidApiDataToFormValues } from './mapNormalarbeidstidToF
 import { mapOpptjeningIUtlandetApiDataToOpptjeningUtland } from './mapOpptjeningIUtlandetApiDataToOpptjeningUtland';
 import { mapUtenlandskNæringApiDataToUtenlandskNæring } from './mapUtenlandskNæringApiDataToUtenlandskNæring';
 import { mapVirksomhetApiDataToVirksomhet } from './mapVirksomhetApiDataToVirksomhet';
-import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 
 dayjs.extend(isSameOrAfter);
 

@@ -1,4 +1,3 @@
-import { Næringstype } from '@navikt/sif-common-forms/lib';
 import { OpptjeningAktivitet } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæringstype } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
