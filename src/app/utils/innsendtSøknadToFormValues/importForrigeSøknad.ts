@@ -8,10 +8,18 @@ import { extractNattevåkOgBeredskapFormValues } from './extractNattevåkOgBered
 import { extractOmsorgstilbudFormValues } from './extractOmsorgtilbudFormValues';
 import { extractTidsromFormValues } from './extractTidsromFormValues';
 
-export const getFormValuesFromInnsendtSøknad = (
+export enum ForrigeSøknadImportEndringType {
+    'endretBostedUtland' = 'endretBostedUtland',
+}
+
+export type ForrigeSøknadImportEndring = {
+    type: ForrigeSøknadImportEndringType;
+};
+
+export const importForrigeSøknad = (
     søknad: InnsendtSøknadInnhold,
     registrerteBarn: RegistrerteBarn[]
-): SøknadFormValues | undefined => {
+): { endringer: ForrigeSøknadImportEndring[]; formValues: SøknadFormValues } | undefined => {
     if (registrerteBarn.length === 0) {
         return undefined;
     }
@@ -20,6 +28,8 @@ export const getFormValuesFromInnsendtSøknad = (
         if (!barnFormValues) {
             return undefined;
         }
+
+        const medlemsskap = extractMedlemsskapFormValues(søknad.medlemskap);
 
         const formValues: SøknadFormValues = {
             ...initialValues,
@@ -30,9 +40,9 @@ export const getFormValuesFromInnsendtSøknad = (
             ...extractArbeidFormValues(søknad),
             ...extractOmsorgstilbudFormValues(søknad),
             ...extractNattevåkOgBeredskapFormValues(søknad),
-            ...extractMedlemsskapFormValues(søknad.medlemskap),
+            ...medlemsskap.formValues,
         };
-        return formValues;
+        return { formValues, endringer: [...medlemsskap.endringer] };
     } catch (e) {
         console.error(`getFormValuesFromInnsendtSøknad feilet: ${e}`);
         return undefined;

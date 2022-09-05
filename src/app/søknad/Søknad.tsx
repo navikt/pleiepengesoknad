@@ -18,7 +18,7 @@ const Søknad = () => {
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => navigateToErrorPage(history)}
-            contentLoadedRenderer={({ formdata, harMellomlagring, lastStepID, forrigeSøknad }) => {
+            contentLoadedRenderer={({ formdata, mellomlagringMetadata, lastStepID, forrigeSøknad }) => {
                 const initialFormValues = formdata || initialValues;
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
@@ -37,7 +37,7 @@ const Søknad = () => {
                                 return (
                                     <SøknadContent
                                         lastStepID={lastStepID}
-                                        harMellomlagring={søknadSent ? false : harMellomlagring}
+                                        mellomlagringMetadata={søknadSent ? undefined : mellomlagringMetadata}
                                         forrigeSøknad={forrigeSøknad}
                                         onSøknadSent={() => {
                                             setSøknadSent(true);

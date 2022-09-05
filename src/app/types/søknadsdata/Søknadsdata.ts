@@ -29,7 +29,6 @@ export * from './beredskapSøknadsdata';
 export * from './omsorgstilbudSøknadsdata';
 
 export interface Søknadsdata {
-    forrigeSøknadId?: string;
     harForståttRettigheterOgPlikter?: boolean;
     søknadsperiode?: DateRange;
     barn?: OmBarnetSøknadsdata;

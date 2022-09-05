@@ -1,6 +1,13 @@
+import { ForrigeSøknadImportEndring } from '../utils/innsendtSøknadToFormValues/importForrigeSøknad';
 import { SøknadFormValues } from './SøknadFormValues';
 
-export type ForrigeSøknad = {
+export interface ForrigeSøknadMetadata {
     søknadId: string;
-    values: SøknadFormValues;
+    mottatt: Date;
+    endringer: ForrigeSøknadImportEndring[];
+}
+
+export type ForrigeSøknad = {
+    metaData: ForrigeSøknadMetadata;
+    formValues: SøknadFormValues;
 };

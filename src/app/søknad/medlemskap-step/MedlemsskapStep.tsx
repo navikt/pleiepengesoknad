@@ -9,9 +9,12 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
 import { useFormikContext } from 'formik';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
+import { ForrigeSøknadMetadata } from '../../types/ForrigeSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import { ForrigeSøknadImportEndringType } from '../../utils/innsendtSøknadToFormValues/importForrigeSøknad';
 import { getMedlemsskapDateRanges } from '../../utils/medlemsskapUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
@@ -20,11 +23,22 @@ import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd 
 
 type Props = {
     søknadsdato: Date;
+    forrigeSøknadMetadata?: ForrigeSøknadMetadata;
 };
-const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
+
+const MedlemsskapStep = ({
+    onValidSubmit,
+    søknadsdato,
+    forrigeSøknadMetadata: forrigeSøknadMetadata,
+}: StepConfigProps & Props) => {
     const { values } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const { neste12Måneder, siste12Måneder } = getMedlemsskapDateRanges(søknadsdato);
+
+    const bostederEndretVedImport =
+        forrigeSøknadMetadata !== undefined &&
+        forrigeSøknadMetadata.endringer.some((e) => e.type === ForrigeSøknadImportEndringType.endretBostedUtland);
+
     return (
         <SøknadFormStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
             <Box padBottom="xxl">
@@ -36,6 +50,14 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                     .
                 </CounsellorPanel>
             </Box>
+            {bostederEndretVedImport && (
+                <Box padBottom="l">
+                    <AlertStripeInfo>
+                        Når vi hentet opp din forrige søknad så måtte vil gjøre noen endringer i listen under. Vennligst
+                        se over at all informasjon fortsatt stemmer.
+                    </AlertStripeInfo>
+                </Box>
+            )}
             <SøknadFormComponents.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={SøknadFormField.harBoddUtenforNorgeSiste12Mnd}

@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+// import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getHarVærtEllerErVernepliktigFromFormData, getSøknadsperiodeFromFormData } from '../formDataUtils';
@@ -19,7 +19,6 @@ export const getSøknadsdataFromFormValues = (values: SøknadFormValues): Søkna
         return {};
     }
     const søknadsdata: Søknadsdata = {
-        forrigeSøknadId: values.brukForrigeSøknad === YesOrNo.YES ? values.forrigeSøknadId : undefined,
         harForståttRettigheterOgPlikter,
         søknadsperiode,
         barn: extractBarnSøknadsdata(values),

@@ -37,18 +37,19 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
 
 interface PleiepengesøknadContentProps {
     lastStepID?: StepID;
-    harMellomlagring: boolean;
     forrigeSøknad: ForrigeSøknad | undefined;
+    mellomlagringMetadata?: MellomlagringMetadata;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
 
 const SøknadContent = ({
     lastStepID,
-    harMellomlagring,
+    mellomlagringMetadata,
     forrigeSøknad,
     onSøknadSent,
     onSøknadStart,
@@ -78,10 +79,15 @@ const SøknadContent = ({
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring && !søknadHasBeenSent) {
+        if (
+            isOnWelcomPage &&
+            nextStepRoute === undefined &&
+            mellomlagringMetadata !== undefined &&
+            !søknadHasBeenSent
+        ) {
             sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
         }
-    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, søknadHasBeenSent, sendUserToStep]);
+    }, [isOnWelcomPage, nextStepRoute, mellomlagringMetadata, søknadHasBeenSent, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
@@ -114,7 +120,7 @@ const SøknadContent = ({
         await purge();
 
         const initialFormValues =
-            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES ? forrigeSøknad?.values : undefined;
+            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES ? forrigeSøknad?.formValues : undefined;
 
         if (initialFormValues) {
             setValues(initialFormValues);

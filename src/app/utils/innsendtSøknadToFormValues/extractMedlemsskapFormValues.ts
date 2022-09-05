@@ -5,6 +5,7 @@ import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
 import { getMedlemsskapDateRanges } from '../medlemsskapUtils';
+import { ForrigeSøknadImportEndring, ForrigeSøknadImportEndringType } from './importForrigeSøknad';
 
 type MedlesskapFormValues = Pick<
     SøknadFormValues,
@@ -26,10 +27,15 @@ export const mapBostedUtlandApiDataToBostedUtland = (bostedUtland: BostedUtlandA
 export const refordelUtenlandsoppholdUtFraNyDagensDato = (
     bostedUtland: BostedUtland[],
     søknadsdato: Date
-): { bostedSiste12Måneder: BostedUtland[]; bostedNeste12Måneder: BostedUtland[] } => {
+): {
+    endringer: ForrigeSøknadImportEndring[];
+    bostedSiste12Måneder: BostedUtland[];
+    bostedNeste12Måneder: BostedUtland[];
+} => {
     const { neste12Måneder, siste12Måneder } = getMedlemsskapDateRanges(søknadsdato);
     const bostedSiste12Måneder: BostedUtland[] = [];
     const bostedNeste12Måneder: BostedUtland[] = [];
+    const endringer: ForrigeSøknadImportEndring[] = [];
     bostedUtland.forEach((bosted) => {
         const periode: DateRange = {
             from: bosted.fom,
@@ -40,6 +46,7 @@ export const refordelUtenlandsoppholdUtFraNyDagensDato = (
         if (erInnenforNeste12 && erInnenforSiste12) {
             bostedSiste12Måneder.push({ ...bosted, id: guid(), tom: siste12Måneder.to });
             bostedNeste12Måneder.push({ ...bosted, id: guid(), fom: neste12Måneder.from });
+            endringer.push({ type: ForrigeSøknadImportEndringType.endretBostedUtland });
         } else if (erInnenforSiste12) {
             bostedSiste12Måneder.push(bosted);
         } else if (erInnenforNeste12) {
@@ -47,6 +54,7 @@ export const refordelUtenlandsoppholdUtFraNyDagensDato = (
         }
     });
     return {
+        endringer,
         bostedNeste12Måneder,
         bostedSiste12Måneder,
     };
@@ -57,8 +65,8 @@ export const extractMedlemsskapFormValues = ({
     skalBoIUtlandetNeste12Mnd,
     utenlandsoppholdNeste12Mnd,
     utenlandsoppholdSiste12Mnd,
-}: MedlemskapApiData): MedlesskapFormValues => {
-    const bosteder = refordelUtenlandsoppholdUtFraNyDagensDato(
+}: MedlemskapApiData): { formValues: MedlesskapFormValues; endringer: ForrigeSøknadImportEndring[] } => {
+    const { bostedNeste12Måneder, bostedSiste12Måneder, endringer } = refordelUtenlandsoppholdUtFraNyDagensDato(
         [
             ...utenlandsoppholdSiste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
             ...utenlandsoppholdNeste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
@@ -66,9 +74,12 @@ export const extractMedlemsskapFormValues = ({
         dateToday
     );
     return {
-        harBoddUtenforNorgeSiste12Mnd: booleanToYesOrNo(harBoddIUtlandetSiste12Mnd),
-        utenlandsoppholdSiste12Mnd: bosteder.bostedSiste12Måneder,
-        skalBoUtenforNorgeNeste12Mnd: booleanToYesOrNo(skalBoIUtlandetNeste12Mnd),
-        utenlandsoppholdNeste12Mnd: bosteder.bostedNeste12Måneder,
+        endringer,
+        formValues: {
+            harBoddUtenforNorgeSiste12Mnd: booleanToYesOrNo(harBoddIUtlandetSiste12Mnd),
+            utenlandsoppholdSiste12Mnd: bostedSiste12Måneder,
+            skalBoUtenforNorgeNeste12Mnd: booleanToYesOrNo(skalBoIUtlandetNeste12Mnd),
+            utenlandsoppholdNeste12Mnd: bostedNeste12Måneder,
+        },
     };
 };

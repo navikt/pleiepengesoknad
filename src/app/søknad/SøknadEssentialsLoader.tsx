@@ -10,10 +10,10 @@ import { ForrigeSøknad } from '../types/ForrigeSøknad';
 import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
-import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
+import { MellomlagringMetadata, MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
-import { getFormValuesFromInnsendtSøknad } from '../utils/innsendtSøknadToFormValues/getFormValuesFromInnsendtSøknad';
+import { importForrigeSøknad } from '../utils/innsendtSøknadToFormValues/importForrigeSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
@@ -22,7 +22,7 @@ interface Props {
     onError: () => void;
     contentLoadedRenderer: (content: {
         formdata: SøknadFormValues;
-        harMellomlagring: boolean;
+        mellomlagringMetadata?: MellomlagringMetadata;
         lastStepID?: StepID;
         søkerdata?: Søkerdata;
         forrigeSøknad?: ForrigeSøknad;
@@ -36,7 +36,7 @@ interface State {
     formdata: SøknadFormValues;
     søkerdata?: Søkerdata;
     forrigeSøknad?: ForrigeSøknad;
-    harMellomlagring: boolean;
+    mellomlagringMetadata?: MellomlagringMetadata;
     harIkkeTilgang: boolean;
 }
 
@@ -60,7 +60,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             willRedirectToLoginPage: false,
             lastStepID: undefined,
             formdata: initialValues,
-            harMellomlagring: false,
+            mellomlagringMetadata: undefined,
             harIkkeTilgang: false,
         };
 
@@ -106,40 +106,43 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     ) {
         const registrerteBarn = barnResponse ? barnResponse.data.barn : undefined;
         const mellomlagring = await this.getValidMellomlagring(mellomlagringResponse?.data);
-        const formData = mellomlagring?.formData
+        const søkerdata: Søkerdata = {
+            søker: søkerResponse.data,
+            barn: registrerteBarn,
+        };
+        const formValuesToUse = mellomlagring
             ? {
                   ...mellomlagring.formData,
                   [SøknadFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring),
               }
-            : undefined;
-        const lastStepID = mellomlagring?.metadata?.lastStepID;
-        const harMellomlagring = mellomlagring?.metadata?.version !== undefined;
+            : { ...initialValues };
 
         let forrigeSøknad: ForrigeSøknad | undefined;
-
         if (
-            harMellomlagring === false &&
+            mellomlagring === undefined &&
             forrigeSøknadReponse?.data.søknad &&
             forrigeSøknadErGyldig(forrigeSøknadReponse.data.søknad)
         ) {
-            const values = getFormValuesFromInnsendtSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
-            if (values) {
+            const result = importForrigeSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
+            if (result) {
+                const { formValues, endringer } = result;
                 forrigeSøknad = {
-                    søknadId: forrigeSøknadReponse.data.søknadId,
-                    values,
+                    formValues,
+                    metaData: {
+                        søknadId: forrigeSøknadReponse.data.søknadId,
+                        mottatt: forrigeSøknadReponse.data.søknad.mottatt,
+                        endringer,
+                    },
                 };
             }
         }
 
         this.updateSøkerdata(
-            formData || { ...initialValues },
-            {
-                søker: søkerResponse.data,
-                barn: registrerteBarn,
-            },
+            formValuesToUse,
+            søkerdata,
             forrigeSøknad,
-            harMellomlagring,
-            lastStepID,
+            mellomlagring?.metadata,
+            mellomlagring?.metadata.lastStepID,
             () => {
                 this.stopLoading();
                 if (userIsCurrentlyOnErrorPage()) {
@@ -153,7 +156,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         formdata: SøknadFormValues,
         søkerdata: Søkerdata,
         forrigeSøknad: ForrigeSøknad | undefined,
-        harMellomlagring: boolean,
+        mellomlagringMetadata?: MellomlagringMetadata,
         lastStepID?: StepID,
         callback?: () => void
     ) {
@@ -162,7 +165,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
                 lastStepID: lastStepID || this.state.lastStepID,
                 formdata: formdata || this.state.formdata,
                 søkerdata: søkerdata || this.state.søkerdata,
-                harMellomlagring,
+                mellomlagringMetadata,
                 forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
             },
             callback
@@ -200,7 +203,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             lastStepID,
             formdata,
             søkerdata,
-            harMellomlagring,
+            mellomlagringMetadata,
             forrigeSøknad,
         } = this.state;
         if (isLoading || willRedirectToLoginPage) {
@@ -211,7 +214,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         }
         return (
             <SøkerdataContextProvider value={søkerdata}>
-                {contentLoadedRenderer({ formdata, harMellomlagring, lastStepID, søkerdata, forrigeSøknad })}
+                {contentLoadedRenderer({ formdata, mellomlagringMetadata, lastStepID, søkerdata, forrigeSøknad })}
             </SøkerdataContextProvider>
         );
     }

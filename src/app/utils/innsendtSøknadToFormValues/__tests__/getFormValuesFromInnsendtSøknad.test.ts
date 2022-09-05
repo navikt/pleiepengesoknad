@@ -1,7 +1,7 @@
-import { getFormValuesFromInnsendtSøknad } from '../getFormValuesFromInnsendtSøknad';
+import { importForrigeSøknad } from '../importForrigeSøknad';
 
 describe('getFormValuesFromInnsendtSøknad', () => {
     it('returnerer undefined dersom det ikke er noen registrerte barn på søker', () => {
-        expect(getFormValuesFromInnsendtSøknad({} as any, [])).toBeUndefined();
+        expect(importForrigeSøknad({} as any, [])).toBeUndefined();
     });
 });

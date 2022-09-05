@@ -3,13 +3,13 @@ import { SøknadFormValues } from './SøknadFormValues';
 
 export const MELLOMLAGRING_VERSION = '11.0.1';
 
-interface StorageMetadata {
+export interface MellomlagringMetadata {
     version: string;
     lastStepID?: StepID;
     updatedTimestemp: string;
 }
 
 export interface SøknadTempStorageData {
-    metadata: StorageMetadata;
+    metadata: MellomlagringMetadata;
     formData: SøknadFormValues;
 }
