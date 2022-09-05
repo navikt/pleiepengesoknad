@@ -1,6 +1,13 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { BostedUtland } from '@navikt/sif-common-forms/lib';
-import { date1YearAgo, dateToday, dateToISODate, ISODate } from '@navikt/sif-common-utils/lib';
+import {
+    date1YearAgo,
+    date2YearsAgo,
+    date3YearsAgo,
+    dateToday,
+    dateToISODate,
+    ISODate,
+} from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { getMedlemsskapDateRanges } from '../../medlemsskapUtils';
 import {
@@ -71,6 +78,14 @@ describe('refordelUtenlandsoppholdUtFraNyDagensDato', () => {
     it('beholder bosted som er innenfor siste 12 måneder', () => {
         const result = refordelUtenlandsoppholdUtFraNyDagensDato([{ ...bosted }], dateToday);
         expect(result.bostedSiste12Måneder).toHaveLength(1);
+        expect(result.bostedNeste12Måneder).toHaveLength(0);
+    });
+    it('fjerner bosted som er utenfor siste 12 måneder', () => {
+        const result = refordelUtenlandsoppholdUtFraNyDagensDato(
+            [{ ...bosted, fom: date3YearsAgo, tom: date2YearsAgo }],
+            dateToday
+        );
+        expect(result.bostedSiste12Måneder).toHaveLength(0);
         expect(result.bostedNeste12Måneder).toHaveLength(0);
     });
     it('beholder bosted som er innenfor neste 12 måneder', () => {
