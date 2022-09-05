@@ -1,6 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { BostedUtland } from '@navikt/sif-common-forms/lib';
-import { guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { dateRangesCollide, dateToday, guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
@@ -24,23 +24,27 @@ export const mapBostedUtlandApiDataToBostedUtland = (bostedUtland: BostedUtlandA
 };
 
 export const refordelUtenlandsoppholdUtFraNyDagensDato = (
-    bostedUtland: BostedUtlandApiData[],
+    bostedUtland: BostedUtland[],
     søknadsdato: Date
 ): { bostedSiste12Måneder: BostedUtland[]; bostedNeste12Måneder: BostedUtland[] } => {
-    const dateranges = getMedlemsskapDateRanges(søknadsdato);
+    const { neste12Måneder, siste12Måneder } = getMedlemsskapDateRanges(søknadsdato);
     const bostedSiste12Måneder: BostedUtland[] = [];
     const bostedNeste12Måneder: BostedUtland[] = [];
-    bostedUtland.forEach((bostedApiData) => {
-        const bosted = mapBostedUtlandApiDataToBostedUtland(bostedApiData);
+    bostedUtland.forEach((bosted) => {
         const periode: DateRange = {
             from: bosted.fom,
             to: bosted.tom,
         };
-        console.log(periode, dateranges);
-        // if (dateRangeUtils.isDateInDateRange)
-        // if (dayjs(bosted.tom).isBefore(dateToday, "day")) {
-
-        // }
+        const erInnenforSiste12 = dateRangesCollide([periode, siste12Måneder]);
+        const erInnenforNeste12 = dateRangesCollide([periode, neste12Måneder]);
+        if (erInnenforNeste12 && erInnenforSiste12) {
+            bostedSiste12Måneder.push({ ...bosted, id: guid(), tom: siste12Måneder.to });
+            bostedNeste12Måneder.push({ ...bosted, id: guid(), fom: neste12Måneder.from });
+        } else if (erInnenforSiste12) {
+            bostedSiste12Måneder.push(bosted);
+        } else if (erInnenforNeste12) {
+            bostedNeste12Måneder.push(bosted);
+        }
     });
     return {
         bostedNeste12Måneder,
@@ -54,14 +58,17 @@ export const extractMedlemsskapFormValues = ({
     utenlandsoppholdNeste12Mnd,
     utenlandsoppholdSiste12Mnd,
 }: MedlemskapApiData): MedlesskapFormValues => {
-    // const bosteder = refordelUtenlandsoppholdUtFraNyDagensDato(
-    //     [...utenlandsoppholdSiste12Mnd, ...utenlandsoppholdNeste12Mnd],
-    //     dateToday
-    // );
+    const bosteder = refordelUtenlandsoppholdUtFraNyDagensDato(
+        [
+            ...utenlandsoppholdSiste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
+            ...utenlandsoppholdNeste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
+        ],
+        dateToday
+    );
     return {
         harBoddUtenforNorgeSiste12Mnd: booleanToYesOrNo(harBoddIUtlandetSiste12Mnd),
-        utenlandsoppholdSiste12Mnd: utenlandsoppholdSiste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
+        utenlandsoppholdSiste12Mnd: bosteder.bostedSiste12Måneder,
         skalBoUtenforNorgeNeste12Mnd: booleanToYesOrNo(skalBoIUtlandetNeste12Mnd),
-        utenlandsoppholdNeste12Mnd: utenlandsoppholdNeste12Mnd.map(mapBostedUtlandApiDataToBostedUtland),
+        utenlandsoppholdNeste12Mnd: bosteder.bostedNeste12Måneder,
     };
 };
