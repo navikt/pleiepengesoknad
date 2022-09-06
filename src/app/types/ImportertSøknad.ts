@@ -1,3 +1,4 @@
+import { RegistrerteBarn } from './RegistrerteBarn';
 import { SøknadFormValues } from './SøknadFormValues';
 
 export enum SøknadsimportEndringstype {
@@ -12,6 +13,7 @@ export interface ImportertSøknadMetadata {
     søknadId: string;
     mottatt: Date;
     endringer: SøknadsimportEndring[];
+    barn: RegistrerteBarn;
 }
 
 export type ImportertSøknad = {

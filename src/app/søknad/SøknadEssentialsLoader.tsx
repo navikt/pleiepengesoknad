@@ -128,6 +128,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
                         søknadId: forrigeSøknadReponse.data.søknadId,
                         mottatt: forrigeSøknadReponse.data.søknad.mottatt,
                         endringer,
+                        barn: result.registrertBarn,
                     },
                 };
             }

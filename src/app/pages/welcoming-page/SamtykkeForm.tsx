@@ -14,6 +14,9 @@ import Lenke from 'nav-frontend-lenker';
 import { Undertittel } from 'nav-frontend-typografi';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import { RegistrerteBarn } from '../../types';
+import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
+import { dateFormatter } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     forrigeSøknad?: ImportertSøknad;
@@ -24,6 +27,10 @@ interface Props {
 const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormValues, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
+
+const getBarnNavn = (barn: RegistrerteBarn): string => {
+    return formatName(barn.fornavn, barn.etternavn, barn.mellomnavn);
+};
 
 const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Props) => {
     const intl = useIntl();
@@ -36,8 +43,9 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
                 <Box margin="xl">
                     <Undertittel tag="h3">Ønsker du å bruke informasjon fra din forrige søknad?</Undertittel>
                     <p>
-                        Du sendte inn en søknad om pleiepenger for Barn Barnesen den 28. juni. 2022. Ønsker du at vi
-                        skal fylle ut denne nye søknaden med informasjon fra den forrige søknaden?
+                        Du sendte inn en søknad om pleiepenger for {getBarnNavn(forrigeSøknad.metaData.barn)} den{' '}
+                        {dateFormatter.dateShortMonthYear(forrigeSøknad.metaData.mottatt)}. Ønsker du at vi skal fylle
+                        ut denne nye søknaden med informasjon fra den forrige søknaden?
                     </p>
                     <ExpandableInfo title="Hva betyr det?">
                         <p>
@@ -59,7 +67,7 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
                         name={SøknadFormField.brukForrigeSøknad}
                         labels={{
                             yes: 'Ja, bruk informasjon fra forrige søknaden',
-                            no: 'Nei, jeg vil starte med en som søknad',
+                            no: 'Nei, jeg vil starte med en tom søknad',
                         }}
                     />
                 </Box>
