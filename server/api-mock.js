@@ -160,6 +160,7 @@ const startExpressServer = () => {
     });
 
     server.get('/soknad/psb/siste', (req, res) => {
+        // res.sendStatus(404);
         if (existsSync(FORRIGE_SØKNAD)) {
             const body = readFileSync(FORRIGE_SØKNAD);
             res.send(JSON.parse(body));
