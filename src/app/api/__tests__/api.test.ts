@@ -14,10 +14,16 @@ import {
     uploadFile,
 } from '../api';
 
+jest.mock('../../utils/envUtils.ts', () => {
+    return { getEnvironmentVariable: () => 'mockedApiUrl', getEnvVariableOrDefault: () => 'mockedApiUrl' };
+});
+
 const mockedApiUrl = 'nav.no/api';
+
 jest.mock('../utils/apiUtils', () => {
     return {
         getApiUrlByResourceType: jest.fn(() => mockedApiUrl),
+        getInnsynApiUrlByResourceType: jest.fn(() => mockedApiUrl),
         sendMultipartPostRequest: jest.fn(),
     };
 });
