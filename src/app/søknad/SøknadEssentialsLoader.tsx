@@ -10,7 +10,7 @@ import { ForrigeSøknad } from '../types/ForrigeSøknad';
 import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
-import { MellomlagringMetadata, MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
+import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 import { importForrigeSøknad } from '../utils/innsendtSøknadToFormValues/importForrigeSøknad';
@@ -22,21 +22,19 @@ interface Props {
     onError: () => void;
     contentLoadedRenderer: (content: {
         formValues: SøknadFormValues;
-        mellomlagringMetadata?: MellomlagringMetadata;
-        lastStepID?: StepID;
         søkerdata?: Søkerdata;
         forrigeSøknad?: ForrigeSøknad;
+        lastStepID?: StepID;
     }) => React.ReactNode;
 }
 
 interface State {
     isLoading: boolean;
     willRedirectToLoginPage: boolean;
-    lastStepID?: StepID;
     formValues: SøknadFormValues;
     søkerdata?: Søkerdata;
     forrigeSøknad?: ForrigeSøknad;
-    mellomlagringMetadata?: MellomlagringMetadata;
+    lastStepID?: StepID;
     harIkkeTilgang: boolean;
 }
 
@@ -58,9 +56,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         this.state = {
             isLoading: true,
             willRedirectToLoginPage: false,
-            lastStepID: undefined,
             formValues: initialValues,
-            mellomlagringMetadata: undefined,
             harIkkeTilgang: false,
         };
 
@@ -137,7 +133,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             }
         }
 
-        this.updateSøkerdata(formValuesToUse, søkerdata, forrigeSøknad, mellomlagring?.metadata, () => {
+        this.updateSøkerdata(formValuesToUse, søkerdata, forrigeSøknad, mellomlagring?.metadata.lastStepID, () => {
             this.stopLoading();
             if (userIsCurrentlyOnErrorPage()) {
                 this.props.onError();
@@ -149,15 +145,14 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         formValues: SøknadFormValues,
         søkerdata: Søkerdata,
         forrigeSøknad: ForrigeSøknad | undefined,
-        mellomlagringMetadata?: MellomlagringMetadata,
+        lastStepID?: StepID,
         callback?: () => void
     ) {
         this.setState(
             {
-                lastStepID: mellomlagringMetadata?.lastStepID || this.state.lastStepID,
                 formValues: formValues || this.state.formValues,
                 søkerdata: søkerdata || this.state.søkerdata,
-                mellomlagringMetadata,
+                lastStepID,
                 forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
             },
             callback
@@ -188,16 +183,8 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const {
-            isLoading,
-            harIkkeTilgang,
-            willRedirectToLoginPage,
-            lastStepID,
-            formValues,
-            søkerdata,
-            mellomlagringMetadata,
-            forrigeSøknad,
-        } = this.state;
+        const { isLoading, harIkkeTilgang, willRedirectToLoginPage, formValues, søkerdata, forrigeSøknad, lastStepID } =
+            this.state;
         if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
         }
@@ -208,10 +195,9 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             <SøkerdataContextProvider value={søkerdata}>
                 {contentLoadedRenderer({
                     formValues,
-                    mellomlagringMetadata,
-                    lastStepID,
                     søkerdata,
                     forrigeSøknad,
+                    lastStepID,
                 })}
             </SøkerdataContextProvider>
         );

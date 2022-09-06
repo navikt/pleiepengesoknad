@@ -37,23 +37,17 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
-import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
 
 interface PleiepengesøknadContentProps {
+    /** Sist steg som bruker submittet skjema */
     lastStepID?: StepID;
+    /** Forrige søknad sendt inn av bruker */
     forrigeSøknad: ForrigeSøknad | undefined;
-    mellomlagringMetadata?: MellomlagringMetadata;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
 
-const SøknadContent = ({
-    lastStepID,
-    mellomlagringMetadata,
-    forrigeSøknad,
-    onSøknadSent,
-    onSøknadStart,
-}: PleiepengesøknadContentProps) => {
+const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -79,15 +73,10 @@ const SøknadContent = ({
         if (isOnWelcomPage && nextStepRoute !== undefined) {
             sendUserToStep(nextStepRoute);
         }
-        if (
-            isOnWelcomPage &&
-            nextStepRoute === undefined &&
-            mellomlagringMetadata !== undefined &&
-            !søknadHasBeenSent
-        ) {
+        if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
             sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
         }
-    }, [isOnWelcomPage, nextStepRoute, mellomlagringMetadata, søknadHasBeenSent, sendUserToStep]);
+    }, [isOnWelcomPage, nextStepRoute, søknadHasBeenSent, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
