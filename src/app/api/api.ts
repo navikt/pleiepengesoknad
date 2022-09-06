@@ -1,13 +1,22 @@
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
-import axiosConfig from '../config/axiosConfig';
+import { axiosConfigPsb, axiosConfigInnsyn } from '../config/axiosConfig';
 import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';
 import { StepID } from '../søknad/søknadStepsConfig';
-import { ResourceType } from '../types/ResourceType';
+import { ResourceType, ResourceTypeInnsyn } from '../types/ResourceType';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
+import {
+    axiosJsonConfig,
+    getApiUrlByResourceType,
+    getInnsynApiUrlByResourceType,
+    sendMultipartPostRequest,
+} from './utils/apiUtils';
+
+export enum ApiEndpointInnsyn {
+    'forrigeSøknad' = 'soknad/psb/siste',
+}
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
@@ -36,11 +45,11 @@ export const rehydrate = () =>
         transformResponse: storageParser,
     });
 export const purge = () =>
-    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
+    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfigPsb, data: {} });
 
 export const getForrigeSoknad = () =>
-    axios.get(getApiUrlByResourceType(ResourceType.FORRIGE_SOKNAD), {
-        ...axiosJsonConfig,
+    axios.get(getInnsynApiUrlByResourceType(ResourceTypeInnsyn.FORRIGE_SOKNAD), {
+        ...axiosConfigInnsyn,
         transformResponse: storageParser,
     });
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
@@ -60,4 +69,4 @@ export const uploadFile = (file: File) => {
     formData.append('vedlegg', file);
     return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
 };
-export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+export const deleteFile = (url: string) => axios.delete(url, axiosConfigPsb);

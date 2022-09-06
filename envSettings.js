@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const envSettings = () => {
     const API_URL = process.env.API_URL;
+    const API_URL_INNSYN = process.env.API_URL_INNSYN;
     const LOGIN_URL = process.env.LOGIN_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
@@ -19,6 +20,7 @@ const envSettings = () => {
     const appSettings = `
     window.appSettings = {
         API_URL: '${API_URL}',
+        API_URL_INNSYN: '${API_URL_INNSYN}',
         LOGIN_URL: '${LOGIN_URL}',
         PUBLIC_PATH: '${PUBLIC_PATH}',
         UTILGJENGELIG: '${UTILGJENGELIG}',

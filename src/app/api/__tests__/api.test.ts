@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosConfig from '../../config/axiosConfig';
+import { axiosConfigPsb } from '../../config/axiosConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
 import { ResourceType } from '../../types/ResourceType';
 import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
@@ -81,7 +81,7 @@ describe('api', () => {
     describe('deleteFile', () => {
         it('should call axios.delete on the specified url', () => {
             deleteFile(mockedApiUrl);
-            expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfig);
+            expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfigPsb);
         });
     });
 
