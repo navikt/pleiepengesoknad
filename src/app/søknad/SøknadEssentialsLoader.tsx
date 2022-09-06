@@ -6,14 +6,14 @@ import { getBarn, getForrigeSoknad, getSøker, purge, rehydrate } from '../api/a
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 import LoadingPage from '../pages/loading-page/LoadingPage';
-import { ForrigeSøknad } from '../types/ForrigeSøknad';
+import { ImportertSøknad } from '../types/ImportertSøknad';
 import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
-import { importForrigeSøknad } from '../utils/innsendtSøknadToFormValues/importForrigeSøknad';
+import { importerSøknad } from '../utils/innsendtSøknadToFormValues/importSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
@@ -23,7 +23,7 @@ interface Props {
     contentLoadedRenderer: (content: {
         formValues: SøknadFormValues;
         søkerdata?: Søkerdata;
-        forrigeSøknad?: ForrigeSøknad;
+        forrigeSøknad?: ImportertSøknad;
         lastStepID?: StepID;
     }) => React.ReactNode;
 }
@@ -33,7 +33,7 @@ interface State {
     willRedirectToLoginPage: boolean;
     formValues: SøknadFormValues;
     søkerdata?: Søkerdata;
-    forrigeSøknad?: ForrigeSøknad;
+    forrigeSøknad?: ImportertSøknad;
     lastStepID?: StepID;
     harIkkeTilgang: boolean;
 }
@@ -113,13 +113,13 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
               }
             : { ...initialValues };
 
-        let forrigeSøknad: ForrigeSøknad | undefined;
+        let forrigeSøknad: ImportertSøknad | undefined;
         if (
             mellomlagring === undefined &&
             forrigeSøknadReponse?.data.søknad &&
             forrigeSøknadErGyldig(forrigeSøknadReponse.data.søknad)
         ) {
-            const result = importForrigeSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
+            const result = importerSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
             if (result) {
                 const { formValues, endringer } = result;
                 forrigeSøknad = {
@@ -144,7 +144,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
     updateSøkerdata(
         formValues: SøknadFormValues,
         søkerdata: Søkerdata,
-        forrigeSøknad: ForrigeSøknad | undefined,
+        forrigeSøknad: ImportertSøknad | undefined,
         lastStepID?: StepID,
         callback?: () => void
     ) {

@@ -10,7 +10,7 @@ import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Sidetittel } from 'nav-frontend-typografi';
 import { StepConfigProps } from '../../søknad/søknadStepsConfig';
-import { ForrigeSøknad } from '../../types/ForrigeSøknad';
+import { ImportertSøknad } from '../../types/ImportertSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import DinePlikterContent from './dine-plikter-content/DinePlikterContent';
 import SamtykkeForm from './SamtykkeForm';
@@ -19,7 +19,7 @@ import './welcomingPage.less';
 const bem = bemHelper('welcomingPage');
 
 type Props = Omit<StepConfigProps, 'formValues'> & {
-    forrigeSøknad?: ForrigeSøknad;
+    forrigeSøknad?: ImportertSøknad;
 };
 interface DialogState {
     dinePlikterModalOpen?: boolean;

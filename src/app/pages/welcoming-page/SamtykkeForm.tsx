@@ -12,11 +12,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ForrigeSøknad } from '../../types/ForrigeSøknad';
+import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 
 interface Props {
-    forrigeSøknad?: ForrigeSøknad;
+    forrigeSøknad?: ImportertSøknad;
     onConfirm: () => void;
     onOpenDinePlikterModal: () => void;
 }

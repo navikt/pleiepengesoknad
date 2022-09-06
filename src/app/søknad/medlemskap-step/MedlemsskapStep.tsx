@@ -12,9 +12,8 @@ import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
-import { ForrigeSøknadMetadata } from '../../types/ForrigeSøknad';
+import { ImportertSøknadMetadata, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { ForrigeSøknadImportEndringType } from '../../utils/innsendtSøknadToFormValues/importForrigeSøknad';
 import { getMedlemsskapDateRanges } from '../../utils/medlemsskapUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
@@ -23,7 +22,7 @@ import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd 
 
 type Props = {
     søknadsdato: Date;
-    forrigeSøknadMetadata?: ForrigeSøknadMetadata;
+    forrigeSøknadMetadata?: ImportertSøknadMetadata;
 };
 
 const MedlemsskapStep = ({
@@ -37,7 +36,7 @@ const MedlemsskapStep = ({
 
     const bostederEndretVedImport =
         forrigeSøknadMetadata !== undefined &&
-        forrigeSøknadMetadata.endringer.some((e) => e.type === ForrigeSøknadImportEndringType.endretBostedUtland);
+        forrigeSøknadMetadata.endringer.some((e) => e.type === SøknadsimportEndringstype.endretBostedUtland);
 
     return (
         <SøknadFormStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>

@@ -14,7 +14,7 @@ import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { ConfirmationDialog } from '../types/ConfirmationDialog';
-import { ForrigeSøknad } from '../types/ForrigeSøknad';
+import { ImportertSøknad } from '../types/ImportertSøknad';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
@@ -42,7 +42,7 @@ interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */
     lastStepID?: StepID;
     /** Forrige søknad sendt inn av bruker */
-    forrigeSøknad: ForrigeSøknad | undefined;
+    forrigeSøknad: ImportertSøknad | undefined;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }

@@ -1,4 +1,5 @@
 import { RegistrerteBarn } from '../../types';
+import { SøknadsimportEndring } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { extractArbeidFormValues } from './extractArbeidFormValues';
@@ -8,18 +9,10 @@ import { extractNattevåkOgBeredskapFormValues } from './extractNattevåkOgBered
 import { extractOmsorgstilbudFormValues } from './extractOmsorgtilbudFormValues';
 import { extractTidsromFormValues } from './extractTidsromFormValues';
 
-export enum ForrigeSøknadImportEndringType {
-    'endretBostedUtland' = 'endretBostedUtland',
-}
-
-export type ForrigeSøknadImportEndring = {
-    type: ForrigeSøknadImportEndringType;
-};
-
-export const importForrigeSøknad = (
+export const importerSøknad = (
     søknad: InnsendtSøknadInnhold,
     registrerteBarn: RegistrerteBarn[]
-): { endringer: ForrigeSøknadImportEndring[]; formValues: SøknadFormValues } | undefined => {
+): { endringer: SøknadsimportEndring[]; formValues: SøknadFormValues } | undefined => {
     if (registrerteBarn.length === 0) {
         return undefined;
     }
