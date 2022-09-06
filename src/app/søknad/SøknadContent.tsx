@@ -70,13 +70,15 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
     const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
 
     useEffect(() => {
-        if (isOnWelcomPage && nextStepRoute !== undefined) {
-            sendUserToStep(nextStepRoute);
+        if (lastStepID !== undefined) {
+            if (isOnWelcomPage && nextStepRoute !== undefined) {
+                sendUserToStep(nextStepRoute);
+            }
+            if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
+                sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
+            }
         }
-        if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
-            sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
-        }
-    }, [isOnWelcomPage, nextStepRoute, søknadHasBeenSent, sendUserToStep]);
+    }, [isOnWelcomPage, nextStepRoute, lastStepID, søknadHasBeenSent, sendUserToStep]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');

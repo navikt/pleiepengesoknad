@@ -152,7 +152,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             {
                 formValues: formValues || this.state.formValues,
                 søkerdata: søkerdata || this.state.søkerdata,
-                lastStepID,
+                lastStepID: lastStepID || this.state.lastStepID,
                 forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
             },
             callback
