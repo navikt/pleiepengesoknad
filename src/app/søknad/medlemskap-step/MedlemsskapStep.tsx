@@ -49,9 +49,8 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             {bostederEndretVedImport && (
                 <Box padBottom="xl">
                     <AlertStripeInfo>
-                        Da vi fylte ut denne søknaden med informasjon fra din forrige søknad, måtte vi gjøre noen
-                        endringer i listen nedenfor, på grunn av at datoen du sender inn søknaden er en annen enn
-                        forrige gang (mest sannsynlig). Vennligst se over at all informasjon fortsatt stemmer.
+                        Informasjonen nedenfor er endret fra det du sendte inn i forrige søknad. Dette er fordi
+                        søknadsdatoen er en annen. Vennligst se over at all informasjon fortsatt stemmer.
                     </AlertStripeInfo>
                 </Box>
             )}
