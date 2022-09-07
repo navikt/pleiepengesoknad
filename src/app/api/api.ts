@@ -13,6 +13,7 @@ import {
     getInnsynApiUrlByResourceType,
     sendMultipartPostRequest,
 } from './utils/apiUtils';
+import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
 
 export enum ApiEndpointInnsyn {
     'forrigeSøknad' = 'soknad/psb/siste',
@@ -23,15 +24,24 @@ export const getPersistUrl = (stepID?: StepID) =>
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: SøknadFormValues | undefined, lastStepID?: StepID) => {
+export const persist = ({
+    formValues,
+    lastStepID,
+    importertSøknadMetadata,
+}: {
+    formValues?: SøknadFormValues;
+    lastStepID?: StepID;
+    importertSøknadMetadata?: ImportertSøknadMetadata;
+}) => {
     const url = getPersistUrl(lastStepID);
-    if (formData) {
+    if (formValues) {
         const body: SøknadTempStorageData = {
-            formData,
+            formValues,
             metadata: {
                 lastStepID,
                 version: MELLOMLAGRING_VERSION,
                 updatedTimestemp: new Date().toISOString(),
+                importertSøknadMetadata,
             },
         };
         return axios.put(url, { ...body }, axiosJsonConfig);

@@ -10,12 +10,11 @@ import { ImportertSøknad } from '../types/ImportertSøknad';
 import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
-import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
+import { MellomlagringMetadata, MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 import { importerSøknad } from '../utils/innsendtSøknadToFormValues/importSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
-import { StepID } from './søknadStepsConfig';
 
 interface Props {
     onUgyldigMellomlagring: () => void;
@@ -24,7 +23,7 @@ interface Props {
         formValues: SøknadFormValues;
         søkerdata?: Søkerdata;
         forrigeSøknad?: ImportertSøknad;
-        lastStepID?: StepID;
+        mellomlagringMetadata?: MellomlagringMetadata;
     }) => React.ReactNode;
 }
 
@@ -34,7 +33,7 @@ interface State {
     formValues: SøknadFormValues;
     søkerdata?: Søkerdata;
     forrigeSøknad?: ImportertSøknad;
-    lastStepID?: StepID;
+    mellomlagringMetadata?: MellomlagringMetadata;
     harIkkeTilgang: boolean;
 }
 
@@ -47,7 +46,7 @@ const getValidAttachments = (attachments: Attachment[] = []): Attachment[] => {
 const isMellomlagringValid = (mellomlagring: SøknadTempStorageData): boolean => {
     return (
         mellomlagring.metadata?.version === MELLOMLAGRING_VERSION &&
-        mellomlagring.formData?.harForståttRettigheterOgPlikter === true
+        mellomlagring.formValues?.harForståttRettigheterOgPlikter === true
     );
 };
 class SøknadEssentialsLoader extends React.Component<Props, State> {
@@ -108,8 +107,8 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         };
         const formValuesToUse = mellomlagring
             ? {
-                  ...mellomlagring.formData,
-                  [SøknadFormField.legeerklæring]: getValidAttachments(mellomlagring.formData.legeerklæring),
+                  ...mellomlagring.formValues,
+                  [SøknadFormField.legeerklæring]: getValidAttachments(mellomlagring.formValues.legeerklæring),
               }
             : { ...initialValues };
 
@@ -134,7 +133,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             }
         }
 
-        this.updateSøkerdata(formValuesToUse, søkerdata, forrigeSøknad, mellomlagring?.metadata.lastStepID, () => {
+        this.updateSøkerdata(formValuesToUse, søkerdata, forrigeSøknad, mellomlagring?.metadata, () => {
             this.stopLoading();
             if (userIsCurrentlyOnErrorPage()) {
                 this.props.onError();
@@ -146,14 +145,14 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         formValues: SøknadFormValues,
         søkerdata: Søkerdata,
         forrigeSøknad: ImportertSøknad | undefined,
-        lastStepID?: StepID,
+        mellomlagringMetadata?: MellomlagringMetadata,
         callback?: () => void
     ) {
         this.setState(
             {
                 formValues: formValues || this.state.formValues,
                 søkerdata: søkerdata || this.state.søkerdata,
-                lastStepID: lastStepID || this.state.lastStepID,
+                mellomlagringMetadata: mellomlagringMetadata || this.state.mellomlagringMetadata,
                 forrigeSøknad: forrigeSøknad || this.state.forrigeSøknad,
             },
             callback
@@ -184,8 +183,15 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
     render() {
         const { contentLoadedRenderer } = this.props;
-        const { isLoading, harIkkeTilgang, willRedirectToLoginPage, formValues, søkerdata, forrigeSøknad, lastStepID } =
-            this.state;
+        const {
+            isLoading,
+            harIkkeTilgang,
+            willRedirectToLoginPage,
+            formValues,
+            søkerdata,
+            forrigeSøknad,
+            mellomlagringMetadata,
+        } = this.state;
         if (isLoading || willRedirectToLoginPage) {
             return <LoadingPage />;
         }
@@ -198,7 +204,7 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
                     formValues,
                     søkerdata,
                     forrigeSøknad,
-                    lastStepID,
+                    mellomlagringMetadata,
                 })}
             </SøkerdataContextProvider>
         );

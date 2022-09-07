@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { useFormikContext } from 'formik';
@@ -17,18 +16,17 @@ interface Props {
 }
 
 const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps & Props) => {
-    const history = useHistory();
     const { values } = useFormikContext<SøknadFormValues>();
     const { omsorgstilbud } = values;
-    const { persist } = usePersistSoknad(history);
+    const { persistSoknad } = usePersistSoknad();
 
     const [omsorgstilbudChanged, setOmsorgstilbudChanged] = useState(false);
     useEffect(() => {
         if (omsorgstilbudChanged === true) {
             setOmsorgstilbudChanged(false);
-            persist(StepID.OMSORGSTILBUD);
+            persistSoknad({ stepID: StepID.OMSORGSTILBUD });
         }
-    }, [omsorgstilbudChanged, persist]);
+    }, [omsorgstilbudChanged, persistSoknad]);
 
     return (
         <SøknadFormStep

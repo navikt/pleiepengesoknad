@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory } from 'react-router';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -29,11 +28,10 @@ interface Props extends StepConfigProps {
 
 const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const intl = useIntl();
-    const history = useHistory();
     const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
     const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
     const formikProps = useFormikContext<SøknadFormValues>();
-    const { persist } = usePersistSoknad(history);
+    const { persistSoknad } = usePersistSoknad();
     const {
         søknadsdata: { arbeid },
     } = useSøknadsdataContext();
@@ -52,7 +50,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             : undefined;
 
     const handleArbeidstidChanged = () => {
-        persist(StepID.ARBEIDSTID);
+        persistSoknad({ stepID: StepID.ARBEIDSTID });
     };
 
     return (

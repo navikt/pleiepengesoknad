@@ -12,31 +12,28 @@ import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
-import { ImportertSøknadMetadata, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
+import { SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { getMedlemsskapDateRanges } from '../../utils/medlemsskapUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
+import { useSøknadsdataContext } from '../SøknadsdataContext';
 
 type Props = {
     søknadsdato: Date;
-    forrigeSøknadMetadata?: ImportertSøknadMetadata;
 };
 
-const MedlemsskapStep = ({
-    onValidSubmit,
-    søknadsdato,
-    forrigeSøknadMetadata: forrigeSøknadMetadata,
-}: StepConfigProps & Props) => {
+const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Props) => {
     const { values } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const { neste12Måneder, siste12Måneder } = getMedlemsskapDateRanges(søknadsdato);
+    const { importertSøknadMetadata } = useSøknadsdataContext();
 
     const bostederEndretVedImport =
-        forrigeSøknadMetadata !== undefined &&
-        forrigeSøknadMetadata.endringer.some((e) => e.type === SøknadsimportEndringstype.endretBostedUtland);
+        importertSøknadMetadata !== undefined &&
+        importertSøknadMetadata.endringer.some((e) => e.type === SøknadsimportEndringstype.endretBostedUtland);
 
     return (
         <SøknadFormStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
@@ -50,10 +47,11 @@ const MedlemsskapStep = ({
                 </CounsellorPanel>
             </Box>
             {bostederEndretVedImport && (
-                <Box padBottom="l">
+                <Box padBottom="xl">
                     <AlertStripeInfo>
-                        Når vi hentet opp din forrige søknad så måtte vil gjøre noen endringer i listen under. Vennligst
-                        se over at all informasjon fortsatt stemmer.
+                        Da vi fylte ut denne søknaden med informasjon fra din forrige søknad, måtte vi gjøre noen
+                        endringer i listen nedenfor, på grunn av at datoen du sender inn søknaden er en annen enn
+                        forrige gang (mest sannsynlig). Vennligst se over at all informasjon fortsatt stemmer.
                     </AlertStripeInfo>
                 </Box>
             )}

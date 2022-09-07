@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
@@ -6,7 +6,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
-import { persist, purge } from '../api/api';
+import { purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import useLogSøknadInfo from '../hooks/useLogSøknadInfo';
@@ -37,17 +37,25 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import usePersistSoknad from '../hooks/usePersistSoknad';
+import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
+import useEffectOnce from '../hooks/useEffectOnce';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */
-    lastStepID?: StepID;
+    mellomlagringMetadata?: MellomlagringMetadata;
     /** Forrige søknad sendt inn av bruker */
     forrigeSøknad: ImportertSøknad | undefined;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
 
-const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({
+    mellomlagringMetadata,
+    forrigeSøknad,
+    onSøknadSent,
+    onSøknadStart,
+}: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
@@ -55,8 +63,9 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
     const { values, setValues } = useFormikContext<SøknadFormValues>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
-    const { setSøknadsdata } = useSøknadsdataContext();
+    const { setSøknadsdata, setImportertSøknadMetadata } = useSøknadsdataContext();
     const { logBekreftIngenFraværFraJobb } = useLogSøknadInfo();
+    const { persistSoknad } = usePersistSoknad();
 
     const sendUserToStep = useCallback(
         async (route: string) => {
@@ -67,10 +76,18 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
-    const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
+    const nextStepRoute = søknadHasBeenSent
+        ? undefined
+        : mellomlagringMetadata?.lastStepID
+        ? getNextStepRoute(mellomlagringMetadata.lastStepID, values)
+        : undefined;
 
-    useEffect(() => {
-        if (lastStepID !== undefined) {
+    /** Redirect til riktig side */
+    useEffectOnce(() => {
+        if (mellomlagringMetadata?.importertSøknadMetadata) {
+            setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
+        }
+        if (mellomlagringMetadata !== undefined) {
             if (isOnWelcomPage && nextStepRoute !== undefined) {
                 sendUserToStep(nextStepRoute);
             }
@@ -78,18 +95,28 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
                 sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
             }
         }
-    }, [isOnWelcomPage, nextStepRoute, lastStepID, søknadHasBeenSent, sendUserToStep]);
+    });
+    // , [
+    //     isOnWelcomPage,
+    //     nextStepRoute,
+    //     mellomlagringMetadata,
+    //     søknadHasBeenSent,
+    //     sendUserToStep,
+    //     forrigeSøknad,
+    //     importertSøknadMetadata,
+    //     setImportertSøknadMetadata,
+    // ]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
         relocateToLoginPage();
     };
 
-    const navigateToNextStepFrom = async (stepId: StepID) => {
+    const navigateToNextStepFrom = async (stepID: StepID) => {
         setTimeout(() => {
-            const nextStepRoute = getNextStepRoute(stepId, values);
+            const nextStepRoute = getNextStepRoute(stepID, values);
             if (nextStepRoute) {
-                persist(values, stepId)
+                persistSoknad({ formValues: values, stepID })
                     .then(() => {
                         navigateTo(nextStepRoute, history);
                     })
@@ -97,7 +124,7 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
                         if (apiUtils.isUnauthorized(error)) {
                             userNotLoggedIn();
                         } else {
-                            logApiError(ApiError.mellomlagring, { stepId });
+                            logApiError(ApiError.mellomlagring, { stepId: stepID });
                             return navigateToErrorPage(history);
                         }
                     });
@@ -113,17 +140,14 @@ const SøknadContent = ({ lastStepID, forrigeSøknad, onSøknadSent, onSøknadSt
         const initialFormValues =
             forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES ? forrigeSøknad?.formValues : undefined;
 
+        if (forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES) {
+            setImportertSøknadMetadata(forrigeSøknad?.metaData);
+        }
+
         if (initialFormValues) {
             setValues(initialFormValues);
         }
-        await persist(initialFormValues, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
-            if (apiUtils.isUnauthorized(error)) {
-                userNotLoggedIn();
-            } else {
-                logApiError(ApiError.mellomlagring, { step: 'velkommen' });
-                return navigateToErrorPage(history);
-            }
-        });
+        await persistSoknad({ formValues: initialFormValues, stepID: StepID.OPPLYSNINGER_OM_BARNET });
 
         setTimeout(() => {
             setSøknadsdata(getSøknadsdataFromFormValues(initialFormValues || values));

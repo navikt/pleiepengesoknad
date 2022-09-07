@@ -92,10 +92,10 @@ describe('api', () => {
     });
 
     describe('mellomlagring', () => {
-        const stepId: StepID = 'fakeStepID' as any;
-        const persistApiUrl = getPersistUrl(stepId);
+        const stepID: StepID = 'fakeStepID' as any;
+        const persistApiUrl = getPersistUrl(stepID);
         it('should call axios.post when no formData', () => {
-            persist(undefined, stepId);
+            persist({ lastStepID: stepID });
             expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosJsonConfig);
         });
     });
