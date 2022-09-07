@@ -2,6 +2,8 @@ import { RegistrerteBarn } from './RegistrerteBarn';
 import { SøknadFormValues } from './SøknadFormValues';
 
 export enum SøknadsimportEndringstype {
+    'endretUtenlandskNæring' = 'endretUtenlandskNæring',
+    'endretOpptjeningUtlandet' = 'endretOpptjeningUtlandet',
     'endretBostedUtland' = 'endretBostedUtland',
 }
 

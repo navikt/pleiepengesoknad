@@ -23,6 +23,7 @@ export const importerSøknad = (
         }
 
         const medlemsskap = extractMedlemsskapFormValues(søknad.medlemskap);
+        const arbeid = extractArbeidFormValues(søknad);
 
         const formValues: SøknadFormValues = {
             ...initialValues,
@@ -30,12 +31,12 @@ export const importerSøknad = (
             harBekreftetOpplysninger: false,
             barnetSøknadenGjelder: barnISøknad.aktørId,
             ...extractTidsromFormValues(søknad),
-            ...extractArbeidFormValues(søknad),
+            ...arbeid.formValues,
             ...extractOmsorgstilbudFormValues(søknad),
             ...extractNattevåkOgBeredskapFormValues(søknad),
             ...medlemsskap.formValues,
         };
-        return { formValues, endringer: [...medlemsskap.endringer], registrertBarn: barnISøknad };
+        return { formValues, endringer: [...medlemsskap.endringer, ...arbeid.endringer], registrertBarn: barnISøknad };
     } catch (e) {
         console.error(`getFormValuesFromInnsendtSøknad feilet: ${e}`);
         return undefined;

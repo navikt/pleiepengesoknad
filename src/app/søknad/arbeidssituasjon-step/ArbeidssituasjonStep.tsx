@@ -27,6 +27,9 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
+import { useSøknadsdataContext } from '../SøknadsdataContext';
+import { SøknadsimportEndringstype } from '../../types/ImportertSøknad';
+import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface LoadState {
     isLoading: boolean;
@@ -48,6 +51,14 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
     const { isLoading, isLoaded } = loadState;
+
+    const { importertSøknadMetadata } = useSøknadsdataContext();
+    const visInfoOmEndretUtenlandsNæring = importertSøknadMetadata?.endringer.some(
+        (e) => e.type === SøknadsimportEndringstype.endretUtenlandskNæring
+    );
+    const visInfoOmEndretOpptjeningUtlandet = importertSøknadMetadata?.endringer.some(
+        (e) => e.type === SøknadsimportEndringstype.endretOpptjeningUtlandet
+    );
 
     useEffectOnce(() => {
         const fetchData = async () => {
@@ -107,6 +118,15 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.tittel')}>
+                        {visInfoOmEndretOpptjeningUtlandet && (
+                            <Box padBottom="xl">
+                                <AlertStripeInfo>
+                                    Informasjonen om opptjening i utlandet er endret fra det du sendte inn i forrige
+                                    søknad. Dette er fordi søknadsdatoen er en annen. Vennligst se over at all
+                                    informasjon fortsatt stemmer.
+                                </AlertStripeInfo>
+                            </Box>
+                        )}
                         <div data-testid="arbeidssituasjonOpptjeningUtland">
                             <SøknadFormComponents.YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.spm')}
@@ -140,6 +160,15 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             )}
                         </div>
                         <FormBlock>
+                            {visInfoOmEndretUtenlandsNæring && (
+                                <Box padBottom="xl">
+                                    <AlertStripeInfo>
+                                        Informasjonen om utenlandsk næring er endret fra det du sendte inn i forrige
+                                        søknad. Dette er fordi søknadsdatoen er en annen. Vennligst se over at all
+                                        informasjon fortsatt stemmer.
+                                    </AlertStripeInfo>
+                                </Box>
+                            )}
                             <div data-testid="arbeidssituasjonUtenlandskNæring">
                                 <SøknadFormComponents.YesOrNoQuestion
                                     legend={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.spm')}

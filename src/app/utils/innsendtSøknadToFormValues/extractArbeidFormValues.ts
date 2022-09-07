@@ -7,6 +7,7 @@ import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { ArbeidsgiverType } from '../../types';
 import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../types/FrilansFormData';
+import { SøknadsimportEndring, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
@@ -104,19 +105,38 @@ export const extractUtenlandskNæringFormValues = (utenlandskNæring: Utenlandsk
     return result.filter((u) => (u.tilOgMed ? datoErInnenforSiste3Måneder(u.tilOgMed) : true));
 };
 
-export const extractArbeidFormValues = (søknad: InnsendtSøknadInnhold): ArbeidFormValues | undefined => {
+export const extractArbeidFormValues = (
+    søknad: InnsendtSøknadInnhold
+): { formValues: ArbeidFormValues; endringer: SøknadsimportEndring[] } => {
     const ansatt_arbeidsforhold = søknad.arbeidsgivere
         .filter(arbeidsgiverHarOrganisasjonsnummer)
         .map((a) => mapArbeidsgiverToFormValues(a));
 
-    return {
+    const opptjeningUtland = extractOpptjeningUtlandFormValues(søknad.opptjeningIUtlandet);
+    const utenlandskNæring = extractUtenlandskNæringFormValues(søknad.utenlandskNæring);
+
+    const endringer: SøknadsimportEndring[] = [];
+    if (opptjeningUtland.length !== søknad.opptjeningIUtlandet.length) {
+        endringer.push({
+            type: SøknadsimportEndringstype.endretOpptjeningUtlandet,
+        });
+    }
+    if (utenlandskNæring.length !== søknad.utenlandskNæring.length) {
+        endringer.push({
+            type: SøknadsimportEndringstype.endretUtenlandskNæring,
+        });
+    }
+
+    const formValues = {
         ansatt_arbeidsforhold: ansatt_arbeidsforhold,
         frilans: mapFrilanserToFormValues(søknad.frilans),
         frilansoppdrag: [],
         selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
         harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),
-        opptjeningUtland: extractOpptjeningUtlandFormValues(søknad.opptjeningIUtlandet),
         harUtenlandskNæring: booleanToYesOrNo(søknad.utenlandskNæring.length > 0),
-        utenlandskNæring: extractUtenlandskNæringFormValues(søknad.utenlandskNæring),
+        opptjeningUtland,
+        utenlandskNæring,
     };
+
+    return { formValues, endringer };
 };
