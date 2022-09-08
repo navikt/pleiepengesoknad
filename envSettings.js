@@ -9,7 +9,6 @@ const envSettings = () => {
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
     const NYNORSK = process.env.NYNORSK;
     const INNSYN = process.env.INNSYN;
-    const TOGGLE_8_UKER = process.env.TOGGLE_8_UKER;
     const APPSTATUS_PROJECT_ID = process.env.APPSTATUS_PROJECT_ID;
     const APPSTATUS_DATASET = process.env.APPSTATUS_DATASET;
     const USE_AMPLITUDE = process.env.USE_AMPLITUDE;
@@ -27,7 +26,6 @@ const envSettings = () => {
         UTILGJENGELIG: '${UTILGJENGELIG}',
         NYNORSK: '${NYNORSK}',
         INNSYN: '${INNSYN}',
-        TOGGLE_8_UKER: '${TOGGLE_8_UKER}',
         APPSTATUS_PROJECT_ID: '${APPSTATUS_PROJECT_ID}',
         APPSTATUS_DATASET: '${APPSTATUS_DATASET}',
         USE_AMPLITUDE: '${USE_AMPLITUDE}',
