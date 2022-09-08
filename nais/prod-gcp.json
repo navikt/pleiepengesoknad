@@ -22,6 +22,7 @@
         "APPSTATUS_DATASET": "production",
         "USE_AMPLITUDE": "true",
         "FORENKLET_ARBEID": "off",
-        "NPM_CONFIG_CACHE": "/tmp"
+        "NPM_CONFIG_CACHE": "/tmp",
+        "PREUTFYLLING": "false"
     }
 }
