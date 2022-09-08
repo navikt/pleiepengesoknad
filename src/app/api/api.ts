@@ -14,6 +14,7 @@ import {
     sendMultipartPostRequest,
 } from './utils/apiUtils';
 import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
+import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
 export enum ApiEndpointInnsyn {
     'forrigeSøknad' = 'soknad/psb/siste',
@@ -57,14 +58,18 @@ export const rehydrate = () =>
 export const purge = () =>
     axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfigPsb, data: {} });
 
-export const getForrigeSoknad = () =>
-    axios
+export const getForrigeSoknad = () => {
+    if (isFeatureEnabled(Feature.PREUTFYLLING) == false) {
+        return Promise.resolve(undefined);
+    }
+    return axios
         .get(getInnsynApiUrlByResourceType(ResourceTypeInnsyn.FORRIGE_SOKNAD), {
             ...axiosConfigInnsyn,
             transformResponse: storageParser,
         })
         .then((result) => Promise.resolve(result))
         .catch(() => Promise.resolve(undefined));
+};
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<AAregArbeidsgiverRemoteData>> => {

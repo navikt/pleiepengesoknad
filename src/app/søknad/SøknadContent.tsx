@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
@@ -10,6 +10,7 @@ import { purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import useLogSøknadInfo from '../hooks/useLogSøknadInfo';
+import usePersistSoknad from '../hooks/usePersistSoknad';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
@@ -19,6 +20,7 @@ import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormValues } from '../types/SøknadFormValues';
+import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
@@ -37,9 +39,6 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
-import usePersistSoknad from '../hooks/usePersistSoknad';
-import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
-import useEffectOnce from '../hooks/useEffectOnce';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */
@@ -83,11 +82,11 @@ const SøknadContent = ({
         : undefined;
 
     /** Redirect til riktig side */
-    useEffectOnce(() => {
-        if (mellomlagringMetadata?.importertSøknadMetadata) {
-            setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
-        }
+    useEffect(() => {
         if (mellomlagringMetadata !== undefined) {
+            if (mellomlagringMetadata.importertSøknadMetadata !== undefined) {
+                setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
+            }
             if (isOnWelcomPage && nextStepRoute !== undefined) {
                 sendUserToStep(nextStepRoute);
             }
@@ -95,7 +94,14 @@ const SøknadContent = ({
                 sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
             }
         }
-    });
+    }, [
+        mellomlagringMetadata,
+        isOnWelcomPage,
+        nextStepRoute,
+        sendUserToStep,
+        setImportertSøknadMetadata,
+        søknadHasBeenSent,
+    ]);
     // , [
     //     isOnWelcomPage,
     //     nextStepRoute,

@@ -16,6 +16,7 @@ const envSettings = () => {
     const APP_VERSION = process.env.APP_VERSION;
     const INNSYN_URL = process.env.INNSYN_URL;
     const FORENKLET_ARBEID = process.env.FORENKLET_ARBEID;
+    const PREUTFYLLING = process.env.PREUTFYLLING;
 
     const appSettings = `
     window.appSettings = {
@@ -33,6 +34,7 @@ const envSettings = () => {
         APP_VERSION: '${APP_VERSION}',
         INNSYN_URL: '${INNSYN_URL}',
         FORENKLET_ARBEID: '${FORENKLET_ARBEID}',
+        PREUTFYLLING: '${PREUTFYLLING}',
     };`
         .trim()
         .replace(/ /g, '');
