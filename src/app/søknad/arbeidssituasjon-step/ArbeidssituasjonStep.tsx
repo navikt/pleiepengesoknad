@@ -2,34 +2,31 @@ import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
 import { date1YearAgo, date1YearFromNow, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
+import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
 import { useFormikContext } from 'formik';
 import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import getLenker from '../../lenker';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import ArbeidssituasjonStepVeileder from './components/ArbeidssituasjonStepVeileder';
 import ArbeidssituasjonArbeidsgivere from './components/ArbeidssituasjonArbeidsgivere';
 import ArbeidssituasjonFrilans from './components/ArbeidssituasjonFrilans';
 import ArbeidssituasjonSN from './components/ArbeidssituasjonSN';
+import ArbeidssituasjonStepVeileder from './components/ArbeidssituasjonStepVeileder';
 import { oppdaterSøknadMedArbeidsgivere } from './utils/arbeidsgivereUtils';
 import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
-import { useSøknadsdataContext } from '../SøknadsdataContext';
-import { SøknadsimportEndringstype } from '../../types/ImportertSøknad';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 
 interface LoadState {
     isLoading: boolean;
@@ -51,14 +48,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
     const { isLoading, isLoaded } = loadState;
-
-    const { importertSøknadMetadata } = useSøknadsdataContext();
-    const visInfoOmEndretUtenlandsNæring = importertSøknadMetadata?.endringer.some(
-        (e) => e.type === SøknadsimportEndringstype.endretUtenlandskNæring
-    );
-    const visInfoOmEndretOpptjeningUtlandet = importertSøknadMetadata?.endringer.some(
-        (e) => e.type === SøknadsimportEndringstype.endretOpptjeningUtlandet
-    );
 
     useEffectOnce(() => {
         const fetchData = async () => {
@@ -118,15 +107,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                     </FormSection>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.tittel')}>
-                        {visInfoOmEndretOpptjeningUtlandet && (
-                            <Box padBottom="xl">
-                                <AlertStripeInfo>
-                                    Informasjonen om opptjening i utlandet er endret fra det du sendte inn i forrige
-                                    søknad. Dette er fordi søknadsdatoen er en annen. Vennligst se over at all
-                                    informasjon fortsatt stemmer.
-                                </AlertStripeInfo>
-                            </Box>
-                        )}
                         <div data-testid="arbeidssituasjonOpptjeningUtland">
                             <SøknadFormComponents.YesOrNoQuestion
                                 legend={intlHelper(intl, 'steg.arbeidssituasjon.opptjeningUtland.spm')}
@@ -160,15 +140,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             )}
                         </div>
                         <FormBlock>
-                            {visInfoOmEndretUtenlandsNæring && (
-                                <Box padBottom="xl">
-                                    <AlertStripeInfo>
-                                        Informasjonen om utenlandsk næring er endret fra det du sendte inn i forrige
-                                        søknad. Dette er fordi søknadsdatoen er en annen. Vennligst se over at all
-                                        informasjon fortsatt stemmer.
-                                    </AlertStripeInfo>
-                                </Box>
-                            )}
                             <div data-testid="arbeidssituasjonUtenlandskNæring">
                                 <SøknadFormComponents.YesOrNoQuestion
                                     legend={intlHelper(intl, 'steg.arbeidssituasjon.utenlandskNæring.spm')}
