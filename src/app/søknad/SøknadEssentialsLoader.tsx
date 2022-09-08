@@ -13,7 +13,7 @@ import { initialValues, SøknadFormField, SøknadFormValues } from '../types/Sø
 import { MellomlagringMetadata, MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
-import { importerSøknad } from '../utils/innsendtSøknadToFormValues/importSøknad';
+import { importerSøknad } from '../utils/importInnsendtSøknad/importSøknad';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 
 interface Props {

@@ -1,6 +1,7 @@
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { RegistrerteBarn } from '../../../types';
-import { findRegistrertBarnISøknad } from '../findRegistrertBarnISøknad';
+import { InnsendtSøknadBarn } from '../../../types/InnsendtSøknad';
+import { getRegistrertBarnISøknad, isBarnEtRegistrertBarn } from '../getRegistrertBarnISøknad';
 
 const registrerteBarn: RegistrerteBarn[] = [
     { aktørId: '111' },
@@ -9,14 +10,26 @@ const registrerteBarn: RegistrerteBarn[] = [
     { aktørId: '444', fødselsdato: ISODateToDate('2020-03-03') },
 ] as RegistrerteBarn[];
 
+const søknadBarn = { aktørId: '111' } as InnsendtSøknadBarn;
+const søknadBarnKunFødselsdato = { fødselsdato: '2020-02-02' } as InnsendtSøknadBarn;
+
+describe('isBarnEtRegistrertBarn', () => {
+    it('returnerer true når barn har samme aktørid som registrert barn', () => {
+        expect(isBarnEtRegistrertBarn(søknadBarn, registrerteBarn[0])).toBeTruthy();
+    });
+    it('returnerer true når barn har samme fødselsdato som registrert barn og aktørid er undefined', () => {
+        expect(isBarnEtRegistrertBarn({ ...søknadBarnKunFødselsdato }, registrerteBarn[1])).toBeTruthy();
+    });
+});
+
 describe('findRegistrertBarnISøknad', () => {
     it('returnerer undefined dersom aktørid er undefined og fødselsdato ikke matcher', () => {
         expect(
-            findRegistrertBarnISøknad({ aktørId: undefined, fødselsdato: '2020-01-01' }, registrerteBarn)
+            getRegistrertBarnISøknad({ aktørId: undefined, fødselsdato: '2020-01-01' }, registrerteBarn)
         ).toBeUndefined();
     });
     it('returnerer undefined dersom barns aktørId ikke er blant registrerte barn', () => {
-        const result = findRegistrertBarnISøknad(
+        const result = getRegistrertBarnISøknad(
             {
                 aktørId: '000',
                 fødselsdato: '2020-01-01',
@@ -26,7 +39,7 @@ describe('findRegistrertBarnISøknad', () => {
         expect(result).toBeUndefined();
     });
     it(`returnerer barn dersom barns aktørid er blant registrerte barn`, () => {
-        const result = findRegistrertBarnISøknad(
+        const result = getRegistrertBarnISøknad(
             {
                 aktørId: '111',
                 fødselsdato: '2020-01-01',
@@ -37,7 +50,7 @@ describe('findRegistrertBarnISøknad', () => {
         expect(result?.aktørId).toEqual('111');
     });
     it(`returnerer barn dersom aktørid er undefined og det er ett registrert barn med samme fødselsdato`, () => {
-        const result = findRegistrertBarnISøknad(
+        const result = getRegistrertBarnISøknad(
             {
                 fødselsdato: '2020-02-02',
             },
@@ -47,7 +60,7 @@ describe('findRegistrertBarnISøknad', () => {
         expect(result?.aktørId).toEqual('222');
     });
     it(`returnerer undefined dersom aktørid er undefined og det er registrert flere barn med samme fødselsdato`, () => {
-        const result = findRegistrertBarnISøknad(
+        const result = getRegistrertBarnISøknad(
             {
                 fødselsdato: '2020-03-03',
             },

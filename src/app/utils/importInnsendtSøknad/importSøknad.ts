@@ -3,7 +3,7 @@ import { SøknadsimportEndring } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { extractArbeidFormValues } from './extractArbeidFormValues';
-import { findRegistrertBarnISøknad } from './findRegistrertBarnISøknad';
+import { getRegistrertBarnISøknad } from './getRegistrertBarnISøknad';
 import { extractMedlemsskapFormValues } from './extractMedlemsskapFormValues';
 import { extractNattevåkOgBeredskapFormValues } from './extractNattevåkOgBeredskapFormValues';
 import { extractOmsorgstilbudFormValues } from './extractOmsorgtilbudFormValues';
@@ -17,7 +17,7 @@ export const importerSøknad = (
         return undefined;
     }
     try {
-        const barnISøknad = findRegistrertBarnISøknad(søknad.barn, registrerteBarn);
+        const barnISøknad = getRegistrertBarnISøknad(søknad.barn, registrerteBarn);
         if (!barnISøknad) {
             return undefined;
         }
