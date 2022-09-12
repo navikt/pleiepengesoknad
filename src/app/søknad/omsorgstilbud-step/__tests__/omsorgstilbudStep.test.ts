@@ -19,7 +19,7 @@ const enkeldagerFormData: DateDurationMap = {
 
 const formValuesTemplate: Partial<SøknadFormData> = {
     omsorgstilbud: {
-        erIOmsorgstilbud: YesOrNo.YES,
+        erIOmsorgstilbudFortid: YesOrNo.YES,
         erLiktHverUke: YesOrNo.NO,
         enkeltdager: enkeldagerFormData,
     },
@@ -28,7 +28,7 @@ const formValuesTemplate: Partial<SøknadFormData> = {
 const formValues = formValuesTemplate as SøknadFormData;
 
 describe('cleanupOmsorgstilbudStep', () => {
-    /*it('removes days outside søknadsperiode', () => {
+    it('removes days outside søknadsperiode', () => {
         const result = cleanupOmsorgstilbudStep(formValues, søknadsperiode);
         const enkeltdager = result.omsorgstilbud?.enkeltdager;
         expect(enkeltdager).toBeDefined();
@@ -40,7 +40,7 @@ describe('cleanupOmsorgstilbudStep', () => {
             expect(enkeltdager['2021-06-04']).toBeDefined();
             expect(enkeltdager['2021-06-05']).toBeUndefined();
         }
-    });*/
+    });
     it('removes omsorgstilbud if erIOmsorgstilbud !== YesOrNo.YES', () => {
         const result = cleanupOmsorgstilbudStep({ ...formValues, omsorgstilbud: undefined }, søknadsperiode);
         expect(result.omsorgstilbud?.enkeltdager).toBeUndefined();

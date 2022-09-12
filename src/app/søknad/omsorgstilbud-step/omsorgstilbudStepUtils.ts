@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { OmsorgstilbudFormData, SøknadFormData } from '../../types/SøknadFormData';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
 
@@ -41,7 +41,7 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiod
                 cleanedValues.omsorgstilbud.fasteDager = undefined;
                 cleanedValues.omsorgstilbud.enkeltdager = getDurationsInDateRange(
                     cleanedValues.omsorgstilbud.enkeltdager || {},
-                    søknadsperiode
+                    getPeriode(søknadsperiode, cleanedValues.omsorgstilbud)
                 );
             }
         }
@@ -75,4 +75,30 @@ export const søkerFortidFremtid = (periode: DateRange): boolean => {
         return true;
     }
     return false;
+};
+
+export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormData): DateRange => {
+    if (
+        omsorgstilbud &&
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO
+    ) {
+        return {
+            from: søknadsperiode.from,
+            to: dayjs().subtract(1, 'day').toDate(),
+        };
+    }
+
+    if (
+        omsorgstilbud &&
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES
+    ) {
+        return {
+            from: dayjs().toDate(),
+            to: søknadsperiode.to,
+        };
+    }
+
+    return søknadsperiode;
 };
