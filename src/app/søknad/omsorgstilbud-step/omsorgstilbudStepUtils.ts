@@ -21,8 +21,12 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
 export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
     const cleanedValues = { ...values };
     const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
+
     if (cleanedValues.omsorgstilbud) {
-        if (cleanedValues.omsorgstilbud?.erIOmsorgstilbud !== YesOrNo.YES) {
+        if (
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFortid !== YesOrNo.YES &&
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFremtid !== YesOrNo.YES
+        ) {
             cleanedValues.omsorgstilbud.enkeltdager = undefined;
             cleanedValues.omsorgstilbud.fasteDager = undefined;
             cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
@@ -50,4 +54,25 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiod
     }
 
     return cleanedValues;
+};
+
+export const søkerFremtid = (periode: DateRange): boolean => {
+    if (dayjs(periode.from).isAfter(dayjs().subtract(1, 'day'), 'day')) {
+        return true;
+    }
+    return false;
+};
+
+export const søkerFortid = (periode: DateRange): boolean => {
+    if (dayjs(periode.to).isBefore(dayjs().add(1, 'day'), 'day')) {
+        return true;
+    }
+    return false;
+};
+
+export const søkerFortidFremtid = (periode: DateRange): boolean => {
+    if (dayjs(periode.from).isBefore(dayjs(), 'day') && dayjs(periode.to).isAfter(dayjs(), 'day')) {
+        return true;
+    }
+    return false;
 };
