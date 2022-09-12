@@ -135,7 +135,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             fra: prettifyDateFull(periode.from),
                             til: prettifyDateFull(periode.to),
                         })}
-                        description={omsorgstilbudInfo.erIOmsorgstilbud}
+                        // description={omsorgstilbudInfo.erIOmsorgstilbud}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
@@ -169,7 +169,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             fra: prettifyDateFull(periode.from),
                             til: prettifyDateFull(periode.to),
                         })}
-                        description={omsorgstilbudInfo.erIOmsorgstilbud}
+                        // description={omsorgstilbudInfo.erIOmsorgstilbud}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
