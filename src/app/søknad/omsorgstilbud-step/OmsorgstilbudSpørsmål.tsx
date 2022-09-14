@@ -150,6 +150,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             return undefined;
                         }}
                         labels={{ yes: 'Ja, i hele eller deler av perioden' }}
+                        useTwoColumns={false}
                     />
                 </Box>
             )}
