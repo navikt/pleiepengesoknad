@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -16,27 +16,35 @@ import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
 import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
-import SøknadFormStep from '../SøknadFormStep';
+import SøknadFormStep, { SøknadFormStepBeforeValidSubmitProps } from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { StepID } from '../søknadStepsConfig';
 import ArbeidIPeriodeSpørsmål from './components/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
-
-interface Props extends StepConfigProps {
+import { UserHashInfo } from '../../api/endpoints/mellomlagringEndpoint';
+import { getArbeidsforhold, harFraværIPerioden } from './utils/arbeidstidUtils';
+import { ConfirmationDialog } from '../../types/ConfirmationDialog';
+import { getIngenFraværConfirmationDialog } from '../confirmation-dialogs/ingenFraværConfirmation';
+import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
+interface Props {
     periode: DateRange;
+    søknadId: string;
+    søkerInfo: UserHashInfo;
 }
 
-const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
+const ArbeidstidStep = ({ periode, søknadId, søkerInfo }: Props & SøknadFormStepBeforeValidSubmitProps) => {
     const intl = useIntl();
-    const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
-    const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
+    const { logArbeidEnkeltdagRegistrert, logBekreftIngenFraværFraJobb, logArbeidPeriodeRegistrert } =
+        useLogSøknadInfo();
+    const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialog | undefined>(undefined);
     const formikProps = useFormikContext<SøknadFormValues>();
     const { persistSoknad } = usePersistSoknad();
-    const {
-        søknadsdata: { arbeid },
-    } = useSøknadsdataContext();
+    const { søknadsdata } = useSøknadsdataContext();
+
+    const { arbeid } = søknadsdata;
 
     if (!arbeid) {
+        console.error('!arbeid', søknadsdata);
         return <GeneralErrorPage />;
     }
 
@@ -50,14 +58,48 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             : undefined;
 
     const handleArbeidstidChanged = () => {
-        persistSoknad({ stepID: StepID.ARBEIDSTID });
+        persistSoknad({ stepID: StepID.ARBEIDSTID, søknadId, søkerInfo });
     };
 
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSTID}
-            onValidFormSubmit={onValidSubmit}
-            onStepCleanup={(values) => cleanupArbeidstidStep(values, arbeid, periode)}>
+            onStepCleanup={(values) => cleanupArbeidstidStep(values, arbeid, periode)}
+            onBeforeValidSubmit={() => {
+                return new Promise((resolve) => {
+                    resolve(true);
+                    if (søknadsdata.arbeid && harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false) {
+                        setConfirmationDialog(
+                            getIngenFraværConfirmationDialog({
+                                onCancel: () => {
+                                    logBekreftIngenFraværFraJobb(false);
+                                    setConfirmationDialog(undefined);
+                                },
+                                onConfirm: () => {
+                                    logBekreftIngenFraværFraJobb(true);
+                                    setConfirmationDialog(undefined);
+                                    resolve(true);
+                                },
+                            })
+                        );
+                    } else {
+                        resolve(true);
+                    }
+                });
+            }}>
+            {confirmationDialog && (
+                <BekreftDialog
+                    isOpen={true}
+                    bekreftLabel={confirmationDialog.okLabel}
+                    avbrytLabel={confirmationDialog.cancelLabel}
+                    onBekreft={confirmationDialog.onConfirm}
+                    onAvbryt={confirmationDialog.onCancel}
+                    onRequestClose={confirmationDialog.onCancel}
+                    contentLabel={confirmationDialog.title}>
+                    {confirmationDialog.content}
+                </BekreftDialog>
+            )}
+
             <Box padBottom="m">
                 <CounsellorPanel>
                     <p>

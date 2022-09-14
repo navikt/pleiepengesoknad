@@ -65,8 +65,21 @@ const barnMock = {
             fødselsdato: '2019-06-08',
             fødselsnummer: '08861999573',
         },
-        { fødselsdato: '2020-04-20', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '123' },
-        { fødselsdato: '2015-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
+        {
+            fødselsdato: '2020-04-20',
+            fødselsnummer: '200420999573',
+            fornavn: 'Barn',
+            mellomnavn: 'Barne',
+            etternavn: 'Barnesen',
+            aktørId: '123',
+        },
+        {
+            fødselsdato: '2015-01-02',
+            fødselsnummer: '020115999573',
+            fornavn: 'Mock',
+            etternavn: 'Mocknes',
+            aktørId: '2',
+        },
     ],
 };
 

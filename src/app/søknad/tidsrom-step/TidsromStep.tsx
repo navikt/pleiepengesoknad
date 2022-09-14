@@ -16,7 +16,7 @@ import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import {
     validateFerieuttakIPerioden,
@@ -25,13 +25,13 @@ import {
     validateUtenlandsoppholdIPerioden,
 } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import SøknadFormStep from '../SøknadFormStep';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import SøknadFormStep, { SøknadFormStepBeforeValidSubmitProps } from '../SøknadFormStep';
+import { StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 
 dayjs.extend(minMax);
 
-const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
+const TidsromStep: React.FunctionComponent<SøknadFormStepBeforeValidSubmitProps> = ({ onBeforeValidSubmit }) => {
     const { values } = useFormikContext<SøknadFormValues>();
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const søkerdata = React.useContext(SøkerdataContext)!;
@@ -66,7 +66,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <SøknadFormStep
             id={StepID.TIDSROM}
-            onValidFormSubmit={onValidSubmit}
+            onBeforeValidSubmit={onBeforeValidSubmit}
             showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}>
             <SøknadFormComponents.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}

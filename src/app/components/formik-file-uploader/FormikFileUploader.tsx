@@ -10,11 +10,11 @@ import {
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
-import { uploadFile } from '../../api/api';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { uploadFile } from '../../api/endpoints/attachmentEndpoint';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -92,7 +92,7 @@ const FormikFileUploader = ({
                 attachment.url = response.headers.location;
                 attachment.uploaded = true;
             } catch (error: any) {
-                if (apiUtils.isUnauthorized(error)) {
+                if (apiUtils.isUserLoggedOut(error)) {
                     onUnauthorizedOrForbiddenUpload();
                 } else {
                     appSentryLogger.logApiError(error);

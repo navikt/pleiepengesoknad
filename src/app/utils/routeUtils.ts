@@ -1,17 +1,7 @@
 import RouteConfig from '../config/routeConfig';
-import { getSøknadStepConfig, StepID } from '../søknad/søknadStepsConfig';
+import { getSøknadStepsConfig, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormValues } from '../types/SøknadFormValues';
-import {
-    arbeidssituasjonStepAvailable,
-    legeerklæringStepAvailable,
-    medlemskapStepAvailable,
-    opplysningerOmBarnetStepAvailable,
-    opplysningerOmTidsromStepAvailable,
-    oppsummeringStepAvailable,
-    omsorgstilbudStepAvailable,
-    nattevåkOgBeredskapStepAvailable,
-    arbeidIPeriodeStepIsAvailable,
-} from './stepUtils';
+import { isStepAvailable } from './stepUtils';
 
 export const getSøknadRoute = (stepId: StepID | undefined) => {
     if (stepId !== undefined) {
@@ -20,35 +10,16 @@ export const getSøknadRoute = (stepId: StepID | undefined) => {
     return undefined;
 };
 
-export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormValues): string | undefined => {
-    const stepConfig = getSøknadStepConfig(formData);
-    return stepConfig[stepId] && stepConfig[stepId].included === true
-        ? getSøknadRoute(stepConfig[stepId].nextStep)
-        : undefined;
-};
+export const getAvailableSteps = (values: SøknadFormValues): StepID[] => {
+    const søknadStepsConfig = getSøknadStepsConfig(values);
+    const steps: StepID[] = [];
 
-export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormValues, søknadHasBeenSent?: boolean) => {
-    switch (path) {
-        case StepID.OPPLYSNINGER_OM_BARNET:
-            return opplysningerOmBarnetStepAvailable(values);
-        case StepID.TIDSROM:
-            return opplysningerOmTidsromStepAvailable(values);
-        case StepID.ARBEIDSSITUASJON:
-            return arbeidssituasjonStepAvailable(values);
-        case StepID.ARBEIDSTID:
-            return arbeidIPeriodeStepIsAvailable(values);
-        case StepID.OMSORGSTILBUD:
-            return omsorgstilbudStepAvailable(values);
-        case StepID.NATTEVÅK_OG_BEREDSKAP:
-            return nattevåkOgBeredskapStepAvailable;
-        case StepID.LEGEERKLÆRING:
-            return legeerklæringStepAvailable(values);
-        case StepID.MEDLEMSKAP:
-            return medlemskapStepAvailable(values);
-        case StepID.SUMMARY:
-            return oppsummeringStepAvailable(values);
-        case RouteConfig.SØKNAD_SENDT_ROUTE:
-            return søknadHasBeenSent === true;
-    }
-    return false;
+    Object.keys(søknadStepsConfig).forEach((key) => {
+        const stepID = søknadStepsConfig[key].id as StepID;
+        const isAvailable = isStepAvailable(values, stepID);
+        if (isAvailable) {
+            steps.push(stepID);
+        }
+    });
+    return steps;
 };

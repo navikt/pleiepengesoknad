@@ -1,90 +1,57 @@
+import { isForbidden, isUserLoggedOut } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
-import axios, { AxiosResponse } from 'axios';
-import { axiosConfigPsb, axiosConfigInnsyn } from '../config/axiosConfig';
-import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';
-import { StepID } from '../søknad/søknadStepsConfig';
-import { ResourceType, ResourceTypeInnsyn } from '../types/ResourceType';
-import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
-import { SøknadFormValues } from '../types/SøknadFormValues';
-import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import {
-    axiosJsonConfig,
-    getApiUrlByResourceType,
-    getInnsynApiUrlByResourceType,
-    sendMultipartPostRequest,
-} from './utils/apiUtils';
-import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
-import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { getEnvVariableOrDefault } from '../utils/envUtils';
+import { ApiEndpointInnsyn, ApiEndpointPsb } from './endpoints';
 
-export enum ApiEndpointInnsyn {
-    'forrigeSøknad' = 'soknad/psb/siste',
-}
+const axiosConfigCommon: AxiosRequestConfig = {
+    withCredentials: true,
+    headers: { 'Content-type': 'application/json; charset=utf-8' },
+};
 
-export const getPersistUrl = (stepID?: StepID) =>
-    stepID
-        ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
-        : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
+export const axiosConfigPsb: AxiosRequestConfig = {
+    ...axiosConfigCommon,
+    baseURL: getEnvVariableOrDefault('API_URL', 'http://localhost:8080'),
+};
 
-export const persist = ({
-    formValues,
-    lastStepID,
-    importertSøknadMetadata,
-}: {
-    formValues?: SøknadFormValues;
-    lastStepID?: StepID;
-    importertSøknadMetadata?: ImportertSøknadMetadata;
-}) => {
-    const url = getPersistUrl(lastStepID);
-    if (formValues) {
-        const body: SøknadTempStorageData = {
-            formValues,
-            metadata: {
-                lastStepID,
-                version: MELLOMLAGRING_VERSION,
-                updatedTimestemp: new Date().toISOString(),
-                importertSøknadMetadata,
-            },
-        };
-        return axios.put(url, { ...body }, axiosJsonConfig);
-    } else {
-        return axios.post(url, {}, axiosJsonConfig);
+export const axiosConfigInnsyn = {
+    ...axiosConfigCommon,
+    transformResponse: storageParser,
+    baseURL: getEnvVariableOrDefault('API_URL_INNSYN', 'http://localhost:8082'),
+};
+
+axios.interceptors.request.use((config) => {
+    return config;
+});
+
+axios.interceptors.response.use(
+    (response) => {
+        return response;
+    },
+    (error: AxiosError) => {
+        if (isForbidden(error) || isUserLoggedOut(error)) {
+            return Promise.reject(error);
+        }
+        return Promise.reject(error);
     }
-};
-export const rehydrate = () =>
-    axios.get(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), {
-        ...axiosJsonConfig,
-        transformResponse: storageParser,
-    });
-export const purge = () =>
-    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfigPsb, data: {} });
+);
 
-export const getForrigeSoknad = () => {
-    if (isFeatureEnabled(Feature.PREUTFYLLING) == false) {
-        return Promise.resolve(undefined);
-    }
-    return axios
-        .get(getInnsynApiUrlByResourceType(ResourceTypeInnsyn.FORRIGE_SOKNAD), {
-            ...axiosConfigInnsyn,
-            transformResponse: storageParser,
-        })
-        .then((result) => Promise.resolve(result))
-        .catch(() => Promise.resolve(undefined));
-};
-export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
-export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
-export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<AAregArbeidsgiverRemoteData>> => {
-    return axios.get(
-        `${getApiUrlByResourceType(ResourceType.ARBEIDSGIVER)}?fra_og_med=${fom}&til_og_med=${tom}&frilansoppdrag=true`,
-        axiosJsonConfig
-    );
+const api = {
+    innsyn: {
+        get: <ResponseType>(endpoint: ApiEndpointInnsyn, paramString?: string) => {
+            const url = `${endpoint}${paramString ? `?${paramString}` : ''}`;
+            return axios.get<ResponseType>(url, axiosConfigInnsyn);
+        },
+    },
+    psb: {
+        get: <ResponseType>(endpoint: ApiEndpointPsb, paramString?: string, config?: AxiosRequestConfig) => {
+            const url = `${endpoint}${paramString ? `?${paramString}` : ''}`;
+            return axios.get<ResponseType>(url, config || axiosConfigPsb);
+        },
+        post: <DataType = any, ResponseType = any>(endpoint: ApiEndpointPsb, data: DataType) => {
+            return axios.post<ResponseType>(endpoint, data, axiosConfigPsb);
+        },
+    },
 };
 
-export const sendApplication = (data: SøknadApiData) =>
-    axios.post(getApiUrlByResourceType(ResourceType.SEND_SØKNAD), data, axiosJsonConfig);
-
-export const uploadFile = (file: File) => {
-    const formData = new FormData();
-    formData.append('vedlegg', file);
-    return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
-};
-export const deleteFile = (url: string) => axios.delete(url, axiosConfigPsb);
+export default api;

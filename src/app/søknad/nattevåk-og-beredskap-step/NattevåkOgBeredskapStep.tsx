@@ -14,7 +14,8 @@ import usePersistOnChange from '../../hooks/usePersistOnChange';
 import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { StepID } from '../søknadStepsConfig';
+import { UserHashInfo } from '../../api/endpoints/mellomlagringEndpoint';
 
 const cleanupStep = (values: SøknadFormValues): SøknadFormValues => {
     const cleanedValues = { ...values };
@@ -27,22 +28,27 @@ const cleanupStep = (values: SøknadFormValues): SøknadFormValues => {
     return cleanedValues;
 };
 
-const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
+interface Props {
+    søknadId: string;
+    søkerInfo: UserHashInfo;
+}
+
+const NattevåkOgBeredskapStep = ({ søkerInfo, søknadId }: Props) => {
     const intl = useIntl();
     const [loaded, setLoaded] = useState<boolean>(false);
 
     const { values } = useFormikContext<SøknadFormValues>();
     const { harNattevåk, harNattevåk_ekstrainfo, harBeredskap, harBeredskap_ekstrainfo } = values;
 
-    usePersistOnChange(harNattevåk_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
-    usePersistOnChange(harBeredskap_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);
+    usePersistOnChange(harNattevåk_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP, søkerInfo, søknadId);
+    usePersistOnChange(harBeredskap_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP, søkerInfo, søknadId);
 
     useEffectOnce(() => {
         setLoaded(true);
     });
 
     return (
-        <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupStep}>
+        <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onStepCleanup={cleanupStep}>
             <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                     <FormattedMessage id={'steg.nattevåkOgBeredskap.veileder'} />

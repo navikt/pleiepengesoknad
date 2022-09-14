@@ -1,21 +1,22 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useHistory } from 'react-router';
+import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { SoknadStepsConfig } from '@navikt/sif-common-soknad/lib/soknad-step/soknadStepTypes';
+import soknadStepUtils from '@navikt/sif-common-soknad/lib/soknad-step/soknadStepUtils';
 import { Feiloppsummering } from 'nav-frontend-skjema';
-import { ApiValidationError } from '../../../validation/apiValuesValidation';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import { navigateToSoknadStep } from '../../../utils/navigationUtils';
-import { useHistory } from 'react-router';
-import { getStepTexts } from '../../../utils/stepUtils';
-import { StepConfigInterface } from '../../søknadStepsConfig';
+import { ApiValidationError } from '../../../validation/apiValuesValidation';
+import { StepID } from '../../søknadStepsConfig';
 
 interface Props {
     errors: ApiValidationError[];
-    søknadStepConfig: StepConfigInterface;
+    soknadStepsConfig: SoknadStepsConfig<StepID>;
 }
 
-const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadStepConfig }) => {
+const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, soknadStepsConfig }) => {
     const intl = useIntl();
     const history = useHistory();
     if (errors.length === 0) {
@@ -28,7 +29,6 @@ const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadS
                 feil={errors}
                 customFeilRender={(f) => {
                     const error = f as ApiValidationError;
-                    const stepTexts = getStepTexts(intl, error.stepId, søknadStepConfig);
                     return (
                         <>
                             <p>{error.feilmelding}</p>
@@ -41,7 +41,7 @@ const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadS
                                     tagName="span"
                                 />{' '}
                                 &quot;
-                                {stepTexts.stepTitle}&quot;
+                                {soknadStepUtils.getStepTexts(intl, soknadStepsConfig[error.stepId]).stepTitle}&quot;
                             </ActionLink>
                         </>
                     );

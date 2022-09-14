@@ -9,7 +9,7 @@ import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Sidetittel } from 'nav-frontend-typografi';
-import { StepConfigProps } from '../../søknad/søknadStepsConfig';
+import { useSøknadContext } from '../../søknad/SøknadContext';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
 import DinePlikterContent from './dine-plikter-content/DinePlikterContent';
@@ -18,7 +18,7 @@ import './welcomingPage.less';
 
 const bem = bemHelper('welcomingPage');
 
-type Props = Omit<StepConfigProps, 'formValues'> & {
+type Props = {
     forrigeSøknad?: ImportertSøknad;
 };
 interface DialogState {
@@ -26,10 +26,11 @@ interface DialogState {
     behandlingAvPersonopplysningerModalOpen?: boolean;
 }
 
-const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeSøknad }) => {
+const WelcomingPage: React.FunctionComponent<Props> = ({ forrigeSøknad }) => {
     const [dialogState, setDialogState] = useState<DialogState>({});
     const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
 
+    const { startSoknad } = useSøknadContext();
     const intl = useIntl();
 
     useLogSidevisning(SIFCommonPageKey.velkommen);
@@ -55,7 +56,7 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                 </Box>
 
                 <SamtykkeForm
-                    onConfirm={onValidSubmit}
+                    onConfirm={startSoknad}
                     forrigeSøknad={forrigeSøknad}
                     onOpenDinePlikterModal={() => setDialogState({ dinePlikterModalOpen: true })}
                 />
@@ -80,18 +81,6 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}>
                 <BehandlingAvPersonopplysningerContent />
             </InfoDialog>
-
-            {/* <DinePlikterModal
-                isOpen={dinePlikterModalOpen}
-                onRequestClose={() => setDinePlikterModalOpen(false)}
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
-            />
-
-            <BehandlingAvPersonopplysningerModal
-                isOpen={behandlingAvPersonopplysningerModalOpen}
-                onRequestClose={() => setBehandlingAvPersonopplysningerModalOpen(false)}
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
-            /> */}
         </>
     );
 };

@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { UserHashInfo } from '../api/endpoints/mellomlagringEndpoint';
 import { StepID } from '../søknad/søknadStepsConfig';
 import { useHasChanged } from './useHasChanged';
 import usePersistSoknad from './usePersistSoknad';
@@ -7,12 +8,18 @@ const DELAY_MS = 5000;
 
 /** Lagrer hvert 5 sekund */
 
-const usePersistOnChange = <T>(values: T, loaded: boolean, stepID: StepID) => {
+const usePersistOnChange = <T>(
+    values: T,
+    loaded: boolean,
+    stepID: StepID,
+    søkerInfo: UserHashInfo,
+    søknadId: string
+) => {
     const { persistSoknad } = usePersistSoknad();
     const [timerId, setTimerId] = useState<any>();
 
     const delayedPersist = () => {
-        persistSoknad({ stepID });
+        persistSoknad({ stepID, søkerInfo, søknadId });
         setTimerId(undefined);
     };
 

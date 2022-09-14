@@ -6,12 +6,14 @@ export const MELLOMLAGRING_VERSION = '12.0.0';
 
 export interface MellomlagringMetadata {
     version: string;
+    søknadId: string;
     lastStepID?: StepID;
     updatedTimestemp: string;
     importertSøknadMetadata?: ImportertSøknadMetadata;
+    userHash: string;
 }
 
-export interface SøknadTempStorageData {
+export interface SøknadMellomlagring {
     metadata: MellomlagringMetadata;
     formValues: SøknadFormValues;
 }

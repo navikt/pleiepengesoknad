@@ -1,10 +1,9 @@
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { ISODate, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { getArbeidsgiver } from './api';
-import { Arbeidsgiver, ArbeidsgiverType } from '../types/Arbeidsgiver';
-import appSentryLogger from '../utils/appSentryLogger';
-import { relocateToLoginPage } from '../utils/navigationUtils';
+import { failure, RemoteData, success } from '@devexperts/remote-data-ts';
+import { ISODate, ISODateToDate } from '@navikt/sif-common-utils';
+import { AxiosError } from 'axios';
+import { Arbeidsgiver, ArbeidsgiverType } from '../../types';
+import api from '../api';
+import { ApiEndpointPsb } from '../endpoints';
 
 export type AAregArbeidsgiverRemoteData = {
     organisasjoner?: {
@@ -13,12 +12,12 @@ export type AAregArbeidsgiverRemoteData = {
         ansattFom?: ISODate;
         ansattTom?: ISODate;
     }[];
-    privatarbeidsgiver?: {
-        offentligIdent: string;
-        navn: string;
-        ansattFom?: ISODate;
-        ansattTom?: ISODate;
-    }[];
+    // privatarbeidsgiver?: {
+    //     offentligIdent: string;
+    //     navn: string;
+    //     ansattFom?: ISODate;
+    //     ansattTom?: ISODate;
+    // }[];
     frilansoppdrag?: {
         type: string;
         organisasjonsnummer?: string;
@@ -64,17 +63,18 @@ const mapAAregArbeidsgiverRemoteDataToArbeidsgiver = (data: AAregArbeidsgiverRem
     return arbeidsgivere;
 };
 
-export async function getArbeidsgivereRemoteData(fromDate: Date, toDate: Date): Promise<Arbeidsgiver[]> {
-    try {
-        const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
-        const arbeidsgivere = mapAAregArbeidsgiverRemoteDataToArbeidsgiver(response.data);
-        return Promise.resolve(arbeidsgivere);
-    } catch (error: any) {
-        if (apiUtils.isUnauthorized(error)) {
-            relocateToLoginPage();
-        } else {
-            appSentryLogger.logApiError(error);
+const arbeidsgivereEndpoint = {
+    fetch: async (fom: string, tom: string): Promise<RemoteData<AxiosError, Arbeidsgiver[]>> => {
+        try {
+            const { data } = await api.psb.get<AAregArbeidsgiverRemoteData>(
+                ApiEndpointPsb.ARBEIDSGIVER,
+                `fra_og_med=${fom}&til_og_med=${tom}`
+            );
+            return Promise.resolve(success(mapAAregArbeidsgiverRemoteDataToArbeidsgiver(data)));
+        } catch (error) {
+            return Promise.reject(failure(error));
         }
-        return Promise.reject([]);
-    }
-}
+    },
+};
+
+export default arbeidsgivereEndpoint;

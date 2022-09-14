@@ -1,6 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
 import { SøknadFormValues } from '../types/SøknadFormValues';
+import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormValues) =>
@@ -13,7 +14,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetHarIkkeFnr,
     årsakManglerIdentitetsnummer,
     barnetSøknadenGjelder,
-}: SøknadFormValues) => {
+}: SøknadFormValues): boolean => {
     const fødselsnummerValidation = () => {
         if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakManglerIdentitetsnummer !== undefined) {
             return true;
@@ -28,8 +29,8 @@ export const opplysningerOmBarnetStepIsValid = ({
     return formIsValid;
 };
 
-export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormValues>) => {
-    return periodeFra !== undefined && periodeTil !== undefined;
+export const opplysningerOmTidsromStepIsValid = (formValues: Partial<SøknadFormValues>) => {
+    return getSøknadsperiodeFromFormData(formValues) !== undefined;
 };
 
 export const arbeidssituasjonStepIsValid = () => true;

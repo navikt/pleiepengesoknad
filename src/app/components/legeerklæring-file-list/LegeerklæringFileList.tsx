@@ -1,7 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect, useFormikContext } from 'formik';
-import { Normaltekst } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from '@navikt/sif-common-core/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
 import AttachmentList from '@navikt/sif-common-core/lib/components/attachment-list/AttachmentList';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -11,7 +9,9 @@ import {
     fileExtensionIsValid,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
-import { deleteFile } from '../../api/api';
+import { connect, useFormikContext } from 'formik';
+import { Normaltekst } from 'nav-frontend-typografi';
+import { deleteFile } from '../../api/endpoints/attachmentEndpoint';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 
 interface LegeerklæringAttachmentListProps {

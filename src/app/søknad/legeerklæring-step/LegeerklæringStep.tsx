@@ -23,9 +23,15 @@ import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValu
 import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../validation/fieldValidations';
 import SøknadFormStep from '../SøknadFormStep';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { StepID } from '../søknadStepsConfig';
+import { UserHashInfo } from '../../api/endpoints/mellomlagringEndpoint';
 
-const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
+interface Props {
+    søknadId: string;
+    søkerInfo: UserHashInfo;
+}
+
+const LegeerklæringStep = ({ søkerInfo, søknadId }: Props) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
@@ -79,21 +85,17 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             });
             const formValues = { ...values, legeerklæring: newValues };
             setFieldValue(SøknadFormField.legeerklæring, newValues);
-            persistSoknad({ formValues, stepID: StepID.LEGEERKLÆRING });
+            persistSoknad({ formValues, stepID: StepID.LEGEERKLÆRING, søkerInfo, søknadId });
         }
         ref.current = {
             attachments,
         };
-    }, [persistSoknad, attachments, setFieldValue, values]);
+    }, [persistSoknad, attachments, setFieldValue, values, søkerInfo, søknadId]);
 
     return (
         <SøknadFormStep
             id={StepID.LEGEERKLÆRING}
-            onValidFormSubmit={() => {
-                onValidSubmit();
-            }}
-            useValidationErrorSummary={false}
-            skipValidation={true}
+            includeValidationSummary={false}
             buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
             <Box padBottom="xl">
                 <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>

@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { isSuccess } from '@devexperts/remote-data-ts';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -11,15 +12,16 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
 import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
+import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { useFormikContext } from 'formik';
-import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData';
+import arbeidsgivereEndpoint from '../../api/endpoints/arbeidsgivereEndpoint';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import getLenker from '../../lenker';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { StepID } from '../søknadStepsConfig';
 import ArbeidssituasjonArbeidsgivere from './components/ArbeidssituasjonArbeidsgivere';
 import ArbeidssituasjonFrilans from './components/ArbeidssituasjonFrilans';
 import ArbeidssituasjonSN from './components/ArbeidssituasjonSN';
@@ -38,7 +40,7 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
-const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: StepConfigProps & Props) => {
+const ArbeidssituasjonStep = ({ søknadsdato, søknadsperiode }: Props) => {
     const formikProps = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const {
@@ -52,9 +54,14 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     useEffectOnce(() => {
         const fetchData = async () => {
             if (søkerdata && søknadsperiode) {
-                const arbeidsgivere = await getArbeidsgivereRemoteData(søknadsperiode.from, søknadsperiode.to);
-                oppdaterSøknadMedArbeidsgivere(arbeidsgivere, formikProps);
-                setLoadState({ isLoading: false, isLoaded: true });
+                const result = await arbeidsgivereEndpoint.fetch(
+                    dateToISODate(søknadsperiode.from),
+                    dateToISODate(søknadsperiode.to)
+                );
+                if (isSuccess(result)) {
+                    oppdaterSøknadMedArbeidsgivere(result.value, formikProps);
+                    setLoadState({ isLoading: false, isLoaded: true });
+                }
             }
         };
         if (søknadsperiode && !isLoaded && !isLoading) {
@@ -66,7 +73,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSSITUASJON}
-            onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
             onStepCleanup={
                 søknadsperiode

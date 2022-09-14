@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
-import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
+import { isPending } from '@devexperts/remote-data-ts';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -10,7 +9,6 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
 import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
@@ -18,24 +16,19 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { purge, sendApplication } from '../../api/api';
-import { SKJEMANAVN } from '../../App';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
-import routeConfig from '../../config/routeConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import { Søkerdata } from '../../types/Søkerdata';
-import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
-import appSentryLogger from '../../utils/appSentryLogger';
-import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
-import { validateApiValues } from '../../validation/apiValuesValidation';
+import { ApiValidationError, validateApiValues } from '../../validation/apiValuesValidation';
 import { getArbeidsforhold, harArbeidIPerioden, harFraværIPerioden } from '../arbeidstid-step/utils/arbeidstidUtils';
+import { useSøknadContext } from '../SøknadContext';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
-import { getSøknadStepConfig, StepID } from '../søknadStepsConfig';
+import { getSøknadStepsConfig, StepID } from '../søknadStepsConfig';
 import ApiValidationSummary from './api-validation-summary/ApiValidationSummary';
 import ArbeidIPeriodenSummary from './arbeid-i-perioden-summary/ArbeidIPeriodenSummary';
 import ArbeidssituasjonSummary from './arbeidssituasjon-summary/ArbeidssituasjonSummary';
@@ -47,53 +40,48 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './oppsummeringStep.less';
+import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { useFormikContext } from 'formik';
 
 interface Props {
-    values: SøknadFormValues;
     søknadsdato: Date;
-    onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
 }
 
-const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) => {
-    const [sendingInProgress, setSendingInProgress] = useState<boolean>(false);
-    const [soknadSent, setSoknadSent] = useState<boolean>(false);
+const OppsummeringStep = ({ søknadsdato }: Props) => {
     const intl = useIntl();
-    const history = useHistory();
-
+    const { sendSoknadStatus, sendSoknad } = useSøknadContext();
     const { søknadsdata } = useSøknadsdataContext();
+    const { values } = useFormikContext<SøknadFormValues>();
 
-    const søknadStepConfig = getSøknadStepConfig(values);
+    const søknadStepConfig = getSøknadStepsConfig(values);
 
-    const { logSoknadSent, logSoknadFailed, logUserLoggedOut } = useAmplitudeInstance();
     const { logSenderInnSøknadMedIngenFravær } = useLogSøknadInfo();
 
-    const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata, harArbeidMenIngenFravær: boolean) => {
-        setSendingInProgress(true);
-        try {
-            await sendApplication(apiValues);
-            await logSoknadSent(SKJEMANAVN);
-            if (harArbeidMenIngenFravær) {
-                await logSenderInnSøknadMedIngenFravær();
-            }
-            await purge();
-            setSoknadSent(true);
-            onApplicationSent(apiValues, søkerdata);
-        } catch (error: any) {
-            if (isUnauthorized(error)) {
-                logUserLoggedOut('Ved innsending av søknad');
-                relocateToLoginPage();
-            } else {
-                await logSoknadFailed(SKJEMANAVN);
-                appSentryLogger.logApiError(error);
-                navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
-            }
+    const onSendSoknad = async ({
+        apiValues,
+        apiValuesValidationErrors,
+        harArbeidMenIngenFravær,
+    }: {
+        apiValues: SøknadApiData;
+        apiValuesValidationErrors: ApiValidationError[] | undefined;
+        harArbeidMenIngenFravær: boolean;
+    }) => {
+        if (!apiValues) {
+            return;
+        }
+        if (harArbeidMenIngenFravær) {
+            await logSenderInnSøknadMedIngenFravær();
+        }
+
+        if (apiValuesValidationErrors === undefined) {
+            setTimeout(() => {
+                // La view oppdatere seg først
+                sendSoknad(apiValues);
+            });
+        } else {
+            document.getElementsByClassName('validationErrorSummary');
         }
     };
-
-    if (soknadSent) {
-        // User is redirected to confirmation page
-        return null;
-    }
 
     return (
         <SøkerdataContextConsumer>
@@ -137,20 +125,12 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}
-                        onValidFormSubmit={() => {
-                            if (apiValuesValidationErrors === undefined) {
-                                setTimeout(() => {
-                                    // La view oppdatere seg først
-                                    sendSoknad(apiValues, søkerdata, harArbeidMenIngenFravær);
-                                });
-                            } else {
-                                document.getElementsByClassName('validationErrorSummary');
-                            }
-                        }}
-                        useValidationErrorSummary={false}
-                        showSubmitButton={apiValuesValidationErrors === undefined}
-                        buttonDisabled={sendingInProgress}
-                        showButtonSpinner={sendingInProgress}>
+                        includeValidationSummary={false}
+                        showButtonSpinner={isPending(sendSoknadStatus.status)}
+                        buttonDisabled={isPending(sendSoknadStatus.status)}
+                        onSendSoknad={() =>
+                            onSendSoknad({ apiValues, apiValuesValidationErrors, harArbeidMenIngenFravær })
+                        }>
                         <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
                             <FormattedMessage id="steg.oppsummering.info" />
                         </CounsellorPanel>
@@ -159,7 +139,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                             <FormBlock>
                                 <ApiValidationSummary
                                     errors={apiValuesValidationErrors}
-                                    søknadStepConfig={søknadStepConfig}
+                                    soknadStepsConfig={søknadStepConfig}
                                 />
                             </FormBlock>
                         )}

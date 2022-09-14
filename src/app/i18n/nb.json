@@ -127,10 +127,12 @@
     "step.sendButtonLabel": "Send inn søknaden",
     "step.sendButtonAriaLabel": "Send inn søknaden",
 
+    "step.opplysninger-om-barnet.nextButtonLabel": "Fortsett",
     "step.opplysninger-om-barnet.pageTitle": "Pleiepengesøknad - opplysninger om barnet",
     "step.opplysninger-om-barnet.stepTitle": "Barn",
     "step.opplysninger-om-barnet.stepIndicatorLabel": "Om barnet",
 
+    "step.tidsrom.nextButtonLabel": "Fortsett",
     "step.tidsrom.pageTitle": "Pleiepengesøknad - periode",
     "step.tidsrom.stepTitle": "Perioden med pleiepenger",
     "step.tidsrom.stepIndicatorLabel": "Periode",
@@ -148,22 +150,27 @@
     "steg.tidsrom.ferieuttakIPerioden.modalTitle": "Ferie",
     "steg.tidsrom.ferieuttakIPerioden.addLabel": "Legg til ferie",
 
+    "step.arbeidssituasjon.nextButtonLabel": "Fortsett",
     "step.arbeidssituasjon.pageTitle": "Pleiepengesøknad - opplysninger om din arbeidssituasjon",
     "step.arbeidssituasjon.stepTitle": "Arbeidssituasjonen din",
     "step.arbeidssituasjon.stepIndicatorLabel": "Om din arbeidssituasjon",
 
+    "step.arbeidstid.nextButtonLabel": "Fortsett",
     "step.arbeidstid.pageTitle": "Pleiepengesøknad - opplysninger om arbeidstid",
     "step.arbeidstid.stepTitle": "Jobb i søknadsperioden",
     "step.arbeidstid.stepIndicatorLabel": "Jobb i søknadsperioden",
 
+    "step.omsorgstilbud.nextButtonLabel": "Fortsett",
     "step.omsorgstilbud.pageTitle": "Pleiepengesøknad - omsorgstilbud",
     "step.omsorgstilbud.stepTitle": "Omsorgstilbud i søknadsperioden",
     "step.omsorgstilbud.stepIndicatorLabel": "Omsorgstilbud i søknadsperioden",
 
+    "step.nattevåkOgBeredskap.nextButtonLabel": "Fortsett",
     "step.nattevåkOgBeredskap.pageTitle": "Pleiepengesøknad - nattevåk og beredskap",
     "step.nattevåkOgBeredskap.stepTitle": "Nattevåk og beredskap",
     "step.nattevåkOgBeredskap.stepIndicatorLabel": "Nattevåk og beredskap",
 
+    "step.medlemskap.nextButtonLabel": "Fortsett",
     "step.medlemskap.pageTitle": "Pleiepengesøknad - medlemskap",
     "step.medlemskap.stepTitle": "Medlemskap",
     "step.medlemskap.veileder": "Medlemskap i folketrygden er nøkkelen til rettigheter fra NAV. Hvis du bor eller jobber i Norge er du vanligvis medlem. Du kan lese mer om medlemskap på",
@@ -174,10 +181,12 @@
 
     "medlemskap.summary.header": "Medlemskap i folketrygden",
 
+    "step.legeerklaering.nextButtonLabel": "Fortsett",
     "step.legeerklaering.pageTitle": "Pleiepengesøknad - legeerklæring",
     "step.legeerklaering.stepTitle": "Last opp legeerklæring",
     "step.legeerklaering.stepIndicatorLabel": "Last opp din legeerklæring",
 
+    "step.oppsummering.nextButtonLabel": "Send inn søknad",
     "step.oppsummering.pageTitle": "Pleiepengesøknad - oppsummering",
     "step.oppsummering.stepTitle": "Oppsummering",
     "step.oppsummering.stepIndicatorLabel": "Oppsummering",
@@ -249,6 +258,8 @@
 
     "steg.footer.avbryt": "Avbryt og slett søknad",
     "steg.footer.fortsettSenere": "Avslutt og fortsett senere",
+    "steg.footer.cancelOrContinueLater.label": "Avbryt eller fortsett senere",
+
     "steg.omBarnet.hvilketBarn.spm": "Hvilket barn gjelder søknaden?",
     "steg.omBarnet.hvilketBarn.description.tittel": "Hva gjør jeg når jeg pleier flere barn samtidig?",
     "steg.omBarnet.hvilketBarn.description.info.1": "Når du pleier flere barn samtidig, skal du sende én søknad som gjelder samlet for barna du pleier. Vi registrerer og behandler søknaden din basert kun på ett av barna, selv om du pleier flere. Derfor kan du kun krysse av for ett av barna her.",
@@ -462,6 +473,8 @@
     "page.confirmation.dinePP.list.item.3": "Melde fra om endring",
     "page.confirmation.dinePP.list.item.4": "Få informasjon om saksgang",
     "page.confirmation.dinePP.lenke": "GÅ TIL DINE PLEIEPENGER",
+
+    "page.error.pageTitle": "Noe gikk galt ...",
 
     "page.generalErrorPage.sidetittel": "Feil",
     "page.generalErrorPage.tittel": "Noe gikk galt...",

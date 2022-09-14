@@ -1,8 +1,6 @@
-import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
+import { StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import {
     arbeidssituasjonStepIsValid,
@@ -15,66 +13,65 @@ import {
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
 
-export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
-    const conf = stepConfig[stepId];
-    return {
-        pageTitle: intlHelper(intl, conf.pageTitle),
-        stepTitle: intlHelper(intl, conf.stepTitle),
-        stepIndicatorLabel: intlHelper(intl, conf.stepIndicatorLabel),
-        nextButtonLabel: conf.nextButtonLabel ? intlHelper(intl, conf.nextButtonLabel) : undefined,
-        nextButtonAriaLabel: conf.nextButtonAriaLabel ? intlHelper(intl, conf.nextButtonAriaLabel) : undefined,
-    };
+export const isStepAvailable = (formValues: SøknadFormValues, stepID: StepID) => {
+    switch (stepID) {
+        case StepID.OPPLYSNINGER_OM_BARNET:
+            return welcomingPageIsValid(formValues);
+        case StepID.TIDSROM:
+            return welcomingPageIsValid(formValues) && opplysningerOmBarnetStepIsValid(formValues);
+        case StepID.ARBEIDSSITUASJON:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues)
+            );
+        case StepID.ARBEIDSTID:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid()
+            );
+        case StepID.OMSORGSTILBUD:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid()
+            );
+        case StepID.NATTEVÅK_OG_BEREDSKAP:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid()
+            );
+        case StepID.MEDLEMSKAP:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid()
+            );
+        case StepID.LEGEERKLÆRING:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid() &&
+                medlemskapStepIsValid(formValues)
+            );
+        case StepID.SUMMARY:
+            return (
+                welcomingPageIsValid(formValues) &&
+                opplysningerOmBarnetStepIsValid(formValues) &&
+                opplysningerOmTidsromStepIsValid(formValues) &&
+                arbeidssituasjonStepIsValid() &&
+                medlemskapStepIsValid(formValues) &&
+                legeerklæringStepIsValid()
+            );
+    }
 };
-
-export const opplysningerOmBarnetStepAvailable = (formData: SøknadFormValues) => welcomingPageIsValid(formData);
-
-export const opplysningerOmTidsromStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) && opplysningerOmBarnetStepIsValid(formData);
-
-export const arbeidssituasjonStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData);
-
-export const arbeidIPeriodeStepIsAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid();
-
-export const omsorgstilbudStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid();
-
-export const nattevåkOgBeredskapStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid() &&
-    omsorgstilbudStepAvailable(formData);
-
-export const medlemskapStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid();
-
-export const legeerklæringStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid() &&
-    medlemskapStepIsValid(formData);
-
-export const oppsummeringStepAvailable = (formData: SøknadFormValues) =>
-    welcomingPageIsValid(formData) &&
-    opplysningerOmBarnetStepIsValid(formData) &&
-    opplysningerOmTidsromStepIsValid(formData) &&
-    arbeidssituasjonStepIsValid() &&
-    medlemskapStepIsValid(formData) &&
-    legeerklæringStepIsValid();
 
 export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormValues): boolean => {
     return (

@@ -1,4 +1,5 @@
 export * from './Arbeidsgiver';
+export * from './RegistrertBarn';
 export * from './BarnRelasjon';
 export * from './ResourceType';
 export * from './Søker';

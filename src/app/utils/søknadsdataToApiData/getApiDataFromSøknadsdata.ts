@@ -1,7 +1,7 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { RegistrerteBarn } from '../../types';
-import { MELLOMLAGRING_VERSION } from '../../types/SøknadTempStorageData';
+import { MELLOMLAGRING_VERSION } from '../../types/SøknadMellomlagring';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
