@@ -60,6 +60,7 @@ const TidsromStep: React.FunctionComponent<SøknadFormStepBeforeValidSubmitProps
     };
 
     const visInfoOmUtenlandsopphold =
+        values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES &&
         values.utenlandsoppholdIPerioden &&
         harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 

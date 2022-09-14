@@ -33,7 +33,6 @@ jest.mock('./../../utils/featureToggleUtils', () => {
 });
 
 const formData: Partial<SøknadFormValues> = {};
-type periodeFormDataPart = Pick<SøknadFormValues, SøknadFormField.periodeFra | SøknadFormField.periodeTil>;
 
 describe('stepValidation tests', () => {
     describe('welcomingPageIsValid', () => {

@@ -121,7 +121,7 @@ const OppsummeringStep = ({ søknadsdato }: Props) => {
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
-
+                console.log('apiValues: ', apiValues);
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}

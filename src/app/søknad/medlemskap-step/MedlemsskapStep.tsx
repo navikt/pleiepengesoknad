@@ -83,7 +83,7 @@ const MedlemsskapStep = ({ søknadsdato }: Props) => {
                         maxDate={neste12Måneder.to}
                         labels={{
                             addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
-                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
+                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.listeTittel'),
                             modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdNeste12'),
                         }}
                         validate={validateUtenlandsoppholdNeste12Mnd}
