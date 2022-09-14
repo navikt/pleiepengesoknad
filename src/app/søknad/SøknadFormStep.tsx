@@ -15,6 +15,9 @@ import { useSøknadContext } from './SøknadContext';
 import SøknadFormComponents from './SøknadFormComponents';
 // import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
+import { useFormikContext } from 'formik';
+import { useSøknadsdataContext } from './SøknadsdataContext';
+import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 
 export interface SøknadFormStepBeforeValidSubmitProps {
     onBeforeValidSubmit?: () => Promise<boolean>;
@@ -53,6 +56,8 @@ const SoknadFormStep: React.FunctionComponent<Props & SøknadFormStepBeforeValid
     const stepConfig = soknadStepsConfig[id];
     const texts = soknadStepUtils.getStepTexts(intl, stepConfig);
     const applicationTitle = intlHelper(intl, 'application.title');
+    const { values } = useFormikContext<SøknadFormValues>();
+    const { setSøknadsdata } = useSøknadsdataContext();
 
     useLogSidevisning(id);
 
@@ -63,6 +68,9 @@ const SoknadFormStep: React.FunctionComponent<Props & SøknadFormStepBeforeValid
         const canContinue = onBeforeValidSubmit === undefined || (await onBeforeValidSubmit());
         if (canContinue) {
             gotoNextStepFromStep(id);
+            setTimeout(() => {
+                setSøknadsdata(getSøknadsdataFromFormValues(values));
+            });
         }
     };
 

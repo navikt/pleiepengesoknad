@@ -257,12 +257,6 @@ const Søknad: React.FunctionComponent<Props> = ({ søker, registrerteBarn, mell
                             const navigateToNextStepFromStep = async (stepID: StepID) => {
                                 const step = getSøknadStepsConfig(values)[stepID];
                                 const stepToPersist = step.nextStep;
-                                const søknadsdata = getSøknadsdataFromFormValues(values);
-
-                                // /** Oppdater søknadsdata etter render */
-                                setTimeout(() => {
-                                    setSøknadsdata(søknadsdata);
-                                });
 
                                 if (stepToPersist && søknadId) {
                                     try {

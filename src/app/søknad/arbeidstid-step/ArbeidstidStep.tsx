@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
@@ -9,23 +10,24 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
+import { UserHashInfo } from '../../api/endpoints/mellomlagringEndpoint';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
 import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
+import { ConfirmationDialog } from '../../types/ConfirmationDialog';
 import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import { getSøknadsdataFromFormValues } from '../../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
+import { getIngenFraværConfirmationDialog } from '../confirmation-dialogs/ingenFraværConfirmation';
 import SøknadFormStep, { SøknadFormStepBeforeValidSubmitProps } from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
 import { StepID } from '../søknadStepsConfig';
 import ArbeidIPeriodeSpørsmål from './components/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
-import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
-import { UserHashInfo } from '../../api/endpoints/mellomlagringEndpoint';
 import { getArbeidsforhold, harFraværIPerioden } from './utils/arbeidstidUtils';
-import { ConfirmationDialog } from '../../types/ConfirmationDialog';
-import { getIngenFraværConfirmationDialog } from '../confirmation-dialogs/ingenFraværConfirmation';
-import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
+import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
+
 interface Props {
     periode: DateRange;
     søknadId: string;
@@ -48,9 +50,8 @@ const ArbeidstidStep = ({ periode, søknadId, søkerInfo }: Props & SøknadFormS
         return <GeneralErrorPage />;
     }
 
-    const {
-        values: { ansatt_arbeidsforhold, frilans, selvstendig },
-    } = formikProps;
+    const { values } = formikProps;
+    const { ansatt_arbeidsforhold, frilans, selvstendig } = values;
 
     const periodeSomSelvstendigISøknadsperiode =
         selvstendig.harHattInntektSomSN === YesOrNo.YES && selvstendig.virksomhet !== undefined
@@ -67,8 +68,8 @@ const ArbeidstidStep = ({ periode, søknadId, søkerInfo }: Props & SøknadFormS
             onStepCleanup={(values) => cleanupArbeidstidStep(values, arbeid, periode)}
             onBeforeValidSubmit={() => {
                 return new Promise((resolve) => {
-                    resolve(true);
-                    if (søknadsdata.arbeid && harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false) {
+                    const { arbeid } = getSøknadsdataFromFormValues(values);
+                    if (arbeid && harFraværIPerioden(getArbeidsforhold(arbeid)) === false) {
                         setConfirmationDialog(
                             getIngenFraværConfirmationDialog({
                                 onCancel: () => {
@@ -82,6 +83,7 @@ const ArbeidstidStep = ({ periode, søknadId, søkerInfo }: Props & SøknadFormS
                                 },
                             })
                         );
+                        resolve(false);
                     } else {
                         resolve(true);
                     }
