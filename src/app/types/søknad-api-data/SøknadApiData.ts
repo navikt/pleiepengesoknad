@@ -35,7 +35,10 @@ export interface TidEnkeltdagApiData {
 }
 
 export interface OmsorgstilbudApiData {
-    erLiktHverUke: boolean;
+    erLiktHverUke?: boolean;
+    erIOmsorgstilbudFortidApi?: boolean;
+    erIOmsorgstilbudFremtidApi?: boolean;
+    erIOmsorgstilbudFremtidUsikkerApi?: boolean;
     enkeltdager?: TidEnkeltdagApiData[];
     ukedager?: TimerFasteDagerApiData;
 }

@@ -227,6 +227,13 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 <>
                     {inkluderFastPlan && (
                         <FormBlock>
+                            {periodeFortidFremtid && (
+                                <Box padBottom="l">
+                                    <Systemtittel tag={'h2'}>
+                                        <FormattedMessage id="steg.omsorgstilbud.erLiktHverUke.spm.tittel" />
+                                    </Systemtittel>
+                                </Box>
+                            )}
                             <SøknadFormComponents.YesOrNoQuestion
                                 legend={intlHelper(
                                     intl,
