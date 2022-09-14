@@ -3,7 +3,7 @@ import { OmsorgstilbudFormData } from '../../../types/SøknadFormData';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
 
 const omsorgstilbud: OmsorgstilbudFormData = {
-    erIOmsorgstilbud: YesOrNo.YES,
+    erIOmsorgstilbudFortid: YesOrNo.YES,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,
 };
@@ -31,7 +31,7 @@ describe('extractOmsorgstibudSøknadsdata', () => {
     it('returnerer undefined dersom erIOmsorgstilbud === NO', () => {
         const result = extractOmsorgstibudSøknadsdata({
             ...omsorgstilbud,
-            erIOmsorgstilbud: YesOrNo.NO,
+            erIOmsorgstilbudFortid: YesOrNo.NO,
         });
         expect(result).toBeUndefined();
     });
