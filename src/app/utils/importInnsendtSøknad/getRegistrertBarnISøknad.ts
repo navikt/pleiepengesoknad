@@ -17,6 +17,6 @@ export const getRegistrertBarnISøknad = (
     registrerteBarn: RegistrerteBarn[]
 ): RegistrerteBarn | undefined => {
     const barn = registrerteBarn.filter((registrertBarn) => isBarnEtRegistrertBarn(barnISøknad, registrertBarn));
-    // Returner kun når det er bare én match, andre tilfeller er ikke tatt høyde for
+    /** Returner kun når det er bare én match, andre tilfeller er ikke tatt høyde for */
     return barn.length === 1 ? barn[0] : undefined;
 };

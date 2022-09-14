@@ -8,16 +8,13 @@ import getFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFo
 import soknadStepUtils from '@navikt/sif-common-soknad/lib/soknad-step/soknadStepUtils';
 import StepSubmitButton from '@navikt/sif-common-soknad/lib/soknad-step/step-submit-button/StepSubmitButton';
 import Step from '@navikt/sif-common-soknad/lib/soknad-step/step/Step';
-// import { useFormikContext } from 'formik';
+import { useFormikContext } from 'formik';
 import { SøknadFormValues } from '../types/SøknadFormValues';
-// import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
+import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { useSøknadContext } from './SøknadContext';
 import SøknadFormComponents from './SøknadFormComponents';
-// import { useSøknadsdataContext } from './SøknadsdataContext';
-import { StepID } from './søknadStepsConfig';
-import { useFormikContext } from 'formik';
 import { useSøknadsdataContext } from './SøknadsdataContext';
-import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
+import { StepID } from './søknadStepsConfig';
 
 export interface SøknadFormStepBeforeValidSubmitProps {
     onBeforeValidSubmit?: () => Promise<boolean>;

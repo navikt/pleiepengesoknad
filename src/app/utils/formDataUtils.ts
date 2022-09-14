@@ -2,14 +2,16 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
-import { SøknadFormValues } from '../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
 
-export const getSøknadsperiodeFromFormData = ({
-    periodeFra,
-    periodeTil,
-}: Partial<SøknadFormValues>): DateRange | undefined => {
+export const getSøknadsperiodeFromFormData = (
+    formValues: Pick<SøknadFormValues, SøknadFormField.periodeFra | SøknadFormField.periodeTil>
+): DateRange | undefined => {
+    const { periodeFra, periodeTil } = formValues;
+
     const fraDato = datepickerUtils.getDateFromDateString(periodeFra);
     const tilDato = datepickerUtils.getDateFromDateString(periodeTil);
+
     if (fraDato && tilDato) {
         return {
             from: fraDato,

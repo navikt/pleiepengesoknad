@@ -66,7 +66,7 @@ const ArbeidIPeriodeSpørsmål = ({
         arbeidsforhold: {
             type: arbeidsforholdType,
             arbeidsstedNavn,
-            jobberNormaltTimer: undefined, // normalarbeidstid.timerPerUke,
+            jobberNormaltTimer: undefined,
         },
         periode,
     });

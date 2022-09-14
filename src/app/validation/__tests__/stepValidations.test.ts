@@ -1,4 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import * as fieldValidations from '../fieldValidations';
@@ -32,6 +33,7 @@ jest.mock('./../../utils/featureToggleUtils', () => {
 });
 
 const formData: Partial<SøknadFormValues> = {};
+type periodeFormDataPart = Pick<SøknadFormValues, SøknadFormField.periodeFra | SøknadFormField.periodeTil>;
 
 describe('stepValidation tests', () => {
     describe('welcomingPageIsValid', () => {
@@ -71,24 +73,25 @@ describe('stepValidation tests', () => {
     });
 
     describe('opplysningerOmTidsromStepIsValid', () => {
-        const fromDate = dayjs().toISOString();
-        const toDate = dayjs().toISOString();
+        const fromDate = dateToISODate(dayjs().toDate());
+        const toDate = dateToISODate(dayjs().toDate());
+
         it(`should be valid if both ${SøknadFormField.periodeFra} and ${SøknadFormField.periodeTil} are defined`, () => {
             formData[SøknadFormField.periodeFra] = fromDate;
             formData[SøknadFormField.periodeTil] = toDate;
-            expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormValues)).toBe(true);
+            expect(opplysningerOmTidsromStepIsValid(formData)).toBe(true);
         });
 
         it(`should be invalid if ${SøknadFormField.periodeFra} is undefined`, () => {
             formData[SøknadFormField.periodeFra] = undefined;
             formData[SøknadFormField.periodeTil] = toDate;
-            expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormValues)).toBe(false);
+            expect(opplysningerOmTidsromStepIsValid(formData)).toBe(false);
         });
 
         it(`should be invalid if ${SøknadFormField.periodeTil} is undefined`, () => {
             formData[SøknadFormField.periodeFra] = fromDate;
             formData[SøknadFormField.periodeTil] = undefined;
-            expect(opplysningerOmTidsromStepIsValid(formData as SøknadFormValues)).toBe(false);
+            expect(opplysningerOmTidsromStepIsValid(formData)).toBe(false);
         });
     });
 

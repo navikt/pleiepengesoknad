@@ -40,7 +40,7 @@ export const arbeiderAndreEnkeltdagerEnnNormalt = (
 ): boolean => {
     const ukedager = getWeekdaysWithDuration(normalt);
     if (ukedager.length === 5) {
-        return false; // Jobber alle ukedager
+        return false; /** Jobber alle ukedager */
     }
     const dagerMedTid = getDatesWithDurationLongerThanZero(enkeltdager);
     const harDagerPåAndreDager = dagerMedTid.some((isoDate) => {

@@ -28,7 +28,6 @@ export const getArbeidIPeriodeEnkeltdagValidator =
     (duration) => {
         const weekday = getWeekdayFromDate(date);
         if (!weekday) {
-            // lørdag eller søndag
             return undefined;
         }
         const dag = dateFormatter.dayDateShortMonthYear(date);
@@ -46,23 +45,6 @@ export const getArbeidIPeriodeEnkeltdagValidator =
 
         return undefined;
     };
-
-// export const getArbeidIPeriodeFasteDagerDagValidator =
-//     (intlValues: ArbeidIPeriodeIntlValues, getNavnPåUkedag: (weekday: Weekday) => string) =>
-//     (weekday: Weekday, value: Duration | undefined) => {
-//         const dag = getNavnPåUkedag(weekday);
-//         const error = getTimeValidator({
-//             min: { hours: 0, minutes: 0 },
-//             max: { hours: 24, minutes: 0 },
-//         })(value);
-//         return error
-//             ? {
-//                   key: `validation.arbeidIPeriode.fast.tid.${error}`,
-//                   keepKeyUnaltered: true,
-//                   values: { ...intlValues, dag },
-//               }
-//             : undefined;
-//     };
 
 export const getArbeidIPeriodeProsentAvNormaltValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: string) => {
     const min = 1;

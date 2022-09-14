@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
-import { SøknadFormValues } from '../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
@@ -29,7 +29,9 @@ export const opplysningerOmBarnetStepIsValid = ({
     return formIsValid;
 };
 
-export const opplysningerOmTidsromStepIsValid = (formValues: Partial<SøknadFormValues>) => {
+export const opplysningerOmTidsromStepIsValid = (
+    formValues: Pick<SøknadFormValues, SøknadFormField.periodeFra | SøknadFormField.periodeTil>
+) => {
     return getSøknadsperiodeFromFormData(formValues) !== undefined;
 };
 

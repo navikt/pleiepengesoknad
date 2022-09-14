@@ -75,7 +75,7 @@ const OppsummeringStep = ({ søknadsdato }: Props) => {
 
         if (apiValuesValidationErrors === undefined) {
             setTimeout(() => {
-                // La view oppdatere seg først
+                /** La view oppdatere seg først */
                 sendSoknad(apiValues);
             });
         } else {

@@ -22,7 +22,6 @@ function usePersistSoknad() {
     const { logUserLoggedOut, logApiError } = useAmplitudeInstance();
     const { history } = useHistory();
     const { values: stateFormValues } = useFormikContext<SøknadFormValues>();
-    // const søkerdata = useContext(SøkerdataContext);
     const { importertSøknadMetadata: stateImportertSøknadMetadata } = useSøknadsdataContext();
 
     async function doPersist({ søknadId, stepID, formValues, importertSøknadMetadata, søkerInfo }: PersistSoknadProps) {

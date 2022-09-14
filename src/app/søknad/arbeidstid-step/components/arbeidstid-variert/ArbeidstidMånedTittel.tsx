@@ -12,10 +12,8 @@ import {
     getDateDurationMapFromDurationWeekdaysInDateRange,
     getDatesInDateRange,
     getDatesWithDurationLongerThanZero,
-    // getDatesWithDurationLongerThanZero,
     getDurationsInDateRange,
     numberDurationAsDuration,
-    // numberDurationAsDuration,
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
@@ -27,7 +25,6 @@ interface Props {
     måned: DateRange;
     faktiskArbeid: DateDurationMap;
     normalarbeidstidFasteUkedager: DurationWeekdays;
-    // antallDagerMedTid: number;
 }
 
 const summerFraværIPeriode = (periode: DateRange, normalt: DateDurationMap, faktisk: DateDurationMap): Duration => {
