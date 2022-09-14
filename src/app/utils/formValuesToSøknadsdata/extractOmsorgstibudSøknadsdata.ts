@@ -5,6 +5,7 @@ import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata
 export const extractOmsorgstibudSøknadsdata = (
     omsorgstilbud?: OmsorgstilbudFormData
 ): OmsorgstilbudSøknadsdata | undefined => {
+    console.log('omsorgstilbud: ', omsorgstilbud);
     if (
         !omsorgstilbud ||
         (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
@@ -33,9 +34,13 @@ export const extractOmsorgstibudSøknadsdata = (
         };
     }
 
-    if (erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && erIOmsorgstilbudFortid === undefined) {
+    if (
+        erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW &&
+        (erIOmsorgstilbudFortid === undefined || erIOmsorgstilbudFortid === YesOrNo.NO)
+    ) {
         return {
             type: 'erIOmsorgstilbudFremtidUsikker',
+            erIOmsorgstilbudFortid: erIOmsorgstilbudFortid,
         };
     }
 

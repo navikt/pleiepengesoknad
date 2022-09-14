@@ -436,6 +436,14 @@
     "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
 
     "steg.oppsummering.omsorgstilbud.header": "Omsorgstilbud i søknadsperioden",
+    "steg.oppsummering.omsorgstilbud.fortid.spm": "Har barnet vært fast og regelmessig i et omsorgstilbud frem til nå?",
+    "steg.oppsummering.omsorgstilbud.fortid.svar.JA": "Ja, i hele eller deler av perioden",
+    "steg.oppsummering.omsorgstilbud.fortid.svar.NEI": "Nei",
+    "steg.oppsummering.omsorgstilbud.fremtid.spm": "Skal barnet være fast og regelmessig i et omsorgstilbud fremover i tid?",
+    "steg.oppsummering.omsorgstilbud.fremtid.svar.JA": "Ja, i hele eller deler av perioden",
+    "steg.oppsummering.omsorgstilbud.fremtid.svar.NEI": "Nei",
+    "steg.oppsummering.omsorgstilbud.fremtid.svar.USIKKER": "Usikker",
+    "steg.oppsummering.omsorgstilbud.fortidFremtid.spm": "Er barnet fast og regelmessig i et omsorgstilbud i perioden?",
     "steg.oppsummering.nattevåkBeredskap.header": "Nattevåk og beredskap",
     "steg.oppsummering.omsorgstilbud.fast.header": "Omsorgstilbud er likt hver uke i perioden:",
 

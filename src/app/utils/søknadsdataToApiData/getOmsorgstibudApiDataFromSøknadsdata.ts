@@ -1,5 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { OmsorgstilbudSvarApi, SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
@@ -9,23 +9,25 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
     søknadsperiode: DateRange,
     omsorgstilbud?: OmsorgstilbudSøknadsdata
 ): OmsorgstilbudApiData | undefined => {
-    const getErIOmsorgstilbudApi = (erIOmsorgstilbud?: YesOrNo) =>
-        erIOmsorgstilbud
-            ? erIOmsorgstilbud === YesOrNo.YES
-                ? true
-                : erIOmsorgstilbud === YesOrNo.NO
-                ? false
-                : undefined
-            : undefined;
+    const getOmsorgstilbudSvarApi = (erIOmsorgstilbud?: YesOrNo): OmsorgstilbudSvarApi | undefined => {
+        switch (erIOmsorgstilbud) {
+            case YesOrNo.YES:
+                return OmsorgstilbudSvarApi.JA;
+            case YesOrNo.NO:
+                return OmsorgstilbudSvarApi.NEI;
+            case YesOrNo.DO_NOT_KNOW:
+                return OmsorgstilbudSvarApi.USIKKER;
+            default:
+                return undefined;
+        }
+    };
 
     if (omsorgstilbud?.type === 'erIOmsorgstilbudFasteDager') {
         return {
             omsorgstilbud: {
                 erLiktHverUke: true,
-                erIOmsorgstilbudFortidApi: getErIOmsorgstilbudApi(omsorgstilbud.erIOmsorgstilbudFortid),
-                erIOmsorgstilbudFremtidApi: getErIOmsorgstilbudApi(omsorgstilbud.erIOmsorgstilbudFremtid),
-                erIOmsorgstilbudFremtidUsikkerApi:
-                    omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW ? true : undefined,
+                svarFortid: getOmsorgstilbudSvarApi(omsorgstilbud.erIOmsorgstilbudFortid),
+                svarFremtid: getOmsorgstilbudSvarApi(omsorgstilbud.erIOmsorgstilbudFremtid),
                 ukedager: getFasteDagerApiData(omsorgstilbud.fasteDager),
             },
         };
@@ -35,11 +37,8 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
         return {
             omsorgstilbud: {
                 erLiktHverUke: false,
-                erIOmsorgstilbudFortidApi: getErIOmsorgstilbudApi(omsorgstilbud.erIOmsorgstilbudFortid),
-                erIOmsorgstilbudFremtidApi: getErIOmsorgstilbudApi(omsorgstilbud.erIOmsorgstilbudFremtid),
-                erIOmsorgstilbudFremtidUsikkerApi:
-                    omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW ? true : undefined,
-
+                svarFortid: getOmsorgstilbudSvarApi(omsorgstilbud.erIOmsorgstilbudFortid),
+                svarFremtid: getOmsorgstilbudSvarApi(omsorgstilbud.erIOmsorgstilbudFremtid),
                 enkeltdager: getEnkeltdagerIPeriodeApiData(omsorgstilbud.enkeltdager, søknadsperiode),
             },
         };
@@ -48,7 +47,8 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
     if (omsorgstilbud?.type === 'erIOmsorgstilbudFremtidUsikker') {
         return {
             omsorgstilbud: {
-                erIOmsorgstilbudFremtidUsikkerApi: true,
+                svarFortid: OmsorgstilbudSvarApi.NEI,
+                svarFremtid: OmsorgstilbudSvarApi.USIKKER,
             },
         };
     }

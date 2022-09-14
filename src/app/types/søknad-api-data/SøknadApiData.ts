@@ -34,11 +34,15 @@ export interface TidEnkeltdagApiData {
     tid: ISODuration;
 }
 
+export enum OmsorgstilbudSvarApi {
+    JA = 'JA',
+    NEI = 'NEI',
+    USIKKER = 'USIKKER',
+}
 export interface OmsorgstilbudApiData {
     erLiktHverUke?: boolean;
-    erIOmsorgstilbudFortidApi?: boolean;
-    erIOmsorgstilbudFremtidApi?: boolean;
-    erIOmsorgstilbudFremtidUsikkerApi?: boolean;
+    svarFortid?: OmsorgstilbudSvarApi;
+    svarFremtid?: OmsorgstilbudSvarApi;
     enkeltdager?: TidEnkeltdagApiData[];
     ukedager?: TimerFasteDagerApiData;
 }

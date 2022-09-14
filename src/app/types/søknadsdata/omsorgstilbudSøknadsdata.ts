@@ -3,6 +3,7 @@ import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib'
 
 export interface ErIOmsorgstilbudFremtidUsikkerSøknadsdata {
     type: 'erIOmsorgstilbudFremtidUsikker';
+    erIOmsorgstilbudFortid?: YesOrNo.NO;
 }
 
 export interface ErIOmsorgstilbudFasteDagerSøknadsdata {
