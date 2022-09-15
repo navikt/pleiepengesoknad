@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -10,29 +10,21 @@ import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import Lenke from 'nav-frontend-lenker';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
+import InnsendtSøknadCard from '../../components/innsendt-søknad-card/InnsendtSøknadCard';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { RegistrerteBarn } from '../../types';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { dateFormatter } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     forrigeSøknad?: ImportertSøknad;
     onConfirm: () => void;
-    onOpenDinePlikterModal: () => void;
 }
 
 const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormValues, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
 
-const getBarnNavn = (barn: RegistrerteBarn): string => {
-    return formatName(barn.fornavn, barn.etternavn, barn.mellomnavn);
-};
-
-const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Props) => {
+const SamtykkeForm = ({ forrigeSøknad, onConfirm }: Props) => {
     const intl = useIntl();
     return (
         <AppForm.Form
@@ -40,37 +32,40 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
             includeButtons={false}
             formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}>
             {forrigeSøknad && (
-                <Box margin="xl">
-                    <Undertittel tag="h3">Ønsker du å bruke informasjon fra din forrige søknad?</Undertittel>
-                    <p>
-                        Du sendte inn en søknad om pleiepenger for {getBarnNavn(forrigeSøknad.metaData.barn)} den{' '}
-                        {dateFormatter.dateShortMonthYear(forrigeSøknad.metaData.mottatt)}. Ønsker du at vi skal fylle
-                        ut denne nye søknaden med informasjon fra den forrige søknaden?
-                    </p>
-                    <ExpandableInfo title="Hva betyr det?">
-                        <p>
-                            Det betyr at vi fyller ut denne nye søknaden med innhold fra den forrige. Perioden må du
-                            velge på nytt. Informasjon som var knytter til datoer som er utenfor denne nye perioden, må
-                            du endre når du går gjennom søknaden.
-                        </p>
-                        <p>
-                            Det er viktig at du kontroller all informasjonen og ser at det fortsatt er riktig for den
-                            nye perioden.
-                        </p>
-                        <p>
-                            Informasjonen som kopieres over er kun basert på forrige søknad, og tar ikke høyde for
-                            endringer som er gjort i saksbehandlingen etterpå.
-                        </p>
-                    </ExpandableInfo>
+                <>
+                    <InnsendtSøknadCard
+                        barn={forrigeSøknad.metaData.barn}
+                        mottattDato={forrigeSøknad.metaData.mottatt}
+                    />
+                    <Box margin="xl">
+                        <Element tag="h3">Ønsker du å bruke informasjonen du fylte inn i din forrige søknad?</Element>
+                    </Box>
+                    <Box margin="s" padBottom="m">
+                        <ExpandableInfo title="Hva betyr det?">
+                            <p>
+                                Det betyr at vi fyller ut denne nye søknaden med innhold fra den forrige. Perioden må du
+                                velge på nytt. Informasjon som var knytter til datoer som er utenfor denne nye perioden,
+                                må du endre når du går gjennom søknaden.
+                            </p>
+                            <p>
+                                Det er viktig at du kontroller all informasjonen og ser at det fortsatt er riktig for
+                                den nye perioden.
+                            </p>
+                            <p>
+                                Informasjonen som kopieres over er kun basert på forrige søknad, og tar ikke høyde for
+                                endringer som er gjort i saksbehandlingen etterpå.
+                            </p>
+                        </ExpandableInfo>
+                    </Box>
                     <AppForm.YesOrNoQuestion
                         data-testid="brukForrigeSøknad"
                         name={SøknadFormField.brukForrigeSøknad}
                         labels={{
                             yes: 'Ja, bruk informasjon fra forrige søknaden',
-                            no: 'Nei, jeg vil starte med en tom søknad',
+                            no: 'Nei, start en ny søknad',
                         }}
                     />
-                </Box>
+                </>
             )}
             <FormBlock>
                 <AppForm.ConfirmationCheckbox
@@ -78,16 +73,16 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
                     name={SøknadFormField.harForståttRettigheterOgPlikter}
                     data-cy={'harForståttRettigheterOgPlikter'}
                     validate={getCheckedValidator()}>
-                    <FormattedMessage
-                        id="welcomingPage.samtykke.harForståttLabel"
-                        values={{
-                            plikterLink: (
-                                <Lenke href="#" onClick={onOpenDinePlikterModal}>
-                                    {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
-                                </Lenke>
-                            ),
-                        }}
-                    />
+                    <Box padBottom="s">
+                        <Element tag="h3">Takk for at du er ærlig!</Element>
+                        <ul style={{ margin: '.5rem', paddingLeft: '1rem' }}>
+                            <li style={{ margin: '.5rem 0' }}>
+                                Jeg forstår at hvis jeg gir uriktige eller holder tilbake opplysninger kan det få
+                                konsekvenser for retten min til pleiepenger.
+                            </li>
+                            <li>Jeg har lest og forstått det som står på nav.no/rettogplikt</li>
+                        </ul>
+                    </Box>
                 </AppForm.ConfirmationCheckbox>
             </FormBlock>
             <FormBlock>

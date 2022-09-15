@@ -12,7 +12,6 @@ import { Sidetittel } from 'nav-frontend-typografi';
 import { useSøknadContext } from '../../søknad/SøknadContext';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
-import DinePlikterContent from './dine-plikter-content/DinePlikterContent';
 import SamtykkeForm from './SamtykkeForm';
 import './welcomingPage.less';
 
@@ -28,7 +27,7 @@ interface DialogState {
 
 const WelcomingPage: React.FunctionComponent<Props> = ({ forrigeSøknad }) => {
     const [dialogState, setDialogState] = useState<DialogState>({});
-    const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
+    const { behandlingAvPersonopplysningerModalOpen } = dialogState;
 
     const { startSoknad } = useSøknadContext();
     const intl = useIntl();
@@ -54,12 +53,14 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ forrigeSøknad }) => {
                         <FormattedMessage id="welcomingPage.introtittel" />
                     </Sidetittel>
                 </Box>
-
-                <SamtykkeForm
-                    onConfirm={startSoknad}
-                    forrigeSøknad={forrigeSøknad}
-                    onOpenDinePlikterModal={() => setDialogState({ dinePlikterModalOpen: true })}
-                />
+                <p>
+                    Pleiepengesøknaden gjelder kun for deg. Deler du pleien med andre fyller disse inn sin egen søknad.
+                    Du trenger ingen informasjon om andre i denne søknaden.
+                </p>
+                <p>Søknaden tar mellom 10-15 min å fylle ut.</p>
+                <Box margin="xl">
+                    <SamtykkeForm onConfirm={startSoknad} forrigeSøknad={forrigeSøknad} />
+                </Box>
 
                 <Box margin="xl" className={bem.element('personopplysningModalLenke')}>
                     <ActionLink onClick={() => setDialogState({ behandlingAvPersonopplysningerModalOpen: true })}>
@@ -67,13 +68,6 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ forrigeSøknad }) => {
                     </ActionLink>
                 </Box>
             </Page>
-
-            <InfoDialog
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
-                isOpen={dinePlikterModalOpen === true}
-                onRequestClose={(): void => setDialogState({ dinePlikterModalOpen: false })}>
-                <DinePlikterContent />
-            </InfoDialog>
 
             <InfoDialog
                 isOpen={behandlingAvPersonopplysningerModalOpen === true}

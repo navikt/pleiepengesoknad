@@ -1,0 +1,31 @@
+.innsendtSøknadCard {
+    background-color: #f1f1f1;
+    padding: 1rem;
+    display: flex;
+}
+.innsendtSøknadCard__text {
+    flex: 2 1 0;
+}
+.innsendtSøknadCard__text p {
+    margin: 0.5rem 0;
+}
+.innsendtSøknadCard__icon {
+    padding-left: 1rem;
+    margin-bottom: -1rem;
+    align-self: flex-end;
+}
+.innsendtSøknadCard__icon svg {
+    margin: 0;
+    padding: 0;
+    display: block;
+}
+
+@media screen and (max-width: 420px) {
+    .innsendtSøknadCard {
+        display: block;
+    }
+    .innsendtSøknadCard__icon {
+        display: flex;
+        justify-content: flex-end;
+    }
+}
