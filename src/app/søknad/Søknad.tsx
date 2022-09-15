@@ -35,6 +35,7 @@ import SoknadFormComponents from './SøknadFormComponents';
 import SøknadRoutes from './SøknadRoutes';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { getSøknadStepsConfig, StepID } from './søknadStepsConfig';
+import useLogSøknadInfo from '../hooks/useLogSøknadInfo';
 
 interface Props {
     søker: Søker;
@@ -52,6 +53,7 @@ const Søknad: React.FunctionComponent<Props> = ({ søker, registrerteBarn, mell
     const [sendSoknadStatus, setSendSoknadStatus] = useState<SendSoknadStatus>(initialSendSoknadState);
     const [søknadId, setSøknadId] = useState<string | undefined>();
     const { setSøknadsdata, setImportertSøknadMetadata } = useSøknadsdataContext();
+    const { logStarterSøknadInfo } = useLogSøknadInfo();
 
     const { logSoknadSent, logSoknadStartet, logSoknadFailed, logHendelse, logUserLoggedOut } = useAmplitudeInstance();
 
@@ -122,6 +124,7 @@ const Søknad: React.FunctionComponent<Props> = ({ søker, registrerteBarn, mell
                 importertSøknadMetadata: forrigeSøknad?.metaData,
             });
             await logSoknadStartet(SKJEMANAVN);
+            await logStarterSøknadInfo(forrigeSøknad !== undefined, values.brukForrigeSøknad === YesOrNo.YES);
 
             setSøknadsdata(getSøknadsdataFromFormValues(initialFormValues || initialValues));
             setTimeout(() => {
