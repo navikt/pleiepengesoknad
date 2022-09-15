@@ -40,7 +40,7 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm }: Props) => {
                     <Box margin="xl">
                         <Element tag="h3">Ønsker du å bruke informasjonen du fylte inn i din forrige søknad?</Element>
                     </Box>
-                    <Box margin="s" padBottom="m">
+                    <Box margin="s">
                         <ExpandableInfo title="Hva betyr det?">
                             <p>
                                 Det betyr at vi fyller ut denne nye søknaden med innhold fra den forrige. Perioden må du
@@ -57,14 +57,16 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm }: Props) => {
                             </p>
                         </ExpandableInfo>
                     </Box>
-                    <AppForm.YesOrNoQuestion
-                        data-testid="brukForrigeSøknad"
-                        name={SøknadFormField.brukForrigeSøknad}
-                        labels={{
-                            yes: 'Ja, bruk informasjon fra forrige søknaden',
-                            no: 'Nei, start en ny søknad',
-                        }}
-                    />
+                    <FormBlock margin="l">
+                        <AppForm.YesOrNoQuestion
+                            data-testid="brukForrigeSøknad"
+                            name={SøknadFormField.brukForrigeSøknad}
+                            labels={{
+                                yes: 'Ja, bruk informasjon fra forrige søknaden',
+                                no: 'Nei, start en ny søknad',
+                            }}
+                        />
+                    </FormBlock>
                 </>
             )}
             <FormBlock>
