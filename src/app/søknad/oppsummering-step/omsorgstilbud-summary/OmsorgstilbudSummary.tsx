@@ -22,7 +22,7 @@ interface Props {
 }
 
 const OmsorgstilbudSummary: React.FC<Props> = ({
-    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
+    apiValues: { nattevåk, beredskap, omsorgstilbud },
     søknadsperiode,
 }) => {
     const intl = useIntl();

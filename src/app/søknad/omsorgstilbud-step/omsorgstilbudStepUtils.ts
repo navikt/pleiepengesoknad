@@ -106,3 +106,70 @@ export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: Omsorgsti
 
     return søknadsperiode;
 };
+
+export const visLiktHverUke = (
+    periodeFortidFremtid: boolean,
+    periodeFortid: boolean,
+    periodeFremtid: boolean,
+    omsorgstilbud?: OmsorgstilbudFormData
+): boolean => {
+    if (!omsorgstilbud) {
+        return false;
+    }
+
+    if (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO && omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO) {
+        return false;
+    }
+    if (
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+    ) {
+        return false;
+    }
+
+    if (omsorgstilbud.erIOmsorgstilbudFremtid !== YesOrNo.YES && omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO)
+        return false;
+    if (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES && omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO)
+        return false;
+    if (
+        omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+    )
+        return false;
+
+    if (periodeFortidFremtid && (!omsorgstilbud.erIOmsorgstilbudFortid || !omsorgstilbud.erIOmsorgstilbudFremtid)) {
+        return false;
+    }
+
+    if (periodeFortid && !omsorgstilbud.erIOmsorgstilbudFortid) {
+        return false;
+    }
+
+    if (periodeFremtid && !omsorgstilbud.erIOmsorgstilbudFremtid) {
+        return false;
+    }
+
+    return true;
+};
+
+export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormData): string => {
+    if (
+        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
+        (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.NO || omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)
+    )
+        return 'fortid';
+
+    if (
+        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
+        omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+    )
+        return 'fortidFremtidUsiker';
+
+    if (omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.NO && omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+        return 'fremtid';
+
+    if (omsorgstilbud?.erIOmsorgstilbudFortid === undefined && omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+        return 'kunFremtid';
+
+    return 'fortidFremtid';
+};

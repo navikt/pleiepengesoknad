@@ -5,7 +5,6 @@ import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata
 export const extractOmsorgstibudSøknadsdata = (
     omsorgstilbud?: OmsorgstilbudFormData
 ): OmsorgstilbudSøknadsdata | undefined => {
-    console.log('omsorgstilbud: ', omsorgstilbud);
     if (
         !omsorgstilbud ||
         (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&

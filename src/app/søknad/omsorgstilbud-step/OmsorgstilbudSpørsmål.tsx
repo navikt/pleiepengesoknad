@@ -21,6 +21,8 @@ import {
     søkerFortid,
     søkerFortidFremtid,
     søkerFremtid,
+    visLiktHverUke,
+    getSpmTeksterLiktHverUke,
 } from './omsorgstilbudStepUtils';
 import { Systemtittel } from 'nav-frontend-typografi';
 
@@ -39,84 +41,9 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
     const periodeFremtid = søkerFremtid(periode);
     const periodeFortidFremtid = søkerFortidFremtid(periode);
     const riktigSøknadsperiode = getPeriode(periode, omsorgstilbud);
-    const visValg = () => {
-        if (!omsorgstilbud) {
-            return false;
-        }
+    const skalViseLiktHverUke = visLiktHverUke(periodeFortidFremtid, periodeFortid, periodeFremtid, omsorgstilbud);
+    const tekstLiktHverUke = getSpmTeksterLiktHverUke(omsorgstilbud);
 
-        if (
-            omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
-            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO
-        ) {
-            return false;
-        }
-        if (
-            omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
-            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
-        ) {
-            return false;
-        }
-
-        if (
-            omsorgstilbud.erIOmsorgstilbudFremtid !== YesOrNo.YES &&
-            omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO
-        )
-            return false;
-        if (
-            omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
-            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO
-        )
-            return false;
-        if (
-            omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
-            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
-        )
-            return false;
-
-        if (periodeFortidFremtid && (!omsorgstilbud.erIOmsorgstilbudFortid || !omsorgstilbud.erIOmsorgstilbudFremtid)) {
-            return false;
-        }
-
-        if (periodeFortid && !omsorgstilbud.erIOmsorgstilbudFortid) {
-            return false;
-        }
-
-        if (periodeFremtid && !omsorgstilbud.erIOmsorgstilbudFremtid) {
-            return false;
-        }
-
-        return true;
-    };
-
-    const getSpmTeksterLiktHverUke = (): string => {
-        if (
-            omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
-            (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.NO ||
-                omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)
-        )
-            return 'fortid';
-
-        if (
-            omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
-            omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
-        )
-            return 'fortidFremtidUsiker';
-
-        if (
-            omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.NO &&
-            omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES
-        )
-            return 'fremtid';
-
-        if (
-            omsorgstilbud?.erIOmsorgstilbudFortid === undefined &&
-            omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES
-        )
-            return 'kunFremtid';
-
-        return 'fortidFremtid';
-    };
-    console.log('omsorgstilbud: ', omsorgstilbud);
     return (
         <>
             {(periodeFortid || periodeFortidFremtid) && (
@@ -131,11 +58,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
 
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud_fortid}
-                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFortid.spm', {
-                            fra: prettifyDateFull(periode.from),
-                            til: prettifyDateFull(periode.to),
-                        })}
-                        // description={omsorgstilbudInfo.erIOmsorgstilbud}
+                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFortid.spm')}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
@@ -166,11 +89,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
 
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud_fremtid}
-                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFremtid.spm', {
-                            fra: prettifyDateFull(periode.from),
-                            til: prettifyDateFull(periode.to),
-                        })}
-                        // description={omsorgstilbudInfo.erIOmsorgstilbud}
+                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFremtid.spm')}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
@@ -224,7 +143,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 </Box>
             )}
 
-            {omsorgstilbud && visValg() && (
+            {omsorgstilbud && skalViseLiktHverUke && (
                 <>
                     {inkluderFastPlan && (
                         <FormBlock>
@@ -236,14 +155,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                 </Box>
                             )}
                             <SøknadFormComponents.YesOrNoQuestion
-                                legend={intlHelper(
-                                    intl,
-                                    `steg.omsorgstilbud.erLiktHverUke.spm.${getSpmTeksterLiktHverUke()}`,
-                                    {
-                                        fra: prettifyDateFull(periode.from),
-                                        til: prettifyDateFull(periode.to),
-                                    }
-                                )}
+                                legend={intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.spm.${tekstLiktHverUke}`)}
                                 useTwoColumns={false}
                                 labels={{
                                     yes: intlHelper(intl, 'steg.omsorgstilbud.erLiktHverUke.yes'),

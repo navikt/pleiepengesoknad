@@ -47,7 +47,7 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
     if (omsorgstilbud?.type === 'erIOmsorgstilbudFremtidUsikker') {
         return {
             omsorgstilbud: {
-                svarFortid: OmsorgstilbudSvarApi.NEI,
+                svarFortid: omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO ? OmsorgstilbudSvarApi.NEI : undefined,
                 svarFremtid: OmsorgstilbudSvarApi.USIKKER,
             },
         };
