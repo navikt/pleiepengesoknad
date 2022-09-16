@@ -35,14 +35,13 @@ interface Props {
 const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
-    const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
-
     const periodeFortid = søkerFortid(periode);
     const periodeFremtid = søkerFremtid(periode);
     const periodeFortidFremtid = søkerFortidFremtid(periode);
     const riktigSøknadsperiode = getPeriode(periode, omsorgstilbud);
     const skalViseLiktHverUke = visLiktHverUke(periodeFortidFremtid, periodeFortid, periodeFremtid, omsorgstilbud);
     const tekstLiktHverUke = getSpmTeksterLiktHverUke(omsorgstilbud);
+    const inkluderFastPlan = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
     return (
         <>
@@ -58,7 +57,12 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
 
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud_fortid}
-                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFortid.spm')}
+                        legend={intlHelper(
+                            intl,
+                            periodeFortidFremtid
+                                ? 'steg.omsorgstilbud.erIOmsorgstilbudFortid.spm'
+                                : 'steg.omsorgstilbud.erIOmsorgstilbudKunFortid.spm'
+                        )}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
@@ -89,7 +93,12 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
 
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud_fremtid}
-                        legend={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbudFremtid.spm')}
+                        legend={intlHelper(
+                            intl,
+                            periodeFortidFremtid
+                                ? 'steg.omsorgstilbud.erIOmsorgstilbudFremtid.spm'
+                                : 'steg.omsorgstilbud.erIOmsorgstilbudKunFremtid.spm'
+                        )}
                         validate={(value) => {
                             const error = getYesOrNoValidator()(value);
                             if (error) {
@@ -118,15 +127,6 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
             )}
 
             {omsorgstilbud &&
-                omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
-                omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
-                    <Box margin="l">
-                        <AlertStripe type={'info'}>
-                            <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.usikker" />
-                        </AlertStripe>
-                    </Box>
-                )}
-            {omsorgstilbud &&
                 omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
                 omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
                     <Box margin="l">
@@ -148,18 +148,26 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                     {inkluderFastPlan && (
                         <FormBlock>
                             {periodeFortidFremtid && (
-                                <Box padBottom="l">
-                                    <Systemtittel tag={'h2'}>
-                                        <FormattedMessage id="steg.omsorgstilbud.erLiktHverUke.spm.tittel" />
-                                    </Systemtittel>
-                                </Box>
+                                <>
+                                    <Box padBottom="l">
+                                        <Systemtittel tag={'h2'}>
+                                            <FormattedMessage id="steg.omsorgstilbud.erLiktHverUke.spm.tittel" />
+                                        </Systemtittel>
+                                        {omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
+                                            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
+                                                <Box margin="l">
+                                                    <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.usikker" />
+                                                </Box>
+                                            )}
+                                    </Box>
+                                </>
                             )}
                             <SøknadFormComponents.YesOrNoQuestion
                                 legend={intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.spm.${tekstLiktHverUke}`)}
                                 useTwoColumns={false}
                                 labels={{
-                                    yes: intlHelper(intl, 'steg.omsorgstilbud.erLiktHverUke.yes'),
-                                    no: intlHelper(intl, 'steg.omsorgstilbud.erLiktHverUke.no'),
+                                    yes: intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.yes.${tekstLiktHverUke}`),
+                                    no: intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.no.${tekstLiktHverUke}`),
                                 }}
                                 name={SøknadFormField.omsorgstilbud__erLiktHverUke}
                                 description={omsorgstilbudInfo.erLiktHverUke}
@@ -182,7 +190,12 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                         <FormBlock>
                             <ResponsivePanel>
                                 <SøknadFormComponents.InputGroup
-                                    legend={intlHelper(intl, 'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud')}
+                                    legend={intlHelper(
+                                        intl,
+                                        periodeFremtid
+                                            ? 'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud.kunFremtid'
+                                            : 'steg.omsorgstilbud.hvorMyeTidIOmsorgstilbud'
+                                    )}
                                     description={omsorgstilbudInfo.hvorMye}
                                     validate={() => validateOmsorgstilbud(omsorgstilbud)}
                                     name={SøknadFormField.omsorgstilbud_gruppe}>
@@ -213,7 +226,12 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             <ResponsivePanel>
                                 <OmsorgstilbudVariert
                                     omsorgsdager={omsorgstilbud.enkeltdager || {}}
-                                    tittel={intlHelper(intl, 'steg.omsorgstilbud.hvormyetittel')}
+                                    tittel={intlHelper(
+                                        intl,
+                                        periodeFremtid
+                                            ? 'steg.omsorgstilbud.hvormyetittel.kunFremtid'
+                                            : 'steg.omsorgstilbud.hvormyetittel'
+                                    )}
                                     formFieldName={SøknadFormField.omsorgstilbud__enkeltdager}
                                     periode={riktigSøknadsperiode}
                                     tidIOmsorgstilbud={omsorgstilbud.enkeltdager || {}}

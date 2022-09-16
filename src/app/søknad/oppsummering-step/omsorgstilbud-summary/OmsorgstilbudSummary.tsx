@@ -72,7 +72,12 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
                     <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
+                        header={intlHelper(
+                            intl,
+                            søkerFortid(søknadsperiode)
+                                ? 'steg.oppsummering.omsorgstilbud.fast.header.fortid'
+                                : 'steg.oppsummering.omsorgstilbud.fast.header'
+                        )}
                         headerTag="h3">
                         <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
                     </SummaryBlock>
