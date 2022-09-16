@@ -248,6 +248,37 @@ const Søknad: React.FunctionComponent<Props> = ({ søker, registrerteBarn, mell
         setInitializing(false);
     });
 
+    const oppdaterMellomlagring = async (søknadId: string, formValues: SøknadFormValues, lastStepID: StepID) => {
+        try {
+            await mellomlagringEndpoint.update({
+                søknadId,
+                formValues,
+                lastStepID,
+                søkerInfo: {
+                    søker,
+                    registrerteBarn,
+                },
+            });
+        } catch (error: any) {
+            if (isUserLoggedOut(error)) {
+                await logUserLoggedOut('ved mellomlagring');
+                relocateToLoginPage();
+            } else {
+                console.error(error);
+            }
+        }
+    };
+
+    const onGotoNextStepFromStep = async (stepID: StepID, values: SøknadFormValues) => {
+        const stepConfig = getSøknadStepsConfig(values)[stepID];
+        if (søknadId && stepConfig.nextStep) {
+            await oppdaterMellomlagring(søknadId, values, stepConfig.nextStep);
+        }
+        if (stepConfig.nextStepRoute) {
+            navigateTo(stepConfig.nextStepRoute, history);
+        }
+    };
+
     return (
         <LoadWrapper
             isLoading={initializing}
@@ -256,65 +287,30 @@ const Søknad: React.FunctionComponent<Props> = ({ søker, registrerteBarn, mell
                     <SoknadFormComponents.FormikWrapper
                         initialValues={initialFormValues}
                         onSubmit={() => null}
-                        renderForm={({ values, setValues, resetForm }) => {
-                            const navigateToNextStepFromStep = async (stepID: StepID) => {
-                                const step = getSøknadStepsConfig(values)[stepID];
-                                const stepToPersist = step.nextStep;
-
-                                if (stepToPersist && søknadId) {
-                                    try {
-                                        await mellomlagringEndpoint.update({
-                                            søknadId,
-                                            formValues: values,
-                                            lastStepID: stepToPersist,
-                                            søkerInfo: {
-                                                søker,
-                                                registrerteBarn,
-                                            },
-                                        });
-                                        if (step.nextStepRoute) {
-                                            navigateTo(step.nextStepRoute, history);
-                                        }
-                                    } catch (error: any) {
-                                        if (isUserLoggedOut(error)) {
-                                            await logUserLoggedOut('ved mellomlagring');
-                                            relocateToLoginPage();
-                                        } else {
-                                            console.error(error);
-                                        }
-                                    }
-                                } else {
-                                    if (step.nextStepRoute) {
-                                        navigateTo(step.nextStepRoute, history);
-                                    }
-                                }
-                            };
-
-                            return (
-                                <SøknadContextProvider
-                                    value={{
-                                        soknadId: søknadId,
-                                        soknadStepsConfig: getSøknadStepsConfig(values),
-                                        sendSoknadStatus: sendSoknadStatus,
-                                        resetSoknad: abortSoknad,
-                                        continueSoknadLater: søknadId
-                                            ? (stepId) => continueSoknadLater(søknadId, stepId, values)
-                                            : undefined,
-                                        startSoknad: () => startSoknad(setValues, values),
-                                        sendSoknad: (values) => triggerSend(values, resetForm),
-                                        gotoNextStepFromStep: (stepID: StepID) => {
-                                            navigateToNextStepFromStep(stepID);
-                                        },
-                                    }}>
-                                    <SøknadRoutes
-                                        søker={søker}
-                                        søknadId={søknadId}
-                                        registrerteBarn={registrerteBarn}
-                                        forrigeSøknad={forrigeSøknad}
-                                    />
-                                </SøknadContextProvider>
-                            );
-                        }}
+                        renderForm={({ values, setValues, resetForm }) => (
+                            <SøknadContextProvider
+                                value={{
+                                    soknadId: søknadId,
+                                    soknadStepsConfig: getSøknadStepsConfig(values),
+                                    sendSoknadStatus,
+                                    resetSoknad: abortSoknad,
+                                    continueSoknadLater: søknadId
+                                        ? (stepId) => continueSoknadLater(søknadId, stepId, values)
+                                        : undefined,
+                                    startSoknad: () => startSoknad(setValues, values),
+                                    sendSoknad: (values) => triggerSend(values, resetForm),
+                                    gotoNextStepFromStep: (stepID: StepID) => {
+                                        onGotoNextStepFromStep(stepID, values);
+                                    },
+                                }}>
+                                <SøknadRoutes
+                                    søker={søker}
+                                    søknadId={søknadId}
+                                    registrerteBarn={registrerteBarn}
+                                    forrigeSøknad={forrigeSøknad}
+                                />
+                            </SøknadContextProvider>
+                        )}
                     />
                 );
             }}
