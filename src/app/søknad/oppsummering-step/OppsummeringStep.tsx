@@ -68,6 +68,9 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const { logSenderInnSøknadMedIngenFravær } = useLogSøknadInfo();
 
     const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata, harArbeidMenIngenFravær: boolean) => {
+        if (sendingInProgress) {
+            return;
+        }
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
