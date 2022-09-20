@@ -9,6 +9,7 @@ import { ArbeidsgiverType } from '../../../types';
 import {
     ArbeidsforholdApiData,
     ArbeidsgiverApiData,
+    isFrilansApiDataMedArbeidsforhold,
     SøknadApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
@@ -75,7 +76,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         }
     });
 
-    if (frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
+    if (isFrilansApiDataMedArbeidsforhold(frilans)) {
         arbeidsforholdIPerioden.push({
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',

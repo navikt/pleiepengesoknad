@@ -1,71 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from '../../../types';
-import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
-import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { cleanupArbeidssituasjonFrilans } from './cleanupArbeidssituasjonFrilans';
+import { cleanupNormalarbeidstid } from './cleanupNormalarbeidstid';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
-
-const cleanupNormalarbeidstid = (
-    {
-        erLikeMangeTimerHverUke,
-        timerFasteUkedager,
-        erFasteUkedager,
-        timerPerUke,
-        arbeiderFastHelg,
-        arbeiderHeltid,
-    }: NormalarbeidstidFormData,
-    erFrilanserEllerSN: boolean /** Skal kun oppgi informasjon om timer i uken */
-): NormalarbeidstidFormData => {
-    if (erFrilanserEllerSN) {
-        return {
-            erLikeMangeTimerHverUke: YesOrNo.YES,
-            timerPerUke,
-        };
-    }
-    if (arbeiderHeltid === YesOrNo.NO) {
-        return {
-            arbeiderHeltid,
-            timerPerUke,
-        };
-    }
-    if (arbeiderFastHelg === YesOrNo.YES) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            timerPerUke,
-        };
-    }
-    if (erLikeMangeTimerHverUke === YesOrNo.NO) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            timerPerUke,
-        };
-    }
-    if (erFasteUkedager === YesOrNo.YES) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            erFasteUkedager,
-            timerFasteUkedager: timerFasteUkedager
-                ? removeDurationWeekdaysWithNoDuration(timerFasteUkedager)
-                : undefined,
-        };
-    }
-    return {
-        arbeiderHeltid,
-        arbeiderFastHelg,
-        erLikeMangeTimerHverUke,
-        erFasteUkedager,
-        timerPerUke,
-    };
-};
 
 export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
     const cleanedArbeidsforhold = { ...arbeidsforhold };
@@ -85,46 +26,6 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormDa
         cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid, false);
     }
     return cleanedArbeidsforhold;
-};
-
-export const cleanupFrilansArbeidssituasjon = (
-    søknadsperiode: DateRange,
-    values: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[] | undefined
-): FrilansFormData => {
-    const frilans: FrilansFormData = { ...values };
-    if (erFrilanserISøknadsperiode(søknadsperiode, values, frilansoppdrag) === false) {
-        frilans.arbeidsforhold = undefined;
-    }
-
-    if (harFrilansoppdrag(frilansoppdrag)) {
-        frilans.harHattInntektSomFrilanser = undefined;
-        if (frilans.erFortsattFrilanser === YesOrNo.YES) {
-            frilans.sluttdato = undefined;
-        }
-    } else {
-        if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
-            /** Er ikke frilanser i perioden */
-            frilans.erFortsattFrilanser = undefined;
-            frilans.startdato = undefined;
-            frilans.sluttdato = undefined;
-            frilans.arbeidsforhold = undefined;
-        }
-        if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
-            /** Er frilanser i perioden */
-            if (frilans.erFortsattFrilanser === YesOrNo.YES) {
-                frilans.sluttdato = undefined;
-            }
-        }
-    }
-    if (frilans.arbeidsforhold && frilans.arbeidsforhold.normalarbeidstid) {
-        frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(
-            frilans.arbeidsforhold.normalarbeidstid,
-            true
-        );
-    }
-
-    return frilans;
 };
 
 const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): SelvstendigFormData => {
@@ -152,7 +53,7 @@ export const cleanupArbeidssituasjonStep = (
     const values: SøknadFormData = { ...formValues };
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(cleanupAnsattArbeidsforhold);
-    values.frilans = cleanupFrilansArbeidssituasjon(søknadsperiode, values.frilans, frilansoppdrag);
+    values.frilans = cleanupArbeidssituasjonFrilans(søknadsperiode, values.frilans, frilansoppdrag);
     values.selvstendig = cleanupSelvstendigArbeidssituasjon(values.selvstendig);
 
     if (!visVernepliktSpørsmål(values)) {

@@ -673,6 +673,8 @@
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
     "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
+    "frilanser.mottarFosterhjemsgodgjørsel.spm": "Mottar du fosterhjemsgodtgjørelse?",
+    "frilanser.fosterhjemsgodtgjørelse_harFlereOppdrag.spm": "Har du andre frilansoppdrag i tillegg til fosterhjemsgodtgjørelse?",
     "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
     "frilanser.erFortsattFrilanser.spm": "Jobber du fortsatt som frilanser?",
@@ -775,7 +777,7 @@
     "validation.arbeidsforhold.fastDag.tid.hoursAreNegative": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
     "validation.arbeidsforhold.fastDag.tid.minutesAreNegative": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
 
-    "validation.frilans.harHattInntektSomFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er frilanser i perioden du søker for.",
+    "validation.frilans.erFrilanserIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er frilanser i perioden du søker for.",
     "validation.frilans.startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
     "validation.frilans.startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
     "validation.frilans.startdato.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
@@ -881,7 +883,6 @@
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
     "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",
     "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i perioden:",
-    "frilansoppdragInfo.tekst": "Dette er frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Dersom informasjonen ikke stemmer, må du ta kontakt med oppdragsgiver og be de oppdatere informasjonen i AA-registeret.",
 
     "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn."
 }

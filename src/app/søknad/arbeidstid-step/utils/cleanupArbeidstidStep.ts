@@ -19,7 +19,10 @@ import {
     ArbeidSøknadsdata,
     NormalarbeidstidSøknadsdata,
 } from '../../../types/søknadsdata/Søknadsdata';
-import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
+import {
+    getGyldigPeriodeSomFrilanserInnenforPeriode,
+    isArbeidFrilansSøknadsdagaMedArbeidsforhold,
+} from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 
 export const cleanupArbeidIPeriode = (
@@ -100,8 +103,8 @@ export const cleanupArbeidstidFrilans = (
     if (frilans.arbeidsforhold === undefined || !frilansSøknadsdata) {
         return undefined;
     }
-    const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
-    const normalarbeidstid = frilansSøknadsdata.erFrilanser
+    const periodeSomFrilanser = getGyldigPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
+    const normalarbeidstid = isArbeidFrilansSøknadsdagaMedArbeidsforhold(frilansSøknadsdata)
         ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
         : undefined;
     return {

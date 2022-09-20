@@ -13,7 +13,7 @@ export const visVernepliktSpørsmål = ({
     frilans: FrilansFormData;
     selvstendig: SelvstendigFormData;
 }): boolean => {
-    const { harHattInntektSomFrilanser } = frilans || {};
+    const { erFrilanserIPerioden } = frilans || {};
 
     /** Selvstendig næringsdrivende */
     if (
@@ -23,13 +23,10 @@ export const visVernepliktSpørsmål = ({
         return false;
     }
     /** Frilanser */
-    if (
-        isYesOrNoAnswered(frilans?.harHattInntektSomFrilanser) === false ||
-        frilans?.harHattInntektSomFrilanser === YesOrNo.YES
-    ) {
+    if (isYesOrNoAnswered(frilans?.erFrilanserIPerioden) === false || frilans?.erFrilanserIPerioden === YesOrNo.YES) {
         return false;
     }
-    if (harHattInntektSomFrilanser !== YesOrNo.NO) {
+    if (erFrilanserIPerioden !== YesOrNo.NO) {
         return false;
     }
 

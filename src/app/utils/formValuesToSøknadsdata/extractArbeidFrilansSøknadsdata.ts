@@ -3,7 +3,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
-import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
+import { ArbeidFrilansSøknadsdata, ArbeidFrilansSøknadsdataType } from '../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
@@ -12,13 +12,28 @@ export const extractArbeidFrilansSøknadsdata = (
     frilansoppdrag: Arbeidsgiver[],
     søknadsperiode: DateRange
 ): ArbeidFrilansSøknadsdata | undefined => {
-    const erFrilanser = frilans.harHattInntektSomFrilanser === YesOrNo.YES || frilansoppdrag.length > 0;
+    const erFrilanser = frilans.erFrilanserIPerioden === YesOrNo.YES || frilansoppdrag.length > 0;
 
     /** Er ikke frilanser */
     if (!erFrilanser) {
         return {
-            type: 'erIkkeFrilanser',
+            type: ArbeidFrilansSøknadsdataType.erIkkeFrilanser,
             erFrilanser: false,
+        };
+    }
+
+    const mottarFosterhjemsgodtgjørelse = frilans.fosterhjemsgodtgjørelse_mottar === YesOrNo.YES;
+    const harAndreOppdragEnnFosterhjemsgodtgjørelse =
+        mottarFosterhjemsgodtgjørelse == false
+            ? undefined
+            : frilans.fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.YES;
+
+    if (mottarFosterhjemsgodtgjørelse && harAndreOppdragEnnFosterhjemsgodtgjørelse === false) {
+        return {
+            type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse,
+            erFrilanser: true,
+            mottarFosterhjemsgodtgjørelse: true,
+            harAndreOppdragEnnFosterhjemsgodtgjørelse: false,
         };
     }
 
@@ -37,12 +52,11 @@ export const extractArbeidFrilansSøknadsdata = (
           )
         : undefined;
 
-    /** Er ikke lenger frilanser */
-    if (startdato && sluttdato) {
+    if (startdato && sluttdato && erFortsattFrilanser === false) {
         /** Sluttet før søknadsperiode */
         if (!arbeidsforhold || !aktivPeriode) {
             return {
-                type: 'avsluttetFørSøknadsperiode',
+                type: ArbeidFrilansSøknadsdataType.avsluttetFørSøknadsperiode,
                 erFrilanser: false,
                 harInntektISøknadsperiode: false,
                 erFortsattFrilanser: false,
@@ -52,7 +66,7 @@ export const extractArbeidFrilansSøknadsdata = (
         }
         /** Sluttet i søknadsperiode */
         return {
-            type: 'avsluttetISøknadsperiode',
+            type: ArbeidFrilansSøknadsdataType.avsluttetISøknadsperiode,
             erFrilanser: true,
             aktivPeriode,
             harInntektISøknadsperiode: true,
@@ -60,19 +74,23 @@ export const extractArbeidFrilansSøknadsdata = (
             startdato,
             sluttdato,
             arbeidsforhold,
+            mottarFosterhjemsgodtgjørelse,
+            harAndreOppdragEnnFosterhjemsgodtgjørelse,
         };
     }
 
     if (erFortsattFrilanser && arbeidsforhold && startdato && aktivPeriode) {
         /** Er fortsatt frilanser */
         return {
-            type: 'pågående',
+            type: ArbeidFrilansSøknadsdataType.pågående,
             erFrilanser: true,
             harInntektISøknadsperiode: true,
             erFortsattFrilanser: true,
             startdato,
             aktivPeriode,
             arbeidsforhold,
+            mottarFosterhjemsgodtgjørelse,
+            harAndreOppdragEnnFosterhjemsgodtgjørelse,
         };
     }
     return undefined;

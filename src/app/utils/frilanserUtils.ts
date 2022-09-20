@@ -4,16 +4,13 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
 import { FrilansFormData } from '../types/FrilansFormData';
+import {
+    ArbeidFrilansMedArbeidsforhold,
+    ArbeidFrilansSøknadsdataType,
+} from '../types/søknadsdata/arbeidFrilansSøknadsdata';
 
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
-    frilansoppdrag !== undefined && frilansoppdrag.length > 0;
-
-export const harSvartErFrilanserEllerHarFrilansoppdrag = (
-    harHattInntektSomFrilanser: YesOrNo | undefined,
-    frilansoppdrag: Arbeidsgiver[] | undefined
-): boolean => {
-    return harFrilansoppdrag(frilansoppdrag) || harHattInntektSomFrilanser === YesOrNo.YES;
-};
+    frilansoppdrag !== undefined && frilansoppdrag.length >= 1;
 
 export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
     if (dayjs(frilansStartdato).isAfter(tidsrom.to, 'day')) {
@@ -25,10 +22,43 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
     return true;
 };
 
+export function isArbeidFrilansSøknadsdagaMedArbeidsforhold(
+    frilansSøknadsdata: any
+): frilansSøknadsdata is ArbeidFrilansMedArbeidsforhold {
+    const { type } = frilansSøknadsdata;
+    if (
+        type === ArbeidFrilansSøknadsdataType.erIkkeFrilanser ||
+        type === ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse
+    ) {
+        return false;
+    }
+    return true;
+}
+
+/**
+ * Returnerer true dersom bruker har frilansoppdrag eller om en har svart at en er frilanser i perioden
+ * @param søknadsperiode
+ * @param values
+ * @param frilansoppdrag
+ * @returns
+ */
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[] | undefined
+    values: FrilansFormData,
+    frilansoppdrag: Arbeidsgiver[]
+): boolean => {
+    return harSvartErFrilanserISøknadsperioden(søknadsperiode, values) || harFrilansoppdrag(frilansoppdrag);
+};
+
+/**
+ * Returnerer true dersom søker har svart at hen er frilanser og startdato/sluttdato er innenfor søknadsperioden.
+ * @param søknadsperiode
+ * @param formData
+ * @returns boolean
+ */
+export const harSvartErFrilanserISøknadsperioden = (
+    søknadsperiode: DateRange,
+    { erFrilanserIPerioden, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData
 ): boolean => {
     if (erFortsattFrilanser === YesOrNo.YES) {
         return true;
@@ -36,11 +66,12 @@ export const erFrilanserISøknadsperiode = (
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
 
-    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser, frilansoppdrag)) {
+    if (frilansStartdato && erFrilanserIPerioden === YesOrNo.YES) {
         return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
     return false;
 };
+
 /**
  *
  * @param periode
@@ -51,10 +82,10 @@ export const erFrilanserISøknadsperiode = (
  *
  * Avkort periode med evt start og sluttdato som frilanser.
  * Returnerer undefined dersom start og/eller slutt som frilanser
- * gjør at bruker ikke var frilanser i perioden
+ * medfører at bruker ikke er frilanser i perioden
  */
 
-export const getPeriodeSomFrilanserInnenforPeriode = (
+export const getGyldigPeriodeSomFrilanserInnenforPeriode = (
     periode: DateRange,
     { startdato, sluttdato, erFortsattFrilanser }: FrilansFormData
 ): DateRange | undefined => {

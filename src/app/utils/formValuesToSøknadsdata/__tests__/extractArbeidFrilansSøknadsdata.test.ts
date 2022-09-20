@@ -17,7 +17,7 @@ const mockArbeidsforhold: ArbeidsforholdFrilanserFormData = {} as any;
 const frilansoppdrag: Arbeidsgiver[] = [{} as any];
 
 const formData: FrilansFormData = {
-    harHattInntektSomFrilanser: YesOrNo.YES,
+    erFrilanserIPerioden: YesOrNo.YES,
     erFortsattFrilanser: YesOrNo.YES,
     startdato: '2020-01-01',
     arbeidsforhold: mockArbeidsforhold,
@@ -27,7 +27,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
     describe('Er ikke frilanser i søknadsperiode', () => {
         it('returnerer erIkkeFrilanser dersom bruker ikke har oppdrag og har svart nei', () => {
             const result = extractArbeidFrilansSøknadsdata(
-                { ...formData, harHattInntektSomFrilanser: YesOrNo.NO },
+                { ...formData, erFrilanserIPerioden: YesOrNo.NO },
                 [],
                 søknadsperiode
             );
@@ -38,7 +38,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
             const result = extractArbeidFrilansSøknadsdata(
                 {
                     ...formData,
-                    harHattInntektSomFrilanser: YesOrNo.NO,
+                    erFrilanserIPerioden: YesOrNo.NO,
                     erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: dateToISODate(datoFørSøknadsperiode),
                 },
@@ -73,7 +73,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                 {
                     ...formData,
                     arbeidsforhold: {} as any,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.YES,
                 },
                 frilansoppdrag,

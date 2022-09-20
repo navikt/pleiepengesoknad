@@ -1,14 +1,14 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
+import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../../types';
 import { FrilansFormData } from '../../../../types/FrilansFormData';
-import { cleanupFrilansArbeidssituasjon } from '../cleanupArbeidssituasjonStep';
+import { cleanupArbeidssituasjonFrilans } from '../cleanupArbeidssituasjonFrilans';
 
 const søknadsperiode = ISODateRangeToDateRange('2021-01-02/2022-01-01');
 
 const frilanserSluttetIPeriodeValues: FrilansFormData = {
-    harHattInntektSomFrilanser: YesOrNo.YES,
+    erFrilanserIPerioden: YesOrNo.YES,
     arbeidsforhold: {
         normalarbeidstid: { timerPerUke: '10', erLikeMangeTimerHverUke: YesOrNo.NO },
         arbeidIPeriode: {
@@ -25,13 +25,14 @@ const frilansoppdrag: Arbeidsgiver[] = [
         type: ArbeidsgiverType.FRILANSOPPDRAG,
         id: '123',
         navn: 'Teest',
+        ansattFom: ISODateToDate('2020-01-01'),
     },
 ];
 
-describe('cleanupFrilansArbeidssituasjon', () => {
+describe('cleanupArbeidssituasjonFrilans', () => {
     describe('når bruker har frilansoppdrag', () => {
         it('beholder riktig informasjon når bruker har frilansoppdrag i søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
@@ -39,7 +40,7 @@ describe('cleanupFrilansArbeidssituasjon', () => {
                 },
                 frilansoppdrag
             );
-            expect(result.harHattInntektSomFrilanser).toBeUndefined();
+            expect(result.erFrilanserIPerioden).toBeUndefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
@@ -48,16 +49,16 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.sluttdato).toBeUndefined();
         });
         it('beholder riktig informasjon når bruker slutter som frilanser i søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.NO,
                 },
                 frilansoppdrag
             );
-            expect(result.harHattInntektSomFrilanser).toBeUndefined();
+            expect(result.erFrilanserIPerioden).toBeUndefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
@@ -65,18 +66,19 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.startdato).toBeDefined();
             expect(result.sluttdato).toBeDefined();
         });
+
         it('beholder riktig informasjon når bruker sluttet før søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: '2021-01-01',
                 },
                 frilansoppdrag
             );
-            expect(result.harHattInntektSomFrilanser).toBeUndefined();
+            expect(result.erFrilanserIPerioden).toBeUndefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeUndefined();
             expect(result.startdato).toBeDefined();
@@ -86,28 +88,28 @@ describe('cleanupFrilansArbeidssituasjon', () => {
 
     describe('når bruker ikke har frilansoppdrag', () => {
         it('fjerner alle unødvendig data når bruker ikke er frilanser', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
-                { ...frilanserSluttetIPeriodeValues, harHattInntektSomFrilanser: YesOrNo.NO },
+                { ...frilanserSluttetIPeriodeValues, erFrilanserIPerioden: YesOrNo.NO },
                 []
             );
-            expect(result.harHattInntektSomFrilanser).toBeDefined();
+            expect(result.erFrilanserIPerioden).toBeDefined();
             expect(result.erFortsattFrilanser).toBeUndefined();
             expect(result.arbeidsforhold).toBeUndefined();
             expect(result.startdato).toBeUndefined();
             expect(result.sluttdato).toBeUndefined();
         });
         it('beholder riktig informasjon når bruker er frilanser i søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.YES,
                 },
                 []
             );
-            expect(result.harHattInntektSomFrilanser).toBeDefined();
+            expect(result.erFrilanserIPerioden).toBeDefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
@@ -116,16 +118,16 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.sluttdato).toBeUndefined();
         });
         it('beholder riktig informasjon når bruker slutter som frilanser i søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.NO,
                 },
                 []
             );
-            expect(result.harHattInntektSomFrilanser).toBeDefined();
+            expect(result.erFrilanserIPerioden).toBeDefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
@@ -134,17 +136,17 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             expect(result.sluttdato).toBeDefined();
         });
         it('beholder riktig informasjon når bruker sluttet før søknadsperiode', () => {
-            const result = cleanupFrilansArbeidssituasjon(
+            const result = cleanupArbeidssituasjonFrilans(
                 søknadsperiode,
                 {
                     ...frilanserSluttetIPeriodeValues,
-                    harHattInntektSomFrilanser: YesOrNo.YES,
+                    erFrilanserIPerioden: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: '2021-01-01',
                 },
                 []
             );
-            expect(result.harHattInntektSomFrilanser).toBeDefined();
+            expect(result.erFrilanserIPerioden).toBeDefined();
             expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeUndefined();
             expect(result.startdato).toBeDefined();

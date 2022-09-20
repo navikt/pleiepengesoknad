@@ -1,40 +1,58 @@
 import { DateRange } from '@navikt/sif-common-utils/lib';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
-export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
-    type: 'erIkkeFrilanser';
-    erFrilanser: false;
+export enum ArbeidFrilansSøknadsdataType {
+    'erIkkeFrilanser' = 'erIkkeFrilanser',
+    'kunFosterhjemsgodtgjørelse' = 'kunFosterhjemsgodtgjørelse',
+    'pågående' = 'pågående',
+    'avsluttetISøknadsperiode' = 'avsluttetISøknadsperiode',
+    'avsluttetFørSøknadsperiode' = 'avsluttetFørSøknadsperiode',
 }
-export interface ArbeidFrilansSøknadsdataPågående {
-    type: 'pågående';
+
+export type ArbeidFrilansMedArbeidsforhold = {
+    type: ArbeidFrilansSøknadsdataType;
     erFrilanser: true;
     harInntektISøknadsperiode: true;
-    erFortsattFrilanser: true;
     startdato: Date;
     aktivPeriode: DateRange;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
+    mottarFosterhjemsgodtgjørelse: boolean;
+    harAndreOppdragEnnFosterhjemsgodtgjørelse?: boolean;
+};
+
+export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
+    type: ArbeidFrilansSøknadsdataType.erIkkeFrilanser;
+    erFrilanser: false;
+}
+
+export interface ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse {
+    type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse;
+    erFrilanser: true;
+    mottarFosterhjemsgodtgjørelse: true;
+    harAndreOppdragEnnFosterhjemsgodtgjørelse: false;
+}
+export interface ArbeidFrilansSøknadsdataPågående extends ArbeidFrilansMedArbeidsforhold {
+    type: ArbeidFrilansSøknadsdataType.pågående;
+    erFortsattFrilanser: true;
+}
+
+export interface ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode extends ArbeidFrilansMedArbeidsforhold {
+    type: ArbeidFrilansSøknadsdataType.avsluttetISøknadsperiode;
+    erFortsattFrilanser: false;
+    sluttdato: Date;
 }
 
 export interface ArbeidFrilansSøknadsdataUtenforSøknadsperiode {
-    type: 'avsluttetFørSøknadsperiode';
+    type: ArbeidFrilansSøknadsdataType.avsluttetFørSøknadsperiode;
     erFrilanser: false;
     harInntektISøknadsperiode: false;
     startdato: Date;
     sluttdato: Date;
 }
-export interface ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode {
-    type: 'avsluttetISøknadsperiode';
-    erFrilanser: true;
-    harInntektISøknadsperiode: true;
-    erFortsattFrilanser: false;
-    startdato: Date;
-    sluttdato: Date;
-    aktivPeriode: DateRange;
-    arbeidsforhold: ArbeidsforholdSøknadsdata;
-}
 
 export type ArbeidFrilansSøknadsdata =
     | ArbeidFrilansSøknadsdataErIkkeFrilanser
+    | ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse
     | ArbeidFrilansSøknadsdataPågående
     | ArbeidFrilansSøknadsdataUtenforSøknadsperiode
     | ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode;

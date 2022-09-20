@@ -127,7 +127,10 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
-    const frilans: ArbeidsforholdSøknadsdata[] = arbeid.frilans?.erFrilanser ? [arbeid.frilans.arbeidsforhold] : [];
+    const frilans: ArbeidsforholdSøknadsdata[] =
+        arbeid.frilans?.erFrilanser && arbeid.frilans.harAndreOppdragEnnFosterhjemsgodtgjørelse === true
+            ? [arbeid.frilans.arbeidsforhold]
+            : [];
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];

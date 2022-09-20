@@ -81,7 +81,6 @@ const frilansoppdrag2 = {
     organisasjonsnummer: '991012133',
     navn: 'Svandalen frilanssenter',
     ansattFom: '2022-01-01',
-    ansattTom: '2022-01-15',
 };
 
 const arbeidsgivereMock = {

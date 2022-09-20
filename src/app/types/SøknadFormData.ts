@@ -136,9 +136,7 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [SøknadFormField.frilans]: {
-        harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
-    },
+    [SøknadFormField.frilans]: {},
     [SøknadFormField.selvstendig]: {
         harHattInntektSomSN: YesOrNo.UNANSWERED,
     },

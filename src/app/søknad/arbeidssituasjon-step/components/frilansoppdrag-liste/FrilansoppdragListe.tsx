@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Element } from 'nav-frontend-typografi';
 import { Arbeidsgiver } from '../../../../types';
@@ -42,12 +41,7 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag, k
             {frilansoppdrag.map((oppdrag) => (
                 <li key={oppdrag.id}>
                     <Element tag="h4">{oppdrag.navn}</Element>
-                    <Box padBottom="l">
-                        <FormattedMessage
-                            id="frilansoppdragListe.oppdrag"
-                            values={{ tidsrom: renderTidsrom(oppdrag) }}
-                        />
-                    </Box>
+                    <FormattedMessage id="frilansoppdragListe.oppdrag" values={{ tidsrom: renderTidsrom(oppdrag) }} />
                 </li>
             ))}
         </ul>

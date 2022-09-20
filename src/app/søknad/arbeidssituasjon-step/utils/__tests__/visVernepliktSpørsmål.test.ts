@@ -21,7 +21,7 @@ describe('visVernepliktSpørsmål', () => {
                     erAnsatt: YesOrNo.UNANSWERED,
                 },
             ];
-            const frilans = { harHattInntektSomFrilanser: YesOrNo.UNANSWERED };
+            const frilans = { erFrilanserIPerioden: YesOrNo.UNANSWERED };
             const selvstendig__harHattInntektSomSN = YesOrNo.UNANSWERED;
             const result = visVernepliktSpørsmål({
                 ansatt_arbeidsforhold,
@@ -36,7 +36,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [{ ...defaultAnsattArbeidsforhold, erAnsatt: YesOrNo.YES }],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -52,7 +52,7 @@ describe('visVernepliktSpørsmål', () => {
                             erAnsatt: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -69,7 +69,7 @@ describe('visVernepliktSpørsmål', () => {
                             sluttetFørSøknadsperiode: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -86,7 +86,7 @@ describe('visVernepliktSpørsmål', () => {
                             sluttetFørSøknadsperiode: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -97,7 +97,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.YES },
+                    frilans: { erFrilanserIPerioden: YesOrNo.YES },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -108,7 +108,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.YES },
+                    frilans: { erFrilanserIPerioden: YesOrNo.YES },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.UNANSWERED,
                     },
@@ -119,7 +119,7 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.YES,
                     },
@@ -136,7 +136,7 @@ describe('visVernepliktSpørsmål', () => {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
                     frilans: {
-                        harHattInntektSomFrilanser: YesOrNo.NO,
+                        erFrilanserIPerioden: YesOrNo.NO,
                     },
                 })
             ).toBeTruthy();
@@ -154,7 +154,7 @@ describe('visVernepliktSpørsmål', () => {
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilans: { erFrilanserIPerioden: YesOrNo.NO },
                 })
             ).toBeTruthy();
         });

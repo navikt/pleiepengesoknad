@@ -25,6 +25,21 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
             </SummaryBlock>
         );
     }
+    if (
+        frilans.harInntektSomFrilanser === true &&
+        frilans.mottarFosterhjemsgodtgjørelse &&
+        frilans.harAndreOppdragEnnFosterhjemsgodtgjørelse === false
+    ) {
+        return (
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
+                <ul>
+                    <li>
+                        <p>Mottar kun fosterhjemsgodtgjørsel</p>
+                    </li>
+                </ul>
+            </SummaryBlock>
+        );
+    }
 
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
@@ -48,7 +63,16 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
                     </li>
                 )}
-                {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
+                <li>
+                    {frilans.mottarFosterhjemsgodtgjørelse ? (
+                        <>Mottar fosterhjemsgodtgjørsel.</>
+                    ) : (
+                        <>Mottar ikke fosterhjemsgodtgjørsel.</>
+                    )}
+                </li>
+                {frilans.mottarFosterhjemsgodtgjørelse && frilans.harAndreOppdragEnnFosterhjemsgodtgjørelse && (
+                    <li>Har andre frilansoppdrag i tillegg til fosterhjemsgodtgjørsel</li>
+                )}
                 <li>
                     <NormalarbeidstidSummary
                         erAnsatt={frilans.jobberFortsattSomFrilans}

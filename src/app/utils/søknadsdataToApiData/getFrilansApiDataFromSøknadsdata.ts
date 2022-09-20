@@ -1,7 +1,7 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { FrilansApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
+import { ArbeidFrilansSøknadsdata, ArbeidFrilansSøknadsdataType } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
 
 export const getFrilansApiDataFromSøknadsdata = (
@@ -15,10 +15,13 @@ export const getFrilansApiDataFromSøknadsdata = (
     }
 
     switch (arbeidFrilansSøknadsdata.type) {
-        case 'pågående':
+        case ArbeidFrilansSøknadsdataType.pågående:
             return {
                 harInntektSomFrilanser: true,
                 jobberFortsattSomFrilans: true,
+                mottarFosterhjemsgodtgjørelse: arbeidFrilansSøknadsdata.mottarFosterhjemsgodtgjørelse,
+                harAndreOppdragEnnFosterhjemsgodtgjørelse:
+                    arbeidFrilansSøknadsdata.harAndreOppdragEnnFosterhjemsgodtgjørelse,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(
                     arbeidFrilansSøknadsdata.arbeidsforhold,
@@ -26,19 +29,28 @@ export const getFrilansApiDataFromSøknadsdata = (
                     { from: arbeidFrilansSøknadsdata.startdato, to: søknadsperiode.to }
                 ),
             };
-        case 'avsluttetISøknadsperiode':
+        case ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse:
+            return {
+                harInntektSomFrilanser: true,
+                mottarFosterhjemsgodtgjørelse: true,
+                harAndreOppdragEnnFosterhjemsgodtgjørelse: false,
+            };
+        case ArbeidFrilansSøknadsdataType.avsluttetISøknadsperiode:
             return {
                 harInntektSomFrilanser: true,
                 jobberFortsattSomFrilans: false,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
                 sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
+                mottarFosterhjemsgodtgjørelse: arbeidFrilansSøknadsdata.mottarFosterhjemsgodtgjørelse,
+                harAndreOppdragEnnFosterhjemsgodtgjørelse:
+                    arbeidFrilansSøknadsdata.harAndreOppdragEnnFosterhjemsgodtgjørelse,
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(
                     arbeidFrilansSøknadsdata.arbeidsforhold,
                     søknadsperiode,
                     { from: arbeidFrilansSøknadsdata.startdato, to: arbeidFrilansSøknadsdata.sluttdato }
                 ),
             };
-        case 'avsluttetFørSøknadsperiode':
+        case ArbeidFrilansSøknadsdataType.avsluttetFørSøknadsperiode:
             return {
                 harInntektSomFrilanser: false,
                 jobberFortsattSomFrilans: false,
