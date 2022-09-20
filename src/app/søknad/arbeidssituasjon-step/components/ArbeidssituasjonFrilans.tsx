@@ -108,7 +108,11 @@ const ArbeidssituasjonFrilans = ({
                     <ArbFriFormComponents.YesOrNoQuestion
                         name={FrilansFormField.fosterhjemsgodtgjørelse_mottar}
                         data-testid="fosterhjemsgodtgjørelse_mottar"
-                        legend={intlHelper(intl, 'frilanser.mottarFosterhjemsgodgjørsel.spm')}
+                        legend={
+                            frilansoppdrag.length === 1
+                                ? intlHelper(intl, 'frilanser.erFrilansoppdragFosterhjemsgodgjørsel.spm')
+                                : intlHelper(intl, 'frilanser.mottarFosterhjemsgodgjørsel.spm')
+                        }
                         validate={getYesOrNoValidator()}
                     />
                 </FormBlock>

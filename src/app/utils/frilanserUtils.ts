@@ -22,7 +22,7 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
     return true;
 };
 
-export function isArbeidFrilansSøknadsdagaMedArbeidsforhold(
+export function isArbeidFrilansSøknadsdataMedArbeidsforhold(
     frilansSøknadsdata: any
 ): frilansSøknadsdata is ArbeidFrilansMedArbeidsforhold {
     const { type } = frilansSøknadsdata;

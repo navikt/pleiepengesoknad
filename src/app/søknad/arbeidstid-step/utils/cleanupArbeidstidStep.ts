@@ -21,7 +21,7 @@ import {
 } from '../../../types/søknadsdata/Søknadsdata';
 import {
     getGyldigPeriodeSomFrilanserInnenforPeriode,
-    isArbeidFrilansSøknadsdagaMedArbeidsforhold,
+    isArbeidFrilansSøknadsdataMedArbeidsforhold,
 } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 
@@ -104,7 +104,7 @@ export const cleanupArbeidstidFrilans = (
         return undefined;
     }
     const periodeSomFrilanser = getGyldigPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
-    const normalarbeidstid = isArbeidFrilansSøknadsdagaMedArbeidsforhold(frilansSøknadsdata)
+    const normalarbeidstid = isArbeidFrilansSøknadsdataMedArbeidsforhold(frilansSøknadsdata)
         ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
         : undefined;
     return {

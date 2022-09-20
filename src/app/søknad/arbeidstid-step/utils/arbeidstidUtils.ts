@@ -16,6 +16,7 @@ import {
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,
 } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { isArbeidFrilansSøknadsdataMedArbeidsforhold } from '../../../utils/frilanserUtils';
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,
@@ -127,10 +128,9 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
-    const frilans: ArbeidsforholdSøknadsdata[] =
-        arbeid.frilans?.erFrilanser && arbeid.frilans.harAndreOppdragEnnFosterhjemsgodtgjørelse === true
-            ? [arbeid.frilans.arbeidsforhold]
-            : [];
+    const frilans: ArbeidsforholdSøknadsdata[] = isArbeidFrilansSøknadsdataMedArbeidsforhold(arbeid.frilans)
+        ? [arbeid.frilans.arbeidsforhold]
+        : [];
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];
