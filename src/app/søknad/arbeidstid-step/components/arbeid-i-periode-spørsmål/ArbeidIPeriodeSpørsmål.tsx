@@ -129,7 +129,7 @@ const ArbeidIPeriodeSpørsmål = ({
                 ]}
             />
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
-                <FormBlock margin="l">
+                <FormBlock>
                     <ResponsivePanel>
                         <Ingress>Hvor mye jobber du i perioden du søker for?</Ingress>
                         {/* <p>
@@ -157,7 +157,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                         useTwoColumns={true}
                                     />
                                     {timerEllerProsent === TimerEllerProsent.PROSENT && (
-                                        <FormBlock margin="l">
+                                        <FormBlock>
                                             <SøknadFormComponents.NumberInput
                                                 name={getFieldName(ArbeidIPeriodeFormField.prosentAvNormalt)}
                                                 label={intlHelper(
@@ -175,7 +175,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                         </FormBlock>
                                     )}
                                     {timerEllerProsent === TimerEllerProsent.TIMER && (
-                                        <FormBlock margin="l">
+                                        <FormBlock>
                                             <SøknadFormComponents.NumberInput
                                                 name={getFieldName(ArbeidIPeriodeFormField.timerPerUke)}
                                                 label={intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
@@ -228,7 +228,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     />
                                 </FormBlock>
                                 {erLiktHverUke === YesOrNo.NO && (
-                                    <FormBlock margin="l">
+                                    <FormBlock>
                                         <ArbeidstidVariertKalender
                                             arbeidstid={arbeidIPeriode?.enkeltdager}
                                             kanLeggeTilPeriode={true}
