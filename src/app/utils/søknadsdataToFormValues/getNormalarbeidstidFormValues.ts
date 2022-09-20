@@ -2,6 +2,10 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
 import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/søknadsdata/normalarbeidstidSøknadsdata';
 
+const numberToInputString = (value: number) => {
+    return `${value}`.replace('.', ',');
+};
+
 export const getNormalarbeidstidFormValues = (
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): NormalarbeidstidFormData => {
@@ -9,20 +13,20 @@ export const getNormalarbeidstidFormValues = (
         case NormalarbeidstidType.arbeiderDeltid:
             return {
                 arbeiderHeltid: YesOrNo.NO,
-                timerPerUke: `${normalarbeidstid.timerPerUkeISnitt}`,
+                timerPerUke: numberToInputString(normalarbeidstid.timerPerUkeISnitt),
             };
         case NormalarbeidstidType.arbeiderHelg:
             return {
                 arbeiderHeltid: YesOrNo.YES,
                 arbeiderFastHelg: YesOrNo.YES,
-                timerPerUke: `${normalarbeidstid.timerPerUkeISnitt}`,
+                timerPerUke: numberToInputString(normalarbeidstid.timerPerUkeISnitt),
             };
         case NormalarbeidstidType.ulikeUker:
             return {
                 arbeiderHeltid: YesOrNo.YES,
                 arbeiderFastHelg: YesOrNo.NO,
                 erLikeMangeTimerHverUke: YesOrNo.NO,
-                timerPerUke: `${normalarbeidstid.timerPerUkeISnitt}`,
+                timerPerUke: numberToInputString(normalarbeidstid.timerPerUkeISnitt),
             };
 
         case NormalarbeidstidType.likeUkerVarierendeDager:
@@ -31,7 +35,7 @@ export const getNormalarbeidstidFormValues = (
                 arbeiderFastHelg: YesOrNo.NO,
                 erLikeMangeTimerHverUke: YesOrNo.NO,
                 erFasteUkedager: YesOrNo.NO,
-                timerPerUke: `${normalarbeidstid.timerPerUkeISnitt}`,
+                timerPerUke: numberToInputString(normalarbeidstid.timerPerUkeISnitt),
             };
         case NormalarbeidstidType.likeUkerOgDager:
             return {

@@ -1,7 +1,7 @@
-import { TidFasteDager } from '@navikt/sif-common-pleiepenger';
-import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
+import { TidFasteDager } from '@navikt/sif-common-pleiepenger';
+import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import { NormalarbeidstidApiData } from '../../../types/søknad-api-data/SøknadApiData';
 
 interface Props {

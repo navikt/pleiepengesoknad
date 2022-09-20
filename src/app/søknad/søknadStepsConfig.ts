@@ -1,7 +1,7 @@
 import { SøknadFormData } from '../types/SøknadFormData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadRoute } from '../utils/routeUtils';
-import { skalBrukerSvareArbeidstid, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
+import { skalBrukerSvarePåArbeidstid, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 
 export enum StepID {
     'OPPLYSNINGER_OM_BARNET' = 'opplysninger-om-barnet',
@@ -53,7 +53,7 @@ export const getSøknadStepConfig = (formValues: SøknadFormData | undefined): S
     const includeNattevåkAndBeredskap = skalBrukerSvarePåBeredskapOgNattevåk(formValues);
     const søknadsperiode = formValues ? getSøknadsperiodeFromFormData(formValues) : undefined;
     const includeArbeidstid =
-        søknadsperiode && formValues ? skalBrukerSvareArbeidstid(søknadsperiode, formValues) : false;
+        søknadsperiode && formValues ? skalBrukerSvarePåArbeidstid(søknadsperiode, formValues) : false;
 
     const allSteps: ConfigStepHelperType[] = [
         { stepID: StepID.OPPLYSNINGER_OM_BARNET, included: true },

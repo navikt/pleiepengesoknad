@@ -13,7 +13,7 @@ import {
     welcomingPageIsValid,
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
-import { harSvartErFrilanserISøknadsperioden } from './frilanserUtils';
+import { skalBrukerOppgiArbeidstidSomFrilanser } from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -85,12 +85,12 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormD
     );
 };
 
-export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues: SøknadFormData): boolean => {
+export const skalBrukerSvarePåArbeidstid = (søknadsperiode: DateRange, formValues: SøknadFormData): boolean => {
     if (!formValues) {
         return false;
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
-    const erFrilanser = harSvartErFrilanserISøknadsperioden(søknadsperiode, formValues.frilans);
+    const erFrilanser = skalBrukerOppgiArbeidstidSomFrilanser(søknadsperiode, formValues.frilans);
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
 
     return erAnsatt || erFrilanser || erSelvstendig;

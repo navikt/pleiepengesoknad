@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
@@ -8,6 +9,8 @@ import {
     ArbeidFrilansMedArbeidsforhold,
     ArbeidFrilansSøknadsdataType,
 } from '../types/søknadsdata/arbeidFrilansSøknadsdata';
+
+export const FRILANS_MINIMIUM_NORMALARBEIDSTID = 1;
 
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length >= 1;
@@ -70,6 +73,23 @@ export const harSvartErFrilanserISøknadsperioden = (
         return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
     return false;
+};
+
+export const skalBrukerOppgiArbeidstidSomFrilanser = (
+    søknadsperiode: DateRange,
+    frilansFormData: FrilansFormData
+): boolean => {
+    const harSvartErFrilanser = harSvartErFrilanserISøknadsperioden(søknadsperiode, frilansFormData);
+    if (harSvartErFrilanser === false) {
+        return false;
+    }
+    const timerISnittPerUke = getNumberFromNumberInputValue(
+        frilansFormData.arbeidsforhold?.normalarbeidstid?.timerPerUke
+    );
+    if (timerISnittPerUke !== undefined && timerISnittPerUke < FRILANS_MINIMIUM_NORMALARBEIDSTID) {
+        return false;
+    }
+    return true;
 };
 
 /**
