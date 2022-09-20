@@ -91,12 +91,17 @@ const ArbeidssituasjonFrilans = ({
                         description={
                             harFrilansoppdragIPerioden ? undefined : (
                                 <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
-                                    <>
+                                    <p>
                                         {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
                                         <Lenke href={urlSkatteetaten} target="_blank">
                                             <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
                                         </Lenke>
-                                    </>
+                                    </p>
+                                    <p>
+                                        Merk at hvis du mottar <strong>omsorgsstønad</strong> eller{' '}
+                                        <strong>fosterhjemsgodtgjørelse</strong> er dette frilansinntekt og du regnes
+                                        for å være frilanser når du mottar dette.
+                                    </p>
                                 </ExpandableInfo>
                             )
                         }
