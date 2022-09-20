@@ -3,19 +3,9 @@ import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/arbeidFrilansSøknadsdata';
+import { getYesOrNoAnswerFromBoolean } from '../yseOrNoUtils';
 import { getArbeidSøknadsperiodeFormValues } from './getArbeidSøknadsperiodeFormValues';
 import { getNormalarbeidstidFormValues } from './getNormalarbeidstidFormValues';
-
-const getYesOrNoAnswerFromBoolean = (flag?: boolean, useUnanswered?: boolean): YesOrNo | undefined => {
-    switch (flag) {
-        case true:
-            return YesOrNo.YES;
-        case false:
-            return YesOrNo.NO;
-        default:
-            return useUnanswered === true ? YesOrNo.UNANSWERED : undefined;
-    }
-};
 
 const getErFrilansvarSvarFraSøknadsdata = (
     søknadsdata: ArbeidFrilansSøknadsdata,
