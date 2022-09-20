@@ -68,6 +68,9 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const { logSenderInnSøknadMedIngenFravær } = useLogSøknadInfo();
 
     const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata, harArbeidMenIngenFravær: boolean) => {
+        if (sendingInProgress) {
+            return;
+        }
         setSendingInProgress(true);
         try {
             await sendApplication(apiValues);
@@ -133,7 +136,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 const apiValuesValidationErrors = validateApiValues(apiValues, intl);
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
-                console.log('apiValues: ', apiValues);
+
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}
