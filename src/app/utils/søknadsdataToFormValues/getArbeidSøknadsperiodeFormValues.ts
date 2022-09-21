@@ -19,6 +19,8 @@ export const getArbeidSøknadsperiodeFormValues = (
             return {
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
             };
+        case ArbeidIPeriodeType.arbeiderKunSmåoppdrag:
+            return {}; // Bruker svarer ikke på dette når det er frilans og kun småoppdrag
         case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
             return {
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,

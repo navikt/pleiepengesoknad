@@ -107,6 +107,7 @@ export const erArbeidsforholdMedFravær = ({
         case ArbeidIPeriodeType.arbeiderIkke:
             return true;
         case ArbeidIPeriodeType.arbeiderVanlig:
+        case ArbeidIPeriodeType.arbeiderKunSmåoppdrag:
             return false;
         case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
             return arbeidISøknadsperiode.prosentAvNormalt < 100;

@@ -40,6 +40,7 @@ export const getArbeidFrilansFormValues = (
             erFrilanserIPerioden,
             fosterhjemsgodtgjørelse_mottar: YesOrNo.YES,
             fosterhjemsgodtgjørelse_harFlereOppdrag: YesOrNo.NO,
+            startdato: dateToISODate(søknadsdata.startdato),
         };
     }
 

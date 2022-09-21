@@ -106,6 +106,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                         }}
                     />
                 );
+            case ArbeidIPeriodeType.arbeiderKunSmåoppdrag:
+                return null; // Dette vises ikke på oppsummeringen
         }
     };
     const wrapInList = arbeidsforhold.arbeidIPeriode?.type !== ArbeidIPeriodeType.arbeiderEnkeltdager;

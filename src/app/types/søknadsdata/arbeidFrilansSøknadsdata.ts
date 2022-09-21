@@ -18,6 +18,7 @@ export type ArbeidFrilansMedArbeidsforhold = {
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     mottarFosterhjemsgodtgjørelse: boolean;
     harAndreOppdragEnnFosterhjemsgodtgjørelse?: boolean;
+    harKunSmåoppdrag: boolean;
 };
 
 export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
@@ -25,7 +26,8 @@ export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
     erFrilanser: false;
 }
 
-export interface ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse {
+export interface ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse
+    extends Pick<ArbeidFrilansMedArbeidsforhold, 'startdato'> {
     type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse;
     erFrilanser: true;
     mottarFosterhjemsgodtgjørelse: true;

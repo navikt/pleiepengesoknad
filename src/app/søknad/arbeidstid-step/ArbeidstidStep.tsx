@@ -22,6 +22,7 @@ import { useSøknadsdataContext } from '../SøknadsdataContext';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import ArbeidIPeriodeSpørsmål from './components/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
 import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
+import { skalBrukerOppgiArbeidstidSomFrilanser } from '../../utils/frilanserUtils';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -106,7 +107,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 </FormBlock>
             )}
 
-            {arbeid.frilans?.erFrilanser === true &&
+            {skalBrukerOppgiArbeidstidSomFrilanser(frilans) &&
+                arbeid.frilans?.erFrilanser === true &&
                 arbeid.frilans?.type !== 'kunFosterhjemsgodtgjørelse' &&
                 arbeid.frilans?.harInntektISøknadsperiode === true &&
                 frilans.arbeidsforhold && (

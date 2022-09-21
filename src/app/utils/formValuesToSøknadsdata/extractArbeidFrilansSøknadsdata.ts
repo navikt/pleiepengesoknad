@@ -4,7 +4,7 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata, ArbeidFrilansSøknadsdataType } from '../../types/søknadsdata/Søknadsdata';
-import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
+import { getPeriodeSomFrilanserInnenforSøknadsperiode, harBrukerKunSmåoppdrag } from '../frilanserUtils';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
 export const extractArbeidFrilansSøknadsdata = (
@@ -28,16 +28,17 @@ export const extractArbeidFrilansSøknadsdata = (
             ? undefined
             : frilans.fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.YES;
 
-    if (mottarFosterhjemsgodtgjørelse && harAndreOppdragEnnFosterhjemsgodtgjørelse === false) {
+    const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
+    if (mottarFosterhjemsgodtgjørelse && harAndreOppdragEnnFosterhjemsgodtgjørelse === false && startdato) {
         return {
             type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse,
             erFrilanser: true,
             mottarFosterhjemsgodtgjørelse: true,
             harAndreOppdragEnnFosterhjemsgodtgjørelse: false,
+            startdato,
         };
     }
 
-    const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
     const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
     const aktivPeriode = startdato
         ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
@@ -76,6 +77,7 @@ export const extractArbeidFrilansSøknadsdata = (
             arbeidsforhold,
             mottarFosterhjemsgodtgjørelse,
             harAndreOppdragEnnFosterhjemsgodtgjørelse,
+            harKunSmåoppdrag: harBrukerKunSmåoppdrag(frilans.arbeidsforhold?.normalarbeidstid?.timerPerUke),
         };
     }
 
@@ -91,6 +93,7 @@ export const extractArbeidFrilansSøknadsdata = (
             arbeidsforhold,
             mottarFosterhjemsgodtgjørelse,
             harAndreOppdragEnnFosterhjemsgodtgjørelse,
+            harKunSmåoppdrag: harBrukerKunSmåoppdrag(frilans.arbeidsforhold?.normalarbeidstid?.timerPerUke),
         };
     }
     return undefined;

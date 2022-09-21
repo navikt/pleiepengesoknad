@@ -34,6 +34,7 @@ export const getFrilansApiDataFromSøknadsdata = (
                 harInntektSomFrilanser: true,
                 mottarFosterhjemsgodtgjørelse: true,
                 harAndreOppdragEnnFosterhjemsgodtgjørelse: false,
+                startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
             };
         case ArbeidFrilansSøknadsdataType.avsluttetISøknadsperiode:
             return {

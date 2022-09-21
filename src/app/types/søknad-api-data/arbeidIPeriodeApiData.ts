@@ -22,6 +22,9 @@ export interface ArbeidIPeriodeApiDataJobberVanlig {
     type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig;
 }
+export interface ArbeidIPeriodeApiDataJobberKunSmåoppdrag {
+    type: ArbeidIPeriodeType.arbeiderKunSmåoppdrag;
+}
 
 export interface ArbeidIPeriodeApiDataFasteDager {
     type: ArbeidIPeriodeType.arbeiderFasteUkedager;
@@ -51,6 +54,7 @@ export interface ArbeidIPeriodeApiDataVariert {
 export type ArbeidIPeriodeApiData =
     | ArbeidIPeriodeApiDataJobberIkke
     | ArbeidIPeriodeApiDataJobberVanlig
+    | ArbeidIPeriodeApiDataJobberKunSmåoppdrag
     | ArbeidIPeriodeApiDataFasteDager
     | ArbeidIPeriodeApiDataProsent
     | ArbeidIPeriodeApiDataTimerPerUke

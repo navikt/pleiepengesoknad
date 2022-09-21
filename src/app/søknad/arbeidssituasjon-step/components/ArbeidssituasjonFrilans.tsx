@@ -21,6 +21,7 @@ import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoVa
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
@@ -44,7 +45,7 @@ const ArbeidssituasjonFrilans = ({
         erFrilanserIPerioden,
         erFortsattFrilanser,
         fosterhjemsgodtgjørelse_mottar,
-        fosterhjemsgodtgjørelse_harFlereOppdrag: fosterhjemsgodtgjørelse_flereOppdrag,
+        fosterhjemsgodtgjørelse_harFlereOppdrag,
         startdato,
         sluttdato,
         arbeidsforhold,
@@ -65,9 +66,11 @@ const ArbeidssituasjonFrilans = ({
     const harBesvartSpørsmålOmFortsattFrilanser =
         erFortsattFrilanser === YesOrNo.YES || erFortsattFrilanser === YesOrNo.NO;
 
+    const visSpørsmålOmStartdato = erFrilanser && isYesOrNoAnswered(fosterhjemsgodtgjørelse_mottar);
+
     const visOmFrilanserSpørsmål =
         erFrilanser &&
-        ((fosterhjemsgodtgjørelse_mottar === YesOrNo.YES && fosterhjemsgodtgjørelse_flereOppdrag === YesOrNo.YES) ||
+        ((fosterhjemsgodtgjørelse_mottar === YesOrNo.YES && fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.YES) ||
             fosterhjemsgodtgjørelse_mottar === YesOrNo.NO);
 
     const visNormalarbeidstidSpørsmål =
@@ -130,17 +133,24 @@ const ArbeidssituasjonFrilans = ({
                 </FormBlock>
             )}
 
+            {visSpørsmålOmStartdato && (
+                <FormBlock>
+                    <ArbFriFormComponents.DatePicker
+                        name={FrilansFormField.startdato}
+                        label={intlHelper(
+                            intl,
+                            fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.NO
+                                ? 'frilanser.nårStartet_kunFosterhjemsgodtgjørelse.spm'
+                                : 'frilanser.nårStartet.spm'
+                        )}
+                        showYearSelector={true}
+                        maxDate={søknadsdato}
+                        validate={getFrilanserStartdatoValidator(formValues, søknadsperiode, søknadsdato)}
+                    />
+                </FormBlock>
+            )}
             {visOmFrilanserSpørsmål && (
                 <Box margin="l">
-                    <FormBlock>
-                        <ArbFriFormComponents.DatePicker
-                            name={FrilansFormField.startdato}
-                            label={intlHelper(intl, 'frilanser.nårStartet.spm')}
-                            showYearSelector={true}
-                            maxDate={søknadsdato}
-                            validate={getFrilanserStartdatoValidator(formValues, søknadsperiode, søknadsdato)}
-                        />
-                    </FormBlock>
                     <FormBlock>
                         <ArbFriFormComponents.YesOrNoQuestion
                             name={FrilansFormField.erFortsattFrilanser}

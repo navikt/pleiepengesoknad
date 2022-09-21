@@ -11,6 +11,14 @@ export const FRILANS_MINIMIUM_NORMALARBEIDSTID = 1;
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length >= 1;
 
+export const harBrukerKunSmåoppdrag = (timerPerUke?: string): boolean => {
+    const timerISnittPerUke = getNumberFromNumberInputValue(timerPerUke);
+    if (timerISnittPerUke !== undefined && timerISnittPerUke < FRILANS_MINIMIUM_NORMALARBEIDSTID) {
+        return true;
+    }
+    return false;
+};
+
 export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
     if (dayjs(frilansStartdato).isAfter(tidsrom.to, 'day')) {
         return false;
@@ -58,10 +66,7 @@ export const harSvartErFrilanserISøknadsperioden = (
     return false;
 };
 
-export const skalBrukerOppgiArbeidstidSomFrilanser = (
-    søknadsperiode: DateRange,
-    frilansFormData: FrilansFormData
-): boolean => {
+export const skalBrukerOppgiArbeidstidSomFrilanser = (frilansFormData: FrilansFormData): boolean => {
     if (frilansFormData.erFrilanserIPerioden === YesOrNo.NO) {
         return false;
     }
