@@ -44,7 +44,7 @@ export const getArbeidFrilansFormValues = (
     }
 
     return {
-        erFrilanserIPerioden,
+        erFrilanserIPerioden: registrerteFrilansoppdrag.length > 0 ? undefined : erFrilanserIPerioden,
         erFortsattFrilanser: getYesOrNoAnswerFromBoolean(søknadsdata.type !== 'avsluttetISøknadsperiode'),
         startdato: dateToISODate(søknadsdata.startdato),
         sluttdato: søknadsdata.type === 'avsluttetISøknadsperiode' ? dateToISODate(søknadsdata.sluttdato) : undefined,
