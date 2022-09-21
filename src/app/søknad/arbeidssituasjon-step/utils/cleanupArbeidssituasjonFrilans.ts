@@ -16,6 +16,9 @@ export const cleanupArbeidssituasjonFrilans = (
             søknadsdata.harAndreOppdragEnnFosterhjemsgodtgjørelse === false &&
             values.arbeidsforhold
         ) {
+            /** Fjern arbeid i perioden når bruker har gått tilbake til situasjonssteget og endret
+             * svar etter å ha oppgitt arbeidstid
+             */
             values.arbeidsforhold.arbeidIPeriode = undefined;
         }
     }
