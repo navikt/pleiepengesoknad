@@ -19,11 +19,9 @@ import {
     ArbeidSøknadsdata,
     NormalarbeidstidSøknadsdata,
 } from '../../../types/søknadsdata/Søknadsdata';
-import {
-    getGyldigPeriodeSomFrilanserInnenforPeriode,
-    isArbeidFrilansSøknadsdataMedArbeidsforhold,
-} from '../../../utils/frilanserUtils';
+import { getGyldigPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
+import { isArbeidFrilansSøknadsdataMedArbeidsforhold } from './arbeidstidUtils';
 
 export const cleanupArbeidIPeriode = (
     arbeidIPerioden: ArbeidIPeriodeFormData,

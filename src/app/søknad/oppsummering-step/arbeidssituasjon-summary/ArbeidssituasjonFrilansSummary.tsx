@@ -33,9 +33,14 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul>
-                    <li>
-                        <p>Mottar kun fosterhjemsgodtgjørsel</p>
-                    </li>
+                    {frilansoppdrag.length === 1 ? (
+                        <>
+                            <li>Mottar fosterhjemsgodtgjørsel fra {frilansoppdrag[0].navn}</li>
+                            <li>Har ingen andre frilansoppdrag i perioden</li>
+                        </>
+                    ) : (
+                        <li>Mottar kun fosterhjemsgodtgjørsel</li>
+                    )}
                 </ul>
             </SummaryBlock>
         );

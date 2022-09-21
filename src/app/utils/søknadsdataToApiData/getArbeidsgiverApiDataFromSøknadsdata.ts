@@ -31,5 +31,6 @@ export const getArbeidsgiverApiDataFromSøknadsdata = (
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
         ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
         ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
+        sluttetFørSøknadsperiode: true,
     };
 };

@@ -2,8 +2,6 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { extractArbeidFrilansSøknadsdata } from '../../../utils/formValuesToSøknadsdata/extractArbeidFrilansSøknadsdata';
-import { skalBrukerOppgiArbeidstidSomFrilanser } from '../../../utils/frilanserUtils';
-import { getArbeidFrilansFormValues } from '../../../utils/søknadsdataToFormValues/getArbeidFrilansFromSøknadsdata';
 
 export const cleanupArbeidssituasjonFrilans = (
     søknadsperiode: DateRange,
@@ -12,10 +10,13 @@ export const cleanupArbeidssituasjonFrilans = (
 ): FrilansFormData => {
     const søknadsdata = extractArbeidFrilansSøknadsdata(values, frilansoppdrag, søknadsperiode);
     if (søknadsdata) {
-        const formValues = getArbeidFrilansFormValues(søknadsdata, frilansoppdrag);
-        if (skalBrukerOppgiArbeidstidSomFrilanser(søknadsperiode, formValues) === false && formValues.arbeidsforhold) {
-            formValues.arbeidsforhold.arbeidIPeriode = undefined;
-            return formValues;
+        if (
+            søknadsdata.erFrilanser &&
+            søknadsdata.mottarFosterhjemsgodtgjørelse &&
+            søknadsdata.harAndreOppdragEnnFosterhjemsgodtgjørelse === false &&
+            values.arbeidsforhold
+        ) {
+            values.arbeidsforhold.arbeidIPeriode = undefined;
         }
     }
     return values;

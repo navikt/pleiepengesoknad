@@ -9,6 +9,10 @@ import {
     summarizeDurationInDurationWeekdays,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
+import {
+    ArbeidFrilansMedArbeidsforhold,
+    ArbeidFrilansSøknadsdataType,
+} from '../../../types/søknadsdata/arbeidFrilansSøknadsdata';
 import { ArbeidIPeriodeType } from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
@@ -16,7 +20,19 @@ import {
     NormalarbeidstidSøknadsdata,
     NormalarbeidstidType,
 } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { isArbeidFrilansSøknadsdataMedArbeidsforhold } from '../../../utils/frilanserUtils';
+
+export function isArbeidFrilansSøknadsdataMedArbeidsforhold(
+    frilansSøknadsdata: any
+): frilansSøknadsdata is ArbeidFrilansMedArbeidsforhold {
+    const { type } = frilansSøknadsdata;
+    if (
+        type === ArbeidFrilansSøknadsdataType.erIkkeFrilanser ||
+        type === ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse
+    ) {
+        return false;
+    }
+    return true;
+}
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,

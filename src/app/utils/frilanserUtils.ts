@@ -5,10 +5,6 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
 import { FrilansFormData } from '../types/FrilansFormData';
-import {
-    ArbeidFrilansMedArbeidsforhold,
-    ArbeidFrilansSøknadsdataType,
-} from '../types/søknadsdata/arbeidFrilansSøknadsdata';
 
 export const FRILANS_MINIMIUM_NORMALARBEIDSTID = 1;
 
@@ -24,19 +20,6 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
     }
     return true;
 };
-
-export function isArbeidFrilansSøknadsdataMedArbeidsforhold(
-    frilansSøknadsdata: any
-): frilansSøknadsdata is ArbeidFrilansMedArbeidsforhold {
-    const { type } = frilansSøknadsdata;
-    if (
-        type === ArbeidFrilansSøknadsdataType.erIkkeFrilanser ||
-        type === ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse
-    ) {
-        return false;
-    }
-    return true;
-}
 
 /**
  * Returnerer true dersom bruker har frilansoppdrag eller om en har svart at en er frilanser i perioden
@@ -79,8 +62,13 @@ export const skalBrukerOppgiArbeidstidSomFrilanser = (
     søknadsperiode: DateRange,
     frilansFormData: FrilansFormData
 ): boolean => {
-    const harSvartErFrilanser = harSvartErFrilanserISøknadsperioden(søknadsperiode, frilansFormData);
-    if (harSvartErFrilanser === false) {
+    if (frilansFormData.erFrilanserIPerioden === YesOrNo.NO) {
+        return false;
+    }
+    if (
+        frilansFormData.fosterhjemsgodtgjørelse_mottar === YesOrNo.YES &&
+        frilansFormData.fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.NO
+    ) {
         return false;
     }
     const timerISnittPerUke = getNumberFromNumberInputValue(

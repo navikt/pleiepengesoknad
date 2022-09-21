@@ -16,7 +16,7 @@ import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField } from '../../../types/FrilansFormData';
-import { harSvartErFrilanserISøknadsperioden, harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
@@ -52,7 +52,6 @@ const ArbeidssituasjonFrilans = ({
     const intl = useIntl();
 
     const harFrilansoppdragIPerioden = harFrilansoppdrag(frilansoppdrag);
-    const harSvartErFrilanserIPerioden = harSvartErFrilanserISøknadsperioden(søknadsperiode, formValues);
     const harGyldigStartdato = startdato ? ISODateToDate(startdato) : undefined;
     const harGyldigSluttdato = sluttdato ? ISODateToDate(sluttdato) : undefined;
 
@@ -72,10 +71,7 @@ const ArbeidssituasjonFrilans = ({
             fosterhjemsgodtgjørelse_mottar === YesOrNo.NO);
 
     const visNormalarbeidstidSpørsmål =
-        harGyldigStartdato &&
-        harBesvartSpørsmålOmFortsattFrilanser &&
-        sluttetFørSøknadsperiode === false &&
-        harSvartErFrilanserIPerioden;
+        harGyldigStartdato && harBesvartSpørsmålOmFortsattFrilanser && sluttetFørSøknadsperiode === false;
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
