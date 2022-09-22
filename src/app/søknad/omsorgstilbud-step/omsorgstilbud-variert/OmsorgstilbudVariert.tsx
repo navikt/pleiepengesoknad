@@ -1,5 +1,4 @@
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
@@ -79,9 +78,6 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                         <Box margin="m" padBottom="xl">
                             <OmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
                         </Box>
-                        <Element tag="h3">
-                            <FormattedMessage id="steg.omsorgstilbud.månedsliste.tittel" />
-                        </Element>
                     </>
                 )}
                 <Box margin="l">

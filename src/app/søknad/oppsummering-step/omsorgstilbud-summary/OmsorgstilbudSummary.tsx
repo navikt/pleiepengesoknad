@@ -10,17 +10,23 @@ import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/uti
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import {
+    søkerFortid,
+    søkerFortidFremtid,
+    søkerFremtid,
+} from '../../../søknad/omsorgstilbud-step/omsorgstilbudStepUtils';
 
 interface Props {
     søknadsperiode: DateRange;
     apiValues: SøknadApiData;
 }
 
-const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
-    apiValues: { nattevåk, beredskap, omsorgstilbud: omsorgstilbud },
+const OmsorgstilbudSummary: React.FC<Props> = ({
+    apiValues: { nattevåk, beredskap, omsorgstilbud },
     søknadsperiode,
 }) => {
     const intl = useIntl();
+
     return (
         <>
             <SummarySection
@@ -29,17 +35,49 @@ const OmsorgstilbudSummary: React.FunctionComponent<Props> = ({
                     til: prettifyDateExtended(søknadsperiode.to),
                 })}>
                 {omsorgstilbud === undefined && (
+                    <>
+                        {(søkerFortid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
+                            <SummaryBlock
+                                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
+                                headerTag="h3">
+                                <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fortid.svar.NEI`} />
+                            </SummaryBlock>
+                        )}
+                        {(søkerFremtid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
+                            <SummaryBlock
+                                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
+                                headerTag="h3">
+                                <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fremtid.svar.NEI`} />
+                            </SummaryBlock>
+                        )}
+                    </>
+                )}
+                {omsorgstilbud !== undefined && omsorgstilbud.svarFortid && (
                     <SummaryBlock
-                        header={intlHelper(intl, 'steg.omsorgstilbud.erIOmsorgstilbud.spm', {
-                            fra: prettifyDateExtended(søknadsperiode.from),
-                            til: prettifyDateExtended(søknadsperiode.to),
-                        })}>
-                        <FormattedMessage id={`omsorgstilbud.svar.nei`} />
+                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
+                        headerTag="h3">
+                        <FormattedMessage
+                            id={`steg.oppsummering.omsorgstilbud.fortid.svar.${omsorgstilbud.svarFortid}`}
+                        />
+                    </SummaryBlock>
+                )}
+                {omsorgstilbud !== undefined && omsorgstilbud.svarFremtid && (
+                    <SummaryBlock
+                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
+                        headerTag="h3">
+                        <FormattedMessage
+                            id={`steg.oppsummering.omsorgstilbud.fremtid.svar.${omsorgstilbud.svarFremtid}`}
+                        />
                     </SummaryBlock>
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
                     <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fast.header')}
+                        header={intlHelper(
+                            intl,
+                            søkerFortid(søknadsperiode)
+                                ? 'steg.oppsummering.omsorgstilbud.fast.header.fortid'
+                                : 'steg.oppsummering.omsorgstilbud.fast.header'
+                        )}
                         headerTag="h3">
                         <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
                     </SummaryBlock>

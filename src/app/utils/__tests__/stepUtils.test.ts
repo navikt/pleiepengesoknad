@@ -112,18 +112,21 @@ describe('stepUtils', () => {
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 2', () => {
-            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.NO };
+            formData.omsorgstilbud = { erIOmsorgstilbudFortid: YesOrNo.NO, erIOmsorgstilbudFremtid: YesOrNo.NO };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 3', () => {
-            formData.omsorgstilbud = { erIOmsorgstilbud: YesOrNo.UNANSWERED };
+            formData.omsorgstilbud = {
+                erIOmsorgstilbudFortid: YesOrNo.UNANSWERED,
+                erIOmsorgstilbudFremtid: YesOrNo.UNANSWERED,
+            };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormData);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer nattevåk/beredskap dersom barn er i omsorgstilbud', () => {
             formData.omsorgstilbud = {
-                erIOmsorgstilbud: YesOrNo.YES,
+                erIOmsorgstilbudFortid: YesOrNo.YES,
                 enkeltdager: {
                     '2020-01-01': { hours: '1', minutes: '0' },
                 },
