@@ -19,7 +19,7 @@ const enkeldagerFormData: DateDurationMap = {
 
 const formValuesTemplate: Partial<SøknadFormData> = {
     omsorgstilbud: {
-        erIOmsorgstilbud: YesOrNo.YES,
+        erIOmsorgstilbudFortid: YesOrNo.YES,
         erLiktHverUke: YesOrNo.NO,
         enkeltdager: enkeldagerFormData,
     },
