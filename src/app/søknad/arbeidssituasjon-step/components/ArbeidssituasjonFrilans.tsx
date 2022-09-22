@@ -141,36 +141,84 @@ const ArbeidssituasjonFrilans = ({
                             name={FrilansFormField.startdato}
                             label={intlHelper(
                                 intl,
-                                fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.NO
+                                mottarKunFosterhjemsgodtgjørsel
                                     ? 'frilanser.nårStartet_kunFosterhjemsgodtgjørelse.spm'
                                     : 'frilanser.nårStartet.spm'
                             )}
                             showYearSelector={true}
                             maxDate={søknadsdato}
-                            validate={getFrilanserStartdatoValidator(formValues, søknadsperiode, søknadsdato)}
+                            validate={(value) => {
+                                const error = getFrilanserStartdatoValidator(
+                                    formValues,
+                                    søknadsperiode,
+                                    søknadsdato
+                                )(value);
+                                if (error) {
+                                    const key = mottarKunFosterhjemsgodtgjørsel
+                                        ? `validation.frilans.startdato_kunFosterhjemsgodtgjørelse.${error}`
+                                        : `validation.frilans.startdato.${error}`;
+                                    return {
+                                        key,
+                                        keepKeyUnaltered: true,
+                                    };
+                                }
+                                return undefined;
+                            }}
                         />
                     </FormBlock>
                     <FormBlock>
                         <ArbFriFormComponents.YesOrNoQuestion
                             name={FrilansFormField.erFortsattFrilanser}
-                            legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
-                            validate={getYesOrNoValidator()}
+                            legend={intlHelper(
+                                intl,
+                                mottarKunFosterhjemsgodtgjørsel
+                                    ? 'frilanser.erFortsattFrilanser_kunFosterhjemsgodtgjørelse.spm'
+                                    : 'frilanser.erFortsattFrilanser.spm'
+                            )}
+                            validate={(value) => {
+                                const key = mottarKunFosterhjemsgodtgjørsel
+                                    ? 'validation.frilans.erFortsattFrilanser_kunFosterhjemsgodtgjørelse.yesOrNoIsUnanswered'
+                                    : 'validation.frilans.erFortsattFrilanser.yesOrNoIsUnanswered';
+                                return getYesOrNoValidator()(value)
+                                    ? {
+                                          key,
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
+                            }}
                         />
                     </FormBlock>
                     {erFortsattFrilanser === YesOrNo.NO && (
                         <FormBlock>
                             <ArbFriFormComponents.DatePicker
                                 name={FrilansFormField.sluttdato}
-                                label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                label={intlHelper(
+                                    intl,
+                                    mottarKunFosterhjemsgodtgjørsel
+                                        ? 'frilanser.nårSluttet_kunFosterhjemsgodtgjørelse.spm'
+                                        : 'frilanser.nårSluttet.spm'
+                                )}
                                 showYearSelector={true}
                                 minDate={datepickerUtils.getDateFromDateString(startdato)}
                                 maxDate={søknadsdato}
-                                validate={getFrilanserSluttdatoValidator(
-                                    formValues,
-                                    søknadsperiode,
-                                    søknadsdato,
-                                    harFrilansoppdragIPerioden
-                                )}
+                                validate={(value) => {
+                                    const error = getFrilanserSluttdatoValidator(
+                                        formValues,
+                                        søknadsperiode,
+                                        søknadsdato,
+                                        harFrilansoppdragIPerioden
+                                    )(value);
+                                    if (error) {
+                                        const key = mottarKunFosterhjemsgodtgjørsel
+                                            ? `validation.frilans.sluttdato_kunFosterhjemsgodtgjørelse.${error}`
+                                            : `validation.frilans.sluttdato.${error}`;
+                                        return {
+                                            key,
+                                            keepKeyUnaltered: true,
+                                        };
+                                    }
+                                    return undefined;
+                                }}
                             />
                         </FormBlock>
                     )}
