@@ -24,6 +24,8 @@ export interface FrilansApiDataKunFosterhjemsgodtgjørelse {
     mottarFosterhjemsgodtgjørelse: true;
     harAndreOppdragEnnFosterhjemsgodtgjørelse: false;
     startdato: ISODate;
+    jobberFortsattSomFrilans: boolean;
+    sluttdato?: ISODate;
 }
 
 export interface FrilansApiDataSluttetFørSøknadsperiode {

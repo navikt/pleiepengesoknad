@@ -26,12 +26,14 @@ export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
     erFrilanser: false;
 }
 
-export interface ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse
-    extends Pick<ArbeidFrilansMedArbeidsforhold, 'startdato'> {
+export interface ArbeidFrilansSøknadsdataKunFosterhjemsgodtgjørelse {
     type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse;
-    erFrilanser: true;
     mottarFosterhjemsgodtgjørelse: true;
     harAndreOppdragEnnFosterhjemsgodtgjørelse: false;
+    erFrilanser: true;
+    erFortsattFrilanser: boolean;
+    startdato: Date;
+    sluttdato?: Date;
 }
 export interface ArbeidFrilansSøknadsdataPågående extends ArbeidFrilansMedArbeidsforhold {
     type: ArbeidFrilansSøknadsdataType.pågående;

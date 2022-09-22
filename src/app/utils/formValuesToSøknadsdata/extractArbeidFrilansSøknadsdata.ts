@@ -29,6 +29,9 @@ export const extractArbeidFrilansSøknadsdata = (
             : frilans.fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.YES;
 
     const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
+    const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
+    const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
+    /** Kun fosterhjemsgodtgjørsel */
     if (mottarFosterhjemsgodtgjørelse && harAndreOppdragEnnFosterhjemsgodtgjørelse === false && startdato) {
         return {
             type: ArbeidFrilansSøknadsdataType.kunFosterhjemsgodtgjørelse,
@@ -36,14 +39,14 @@ export const extractArbeidFrilansSøknadsdata = (
             mottarFosterhjemsgodtgjørelse: true,
             harAndreOppdragEnnFosterhjemsgodtgjørelse: false,
             startdato,
+            erFortsattFrilanser,
+            sluttdato,
         };
     }
 
-    const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
     const aktivPeriode = startdato
         ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
         : undefined;
-    const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
     const arbeidsforhold = frilans.arbeidsforhold
         ? extractArbeidsforholdSøknadsdata(
               frilans.arbeidsforhold,
