@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Element } from 'nav-frontend-typografi';
 import { Arbeidsgiver } from '../../../../types';
 
@@ -14,16 +14,13 @@ const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
         return (
             <FormattedMessage
                 id="frilansoppdragListe.tidsrom.avsluttet"
-                values={{ fra: prettifyDateExtended(ansattFom), til: prettifyDateExtended(ansattTom) }}
+                values={{ fra: prettifyDateFull(ansattFom), til: prettifyDateFull(ansattTom) }}
             />
         );
     }
     if (ansattFom) {
         return (
-            <FormattedMessage
-                id="frilansoppdragListe.tidsrom.pågående"
-                values={{ fra: prettifyDateExtended(ansattFom) }}
-            />
+            <FormattedMessage id="frilansoppdragListe.tidsrom.pågående" values={{ fra: prettifyDateFull(ansattFom) }} />
         );
     }
     return null;
