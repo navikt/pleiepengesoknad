@@ -97,9 +97,7 @@ const ArbeidssituasjonFrilans = ({
                                         </Lenke>
                                     </p>
                                     <p>
-                                        Merk at hvis du mottar <strong>omsorgsstønad</strong> eller{' '}
-                                        <strong>fosterhjemsgodtgjørelse</strong> er dette frilansinntekt og du regnes
-                                        for å være frilanser når du mottar dette.
+                                        <FormattedMessage id="frilanser.hjelpetekst.2" />
                                     </p>
                                 </ExpandableInfo>
                             )
@@ -117,6 +115,11 @@ const ArbeidssituasjonFrilans = ({
                             frilansoppdrag.length === 1
                                 ? intlHelper(intl, 'frilanser.erFrilansoppdragFosterhjemsgodgjørsel.spm')
                                 : intlHelper(intl, 'frilanser.mottarFosterhjemsgodgjørsel.spm')
+                        }
+                        description={
+                            <ExpandableInfo title={intlHelper(intl, 'frilanser.fosterhjemsgodtgjørelse.info.tittel')}>
+                                <FormattedMessage id="frilanser.fosterhjemsgodtgjørelse.info.tekst" />
+                            </ExpandableInfo>
                         }
                         validate={getYesOrNoValidator()}
                     />

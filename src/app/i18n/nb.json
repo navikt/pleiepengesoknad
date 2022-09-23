@@ -556,14 +556,12 @@
     "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm": "Oppgi hvor mange timer du normalt jobbet i snitt per uke {hvor}:",
     "arbeidsforhold.utledet": "timer i uka",
 
-    "arbeidsforhold.normalTimer.info.tittel": "Hvordan regner jeg ut et snitt?",
     "arbeidsforhold.ansatt.normalTimer.info": "Hvis du er usikker på hvor mange timer det er, finner du som regel svaret i arbeidskontrakten din, eller du kan høre med arbeidsgiver.",
-    "arbeidsforhold.frilanser.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger.",
-    "arbeidsforhold.selvstendig.normalTimer.info": "Her skal du oppgi hvor mange timer du normalt jobber som selvstendig næringsdrivende når du ikke har fravær på grunn av for eksempel pleiepenger.",
-    "arbeidsforhold.normalTimer.info.list.item.1": "Hvis du jobber et fast antall timer per uke, er det dette antallet du oppgir.",
-    "arbeidsforhold.normalTimer.info.list.item.2": "Hvis du jobber turnus eller har annen varierende arbeidstid, skal du legge inn et snitt per uke.",
+    "arbeidsforhold.normalTimer.info.tittel": "Hvordan regner jeg ut et snitt?",
+    "arbeidsforhold.frilanser.normalTimer.info.1": "Her skal du oppgi hvor mange timer du normalt jobber som frilanser når du ikke har fravær på grunn av for eksempel pleiepenger. Hvis du jobber et fast antall timer per uke, er det dette antallet du oppgir.",
+    "arbeidsforhold.frilanser.normalTimer.info.2": "Når du ikke jobber et fast antall timer per uke, må du oppgi et snitt. Slik regner du ut et snitt for",
 
-    "arbeidsforhold.normalTimer.info.turnus.tittel": "Hvordan regner jeg ut et snitt når jeg jobber turnus?",
+    "arbeidsforhold.normalTimer.info.turnus.tittel": "turnus",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.2": "Eksempel:",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.3": "Du har en turnus som går over 3 uker. Den første uka jobber du 20 timer, den andre 40 timer og den tredje uka jobber du 15 timer. Da legger du sammen antall timer du har jobbet og deler med antall uker i turnusperioden din.",
@@ -572,14 +570,18 @@
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.4b": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.5": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
 
-    "arbeidsforhold.normalTimer.info.varierende.tittel": "Hvordan regner jeg ut et snitt ved varierende arbeidstid?",
+    "arbeidsforhold.normalTimer.info.varierende.tittel": "varierende arbeidstid",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.2": "Eksempel når du har jobbet de siste 12 ukene:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.3": "De siste 12 ukene har du jobbet 250 timer. Da deler du antall timer du har jobbet med 12: 250 timer / 12 uker = 20,8",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.4": "Du jobber altså i snitt 20,8 timer per uke, og det er dette tallet du oppgir.",
-
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.5": "Slik regner du ut et snitt når du har jobbet mindre enn 12 uker:",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.6": "Da deler du antall timer med antall uker du har jobbet. Hvis du for eksempel har jobbet i 7 uker, så deler du antall timer du har jobbet med 7.",
+
+    "arbeidsforhold.normalTimer.info.småoppdrag.tittel": "små frilansoppdrag (for eksempel styreverv i borettslag)",
+
+    "arbeidsforhold.normalTimer.info.omsorgsstønad.tittel": "omsorgsstønad fra kommunen",
+    "arbeidsforhold.normalTimer.info.omsorgsstønad.tekst": "I kontrakten du har fått fra kommunen står det hvor mange timer du er tildelt omsorgsstønad. Hvis det står et timeantall per uke, er det dette tallet du oppgir. Hvis det står et timeantall for en hel måned, må du regne det om til per uke. Det gjør du ved å dele antall timer i måneden med 4.",
 
     "arbeidsforhold.normalTimer.info.utbetalingFraNAV.tittel": "Hva om jeg får utbetaling fra NAV nå?",
     "arbeidsforhold.normalTimer.info.utbetalingFraNAV.avsnitt.1": "Hvis du for dette arbeidsforholdet for eksempel får foreldrepenger, sykepenger eller annet fra NAV nå, registrerer du det som var normalarbeidstiden din før du begynte å få denne utbetalingen fra NAV.",
@@ -717,20 +719,23 @@
     "frilanser.erFrilansoppdragFosterhjemsgodgjørsel.spm": "Er dette frilansoppdraget fosterhjemsgodtgjørelse?",
     "frilanser.fosterhjemsgodtgjørelse_harFlereOppdrag.spm": "Har du andre frilansoppdrag i tillegg til fosterhjemsgodtgjørelse?",
     "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
-    "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
-    "frilanser.erFortsattFrilanser.spm": "Jobber du fortsatt som frilanser?",
+    "frilanser.nårStartet.spm": "Når startet du som frilanser?",
+    "frilanser.erFortsattFrilanser.spm": "Er du fortsatt frilanser?",
     "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
     "frilanser.nårStartet_kunFosterhjemsgodtgjørelse.spm": "Når startet du du med å få fosterhjemsgodtgjørelse?",
     "frilanser.erFortsattFrilanser_kunFosterhjemsgodtgjørelse.spm": "Mottar du fortsatt fosterhjemsgodtgjørelse?",
     "frilanser.nårSluttet_kunFosterhjemsgodtgjørelse.spm": "Når sluttet du å motta fosterhjermsgodtgjørelse?",
+    "frilanser.fosterhjemsgodtgjørelse.info.tittel": "Hva betyr dette?",
+    "frilanser.fosterhjemsgodtgjørelse.info.tekst": "Du regnes for å være frilanser når du mottar fosterhjemgodtgjørelse.",
 
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
 
     "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
-    "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
+    "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser, må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
     "frilanser.hjelpetekst.skatteetatenLenke": "skatteetaten sine nettsider.",
+    "frilanser.hjelpetekst.2": "Merk at hvis du mottar <strong>omsorgsstønad</strong> eller <strong>fosterhjemsgodtgjørelse</strong> er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
 
     "frilanser.summary.header": "Frilans",
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
@@ -935,10 +940,16 @@
 
     "arbeidssituasjonFrilanser.frilanserPart.tittel": "Om deg som frilanser",
 
+    "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i pleiepengeperioden:",
+    "frilansoppdragInfo.intro": "Du har frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Merk at hvis du mottar fosterhjemsgodtgjørelse eller omsorgsstønad fra kommunen er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
     "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",
-    "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i perioden:",
+    "frilansoppdragListe.info.tittel": "Hvis informasjonen over ikke stemmer",
+    "frilansoppdragListe.info.tekst.1": "Hvis informasjonen om at du er registrert med frilansoppdrag ikke stemmer, må du kontakte oppdragsgiver og be de oppdatere informasjonen i AA-registeret.",
+    "frilansoppdragListe.info.tekst.2.a": "Du er frilanser hvis du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser, kan du",
+    "frilansoppdragListe.info.tekst.2.b": "sjekke på skatteetatens sider",
+    "frilansoppdragListe.info.tekst.2.c": "om oppdragene dine er registrert som frilansoppdrag.",
 
     "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn."
 }
