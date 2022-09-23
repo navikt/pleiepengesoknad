@@ -579,6 +579,7 @@
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.6": "Da deler du antall timer med antall uker du har jobbet. Hvis du for eksempel har jobbet i 7 uker, så deler du antall timer du har jobbet med 7.",
 
     "arbeidsforhold.normalTimer.info.småoppdrag.tittel": "små frilansoppdrag (for eksempel styreverv i borettslag)",
+    "arbeidsforhold.normalTimer.info.småoppdrag.tekst": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 måneder og deler dette på 52. Hvis du ikke har hatt frilansoppdrag i minst 12 måneder tar du utgangspunkt i så mange måneder du har vært frilanser og deler på antall uker dette tilsvarer.",
 
     "arbeidsforhold.normalTimer.info.omsorgsstønad.tittel": "omsorgsstønad fra kommunen",
     "arbeidsforhold.normalTimer.info.omsorgsstønad.tekst": "I kontrakten du har fått fra kommunen står det hvor mange timer du er tildelt omsorgsstønad. Hvis det står et timeantall per uke, er det dette tallet du oppgir. Hvis det står et timeantall for en hel måned, må du regne det om til per uke. Det gjør du ved å dele antall timer i måneden med 4.",

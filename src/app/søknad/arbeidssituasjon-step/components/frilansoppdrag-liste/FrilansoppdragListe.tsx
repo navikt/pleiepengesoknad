@@ -40,7 +40,7 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag, k
         <ul style={{ margin: 0, padding: '1rem 0 0 1rem' }}>
             {frilansoppdrag.map((oppdrag) => (
                 <li key={oppdrag.id}>
-                    <Element tag="h4">{oppdrag.navn}</Element>
+                    <Element tag="h3">{oppdrag.navn}</Element>
                     <FormattedMessage id="frilansoppdragListe.oppdrag" values={{ tidsrom: renderTidsrom(oppdrag) }} />
                 </li>
             ))}
