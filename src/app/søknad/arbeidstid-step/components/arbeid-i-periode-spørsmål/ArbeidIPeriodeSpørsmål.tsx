@@ -114,17 +114,17 @@ const ArbeidIPeriodeSpørsmål = ({
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
                         value: ArbeiderIPeriodenSvar.heltFravær,
-                        'data-testid': 'jobberIkke',
+                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberIkke`,
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert', intlValues),
                         value: ArbeiderIPeriodenSvar.redusert,
-                        'data-testid': 'jobberRedusert',
+                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberRedusert`,
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig', intlValues),
                         value: ArbeiderIPeriodenSvar.somVanlig,
-                        'data-testid': 'jobberVanlig',
+                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberVanlig`,
                     },
                 ]}
             />

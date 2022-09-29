@@ -19,12 +19,12 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
     return (
         <SøknadFormStep id={StepID.OPPLYSNINGER_OM_BARNET} onValidFormSubmit={onValidSubmit}>
             {søkerdata && (
-                <>
+                <div data-testid="opplysninger-om-barnet">
                     {harRegistrerteBarn(søkerdata) && <RegistrertBarnPart søkersBarn={søkerdata.barn} />}
                     {(søknadenGjelderEtAnnetBarn || !harRegistrerteBarn(søkerdata)) && (
                         <AnnetBarnPart formValues={values} søkersFødselsnummer={søkerdata.søker.fødselsnummer} />
                     )}
-                </>
+                </div>
             )}
         </SøknadFormStep>
     );

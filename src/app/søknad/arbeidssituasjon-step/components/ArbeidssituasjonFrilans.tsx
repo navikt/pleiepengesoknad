@@ -109,6 +109,7 @@ const ArbeidssituasjonFrilans = ({
                         <FormBlock>
                             <ArbFriFormComponents.YesOrNoQuestion
                                 name={FrilansFormField.erFortsattFrilanser}
+                                data-testid="erFortsattFrilanser"
                                 legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
                                 validate={getYesOrNoValidator()}
                             />

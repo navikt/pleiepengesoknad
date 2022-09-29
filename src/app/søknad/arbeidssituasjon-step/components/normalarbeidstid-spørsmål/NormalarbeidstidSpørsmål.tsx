@@ -71,6 +71,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.spm`,
                     intlValues
                 )}
+                data-testid={`${getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}`}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
                 description={
                     spørOmTimerISnitt ? (

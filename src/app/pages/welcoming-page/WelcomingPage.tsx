@@ -35,7 +35,7 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
     useLogSidevisning(SIFCommonPageKey.velkommen);
 
     return (
-        <>
+        <div data-testid="welcomePage">
             <Page
                 title={intlHelper(intl, 'welcomingPage.sidetittel')}
                 className={bem.block}
@@ -92,7 +92,7 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                 onRequestClose={() => setBehandlingAvPersonopplysningerModalOpen(false)}
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
             /> */}
-        </>
+        </div>
     );
 };
 
