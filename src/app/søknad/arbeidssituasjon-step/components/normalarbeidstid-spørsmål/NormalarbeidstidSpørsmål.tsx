@@ -55,7 +55,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
         },
     });
 
-    const { arbeiderFastHelg, arbeiderHeltid, erEndretSidenForrigeSøknad } = arbeidsforhold.normalarbeidstid || {};
+    const { arbeiderFastHelg, arbeiderHeltid, erLiktSomForrigeSøknad } = arbeidsforhold.normalarbeidstid || {};
 
     const renderTimerPerUkeSpørsmål = (spørOmTimerISnitt: boolean) => {
         return (
@@ -95,7 +95,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     }
 
     const shouldRenderTimerPerUkeSpørsmål = (): boolean => {
-        if (erEndretSidenForrigeSøknad === YesOrNo.NO) {
+        if (erLiktSomForrigeSøknad === YesOrNo.YES) {
             return false;
         }
         if (arbeiderHeltid === YesOrNo.NO || (arbeiderHeltid === YesOrNo.YES && arbeiderFastHelg === YesOrNo.YES)) {
@@ -131,16 +131,16 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             {timerPerUkeISnittForrigeSøknad !== undefined && (
                 <>
                     <FormComponents.YesOrNoQuestion
-                        name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erEndretSidenForrigeSøknad)}
-                        legend={`I forrige søknad oppgav du at du jobbet ${durationToDecimalDuration(
+                        name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLiktSomForrigeSøknad)}
+                        legend={`I forrige søknad oppga du at du normalt jobber ${durationToDecimalDuration(
                             timerPerUkeISnittForrigeSøknad
-                        )} timer i snitt per uke hos ${arbeidsstedNavn}. Har dette endret seg siden sist du søkte?`}
+                        )} timer i snitt per uke hos ${arbeidsstedNavn}. Stemmer dette fremdeles?`}
                         data-testid="normalarbeidstidErLikForrigeSøknad"
                         validate={(value: any) => {
                             const error = getRequiredFieldValidator()(value);
                             return error
                                 ? {
-                                      key: 'validation.arbeidsforhold.erEndretSidenForrigeSøknad',
+                                      key: 'validation.arbeidsforhold.erLiktSomForrigeSøknad',
                                       values: intlValues,
                                       keepKeyUnaltered: true,
                                   }
@@ -151,7 +151,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 </>
             )}
             {(timerPerUkeISnittForrigeSøknad === undefined ||
-                (timerPerUkeISnittForrigeSøknad !== undefined && erEndretSidenForrigeSøknad === YesOrNo.YES)) && (
+                (timerPerUkeISnittForrigeSøknad !== undefined && erLiktSomForrigeSøknad === YesOrNo.NO)) && (
                 <>
                     <FormBlock margin={timerPerUkeISnittForrigeSøknad ? undefined : 'none'}>
                         <FormComponents.YesOrNoQuestion

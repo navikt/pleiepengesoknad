@@ -13,16 +13,13 @@ export const extractNormalarbeidstid = (
     if (!normalarbeidstid) {
         return undefined;
     }
-    if (
-        arbeidsforholdType === ArbeidsforholdType.ANSATT &&
-        normalarbeidstid.erEndretSidenForrigeSøknad === YesOrNo.NO
-    ) {
+    if (arbeidsforholdType === ArbeidsforholdType.ANSATT && normalarbeidstid.erLiktSomForrigeSøknad === YesOrNo.YES) {
         const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
         if (timerPerUkeISnitt === undefined) {
             return undefined;
         }
 
-        return normalarbeidstid.erEndretSidenForrigeSøknad === YesOrNo.NO
+        return normalarbeidstid.erLiktSomForrigeSøknad === YesOrNo.YES
             ? {
                   type: NormalarbeidstidType.erLiktSnittSomForrigeSøknad,
                   erLiktHverUke: false,

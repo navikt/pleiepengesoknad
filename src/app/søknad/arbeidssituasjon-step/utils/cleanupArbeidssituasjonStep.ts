@@ -11,7 +11,7 @@ import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
 const cleanupNormalarbeidstid = (
     {
-        erEndretSidenForrigeSøknad,
+        erLiktSomForrigeSøknad,
         erLikeMangeTimerHverUke,
         timerFasteUkedager,
         erFasteUkedager,
@@ -28,22 +28,22 @@ const cleanupNormalarbeidstid = (
         };
     }
 
-    if (erEndretSidenForrigeSøknad === YesOrNo.NO) {
+    if (erLiktSomForrigeSøknad === YesOrNo.YES) {
         return {
-            erEndretSidenForrigeSøknad,
+            erLiktSomForrigeSøknad,
             timerPerUke,
         };
     }
     if (arbeiderHeltid === YesOrNo.NO) {
         return {
-            erEndretSidenForrigeSøknad,
+            erLiktSomForrigeSøknad,
             arbeiderHeltid,
             timerPerUke,
         };
     }
     if (arbeiderFastHelg === YesOrNo.YES) {
         return {
-            erEndretSidenForrigeSøknad,
+            erLiktSomForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             timerPerUke,
@@ -51,7 +51,7 @@ const cleanupNormalarbeidstid = (
     }
     if (erLikeMangeTimerHverUke === YesOrNo.NO) {
         return {
-            erEndretSidenForrigeSøknad,
+            erLiktSomForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             erLikeMangeTimerHverUke,
@@ -60,7 +60,7 @@ const cleanupNormalarbeidstid = (
     }
     if (erFasteUkedager === YesOrNo.YES) {
         return {
-            erEndretSidenForrigeSøknad,
+            erLiktSomForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             erLikeMangeTimerHverUke,
@@ -71,7 +71,7 @@ const cleanupNormalarbeidstid = (
         };
     }
     return {
-        erEndretSidenForrigeSøknad,
+        erLiktSomForrigeSøknad,
         arbeiderHeltid,
         arbeiderFastHelg,
         erLikeMangeTimerHverUke,
