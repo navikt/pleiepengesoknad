@@ -15,6 +15,11 @@ import {
 } from '../api';
 
 const mockedApiUrl = 'nav.no/api';
+
+jest.mock('../../utils/envUtils.ts', () => {
+    return { getEnvironmentVariable: () => mockedApiUrl };
+});
+
 jest.mock('../utils/apiUtils', () => {
     return {
         getApiUrlByResourceType: jest.fn(() => mockedApiUrl),
