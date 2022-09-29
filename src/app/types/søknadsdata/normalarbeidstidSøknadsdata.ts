@@ -6,6 +6,7 @@ export enum NormalarbeidstidType {
     likeUkerOgDager = 'likeUkerOgDager',
     likeUkerVarierendeDager = 'likeUkerVarierendeDager',
     ulikeUker = 'ulikeUker',
+    erLiktSnittSomForrigeSøknad = 'erLiktSnittSomForrigeSøknad',
 }
 export interface NormalarbeidstidSøknadsdataLikeUker {
     type: NormalarbeidstidType.likeUkerOgDager;
@@ -39,8 +40,14 @@ export interface NormalarbeidstidSøknadsdataArbeiderDeltid {
     erFasteUkedager: false;
     timerPerUkeISnitt: number;
 }
+export interface NormalarbeidstidSøknadsdataLiktSnittSomForrigeSøknad {
+    type: NormalarbeidstidType.erLiktSnittSomForrigeSøknad;
+    erLiktHverUke: false;
+    timerPerUkeISnitt: number;
+}
 
 export type NormalarbeidstidSøknadsdata =
+    | NormalarbeidstidSøknadsdataLiktSnittSomForrigeSøknad
     | NormalarbeidstidSøknadsdataArbeiderHelg
     | NormalarbeidstidSøknadsdataArbeiderDeltid
     | NormalarbeidstidSøknadsdataLikeUker

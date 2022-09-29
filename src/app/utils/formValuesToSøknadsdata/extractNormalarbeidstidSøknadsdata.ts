@@ -10,10 +10,34 @@ export const extractNormalarbeidstid = (
     normalarbeidstid: NormalarbeidstidFormData | undefined,
     arbeidsforholdType: ArbeidsforholdType
 ): NormalarbeidstidSøknadsdata | undefined => {
+    if (!normalarbeidstid) {
+        return undefined;
+    }
     if (
-        !normalarbeidstid ||
-        (arbeidsforholdType === ArbeidsforholdType.ANSATT &&
-            isYesOrNoAnswered(normalarbeidstid.arbeiderHeltid) === false)
+        arbeidsforholdType === ArbeidsforholdType.ANSATT &&
+        normalarbeidstid.erEndretSidenForrigeSøknad === YesOrNo.NO
+    ) {
+        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+        if (timerPerUkeISnitt === undefined) {
+            return undefined;
+        }
+
+        return normalarbeidstid.erEndretSidenForrigeSøknad === YesOrNo.NO
+            ? {
+                  type: NormalarbeidstidType.erLiktSnittSomForrigeSøknad,
+                  erLiktHverUke: false,
+                  timerPerUkeISnitt,
+              }
+            : {
+                  type: NormalarbeidstidType.ulikeUker,
+                  erLiktHverUke: false,
+                  erFasteUkedager: false,
+                  timerPerUkeISnitt,
+              };
+    }
+    if (
+        arbeidsforholdType === ArbeidsforholdType.ANSATT &&
+        isYesOrNoAnswered(normalarbeidstid.arbeiderHeltid) === false
     ) {
         return undefined;
     }

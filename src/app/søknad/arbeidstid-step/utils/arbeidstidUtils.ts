@@ -60,6 +60,7 @@ export const arbeiderMindreEnnNormaltISnittPerUke = (
 ): boolean => {
     switch (normalarbeidstid.type) {
         case NormalarbeidstidType.ulikeUker:
+        case NormalarbeidstidType.erLiktSnittSomForrigeSøknad:
         case NormalarbeidstidType.likeUkerVarierendeDager:
         case NormalarbeidstidType.arbeiderHelg:
         case NormalarbeidstidType.arbeiderDeltid:
@@ -97,7 +98,10 @@ export const erArbeidsforholdMedFravær = ({
             /** Ingen sjekk implementert */
             return true;
         case ArbeidIPeriodeType.arbeiderFasteUkedager:
-            if (normalarbeidstid.erFasteUkedager) {
+            if (
+                normalarbeidstid.type !== NormalarbeidstidType.erLiktSnittSomForrigeSøknad &&
+                normalarbeidstid.erFasteUkedager
+            ) {
                 return arbeiderMindreEnnNormaltFasteUkedager(
                     arbeidISøknadsperiode.fasteDager,
                     normalarbeidstid.timerFasteUkedager

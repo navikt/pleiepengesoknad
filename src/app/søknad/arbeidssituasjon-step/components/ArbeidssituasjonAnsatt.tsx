@@ -8,11 +8,17 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { ArbeidsforholdFormData, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
+import { søknadErBasertPåForrigeSøknad } from '../../../utils/forrigeSøknadUtils';
+import { useSøknadsdataContext } from '../../SøknadsdataContext';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
+import { Arbeidsgiver } from '../../../types';
 
 const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
 
@@ -22,9 +28,26 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
+const getNormalarbeidstidForrigeSøknad = (
+    arbeidsgiver: Arbeidsgiver,
+    importertSøknadMetadata?: ImportertSøknadMetadata
+): AnsattNormalarbeidstidSnitt | undefined => {
+    if (!importertSøknadMetadata || !importertSøknadMetadata.ansattNormalarbeidstidSnitt) {
+        return undefined;
+    }
+    return importertSøknadMetadata.ansattNormalarbeidstidSnitt.find((f) => f.id === arbeidsgiver.id);
+};
+
 const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldName, søknadsperiode }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
+
+    const { values } = useFormikContext<SøknadFormValues>();
+    const { importertSøknadMetadata } = useSøknadsdataContext();
+
+    const timerPerUkeISnittForrigeSøknad = søknadErBasertPåForrigeSøknad(values, importertSøknadMetadata)
+        ? getNormalarbeidstidForrigeSøknad(arbeidsforhold.arbeidsgiver, importertSøknadMetadata)
+        : undefined;
 
     const getFieldName = (field: ArbeidsforholdFormField): ArbeidsforholdFormField =>
         `${parentFieldName}.${field}` as any;
@@ -89,16 +112,15 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
-                            <>
-                                <NormalarbeidstidSpørsmål
-                                    arbeidsforhold={arbeidsforhold}
-                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                    arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
-                                    erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
-                                    arbeidsforholdFieldName={parentFieldName}
-                                    brukKunSnittPerUke={false}
-                                />
-                            </>
+                            <NormalarbeidstidSpørsmål
+                                arbeidsforhold={arbeidsforhold}
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
+                                erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
+                                arbeidsforholdFieldName={parentFieldName}
+                                brukKunSnittPerUke={false}
+                                timerPerUkeISnittForrigeSøknad={timerPerUkeISnittForrigeSøknad?.timerISnitt}
+                            />
                         )}
                     </ResponsivePanel>
                 </FormBlock>

@@ -10,7 +10,7 @@ import { ImportertSøknad } from '../types/ImportertSøknad';
 import { InnsendtSøknad } from '../types/InnsendtSøknad';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../types/SøknadFormValues';
-import { MellomlagringMetadata, MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
+import { MELLOMLAGRING_VERSION, MellomlagringMetadata, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
 import { forrigeSøknadErGyldig } from '../utils/forrigeSøknadUtils';
 import { importerSøknad } from '../utils/importInnsendtSøknad/importSøknad';
@@ -120,14 +120,17 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
         ) {
             const result = importerSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
             if (result) {
-                const { formValues, endringer } = result;
+                const { formValues, søknadsperiode, endringer, registrertBarn, ansattNormalarbeidstidSnitt } = result;
+
                 forrigeSøknad = {
                     formValues,
                     metaData: {
                         søknadId: forrigeSøknadReponse.data.søknadId,
                         mottatt: forrigeSøknadReponse.data.søknad.mottatt,
                         endringer,
-                        barn: result.registrertBarn,
+                        søknadsperiode,
+                        barn: registrertBarn,
+                        ansattNormalarbeidstidSnitt,
                     },
                 };
             }

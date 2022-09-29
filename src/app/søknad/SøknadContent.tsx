@@ -102,16 +102,6 @@ const SøknadContent = ({
         setImportertSøknadMetadata,
         søknadHasBeenSent,
     ]);
-    // , [
-    //     isOnWelcomPage,
-    //     nextStepRoute,
-    //     mellomlagringMetadata,
-    //     søknadHasBeenSent,
-    //     sendUserToStep,
-    //     forrigeSøknad,
-    //     importertSøknadMetadata,
-    //     setImportertSøknadMetadata,
-    // ]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
@@ -144,7 +134,9 @@ const SøknadContent = ({
         await purge();
 
         const initialFormValues =
-            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES ? forrigeSøknad?.formValues : undefined;
+            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES
+                ? { ...forrigeSøknad?.formValues, brukForrigeSøknad: YesOrNo.YES }
+                : undefined;
 
         if (forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES) {
             setImportertSøknadMetadata(forrigeSøknad?.metaData);

@@ -54,27 +54,29 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                             </li>
                             {arbeidsgiver.arbeidsforhold && (
                                 <>
-                                    {normalarbeidstid && (
-                                        <>
-                                            <li>
-                                                {normalarbeidstid._arbeiderDeltid === true && (
-                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderDeltid" />
-                                                )}
-                                                {normalarbeidstid._arbeiderDeltid === false && (
-                                                    <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderHeltid" />
-                                                )}
-                                            </li>
-                                            {normalarbeidstid._arbeiderDeltid === false && (
+                                    {normalarbeidstid &&
+                                        normalarbeidstid.erLiktHverUke === false &&
+                                        normalarbeidstid._erLiktSnittSomForrigeSøknad === false && (
+                                            <>
                                                 <li>
-                                                    {normalarbeidstid._arbeiderHelg ? (
-                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
-                                                    ) : (
-                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                                    {normalarbeidstid._arbeiderDeltid === true && (
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderDeltid" />
+                                                    )}
+                                                    {normalarbeidstid._arbeiderDeltid === false && (
+                                                        <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderHeltid" />
                                                     )}
                                                 </li>
-                                            )}
-                                        </>
-                                    )}
+                                                {normalarbeidstid._arbeiderDeltid === false && (
+                                                    <li>
+                                                        {normalarbeidstid._arbeiderHelg ? (
+                                                            <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderFastHelg" />
+                                                        ) : (
+                                                            <FormattedMessage id="oppsummering.arbeidssituasjon.arbeiderIkkeFastHelg" />
+                                                        )}
+                                                    </li>
+                                                )}
+                                            </>
+                                        )}
                                     <li>
                                         <NormalarbeidstidSummary
                                             erAnsatt={erAnsatt}

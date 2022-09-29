@@ -20,11 +20,6 @@ export const mapNormalarbeidstidApiDataToFormValues = (
         };
     }
     return {
-        erLikeMangeTimerHverUke: YesOrNo.NO,
         timerPerUke: `${ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt)}`.replace('.', ','),
-        /** WhatTodo
-         * lage støtte for at bruker får spørsmål om snitt er det samme
-
-         */
     };
 };

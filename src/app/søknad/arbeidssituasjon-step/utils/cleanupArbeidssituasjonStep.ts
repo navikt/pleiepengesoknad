@@ -11,6 +11,7 @@ import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
 const cleanupNormalarbeidstid = (
     {
+        erEndretSidenForrigeSøknad,
         erLikeMangeTimerHverUke,
         timerFasteUkedager,
         erFasteUkedager,
@@ -26,14 +27,23 @@ const cleanupNormalarbeidstid = (
             timerPerUke,
         };
     }
+
+    if (erEndretSidenForrigeSøknad === YesOrNo.NO) {
+        return {
+            erEndretSidenForrigeSøknad,
+            timerPerUke,
+        };
+    }
     if (arbeiderHeltid === YesOrNo.NO) {
         return {
+            erEndretSidenForrigeSøknad,
             arbeiderHeltid,
             timerPerUke,
         };
     }
     if (arbeiderFastHelg === YesOrNo.YES) {
         return {
+            erEndretSidenForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             timerPerUke,
@@ -41,6 +51,7 @@ const cleanupNormalarbeidstid = (
     }
     if (erLikeMangeTimerHverUke === YesOrNo.NO) {
         return {
+            erEndretSidenForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             erLikeMangeTimerHverUke,
@@ -49,6 +60,7 @@ const cleanupNormalarbeidstid = (
     }
     if (erFasteUkedager === YesOrNo.YES) {
         return {
+            erEndretSidenForrigeSøknad,
             arbeiderHeltid,
             arbeiderFastHelg,
             erLikeMangeTimerHverUke,
@@ -59,6 +71,7 @@ const cleanupNormalarbeidstid = (
         };
     }
     return {
+        erEndretSidenForrigeSøknad,
         arbeiderHeltid,
         arbeiderFastHelg,
         erLikeMangeTimerHverUke,

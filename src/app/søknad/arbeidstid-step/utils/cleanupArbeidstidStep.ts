@@ -18,6 +18,8 @@ import {
     ArbeidsgivereSøknadsdata,
     ArbeidSøknadsdata,
     NormalarbeidstidSøknadsdata,
+    NormalarbeidstidType,
+    // NormalarbeidstidType,
 } from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
@@ -42,7 +44,10 @@ export const cleanupArbeidIPeriode = (
     const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, prosentAvNormalt, timerPerUke } =
         arbeidIPerioden;
 
-    if (normalarbeidstid.erFasteUkedager) {
+    if (
+        normalarbeidstid.type !== NormalarbeidstidType.erLiktSnittSomForrigeSøknad &&
+        normalarbeidstid.erFasteUkedager
+    ) {
         if (erLiktHverUke === YesOrNo.YES) {
             arbeid.erLiktHverUke = erLiktHverUke;
             arbeid.fasteDager =

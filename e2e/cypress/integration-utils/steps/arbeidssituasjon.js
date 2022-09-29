@@ -1,4 +1,5 @@
-const { getTestElement, selectRadioNo, selectRadioYes, setInputTime } = require('../utils');
+const dayjs = require('dayjs');
+const { getTestElement, selectRadioNo, selectRadioYes, setInputTime, setInputValue } = require('../utils');
 
 const fyllUtNormalarbeidstidFasteDager = () => {
     selectRadioYes('jobber-heltid');
@@ -18,8 +19,19 @@ const fyllUtArbeidssituasjonAnsatt = () => {
     });
 };
 const fyllUtArbeidssituasjonFrilanser = () => {
-    getTestElement('arbeidssituasjonFrilanser').within(() => {
-        selectRadioNo('er-frilanser');
+    getTestElement('arbeidssituasjonFrilanser').then(($body) => {
+        if ($body.find('[data-testid=er-frilanser_yes]').length) {
+            selectRadioYes('er-frilanser');
+        }
+        getTestElement('arbeidssituasjonFrilanser').within(() => {
+            if (getTestElement('fosterhjemsgodtgjørelse_mottar')) {
+                selectRadioYes('fosterhjemsgodtgjørelse_mottar');
+            }
+        });
+        const startDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+        cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
+        selectRadioYes('frilans.erFortsattFrilanser');
+        setInputValue('frilans.arbeidsforhold.normalarbeidstid.timerPerUke', '5');
     });
 };
 

@@ -19,6 +19,7 @@ export const getNormalarbeidstidApiDataFromSøknadsdata = (
     return {
         erLiktHverUke: false,
         timerPerUkeISnitt: decimalDurationToISODuration(normalarbeidstid.timerPerUkeISnitt),
+        _erLiktSnittSomForrigeSøknad: normalarbeidstid.type === NormalarbeidstidType.erLiktSnittSomForrigeSøknad,
         _arbeiderHelg: normalarbeidstid.type === NormalarbeidstidType.arbeiderHelg,
         _arbeiderDeltid: normalarbeidstid.type === NormalarbeidstidType.arbeiderDeltid,
     };

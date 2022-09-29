@@ -19,6 +19,7 @@ describe('mapNormalarbeidstidApiDataToNormalarbeidstidFormData', () => {
         const result = mapNormalarbeidstidApiDataToFormValues({
             erLiktHverUke: false,
             timerPerUkeISnitt: 'PT20H30M',
+            _erLiktSnittSomForrigeSøknad: false,
         });
         expect(result).toBeDefined();
         expect(result?.timerPerUke).toEqual('20,5');
