@@ -8,6 +8,7 @@ import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../types/SøknadFormData';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
+import { isDemoMode } from '../utils/demoUtils';
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
@@ -15,6 +16,9 @@ export const getPersistUrl = (stepID?: StepID) =>
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
 export const persist = (formData: SøknadFormData | undefined, lastStepID?: StepID) => {
+    if (isDemoMode()) {
+        return Promise.resolve();
+    }
     const url = getPersistUrl(lastStepID);
     if (formData) {
         const body: SøknadTempStorageData = {
@@ -35,8 +39,12 @@ export const rehydrate = () =>
         ...axiosJsonConfig,
         transformResponse: storageParser,
     });
-export const purge = () =>
-    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
+export const purge = () => {
+    if (isDemoMode()) {
+        return Promise.resolve();
+    }
+    return axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
+};
 
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);

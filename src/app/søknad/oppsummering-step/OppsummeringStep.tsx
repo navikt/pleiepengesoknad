@@ -47,6 +47,7 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './oppsummeringStep.less';
+import { isDemoMode } from '../../utils/demoUtils';
 
 interface Props {
     values: SøknadFormData;
@@ -68,6 +69,11 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const { logSenderInnSøknadMedIngenFravær } = useLogSøknadInfo();
 
     const sendSoknad = async (apiValues: SøknadApiData, søkerdata: Søkerdata, harArbeidMenIngenFravær: boolean) => {
+        if (isDemoMode()) {
+            setSoknadSent(true);
+            onApplicationSent(apiValues, søkerdata);
+            return;
+        }
         if (sendingInProgress) {
             return;
         }

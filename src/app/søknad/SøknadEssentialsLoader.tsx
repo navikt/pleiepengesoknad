@@ -4,12 +4,14 @@ import * as apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError, AxiosResponse } from 'axios';
 import { getBarn, getSøker, purge, rehydrate } from '../api/api';
 import { SøkerdataContextProvider } from '../context/SøkerdataContext';
+import demoMockData from '../demo-mock-data/DemoMockData';
 import IkkeTilgangPage from '../pages/ikke-tilgang-page/IkkeTilgangPage';
 import LoadingPage from '../pages/loading-page/LoadingPage';
 import { Søkerdata } from '../types/Søkerdata';
 import { initialValues, SøknadFormData, SøknadFormField } from '../types/SøknadFormData';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
 import appSentryLogger from '../utils/appSentryLogger';
+import { isDemoMode } from '../utils/demoUtils';
 import { relocateToLoginPage, userIsCurrentlyOnErrorPage } from '../utils/navigationUtils';
 import { StepID } from './søknadStepsConfig';
 
@@ -60,9 +62,29 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
 
         this.updateSøkerdata = this.updateSøkerdata.bind(this);
         this.stopLoading = this.stopLoading.bind(this);
+        this.initDemoMode = this.initDemoMode.bind(this);
         this.handleSøkerdataFetchSuccess = this.handleSøkerdataFetchSuccess.bind(this);
         this.handleSøkerdataFetchError = this.handleSøkerdataFetchError.bind(this);
-        this.loadAppEssentials();
+        if (isDemoMode()) {
+            this.initDemoMode();
+        } else {
+            this.loadAppEssentials();
+        }
+    }
+
+    initDemoMode() {
+        setTimeout(() => {
+            this.setState({
+                lastStepID: undefined,
+                formdata: initialValues,
+                søkerdata: {
+                    søker: demoMockData.søker,
+                    barn: demoMockData.barn,
+                },
+                harMellomlagring: false,
+            });
+            this.stopLoading();
+        });
     }
 
     async loadAppEssentials() {

@@ -15,10 +15,12 @@ function createEnvSettingsFileForHeroku() {
                 APPSTATUS_DATASET: 'staging',
                 USE_AMPLITUDE: 'on',
                 PUBLIC_PATH: '',
-                TOGGLE_FERIEUTTAK: 'on',
-                TOGGLE_FERIEUTTAK: 'on',
-                TOGGLE_FRILANS: 'on',
-                TOGGLE_SELVSTENDIG: 'on'
+                FORENKLET_ARBEID: "false",
+                PREUTFYLLING: "false",
+                APPSTATUS_PROJECT_ID: "ryujtq87",
+                APPSTATUS_DATASET: "staging",
+                USE_AMPLITUDE: "true",
+                DEMO_MODE: "true"
             };`
         );
     });

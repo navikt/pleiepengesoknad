@@ -5,6 +5,8 @@ import { getArbeidsgiver } from './api';
 import { Arbeidsgiver, ArbeidsgiverType } from '../types/Arbeidsgiver';
 import appSentryLogger from '../utils/appSentryLogger';
 import { relocateToLoginPage } from '../utils/navigationUtils';
+import { isDemoMode } from '../utils/demoUtils';
+import demoMockData from '../demo-mock-data/DemoMockData';
 
 export type AAregArbeidsgiverRemoteData = {
     organisasjoner?: {
@@ -65,6 +67,9 @@ const mapAAregArbeidsgiverRemoteDataToArbeidsgiver = (data: AAregArbeidsgiverRem
 
 export async function getArbeidsgivereRemoteData(fromDate: Date, toDate: Date): Promise<Arbeidsgiver[]> {
     try {
+        if (isDemoMode()) {
+            return Promise.resolve(demoMockData.arbeidsgivere);
+        }
         const response = await getArbeidsgiver(formatDateToApiFormat(fromDate), formatDateToApiFormat(toDate));
         const arbeidsgivere = mapAAregArbeidsgiverRemoteDataToArbeidsgiver(response.data);
         return Promise.resolve(arbeidsgivere);
