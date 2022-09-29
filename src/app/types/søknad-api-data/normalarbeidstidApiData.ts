@@ -4,7 +4,7 @@ import { TimerFasteDagerApiData } from './SøknadApiData';
 export type NormalarbeidstidSnittPerUkeApiData = {
     erLiktHverUke: false;
     timerPerUkeISnitt: ISODuration;
-    _erLiktSnittSomForrigeSøknad: boolean;
+    _erLiktSnittSomForrigeSøknad?: boolean;
     _arbeiderDeltid?: boolean;
     _arbeiderHelg?: boolean;
 };

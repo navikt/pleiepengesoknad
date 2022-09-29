@@ -21,5 +21,6 @@ export const mapNormalarbeidstidApiDataToFormValues = (
     }
     return {
         timerPerUke: `${ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt)}`.replace('.', ','),
+        erLikeMangeTimerHverUke: YesOrNo.NO,
     };
 };
