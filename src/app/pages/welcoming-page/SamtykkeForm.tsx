@@ -11,7 +11,7 @@ import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/in
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
-import { Undertittel } from 'nav-frontend-typografi';
+import { Element, Undertittel } from 'nav-frontend-typografi';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { RegistrerteBarn } from '../../types';
@@ -41,33 +41,45 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
             formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}>
             {forrigeSøknad && (
                 <Box margin="xl">
-                    <Undertittel tag="h3">Ønsker du å bruke informasjon fra din forrige søknad?</Undertittel>
+                    <Undertittel tag="h2">Vil du bruke informasjon fra den forrige søknaden du sendte?</Undertittel>
                     <p>
-                        Du sendte inn en søknad om pleiepenger for {getBarnNavn(forrigeSøknad.metaData.barn)} den{' '}
-                        {dateFormatter.dateShortMonthYear(forrigeSøknad.metaData.mottatt)}. Ønsker du at vi skal fylle
-                        ut denne nye søknaden med informasjon fra den forrige søknaden?
+                        Du sendte en søknad om pleiepenger for {getBarnNavn(forrigeSøknad.metaData.barn)}{' '}
+                        {dateFormatter.full(forrigeSøknad.metaData.mottatt)}. Vil du at vi skal kopiere informasjonen du
+                        fylte inn da, og legge den inn i denne søknaden? Noe må du fremdeles fylle ut selv, og du må
+                        kontrollere at alt er riktig før du sender inn søknaden.
                     </p>
-                    <ExpandableInfo title="Hva betyr det?">
+                    <ExpandableInfo title="Hva betyr dette?">
                         <p>
-                            Det betyr at vi fyller ut denne nye søknaden med innhold fra den forrige. Perioden må du
-                            velge på nytt. Informasjon som var knytter til datoer som er utenfor denne nye perioden, må
-                            du endre når du går gjennom søknaden.
+                            Dette betyr at du får en søknad som er fylt ut likt som den forrige søknaden du sendte. Vi
+                            kopierer informasjonen du fylte inn, og legger den over i denne nye søknaden. På den måten
+                            får du en søknad som nesten er ferdig utfylt, men noe må du fremdeles fylle ut selv.
                         </p>
-                        <p>
-                            Det er viktig at du kontroller all informasjonen og ser at det fortsatt er riktig for den
-                            nye perioden.
-                        </p>
-                        <p>
-                            Informasjonen som kopieres over er kun basert på forrige søknad, og tar ikke høyde for
-                            endringer som er gjort i saksbehandlingen etterpå.
-                        </p>
+                        <Box margin="l">
+                            <Element tag="h3">Det er viktig å legge merke til at</Element>
+                            <ul>
+                                <li>
+                                    du fremdeles må gjennom alle spørsmålene, og kontrollere at alt fremdeles stemmer.
+                                </li>
+                                <li>noe må du fylle inn på nytt, som for eksempel perioden du søker for nå.</li>
+                                <li>
+                                    eventuelle datoer som kommer utenfor perioden du søker om nå, må du endre. Det kan
+                                    for eksempel være at du la inn ferie i den forrige søknaden, som ikke gjelder
+                                    lenger.
+                                </li>
+                                <li>
+                                    Informasjonen vi kopierer og legger inn er kun basert på det du la inn i forrige
+                                    søknad, og tar for eksempel ikke med eventuelle endringer som er gjort i
+                                    saksbehandlingen.
+                                </li>
+                            </ul>
+                        </Box>
                     </ExpandableInfo>
                     <AppForm.YesOrNoQuestion
                         data-testid="brukForrigeSøknad"
                         name={SøknadFormField.brukForrigeSøknad}
                         labels={{
-                            yes: 'Ja, bruk informasjon fra forrige søknaden',
-                            no: 'Nei, jeg vil starte med en tom søknad',
+                            yes: 'Ja, bruk informasjon fra forrige søknad',
+                            no: 'Nei, jeg vil fylle ut all informasjon på nytt',
                         }}
                     />
                 </Box>
