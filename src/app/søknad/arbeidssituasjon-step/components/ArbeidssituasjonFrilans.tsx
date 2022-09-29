@@ -21,6 +21,7 @@ import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoVa
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 
@@ -65,10 +66,22 @@ const ArbeidssituasjonFrilans = ({
     const harBesvartSpørsmålOmFortsattFrilanser =
         erFortsattFrilanser === YesOrNo.YES || erFortsattFrilanser === YesOrNo.NO;
 
-    const visOmFrilanserSpørsmål = erFrilanser;
-
     const mottarKunFosterhjemsgodtgjørsel =
         fosterhjemsgodtgjørelse_mottar === YesOrNo.YES && fosterhjemsgodtgjørelse_harFlereOppdrag === YesOrNo.NO;
+
+    const harBesvartFosterhjemsgodtgjørselSpørsmål =
+        isYesOrNoAnswered(fosterhjemsgodtgjørelse_mottar) &&
+        (fosterhjemsgodtgjørelse_mottar === YesOrNo.NO ||
+            (fosterhjemsgodtgjørelse_mottar === YesOrNo.YES &&
+                isYesOrNoAnswered(fosterhjemsgodtgjørelse_harFlereOppdrag)));
+
+    const visOmFrilanserSpørsmål =
+        erFrilanser &&
+        harBesvartFosterhjemsgodtgjørselSpørsmål &&
+        ((erFrilanser && fosterhjemsgodtgjørelse_mottar === YesOrNo.YES
+            ? isYesOrNoAnswered(fosterhjemsgodtgjørelse_harFlereOppdrag)
+            : false) ||
+            mottarKunFosterhjemsgodtgjørsel === false);
 
     const visNormalarbeidstidSpørsmål =
         harGyldigStartdato &&
@@ -137,7 +150,7 @@ const ArbeidssituasjonFrilans = ({
                 </FormBlock>
             )}
 
-            {visOmFrilanserSpørsmål && (
+            {visOmFrilanserSpørsmål && mottarKunFosterhjemsgodtgjørsel === false && (
                 <Box margin="l">
                     <FormBlock>
                         <ArbFriFormComponents.DatePicker
