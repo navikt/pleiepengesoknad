@@ -118,14 +118,6 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 </Box>
             )}
 
-            {omsorgstilbud && omsorgstilbud.erIOmsorgstilbud === YesOrNo.NO && (
-                <Box margin="l">
-                    <AlertStripe type={'info'}>
-                        <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbud.nei.info" />
-                    </AlertStripe>
-                </Box>
-            )}
-
             {omsorgstilbud &&
                 omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
                 omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
