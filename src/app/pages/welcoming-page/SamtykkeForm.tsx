@@ -34,7 +34,6 @@ const getBarnNavn = (barn: RegistrerteBarn): string => {
 
 const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Props) => {
     const intl = useIntl();
-    console.log('forrigeSøknad: ', forrigeSøknad);
     return (
         <AppForm.Form
             onValidSubmit={onConfirm}

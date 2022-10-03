@@ -119,7 +119,6 @@ class SøknadEssentialsLoader extends React.Component<Props, State> {
             forrigeSøknadErGyldig(forrigeSøknadReponse.data.søknad)
         ) {
             const result = importerSøknad(forrigeSøknadReponse.data.søknad, registrerteBarn);
-            console.log('result = importerSøknad: ', result);
             if (result) {
                 const { formValues, endringer } = result;
                 forrigeSøknad = {
