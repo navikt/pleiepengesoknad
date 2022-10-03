@@ -14,6 +14,9 @@ server.use(
     helmet({
         contentSecurityPolicy: false,
         crossOriginEmbedderPolicy: false,
+        crossOriginResourcePolicy: {
+            policy: 'cross-origin',
+        },
     })
 );
 server.use(compression());
