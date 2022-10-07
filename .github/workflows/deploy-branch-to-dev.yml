@@ -46,7 +46,7 @@ jobs:
 
     build-code-and-push-docker-gcp:
         name: Build code and push docker image gcp
-        needs: test
+        needs: [test, e2e]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
