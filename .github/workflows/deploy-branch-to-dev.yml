@@ -1,0 +1,65 @@
+name: (helper) Deploy branch to dev
+
+on:
+    workflow_call:
+        secrets:
+            NAIS_DEPLOY_APIKEY:
+                description: Nais deploy APIKEY
+                required: false
+
+env:
+    IMAGE: ghcr.io/${{ github.repository }}/pleiepengesoknad-gcp:${{ github.sha }}
+    GITHUB_USERNAME: x-access-token
+    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+jobs:
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v3
+              with:
+                  fetch-depth: 2
+            - name: Setup Node.js environment
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 16
+                  cache: 'npm'
+            - name: Install dependencies
+              run: |
+                CYPRESS_INSTALL_BINARY=0
+                npm ci
+                npm run test
+
+    e2e:
+        name: End to End testing with Cypress
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                node-version: [16.x]
+        steps:
+            - uses: actions/checkout@v1
+            - name: Setup kernel for react + node, increase watchers
+              run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+            - name: Run E2E with
+              run: npm run e2e-docker-compose
+
+    build-and-deploy-to-dev:
+        name: Build and deploy branch to dev
+        needs: test
+        runs-on: ubuntu-latest
+        steps:
+            - name: Build and publish Docker image
+              run: |
+                  docker build -t ${IMAGE} -f /Dockerfile .
+                  docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker push ${IMAGE}
+
+            - name: Deploy to dev
+              uses: nais/deploy/actions/deploy@v1
+              env:
+                  CLUSTER: dev-gcp
+                  RESOURCE: nais/naiserator.yml
+                  VARS: nais/dev-gcp.json
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
