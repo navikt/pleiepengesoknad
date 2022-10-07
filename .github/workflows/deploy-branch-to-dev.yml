@@ -1,11 +1,11 @@
-name: (helper) Deploy branch to dev
+name: Deploy branch to dev
 
 on:
-    workflow_call:
-        secrets:
-            NAIS_DEPLOY_APIKEY:
-                description: Nais deploy APIKEY
-                required: false
+  workflow_dispatch:
+    secrets:
+        NAIS_DEPLOY_APIKEY:
+            description: Nais deploy APIKEY
+            required: false
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/pleiepengesoknad-gcp:${{ github.sha }}
