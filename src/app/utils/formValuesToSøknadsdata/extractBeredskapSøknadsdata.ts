@@ -7,7 +7,10 @@ export const extractBeredskapSøknadsdata = ({
     harBeredskap_ekstrainfo,
     omsorgstilbud,
 }: Partial<SøknadFormData>): BeredskapSøknadsdata | undefined => {
-    if (omsorgstilbud !== undefined && omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES) {
+    if (
+        omsorgstilbud !== undefined &&
+        (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES || omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+    ) {
         if (harBeredskap === YesOrNo.YES) {
             return {
                 type: 'harBeredskap',
