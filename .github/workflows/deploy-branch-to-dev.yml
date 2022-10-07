@@ -14,24 +14,23 @@ env:
 
 jobs:
     test:
-        name: Test
+        name: Test Code with Jest
         runs-on: ubuntu-latest
-        steps:
-            - name: Checkout code
-              uses: actions/checkout@v3
-              with:
-                  fetch-depth: 2
-            - name: Setup Node.js environment
-              uses: actions/setup-node@v3
-              with:
-                  node-version: 16
-                  cache: 'npm'
-            - name: Install dependencies
-              run: |
-                CYPRESS_INSTALL_BINARY=0
-                npm ci
-                npm run test
+        strategy:
+            matrix:
+                node-version: [16.x]
 
+        steps:
+            - uses: actions/checkout@v1
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v1
+              with:
+                  node-version: ${{ matrix.node-version }}
+            - name: Test code
+              run: |
+                  CYPRESS_INSTALL_BINARY=0
+                  npm ci
+                  npm run test
     e2e:
         name: End to End testing with Cypress
         runs-on: ubuntu-latest
@@ -45,21 +44,43 @@ jobs:
             - name: Run E2E with
               run: npm run e2e-docker-compose
 
-    build-and-deploy-to-dev:
-        name: Build and deploy branch to dev
+    build-code-and-push-docker-gcp:
+        name: Build code and push docker image gcp
         needs: test
         runs-on: ubuntu-latest
         steps:
+            - name: Checkout code
+              uses: actions/checkout@v1
+            - name: Cache NPM dependencies
+              uses: actions/cache@v1
+              with:
+                  path: node_modules
+                  key: ${{ runner.OS }}-npm-cache-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.OS }}-npm-cache-
+            - name: Use Node.js 16
+              uses: actions/setup-node@v1
+              with:
+                  node-version: 16
+            - name: build code
+              run: |
+                  npm i
+                  npm run build
             - name: Build and publish Docker image
               run: |
-                  docker build -t ${IMAGE} -f /Dockerfile .
-                  docker login ghcr.io -u ${GITHUB_REPOSITORY} -p ${GITHUB_TOKEN}
+                  docker build --tag ${IMAGE} . -f Dockerfile
+                  echo ${GITHUB_TOKEN} | docker login --username ${GITHUB_REPOSITORY} --password-stdin ghcr.io
                   docker push ${IMAGE}
 
-            - name: Deploy to dev
-              uses: nais/deploy/actions/deploy@v1
+    deploy-dev-gcp:
+        name: Deploy to dev-gcp
+        needs: build-code-and-push-docker-gcp
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v1
+            - uses: nais/deploy/actions/deploy@v1
               env:
+                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
                   CLUSTER: dev-gcp
                   RESOURCE: nais/naiserator.yml
                   VARS: nais/dev-gcp.json
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
