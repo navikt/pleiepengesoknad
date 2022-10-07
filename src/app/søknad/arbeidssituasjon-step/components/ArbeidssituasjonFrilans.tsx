@@ -150,7 +150,7 @@ const ArbeidssituasjonFrilans = ({
                 </FormBlock>
             )}
 
-            {visOmFrilanserSpørsmål && mottarKunFosterhjemsgodtgjørsel === false && (
+            {visOmFrilanserSpørsmål && (
                 <Box margin="l">
                     <FormBlock>
                         <ArbFriFormComponents.DatePicker
