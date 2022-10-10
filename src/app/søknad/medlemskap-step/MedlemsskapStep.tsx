@@ -57,6 +57,7 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                         {intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.hjelp')}
                     </ExpandableInfo>
                 }
+                data-testid="medlemsskap-annetLandSiste12"
             />
             {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
@@ -70,6 +71,7 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                             modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdSiste12'),
                         }}
                         validate={validateUtenlandsoppholdSiste12Mnd}
+                        data-testid="utenlandsoppholdSiste12Mnd"
                     />
                 </FormBlock>
             )}
@@ -83,10 +85,11 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                             {intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.hjelp')}
                         </ExpandableInfo>
                     }
+                    data-testid="medlemsskap-annetLandNeste12"
                 />
             </FormBlock>
             {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
-                <FormBlock margin="l">
+                <FormBlock margin="l" data-testid="bostedUtlandList-annetLandNeste12">
                     <BostedUtlandListAndDialog<SøknadFormField>
                         name={SøknadFormField.utenlandsoppholdNeste12Mnd}
                         minDate={neste12FomDate}

@@ -28,6 +28,10 @@ export const getTestElement = (key) => {
     return cy.get(`[data-testid="${key}"]`);
 };
 
+export const getInputByName = (name) => {
+    return cy.get(`input[name="${name}"]`);
+};
+
 export const setInputValue = (key, value) => {
     getTestElement(key).click().type(value);
 };

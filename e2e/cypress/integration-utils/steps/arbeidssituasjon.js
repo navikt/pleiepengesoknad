@@ -1,4 +1,7 @@
-const { getTestElement, selectRadioNo, selectRadioYes, setInputTime } = require('../utils');
+const { getTestElement, selectRadioNo, selectRadioYes, setInputTime, getInputByName } = require('../utils');
+const dayjs = require('dayjs');
+const isoWeek = require('dayjs/plugin/isoWeek');
+dayjs.extend(isoWeek);
 
 const fyllUtNormalarbeidstidFasteDager = () => {
     selectRadioYes('jobber-heltid');
@@ -43,6 +46,24 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
 export const fyllUtArbeidssituasjonSteg = () => {
     fyllUtArbeidssituasjonAnsatt();
     fyllUtArbeidssituasjonFrilanser();
+    fyllUtArbeidssituasjonSelvstendig();
+    fyllUtArbeidssituasjonOpptjeningUtland();
+    fyllUtArbeidssituasjonUtenlandskNæring();
+};
+
+export const fyllUtArbeidssituasjonFrilanserYes = () => {
+    getTestElement('arbeidssituasjonFrilanser').within(() => {
+        selectRadioYes('er-frilanser');
+    });
+    const fraDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+    getTestElement('er-frilanser-startdato').click().type(fraDato).blur();
+    selectRadioYes('er-frilanser-erFortsattFrilanser');
+    getInputByName('frilans.arbeidsforhold.normalarbeidstid.timerPerUke').click().type(5).blur();
+};
+
+export const fyllUtKomplettArbeidssituasjonSteg = () => {
+    fyllUtArbeidssituasjonAnsatt();
+    fyllUtArbeidssituasjonFrilanserYes();
     fyllUtArbeidssituasjonSelvstendig();
     fyllUtArbeidssituasjonOpptjeningUtland();
     fyllUtArbeidssituasjonUtenlandskNæring();

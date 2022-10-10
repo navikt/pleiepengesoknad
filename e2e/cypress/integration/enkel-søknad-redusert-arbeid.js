@@ -22,7 +22,9 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
         it('STEG 1: Barn', () => {
-            cy.get('[type="radio"').first().check({ force: true });
+            cy.get('[type="radio"').first().check();
+            const barnetsFødselsnummer = '25848497005';
+            cy.get('input[name=barnetsFødselsnummer]').click().type(barnetsFødselsnummer).blur();
             clickFortsett();
         });
 
