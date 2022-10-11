@@ -2,10 +2,10 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../../types';
-import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import { cleanupAnsattArbeidsforhold } from '../cleanupArbeidssituasjonStep';
 
-const ansattArbeidsforhold: ArbeidsforholdFormData = {
+const ansattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {
         type: ArbeidsgiverType.ORGANISASJON,
         organisasjonsnummer: '123456789',

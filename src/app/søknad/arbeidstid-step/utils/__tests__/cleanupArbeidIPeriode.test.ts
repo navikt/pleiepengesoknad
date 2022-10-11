@@ -1,10 +1,10 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormData } from '../../../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormValues } from '../../../../types/ArbeidIPeriodeFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
 import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
-const arbeidIPeriode: ArbeidIPeriodeFormData = {
+const arbeidIPeriode: ArbeidIPeriodeFormValues = {
     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
     timerEllerProsent: TimerEllerProsent.PROSENT,
     prosentAvNormalt: '20',

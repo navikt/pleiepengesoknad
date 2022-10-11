@@ -5,7 +5,7 @@ import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { ArbeidsgiverType } from '../../types';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../types/FrilansFormData';
 import { SøknadsimportEndring, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
@@ -37,8 +37,10 @@ type ArbeidFormValues = Pick<
     | SøknadFormField.harUtenlandskNæring
 >;
 
-export const mapArbeidsgiverToFormValues = (arbeidsgiver: OrganisasjonArbeidsgiverApiData): ArbeidsforholdFormData => {
-    const formValues: ArbeidsforholdFormData = {
+export const mapArbeidsgiverToFormValues = (
+    arbeidsgiver: OrganisasjonArbeidsgiverApiData
+): ArbeidsforholdFormValues => {
+    const formValues: ArbeidsforholdFormValues = {
         arbeidsgiver: {
             ...arbeidsgiver,
             id: arbeidsgiver.organisasjonsnummer,

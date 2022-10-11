@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../types';
-import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues, SøknadFormField } from '../../../types/SøknadFormValues';
 import appSentryLogger from '../../../utils/appSentryLogger';
 
@@ -21,9 +21,9 @@ const erFrilansoppdrag = (a: Arbeidsgiver) => a.type === ArbeidsgiverType.FRILAN
  */
 export const syncAnsattArbeidsforhold = (
     arbeidsgivere: Arbeidsgiver[],
-    arbeidsforhold: ArbeidsforholdFormData[] = []
-): Array<ArbeidsforholdFormData> => {
-    const syncedArbeidsforhold: ArbeidsforholdFormData[] = [];
+    arbeidsforhold: ArbeidsforholdFormValues[] = []
+): Array<ArbeidsforholdFormValues> => {
+    const syncedArbeidsforhold: ArbeidsforholdFormValues[] = [];
     arbeidsgivere.forEach((arbeidsgiver) => {
         const forhold = arbeidsforhold.find((f) => f.arbeidsgiver.id === arbeidsgiver.id);
         if (!arbeidsgiver.navn) {

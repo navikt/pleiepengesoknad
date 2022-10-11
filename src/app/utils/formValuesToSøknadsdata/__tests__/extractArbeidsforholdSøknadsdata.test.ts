@@ -1,14 +1,14 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
-import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { extractArbeidsforholdSøknadsdata } from '../extractArbeidsforholdSøknadsdata';
 
-const mockArbeidIPeriodeFormData = {} as ArbeidIPeriodeFormData;
+const mockArbeidIPeriodeFormData = {} as ArbeidIPeriodeFormValues;
 
 describe('extractArbeidsforholdSøknadsdata', () => {
-    const arbeidsforholdMedFravær: ArbeidsforholdFormData = {
+    const arbeidsforholdMedFravær: ArbeidsforholdFormValues = {
         arbeidsgiver: { type: ArbeidsgiverType.ORGANISASJON, navn: 'Org1', id: '1' },
         erAnsatt: YesOrNo.YES,
         arbeidIPeriode: mockArbeidIPeriodeFormData,

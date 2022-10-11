@@ -2,12 +2,12 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import {
-    ArbeidsforholdFormData,
-    ArbeidsforholdFrilanserFormData,
-    ArbeidsforholdSelvstendigFormData,
-} from '../../../types/ArbeidsforholdFormData';
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserFormValues,
+    ArbeidsforholdSelvstendigFormValues,
+} from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import {
@@ -21,10 +21,10 @@ import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserU
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 
 export const cleanupArbeidIPeriode = (
-    arbeidIPerioden: ArbeidIPeriodeFormData,
+    arbeidIPerioden: ArbeidIPeriodeFormValues,
     normalarbeidstid: NormalarbeidstidSøknadsdata | undefined
-): ArbeidIPeriodeFormData => {
-    const arbeid: ArbeidIPeriodeFormData = {
+): ArbeidIPeriodeFormValues => {
+    const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
     };
 
@@ -44,9 +44,9 @@ export const cleanupArbeidIPeriode = (
 };
 
 export const cleanupArbeidstidAnsatt = (
-    ansatt_arbeidsforhold: ArbeidsforholdFormData[],
+    ansatt_arbeidsforhold: ArbeidsforholdFormValues[],
     arbeidsgivere: ArbeidsgivereSøknadsdata | undefined
-): ArbeidsforholdFormData[] => {
+): ArbeidsforholdFormValues[] => {
     if (!arbeidsgivere) {
         throw 'cleanupArbeidstidAnsatt: arbeidsgivere er undefined';
     }
@@ -69,7 +69,7 @@ export const cleanupArbeidstidFrilans = (
     frilans: FrilansFormData,
     frilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined,
     søknadsperiode: DateRange
-): ArbeidsforholdFrilanserFormData | undefined => {
+): ArbeidsforholdFrilanserFormValues | undefined => {
     if (frilans.arbeidsforhold === undefined || !frilansSøknadsdata) {
         return undefined;
     }
@@ -93,8 +93,8 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
     selvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata | undefined,
     selvstendig_virksomhet: Virksomhet | undefined,
-    selvstendig_arbeidsforhold: ArbeidsforholdSelvstendigFormData | undefined
-): ArbeidsforholdSelvstendigFormData | undefined => {
+    selvstendig_arbeidsforhold: ArbeidsforholdSelvstendigFormValues | undefined
+): ArbeidsforholdSelvstendigFormValues | undefined => {
     if (!selvstendig_arbeidsforhold || !selvstendigSøknadsdata) {
         return undefined;
     }

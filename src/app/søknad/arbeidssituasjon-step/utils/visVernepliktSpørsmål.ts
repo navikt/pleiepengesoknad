@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
-import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 
@@ -9,7 +9,7 @@ export const visVernepliktSpørsmål = ({
     frilans,
     selvstendig,
 }: {
-    ansatt_arbeidsforhold: ArbeidsforholdFormData[];
+    ansatt_arbeidsforhold: ArbeidsforholdFormValues[];
     frilans: FrilansFormData;
     selvstendig: SelvstendigFormData;
 }): boolean => {

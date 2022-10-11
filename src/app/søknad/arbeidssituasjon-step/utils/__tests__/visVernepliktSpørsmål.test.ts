@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../visVernepliktSpørsmål';
 import { ArbeidsgiverType } from '../../../../types/Arbeidsgiver';
-import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../../../types/ArbeidsforholdFormValues';
 
-const defaultAnsattArbeidsforhold: ArbeidsforholdFormData = {
+const defaultAnsattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {
         id: '123',
         navn: 'abc',

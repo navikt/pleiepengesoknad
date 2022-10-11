@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidIPeriodeFormData } from './ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormValues } from './ArbeidIPeriodeFormValues';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
 export enum ArbeidsforholdFormField {
@@ -11,21 +11,21 @@ export enum ArbeidsforholdFormField {
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
-export type NormalarbeidstidFormData = {
+export type NormalarbeidstidFormValues = {
     erLiktSomForrigeSøknad?: YesOrNo;
     timerPerUke?: string;
 };
 
-export interface ArbeidsforholdFormData {
+export interface ArbeidsforholdFormValues {
     arbeidsgiver: Arbeidsgiver;
     erAnsatt?: YesOrNo;
     sluttetFørSøknadsperiode?: YesOrNo;
-    normalarbeidstid?: NormalarbeidstidFormData;
-    arbeidIPeriode?: ArbeidIPeriodeFormData;
+    normalarbeidstid?: NormalarbeidstidFormValues;
+    arbeidIPeriode?: ArbeidIPeriodeFormValues;
 }
 
-export type ArbeidsforholdFrilanserFormData = Omit<ArbeidsforholdFormData, 'arbeidsgiver' | 'erAnsatt'>;
-export type ArbeidsforholdSelvstendigFormData = Omit<
-    ArbeidsforholdFormData,
+export type ArbeidsforholdFrilanserFormValues = Omit<ArbeidsforholdFormValues, 'arbeidsgiver' | 'erAnsatt'>;
+export type ArbeidsforholdSelvstendigFormValues = Omit<
+    ArbeidsforholdFormValues,
     'arbeidsgiver' | 'erAnsatt' | 'sluttetFørSøknadsperiode'
 >;

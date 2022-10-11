@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { durationUtils, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { RegistrerteBarn } from '../../types';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
 import { AnsattNormalarbeidstidSnitt, SøknadsimportEndring } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
@@ -14,7 +14,7 @@ import { extractTidsromFormValues } from './extractTidsromFormValues';
 import { getRegistrertBarnISøknad } from './getRegistrertBarnISøknad';
 
 const extractAnsattNormalarbeidstidSnitt = (
-    ansattArbeidsforhold: ArbeidsforholdFormData[] = []
+    ansattArbeidsforhold: ArbeidsforholdFormValues[] = []
 ): AnsattNormalarbeidstidSnitt[] => {
     const returnValues: AnsattNormalarbeidstidSnitt[] = [];
     ansattArbeidsforhold.forEach((forhold) => {

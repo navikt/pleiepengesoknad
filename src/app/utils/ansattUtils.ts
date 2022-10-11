@@ -1,13 +1,13 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeidsforholdFormData } from '../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../types/ArbeidsforholdFormValues';
 
-export const erAnsattHosArbeidsgiverISøknadsperiode = (arbeidsforhold: ArbeidsforholdFormData): boolean => {
+export const erAnsattHosArbeidsgiverISøknadsperiode = (arbeidsforhold: ArbeidsforholdFormValues): boolean => {
     return (
         arbeidsforhold.erAnsatt === YesOrNo.YES ||
         (arbeidsforhold.erAnsatt === YesOrNo.NO && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO)
     );
 };
 
-export const erAnsattISøknadsperiode = (arbeidsforhold: ArbeidsforholdFormData[]): boolean => {
+export const erAnsattISøknadsperiode = (arbeidsforhold: ArbeidsforholdFormValues[]): boolean => {
     return arbeidsforhold.some(erAnsattHosArbeidsgiverISøknadsperiode);
 };

@@ -4,7 +4,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
-import { ArbeidsforholdFormData } from './ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from './ArbeidsforholdFormValues';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
@@ -107,7 +107,7 @@ export interface SøknadFormValues {
     [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
-    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormData[];
+    [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormValues[];
     [SøknadFormField.harOpptjeningUtland]: YesOrNo;
     [SøknadFormField.opptjeningUtland]: OpptjeningUtland[];
     [SøknadFormField.harUtenlandskNæring]: YesOrNo;

@@ -1,11 +1,11 @@
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../types/ArbeidsforholdFormValues';
 import { ArbeidsforholdSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidIPeriodeSøknadsdata } from './extractArbeidIPeriodeSøknadsdata';
 import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdFrilanserFormData | ArbeidsforholdFormData,
+    arbeidsforhold: ArbeidsforholdFrilanserFormValues | ArbeidsforholdFormValues,
 
     arbeidsforholdType: ArbeidsforholdType
 ): ArbeidsforholdSøknadsdata | undefined => {

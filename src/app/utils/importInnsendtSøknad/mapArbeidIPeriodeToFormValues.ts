@@ -1,6 +1,6 @@
 import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormValues } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
@@ -10,7 +10,7 @@ import {
 
 export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
     arbeid: ArbeidIPeriodeApiDataTimerPerUke
-): ArbeidIPeriodeFormData => {
+): ArbeidIPeriodeFormValues => {
     return {
         arbeiderIPerioden: arbeid.arbeiderIPerioden,
         timerEllerProsent: TimerEllerProsent.TIMER,
@@ -20,7 +20,7 @@ export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
 
 export const mapArbeidIPeriodeApiDataProsentToFormValues = (
     arbeid: ArbeidIPeriodeApiDataProsent
-): ArbeidIPeriodeFormData => {
+): ArbeidIPeriodeFormValues => {
     return {
         arbeiderIPerioden: arbeid.arbeiderIPerioden,
         timerEllerProsent: TimerEllerProsent.PROSENT,
@@ -30,7 +30,7 @@ export const mapArbeidIPeriodeApiDataProsentToFormValues = (
 
 export const mapArbeidIPeriodeApiDataToFormValues = (
     arbeid?: ArbeidIPeriodeApiData
-): ArbeidIPeriodeFormData | undefined => {
+): ArbeidIPeriodeFormValues | undefined => {
     if (!arbeid) {
         return undefined;
     }

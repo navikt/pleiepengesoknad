@@ -1,12 +1,12 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
+import { NormalarbeidstidFormValues } from '../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';
 
 export const extractNormalarbeidstid = (
-    normalarbeidstid: NormalarbeidstidFormData | undefined,
+    normalarbeidstid: NormalarbeidstidFormValues | undefined,
     arbeidsforholdType: ArbeidsforholdType
 ): NormalarbeidstidSøknadsdata | undefined => {
     if (!normalarbeidstid) {

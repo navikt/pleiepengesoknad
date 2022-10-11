@@ -8,11 +8,11 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { Duration, durationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import {
-    ArbeidsforholdFormData,
+    ArbeidsforholdFormValues,
     ArbeidsforholdFormField,
-    ArbeidsforholdFrilanserFormData,
-    ArbeidsforholdSelvstendigFormData,
-} from '../../../../types/ArbeidsforholdFormData';
+    ArbeidsforholdFrilanserFormValues,
+    ArbeidsforholdSelvstendigFormValues,
+} from '../../../../types/ArbeidsforholdFormValues';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
@@ -20,14 +20,14 @@ import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken
 interface Props {
     arbeidsforholdFieldName: string;
     arbeidsstedNavn?: string;
-    arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData | ArbeidsforholdSelvstendigFormData;
+    arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues | ArbeidsforholdSelvstendigFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
     timerPerUkeISnittForrigeSøknad?: Duration;
 }
 
-const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
+const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
 
 const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     arbeidsforholdFieldName,

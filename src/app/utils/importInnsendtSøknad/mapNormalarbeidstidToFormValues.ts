@@ -1,10 +1,10 @@
 import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
-import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
+import { NormalarbeidstidFormValues } from '../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidApiData } from '../../types/søknad-api-data/normalarbeidstidApiData';
 
 export const mapNormalarbeidstidApiDataToFormValues = (
     normalarbeidstid?: NormalarbeidstidApiData
-): NormalarbeidstidFormData | undefined => {
+): NormalarbeidstidFormValues | undefined => {
     if (!normalarbeidstid) {
         return undefined;
     }

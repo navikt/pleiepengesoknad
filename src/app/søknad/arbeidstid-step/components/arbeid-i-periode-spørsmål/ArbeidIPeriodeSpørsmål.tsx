@@ -10,8 +10,11 @@ import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pl
 import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormData';
-import { ArbeidsforholdFormData, ArbeidsforholdFrilanserFormData } from '../../../../types/ArbeidsforholdFormData';
+import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserFormValues,
+} from '../../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import { ArbeidstidRegistrertLogProps } from '../../types';
@@ -25,7 +28,7 @@ import {
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     parentFieldName: string;
-    arbeidsforhold: ArbeidsforholdFormData | ArbeidsforholdFrilanserFormData;
+    arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     periode: DateRange;

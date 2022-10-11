@@ -12,7 +12,7 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ArbeidsforholdFormData, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { søknadErBasertPåForrigeSøknad } from '../../../utils/forrigeSøknadUtils';
 import { useSøknadsdataContext } from '../../SøknadsdataContext';
@@ -20,10 +20,14 @@ import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/Normalarbe
 import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
 import { Arbeidsgiver } from '../../../types';
 
-const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
+const AnsattFormComponents = getTypedFormComponents<
+    ArbeidsforholdFormField,
+    ArbeidsforholdFormValues,
+    ValidationError
+>();
 
 interface Props {
-    arbeidsforhold: ArbeidsforholdFormData;
+    arbeidsforhold: ArbeidsforholdFormValues;
     parentFieldName: string;
     søknadsperiode: DateRange;
 }

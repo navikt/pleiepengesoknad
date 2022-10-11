@@ -2,7 +2,7 @@ import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-for
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { dateUtils } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
+import { ArbeidIPeriodeFormValues } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
@@ -16,7 +16,7 @@ export const extractArbeidIPeriodeSøknadsdata = ({
     prosentAvNormalt,
     timerPerUke,
     timerEllerProsent,
-}: ArbeidIPeriodeFormData): ArbeidIPeriodeSøknadsdata | undefined => {
+}: ArbeidIPeriodeFormValues): ArbeidIPeriodeSøknadsdata | undefined => {
     if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
         return {
             type: ArbeidIPeriodeType.arbeiderIkke,

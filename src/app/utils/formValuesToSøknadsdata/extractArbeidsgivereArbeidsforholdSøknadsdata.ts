@@ -1,9 +1,9 @@
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
 import { ArbeidsgivereSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidAnsattSøknadsdata } from './extractArbeidAnsattSøknadsdata';
 
 export const extractArbeidsgivereArbeidsforholdSøknadsdata = (
-    ansatt_arbeidsforhold: ArbeidsforholdFormData[] = []
+    ansatt_arbeidsforhold: ArbeidsforholdFormValues[] = []
 ): ArbeidsgivereSøknadsdata | undefined => {
     const arbeidsgivereSøknadsdataMap: ArbeidsgivereSøknadsdata = new Map();
     ansatt_arbeidsforhold.forEach((ansattForhold) => {
