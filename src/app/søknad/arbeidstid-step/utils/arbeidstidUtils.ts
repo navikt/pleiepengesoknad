@@ -12,10 +12,7 @@ import {
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
-import {
-    NormalarbeidstidSøknadsdata,
-    NormalarbeidstidType,
-} from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,
@@ -58,16 +55,7 @@ export const arbeiderMindreEnnNormaltISnittPerUke = (
     timerISnitt: number,
     normalarbeidstid: NormalarbeidstidSøknadsdata
 ): boolean => {
-    switch (normalarbeidstid.type) {
-        case NormalarbeidstidType.ulikeUker:
-        case NormalarbeidstidType.erLiktSnittSomForrigeSøknad:
-        case NormalarbeidstidType.likeUkerVarierendeDager:
-        case NormalarbeidstidType.arbeiderHelg:
-        case NormalarbeidstidType.arbeiderDeltid:
-            return timerISnitt < normalarbeidstid.timerPerUkeISnitt;
-        case NormalarbeidstidType.likeUkerOgDager:
-            return timerISnitt < getTimerPerUkeFraFasteUkedager(normalarbeidstid.timerFasteUkedager);
-    }
+    return timerISnitt < normalarbeidstid.timerPerUkeISnitt;
 };
 
 export const arbeiderMindreEnnNormaltFasteUkedager = (
@@ -94,21 +82,6 @@ export const erArbeidsforholdMedFravær = ({
             return false;
         case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
             return arbeidISøknadsperiode.prosentAvNormalt < 100;
-        case ArbeidIPeriodeType.arbeiderEnkeltdager:
-            /** Ingen sjekk implementert */
-            return true;
-        case ArbeidIPeriodeType.arbeiderFasteUkedager:
-            if (
-                normalarbeidstid.type !== NormalarbeidstidType.erLiktSnittSomForrigeSøknad &&
-                normalarbeidstid.erFasteUkedager
-            ) {
-                return arbeiderMindreEnnNormaltFasteUkedager(
-                    arbeidISøknadsperiode.fasteDager,
-                    normalarbeidstid.timerFasteUkedager
-                );
-            }
-            /** Skal ikke skje pga validering i søknadsdialogen*/
-            return false;
         case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
             return arbeiderMindreEnnNormaltISnittPerUke(arbeidISøknadsperiode.timerISnittPerUke, normalarbeidstid);
     }

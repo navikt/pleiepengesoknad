@@ -1,18 +1,10 @@
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
-import {
-    NormalarbeidstidSøknadsdata,
-    NormalarbeidstidType,
-} from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import { erArbeidsforholdMedFravær } from '../arbeidstidUtils';
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
-    type: NormalarbeidstidType.likeUkerOgDager,
-    erFasteUkedager: true,
-    erLiktHverUke: true,
-    timerFasteUkedager: {
-        friday: { hours: '1', minutes: '0' },
-    },
+    timerPerUkeISnitt: 20,
 };
 
 const arbeiderIkke: ArbeidIPeriodeSøknadsdata = {
@@ -26,11 +18,11 @@ const arbeiderVanlig: ArbeidIPeriodeSøknadsdata = {
     arbeiderRedusert: false,
 };
 
-const arbeiderRedusertEnkeltdager: ArbeidIPeriodeSøknadsdata = {
-    type: ArbeidIPeriodeType.arbeiderEnkeltdager,
+const arbeiderRedusert: ArbeidIPeriodeSøknadsdata = {
+    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
     arbeiderIPerioden: true,
     arbeiderRedusert: true,
-    enkeltdager: { '123123': { hours: '1', minutes: '0' } },
+    timerISnittPerUke: 5,
 };
 
 describe('arbeidstidUtils', () => {
@@ -47,7 +39,7 @@ describe('arbeidstidUtils', () => {
             expect(
                 erArbeidsforholdMedFravær({
                     normalarbeidstid,
-                    arbeidISøknadsperiode: arbeiderRedusertEnkeltdager,
+                    arbeidISøknadsperiode: arbeiderRedusert,
                 })
             ).toBeTruthy();
         });

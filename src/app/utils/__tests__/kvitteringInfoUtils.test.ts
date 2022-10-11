@@ -17,10 +17,8 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
         },
         normalarbeidstid: {
-            erLiktHverUke: false,
             _erLiktSnittSomForrigeSøknad: false,
             timerPerUkeISnitt: decimalDurationToISODuration(2),
-            _arbeiderHelg: false,
         },
     },
     sluttetFørSøknadsperiode: false,
@@ -68,10 +66,8 @@ describe('kvitteringUtils', () => {
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        erLiktHverUke: false,
                         _erLiktSnittSomForrigeSøknad: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
-                        _arbeiderHelg: false,
                     },
                     arbeidIPeriode: {
                         type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
@@ -86,10 +82,8 @@ describe('kvitteringUtils', () => {
                 erAnsatt: true,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        erLiktHverUke: false,
                         _erLiktSnittSomForrigeSøknad: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
-                        _arbeiderHelg: false,
                     },
                     arbeidIPeriode: {
                         type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,

@@ -1,21 +1,19 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { formatTimerOgMinutter, TidFasteDager } from '@navikt/sif-common-pleiepenger';
-import ArbeidstidEnkeltdagerListe from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-enkeltdager-liste/ArbeidstidEnkeltdagerListe';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
 import {
     decimalDurationToDuration,
     ISODurationToDecimalDuration,
     ISODurationToDuration,
 } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import {
+    ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
     NormalarbeidstidApiData,
-    ArbeidIPeriodeApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
-import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 
 interface Props {
     periode: DateRange;
@@ -49,20 +47,17 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
     };
 
     const getArbeidProsentTekst = (prosent: number, normalarbeidstid: NormalarbeidstidApiData) => {
-        if (normalarbeidstid.erLiktHverUke === false) {
-            const timer = ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt);
-            if (!timer) {
-                return undefined;
-            }
-            const { timerNormalt, timerIPeriode } = getProsentAvNormaltTekstParts(timer, prosent);
-
-            return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
-                prosent: Intl.NumberFormat().format(prosent),
-                timerNormalt,
-                timerIPeriode,
-            });
+        const timer = ISODurationToDecimalDuration(normalarbeidstid.timerPerUkeISnitt);
+        if (!timer) {
+            return undefined;
         }
-        return undefined;
+        const { timerNormalt, timerIPeriode } = getProsentAvNormaltTekstParts(timer, prosent);
+
+        return intlHelper(intl, 'oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent', {
+            prosent: Intl.NumberFormat().format(prosent),
+            timerNormalt,
+            timerIPeriode,
+        });
     };
 
     const getArbeidIPeriodenDetaljer = (arbeidIPeriode: ArbeidIPeriodeApiData) => {
@@ -71,19 +66,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                 return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig`} />;
             case ArbeidIPeriodeType.arbeiderIkke:
                 return <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.nei`} />;
-            case ArbeidIPeriodeType.arbeiderEnkeltdager:
-                return <ArbeidstidEnkeltdagerListe dager={arbeidIPeriode.enkeltdager} visNormaltid={false} />;
-            case ArbeidIPeriodeType.arbeiderFasteUkedager:
-                return (
-                    <>
-                        <div>
-                            <FormattedMessage id="oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke" />:
-                        </div>
-                        <Box margin="m">
-                            <TidFasteDager fasteDager={arbeidIPeriode.fasteDager} />
-                        </Box>
-                    </>
-                );
             case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
                 return (
                     <>
@@ -108,14 +90,11 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                 );
         }
     };
-    const wrapInList = arbeidsforhold.arbeidIPeriode?.type !== ArbeidIPeriodeType.arbeiderEnkeltdager;
 
-    return wrapInList ? (
+    return (
         <ul>
             <li>{getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)}</li>
         </ul>
-    ) : (
-        getArbeidIPeriodenDetaljer(arbeidsforhold.arbeidIPeriode)
     );
 };
 

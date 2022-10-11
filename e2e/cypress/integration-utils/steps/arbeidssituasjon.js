@@ -23,12 +23,9 @@ const fyllUtArbeidssituasjonFrilanser = () => {
         if ($body.find('[data-testid=er-frilanser_yes]').length) {
             selectRadioYes('er-frilanser');
         }
-        // getTestElement('arbeidssituasjonFrilanser').within(() => {
         if ($body.find('[data-testid=fosterhjemsgodtgjørelse_mottar]').length) {
             selectRadioYes('fosterhjemsgodtgjørelse_mottar');
         }
-
-        // });
         const startDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
         cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');

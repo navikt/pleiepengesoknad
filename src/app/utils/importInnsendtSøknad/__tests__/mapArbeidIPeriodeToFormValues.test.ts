@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
@@ -55,24 +54,6 @@ describe('mapArbeidIPeriodeApiDataToFormValues', () => {
             expect(arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.redusert);
             expect(timerEllerProsent).toEqual(TimerEllerProsent.PROSENT);
             expect(prosentAvNormalt).toEqual('15');
-        });
-    });
-    describe('arbeider enkeltdager', () => {
-        const arbeid: ArbeidIPeriodeApiData = {
-            type: ArbeidIPeriodeType.arbeiderEnkeltdager,
-            arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-            enkeltdager: [{ dato: '2022-01-01', arbeidstimer: { faktiskTimer: 'PT2H30M', normalTimer: 'PT4H0M' } }],
-        };
-        it('returnerer riktig når en jobber redusert enkeltdager', () => {
-            const result = mapArbeidIPeriodeApiDataToFormValues(arbeid);
-            const { arbeiderIPerioden, enkeltdager, erLiktHverUke } = result!;
-            expect(arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.redusert);
-            expect(erLiktHverUke).toEqual(YesOrNo.NO);
-            expect(enkeltdager).toBeDefined();
-            const enkeltdag = enkeltdager!['2022-01-01'];
-            expect(enkeltdag).toBeDefined();
-            expect(enkeltdag.hours).toEqual('2');
-            expect(enkeltdag.minutes).toEqual('30');
         });
     });
 });

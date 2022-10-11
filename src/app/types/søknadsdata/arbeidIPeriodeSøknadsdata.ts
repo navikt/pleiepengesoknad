@@ -1,4 +1,3 @@
-import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
@@ -9,18 +8,6 @@ interface ArbeidISøknadsperiodeJobberVanligSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: true;
     arbeiderRedusert: false;
-}
-interface ArbeidISøknadsperiodeEnkeltdagerSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderEnkeltdager;
-    arbeiderIPerioden: true;
-    arbeiderRedusert: true;
-    enkeltdager: DateDurationMap;
-}
-interface ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderFasteUkedager;
-    arbeiderIPerioden: true;
-    arbeiderRedusert: true;
-    fasteDager: DurationWeekdays;
 }
 interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
@@ -38,7 +25,5 @@ interface ArbeidISøknadsperiodeProsentSøknadsdata {
 export type ArbeidIPeriodeSøknadsdata =
     | ArbeidISøknadsperiodeJobberVanligSøknadsdata
     | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
-    | ArbeidISøknadsperiodeEnkeltdagerSøknadsdata
-    | ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata
     | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
     | ArbeidISøknadsperiodeProsentSøknadsdata;

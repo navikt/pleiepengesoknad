@@ -1,6 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
 import { FrilansFormData } from '../../../types/FrilansFormData';
@@ -9,73 +8,18 @@ import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
-const cleanupNormalarbeidstid = (
-    {
-        erLiktSomForrigeSøknad,
-        erLikeMangeTimerHverUke,
-        timerFasteUkedager,
-        erFasteUkedager,
-        timerPerUke,
-        arbeiderFastHelg,
-        arbeiderHeltid,
-    }: NormalarbeidstidFormData,
-    erFrilanserEllerSN: boolean /** Skal kun oppgi informasjon om timer i uken */
-): NormalarbeidstidFormData => {
-    if (erFrilanserEllerSN) {
-        return {
-            erLikeMangeTimerHverUke: YesOrNo.YES,
-            timerPerUke,
-        };
-    }
-
+const cleanupNormalarbeidstid = ({
+    erLiktSomForrigeSøknad,
+    timerPerUke,
+}: NormalarbeidstidFormData): NormalarbeidstidFormData => {
     if (erLiktSomForrigeSøknad === YesOrNo.YES) {
         return {
             erLiktSomForrigeSøknad,
             timerPerUke,
         };
     }
-    if (arbeiderHeltid === YesOrNo.NO) {
-        return {
-            erLiktSomForrigeSøknad,
-            arbeiderHeltid,
-            timerPerUke,
-        };
-    }
-    if (arbeiderFastHelg === YesOrNo.YES) {
-        return {
-            erLiktSomForrigeSøknad,
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            timerPerUke,
-        };
-    }
-    if (erLikeMangeTimerHverUke === YesOrNo.NO) {
-        return {
-            erLiktSomForrigeSøknad,
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            timerPerUke,
-        };
-    }
-    if (erFasteUkedager === YesOrNo.YES) {
-        return {
-            erLiktSomForrigeSøknad,
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            erFasteUkedager,
-            timerFasteUkedager: timerFasteUkedager
-                ? removeDurationWeekdaysWithNoDuration(timerFasteUkedager)
-                : undefined,
-        };
-    }
+
     return {
-        erLiktSomForrigeSøknad,
-        arbeiderHeltid,
-        arbeiderFastHelg,
-        erLikeMangeTimerHverUke,
-        erFasteUkedager,
         timerPerUke,
     };
 };
@@ -95,7 +39,7 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormDa
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
     }
     if (cleanedArbeidsforhold.normalarbeidstid) {
-        cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid, false);
+        cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid);
     }
     return cleanedArbeidsforhold;
 };
@@ -131,10 +75,7 @@ export const cleanupFrilansArbeidssituasjon = (
         }
     }
     if (frilans.arbeidsforhold && frilans.arbeidsforhold.normalarbeidstid) {
-        frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(
-            frilans.arbeidsforhold.normalarbeidstid,
-            true
-        );
+        frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(frilans.arbeidsforhold.normalarbeidstid);
     }
 
     return frilans;
@@ -149,8 +90,7 @@ const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): Selvst
     }
     if (selvstendig.arbeidsforhold && selvstendig.arbeidsforhold.normalarbeidstid) {
         selvstendig.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(
-            selvstendig.arbeidsforhold.normalarbeidstid,
-            true
+            selvstendig.arbeidsforhold.normalarbeidstid
         );
     }
 

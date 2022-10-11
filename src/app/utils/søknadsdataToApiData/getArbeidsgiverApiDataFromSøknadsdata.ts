@@ -1,11 +1,9 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata, dateToISODateOrUndefined } from './arbeidToApiDataHelpers';
 
 export const getArbeidsgiverApiDataFromSøknadsdata = (
-    ansattSøknadsdata: ArbeidAnsattSøknadsdata,
-    søknadsperiode: DateRange
+    ansattSøknadsdata: ArbeidAnsattSøknadsdata
 ): ArbeidsgiverApiData => {
     const { arbeidsgiver } = ansattSøknadsdata;
 
@@ -20,7 +18,7 @@ export const getArbeidsgiverApiDataFromSøknadsdata = (
             ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
             ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
             sluttetFørSøknadsperiode: false,
-            arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold, søknadsperiode),
+            arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold),
         };
     }
     return {

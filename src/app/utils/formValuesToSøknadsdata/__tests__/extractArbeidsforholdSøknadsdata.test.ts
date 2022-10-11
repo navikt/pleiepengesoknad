@@ -1,12 +1,10 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import { ArbeidsforholdFormData } from '../../../types/ArbeidsforholdFormData';
 import { extractArbeidsforholdSøknadsdata } from '../extractArbeidsforholdSøknadsdata';
 
-const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
 const mockArbeidIPeriodeFormData = {} as ArbeidIPeriodeFormData;
 
 describe('extractArbeidsforholdSøknadsdata', () => {
@@ -15,17 +13,12 @@ describe('extractArbeidsforholdSøknadsdata', () => {
         erAnsatt: YesOrNo.YES,
         arbeidIPeriode: mockArbeidIPeriodeFormData,
         normalarbeidstid: {
-            arbeiderHeltid: YesOrNo.YES,
-            arbeiderFastHelg: YesOrNo.NO,
-            erLikeMangeTimerHverUke: YesOrNo.YES,
-            erFasteUkedager: YesOrNo.YES,
-            timerFasteUkedager: { monday: { hours: '1', minutes: '30' } },
+            timerPerUke: '20',
         },
     };
     it('returnerer undefined dersom normalarbeidstid er ugyldig', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, normalarbeidstid: undefined },
-            søknadsperiode,
             ArbeidsforholdType.ANSATT
         );
         expect(result).toBeUndefined();
@@ -33,7 +26,6 @@ describe('extractArbeidsforholdSøknadsdata', () => {
     it('returnerer arbeidsforhold korrekt når arbeidIPeriode ikke er satt', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, arbeidIPeriode: undefined },
-            søknadsperiode,
             ArbeidsforholdType.ANSATT
         );
         expect(result).toBeDefined();
@@ -46,12 +38,10 @@ describe('extractArbeidsforholdSøknadsdata', () => {
                 ...arbeidsforholdMedFravær,
                 arbeidIPeriode: {
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                    erLiktHverUke: YesOrNo.NO,
                     timerPerUke: '20',
                     timerEllerProsent: TimerEllerProsent.TIMER,
                 },
             },
-            søknadsperiode,
             ArbeidsforholdType.ANSATT
         );
         expect(result).toBeDefined();

@@ -17,15 +17,10 @@ const ansattArbeidsforhold: ArbeidsforholdFormData = {
         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
         timerEllerProsent: TimerEllerProsent.PROSENT,
         timerPerUke: '20',
-        erLiktHverUke: YesOrNo.YES,
     },
     erAnsatt: YesOrNo.YES,
     normalarbeidstid: {
-        erLikeMangeTimerHverUke: YesOrNo.YES,
         timerPerUke: '10',
-        timerFasteUkedager: {
-            friday: { hours: '2', minutes: '2' },
-        },
     },
     sluttetFørSøknadsperiode: YesOrNo.NO,
 };

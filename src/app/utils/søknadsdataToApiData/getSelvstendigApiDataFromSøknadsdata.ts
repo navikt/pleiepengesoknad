@@ -22,7 +22,7 @@ export const getSelvstendigApiDataFromSøknadsdata = (
             const { arbeidsforhold, harFlereVirksomheter, virksomhet } = arbeidSelvstendigSøknadsdata;
             return {
                 harInntektSomSelvstendig: true,
-                arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold, søknadsperiode),
+                arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(arbeidsforhold),
                 virksomhet: mapVirksomhetToVirksomhetApiData(locale, virksomhet, harFlereVirksomheter),
             };
     }

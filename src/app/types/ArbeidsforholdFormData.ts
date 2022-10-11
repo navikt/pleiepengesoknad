@@ -1,5 +1,4 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeFormData } from './ArbeidIPeriodeFormData';
 import { Arbeidsgiver } from './Arbeidsgiver';
 
@@ -8,23 +7,13 @@ export enum ArbeidsforholdFormField {
     sluttetFørSøknadsperiode = 'sluttetFørSøknadsperiode',
     normalarbeidstid = 'normalarbeidstid',
     normalarbeidstid_erLiktSomForrigeSøknad = 'normalarbeidstid.erLiktSomForrigeSøknad',
-    normalarbeidstid_arbeiderHeltid = 'normalarbeidstid.arbeiderHeltid',
-    normalarbeidstid_arbeiderFastHelg = 'normalarbeidstid.arbeiderFastHelg',
-    normalarbeidstid_erLikeMangeTimerHverUke = 'normalarbeidstid.erLikeMangeTimerHverUke',
-    normalarbeidstid_erFasteUkedager = 'normalarbeidstid.erFasteUkedager',
     normalarbeidstid_TimerPerUke = 'normalarbeidstid.timerPerUke',
-    normalarbeidstid_timerFasteUkedager = 'normalarbeidstid.timerFasteUkedager',
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
 export type NormalarbeidstidFormData = {
     erLiktSomForrigeSøknad?: YesOrNo;
-    arbeiderFastHelg?: YesOrNo;
-    arbeiderHeltid?: YesOrNo;
-    erLikeMangeTimerHverUke?: YesOrNo;
-    erFasteUkedager?: YesOrNo;
     timerPerUke?: string;
-    timerFasteUkedager?: DurationWeekdays;
 };
 
 export interface ArbeidsforholdFormData {
