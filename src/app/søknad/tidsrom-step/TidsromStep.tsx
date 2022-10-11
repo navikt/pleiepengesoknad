@@ -32,7 +32,7 @@ import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbud
 
 dayjs.extend(minMax);
 
-const cleanupTidsromStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+const cleanupTidsromStep = (values: SøknadFormValues, søknadsperiode: DateRange): SøknadFormValues => {
     const cleanedValues = { ...values };
 
     if (cleanedValues.omsorgstilbud && søkerFortid(søknadsperiode)) {
