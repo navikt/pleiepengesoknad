@@ -50,8 +50,7 @@ server.use(
                 workerSrc: ["'self'", 'blob:'],
             },
         },
-        crossOriginEmbedderPolicy: true,
-        crossOriginResourcePolicy: same - origin,
+        crossOriginEmbedderPolicy: false,
     })
 );
 server.use(compression());
