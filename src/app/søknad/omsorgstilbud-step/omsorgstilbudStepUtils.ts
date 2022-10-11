@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween';
-import { SøknadFormValues, OmsorgstilbudFormData } from '../../types/SøknadFormValues';
+import { SøknadFormValues, OmsorgstilbudFormValues } from '../../types/SøknadFormValues';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
 
@@ -80,7 +80,7 @@ export const søkerFortidFremtid = (periode: DateRange): boolean => {
     return false;
 };
 
-export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormData): DateRange => {
+export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormValues): DateRange => {
     if (
         omsorgstilbud &&
         omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
@@ -111,7 +111,7 @@ export const visLiktHverUke = (
     periodeFortidFremtid: boolean,
     periodeFortid: boolean,
     periodeFremtid: boolean,
-    omsorgstilbud?: OmsorgstilbudFormData
+    omsorgstilbud?: OmsorgstilbudFormValues
 ): boolean => {
     if (!omsorgstilbud) {
         return false;
@@ -152,7 +152,7 @@ export const visLiktHverUke = (
     return true;
 };
 
-export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormData): string => {
+export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormValues): string => {
     if (
         omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
         (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.NO || omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)

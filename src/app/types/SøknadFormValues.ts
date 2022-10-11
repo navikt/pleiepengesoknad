@@ -62,7 +62,7 @@ export enum SøknadFormField {
     utenlandskNæring = 'utenlandskNæring',
 }
 
-export interface OmsorgstilbudFormData {
+export interface OmsorgstilbudFormValues {
     erIOmsorgstilbudFortid?: YesOrNo;
     erIOmsorgstilbudFremtid?: YesOrNo;
     erLiktHverUke?: YesOrNo;
@@ -98,7 +98,7 @@ export interface SøknadFormValues {
     [SøknadFormField.ferieuttakIPerioden]?: Ferieuttak[];
     [SøknadFormField.harMedsøker]: YesOrNo;
     [SøknadFormField.samtidigHjemme]: YesOrNo;
-    [SøknadFormField.omsorgstilbud]?: OmsorgstilbudFormData;
+    [SøknadFormField.omsorgstilbud]?: OmsorgstilbudFormValues;
     [SøknadFormField.harNattevåk]: YesOrNo;
     [SøknadFormField.harNattevåk_ekstrainfo]?: string;
     [SøknadFormField.harBeredskap]: YesOrNo;

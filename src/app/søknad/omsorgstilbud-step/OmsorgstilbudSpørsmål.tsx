@@ -10,7 +10,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { getOmsorgstilbudFastDagValidator, TidFasteUkedagerInput } from '@navikt/sif-common-pleiepenger';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { OmsorgstilbudFormData, SøknadFormField } from '../../types/SøknadFormValues';
+import { OmsorgstilbudFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
@@ -28,7 +28,7 @@ import { Systemtittel } from 'nav-frontend-typografi';
 
 interface Props {
     periode: DateRange;
-    omsorgstilbud?: OmsorgstilbudFormData;
+    omsorgstilbud?: OmsorgstilbudFormValues;
     onOmsorgstilbudChanged: () => void;
 }
 

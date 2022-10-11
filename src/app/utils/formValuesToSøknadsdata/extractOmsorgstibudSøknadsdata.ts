@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { OmsorgstilbudFormData } from '../../types/SøknadFormValues';
+import { OmsorgstilbudFormValues } from '../../types/SøknadFormValues';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractOmsorgstibudSøknadsdata = (
-    omsorgstilbud?: OmsorgstilbudFormData
+    omsorgstilbud?: OmsorgstilbudFormValues
 ): OmsorgstilbudSøknadsdata | undefined => {
     if (
         !omsorgstilbud ||
