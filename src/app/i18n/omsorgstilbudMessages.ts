@@ -3,7 +3,7 @@ const omsorgstilbudMessages = {
         'omsorgstilbud.svar.ja': 'Ja',
         'omsorgstilbud.svar.nei': 'Nei',
 
-        'omsorgstilbudPeriode.leggTilTidIOmsorgstilbudLabel': 'Registrer tid i omsorgstilbud',
+        'omsorgstilbudPeriode.leggTilTidIOmsorgstilbudLabel': 'Oppgi periode med omsorgstilbud',
         'omsorgstilbudMåned.tittel': 'Omsorgstilbud - {måned}',
         'omsorgstilbudMåned.intro.1':
             'Fyll ut antall timer og minutter barnet skal være fast og regelmessig i et omsorgstilbud. Du trenger ikke fylle ut noe de dagene barnet ikke skal være der. ',

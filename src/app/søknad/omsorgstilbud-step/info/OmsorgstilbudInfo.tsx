@@ -16,20 +16,36 @@ const OmsorgstilbudStepInfo = () => {
             <p>
                 <FormattedMessage id="steg.omsorgstilbud.veileder.ny.2" />
             </p>
-            <p>
-                <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
-                <strong>
-                    <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
-                </strong>{' '}
-                <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
-            </p>
-            <p>
-                <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
-            </p>
+            <Box>
+                <ExpandableInfo
+                    title={intlHelper(intl, 'steg.omsorgstilbud.veileder.ny.tittel')}
+                    filledBackground={false}>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3a" />{' '}
+                        <strong>
+                            <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3b" />
+                        </strong>{' '}
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.3c" />
+                    </p>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.veileder.ny.4" />
+                    </p>
+                </ExpandableInfo>
+            </Box>
+
             <Box>
                 <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.eksempel.tittel')} filledBackground={false}>
                     <p>{intlHelper(intl, 'steg.omsorgstilbud.eksempel.1')}</p>
                     <p>{intlHelper(intl, 'steg.omsorgstilbud.eksempel.2')}</p>
+                </ExpandableInfo>
+            </Box>
+            <Box>
+                <ExpandableInfo
+                    title={intlHelper(intl, 'steg.omsorgstilbud.info.flereBarnSamtidig.tittel')}
+                    filledBackground={false}>
+                    <p>
+                        <FormattedMessage id="steg.omsorgstilbud.info.flereBarnSamtidig" />
+                    </p>
                 </ExpandableInfo>
             </Box>
         </CounsellorPanel>

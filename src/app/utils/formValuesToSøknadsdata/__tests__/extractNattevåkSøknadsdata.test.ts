@@ -4,7 +4,7 @@ import { extractNattevåkSøknadsdata } from '../extractNattevåkSøknadsdata';
 describe('extractNattevåkSøknadsdata', () => {
     it('returnerer type harNattevåk og harNattevåk === true', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbud: YesOrNo.YES },
+            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.YES },
             harNattevåk: YesOrNo.YES,
             harNattevåk_ekstrainfo: 'Tekst',
         });
@@ -15,7 +15,7 @@ describe('extractNattevåkSøknadsdata', () => {
 
     it('returnerer type harIkkeNattevåk og harNattevåk === false', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbud: YesOrNo.YES },
+            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.YES },
             harNattevåk: YesOrNo.NO,
         });
         expect(result).toBeDefined();
@@ -32,7 +32,7 @@ describe('extractNattevåkSøknadsdata', () => {
 
     it('returnerer undefined hvis bruker skal ikke svare på beredskap og nattevåk med Omsorgstibud.erIOmsorgstilbud === NO', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbud: YesOrNo.NO },
+            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.NO, erIOmsorgstilbudFortid: YesOrNo.NO },
             harNattevåk: YesOrNo.YES,
             harNattevåk_ekstrainfo: 'Tekst',
         });

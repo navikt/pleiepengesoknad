@@ -1,27 +1,22 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudFormData } from '../../../types/SøknadFormValues';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { OmsorgstilbudFormValues } from '../../../types/SøknadFormValues';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
 
-const søknadsperiode: DateRange = {
-    from: new Date(2021, 1, 1),
-    to: new Date(2021, 1, 10),
-};
-
-const omsorgstilbud: OmsorgstilbudFormData = {
-    erIOmsorgstilbud: YesOrNo.YES,
+const omsorgstilbud: OmsorgstilbudFormValues = {
+    erIOmsorgstilbudFortid: YesOrNo.YES,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,
 };
 
 describe('extractOmsorgstibudSøknadsdata', () => {
     it('returnerer erIOmsorgstilbudEnkeltDager dersom erLiktHverUke === NO,', () => {
-        const result = extractOmsorgstibudSøknadsdata(søknadsperiode, omsorgstilbud);
+        const result = extractOmsorgstibudSøknadsdata(omsorgstilbud);
         expect(result).toBeDefined();
         expect(result?.type).toEqual('erIOmsorgstilbudEnkeltDager');
     });
 
     it('returnerer erIOmsorgstilbudFasteDager dersom erLiktHverUke === NO,', () => {
-        const result = extractOmsorgstibudSøknadsdata(søknadsperiode, {
+        const result = extractOmsorgstibudSøknadsdata({
             ...omsorgstilbud,
             fasteDager: {
                 friday: { hours: '1', minutes: '0' },
@@ -34,15 +29,15 @@ describe('extractOmsorgstibudSøknadsdata', () => {
     });
 
     it('returnerer undefined dersom erIOmsorgstilbud === NO', () => {
-        const result = extractOmsorgstibudSøknadsdata(søknadsperiode, {
+        const result = extractOmsorgstibudSøknadsdata({
             ...omsorgstilbud,
-            erIOmsorgstilbud: YesOrNo.NO,
+            erIOmsorgstilbudFortid: YesOrNo.NO,
         });
         expect(result).toBeUndefined();
     });
 
     it('returnerer undefined dersom omsorgstilbud er undefined', () => {
-        const result = extractOmsorgstibudSøknadsdata(søknadsperiode, undefined);
+        const result = extractOmsorgstibudSøknadsdata(undefined);
         expect(result).toBeUndefined();
     });
 });

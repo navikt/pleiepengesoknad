@@ -7,7 +7,10 @@ export const extractNattevåkSøknadsdata = ({
     harNattevåk_ekstrainfo,
     omsorgstilbud,
 }: Partial<SøknadFormValues>): NattevåkSøknadsdata | undefined => {
-    if (omsorgstilbud !== undefined && omsorgstilbud.erIOmsorgstilbud === YesOrNo.YES) {
+    if (
+        omsorgstilbud !== undefined &&
+        (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES || omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+    ) {
         if (harNattevåk === YesOrNo.YES) {
             return {
                 type: 'harNattevåk',

@@ -1,6 +1,6 @@
 {
     "name": "pleiepengesoknad",
-    "version": "1.2.3",
+    "version": "1.2.4",
     "description": "Selvbetjeningsløsning for pleiepengesøknad",
     "repository": "https://github.com/navikt/pleiepengesoknad",
     "license": "MIT",

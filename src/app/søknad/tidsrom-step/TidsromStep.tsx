@@ -28,8 +28,23 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
 
 dayjs.extend(minMax);
+
+const cleanupTidsromStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+    const cleanedValues = { ...values };
+
+    if (cleanedValues.omsorgstilbud && søkerFortid(søknadsperiode)) {
+        cleanedValues.omsorgstilbud.erIOmsorgstilbudFremtid = undefined;
+        cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
+    }
+    if (cleanedValues.omsorgstilbud && søkerFremtid(søknadsperiode)) {
+        cleanedValues.omsorgstilbud.erIOmsorgstilbudFortid = undefined;
+        cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
+    }
+    return cleanedValues;
+};
 
 const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormValues>();
@@ -60,6 +75,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     };
 
     const visInfoOmUtenlandsopphold =
+        values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES &&
         values.utenlandsoppholdIPerioden &&
         harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning(values.utenlandsoppholdIPerioden);
 
@@ -67,6 +83,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         <SøknadFormStep
             id={StepID.TIDSROM}
             onValidFormSubmit={onValidSubmit}
+            onStepCleanup={(values) => cleanupTidsromStep(values, periode)}
             showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}>
             <SøknadFormComponents.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
