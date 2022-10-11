@@ -22,11 +22,7 @@ server.set('view engine', 'mustache');
 server.engine('html', mustacheExpress());
 
 server.use((req, res, next) => {
-    res.removeHeader('X-Powered-By');
-    res.set('X-Frame-Options', 'SAMEORIGIN');
     res.set('X-XSS-Protection', '1; mode=block');
-    res.set('X-Content-Type-Options', 'nosniff');
-    res.set('Referrer-Policy', 'no-referrer');
     res.set('Feature-Policy', "geolocation 'none'; microphone 'none'; camera 'none'");
     next();
 });
@@ -54,6 +50,13 @@ const renderApp = (decoratorFragments) =>
 const startServer = (html) => {
     console.log('server.js: Using PUBLIC_PATH', process.env.PUBLIC_PATH);
     server.use(`${process.env.PUBLIC_PATH}/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
+    server.use(`${process.env.PUBLIC_PATH}/dist/css`, (req, res, next) => {
+        const requestReferer = req.headers.referer;
+        if (requestReferer !== undefined && requestReferer === 'https://nav.psplugin.com/') {
+            res.set('cross-origin-resource-policy', 'cross-origin');
+        }
+        next();
+    });
     server.use(`${process.env.PUBLIC_PATH}/dist/css`, express.static(path.resolve(__dirname, 'dist/css')));
     server.get(`${process.env.PUBLIC_PATH}/health/isAlive`, (req, res) => res.sendStatus(200));
     server.get(`${process.env.PUBLIC_PATH}/health/isReady`, (req, res) => res.sendStatus(200));
