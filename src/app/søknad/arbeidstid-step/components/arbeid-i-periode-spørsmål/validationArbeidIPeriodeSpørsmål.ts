@@ -8,6 +8,7 @@ import {
 } from '@navikt/sif-common-pleiepenger';
 import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-uke-input/ArbeidstidUkeInput';
 import { dateFormatter, decimalDurationToDuration, getWeekdayFromDate } from '@navikt/sif-common-utils/lib';
+import { Arbeidsuke } from './ArbeidstidUkerSpørsmål';
 
 export const getArbeidIPeriodeEnkeltdagValidator =
     (intlValues: ArbeidIPeriodeIntlValues): ArbeidstidUkeInputEnkeltdagValidator | undefined =>
@@ -32,33 +33,33 @@ export const getArbeidIPeriodeEnkeltdagValidator =
             : undefined;
     };
 
-interface ProsentMinMax {
-    min: number;
-    max: number;
-}
-
 export const getArbeidIPeriodeProsentAvNormaltValidator =
-    (intlValues: ArbeidIPeriodeIntlValues, minMax?: ProsentMinMax) => (value: string) => {
-        const { min, max } = minMax || { min: 1, max: 99 };
+    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: Arbeidsuke) => (value: string) => {
+        const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
+        const { min, max } = arbeidsuke ? { min: 0, max: 100 } : { min: 1, max: 99 };
         const error = getArbeidstidFastProsentValidator({ min, max })(value);
         return error
             ? {
-                  key: `validation.arbeidIPeriode.fast.prosent.${error.key}`,
-                  values: { ...intlValues, min, max },
+                  key: `validation.arbeidIPeriode.fast.prosent.${arbeidsuke ? 'uke.' : ''}${error.key}`,
+                  values: { ...intlValues, min, max, ukeinfo },
                   keepKeyUnaltered: true,
               }
             : undefined;
     };
 
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, min = 1) =>
+    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: Arbeidsuke) =>
     (value: string) => {
+        const min = arbeidsuke ? 0 : 1;
+        const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
         const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
+
         return error
             ? {
-                  key: `validation.arbeidIPeriode.fast.timerPerUke.${error.key}`,
+                  key: `validation.arbeidIPeriode.fast.timerPerUke.${arbeidsuke ? 'uke.' : ''}${error.key}`,
                   values: {
                       ...intlValues,
+                      ukeinfo,
                       min,
                       max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
                   },

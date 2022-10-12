@@ -69,11 +69,6 @@ const ArbeidIPeriodeSpørsmål = ({
     const { arbeidIPeriode } = arbeidsforhold;
     const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
 
-    // const timerNormaltString = formatTimerOgMinutter(
-    //     intl,
-    //     decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-    // );
-
     return (
         <>
             <SøknadFormComponents.RadioPanelGroup

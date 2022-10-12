@@ -1,7 +1,12 @@
 import React from 'react';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib';
-import { dateRangeToISODateRange, getWeeksInDateRange, ISODateRange } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
+import {
+    dateRangeToISODateRange,
+    decimalDurationToDuration,
+    getWeeksInDateRange,
+    ISODateRange,
+} from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../../types';
@@ -9,6 +14,8 @@ import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../../t
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import SøknadFormComponents from '../../../SøknadFormComponents';
 import ArbeidstidInput from './ArbeidstidInput';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { useIntl } from 'react-intl';
 
 dayjs.extend(weekOfYear);
 
@@ -54,11 +61,23 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     intlValues,
 }) => {
     const arbeidsuker = getUkerIPeriode(parentFieldName, periode);
+    const intl = useIntl();
+
+    const timerNormaltString = formatTimerOgMinutter(
+        intl,
+        decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
+    );
 
     return (
         <SøknadFormComponents.InputGroup
             name={`${parentFieldName}_ukerGroup` as any}
-            legend="Oppgi hvor mye du jobber de ulike ukene i perioden">
+            legend={intlHelper(
+                intl,
+                `arbeidIPeriode.ulikeUkerGruppe.${
+                    timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
+                }.spm`,
+                { ...intlValues, timerNormaltString }
+            )}>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
                     <div key={dateRangeToISODateRange(arbeidsuke.periode)}>
@@ -70,43 +89,6 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                             normalarbeidstid={normalarbeidstid}
                             timerEllerProsent={timerEllerProsent}
                         />
-                        {/* {timerEllerProsent === TimerEllerProsent.TIMER && (
-                            <SøknadFormComponents.NumberInput
-                                label={`Uke ${arbeidsuke.ukenummer} - ${arbeidsuke.periode.from.getFullYear()}`}
-                                name={fieldName}
-                                bredde="XS"
-                                maxLength={4}
-                                suffixStyle="text"
-                                suffix={`timer av normalt ${formatTimerOgMinutter(
-                                    intl,
-                                    decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-                                )} i uken.`}
-                            />
-                        )}
-                        {timerEllerProsent === TimerEllerProsent.PROSENT && (
-                        <SøknadFormComponents.NumberInput
-                        name={getFieldName(ArbeidIPeriodeFormField.prosentAvNormalt) as any}
-                        label={intlHelper(intl, 'arbeidIPeriode.prosentAvNormalt.spm', intlValues)}
-                        data-testid="prosent-verdi"
-                        validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues)}
-                        bredde="XS"
-                        maxLength={4}
-                        suffixStyle="text"
-                        suffix={getProsentSuffix()}
-                    />
-
-                    <SøknadFormComponents.NumberInput
-                                label={`Uke ${arbeidsuke.ukenummer} - ${arbeidsuke.periode.from.getFullYear()}`}
-                                name={fieldName}
-                                bredde="XS"
-                                maxLength={4}
-                                suffixStyle="text"
-                                suffix={`timer av normalt ${formatTimerOgMinutter(
-                                    intl,
-                                    decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-                                )} i uken.`}
-                            />
-                        )} */}
                     </div>
                 );
             })}

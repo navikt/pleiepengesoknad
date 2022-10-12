@@ -3,7 +3,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import {
     ArbeidsforholdFormValues,
     ArbeidsforholdFrilanserFormValues,
@@ -20,6 +20,21 @@ import {
 } from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
+
+export const cleanupArbeidsuker = (
+    arbeidsuker: ArbeidsukerFormValues,
+    timerEllerProsent: TimerEllerProsent
+): ArbeidsukerFormValues => {
+    const cleanedArbeidsuker: ArbeidsukerFormValues = {};
+    Object.keys(arbeidsuker).map((key) => {
+        const { prosentAvNormalt, snittTimerPerUke } = arbeidsuker[key];
+        cleanedArbeidsuker[key] = {
+            prosentAvNormalt: timerEllerProsent === TimerEllerProsent.PROSENT ? prosentAvNormalt : undefined,
+            snittTimerPerUke: timerEllerProsent === TimerEllerProsent.TIMER ? snittTimerPerUke : undefined,
+        };
+    });
+    return cleanedArbeidsuker;
+};
 
 export const cleanupArbeidIPeriode = (
     arbeidIPerioden: ArbeidIPeriodeFormValues,
@@ -45,7 +60,13 @@ export const cleanupArbeidIPeriode = (
             ? { ...arbeid, timerEllerProsent, prosentAvNormalt, arbeidsuker: undefined }
             : { ...arbeid, timerEllerProsent, snittTimerPerUke, arbeidsuker: undefined };
     } else {
-        return { ...arbeid, prosentAvNormalt: undefined, snittTimerPerUke: undefined, arbeidsuker };
+        return {
+            ...arbeid,
+            prosentAvNormalt: undefined,
+            snittTimerPerUke: undefined,
+            arbeidsuker:
+                arbeidsuker && timerEllerProsent ? cleanupArbeidsuker(arbeidsuker, timerEllerProsent) : undefined,
+        };
     }
 };
 

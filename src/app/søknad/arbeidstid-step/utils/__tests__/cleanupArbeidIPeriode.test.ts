@@ -1,18 +1,18 @@
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormValues } from '../../../../types/ArbeidIPeriodeFormValues';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
-import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
+// import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+// import { TimerEllerProsent } from '../../../../types';
+// import { ArbeidIPeriodeFormValues } from '../../../../types/ArbeidIPeriodeFormValues';
+// import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
+// import { cleanupArbeidIPeriode } from '../cleanupArbeidstidStep';
 
-const arbeidIPeriode: ArbeidIPeriodeFormValues = {
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
-    timerEllerProsent: TimerEllerProsent.PROSENT,
-    prosentAvNormalt: '20',
-};
+// const arbeidIPeriode: ArbeidIPeriodeFormValues = {
+//     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
+//     timerEllerProsent: TimerEllerProsent.PROSENT,
+//     prosentAvNormalt: '20',
+// };
 
-const normalarbeidstid: NormalarbeidstidSøknadsdata = {
-    timerPerUkeISnitt: 20,
-};
+// const normalarbeidstid: NormalarbeidstidSøknadsdata = {
+//     timerPerUkeISnitt: 20,
+// };
 
 describe('cleanupArbeidIPeriode', () => {
     it('runs', () => {

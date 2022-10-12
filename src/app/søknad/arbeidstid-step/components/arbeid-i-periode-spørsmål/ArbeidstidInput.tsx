@@ -1,8 +1,8 @@
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
-import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { dateFormatter, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { TimerEllerProsent } from '../../../../types';
@@ -53,17 +53,45 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
         decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
     );
 
+    const formatPeriode = (periode: DateRange): string =>
+        `${dateFormatter.compact(periode.from)} - ${dateFormatter.compact(periode.to)}`;
+
+    const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer} - ${formatPeriode(arbeidsuke.periode)}` : undefined;
+
     const getProsentLabel = () => {
         return arbeidsuke
-            ? `Uke ${arbeidsuke.ukenummer}`
-            : intlHelper(intl, 'arbeidIPeriode.prosentAvNormalt.spm', intlValues);
+            ? intlHelper(
+                  intl,
+                  arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
+                  { ...intlValues, ukeinfo }
+              )
+            : intlHelper(
+                  intl,
+                  arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
+                  intlValues
+              );
     };
 
     const getTimerLabel = () => {
-        return intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
-            ...intlValues,
-            timerNormaltString,
-        });
+        return arbeidsuke
+            ? intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.uke.spm', {
+                  ...intlValues,
+                  timerNormaltString,
+                  ukeinfo,
+              })
+            : intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
+                  ...intlValues,
+                  timerNormaltString,
+              });
+    };
+
+    const getTimerSuffix = () => {
+        return arbeidsuke
+            ? ''
+            : `timer av normalt ${formatTimerOgMinutter(
+                  intl,
+                  decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
+              )} i uken.`;
     };
 
     const getProsentSuffix = () => {
@@ -80,16 +108,14 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     };
 
     return (
-        <FormBlock paddingBottom="m" margin={arbeidsuke ? 'none' : undefined}>
+        <FormBlock paddingBottom="l" margin={arbeidsuke ? 'm' : undefined}>
             {timerEllerProsent === TimerEllerProsent.PROSENT && (
                 <SøknadFormComponents.NumberInput
+                    className="arbeidstidUkeInput"
                     name={prosentFieldName}
                     label={getProsentLabel()}
                     data-testid="prosent-verdi"
-                    validate={getArbeidIPeriodeProsentAvNormaltValidator(
-                        intlValues,
-                        arbeidsuke ? { max: 100, min: 0 } : undefined
-                    )}
+                    validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues, arbeidsuke)}
                     bredde="XS"
                     maxLength={4}
                     suffixStyle="text"
@@ -98,22 +124,20 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
             )}
             {timerEllerProsent === TimerEllerProsent.TIMER && (
                 <SøknadFormComponents.NumberInput
+                    className="arbeidstidUkeInput"
                     name={timerFieldName}
                     label={getTimerLabel()}
                     validate={getArbeidIPeriodeTimerPerUkeISnittValidator(
                         intl,
                         intlValues,
                         normalarbeidstid.timerPerUkeISnitt,
-                        arbeidsuke ? 0 : undefined
+                        arbeidsuke
                     )}
                     data-testid="timer-verdi"
                     bredde="XS"
                     maxLength={4}
                     suffixStyle="text"
-                    suffix={`timer av normalt ${formatTimerOgMinutter(
-                        intl,
-                        decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-                    )} i uken.`}
+                    suffix={getTimerSuffix()}
                 />
             )}
         </FormBlock>

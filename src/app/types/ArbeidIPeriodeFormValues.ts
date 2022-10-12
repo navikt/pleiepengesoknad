@@ -12,7 +12,7 @@ export enum ArbeidIPeriodeFormField {
     arbeidsuker = 'arbeidsuker',
 }
 
-export type Arbeidsuker = {
+export type ArbeidsukerFormValues = {
     [periode: ISODateRange]: {
         [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;
         [ArbeidIPeriodeFormField.snittTimerPerUke]?: string;
@@ -25,5 +25,5 @@ export interface ArbeidIPeriodeFormValues {
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;
     [ArbeidIPeriodeFormField.snittTimerPerUke]?: string;
-    [ArbeidIPeriodeFormField.arbeidsuker]?: Arbeidsuker;
+    [ArbeidIPeriodeFormField.arbeidsuker]?: ArbeidsukerFormValues;
 }
