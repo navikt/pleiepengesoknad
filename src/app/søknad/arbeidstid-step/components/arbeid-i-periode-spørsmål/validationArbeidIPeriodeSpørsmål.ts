@@ -32,22 +32,27 @@ export const getArbeidIPeriodeEnkeltdagValidator =
             : undefined;
     };
 
-export const getArbeidIPeriodeProsentAvNormaltValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: string) => {
-    const min = 1;
-    const max = 99;
-    const error = getArbeidstidFastProsentValidator({ min, max })(value);
-    return error
-        ? {
-              key: `validation.arbeidIPeriode.fast.prosent.${error.key}`,
-              values: { ...intlValues, min, max },
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
+interface ProsentMinMax {
+    min: number;
+    max: number;
+}
+
+export const getArbeidIPeriodeProsentAvNormaltValidator =
+    (intlValues: ArbeidIPeriodeIntlValues, minMax?: ProsentMinMax) => (value: string) => {
+        const { min, max } = minMax || { min: 1, max: 99 };
+        const error = getArbeidstidFastProsentValidator({ min, max })(value);
+        return error
+            ? {
+                  key: `validation.arbeidIPeriode.fast.prosent.${error.key}`,
+                  values: { ...intlValues, min, max },
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
+    };
 
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number) => (value: string) => {
-        const min = 1;
+    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, min = 1) =>
+    (value: string) => {
         const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
         return error
             ? {

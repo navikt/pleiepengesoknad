@@ -1,5 +1,17 @@
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
+export type ArbeidsukerProsentSøknadsdata = {
+    [key: string]: {
+        prosentAvNormalt: number;
+    };
+};
+
+export type ArbeidsukerTimerSøknadsdata = {
+    [key: string]: {
+        timerISnittPerUke: number;
+    };
+};
+
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderIkke;
     arbeiderIPerioden: false;
@@ -15,6 +27,12 @@ interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
     arbeiderRedusert: true;
     timerISnittPerUke: number;
 }
+interface ArbeidISøknadsperiodeUlikeTimerISnittPerUkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderUlikeTimerISnittPerUke;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    arbeidsuker: ArbeidsukerTimerSøknadsdata;
+}
 interface ArbeidISøknadsperiodeProsentSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderProsentAvNormalt;
     arbeiderIPerioden: true;
@@ -22,8 +40,17 @@ interface ArbeidISøknadsperiodeProsentSøknadsdata {
     prosentAvNormalt: number;
 }
 
+interface ArbeidISøknadsperiodeUlikProsentPerUkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderUlikProsentPerUkeAvNormalt;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    arbeidsuker: ArbeidsukerProsentSøknadsdata;
+}
+
 export type ArbeidIPeriodeSøknadsdata =
     | ArbeidISøknadsperiodeJobberVanligSøknadsdata
     | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
     | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
-    | ArbeidISøknadsperiodeProsentSøknadsdata;
+    | ArbeidISøknadsperiodeUlikeTimerISnittPerUkeSøknadsdata
+    | ArbeidISøknadsperiodeProsentSøknadsdata
+    | ArbeidISøknadsperiodeUlikProsentPerUkeSøknadsdata;

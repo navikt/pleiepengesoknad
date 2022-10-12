@@ -141,11 +141,20 @@ const ArbeidIPeriodeSpørsmål = ({
                                 />
                             </FormBlock>
                         )}
-                        {erLiktHverUke === YesOrNo.NO && (
-                            <FormBlock>
-                                <ArbeidstidUkerSpørsmål periode={periode} parentFieldName={parentFieldName} />
-                            </FormBlock>
-                        )}
+                        {erLiktHverUke === YesOrNo.NO &&
+                            timerEllerProsent !== undefined &&
+                            arbeidIPeriode !== undefined && (
+                                <FormBlock>
+                                    <ArbeidstidUkerSpørsmål
+                                        periode={periode}
+                                        parentFieldName={arbeidIPeriodeParentFieldName}
+                                        normalarbeidstid={normalarbeidstid}
+                                        timerEllerProsent={timerEllerProsent}
+                                        arbeidIPeriode={arbeidIPeriode}
+                                        intlValues={intlValues}
+                                    />
+                                </FormBlock>
+                            )}
                         {erLiktHverUke === YesOrNo.YES && timerEllerProsent !== undefined && arbeidIPeriode && (
                             <ArbeidstidInput
                                 arbeidIPeriode={arbeidIPeriode}

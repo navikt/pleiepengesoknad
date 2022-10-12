@@ -42,11 +42,10 @@ export const cleanupArbeidIPeriode = (
     arbeid.timerEllerProsent = timerEllerProsent;
     if (erLiktHverUke === YesOrNo.YES) {
         return timerEllerProsent === TimerEllerProsent.PROSENT
-            ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
-            : { ...arbeid, timerEllerProsent, snittTimerPerUke };
+            ? { ...arbeid, timerEllerProsent, prosentAvNormalt, arbeidsuker: undefined }
+            : { ...arbeid, timerEllerProsent, snittTimerPerUke, arbeidsuker: undefined };
     } else {
-        console.log(arbeidsuker);
-        return { ...arbeid };
+        return { ...arbeid, prosentAvNormalt: undefined, snittTimerPerUke: undefined, arbeidsuker };
     }
 };
 

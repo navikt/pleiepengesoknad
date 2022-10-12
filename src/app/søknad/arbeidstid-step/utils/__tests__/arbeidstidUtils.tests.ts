@@ -1,7 +1,7 @@
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { erArbeidsforholdMedFravær } from '../arbeidstidUtils';
+import { erArbeidsforholdMedFravær, summerArbeidstimerIArbeidsuker } from '../arbeidstidUtils';
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
     timerPerUkeISnitt: 20,
@@ -50,6 +50,21 @@ describe('arbeidstidUtils', () => {
                     arbeidISøknadsperiode: arbeiderVanlig,
                 })
             ).toBeFalsy();
+        });
+    });
+
+    describe('summerArbeidstimerIArbeidsuker', () => {
+        it('returnerer 0 ved 0 timer', () => {
+            const result = summerArbeidstimerIArbeidsuker({ a: { timerISnittPerUke: 0 } });
+            expect(result).toEqual(0);
+        });
+        it('summerer riktig', () => {
+            const result = summerArbeidstimerIArbeidsuker({
+                a: { timerISnittPerUke: 1 },
+                b: { timerISnittPerUke: 2 },
+                c: { timerISnittPerUke: 3 },
+            });
+            expect(result).toEqual(6);
         });
     });
 });

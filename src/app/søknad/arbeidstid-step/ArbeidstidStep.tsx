@@ -14,7 +14,7 @@ import usePersistSoknad from '../../hooks/usePersistSoknad';
 import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
 import { FrilansFormField } from '../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../types/SelvstendigFormData';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';

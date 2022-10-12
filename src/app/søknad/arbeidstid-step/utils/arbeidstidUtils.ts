@@ -10,6 +10,10 @@ import {
     Weekday,
 } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
+import {
+    ArbeidsukerProsentSøknadsdata,
+    ArbeidsukerTimerSøknadsdata,
+} from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
@@ -68,6 +72,19 @@ export const arbeiderMindreEnnNormaltFasteUkedager = (
     );
 };
 
+export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøknadsdata) => {
+    const timer = Object.keys(arbeidsuker)
+        .map((key) => arbeidsuker[key].timerISnittPerUke || 0)
+        .reduce((prev, curr) => prev + curr, 0);
+    return timer;
+};
+
+export const harArbeidsukeMedRedusertProsent = (arbeidsuker: ArbeidsukerProsentSøknadsdata) => {
+    return Object.keys(arbeidsuker)
+        .map((key) => arbeidsuker[key].prosentAvNormalt || 0)
+        .some((prosent) => prosent < 100);
+};
+
 export const erArbeidsforholdMedFravær = ({
     arbeidISøknadsperiode,
     normalarbeidstid,
@@ -84,6 +101,10 @@ export const erArbeidsforholdMedFravær = ({
             return arbeidISøknadsperiode.prosentAvNormalt < 100;
         case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
             return arbeiderMindreEnnNormaltISnittPerUke(arbeidISøknadsperiode.timerISnittPerUke, normalarbeidstid);
+        case ArbeidIPeriodeType.arbeiderUlikeTimerISnittPerUke:
+            return summerArbeidstimerIArbeidsuker(arbeidISøknadsperiode.arbeidsuker) > 0;
+        case ArbeidIPeriodeType.arbeiderUlikProsentPerUkeAvNormalt:
+            return harArbeidsukeMedRedusertProsent(arbeidISøknadsperiode.arbeidsuker);
     }
 };
 
