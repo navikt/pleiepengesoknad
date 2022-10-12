@@ -891,7 +891,8 @@
     "validation.omsorgstilbud.fastdag.tid.minutesAreNegative": "Antall timer og minutter {dag} kan ikke være mindre enn 0 timer og 0 minutter.",
     "validation.omsorgstilbud_gruppe.ingenInfo": "Du må fylle ut den tiden i omsorgstilbudet som er fast og regelmessig.",
     "validation.omsorgstilbud_gruppe.forMangeTimerTotalt": "Du kan registrere maks 37 timer og 30 minuter totalt.",
-    "validation.omsorgstilbud.erIOmsorgstilbud.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet er fast og regelmessig i et omsorgstilbud i perioden.",
+    "validation.omsorgstilbud.erIOmsorgstilbudFortid.yesOrNoIsUnanswered": "Du må svare ja eller nei på om barnet har vært fast og regelmessig i et omsorgstilbud.",
+    "validation.omsorgstilbud.erIOmsorgstilbudFremtid.yesOrNoIsUnanswered": "Du må svare ja, nei eller usikker på om barnet skal være fast og regelmessig i et omsorgstilbud.",
     "validation.omsorgstilbud.enkeltdager.ingenTidRegistrert": "Du har ikke oppgitt noe tid for hvor mye barnet er i et omsorgstilbud i perioden.",
     "validation.omsorgstilbud.erLiktHverUke.yesOrNoIsUnanswered": "Du må svare på om tiden barnet er i omsorgstilbudet er lik for hver uke i perioden.",
 
