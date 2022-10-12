@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ISODateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
 export enum ArbeidIPeriodeFormField {
@@ -7,13 +8,22 @@ export enum ArbeidIPeriodeFormField {
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
     prosentAvNormalt = 'prosentAvNormalt',
-    timerPerUke = 'timerPerUke',
+    snittTimerPerUke = 'snittTimerPerUke',
+    arbeidsuker = 'arbeidsuker',
 }
+
+export type Arbeidsuker = {
+    [periode: ISODateRange]: {
+        [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;
+        [ArbeidIPeriodeFormField.snittTimerPerUke]?: string;
+    };
+};
 
 export interface ArbeidIPeriodeFormValues {
     [ArbeidIPeriodeFormField.arbeiderIPerioden]?: ArbeiderIPeriodenSvar;
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;
-    [ArbeidIPeriodeFormField.timerPerUke]?: string;
+    [ArbeidIPeriodeFormField.snittTimerPerUke]?: string;
+    [ArbeidIPeriodeFormField.arbeidsuker]?: Arbeidsuker;
 }

@@ -33,13 +33,13 @@ describe('mapArbeidIPeriodeApiDataToFormValues', () => {
             const arbeid: ArbeidIPeriodeApiData = {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                timerPerUke: 'PT20H30M',
+                snittTimerPerUke: 'PT20H30M',
             };
-            const { timerEllerProsent, timerPerUke, arbeiderIPerioden } =
+            const { timerEllerProsent, snittTimerPerUke, arbeiderIPerioden } =
                 mapArbeidIPeriodeApiDataTimerPerUkeToFormValues(arbeid);
             expect(arbeiderIPerioden).toEqual(ArbeiderIPeriodenSvar.redusert);
             expect(timerEllerProsent).toEqual(TimerEllerProsent.TIMER);
-            expect(timerPerUke).toEqual('20,5');
+            expect(snittTimerPerUke).toEqual('20,5');
         });
     });
     describe('arbeid prosent av vanlig', () => {

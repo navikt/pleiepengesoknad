@@ -84,3 +84,14 @@ export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIP
           }
         : error;
 };
+
+export const getArbeidIPeriodeErLiktHverUkeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.erLiktHverUke',
+              values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};

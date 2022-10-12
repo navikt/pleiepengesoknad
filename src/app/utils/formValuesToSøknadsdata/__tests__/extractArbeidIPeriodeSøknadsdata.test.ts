@@ -22,7 +22,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
             timerEllerProsent: TimerEllerProsent.PROSENT,
             prosentAvNormalt: '50',
-            timerPerUke: '213',
+            snittTimerPerUke: '213',
         });
         expect(result).toBeDefined();
         expect(result?.type).toEqual(ArbeidIPeriodeType.arbeiderProsentAvNormalt);
@@ -35,7 +35,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
             timerEllerProsent: TimerEllerProsent.TIMER,
             prosentAvNormalt: '50',
-            timerPerUke: '20',
+            snittTimerPerUke: '20',
         });
         expect(result).toBeDefined();
         expect(result?.type).toEqual(ArbeidIPeriodeType.arbeiderTimerISnittPerUke);

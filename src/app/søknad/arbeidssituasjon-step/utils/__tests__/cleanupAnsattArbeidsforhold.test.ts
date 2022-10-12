@@ -16,7 +16,7 @@ const ansattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidIPeriode: {
         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
         timerEllerProsent: TimerEllerProsent.PROSENT,
-        timerPerUke: '20',
+        snittTimerPerUke: '20',
     },
     erAnsatt: YesOrNo.YES,
     normalarbeidstid: {

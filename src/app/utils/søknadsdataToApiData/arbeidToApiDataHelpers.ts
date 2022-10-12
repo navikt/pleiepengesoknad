@@ -103,7 +103,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                    timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
+                    snittTimerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
                 };
         }
     }

@@ -3,11 +3,10 @@ import { IntlShape, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
-import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
-import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../../types';
 import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormValues';
@@ -20,10 +19,11 @@ import SøknadFormComponents from '../../../SøknadFormComponents';
 import { ArbeidstidRegistrertLogProps } from '../../types';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
-    getArbeidIPeriodeProsentAvNormaltValidator,
+    getArbeidIPeriodeErLiktHverUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
-    getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from './validationArbeidIPeriodeSpørsmål';
+import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
+import ArbeidstidInput from './ArbeidstidInput';
 
 interface Props extends ArbeidstidRegistrertLogProps {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -63,31 +63,16 @@ const ArbeidIPeriodeSpørsmål = ({
         periode,
     });
 
-    const getFieldName = (field: ArbeidIPeriodeFormField) => `${parentFieldName}.arbeidIPeriode.${field}` as any;
+    const arbeidIPeriodeParentFieldName = `${parentFieldName}.arbeidIPeriode`;
+    const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, timerEllerProsent } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
 
-    const arbeiderProsentNumber = arbeidIPeriode?.prosentAvNormalt
-        ? getNumberFromNumberInputValue(arbeidIPeriode?.prosentAvNormalt)
-        : undefined;
-
-    const getProsentSuffix = () => {
-        const normalttimer = formatTimerOgMinutter(intl, decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt));
-        const nyTid = arbeiderProsentNumber
-            ? formatTimerOgMinutter(
-                  intl,
-                  decimalDurationToDuration((normalarbeidstid.timerPerUkeISnitt / 100) * arbeiderProsentNumber)
-              )
-            : undefined;
-
-        return `prosent av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
-    };
-
-    const timerNormaltString = formatTimerOgMinutter(
-        intl,
-        decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-    );
+    // const timerNormaltString = formatTimerOgMinutter(
+    //     intl,
+    //     decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
+    // );
 
     return (
         <>
@@ -126,7 +111,6 @@ const ArbeidIPeriodeSpørsmål = ({
                             Hvis det varierer hvor mye du jobber, legger du inn et snitt av det du skal jobbe i
                             søknadsperioden. Du velger om du vil oppgi snittet som prosent, eller i timer.
                         </p>
-
                         <FormBlock>
                             <SøknadFormComponents.RadioPanelGroup
                                 name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
@@ -135,45 +119,42 @@ const ArbeidIPeriodeSpørsmål = ({
                                 validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
                                 useTwoColumns={true}
                             />
-                            {timerEllerProsent === TimerEllerProsent.PROSENT && (
-                                <FormBlock margin="l">
-                                    <SøknadFormComponents.NumberInput
-                                        name={getFieldName(ArbeidIPeriodeFormField.prosentAvNormalt)}
-                                        label={intlHelper(intl, 'arbeidIPeriode.prosentAvNormalt.spm', intlValues)}
-                                        data-testid="prosent-verdi"
-                                        validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues)}
-                                        bredde="XS"
-                                        maxLength={4}
-                                        suffixStyle="text"
-                                        suffix={getProsentSuffix()}
-                                    />
-                                </FormBlock>
-                            )}
-                            {timerEllerProsent === TimerEllerProsent.TIMER && (
-                                <FormBlock margin="l">
-                                    <SøknadFormComponents.NumberInput
-                                        name={getFieldName(ArbeidIPeriodeFormField.timerPerUke)}
-                                        label={intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
-                                            ...intlValues,
-                                            timerNormaltString,
-                                        })}
-                                        validate={getArbeidIPeriodeTimerPerUkeISnittValidator(
-                                            intl,
-                                            intlValues,
-                                            normalarbeidstid.timerPerUkeISnitt
-                                        )}
-                                        data-testid="timer-verdi"
-                                        bredde="XS"
-                                        maxLength={4}
-                                        suffixStyle="text"
-                                        suffix={`timer av normalt ${formatTimerOgMinutter(
-                                            intl,
-                                            decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-                                        )} i uken.`}
-                                    />
-                                </FormBlock>
-                            )}
                         </FormBlock>
+                        {timerEllerProsent !== undefined && (
+                            <FormBlock>
+                                <SøknadFormComponents.YesOrNoQuestion
+                                    name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
+                                    legend={intlHelper(
+                                        intl,
+                                        `arbeidIPeriode.erLiktHverUke.${
+                                            timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
+                                        }.spm`,
+                                        intlValues
+                                    )}
+                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                    useTwoColumns={true}
+                                    data-testid="er-likt-hver-uke"
+                                    labels={{
+                                        yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
+                                        no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
+                                    }}
+                                />
+                            </FormBlock>
+                        )}
+                        {erLiktHverUke === YesOrNo.NO && (
+                            <FormBlock>
+                                <ArbeidstidUkerSpørsmål periode={periode} parentFieldName={parentFieldName} />
+                            </FormBlock>
+                        )}
+                        {erLiktHverUke === YesOrNo.YES && timerEllerProsent !== undefined && arbeidIPeriode && (
+                            <ArbeidstidInput
+                                arbeidIPeriode={arbeidIPeriode}
+                                parentFieldName={arbeidIPeriodeParentFieldName}
+                                intlValues={intlValues}
+                                normalarbeidstid={normalarbeidstid}
+                                timerEllerProsent={timerEllerProsent}
+                            />
+                        )}
                     </ResponsivePanel>
                 </FormBlock>
             )}
@@ -193,5 +174,12 @@ const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeI
         'data-testid': 'jobberTimer',
     },
 ];
+
+export interface ArbeidsukeFormValue {
+    periode: DateRange;
+    ukenummer: number;
+    timer?: string;
+    prosent?: string;
+}
 
 export default ArbeidIPeriodeSpørsmål;

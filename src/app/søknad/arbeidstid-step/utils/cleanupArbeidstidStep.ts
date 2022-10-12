@@ -1,4 +1,5 @@
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
@@ -26,6 +27,7 @@ export const cleanupArbeidIPeriode = (
 ): ArbeidIPeriodeFormValues => {
     const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
+        erLiktHverUke: arbeidIPerioden.erLiktHverUke,
     };
 
     if (!normalarbeidstid) {
@@ -36,11 +38,16 @@ export const cleanupArbeidIPeriode = (
         return arbeid;
     }
 
-    const { timerEllerProsent, prosentAvNormalt, timerPerUke } = arbeidIPerioden;
+    const { timerEllerProsent, prosentAvNormalt, snittTimerPerUke, arbeidsuker, erLiktHverUke } = arbeidIPerioden;
     arbeid.timerEllerProsent = timerEllerProsent;
-    return timerEllerProsent === TimerEllerProsent.PROSENT
-        ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
-        : { ...arbeid, timerEllerProsent, timerPerUke };
+    if (erLiktHverUke === YesOrNo.YES) {
+        return timerEllerProsent === TimerEllerProsent.PROSENT
+            ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
+            : { ...arbeid, timerEllerProsent, snittTimerPerUke };
+    } else {
+        console.log(arbeidsuker);
+        return { ...arbeid };
+    }
 };
 
 export const cleanupArbeidstidAnsatt = (

@@ -38,7 +38,7 @@ describe('extractArbeidsforholdSøknadsdata', () => {
                 ...arbeidsforholdMedFravær,
                 arbeidIPeriode: {
                     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                    timerPerUke: '20',
+                    snittTimerPerUke: '20',
                     timerEllerProsent: TimerEllerProsent.TIMER,
                 },
             },

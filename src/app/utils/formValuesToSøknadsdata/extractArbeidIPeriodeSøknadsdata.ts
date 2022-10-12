@@ -14,7 +14,7 @@ export const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): D
 export const extractArbeidIPeriodeSøknadsdata = ({
     arbeiderIPerioden,
     prosentAvNormalt,
-    timerPerUke,
+    snittTimerPerUke,
     timerEllerProsent,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeSøknadsdata | undefined => {
     if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
@@ -35,9 +35,9 @@ export const extractArbeidIPeriodeSøknadsdata = ({
         timerEllerProsent === TimerEllerProsent.PROSENT ? getNumberFromNumberInputValue(prosentAvNormalt) : undefined;
 
     const timerISnittPerUke =
-        timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(timerPerUke) : undefined;
+        timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(snittTimerPerUke) : undefined;
 
-    if (timerPerUke && timerISnittPerUke) {
+    if (snittTimerPerUke && timerISnittPerUke) {
         return {
             type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
             arbeiderIPerioden: true,

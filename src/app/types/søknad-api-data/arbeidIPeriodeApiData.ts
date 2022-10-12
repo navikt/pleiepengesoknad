@@ -31,7 +31,7 @@ export interface ArbeidIPeriodeApiDataProsent {
 export interface ArbeidIPeriodeApiDataTimerPerUke {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
-    timerPerUke: ISODuration;
+    snittTimerPerUke: ISODuration;
 }
 
 export type ArbeidIPeriodeApiData =

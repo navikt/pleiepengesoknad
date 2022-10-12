@@ -84,7 +84,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                     <FormattedMessage
                         id="oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke"
                         values={{
-                            timer: formatTimerOgMinutter(intl, ISODurationToDuration(arbeidIPeriode.timerPerUke)),
+                            timer: formatTimerOgMinutter(intl, ISODurationToDuration(arbeidIPeriode.snittTimerPerUke)),
                         }}
                     />
                 );
