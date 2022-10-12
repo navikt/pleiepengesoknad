@@ -56,18 +56,22 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
                         headerTag="h3">
-                        <FormattedMessage
-                            id={`steg.oppsummering.omsorgstilbud.fortid.svar.${omsorgstilbud.svarFortid}`}
-                        />
+                        <div data-testid="oppsummering-omsorgstilbud-svarFortid">
+                            <FormattedMessage
+                                id={`steg.oppsummering.omsorgstilbud.fortid.svar.${omsorgstilbud.svarFortid}`}
+                            />
+                        </div>
                     </SummaryBlock>
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.svarFremtid && (
                     <SummaryBlock
                         header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
                         headerTag="h3">
-                        <FormattedMessage
-                            id={`steg.oppsummering.omsorgstilbud.fremtid.svar.${omsorgstilbud.svarFremtid}`}
-                        />
+                        <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
+                            <FormattedMessage
+                                id={`steg.oppsummering.omsorgstilbud.fremtid.svar.${omsorgstilbud.svarFremtid}`}
+                            />
+                        </div>
                     </SummaryBlock>
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.ukedager && (
@@ -95,11 +99,15 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     {nattevåk && (
                         <Box margin="xl">
                             <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}>
-                                {nattevåk.harNattevåk === true && intlHelper(intl, 'Ja')}
-                                {nattevåk.harNattevåk === false && intlHelper(intl, 'Nei')}
+                                <div data-testid="oppsummering-nattevåk">
+                                    <FormattedMessage id={nattevåk.harNattevåk === true ? 'Ja' : 'Nei'} />
+                                </div>
+
                                 {nattevåk.harNattevåk === true && nattevåk.tilleggsinformasjon && (
                                     <Sitat>
-                                        <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                                        <div data-testid="oppsummering-nattevåk-tilleggsinformasjon">
+                                            <TextareaSummary text={nattevåk.tilleggsinformasjon} />
+                                        </div>
                                     </Sitat>
                                 )}
                             </ContentWithHeader>
@@ -108,11 +116,14 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     {beredskap && (
                         <Box margin="xl">
                             <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}>
-                                {beredskap.beredskap === true && intlHelper(intl, 'Ja')}
-                                {beredskap.beredskap === false && intlHelper(intl, 'Nei')}
+                                <div data-testid="oppsummering-beredskap">
+                                    <FormattedMessage id={beredskap.beredskap === true ? 'Ja' : 'Nei'} />
+                                </div>
                                 {beredskap.tilleggsinformasjon && (
                                     <Sitat>
-                                        <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                        <div data-testid="oppsummering-beredskap-tilleggsinformasjon">
+                                            <TextareaSummary text={beredskap.tilleggsinformasjon} />
+                                        </div>
                                     </Sitat>
                                 )}
                             </ContentWithHeader>

@@ -44,3 +44,7 @@ export const setInputTime = (key, hours = '', minutes = '') => {
 export const selectRadio = (key) => {
     getTestElement(key).parent().click();
 };
+
+export const getTestElementByClass = (className) => {
+    return cy.get(`*[class^="${className}"]`);
+};

@@ -61,18 +61,19 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
             />
             {values.harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES && (
                 <FormBlock margin="l">
-                    <BostedUtlandListAndDialog<SøknadFormField>
-                        name={SøknadFormField.utenlandsoppholdSiste12Mnd}
-                        minDate={date1YearAgo}
-                        maxDate={dayjs(søknadsdato).subtract(1, 'day').toDate()}
-                        labels={{
-                            addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
-                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
-                            modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdSiste12'),
-                        }}
-                        validate={validateUtenlandsoppholdSiste12Mnd}
-                        data-testid="utenlandsoppholdSiste12Mnd"
-                    />
+                    <div data-testid="bostedUtlandList-annetLandSiste12">
+                        <BostedUtlandListAndDialog<SøknadFormField>
+                            name={SøknadFormField.utenlandsoppholdSiste12Mnd}
+                            minDate={date1YearAgo}
+                            maxDate={dayjs(søknadsdato).subtract(1, 'day').toDate()}
+                            labels={{
+                                addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
+                                listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.listeTittel'),
+                                modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdSiste12'),
+                            }}
+                            validate={validateUtenlandsoppholdSiste12Mnd}
+                        />
+                    </div>
                 </FormBlock>
             )}
             <FormBlock>
@@ -89,18 +90,20 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
                 />
             </FormBlock>
             {values.skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES && (
-                <FormBlock margin="l" data-testid="bostedUtlandList-annetLandNeste12">
-                    <BostedUtlandListAndDialog<SøknadFormField>
-                        name={SøknadFormField.utenlandsoppholdNeste12Mnd}
-                        minDate={neste12FomDate}
-                        maxDate={date1YearFromNow}
-                        labels={{
-                            addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
-                            listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.listeTittel'),
-                            modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdNeste12'),
-                        }}
-                        validate={validateUtenlandsoppholdNeste12Mnd}
-                    />
+                <FormBlock margin="l">
+                    <div data-testid="bostedUtlandList-annetLandNeste12">
+                        <BostedUtlandListAndDialog<SøknadFormField>
+                            name={SøknadFormField.utenlandsoppholdNeste12Mnd}
+                            minDate={neste12FomDate}
+                            maxDate={date1YearFromNow}
+                            labels={{
+                                addLabel: intlHelper(intl, 'step.medlemskap.leggTilKnapp'),
+                                listTitle: intlHelper(intl, 'steg.medlemsskap.annetLandNeste12.listeTittel'),
+                                modalTitle: intlHelper(intl, 'step.medlemskap.utenlandsoppholdNeste12'),
+                            }}
+                            validate={validateUtenlandsoppholdNeste12Mnd}
+                        />
+                    </div>
                 </FormBlock>
             )}
         </SøknadFormStep>

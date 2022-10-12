@@ -28,6 +28,7 @@ const apiBarnSummary = (apiBarn: RegistrerteBarn) => (
                 }}
             />
         </Normaltekst>
+
         <Normaltekst>
             <FormattedMessage
                 id="steg.oppsummering.barnet.fødselsdato"
@@ -53,12 +54,19 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
         ) : null}
         {!apiValues.barn.fødselsdato ? (
             <Normaltekst>
-                <FormattedMessage id="steg.oppsummering.barnet.fnr" values={{ fnr: apiValues.barn.fødselsnummer }} />
+                <div data-testid="oppsummering-barnets-fødselsnummer">
+                    <FormattedMessage
+                        id="steg.oppsummering.barnet.fnr"
+                        values={{ fnr: apiValues.barn.fødselsnummer }}
+                    />
+                </div>
             </Normaltekst>
         ) : null}
         {apiValues.barn.navn ? (
             <Normaltekst>
-                <FormattedMessage id="steg.oppsummering.barnet.navn" values={{ navn: apiValues.barn.navn }} />
+                <div data-testid="oppsummering-barnets-navn">
+                    <FormattedMessage id="steg.oppsummering.barnet.navn" values={{ navn: apiValues.barn.navn }} />
+                </div>
             </Normaltekst>
         ) : null}
         {apiValues._barnetHarIkkeFnr && apiValues.barn.årsakManglerIdentitetsnummer && (
@@ -84,7 +92,9 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: SøknadApiData) => (
         <Box margin="m">
             {apiValues.barnRelasjon !== BarnRelasjon.ANNET && (
                 <Normaltekst>
-                    <FormattedMessage id={`steg.oppsummering.barnRelasjon.${apiValues.barnRelasjon}`} />
+                    <div data-testid="oppsummering-barn-relasjon">
+                        <FormattedMessage id={`steg.oppsummering.barnRelasjon.${apiValues.barnRelasjon}`} />
+                    </div>
                 </Normaltekst>
             )}
             {apiValues.barnRelasjon === BarnRelasjon.ANNET && (
