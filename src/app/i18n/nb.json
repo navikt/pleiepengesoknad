@@ -664,6 +664,10 @@
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke": "Jobber likt hver uke i perioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent": "Jobber {prosent} prosent av normalt {timerNormalt} timer i uken (tilsvarer {timerIPeriode} i uken)",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke": "Jobber {timer} i snitt per uke i perioden",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.tittel": "Jobber ulikt antall timer i uken:",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.uke": "Uke {ukenummer}: {timer}",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.tittel": "Jobber en prosent av normalt i uken:",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.uke": "Uke {ukenummer}: {prosent} prosent ({timerIPeriode})",
 
     "timerPerUke": "{timer, plural, one {# time} other {# timer}} per uke",
 

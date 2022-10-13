@@ -1,7 +1,8 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { dateRangeToISODateRange, ISODateToDate, ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormValues } from '../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
@@ -9,7 +10,16 @@ import {
     ArbeidIPeriodeApiDataTimerPerUke,
     ArbeidIPeriodeApiDataUlikeUkerTimer,
     ArbeidIPeriodeApiDataUlikeUkerProsent,
+    ArbeidsukeTimerApiData,
+    ArbeidsukeProsentApiData,
 } from '../../types/søknad-api-data/arbeidIPeriodeApiData';
+
+const sortArbeidsuke = (
+    uke1: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData,
+    uke2: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData
+) => {
+    return dayjs(uke1.periode.from).isBefore(uke2.periode.from) ? 1 : -1;
+};
 
 export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
     arbeid: ArbeidIPeriodeApiDataTimerPerUke
@@ -36,22 +46,36 @@ export const mapArbeidIPeriodeApiDataProsentToFormValues = (
 export const mapArbeidIPeriodeApiDataUlikeUkerProsentToFormValues = (
     arbeid: ArbeidIPeriodeApiDataUlikeUkerProsent
 ): ArbeidIPeriodeFormValues => {
+    const arbeidsuker: ArbeidsukerFormValues = {};
+    arbeid.arbeidsuker.forEach(({ periode: { from, to }, prosentAvNormalt }) => {
+        const periode: DateRange = { from: ISODateToDate(from), to: ISODateToDate(to) };
+        arbeidsuker[dateRangeToISODateRange(periode)] = {
+            prosentAvNormalt: prosentAvNormalt ? `${prosentAvNormalt}` : undefined,
+        };
+    });
     return {
         arbeiderIPerioden: arbeid.arbeiderIPerioden,
         timerEllerProsent: TimerEllerProsent.TIMER,
         erLiktHverUke: YesOrNo.NO,
-        arbeidsuker: {} /** TODO */,
+        arbeidsuker,
     };
 };
 
 export const mapArbeidIPeriodeApiDataUlikeUkerTimerToFormValues = (
     arbeid: ArbeidIPeriodeApiDataUlikeUkerTimer
 ): ArbeidIPeriodeFormValues => {
+    const arbeidsuker: ArbeidsukerFormValues = {};
+    arbeid.arbeidsuker.sort(sortArbeidsuke).forEach(({ periode: { from, to }, timer }) => {
+        const periode: DateRange = { from: ISODateToDate(from), to: ISODateToDate(to) };
+        arbeidsuker[dateRangeToISODateRange(periode)] = {
+            snittTimerPerUke: timer ? `${timer}` : undefined,
+        };
+    });
     return {
         arbeiderIPerioden: arbeid.arbeiderIPerioden,
         timerEllerProsent: TimerEllerProsent.TIMER,
         erLiktHverUke: YesOrNo.NO,
-        arbeidsuker: {} /** TODO */,
+        arbeidsuker,
     };
 };
 

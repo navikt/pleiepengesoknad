@@ -88,7 +88,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
 
     const getTimerSuffix = () => {
         return arbeidsuke
-            ? ''
+            ? 'timer'
             : `timer av normalt ${formatTimerOgMinutter(
                   intl,
                   decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
