@@ -4,13 +4,23 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
 import { dateRangeToISODateRange, decimalDurationToDuration, getWeeksInDateRange } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
+import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
-import SøknadFormComponents from '../../SøknadFormComponents'; // import { Arbeidsuke } from '../types/Arbeidsuke';
-import { getArbeidsukeFieldName } from '../utils/arbeidsukerUtils';
+import SøknadFormComponents from '../../SøknadFormComponents';
+import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
 import ArbeidstidInput from './ArbeidstidInput';
+
+dayjs.extend(weekOfYear);
+
+const getArbeidsukeFieldKey = (uke: DateRange): string => dateRangeToISODateRange(uke);
+
+const getArbeidsukeFieldName = (parentFieldName: string, week: WeekOfYearInfo): ArbeidsukeFieldName =>
+    `${parentFieldName}.${ArbeidIPeriodeFormField.arbeidsuker}.${getArbeidsukeFieldKey(week.dateRange)}`;
 
 interface Props {
     periode: DateRange;

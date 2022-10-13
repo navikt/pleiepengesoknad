@@ -1,17 +1,21 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { ISODuration } from '@navikt/sif-common-utils/lib';
+import { ISODate, ISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
-export type ArbeidsukerProsentApiData = {
-    [key: string]: {
-        prosentAvNormalt: number;
+export type ArbeidsukeProsentApiData = {
+    periode: {
+        from: ISODate;
+        to: ISODate;
     };
+    prosentAvNormalt: number;
 };
 
-export type ArbeidsukerTimerApiData = {
-    [key: string]: {
-        timer: ISODuration;
+export type ArbeidsukeTimerApiData = {
+    periode: {
+        from: ISODate;
+        to: ISODate;
     };
+    timer: ISODuration;
 };
 
 export interface ArbeidIPeriodeApiDataJobberIkke {
@@ -39,13 +43,13 @@ export interface ArbeidIPeriodeApiDataTimerPerUke {
 export interface ArbeidIPeriodeApiDataUlikeUkerProsent {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
-    arbeidsuker: ArbeidsukerProsentApiData;
+    arbeidsuker: ArbeidsukeProsentApiData[];
 }
 
 export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
-    arbeidsuker: ArbeidsukerTimerApiData;
+    arbeidsuker: ArbeidsukeTimerApiData[];
 }
 
 export type ArbeidIPeriodeApiData =

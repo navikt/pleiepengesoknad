@@ -1,11 +1,11 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { decimalDurationToISODuration } from '@navikt/sif-common-utils';
+import { dateToISODate, decimalDurationToISODuration, ISODateRangeToDateRange } from '@navikt/sif-common-utils';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    ArbeidsukerProsentApiData,
-    ArbeidsukerTimerApiData,
+    ArbeidsukeProsentApiData,
+    ArbeidsukeTimerApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
@@ -15,22 +15,34 @@ import {
 } from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
-export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknadsdata): ArbeidsukerTimerApiData => {
-    const arbeidsukerApiData: ArbeidsukerTimerApiData = {};
-    Object.keys(arbeidsuker).forEach((key) => {
+export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknadsdata): ArbeidsukeTimerApiData[] => {
+    return Object.keys(arbeidsuker).map((key) => {
+        const { from, to } = ISODateRangeToDateRange(key);
         const arbeidsuke = arbeidsuker[key];
-        arbeidsukerApiData[key] = { timer: decimalDurationToISODuration(arbeidsuke.timer) };
+        return {
+            periode: {
+                from: dateToISODate(from),
+                to: dateToISODate(to),
+            },
+            timer: decimalDurationToISODuration(arbeidsuke.timer),
+        };
     });
-    return arbeidsukerApiData;
 };
 
-export const getArbeidsukerProsentApiData = (arbeidsuker: ArbeidsukerProsentSøknadsdata): ArbeidsukerProsentApiData => {
-    const arbeidsukerApiData: ArbeidsukerProsentSøknadsdata = {};
-    Object.keys(arbeidsuker).forEach((key) => {
+export const getArbeidsukerProsentApiData = (
+    arbeidsuker: ArbeidsukerProsentSøknadsdata
+): ArbeidsukeProsentApiData[] => {
+    return Object.keys(arbeidsuker).map((key) => {
+        const { from, to } = ISODateRangeToDateRange(key);
         const { prosentAvNormalt } = arbeidsuker[key];
-        arbeidsukerApiData[key] = { prosentAvNormalt };
+        return {
+            periode: {
+                from: dateToISODate(from),
+                to: dateToISODate(to),
+            },
+            prosentAvNormalt,
+        };
     });
-    return arbeidsukerApiData;
 };
 
 export const getArbeidIPeriodeApiDataFromSøknadsdata = (arbeid: ArbeidIPeriodeSøknadsdata): ArbeidIPeriodeApiData => {

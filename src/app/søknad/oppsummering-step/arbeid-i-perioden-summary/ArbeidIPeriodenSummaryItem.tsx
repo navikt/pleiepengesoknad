@@ -12,6 +12,8 @@ import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
+    ArbeidsukeProsentApiData,
+    ArbeidsukeTimerApiData,
     NormalarbeidstidApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
 
@@ -60,6 +62,26 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
         });
     };
 
+    const getArbeiderUlikeUkerProsentSummary = (arbeidsuker: ArbeidsukeProsentApiData[]) => {
+        return (
+            <>
+                {arbeidsuker.forEach((uke) => {
+                    return <>Uke {uke.prosentAvNormalt}</>;
+                })}
+            </>
+        );
+    };
+
+    const getArbeiderUlikeUkerTimerSummary = (arbeidsuker: ArbeidsukeTimerApiData[]) => {
+        return (
+            <>
+                {arbeidsuker.forEach((uke) => {
+                    return <>Uke {uke.timer}</>;
+                })}
+            </>
+        );
+    };
+
     const getArbeidIPeriodenDetaljer = (arbeidIPeriode: ArbeidIPeriodeApiData) => {
         switch (arbeidIPeriode.type) {
             case ArbeidIPeriodeType.arbeiderVanlig:
@@ -89,9 +111,9 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                     />
                 );
             case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
-                return <div>TODO</div>;
+                return getArbeiderUlikeUkerProsentSummary(arbeidIPeriode.arbeidsuker);
             case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
-                return <div>TODO</div>;
+                return getArbeiderUlikeUkerTimerSummary(arbeidIPeriode.arbeidsuker);
         }
     };
 

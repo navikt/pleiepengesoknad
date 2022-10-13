@@ -18,26 +18,30 @@ import {
     getArbeidsukerTimerApiData,
 } from '../getArbeidsforholdApiDataFromSøknadsdata';
 
+const uke1 = '2022-01-03/2022-01-09';
+const uke2 = '2022-01-10/2022-01-16';
+const uke3 = '2022-01-17/2022-01-23';
+
 const arbeidsukerProsent: ArbeidsukerProsentSøknadsdata = {
-    '2020_1': {
+    [uke1]: {
         prosentAvNormalt: 20,
     },
-    '2020_2': {
+    [uke2]: {
         prosentAvNormalt: 30,
     },
-    '2020_3': {
+    [uke3]: {
         prosentAvNormalt: 40.5,
     },
 };
 
 const arbeidsukerTimer: ArbeidsukerTimerSøknadsdata = {
-    '2020_1': {
+    [uke1]: {
         timer: 5,
     },
-    '2020_2': {
+    [uke2]: {
         timer: 6,
     },
-    '2020_3': {
+    [uke3]: {
         timer: 6.2,
     },
 };
@@ -45,33 +49,34 @@ const arbeidsukerTimer: ArbeidsukerTimerSøknadsdata = {
 describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
     describe('getArbeidsukerTimerApiData', () => {
         const result = getArbeidsukerTimerApiData(arbeidsukerTimer);
+
         it('mapper om timer riktig til ISODuration', () => {
-            expect(result['2020_1']).toBeDefined();
-            expect(result['2020_1']).toEqual({ timer: 'PT5H0M' });
+            expect(result[0]).toBeDefined();
+            expect(result[0]).toEqual({ periode: { from: '2022-01-03', to: '2022-01-09' }, timer: 'PT5H0M' });
         });
         it('mapper om timer riktig til ISODuration', () => {
-            expect(result['2020_2']).toBeDefined();
-            expect(result['2020_2']).toEqual({ timer: 'PT6H0M' });
+            expect(result[1]).toBeDefined();
+            expect(result[1]).toEqual({ periode: { from: '2022-01-10', to: '2022-01-16' }, timer: 'PT6H0M' });
         });
         it('mapper om timer riktig til ISODuration', () => {
-            expect(result['2020_3']).toBeDefined();
-            expect(result['2020_3']).toEqual({ timer: 'PT6H12M' });
+            expect(result[2]).toBeDefined();
+            expect(result[2]).toEqual({ periode: { from: '2022-01-17', to: '2022-01-23' }, timer: 'PT6H12M' });
         });
     });
 
     describe('getArbeidsukerProsentApiData', () => {
         const result = getArbeidsukerProsentApiData(arbeidsukerProsent);
         it('mapper om prosent riktig', () => {
-            expect(result['2020_1']).toBeDefined();
-            expect(result['2020_1']).toEqual({ prosentAvNormalt: 20 });
+            expect(result[0]).toBeDefined();
+            expect(result[0]).toEqual({ periode: { from: '2022-01-03', to: '2022-01-09' }, prosentAvNormalt: 20 });
         });
         it('mapper om prosent riktig', () => {
-            expect(result['2020_2']).toBeDefined();
-            expect(result['2020_2']).toEqual({ prosentAvNormalt: 30 });
+            expect(result[1]).toBeDefined();
+            expect(result[1]).toEqual({ periode: { from: '2022-01-10', to: '2022-01-16' }, prosentAvNormalt: 30 });
         });
         it('mapper om prosent riktig', () => {
-            expect(result['2020_3']).toBeDefined();
-            expect(result['2020_3']).toEqual({ prosentAvNormalt: 40.5 });
+            expect(result[2]).toBeDefined();
+            expect(result[2]).toEqual({ periode: { from: '2022-01-17', to: '2022-01-23' }, prosentAvNormalt: 40.5 });
         });
     });
 
@@ -135,7 +140,29 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
             const result: ArbeidIPeriodeApiDataUlikeUkerProsent = {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                arbeidsuker: arbeidsukerProsent,
+                arbeidsuker: [
+                    {
+                        periode: {
+                            from: '2022-01-03',
+                            to: '2022-01-09',
+                        },
+                        prosentAvNormalt: 20,
+                    },
+                    {
+                        periode: {
+                            from: '2022-01-10',
+                            to: '2022-01-16',
+                        },
+                        prosentAvNormalt: 30,
+                    },
+                    {
+                        periode: {
+                            from: '2022-01-17',
+                            to: '2022-01-23',
+                        },
+                        prosentAvNormalt: 40.5,
+                    },
+                ],
             };
             expect(
                 getArbeidIPeriodeApiDataFromSøknadsdata({
@@ -150,11 +177,29 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
             const result: ArbeidIPeriodeApiDataUlikeUkerTimer = {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                arbeidsuker: {
-                    '2020_1': { timer: 'PT5H0M' },
-                    '2020_2': { timer: 'PT6H0M' },
-                    '2020_3': { timer: 'PT6H12M' },
-                },
+                arbeidsuker: [
+                    {
+                        periode: {
+                            from: '2022-01-03',
+                            to: '2022-01-09',
+                        },
+                        timer: 'PT5H0M',
+                    },
+                    {
+                        periode: {
+                            from: '2022-01-10',
+                            to: '2022-01-16',
+                        },
+                        timer: 'PT6H0M',
+                    },
+                    {
+                        periode: {
+                            from: '2022-01-17',
+                            to: '2022-01-23',
+                        },
+                        timer: 'PT6H12M',
+                    },
+                ],
             };
             expect(
                 getArbeidIPeriodeApiDataFromSøknadsdata({

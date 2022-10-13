@@ -1,8 +1,9 @@
+import { ISODateRange } from '@navikt/sif-common-utils/lib';
 import { WeekOfYearMapKey } from '../../utils/weekOfYearUtils';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukerProsentSøknadsdata = {
-    [key: WeekOfYearMapKey]: {
+    [key: ISODateRange]: {
         prosentAvNormalt: number;
     };
 };
