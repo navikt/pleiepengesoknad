@@ -1,3 +1,4 @@
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
@@ -21,6 +22,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
         const result = extractArbeidIPeriodeSøknadsdata({
             arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
             timerEllerProsent: TimerEllerProsent.PROSENT,
+            erLiktHverUke: YesOrNo.YES,
             prosentAvNormalt: '50',
             snittTimerPerUke: '213',
         });
@@ -34,6 +36,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
         const result = extractArbeidIPeriodeSøknadsdata({
             arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
             timerEllerProsent: TimerEllerProsent.TIMER,
+            erLiktHverUke: YesOrNo.YES,
             prosentAvNormalt: '50',
             snittTimerPerUke: '20',
         });

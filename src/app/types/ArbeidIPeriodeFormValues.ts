@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { ISODateRange } from '@navikt/sif-common-utils/lib';
+import { WeekOfYearMapKey } from '../utils/weekOfYearUtils';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
 export enum ArbeidIPeriodeFormField {
@@ -13,7 +13,7 @@ export enum ArbeidIPeriodeFormField {
 }
 
 export type ArbeidsukerFormValues = {
-    [periode: ISODateRange]: {
+    [weekOfYearKey: WeekOfYearMapKey]: {
         [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;
         [ArbeidIPeriodeFormField.snittTimerPerUke]?: string;
     };

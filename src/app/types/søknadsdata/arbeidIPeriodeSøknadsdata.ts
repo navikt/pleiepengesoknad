@@ -1,13 +1,14 @@
+import { WeekOfYearMapKey } from '../../utils/weekOfYearUtils';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukerProsentSøknadsdata = {
-    [key: string]: {
+    [key: WeekOfYearMapKey]: {
         prosentAvNormalt: number;
     };
 };
 
 export type ArbeidsukerTimerSøknadsdata = {
-    [key: string]: {
+    [key: WeekOfYearMapKey]: {
         timer: number;
     };
 };

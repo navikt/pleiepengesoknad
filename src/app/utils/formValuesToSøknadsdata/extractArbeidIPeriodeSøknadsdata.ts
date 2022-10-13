@@ -31,11 +31,11 @@ export const extractArbeidsukerProsentSøknadsdata = (
     arbeidsuker: ArbeidsukerFormValues
 ): ArbeidsukerProsentSøknadsdata => {
     const arbeidsukerSøknadsdata: ArbeidsukerProsentSøknadsdata = {};
-    Object.keys(arbeidsuker).forEach((key) => {
-        const arbeidsuke = arbeidsuker[key];
+    Object.keys(arbeidsuker).forEach((weekOfYearKey) => {
+        const arbeidsuke = arbeidsuker[weekOfYearKey];
         const prosentAvNormalt = getNumberFromNumberInputValue(arbeidsuke.prosentAvNormalt);
         if (prosentAvNormalt !== undefined) {
-            arbeidsukerSøknadsdata[key] = { prosentAvNormalt };
+            arbeidsukerSøknadsdata[weekOfYearKey] = { prosentAvNormalt };
         }
     });
     return arbeidsukerSøknadsdata;
