@@ -24,6 +24,6 @@
         "USE_AMPLITUDE": "true",
         "FORENKLET_ARBEID": "off",
         "NPM_CONFIG_CACHE": "/tmp",
-        "PREUTFYLLING": "true"
+        "PREUTFYLLING": "false"
     }
 }

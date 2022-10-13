@@ -28,7 +28,7 @@ export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
         arbeiderIPerioden: arbeid.arbeiderIPerioden,
         timerEllerProsent: TimerEllerProsent.TIMER,
         erLiktHverUke: YesOrNo.YES,
-        snittTimerPerUke: `${ISODurationToDecimalDuration(arbeid.snittTimerPerUke)}`.replace('.', ','),
+        snittTimerPerUke: `${ISODurationToDecimalDuration(arbeid.timerPerUke)}`.replace('.', ','),
     };
 };
 

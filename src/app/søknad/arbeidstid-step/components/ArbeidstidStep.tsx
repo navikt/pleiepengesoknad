@@ -84,15 +84,17 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
 
                         return (
                             <FormSection title={arbeidsforhold.arbeidsgiver.navn} key={arbeidsforhold.arbeidsgiver.id}>
-                                <ArbeidIPeriodeSpørsmål
-                                    normalarbeidstid={arbeidsgiver.arbeidsforhold.normalarbeidstid}
-                                    arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
-                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                    arbeidsforhold={arbeidsforhold}
-                                    periode={periode}
-                                    parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
-                                    onArbeidstidVariertChange={handleArbeidstidChanged}
-                                />
+                                <div data-testid="arbeidIPerioden_ansatt">
+                                    <ArbeidIPeriodeSpørsmål
+                                        normalarbeidstid={arbeidsgiver.arbeidsforhold.normalarbeidstid}
+                                        arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
+                                        arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                        arbeidsforhold={arbeidsforhold}
+                                        periode={periode}
+                                        parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
+                                        onArbeidstidVariertChange={handleArbeidstidChanged}
+                                    />
+                                </div>
                             </FormSection>
                         );
                     })}
@@ -104,15 +106,17 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 arbeid.frilans?.harInntektISøknadsperiode === true && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
-                            <ArbeidIPeriodeSpørsmål
-                                normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
-                                arbeidsstedNavn="Frilansoppdrag"
-                                arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                arbeidsforhold={frilans.arbeidsforhold}
-                                periode={arbeid.frilans.aktivPeriode}
-                                parentFieldName={FrilansFormField.arbeidsforhold}
-                                onArbeidstidVariertChange={handleArbeidstidChanged}
-                            />
+                            <div data-testid="arbeidIPerioden_frilanser">
+                                <ArbeidIPeriodeSpørsmål
+                                    normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
+                                    arbeidsstedNavn="Frilansoppdrag"
+                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                    arbeidsforhold={frilans.arbeidsforhold}
+                                    periode={arbeid.frilans.aktivPeriode}
+                                    parentFieldName={FrilansFormField.arbeidsforhold}
+                                    onArbeidstidVariertChange={handleArbeidstidChanged}
+                                />
+                            </div>
                         </FormSection>
                     </FormBlock>
                 )}

@@ -33,7 +33,7 @@ describe('mapArbeidIPeriodeApiDataToFormValues', () => {
             const arbeid: ArbeidIPeriodeApiData = {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                snittTimerPerUke: 'PT20H30M',
+                timerPerUke: 'PT20H30M',
             };
             const { timerEllerProsent, snittTimerPerUke, arbeiderIPerioden } =
                 mapArbeidIPeriodeApiDataTimerPerUkeToFormValues(arbeid);

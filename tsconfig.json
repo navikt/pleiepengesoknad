@@ -20,7 +20,8 @@
         "noUnusedLocals": true,
         "baseUrl": "./src",
         "strict": true,
-        "noEmit": false
+        "noEmit": false,
+        "types": ["jest", "node", "@types/testing-library__jest-dom"]
     },
-    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress", "old"]
+    "exclude": ["node_modules", "src/build", "**.js", "dist", "e2e/cypress", "./e2e/cypress.config.js"]
 }

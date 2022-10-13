@@ -68,7 +68,7 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (arbeid: ArbeidIPeriodeS
             return {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                snittTimerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
+                timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
             };
         case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
             return {

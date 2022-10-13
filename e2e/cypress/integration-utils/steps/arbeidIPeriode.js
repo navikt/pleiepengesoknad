@@ -1,11 +1,13 @@
-const { selectRadio, selectRadioYes, setInputTime } = require('../utils');
+const { selectRadio, setInputValue, getTestElement } = require('../utils');
 
 export const fyllUtArbeidIPeriode = () => {
-    selectRadio('ansatt_arbeidsforhold.0.arbeidIPeriode.arbeiderIPerioden_jobberRedusert');
-    selectRadioYes('er-likt-hver-uke');
-    setInputTime('arbeidstid-faste-ukedager__monday', '1', '0');
-    setInputTime('arbeidstid-faste-ukedager__tuesday', '2', '0');
-    setInputTime('arbeidstid-faste-ukedager__wednesday', '2', '0');
-    setInputTime('arbeidstid-faste-ukedager__friday', '0', '0');
-    selectRadio('frilans.arbeidsforhold.arbeidIPeriode.arbeiderIPerioden_jobberIkke');
+    getTestElement('arbeidIPerioden_ansatt').within(() => {
+        selectRadio('ansatt_arbeidsforhold.0.arbeidIPeriode.arbeiderIPerioden_jobberRedusert');
+        selectRadio('jobberTimer');
+        selectRadio('er-likt-hver-uke_yes');
+        setInputValue('timer-verdi', 20);
+    });
+    getTestElement('arbeidIPerioden_frilanser').within(() => {
+        selectRadio('frilans.arbeidsforhold.arbeidIPeriode.arbeiderIPerioden_jobberIkke');
+    });
 };

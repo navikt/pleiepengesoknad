@@ -1,21 +1,10 @@
 const dayjs = require('dayjs');
-const { getTestElement, selectRadioNo, selectRadioYes, setInputTime, setInputValue } = require('../utils');
-
-const fyllUtNormalarbeidstidFasteDager = () => {
-    selectRadioYes('jobber-heltid');
-    selectRadioNo('jobber-fast-helg');
-    selectRadioYes('like-mange-timer-hver-uke');
-    selectRadioYes('er-faste-ukedager');
-    setInputTime('tid-faste-ukedager__monday', 5, 0);
-    setInputTime('tid-faste-ukedager__tuesday', 2, 0);
-    setInputTime('tid-faste-ukedager__wednesday', 5, 0);
-    setInputTime('tid-faste-ukedager__friday', 5, 0);
-};
+const { getTestElement, selectRadioNo, selectRadioYes, setInputValue } = require('../utils');
 
 const fyllUtArbeidssituasjonAnsatt = () => {
     getTestElement('arbeidssituasjonAnsatt').within(() => {
         selectRadioYes('er-ansatt');
-        fyllUtNormalarbeidstidFasteDager();
+        setInputValue('ansatt_arbeidsforhold.0.normalarbeidstid.timerPerUke', '30');
     });
 };
 const fyllUtArbeidssituasjonFrilanser = () => {

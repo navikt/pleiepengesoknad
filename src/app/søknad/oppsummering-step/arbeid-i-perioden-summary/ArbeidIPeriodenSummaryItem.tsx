@@ -149,7 +149,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                                 values={{
                                     timer: formatTimerOgMinutter(
                                         intl,
-                                        ISODurationToDuration(arbeidIPeriode.snittTimerPerUke)
+                                        ISODurationToDuration(arbeidIPeriode.timerPerUke)
                                     ),
                                 }}
                             />

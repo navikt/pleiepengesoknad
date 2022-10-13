@@ -125,7 +125,7 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
             const result: ArbeidIPeriodeApiDataTimerPerUke = {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                snittTimerPerUke: 'PT20H0M',
+                timerPerUke: 'PT20H0M',
             };
             expect(
                 getArbeidIPeriodeApiDataFromSøknadsdata({
