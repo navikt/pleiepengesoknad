@@ -27,7 +27,6 @@ import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
-import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
 import { getArbeidsforhold, harFraværIPerioden } from './arbeidstid-step/utils/arbeidstidUtils';
 import { getIngenFraværConfirmationDialog } from './confirmation-dialogs/ingenFraværConfirmation';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
@@ -39,6 +38,7 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */

@@ -8,7 +8,7 @@ import {
 } from '@navikt/sif-common-pleiepenger';
 import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-uke-input/ArbeidstidUkeInput';
 import { dateFormatter, decimalDurationToDuration, getWeekdayFromDate } from '@navikt/sif-common-utils/lib';
-import { Arbeidsuke } from './ArbeidstidUkerSpørsmål';
+import { WeekOfYearInfo } from '../../types/WeekOfYear';
 
 export const getArbeidIPeriodeEnkeltdagValidator =
     (intlValues: ArbeidIPeriodeIntlValues): ArbeidstidUkeInputEnkeltdagValidator | undefined =>
@@ -34,8 +34,8 @@ export const getArbeidIPeriodeEnkeltdagValidator =
     };
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
-    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: Arbeidsuke) => (value: string) => {
-        const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
+    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: WeekOfYearInfo) => (value: string) => {
+        const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber}` : undefined;
         const { min, max } = arbeidsuke ? { min: 0, max: 100 } : { min: 1, max: 99 };
         const error = getArbeidstidFastProsentValidator({ min, max })(value);
         return error
@@ -48,10 +48,10 @@ export const getArbeidIPeriodeProsentAvNormaltValidator =
     };
 
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: Arbeidsuke) =>
+    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: WeekOfYearInfo) =>
     (value: string) => {
         const min = arbeidsuke ? 0 : 1;
-        const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
+        const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber}` : undefined;
         const error = getArbeidstidFastProsentValidator({ min, max: timerNormalt })(value);
 
         return error

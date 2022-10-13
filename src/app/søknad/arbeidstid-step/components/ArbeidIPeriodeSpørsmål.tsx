@@ -8,24 +8,20 @@ import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { Ingress } from 'nav-frontend-typografi';
-import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormField } from '../../../../types/ArbeidIPeriodeFormValues';
-import {
-    ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserFormValues,
-} from '../../../../types/ArbeidsforholdFormValues';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/Søknadsdata';
-import SøknadFormComponents from '../../../SøknadFormComponents';
-import { ArbeidstidRegistrertLogProps } from '../../types';
+import { TimerEllerProsent } from '../../../types';
+import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
+import SøknadFormComponents from '../../SøknadFormComponents';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
-} from './validationArbeidIPeriodeSpørsmål';
+} from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 
-interface Props extends ArbeidstidRegistrertLogProps {
+interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     parentFieldName: string;
     arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
@@ -178,12 +174,5 @@ const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeI
         'data-testid': 'jobberTimer',
     },
 ];
-
-export interface ArbeidsukeFormValue {
-    periode: DateRange;
-    ukenummer: number;
-    timer?: string;
-    prosent?: string;
-}
 
 export default ArbeidIPeriodeSpørsmål;

@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { mapVirksomhetToVirksomhetApiData } from '@navikt/sif-common-forms/lib';
 import { SelvstendigApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { getArbeidsforholdApiDataFromSøknadsdata } from './arbeidToApiDataHelpers';
+import { getArbeidsforholdApiDataFromSøknadsdata } from './getArbeidsforholdApiDataFromSøknadsdata';
 
 export const getSelvstendigApiDataFromSøknadsdata = (
     arbeidSelvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata | undefined,

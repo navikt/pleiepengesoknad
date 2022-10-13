@@ -21,7 +21,7 @@ export const extractArbeidsukerTimerSøknadsdata = (arbeidsuker: ArbeidsukerForm
         const arbeidsuke = arbeidsuker[key];
         const timerISnittPerUke = getNumberFromNumberInputValue(arbeidsuke.snittTimerPerUke);
         if (timerISnittPerUke !== undefined) {
-            arbeidsukerSøknadsdata[key] = { timerISnittPerUke };
+            arbeidsukerSøknadsdata[key] = { timer: timerISnittPerUke };
         }
     });
     return arbeidsukerSøknadsdata;
@@ -92,7 +92,7 @@ export const extractArbeidIPeriodeSøknadsdata = ({
     if (erLiktHverUke === YesOrNo.NO && arbeidsuker) {
         if (timerEllerProsent === TimerEllerProsent.TIMER) {
             return {
-                type: ArbeidIPeriodeType.arbeiderUlikeTimerISnittPerUke,
+                type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 arbeiderRedusert: true,
                 arbeiderIPerioden: true,
                 arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
@@ -100,7 +100,7 @@ export const extractArbeidIPeriodeSøknadsdata = ({
         }
         if (timerEllerProsent === TimerEllerProsent.PROSENT) {
             return {
-                type: ArbeidIPeriodeType.arbeiderUlikProsentPerUkeAvNormalt,
+                type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
                 arbeiderRedusert: true,
                 arbeiderIPerioden: true,
                 arbeidsuker: extractArbeidsukerProsentSøknadsdata(arbeidsuker),

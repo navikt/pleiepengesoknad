@@ -55,14 +55,14 @@ describe('arbeidstidUtils', () => {
 
     describe('summerArbeidstimerIArbeidsuker', () => {
         it('returnerer 0 ved 0 timer', () => {
-            const result = summerArbeidstimerIArbeidsuker({ a: { timerISnittPerUke: 0 } });
+            const result = summerArbeidstimerIArbeidsuker({ a: { timer: 0 } });
             expect(result).toEqual(0);
         });
         it('summerer riktig', () => {
             const result = summerArbeidstimerIArbeidsuker({
-                a: { timerISnittPerUke: 1 },
-                b: { timerISnittPerUke: 2 },
-                c: { timerISnittPerUke: 3 },
+                a: { timer: 1 },
+                b: { timer: 2 },
+                c: { timer: 3 },
             });
             expect(result).toEqual(6);
         });

@@ -9,18 +9,17 @@ import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/d
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
-import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
-import usePersistSoknad from '../../hooks/usePersistSoknad';
-import GeneralErrorPage from '../../pages/general-error-page/GeneralErrorPage';
-import { FrilansFormField } from '../../types/FrilansFormData';
-import { SelvstendigFormField } from '../../types/SelvstendigFormData';
-import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { getPeriodeSomSelvstendigInnenforPeriode } from '../../utils/selvstendigUtils';
-import SøknadFormStep from '../SøknadFormStep';
-import { useSøknadsdataContext } from '../SøknadsdataContext';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import ArbeidIPeriodeSpørsmål from './components/arbeid-i-periode-spørsmål/ArbeidIPeriodeSpørsmål';
-import { cleanupArbeidstidStep } from './utils/cleanupArbeidstidStep';
+import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import GeneralErrorPage from '../../../pages/general-error-page/GeneralErrorPage';
+import { FrilansFormField } from '../../../types/FrilansFormData';
+import { SelvstendigFormField } from '../../../types/SelvstendigFormData';
+import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
+import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
+import SøknadFormStep from '../../SøknadFormStep';
+import { useSøknadsdataContext } from '../../SøknadsdataContext';
+import { StepConfigProps, StepID } from '../../søknadStepsConfig';
+import { cleanupArbeidstidStep } from '../utils/cleanupArbeidstidStep';
+import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -28,8 +27,6 @@ interface Props extends StepConfigProps {
 
 const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const intl = useIntl();
-    const { logArbeidPeriodeRegistrert } = useLogSøknadInfo();
-    const { logArbeidEnkeltdagRegistrert } = useLogSøknadInfo();
     const formikProps = useFormikContext<SøknadFormValues>();
     const { persistSoknad } = usePersistSoknad();
     const {
@@ -95,8 +92,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     periode={periode}
                                     parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                     onArbeidstidVariertChange={handleArbeidstidChanged}
-                                    onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
-                                    onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}
                                 />
                             </FormSection>
                         );
@@ -117,8 +112,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 periode={arbeid.frilans.aktivPeriode}
                                 parentFieldName={FrilansFormField.arbeidsforhold}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
-                                onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
-                                onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}
                             />
                         </FormSection>
                     </FormBlock>
@@ -138,8 +131,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 periode={periodeSomSelvstendigISøknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
-                                onArbeidPeriodeRegistrert={logArbeidPeriodeRegistrert}
-                                onArbeidstidEnkeltdagRegistrert={logArbeidEnkeltdagRegistrert}
                             />
                         </FormSection>
                     </FormBlock>

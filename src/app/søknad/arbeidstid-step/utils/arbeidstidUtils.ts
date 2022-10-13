@@ -74,7 +74,7 @@ export const arbeiderMindreEnnNormaltFasteUkedager = (
 
 export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøknadsdata) => {
     const timer = Object.keys(arbeidsuker)
-        .map((key) => arbeidsuker[key].timerISnittPerUke || 0)
+        .map((key) => arbeidsuker[key].timer || 0)
         .reduce((prev, curr) => prev + curr, 0);
     return timer;
 };
@@ -101,9 +101,9 @@ export const erArbeidsforholdMedFravær = ({
             return arbeidISøknadsperiode.prosentAvNormalt < 100;
         case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
             return arbeiderMindreEnnNormaltISnittPerUke(arbeidISøknadsperiode.timerISnittPerUke, normalarbeidstid);
-        case ArbeidIPeriodeType.arbeiderUlikeTimerISnittPerUke:
+        case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
             return summerArbeidstimerIArbeidsuker(arbeidISøknadsperiode.arbeidsuker) > 0;
-        case ArbeidIPeriodeType.arbeiderUlikProsentPerUkeAvNormalt:
+        case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
             return harArbeidsukeMedRedusertProsent(arbeidISøknadsperiode.arbeidsuker);
     }
 };

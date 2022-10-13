@@ -1,47 +1,16 @@
 import React from 'react';
+import { useIntl } from 'react-intl';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
-import {
-    dateRangeToISODateRange,
-    decimalDurationToDuration,
-    getWeeksInDateRange,
-    ISODateRange,
-} from '@navikt/sif-common-utils/lib';
-import dayjs from 'dayjs';
-import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../../types/ArbeidIPeriodeFormValues';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import SøknadFormComponents from '../../../SøknadFormComponents';
+import { dateRangeToISODateRange, decimalDurationToDuration, getWeeksInDateRange } from '@navikt/sif-common-utils/lib';
+import { TimerEllerProsent } from '../../../types';
+import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
+import SøknadFormComponents from '../../SøknadFormComponents'; // import { Arbeidsuke } from '../types/Arbeidsuke';
+import { getArbeidsukeFieldName } from '../utils/arbeidsukerUtils';
 import ArbeidstidInput from './ArbeidstidInput';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { useIntl } from 'react-intl';
-
-dayjs.extend(weekOfYear);
-
-export interface Arbeidsuke {
-    ukeKey: string; // År + uke
-    fieldname: string; // FormikFieldName
-    ukenummer: number;
-    periode: DateRange;
-    isoDateRange: ISODateRange;
-}
-
-const getUkerIPeriode = (parentFieldName: string, periode: DateRange): Arbeidsuke[] => {
-    const arbeidsuker: Arbeidsuke[] = [];
-
-    getWeeksInDateRange(periode).forEach((week) => {
-        const ukeKey = `${week.from.getFullYear()}_${dayjs(week.from).week()}`;
-        arbeidsuker.push({
-            ukeKey,
-            fieldname: `${parentFieldName}.${ArbeidIPeriodeFormField.arbeidsuker}.${ukeKey}`,
-            ukenummer: dayjs(week.from).week(),
-            isoDateRange: dateRangeToISODateRange(week),
-            periode: week,
-        });
-    });
-    return arbeidsuker;
-};
 
 interface Props {
     periode: DateRange;
@@ -60,7 +29,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     arbeidIPeriode,
     intlValues,
 }) => {
-    const arbeidsuker = getUkerIPeriode(parentFieldName, periode);
+    const arbeidsuker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
     const intl = useIntl();
 
     const timerNormaltString = formatTimerOgMinutter(
@@ -80,10 +49,10 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
             )}>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
-                    <div key={dateRangeToISODateRange(arbeidsuke.periode)}>
+                    <div key={dateRangeToISODateRange(arbeidsuke.dateRange)}>
                         <ArbeidstidInput
                             arbeidsuke={arbeidsuke}
-                            parentFieldName={arbeidsuke.fieldname}
+                            parentFieldName={getArbeidsukeFieldName(parentFieldName, arbeidsuke)}
                             arbeidIPeriode={arbeidIPeriode}
                             intlValues={intlValues}
                             normalarbeidstid={normalarbeidstid}

@@ -1,22 +1,23 @@
+import React from 'react';
+import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
 import { dateFormatter, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
-import React from 'react';
-import { useIntl } from 'react-intl';
-import { TimerEllerProsent } from '../../../../types';
-import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../../types/ArbeidIPeriodeFormValues';
-import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import SøknadFormComponents from '../../../SøknadFormComponents';
-import { Arbeidsuke } from './ArbeidstidUkerSpørsmål';
+import { TimerEllerProsent } from '../../../types';
+import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { getWeekOfYearKey } from '../../../utils/weekOfYearUtils';
+import SøknadFormComponents from '../../SøknadFormComponents';
 import {
     getArbeidIPeriodeProsentAvNormaltValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
-} from './validationArbeidIPeriodeSpørsmål';
+} from '../validationArbeidIPeriodeSpørsmål';
+import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 
 interface Props {
-    arbeidsuke?: Arbeidsuke;
+    arbeidsuke?: WeekOfYearInfo;
     parentFieldName: string;
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     timerEllerProsent: TimerEllerProsent;
@@ -42,7 +43,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     /** Arbeid som gjelder arbeidsuke eller snitt */
     const prosentAvNormalt = arbeidsuke
         ? arbeidIPeriode.arbeidsuker
-            ? arbeidIPeriode.arbeidsuker[arbeidsuke.ukeKey]?.prosentAvNormalt
+            ? arbeidIPeriode.arbeidsuker[getWeekOfYearKey(arbeidsuke.dateRange)]?.prosentAvNormalt
             : undefined
         : arbeidIPeriode.prosentAvNormalt;
 
@@ -56,7 +57,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     const formatPeriode = (periode: DateRange): string =>
         `${dateFormatter.compact(periode.from)} - ${dateFormatter.compact(periode.to)}`;
 
-    const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer} - ${formatPeriode(arbeidsuke.periode)}` : undefined;
+    const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber} - ${formatPeriode(arbeidsuke.dateRange)}` : undefined;
 
     const getProsentLabel = () => {
         return arbeidsuke

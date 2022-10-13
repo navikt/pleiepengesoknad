@@ -8,11 +8,7 @@ import {
     isDateWeekDay,
 } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
-import {
-    ArbeidstidEnkeltdagApiData,
-    TidEnkeltdagApiData,
-    TimerFasteDagerApiData,
-} from '../../types/søknad-api-data/SøknadApiData';
+import { TidEnkeltdagApiData, TimerFasteDagerApiData } from '../../types/søknad-api-data/SøknadApiData';
 
 export const getFasteDagerApiData = ({
     monday: mandag,
@@ -28,10 +24,8 @@ export const getFasteDagerApiData = ({
     fredag: fredag ? durationToISODuration(fredag) : undefined,
 });
 
-const sortTidEnkeltdagApiData = (
-    d1: TidEnkeltdagApiData | ArbeidstidEnkeltdagApiData,
-    d2: TidEnkeltdagApiData | ArbeidstidEnkeltdagApiData
-): number => (dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1);
+const sortTidEnkeltdagApiData = (d1: TidEnkeltdagApiData, d2: TidEnkeltdagApiData): number =>
+    dayjs(d1.dato).isBefore(d2.dato, 'day') ? -1 : 1;
 
 export const getEnkeltdagerIPeriodeApiData = (
     enkeltdager: DateDurationMap,

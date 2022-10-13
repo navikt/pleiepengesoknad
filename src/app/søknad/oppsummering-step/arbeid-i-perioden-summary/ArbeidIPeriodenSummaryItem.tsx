@@ -88,6 +88,10 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                         }}
                     />
                 );
+            case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
+                return <div>TODO</div>;
+            case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
+                return <div>TODO</div>;
         }
     };
 
