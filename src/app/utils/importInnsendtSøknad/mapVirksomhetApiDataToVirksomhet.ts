@@ -7,7 +7,6 @@ export const mapVirksomhetApiDataToVirksomhet = ({
     fraOgMed,
     tilOgMed,
     erNyoppstartet,
-    // harFlereAktiveVirksomheter,
     navnPåVirksomheten,
     næringstype,
     registrertINorge,

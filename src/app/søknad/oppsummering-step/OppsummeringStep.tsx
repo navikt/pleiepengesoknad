@@ -26,7 +26,7 @@ import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';

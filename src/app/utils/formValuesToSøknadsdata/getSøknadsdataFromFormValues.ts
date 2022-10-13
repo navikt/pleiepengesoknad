@@ -1,4 +1,3 @@
-// import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getHarVærtEllerErVernepliktigFromFormData, getSøknadsperiodeFromFormData } from '../formDataUtils';

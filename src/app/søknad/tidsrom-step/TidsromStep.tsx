@@ -16,7 +16,7 @@ import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
 import {
     validateFerieuttakIPerioden,
@@ -24,11 +24,11 @@ import {
     validateTildato,
     validateUtenlandsoppholdIPerioden,
 } from '../../validation/fieldValidations';
+import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
 
 dayjs.extend(minMax);
 
@@ -48,11 +48,10 @@ const cleanupTidsromStep = (values: SøknadFormValues, søknadsperiode: DateRang
 
 const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
     const { values } = useFormikContext<SøknadFormValues>();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const søkerdata = React.useContext(SøkerdataContext)!;
+    const søkerdata = React.useContext(SøkerdataContext);
 
     const barnetSøknadenGjelder = values.barnetSøknadenGjelder
-        ? søkerdata.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
+        ? søkerdata?.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
         : undefined;
 
     const harMedsøker = values[SøknadFormField.harMedsøker];
