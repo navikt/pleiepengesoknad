@@ -5,7 +5,7 @@ import { OmsorgstilbudFormValues } from '../types/SøknadFormValues';
 import { AppFieldValidationErrors } from './fieldValidations';
 
 export const validateOmsorgstilbud = (omsorgstilbud: OmsorgstilbudFormValues): ValidationResult<ValidationError> => {
-    if (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES) {
+    if (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES || omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES) {
         const { fasteDager } = omsorgstilbud;
 
         const hoursInTotal = fasteDager
