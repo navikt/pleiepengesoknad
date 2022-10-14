@@ -21,21 +21,25 @@ interface Props {
 const apiBarnSummary = (apiBarn: RegistrerteBarn) => (
     <>
         <Normaltekst>
-            <FormattedMessage
-                id="steg.oppsummering.barnet.navn"
-                values={{
-                    navn: formatName(apiBarn.fornavn, apiBarn.etternavn, apiBarn.mellomnavn),
-                }}
-            />
+            <div data-testid="oppsummering-barnets-navn-registert">
+                <FormattedMessage
+                    id="steg.oppsummering.barnet.navn"
+                    values={{
+                        navn: formatName(apiBarn.fornavn, apiBarn.etternavn, apiBarn.mellomnavn),
+                    }}
+                />
+            </div>
         </Normaltekst>
 
         <Normaltekst>
-            <FormattedMessage
-                id="steg.oppsummering.barnet.fødselsdato"
-                values={{
-                    dato: prettifyDate(apiBarn.fødselsdato),
-                }}
-            />
+            <div data-testid="oppsummering-barnets-fødselsdato-registrert">
+                <FormattedMessage
+                    id="steg.oppsummering.barnet.fødselsdato"
+                    values={{
+                        dato: prettifyDate(apiBarn.fødselsdato),
+                    }}
+                />
+            </div>
         </Normaltekst>
     </>
 );
@@ -44,12 +48,14 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
     <>
         {apiValues.barn.fødselsdato ? (
             <Normaltekst>
-                <FormattedMessage
-                    id="steg.oppsummering.barnet.fødselsdato"
-                    values={{
-                        dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato)),
-                    }}
-                />
+                <div data-testid="oppsummering-barnets-fødselsdato">
+                    <FormattedMessage
+                        id="steg.oppsummering.barnet.fødselsdato"
+                        values={{
+                            dato: prettifyDate(apiStringDateToDate(apiValues.barn.fødselsdato)),
+                        }}
+                    />
+                </div>
             </Normaltekst>
         ) : null}
         {!apiValues.barn.fødselsdato ? (
@@ -72,15 +78,17 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
         {apiValues._barnetHarIkkeFnr && apiValues.barn.årsakManglerIdentitetsnummer && (
             <Box margin="l">
                 <Normaltekst>
-                    <FormattedMessage
-                        id="steg.oppsummering.barnet.barnetHarIkkeFnr"
-                        values={{
-                            årsak: intlHelper(
-                                intl,
-                                `steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`
-                            ),
-                        }}
-                    />
+                    <div data-testid="oppsummering-årsakManglerIdentitetsnummer">
+                        <FormattedMessage
+                            id="steg.oppsummering.barnet.barnetHarIkkeFnr"
+                            values={{
+                                årsak: intlHelper(
+                                    intl,
+                                    `steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`
+                                ),
+                            }}
+                        />
+                    </div>
                 </Normaltekst>
             </Box>
         )}
@@ -101,7 +109,9 @@ const RelasjonTilBarnet = (intl: IntlShape, apiValues: SøknadApiData) => (
                 <Normaltekst tag="div">
                     <FormattedMessage id="steg.oppsummering.relasjonTilBarnetBeskrivelse" />
                     <Sitat>
-                        <TextareaSummary text={apiValues.barnRelasjonBeskrivelse} />
+                        <div data-testid="oppsummering-barn-relasjon-annet-beskrivelse">
+                            <TextareaSummary text={apiValues.barnRelasjonBeskrivelse} />
+                        </div>
                     </Sitat>
                 </Normaltekst>
             )}

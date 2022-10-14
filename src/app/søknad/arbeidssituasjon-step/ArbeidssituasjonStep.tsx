@@ -180,6 +180,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                             <FormattedMessage id="steg.arbeidssituasjon.verneplikt.info.tekst" />
                                         </ExpandableInfo>
                                     }
+                                    data-testid="verneplikt"
                                 />
                             </Box>
                         </FormSection>

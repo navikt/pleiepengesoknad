@@ -6,15 +6,12 @@ const {
     fyllUtArbeidssituasjon,
     oppsummeringTestArbeidssituasjonSteg,
 } = require('../integration-utils/steps/arbeidssituasjon');
-const { fyllUtArbeidIPeriodeSteg } = require('../integration-utils/steps/arbeidIPeriode');
+
 const {
     fyllUtOmsorgstilbudSteg,
     oppsummeringTestOmsorgstilbudSteg,
 } = require('../integration-utils/steps/omsorgstilbud');
-const {
-    fyllUtNattevåkOgBeredskapSteg,
-    oppsummeringTestNattevåkOgBeredskapSteg,
-} = require('../integration-utils/steps/nattevåkOgBeredskap');
+
 const { fyllUtMedlemskapSteg, oppsummeringTestMedlemskapSteg } = require('../integration-utils/steps/medlemskap');
 
 const {
@@ -30,24 +27,21 @@ describe('Kan jeg klikke meg komplett1 gjennom en hele søknad ', () => {
 
         fyllUtVelkommenSide();
 
-        fyllUtOmBarnSteg('barnUtenFnr');
-        fyllUtPeriodeSteg('full');
-        fyllUtArbeidssituasjon('komplett');
-        fyllUtArbeidIPeriodeSteg('redusertArbeid');
-        fyllUtOmsorgstilbudSteg('fortidFremtid'); // Avhenger av peroden !!!
-        fyllUtNattevåkOgBeredskapSteg('full');
-        fyllUtMedlemskapSteg('full');
-        fyllUtLegeerklæringSteg('enFil');
+        fyllUtOmBarnSteg();
+        fyllUtPeriodeSteg();
+        fyllUtArbeidssituasjon();
+        fyllUtOmsorgstilbudSteg(); // Avhenger av peroden !!!
+        fyllUtMedlemskapSteg();
+        fyllUtLegeerklæringSteg();
 
         it('STEG 9: Oppsummering - test', () => {
             oppsummeringTestOmDeg();
-            oppsummeringTestOmBarn('barnUtenFnr');
-            oppsummeringTestPeriodeSteg('full');
-            oppsummeringTestArbeidssituasjonSteg('komplett');
-            oppsummeringTestOmsorgstilbudSteg('fortidFremtid');
-            oppsummeringTestNattevåkOgBeredskapSteg('full');
-            oppsummeringTestMedlemskapSteg('full');
-            oppsummeringTestLegeerklæringSteg('enFil');
+            oppsummeringTestOmBarn();
+            oppsummeringTestPeriodeSteg();
+            oppsummeringTestArbeidssituasjonSteg();
+            oppsummeringTestOmsorgstilbudSteg();
+            oppsummeringTestMedlemskapSteg();
+            oppsummeringTestLegeerklæringSteg();
         });
 
         kvittering();

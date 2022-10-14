@@ -40,14 +40,18 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                             <SummaryBlock
                                 header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
                                 headerTag="h3">
-                                <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fortid.svar.NEI`} />
+                                <div data-testid="oppsummering-omsorgstilbud-svarFortid">
+                                    <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fortid.svar.NEI`} />
+                                </div>
                             </SummaryBlock>
                         )}
                         {(søkerFremtid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
                             <SummaryBlock
                                 header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
                                 headerTag="h3">
-                                <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fremtid.svar.NEI`} />
+                                <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
+                                    <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fremtid.svar.NEI`} />
+                                </div>
                             </SummaryBlock>
                         )}
                     </>

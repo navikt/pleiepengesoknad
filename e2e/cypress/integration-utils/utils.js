@@ -29,7 +29,7 @@ export const getTestElement = (key) => {
 };
 
 export const getInputByName = (name) => {
-    return cy.get(`input[name="${name}"]`);
+    return cy.get(`*[name="${name}"]`);
 };
 
 export const setInputValue = (key, value) => {
@@ -47,4 +47,12 @@ export const selectRadio = (key) => {
 
 export const getTestElementByClass = (className) => {
     return cy.get(`*[class^="${className}"]`);
+};
+
+export const getTestElementByType = (type) => {
+    return cy.get(`[type="${type}"]`);
+};
+
+export const getElement = (type) => {
+    return cy.get(`${type}`);
 };
