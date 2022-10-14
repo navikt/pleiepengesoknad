@@ -1,6 +1,11 @@
 const dayjs = require('dayjs');
 const isoWeek = require('dayjs/plugin/isoWeek');
-const { clickFortsett, clickNeiPaAlleSporsmal, clickSendInnSøknad } = require('../integration-utils/utils');
+const {
+    clickFortsett,
+    clickNeiPaAlleSporsmal,
+    clickSendInnSøknad,
+    getTestElement,
+} = require('../integration-utils/utils');
 const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon');
 const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeidIPeriode');
 
@@ -22,10 +27,10 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
             cy.get('button[class="knapp welcomingPage__startApplicationButton knapp--hoved"]').click();
         });
         it('STEG 1: Barn', () => {
-            cy.get('[type="radio"').first().check();
-            const barnetsFødselsnummer = '25848497005';
-            cy.get('input[name=barnetsFødselsnummer]').click().type(barnetsFødselsnummer).blur();
-            clickFortsett();
+            getTestElement('opplysninger-om-barnet').then(() => {
+                cy.get('[type="radio"').first().check({ force: true });
+                clickFortsett();
+            });
         });
 
         it('STEG 2: Periode', () => {
