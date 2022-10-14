@@ -24,30 +24,32 @@ const {
 const { oppsummeringTestOmDeg } = require('../integration-utils/steps/omDegOppsummering');
 const { kvittering } = require('../integration-utils/steps/kvittering');
 
-describe('Kan jeg klikke meg komplett1 gjennom en hele søknad ', () => {
+const TEST_TYPE = 'komplett';
+
+describe('Kan jeg klikke meg komplett gjennom en hele søknad ', () => {
     context('med utmocket, tom mellomlagring', () => {
         contextConfig();
 
         fyllUtVelkommenSide();
 
-        fyllUtOmBarnSteg('barnUtenFnr');
-        fyllUtPeriodeSteg('full');
-        fyllUtArbeidssituasjon('komplett');
+        fyllUtOmBarnSteg(TEST_TYPE);
+        fyllUtPeriodeSteg(TEST_TYPE);
+        fyllUtArbeidssituasjon(TEST_TYPE);
         fyllUtArbeidIPeriodeSteg('redusertArbeid');
-        fyllUtOmsorgstilbudSteg('fortidFremtid'); // Avhenger av peroden !!!
-        fyllUtNattevåkOgBeredskapSteg('full');
-        fyllUtMedlemskapSteg('full');
-        fyllUtLegeerklæringSteg('enFil');
+        fyllUtOmsorgstilbudSteg(TEST_TYPE); // Avhenger av peroden !!!
+        fyllUtNattevåkOgBeredskapSteg(TEST_TYPE);
+        fyllUtMedlemskapSteg(TEST_TYPE);
+        fyllUtLegeerklæringSteg(TEST_TYPE);
 
         it('STEG 9: Oppsummering - test', () => {
             oppsummeringTestOmDeg();
-            oppsummeringTestOmBarn('barnUtenFnr');
-            oppsummeringTestPeriodeSteg('full');
-            oppsummeringTestArbeidssituasjonSteg('komplett');
-            oppsummeringTestOmsorgstilbudSteg('fortidFremtid');
-            oppsummeringTestNattevåkOgBeredskapSteg('full');
-            oppsummeringTestMedlemskapSteg('full');
-            oppsummeringTestLegeerklæringSteg('enFil');
+            oppsummeringTestOmBarn(TEST_TYPE);
+            oppsummeringTestPeriodeSteg(TEST_TYPE);
+            oppsummeringTestArbeidssituasjonSteg(TEST_TYPE);
+            oppsummeringTestOmsorgstilbudSteg(TEST_TYPE);
+            oppsummeringTestNattevåkOgBeredskapSteg(TEST_TYPE);
+            oppsummeringTestMedlemskapSteg(TEST_TYPE);
+            oppsummeringTestLegeerklæringSteg(TEST_TYPE);
         });
 
         kvittering();

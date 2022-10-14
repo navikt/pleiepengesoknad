@@ -28,7 +28,7 @@ const oppsummeringTestLegeerklæringIngen = () => {
 export const fyllUtLegeerklæringSteg = (testType) => {
     it('STEG 8: LAST OPP LEGEERKLÆRING', () => {
         switch (testType) {
-            case 'enFil':
+            case 'komplett':
                 fyllUtLegeerklæringEnFil();
                 break;
             default:
@@ -40,7 +40,7 @@ export const fyllUtLegeerklæringSteg = (testType) => {
 
 export const oppsummeringTestLegeerklæringSteg = (testType) => {
     switch (testType) {
-        case 'enFil':
+        case 'komplett':
             oppsummeringTestLegeerklæringEnFil();
             break;
         default:

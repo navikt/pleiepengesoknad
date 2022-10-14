@@ -30,7 +30,7 @@ const fyllUtMedlemskapEnkelt = () => {
     clickFortsett();
 };
 
-const fyllUtMedlemskap = () => {
+const fyllUtMedlemskapKomplett = () => {
     selectRadioYes('medlemsskap-annetLandSiste12');
 
     getTestElement('bostedUtlandList-annetLandSiste12').within(() => {
@@ -60,7 +60,7 @@ const oppsummeringTestMedlemskapEnkelt = () => {
     getTestElement('oppsummering-medlemskap-utlandetNeste12').should((element) => expect('Nei').equal(element.text()));
 };
 
-const oppsummeringTestMedlemskap = () => {
+const oppsummeringTestMedlemskapKomplett = () => {
     getTestElement('oppsummering-medlemskap-utlandetSiste12').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-medlemskap-utlandetSiste12-list').within(() => {
         getTestElementByClass('utenlandsoppholdSummaryItem__dates').should((element) =>
@@ -85,8 +85,8 @@ const oppsummeringTestMedlemskap = () => {
 export const fyllUtMedlemskapSteg = (testType) => {
     it('STEG 5: Medlemskap', () => {
         switch (testType) {
-            case 'full':
-                fyllUtMedlemskap();
+            case 'komplett':
+                fyllUtMedlemskapKomplett();
                 break;
             default:
                 fyllUtMedlemskapEnkelt();
@@ -97,8 +97,8 @@ export const fyllUtMedlemskapSteg = (testType) => {
 
 export const oppsummeringTestMedlemskapSteg = (testType) => {
     switch (testType) {
-        case 'full':
-            oppsummeringTestMedlemskap();
+        case 'komplett':
+            oppsummeringTestMedlemskapKomplett();
             break;
         default:
             oppsummeringTestMedlemskapEnkelt();

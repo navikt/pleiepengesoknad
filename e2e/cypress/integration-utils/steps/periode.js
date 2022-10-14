@@ -111,7 +111,7 @@ export const oppsummeringTestPeriode = () => {
 export const fyllUtPeriodeSteg = (testType) => {
     it('STEG 2: Periode', () => {
         switch (testType) {
-            case 'full':
+            case 'komplett':
                 fyllUtPeriode();
                 break;
             default:
@@ -123,7 +123,7 @@ export const fyllUtPeriodeSteg = (testType) => {
 
 export const oppsummeringTestPeriodeSteg = (testType) => {
     switch (testType) {
-        case 'full':
+        case 'komplett':
             oppsummeringTestPeriode();
             break;
         default:

@@ -90,7 +90,7 @@ export const oppsummeringTestAnnetBarnUtenFnr = () => {
 export const fyllUtOmBarnSteg = (testType) => {
     it('STEG 1: Barn', () => {
         switch (testType) {
-            case 'barnUtenFnr':
+            case 'komplett':
                 fyllUtAnnetBarnUtenFnr();
                 break;
             case 'barnMedFnr':

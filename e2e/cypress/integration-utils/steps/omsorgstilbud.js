@@ -34,7 +34,7 @@ export const oppsummeringTestOmsorgstilbudFortidFremtidEnkelt = () => {
 export const fyllUtOmsorgstilbudSteg = (testType) => {
     it('STEG 5: Omsorgstilbud', () => {
         switch (testType) {
-            case 'fortidFremtid':
+            case 'komplett':
                 fyllUtOmsorgstilbudFortidFremtid();
                 break;
             default:
@@ -46,7 +46,7 @@ export const fyllUtOmsorgstilbudSteg = (testType) => {
 
 export const oppsummeringTestOmsorgstilbudSteg = (testType) => {
     switch (testType) {
-        case 'fortidFremtid':
+        case 'komplett':
             oppsummeringTestOmsorgstilbudFortidFremtid();
             break;
         default:

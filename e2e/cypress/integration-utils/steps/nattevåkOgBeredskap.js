@@ -3,7 +3,7 @@ const { getTestElement, clickFortsett, selectRadioYes } = require('../utils');
 const nattevåkTilleggsinfo = 'Test nattevåk tilleggsinfo';
 const beredskapTilleggsinfo = 'Test beredskap tilleggsinfo';
 
-const fyllUtNattevåkOgBeredskap = () => {
+const fyllUtNattevåkOgBeredskapKomplett = () => {
     selectRadioYes('nattevåk');
     getTestElement('nattevåk-tilleggsinfo').click().type(nattevåkTilleggsinfo).blur();
 
@@ -13,7 +13,7 @@ const fyllUtNattevåkOgBeredskap = () => {
     clickFortsett();
 };
 
-const oppsummeringTestNattevåkOgBeredskap = () => {
+const oppsummeringTestNattevåkOgBeredskapKomplett = () => {
     getTestElement('oppsummering-nattevåk').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-nattevåk-tilleggsinformasjon').should((element) =>
         expect(nattevåkTilleggsinfo).equal(element.text())
@@ -28,8 +28,8 @@ const oppsummeringTestNattevåkOgBeredskap = () => {
 export const fyllUtNattevåkOgBeredskapSteg = (testType) => {
     it('STEG 6: Nattevåk og beredskap', () => {
         switch (testType) {
-            case 'full':
-                fyllUtNattevåkOgBeredskap();
+            case 'komplett':
+                fyllUtNattevåkOgBeredskapKomplett();
                 break;
         }
     });
@@ -37,8 +37,8 @@ export const fyllUtNattevåkOgBeredskapSteg = (testType) => {
 
 export const oppsummeringTestNattevåkOgBeredskapSteg = (testType) => {
     switch (testType) {
-        case 'full':
-            oppsummeringTestNattevåkOgBeredskap();
+        case 'komplett':
+            oppsummeringTestNattevåkOgBeredskapKomplett();
             break;
     }
 };
