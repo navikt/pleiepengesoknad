@@ -17,9 +17,21 @@ export const fyllUtArbeidstidRedusert = () => {
     setInputValue('timer-verdi', 20);
 };
 
+export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
+    const timer: string[] = ['10', '0', '20', '10'];
+    selectRadio(ArbeiderIPeriodenSvar.redusert);
+    selectRadio(TimerEllerProsent.TIMER);
+    selectRadio('er-likt-hver-uke_no');
+    getTestElement('arbeidsuker').within(() => {
+        cy.get(`[data-testid="timer-verdi"]`).each((element, idx) => {
+            cy.wrap(element).click().type(timer[idx]);
+        });
+    });
+};
+
 export const fyllUtArbeidIPeriode = () => {
     getTestElement('arbeidIPerioden_ansatt').within(() => {
-        fyllUtArbeidstidRedusert();
+        fyllUtArbeidstidRedusertVarierendeTimer();
     });
     getTestElement('arbeidIPerioden_frilanser').within(() => {
         fyllUtArbeidstidJobberIkke();

@@ -50,6 +50,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     return (
         <SøknadFormComponents.InputGroup
             name={`${parentFieldName}_ukerGroup` as any}
+            data-testid="arbeidsuker"
             legend={intlHelper(
                 intl,
                 `arbeidIPeriode.ulikeUkerGruppe.${

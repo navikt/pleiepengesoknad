@@ -1,5 +1,6 @@
 import * as dayjs from 'dayjs';
 import * as isoWeek from 'dayjs/plugin/isoWeek';
+import { søknadsdato } from '../../søknadsdato';
 import { getTestElement, selectRadioNo, selectRadioYes, setInputValue } from '../../utils';
 import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './arbeidssituasjonAnsatt';
 
@@ -13,7 +14,11 @@ const fyllUtArbeidssituasjonFrilanser = () => {
         if ($body.find('[data-testid=fosterhjemsgodtgjørelse_mottar]').length) {
             selectRadioYes('fosterhjemsgodtgjørelse_mottar');
         }
-        const startDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+        const startDato = dayjs(søknadsdato)
+            .startOf('month')
+            .subtract(1, 'month')
+            .startOf('isoWeek')
+            .format('YYYY-MM-DD');
         cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');

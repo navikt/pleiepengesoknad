@@ -10,6 +10,7 @@ const {
 
 const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon/arbeidssituasjon');
 const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeid-i-periode/arbeidIPeriode');
+const { søknadsdato } = require('../integration-utils/søknadsdato');
 
 dayjs.extend(isoWeek);
 
@@ -17,6 +18,9 @@ const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
 
 describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', () => {
     context('med utmocket, tom mellomlagring', () => {
+        before(() => {
+            cy.clock(søknadsdato);
+        });
         beforeEach('intercept mellomlagring og levere tomt objekt', () => {
             cy.server();
             cy.route(`/mellomlagring`, {}); // mellomlagring må slås av.
@@ -42,8 +46,16 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 2: Periode', () => {
             // Velg periode, fom
-            const fraDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
-            const tilDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
+            const fraDato = dayjs(søknadsdato)
+                .startOf('month')
+                .subtract(1, 'month')
+                .startOf('isoWeek')
+                .format('YYYY-MM-DD');
+            const tilDato = dayjs(søknadsdato)
+                .startOf('month')
+                .subtract(1, 'week')
+                .startOf('isoWeek')
+                .format('YYYY-MM-DD');
             cy.get('input[name=periodeFra]').click().type(fraDato).blur();
             cy.get('input[name=periodeTil]').click().type(tilDato).blur();
 
