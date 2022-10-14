@@ -7,8 +7,9 @@ const {
     clickNeiPaAlleSporsmal,
     clickSendInnSøknad,
 } = require('../integration-utils/utils');
-const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon');
-const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeidIPeriode');
+
+const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon/arbeidssituasjon');
+const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeid-i-periode/arbeidIPeriode');
 
 dayjs.extend(isoWeek);
 

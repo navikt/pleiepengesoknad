@@ -75,17 +75,17 @@ const ArbeidIPeriodeSpørsmål = ({
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
                         value: ArbeiderIPeriodenSvar.heltFravær,
-                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberIkke`,
+                        'data-testid': ArbeiderIPeriodenSvar.heltFravær,
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert', intlValues),
                         value: ArbeiderIPeriodenSvar.redusert,
-                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberRedusert`,
+                        'data-testid': ArbeiderIPeriodenSvar.redusert,
                     },
                     {
                         label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig', intlValues),
                         value: ArbeiderIPeriodenSvar.somVanlig,
-                        'data-testid': `${getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}_jobberVanlig`,
+                        'data-testid': ArbeiderIPeriodenSvar.somVanlig,
                     },
                 ]}
             />
@@ -166,12 +166,12 @@ const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeI
     {
         label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.prosent`, intlValues),
         value: TimerEllerProsent.PROSENT,
-        'data-testid': 'jobberProsent',
+        'data-testid': TimerEllerProsent.PROSENT,
     },
     {
         label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.timer`, intlValues),
         value: TimerEllerProsent.TIMER,
-        'data-testid': 'jobberTimer',
+        'data-testid': TimerEllerProsent.TIMER,
     },
 ];
 

@@ -1,7 +1,9 @@
-const dayjs = require('dayjs');
-const { getTestElement, selectRadioNo, selectRadioYes, setInputValue } = require('../utils');
+import * as dayjs from 'dayjs';
+import * as isoWeek from 'dayjs/plugin/isoWeek';
+import { getTestElement, selectRadioNo, selectRadioYes, setInputValue } from '../../utils';
+import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './arbeidssituasjonAnsatt';
 
-import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './arbeidssituasjon/arbeidssituasjonAnsatt';
+dayjs.extend(isoWeek);
 
 const fyllUtArbeidssituasjonFrilanser = () => {
     getTestElement('arbeidssituasjonFrilanser').within(($body) => {
