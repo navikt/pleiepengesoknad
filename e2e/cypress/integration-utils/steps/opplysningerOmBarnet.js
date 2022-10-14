@@ -105,7 +105,7 @@ export const fyllUtOmBarnSteg = (testType) => {
 
 export const oppsummeringTestOmBarn = (testType) => {
     switch (testType) {
-        case 'barnUtenFnr':
+        case 'komplett':
             oppsummeringTestAnnetBarnUtenFnr();
             break;
         case 'barnMedFnr':
