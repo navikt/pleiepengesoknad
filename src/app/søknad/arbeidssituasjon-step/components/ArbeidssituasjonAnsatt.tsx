@@ -98,6 +98,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                             navn: arbeidsforhold.arbeidsgiver.navn,
                                             fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
+                                        data-testid="sluttet-før-søknadsperiode"
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
                                             return error

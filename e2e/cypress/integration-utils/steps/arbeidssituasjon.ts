@@ -1,14 +1,10 @@
 const dayjs = require('dayjs');
 const { getTestElement, selectRadioNo, selectRadioYes, setInputValue } = require('../utils');
 
-const fyllUtArbeidssituasjonAnsatt = () => {
-    getTestElement('arbeidssituasjonAnsatt').within(() => {
-        selectRadioYes('er-ansatt');
-        setInputValue('ansatt_arbeidsforhold.0.normalarbeidstid.timerPerUke', '30');
-    });
-};
+import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './arbeidssituasjon/arbeidssituasjonAnsatt';
+
 const fyllUtArbeidssituasjonFrilanser = () => {
-    getTestElement('arbeidssituasjonFrilanser').then(($body) => {
+    getTestElement('arbeidssituasjonFrilanser').within(($body) => {
         if ($body.find('[data-testid=er-frilanser_yes]').length) {
             selectRadioYes('er-frilanser');
         }
@@ -18,7 +14,7 @@ const fyllUtArbeidssituasjonFrilanser = () => {
         const startDato = dayjs().startOf('month').subtract(1, 'month').startOf('isoWeek').format('YYYY-MM-DD');
         cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');
-        setInputValue('frilans.arbeidsforhold.normalarbeidstid.timerPerUke', '5');
+        setInputValue('normalarbeidstid.timerPerUke', '5');
     });
 };
 
@@ -40,7 +36,7 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
     });
 };
 export const fyllUtArbeidssituasjonSteg = () => {
-    fyllUtArbeidssituasjonAnsatt();
+    fyllUtArbeidssituasjonAnsatt(ArbeidssituasjonAnsattProfil.ansatt);
     fyllUtArbeidssituasjonFrilanser();
     fyllUtArbeidssituasjonSelvstendig();
     fyllUtArbeidssituasjonOpptjeningUtland();

@@ -16,6 +16,12 @@ export const clickJaPaAlleSporsmal = () => {
     });
 };
 
+export const selectRadioYesOrNo = (key, selectYes) => {
+    getTestElement(`${key}_${selectYes ? 'yes' : 'no'}`)
+        .parent()
+        .click();
+};
+
 export const selectRadioYes = (key) => {
     getTestElement(`${key}_yes`).parent().click();
 };
