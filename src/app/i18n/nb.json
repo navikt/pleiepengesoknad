@@ -260,7 +260,7 @@
     "steg.omBarnet.gjelderAnnetBarn": "Søknaden gjelder et annet barn",
     "steg.omBarnet.annetBarn.tittel": "Annet barn",
     "steg.omBarnet.fnr.spm": "Barnets fødselsnummer/D-nummer",
-    "steg.omBarnet.fnr.barnHarIkkeFnr": "Barnet har ikke fødselsnummer/D-nummer.",
+    "steg.omBarnet.fnr.barnHarIkkeFnr": "Barnet har ikke fødselsnummer/D-nummer",
     "steg.omBarnet.årsakManglerIdentitetsnummer.spm": "Hvorfor har ikke barnet fødselsnummer eller D-nummer?",
     "steg.omBarnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
     "steg.omBarnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
