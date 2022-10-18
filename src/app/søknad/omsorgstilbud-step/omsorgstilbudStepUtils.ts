@@ -1,12 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-import { SøknadFormValues, OmsorgstilbudFormValues } from '../../types/SøknadFormValues';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
+import dayjs from 'dayjs';
+import { OmsorgstilbudFormValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
-
-dayjs.extend(isBetween);
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD = 6;
 
@@ -57,6 +54,7 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperi
 };
 
 export const søkerFremtid = (periode: DateRange): boolean => {
+    console.log({ søkerFremtid: dayjs().toDate() });
     if (dayjs(periode.from).isSame(dayjs(), 'day') || dayjs(periode.from).isAfter(dayjs(), 'day')) {
         return true;
     }

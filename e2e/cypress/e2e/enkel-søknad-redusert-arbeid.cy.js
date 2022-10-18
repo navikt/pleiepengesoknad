@@ -1,6 +1,5 @@
 const dayjs = require('dayjs');
 const isoWeek = require('dayjs/plugin/isoWeek');
-const MockDate = require('mockdate');
 
 const {
     getTestElement,
@@ -12,7 +11,6 @@ const {
 
 const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon/arbeidssituasjon');
 const { fyllUtArbeidIPeriode } = require('../integration-utils/steps/arbeid-i-periode/arbeidIPeriode');
-const { søknadsdato } = require('../integration-utils/søknadsdato');
 
 dayjs.extend(isoWeek);
 
@@ -20,18 +18,8 @@ const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
 
 describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', () => {
     context('med utmocket, tom mellomlagring', () => {
-        before(() => {
-            cy.clock(søknadsdato);
-        });
-        beforeEach(() => {
-            MockDate.set(søknadsdato);
-        });
-        afterEach(() => {
-            MockDate.reset(søknadsdato);
-        });
         beforeEach('intercept mellomlagring og levere tomt objekt', () => {
-            cy.server();
-            cy.route(`/mellomlagring`, {}); // mellomlagring må slås av.
+            cy.intercept(`/mellomlagring`, {}); // mellomlagring må slås av.
         });
         before('gå til startsiden', () => {
             cy.visit(`${PUBLIC_PATH}/soknad`);
@@ -54,12 +42,8 @@ describe('Kan jeg klikke meg gjennom en hele søknad på enklest mulig måte', (
 
         it('STEG 2: Periode', () => {
             // Velg periode, fom
-            const fraDato = dayjs(søknadsdato)
-                .startOf('month')
-                .subtract(1, 'week')
-                .startOf('isoWeek')
-                .format('DD.MM.YYYY');
-            const tilDato = dayjs(søknadsdato).add(1, 'week').startOf('isoWeek').format('DD.MM.YYYY');
+            const fraDato = dayjs().subtract(3, 'week').startOf('isoWeek').format('DD.MM.YYYY');
+            const tilDato = dayjs().add(1, 'week').startOf('isoWeek').format('DD.MM.YYYY');
             cy.get('input[name=periodeFra]').click().type(fraDato).blur();
             cy.get('input[name=periodeTil]').click().type(tilDato).blur();
 

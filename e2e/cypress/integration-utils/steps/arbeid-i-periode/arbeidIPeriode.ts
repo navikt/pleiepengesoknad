@@ -18,7 +18,7 @@ export const fyllUtArbeidstidRedusert = () => {
 };
 
 export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
-    const timer: string[] = ['10', '0', '20', '10'];
+    const timer: string[] = ['10', '0', '20', '10', '10'];
     selectRadio(ArbeiderIPeriodenSvar.redusert);
     selectRadio(TimerEllerProsent.TIMER);
     selectRadio('er-likt-hver-uke_no');

@@ -34,6 +34,8 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
 
     useLogSidevisning(SIFCommonPageKey.velkommen);
 
+    console.log({ todayW: new Date() });
+
     return (
         <div data-testid="welcomePage">
             <Page
