@@ -7,6 +7,7 @@ const formData: OmBarnetFormData = {
     barnetsFødselsnummer: '',
     barnetSøknadenGjelder: '1',
     barnetHarIkkeFnr: false,
+    fødselsattest: [],
 };
 
 describe('extractBarnetSøknadsdata', () => {
@@ -43,6 +44,7 @@ describe('extractBarnetSøknadsdata', () => {
                 barnetsFødselsdato: '2020.12.12',
                 årsakManglerIdentitetsnummer: ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET,
                 relasjonTilBarnet: BarnRelasjon.FAR,
+                fødselsattest: [],
             });
             expect(result).toBeDefined();
             expect(result?.type).toEqual('annetBarnUtenFnr');

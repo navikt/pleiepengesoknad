@@ -1,6 +1,6 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { RegistrerteBarn } from '../../types';
+import { RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { MELLOMLAGRING_VERSION } from '../../types/SøknadTempStorageData';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
@@ -39,6 +39,12 @@ export const getApiDataFromSøknadsdata = (
                     harForståttRettigheterOgPlikter !== undefined ? harForståttRettigheterOgPlikter : false,
                 harBekreftetOpplysninger: harBekreftetOpplysninger !== undefined ? harBekreftetOpplysninger : false,
                 ...getBarnApiDataFromSøknadsdata(barn, søknadsdata.barn),
+                fødselsattestVedleggUrls:
+                    søknadsdata.barn &&
+                    søknadsdata.barn.type === 'annetBarnUtenFnr' &&
+                    søknadsdata.barn.årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET
+                        ? getAttachmentsApiDataFromSøknadsdata(søknadsdata.barn.fødselsattest)
+                        : [],
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
                 ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),

@@ -1,41 +1,37 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { useFormikContext } from 'formik';
 import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { Undertittel } from 'nav-frontend-typografi';
 import {
     getTotalSizeOfAttachments,
     mapFileToPersistedFile,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { useFormikContext } from 'formik';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
+import { relocateToLoginPage } from '../../utils/navigationUtils';
+import { StepID } from '../søknadStepsConfig';
+import { persist } from '../../api/api';
+import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { persist } from '../../api/api';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
-import { relocateToLoginPage } from '../../utils/navigationUtils';
-import { validateLegeerklæring } from '../../validation/fieldValidations';
-import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
-import SøknadFormStep from '../SøknadFormStep';
-import LegeerklæringFileList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
+import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
 import getLenker from '../../lenker';
+import UploadedDocumentsList from '../../components/fødselsattest-file-list/UploadedDocumentsList';
 
-const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
-    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+interface Props {
+    attachments: Attachment[];
+}
+
+const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
     const intl = useIntl();
-    const attachments: Attachment[] = React.useMemo(() => {
-        return values ? values[SøknadFormField.legeerklæring] : [];
-    }, [values]);
-    const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
-    const totalSize = getTotalSizeOfAttachments([...attachments, ...values.fødselsattest]);
-    const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
-
+    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
+    const totalSize = getTotalSizeOfAttachments([...attachments, ...values.legeerklæring]);
     const ref = React.useRef({ attachments });
 
     const { logHendelse, logUserLoggedOut } = useAmplitudeInstance();
@@ -76,9 +72,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     file: persistedFile,
                 };
             });
-            const valuesToPersist = { ...values, legeerklæring: newValues };
-            setFieldValue(SøknadFormField.legeerklæring, newValues);
-            persist(valuesToPersist, StepID.LEGEERKLÆRING);
+            const valuesToPersist = { ...values, fødselsattest: newValues };
+            setFieldValue(SøknadFormField.fødselsattest, newValues);
+            persist(valuesToPersist, StepID.OPPLYSNINGER_OM_BARNET);
         }
         ref.current = {
             attachments,
@@ -86,38 +82,26 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     }, [attachments, setFieldValue, values]);
 
     return (
-        <SøknadFormStep
-            id={StepID.LEGEERKLÆRING}
-            onValidFormSubmit={() => {
-                onValidSubmit();
-            }}
-            useValidationErrorSummary={false}
-            skipValidation={true}
-            buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
-            <Box padBottom="xl">
-                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
-                    <p>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1'} />
-                    </p>
-                    <p>
-                        <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2'} />{' '}
-                    </p>
-                </CounsellorPanel>
+        <>
+            <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
+                {intlHelper(intl, 'steg.omBarnet.fødselsattest.tittel')}
+            </Undertittel>
+            <Box margin="m">
+                <FormattedMessage id="steg.omBarnet.fødselsattest.info" />
             </Box>
-
             <Box margin={'l'}>
                 <PictureScanningGuide />
             </Box>
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Box margin="l">
                     <FormikFileUploader
-                        name={SøknadFormField.legeerklæring}
-                        label={intlHelper(intl, 'steg.lege.vedlegg')}
+                        name={SøknadFormField.fødselsattest}
+                        label={intlHelper(intl, 'steg.omBarnet.fødselsattest.vedlegg')}
                         onErrorUploadingAttachments={vedleggOpplastingFeilet}
                         onFileInputClick={() => {
                             setFilesThatDidntGetUploaded([]);
                         }}
-                        validate={validateLegeerklæring}
+                        // validate={validateLegeerklæring}
                         onUnauthorizedOrForbiddenUpload={userNotLoggedIn}
                     />
                 </Box>
@@ -135,9 +119,11 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             <Box margin={'l'}>
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
             </Box>
-            <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
-        </SøknadFormStep>
+            <Box margin="l">
+                <UploadedDocumentsList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
+            </Box>
+        </>
     );
 };
 
-export default LegeerklæringStep;
+export default FødselsattestPart;

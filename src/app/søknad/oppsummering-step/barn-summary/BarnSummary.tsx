@@ -8,9 +8,11 @@ import { apiStringDateToDate, prettifyDate } from '@navikt/sif-common-core/lib/u
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { BarnRelasjon, RegistrerteBarn } from '../../../types';
+import { BarnRelasjon, RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../../types';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormData } from '../../../types/SøknadFormData';
+import UploadedDocumentsList from '../../../components/fødselsattest-file-list/UploadedDocumentsList';
+import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     barn: RegistrerteBarn[];
@@ -76,6 +78,17 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
                 </Normaltekst>
             </Box>
         )}
+        {apiValues._barnetHarIkkeFnr === true &&
+            apiValues.barn.årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET && (
+                <Box margin="m">
+                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omBarn.fødselsattest.tittel')}>
+                        <UploadedDocumentsList includeDeletionFunctionality={false} />
+                        {apiValues.fødselsattestVedleggUrls.length === 0 && (
+                            <FormattedMessage id="step.oppsummering.omBarn.ingenFødselsattest" />
+                        )}
+                    </SummaryBlock>
+                </Box>
+            )}
     </>
 );
 
@@ -103,7 +116,7 @@ const BarnSummary = ({ formValues, apiValues, barn }: Props) => {
     const intl = useIntl();
     const apiBarn = barn.find(({ aktørId }) => aktørId === formValues.barnetSøknadenGjelder);
     const useApiBarn = !formValues.søknadenGjelderEtAnnetBarn && barn && barn.length > 0;
-
+    console.log('apiValues.fødselsattestVedleggUrls: ', apiValues.fødselsattestVedleggUrls);
     return (
         <>
             <SummarySection header={intlHelper(intl, 'steg.oppsummering.barnet.header')}>

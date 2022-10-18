@@ -23,6 +23,7 @@ export enum SøknadFormField {
     søknadenGjelderEtAnnetBarn = 'søknadenGjelderEtAnnetBarn',
     barnetHarIkkeFnr = 'barnetHarIkkeFnr',
     årsakManglerIdentitetsnummer = 'årsakManglerIdentitetsnummer',
+    fødselsattest = 'fødselsattest',
     periodeFra = 'periodeFra',
     periodeTil = 'periodeTil',
     skalPassePåBarnetIHelePerioden = 'skalPassePåBarnetIHelePerioden',
@@ -75,6 +76,7 @@ export interface SøknadFormData {
     [SøknadFormField.barnetsFødselsnummer]: string;
     [SøknadFormField.barnetsFødselsdato]?: string;
     [SøknadFormField.årsakManglerIdentitetsnummer]?: ÅrsakManglerIdentitetsnummer;
+    [SøknadFormField.fødselsattest]: Attachment[];
     [SøknadFormField.søknadenGjelderEtAnnetBarn]: boolean;
     [SøknadFormField.barnetHarIkkeFnr]: boolean;
     [SøknadFormField.barnetSøknadenGjelder]: string;
@@ -122,6 +124,7 @@ export const initialValues: SøknadFormData = {
     [SøknadFormField.søknadenGjelderEtAnnetBarn]: false,
     [SøknadFormField.barnetHarIkkeFnr]: false,
     [SøknadFormField.årsakManglerIdentitetsnummer]: undefined,
+    [SøknadFormField.fødselsattest]: [],
     [SøknadFormField.legeerklæring]: [],
     [SøknadFormField.ansatt_arbeidsforhold]: [],
     [SøknadFormField.barnetsFødselsdato]: undefined,
@@ -169,4 +172,5 @@ export type OmBarnetFormData = Pick<
     | SøknadFormField.barnetsFødselsdato
     | SøknadFormField.relasjonTilBarnet
     | SøknadFormField.relasjonTilBarnetBeskrivelse
+    | SøknadFormField.fødselsattest
 >;
