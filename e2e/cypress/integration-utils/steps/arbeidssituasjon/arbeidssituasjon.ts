@@ -18,7 +18,8 @@ const fyllUtArbeidssituasjonFrilanser = () => {
             .startOf('month')
             .subtract(1, 'month')
             .startOf('isoWeek')
-            .format('YYYY-MM-DD');
+            .format('DD.MM.YYYY');
+
         cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');

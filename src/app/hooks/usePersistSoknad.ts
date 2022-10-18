@@ -27,8 +27,6 @@ function usePersistSoknad() {
     const { values: stateFormValues } = useFormikContext<SøknadFormValues>();
     const { importertSøknadMetadata: stateImportertSøknadMetadata } = useSøknadsdataContext();
 
-    // console.log(stateImportertSøknadMetadata);
-
     async function doPersist({ stepID, formValues, importertSøknadMetadata }: PersistSoknadProps) {
         persist({
             formValues: formValues || stateFormValues,
