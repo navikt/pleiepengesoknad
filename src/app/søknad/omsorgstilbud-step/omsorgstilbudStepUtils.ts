@@ -54,7 +54,6 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperi
 };
 
 export const søkerFremtid = (periode: DateRange): boolean => {
-    console.log({ søkerFremtid: dayjs().toDate() });
     if (dayjs(periode.from).isSame(dayjs(), 'day') || dayjs(periode.from).isAfter(dayjs(), 'day')) {
         return true;
     }
