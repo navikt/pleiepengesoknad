@@ -1,6 +1,5 @@
 import { selectRadio, setInputValue, getTestElement } from '../../utils';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib/types';
-import { TimerEllerProsent } from '../../../../../src/app/types/TimerEllerProsent';
 
 export const fyllUtArbeidstidJobberIkke = () => {
     selectRadio(ArbeiderIPeriodenSvar.heltFravær);
@@ -12,7 +11,7 @@ export const fyllUtArbeidstidJobberSomVanlig = () => {
 
 export const fyllUtArbeidstidRedusert = () => {
     selectRadio(ArbeiderIPeriodenSvar.redusert);
-    selectRadio(TimerEllerProsent.TIMER);
+    selectRadio('timer');
     selectRadio('er-likt-hver-uke_yes');
     setInputValue('timer-verdi', 20);
 };
@@ -20,7 +19,7 @@ export const fyllUtArbeidstidRedusert = () => {
 export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
     const timer: string[] = ['10', '0', '20', '10', '10'];
     selectRadio(ArbeiderIPeriodenSvar.redusert);
-    selectRadio(TimerEllerProsent.TIMER);
+    selectRadio('timer');
     selectRadio('er-likt-hver-uke_no');
     getTestElement('arbeidsuker').within(() => {
         cy.get(`[data-testid="timer-verdi"]`).each((element, idx) => {
