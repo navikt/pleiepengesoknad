@@ -2,11 +2,8 @@ const { contextConfig } = require('../integration-utils/contextConfig');
 const { fyllUtVelkommenSide } = require('../integration-utils/steps/velkommenside');
 const { fyllUtOmBarnSteg, oppsummeringTestOmBarn } = require('../integration-utils/steps/opplysningerOmBarnet');
 const { fyllUtPeriodeSteg, oppsummeringTestPeriodeSteg } = require('../integration-utils/steps/periode');
-const {
-    fyllUtArbeidssituasjon,
-    oppsummeringTestArbeidssituasjonSteg,
-} = require('../integration-utils/steps/arbeidssituasjon');
-const { fyllUtArbeidIPeriodeSteg } = require('../integration-utils/steps/arbeidIPeriode');
+const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon/arbeidssituasjon');
+const { fyllUtArbeidIPeriodeSteg } = require('../integration-utils/steps/arbeid-i-periode/arbeidIPeriode');
 const {
     fyllUtOmsorgstilbudSteg,
     oppsummeringTestOmsorgstilbudSteg,
@@ -34,7 +31,7 @@ describe('Kan jeg klikke meg komplett gjennom en hele søknad ', () => {
 
         fyllUtOmBarnSteg(TEST_TYPE);
         fyllUtPeriodeSteg(TEST_TYPE);
-        fyllUtArbeidssituasjon(TEST_TYPE);
+        fyllUtArbeidssituasjonSteg(TEST_TYPE);
         fyllUtArbeidIPeriodeSteg('redusertArbeid');
         fyllUtOmsorgstilbudSteg(TEST_TYPE); // Avhenger av peroden !!!
         fyllUtNattevåkOgBeredskapSteg(TEST_TYPE);
@@ -45,7 +42,6 @@ describe('Kan jeg klikke meg komplett gjennom en hele søknad ', () => {
             oppsummeringTestOmDeg();
             oppsummeringTestOmBarn(TEST_TYPE);
             oppsummeringTestPeriodeSteg(TEST_TYPE);
-            oppsummeringTestArbeidssituasjonSteg(TEST_TYPE);
             oppsummeringTestOmsorgstilbudSteg(TEST_TYPE);
             oppsummeringTestNattevåkOgBeredskapSteg(TEST_TYPE);
             oppsummeringTestMedlemskapSteg(TEST_TYPE);

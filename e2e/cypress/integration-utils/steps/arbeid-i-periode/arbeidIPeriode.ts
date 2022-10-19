@@ -1,4 +1,4 @@
-import { selectRadio, setInputValue, getTestElement } from '../../utils';
+import { selectRadio, setInputValue, getTestElement, clickFortsett } from '../../utils';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib/types';
 
 export const fyllUtArbeidstidJobberIkke = () => {
@@ -28,11 +28,14 @@ export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
     });
 };
 
-export const fyllUtArbeidIPeriode = () => {
-    getTestElement('arbeidIPerioden_ansatt').within(() => {
-        fyllUtArbeidstidRedusertVarierendeTimer();
-    });
-    getTestElement('arbeidIPerioden_frilanser').within(() => {
-        fyllUtArbeidstidJobberIkke();
+export const fyllUtArbeidIPeriodeSteg = () => {
+    it('Arbeid i perioden', () => {
+        getTestElement('arbeidIPerioden_ansatt').within(() => {
+            fyllUtArbeidstidRedusertVarierendeTimer();
+        });
+        getTestElement('arbeidIPerioden_frilanser').within(() => {
+            fyllUtArbeidstidJobberIkke();
+        });
+        clickFortsett();
     });
 };

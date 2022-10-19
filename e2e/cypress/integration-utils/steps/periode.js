@@ -13,8 +13,8 @@ const {
     clickNeiPaAlleSporsmal,
 } = require('../utils');
 
-const fraDato = dayjs().startOf('month').format('YYYY-MM-DD');
-const tilDato = dayjs().startOf('month').add(1, 'month').format('YYYY-MM-DD');
+const fraDato = dayjs().startOf('week').subtract(3, 'weeks').format('YYYY-MM-DD');
+const tilDato = dayjs().startOf('week').add(1, 'week').format('YYYY-MM-DD');
 const expectedFomTomPeriode = `${dayjs(fraDato).format('D. MMMM YYYY')} - ${dayjs(tilDato).format('D. MMMM YYYY')}`;
 const expectedDateUtenlandsoppholdIPerioden = `${dayjs(fraDato).format('D. MMM YYYY')} - ${dayjs(tilDato).format(
     'D. MMM YYYY'

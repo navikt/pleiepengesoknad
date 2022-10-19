@@ -5,11 +5,11 @@ const locale = require('dayjs/locale/nb');
 dayjs.extend(isoWeek);
 dayjs.locale(locale);
 
-const barnetsNavnRegistrert = 'Barn Barne Barnesen'; //Fra mock
-const barnetsFødselsdatoRegistrert = dayjs('01.01.2021').format('DD.MM.YYYY');
-const barnetsNavn = 'Barn Barnet';
-const barnetsFødselsnummer = '25848497005';
-const barnetsFødselsdato = dayjs().startOf('month').subtract(5, 'month').format('DD.MM.YYYY');
+const barnetsNavnRegistrert = 'ALFABETISK FAGGOTT'; //Fra mock
+const barnetsFødselsdatoOppsummering = '08.06.2019';
+const barnetsNavn = 'ALFABETISK FAGGOTT';
+const barnetsFødselsnummer = '08861999573';
+const barnetsFødselsdato = '08.06.2019';
 const expectedRelasjonTilBarn = 'mor';
 const relasjonAnnetBeskrivelse = 'Annet relasjon beskrivelse';
 const årsakManglerIdentitetsnummer = 'Barnet er nyfødt, og har ikke fått fødselsnummer enda';
@@ -51,7 +51,7 @@ export const oppsummeringTestRegistrertBarn = () => {
         expect(`Navn: ${barnetsNavnRegistrert}`).equal(element.text())
     );
     getTestElement('oppsummering-barnets-fødselsdato-registrert').should((element) =>
-        expect(`Fødselsdato: ${barnetsFødselsdatoRegistrert}`).equal(element.text())
+        expect(`Fødselsdato: ${barnetsFødselsdatoOppsummering}`).equal(element.text())
     );
 };
 

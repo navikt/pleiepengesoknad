@@ -1,6 +1,6 @@
 import * as dayjs from 'dayjs';
 import * as isoWeek from 'dayjs/plugin/isoWeek';
-import { getTestElement, selectRadioNo, selectRadioYes, setInputValue } from '../../utils';
+import { getTestElement, selectRadioNo, selectRadioYes, setInputValue, clickFortsett } from '../../utils';
 import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './arbeidssituasjonAnsatt';
 
 dayjs.extend(isoWeek);
@@ -38,10 +38,17 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
         selectRadioNo('har-utenlandskNæring');
     });
 };
+export const oppsummeringTestArbeidssituasjonSteg = () => {
+    return true;
+};
+
 export const fyllUtArbeidssituasjonSteg = () => {
-    fyllUtArbeidssituasjonAnsatt(ArbeidssituasjonAnsattProfil.ansatt);
-    fyllUtArbeidssituasjonFrilanser();
-    fyllUtArbeidssituasjonSelvstendig();
-    fyllUtArbeidssituasjonOpptjeningUtland();
-    fyllUtArbeidssituasjonUtenlandskNæring();
+    it('Arbeidssituasjon', () => {
+        fyllUtArbeidssituasjonAnsatt(ArbeidssituasjonAnsattProfil.ansatt);
+        fyllUtArbeidssituasjonFrilanser();
+        fyllUtArbeidssituasjonSelvstendig();
+        fyllUtArbeidssituasjonOpptjeningUtland();
+        fyllUtArbeidssituasjonUtenlandskNæring();
+        clickFortsett();
+    });
 };

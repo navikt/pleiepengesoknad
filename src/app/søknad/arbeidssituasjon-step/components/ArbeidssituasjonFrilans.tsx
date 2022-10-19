@@ -113,7 +113,6 @@ const ArbeidssituasjonFrilans = ({
                                 data-testid="erFortsattFrilanser"
                                 legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
                                 validate={getYesOrNoValidator()}
-                                data-testid="er-frilanser-erFortsattFrilanser"
                             />
                         </FormBlock>
                         {erFortsattFrilanser === YesOrNo.NO && (

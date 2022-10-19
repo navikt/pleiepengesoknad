@@ -2,18 +2,13 @@ const { contextConfig } = require('../integration-utils/contextConfig');
 const { fyllUtVelkommenSide } = require('../integration-utils/steps/velkommenside');
 const { fyllUtOmBarnSteg, oppsummeringTestOmBarn } = require('../integration-utils/steps/opplysningerOmBarnet');
 const { fyllUtPeriodeSteg, oppsummeringTestPeriodeSteg } = require('../integration-utils/steps/periode');
-const {
-    fyllUtArbeidssituasjon,
-    oppsummeringTestArbeidssituasjonSteg,
-} = require('../integration-utils/steps/arbeidssituasjon');
-
+const { fyllUtArbeidssituasjonSteg } = require('../integration-utils/steps/arbeidssituasjon/arbeidssituasjon');
+const { fyllUtArbeidIPeriodeSteg } = require('../integration-utils/steps/arbeid-i-periode/arbeidIPeriode');
 const {
     fyllUtOmsorgstilbudSteg,
     oppsummeringTestOmsorgstilbudSteg,
 } = require('../integration-utils/steps/omsorgstilbud');
-
 const { fyllUtMedlemskapSteg, oppsummeringTestMedlemskapSteg } = require('../integration-utils/steps/medlemskap');
-
 const {
     fyllUtLegeerklæringSteg,
     oppsummeringTestLegeerklæringSteg,
@@ -29,7 +24,8 @@ describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
 
         fyllUtOmBarnSteg();
         fyllUtPeriodeSteg();
-        fyllUtArbeidssituasjon();
+        fyllUtArbeidssituasjonSteg();
+        fyllUtArbeidIPeriodeSteg();
         fyllUtOmsorgstilbudSteg(); // Avhenger av peroden !!!
         fyllUtMedlemskapSteg();
         fyllUtLegeerklæringSteg();
@@ -38,7 +34,6 @@ describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
             oppsummeringTestOmDeg();
             oppsummeringTestOmBarn();
             oppsummeringTestPeriodeSteg();
-            oppsummeringTestArbeidssituasjonSteg();
             oppsummeringTestOmsorgstilbudSteg();
             oppsummeringTestMedlemskapSteg();
             oppsummeringTestLegeerklæringSteg();
