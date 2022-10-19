@@ -98,7 +98,9 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
             apiValues.barn.årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET && (
                 <Box margin="m">
                     <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omBarn.fødselsattest.tittel')}>
-                        <UploadedDocumentsList includeDeletionFunctionality={false} />
+                        <div data-testid={'oppsummering-omBarn-fødselsattest'}>
+                            <UploadedDocumentsList includeDeletionFunctionality={false} />
+                        </div>
                         {apiValues.fødselsattestVedleggUrls.length === 0 && (
                             <FormattedMessage id="step.oppsummering.omBarn.ingenFødselsattest" />
                         )}

@@ -1,4 +1,4 @@
-const { getTestElement, getInputByName, clickFortsett, getTestElementByType } = require('../utils');
+const { getTestElement, getInputByName, clickFortsett, getTestElementByType, getElement } = require('../utils');
 const dayjs = require('dayjs');
 const isoWeek = require('dayjs/plugin/isoWeek');
 const locale = require('dayjs/locale/nb');
@@ -97,6 +97,12 @@ export const oppsummeringTestAnnetBarnUtenFnr = () => {
     getTestElement('oppsummering-barn-relasjon-annet-beskrivelse').should((element) =>
         expect(relasjonAnnetBeskrivelse).equal(element.text())
     );
+
+    getTestElement('oppsummering-omBarn-fødselsattest').within(() => {
+        getElement('li')
+            .eq(0)
+            .should((element) => expect(fileName).equal(element.text()));
+    });
 };
 
 export const fyllUtOmBarnSteg = (testType) => {
