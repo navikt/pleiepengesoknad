@@ -28,46 +28,48 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
         return (
             <Box margin="m" padBottom="l" key={næring.navnPåVirksomheten}>
                 <li>
-                    <div>
+                    <div data-testid="oppsummering-utenlandskNæring-navn">
                         {`${intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.navn')}: ${
                             næring.navnPåVirksomheten
                         }.`}
                     </div>
-                    <div>
+                    <div data-testid="oppsummering-utenlandskNæring-næringstype">
                         {`${intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.næringstype')}: ${næringstype}.`}
                     </div>
 
-                    <div>
+                    <div data-testid="oppsummering-utenlandskNæring-registrertILand">
                         <FormattedMessage
                             id="sifForms.utenlandskNæringForm.summary.registrertILand"
                             values={{ land }}
                         />
                         {næring.organisasjonsnummer !== undefined && (
-                            <>
-                                <FormattedMessage
-                                    id="sifForms.utenlandskNæringForm.summary.registrertILand.orgnr"
-                                    values={{ orgnr: næring.organisasjonsnummer }}
-                                />
-                            </>
+                            <FormattedMessage
+                                id="sifForms.utenlandskNæringForm.summary.registrertILand.orgnr"
+                                values={{ orgnr: næring.organisasjonsnummer }}
+                            />
                         )}
                         .
                     </div>
-                    <div>{tidsinfo}</div>
+                    <div data-testid="oppsummering-utenlandskNæring-tidsinfo">{tidsinfo}</div>
                 </li>
             </Box>
         );
     };
     return (
-        <SummaryBlock
-            header={intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.listetittel')}
-            headerTag="h3">
-            {utenlandskNæring.length === 0 && (
-                <>
-                    <FormattedMessage id={'oppsummering.arbeidssituasjon.utenlandskNæring.nei'} tagName="p" />
-                </>
-            )}
-            {utenlandskNæring.length > 0 && <ul>{utenlandskNæring.map((næring) => renderUtenlandskNæring(næring))}</ul>}
-        </SummaryBlock>
+        <div data-testid="oppsummering-utenlandskNæring">
+            <SummaryBlock
+                header={intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.listetittel')}
+                headerTag="h3">
+                {utenlandskNæring.length === 0 && (
+                    <>
+                        <FormattedMessage id={'oppsummering.arbeidssituasjon.utenlandskNæring.nei'} tagName="p" />
+                    </>
+                )}
+                {utenlandskNæring.length > 0 && (
+                    <ul>{utenlandskNæring.map((næring) => renderUtenlandskNæring(næring))}</ul>
+                )}
+            </SummaryBlock>
+        </div>
     );
 }
 

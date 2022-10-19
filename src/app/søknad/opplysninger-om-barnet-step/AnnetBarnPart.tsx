@@ -174,6 +174,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                                     : undefined;
                             }}
                             value={formValues.relasjonTilBarnet || ''}
+                            data-testid="opplysninger-om-barnet-relasjonAnnetBeskrivelse"
                         />
                     </FormBlock>
                 )}

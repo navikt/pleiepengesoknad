@@ -84,6 +84,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                                   }
                                                 : undefined;
                                         }}
+                                        data-testid="sluttet-før-søknadsperiode"
                                     />
                                 </FormBlock>
                             </Box>
