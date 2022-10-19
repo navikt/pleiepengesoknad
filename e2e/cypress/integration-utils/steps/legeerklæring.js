@@ -1,4 +1,4 @@
-const { clickFortsett, getTestElementByType, getTestElementByClass, getTestElement } = require('../utils');
+const { clickFortsett, getTestElementByType, getTestElement, getElement } = require('../utils');
 
 const fileName = 'navlogopng.png';
 const ingenVedleggText = 'Ingen vedlegg er lastet opp';
@@ -18,7 +18,11 @@ const fyllUtLegeerklæringEnFil = () => {
 };
 
 const oppsummeringTestLegeerklæringEnFil = () => {
-    getTestElementByClass('lenke attachmentLabel__text').should((element) => expect(fileName).equal(element.text()));
+    getTestElement('oppsummering-vedleggList').within(() => {
+        getElement('li')
+            .eq(0)
+            .should((element) => expect(fileName).equal(element.text()));
+    });
 };
 
 const oppsummeringTestLegeerklæringIngen = () => {

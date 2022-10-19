@@ -1,8 +1,12 @@
-const { getElement, getTestElementByClass } = require('../utils');
+const { getElement, getTestElement, getTestElementByType } = require('../utils');
 
 export const fyllUtVelkommenSide = () => {
     it('Velkommenside', () => {
-        getElement('.bekreftCheckboksPanel label').click();
-        getTestElementByClass('knapp welcomingPage__startApplicationButton knapp--hoved').click();
+        getTestElement('welcomingPage-harForståttRettigheterOgPlikter').within(() => {
+            getTestElementByType('checkbox').click({ force: true });
+        });
+        getTestElement('welcomingPage-begynnsøknad').within(() => {
+            getElement('button').click();
+        });
     });
 };

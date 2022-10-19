@@ -4,7 +4,6 @@ const {
     selectRadioYes,
     setInputTime,
     getInputByName,
-    getTestElementByClass,
     getElement,
     clickFortsett,
     getTestElementByType,
@@ -149,7 +148,7 @@ export const fyllUtArbeidssituasjonFrilanserYes = () => {
 
 export const oppsummeringTestArbeidssituasjonKomplett = () => {
     getTestElement('oppsummering-arbeidssituasjon-ansatt').within(() => {
-        getTestElementByClass('typo-normal contentWithHeader__header').should((element) =>
+        getElement('h3').should((element) =>
             expect(`${expectedOrgNavn} (organisasjonsnummer ${expectedOrgNummer})`).equal(element.text())
         );
 

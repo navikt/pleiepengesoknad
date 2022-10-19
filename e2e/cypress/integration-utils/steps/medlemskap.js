@@ -63,12 +63,9 @@ const oppsummeringTestMedlemskapEnkelt = () => {
 const oppsummeringTestMedlemskapKomplett = () => {
     getTestElement('oppsummering-medlemskap-utlandetSiste12').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-medlemskap-utlandetSiste12-list').within(() => {
-        getTestElementByClass('utenlandsoppholdSummaryItem__dates').should((element) =>
-            expect(expectedDateMedlemskapSiste12).equal(element.text())
-        );
-        getTestElementByClass('utenlandsoppholdSummaryItem__country').should((element) =>
-            expect(expectedLand).equal(element.text())
-        );
+        getElement('li')
+            .eq('0')
+            .should((element) => expect(`${expectedDateMedlemskapSiste12}: ${expectedLand}`).equal(element.text()));
     });
 
     getTestElement('oppsummering-medlemskap-utlandetNeste12').should((element) => expect('Ja').equal(element.text()));

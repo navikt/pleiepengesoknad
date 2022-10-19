@@ -28,27 +28,31 @@ const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
             includeButtons={false}
             formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}>
             <FormBlock>
-                <AppForm.ConfirmationCheckbox
-                    label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
-                    name={SøknadFormField.harForståttRettigheterOgPlikter}
-                    data-cy={'harForståttRettigheterOgPlikter'}
-                    validate={getCheckedValidator()}>
-                    <FormattedMessage
-                        id="welcomingPage.samtykke.harForståttLabel"
-                        values={{
-                            plikterLink: (
-                                <Lenke href="#" onClick={onOpenDinePlikterModal}>
-                                    {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
-                                </Lenke>
-                            ),
-                        }}
-                    />
-                </AppForm.ConfirmationCheckbox>
+                <div data-testid={'welcomingPage-harForståttRettigheterOgPlikter'}>
+                    <AppForm.ConfirmationCheckbox
+                        label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
+                        name={SøknadFormField.harForståttRettigheterOgPlikter}
+                        data-cy={'harForståttRettigheterOgPlikter'}
+                        validate={getCheckedValidator()}>
+                        <FormattedMessage
+                            id="welcomingPage.samtykke.harForståttLabel"
+                            values={{
+                                plikterLink: (
+                                    <Lenke href="#" onClick={onOpenDinePlikterModal}>
+                                        {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
+                                    </Lenke>
+                                ),
+                            }}
+                        />
+                    </AppForm.ConfirmationCheckbox>
+                </div>
             </FormBlock>
             <FormBlock>
-                <Hovedknapp className={bem.element('startApplicationButton')}>
-                    {intlHelper(intl, 'welcomingPage.begynnsøknad')}
-                </Hovedknapp>
+                <div data-testid={'welcomingPage-begynnsøknad'}>
+                    <Hovedknapp className={bem.element('startApplicationButton')}>
+                        {intlHelper(intl, 'welcomingPage.begynnsøknad')}
+                    </Hovedknapp>
+                </div>
             </FormBlock>
         </AppForm.Form>
     );

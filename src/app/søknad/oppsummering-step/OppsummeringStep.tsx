@@ -344,7 +344,9 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                 {/* Vedlegg */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
                                     <Box margin="m">
-                                        <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                        <div data-testid={'oppsummering-vedleggList'}>
+                                            <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
+                                        </div>
                                     </Box>
                                 </SummarySection>
                             </ResponsivePanel>
