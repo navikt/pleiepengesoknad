@@ -60,8 +60,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
             <ul>
                 {arbeidsuker.map((uke) => {
                     const dateRange: DateRange = {
-                        from: ISODateToDate(uke.periode.from),
-                        to: ISODateToDate(uke.periode.to),
+                        from: ISODateToDate(uke.periode.fraOgMed),
+                        to: ISODateToDate(uke.periode.tilOgMed),
                     };
                     const week = getWeekOfYearInfoFromDateRange(dateRange);
                     return (
@@ -87,8 +87,8 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
             <ul>
                 {arbeidsuker.map((uke) => {
                     const dateRange: DateRange = {
-                        from: ISODateToDate(uke.periode.from),
-                        to: ISODateToDate(uke.periode.to),
+                        from: ISODateToDate(uke.periode.fraOgMed),
+                        to: ISODateToDate(uke.periode.tilOgMed),
                     };
                     const week = getWeekOfYearInfoFromDateRange(dateRange);
                     return (

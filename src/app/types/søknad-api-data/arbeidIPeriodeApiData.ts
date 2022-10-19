@@ -4,16 +4,16 @@ import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukeProsentApiData = {
     periode: {
-        from: ISODate;
-        to: ISODate;
+        fraOgMed: ISODate;
+        tilOgMed: ISODate;
     };
     prosentAvNormalt: number;
 };
 
 export type ArbeidsukeTimerApiData = {
     periode: {
-        from: ISODate;
-        to: ISODate;
+        fraOgMed: ISODate;
+        tilOgMed: ISODate;
     };
     timer: ISODuration;
 };

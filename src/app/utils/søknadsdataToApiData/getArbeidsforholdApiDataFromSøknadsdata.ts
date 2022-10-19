@@ -19,10 +19,10 @@ export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknads
     return Object.keys(arbeidsuker).map((key) => {
         const { from, to } = ISODateRangeToDateRange(key);
         const arbeidsuke = arbeidsuker[key];
-        return {
+        return <ArbeidsukeTimerApiData>{
             periode: {
-                from: dateToISODate(from),
-                to: dateToISODate(to),
+                fraOgMed: dateToISODate(from),
+                tilOgMed: dateToISODate(to),
             },
             timer: decimalDurationToISODuration(arbeidsuke.timer),
         };
@@ -35,10 +35,10 @@ export const getArbeidsukerProsentApiData = (
     return Object.keys(arbeidsuker).map((key) => {
         const { from, to } = ISODateRangeToDateRange(key);
         const { prosentAvNormalt } = arbeidsuker[key];
-        return {
+        return <ArbeidsukeProsentApiData>{
             periode: {
-                from: dateToISODate(from),
-                to: dateToISODate(to),
+                fraOgMed: dateToISODate(from),
+                tilOgMed: dateToISODate(to),
             },
             prosentAvNormalt,
         };

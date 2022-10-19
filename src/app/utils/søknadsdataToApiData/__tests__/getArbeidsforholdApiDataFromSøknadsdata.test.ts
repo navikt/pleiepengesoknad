@@ -52,15 +52,18 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
 
         it('mapper om timer riktig til ISODuration', () => {
             expect(result[0]).toBeDefined();
-            expect(result[0]).toEqual({ periode: { from: '2022-01-03', to: '2022-01-09' }, timer: 'PT5H0M' });
+            expect(result[0]).toEqual({ periode: { fraOgMed: '2022-01-03', tilOgMed: '2022-01-09' }, timer: 'PT5H0M' });
         });
         it('mapper om timer riktig til ISODuration', () => {
             expect(result[1]).toBeDefined();
-            expect(result[1]).toEqual({ periode: { from: '2022-01-10', to: '2022-01-16' }, timer: 'PT6H0M' });
+            expect(result[1]).toEqual({ periode: { fraOgMed: '2022-01-10', tilOgMed: '2022-01-16' }, timer: 'PT6H0M' });
         });
         it('mapper om timer riktig til ISODuration', () => {
             expect(result[2]).toBeDefined();
-            expect(result[2]).toEqual({ periode: { from: '2022-01-17', to: '2022-01-23' }, timer: 'PT6H12M' });
+            expect(result[2]).toEqual({
+                periode: { fraOgMed: '2022-01-17', tilOgMed: '2022-01-23' },
+                timer: 'PT6H12M',
+            });
         });
     });
 
@@ -68,15 +71,24 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
         const result = getArbeidsukerProsentApiData(arbeidsukerProsent);
         it('mapper om prosent riktig', () => {
             expect(result[0]).toBeDefined();
-            expect(result[0]).toEqual({ periode: { from: '2022-01-03', to: '2022-01-09' }, prosentAvNormalt: 20 });
+            expect(result[0]).toEqual({
+                periode: { fraOgMed: '2022-01-03', tilOgMed: '2022-01-09' },
+                prosentAvNormalt: 20,
+            });
         });
         it('mapper om prosent riktig', () => {
             expect(result[1]).toBeDefined();
-            expect(result[1]).toEqual({ periode: { from: '2022-01-10', to: '2022-01-16' }, prosentAvNormalt: 30 });
+            expect(result[1]).toEqual({
+                periode: { fraOgMed: '2022-01-10', tilOgMed: '2022-01-16' },
+                prosentAvNormalt: 30,
+            });
         });
         it('mapper om prosent riktig', () => {
             expect(result[2]).toBeDefined();
-            expect(result[2]).toEqual({ periode: { from: '2022-01-17', to: '2022-01-23' }, prosentAvNormalt: 40.5 });
+            expect(result[2]).toEqual({
+                periode: { fraOgMed: '2022-01-17', tilOgMed: '2022-01-23' },
+                prosentAvNormalt: 40.5,
+            });
         });
     });
 
@@ -143,22 +155,22 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
                 arbeidsuker: [
                     {
                         periode: {
-                            from: '2022-01-03',
-                            to: '2022-01-09',
+                            fraOgMed: '2022-01-03',
+                            tilOgMed: '2022-01-09',
                         },
                         prosentAvNormalt: 20,
                     },
                     {
                         periode: {
-                            from: '2022-01-10',
-                            to: '2022-01-16',
+                            fraOgMed: '2022-01-10',
+                            tilOgMed: '2022-01-16',
                         },
                         prosentAvNormalt: 30,
                     },
                     {
                         periode: {
-                            from: '2022-01-17',
-                            to: '2022-01-23',
+                            fraOgMed: '2022-01-17',
+                            tilOgMed: '2022-01-23',
                         },
                         prosentAvNormalt: 40.5,
                     },
@@ -180,22 +192,22 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
                 arbeidsuker: [
                     {
                         periode: {
-                            from: '2022-01-03',
-                            to: '2022-01-09',
+                            fraOgMed: '2022-01-03',
+                            tilOgMed: '2022-01-09',
                         },
                         timer: 'PT5H0M',
                     },
                     {
                         periode: {
-                            from: '2022-01-10',
-                            to: '2022-01-16',
+                            fraOgMed: '2022-01-10',
+                            tilOgMed: '2022-01-16',
                         },
                         timer: 'PT6H0M',
                     },
                     {
                         periode: {
-                            from: '2022-01-17',
-                            to: '2022-01-23',
+                            fraOgMed: '2022-01-17',
+                            tilOgMed: '2022-01-23',
                         },
                         timer: 'PT6H12M',
                     },

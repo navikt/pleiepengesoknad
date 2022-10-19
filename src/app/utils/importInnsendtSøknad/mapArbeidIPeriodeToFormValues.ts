@@ -18,7 +18,7 @@ const sortArbeidsuke = (
     uke1: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData,
     uke2: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData
 ) => {
-    return dayjs(uke1.periode.from).isBefore(uke2.periode.from) ? 1 : -1;
+    return dayjs(uke1.periode.fraOgMed).isBefore(uke2.periode.fraOgMed) ? 1 : -1;
 };
 
 export const mapArbeidIPeriodeApiDataTimerPerUkeToFormValues = (
@@ -47,7 +47,7 @@ export const mapArbeidIPeriodeApiDataUlikeUkerProsentToFormValues = (
     arbeid: ArbeidIPeriodeApiDataUlikeUkerProsent
 ): ArbeidIPeriodeFormValues => {
     const arbeidsuker: ArbeidsukerFormValues = {};
-    arbeid.arbeidsuker.forEach(({ periode: { from, to }, prosentAvNormalt }) => {
+    arbeid.arbeidsuker.forEach(({ periode: { fraOgMed: from, tilOgMed: to }, prosentAvNormalt }) => {
         const periode: DateRange = { from: ISODateToDate(from), to: ISODateToDate(to) };
         arbeidsuker[dateRangeToISODateRange(periode)] = {
             prosentAvNormalt: prosentAvNormalt ? `${prosentAvNormalt}` : undefined,
@@ -65,7 +65,7 @@ export const mapArbeidIPeriodeApiDataUlikeUkerTimerToFormValues = (
     arbeid: ArbeidIPeriodeApiDataUlikeUkerTimer
 ): ArbeidIPeriodeFormValues => {
     const arbeidsuker: ArbeidsukerFormValues = {};
-    arbeid.arbeidsuker.sort(sortArbeidsuke).forEach(({ periode: { from, to }, timer }) => {
+    arbeid.arbeidsuker.sort(sortArbeidsuke).forEach(({ periode: { fraOgMed: from, tilOgMed: to }, timer }) => {
         const periode: DateRange = { from: ISODateToDate(from), to: ISODateToDate(to) };
         arbeidsuker[dateRangeToISODateRange(periode)] = {
             snittTimerPerUke: timer ? `${timer}` : undefined,
