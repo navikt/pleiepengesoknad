@@ -21,7 +21,7 @@ const {
 const { oppsummeringTestOmDeg } = require('../integration-utils/steps/omDegOppsummering');
 const { kvittering } = require('../integration-utils/steps/kvittering');
 
-describe('Kan jeg klikke meg komplett1 gjennom en hele søknad ', () => {
+describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
     context('med utmocket, tom mellomlagring', () => {
         contextConfig();
 
