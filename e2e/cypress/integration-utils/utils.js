@@ -45,10 +45,6 @@ export const selectRadio = (key) => {
     getTestElement(key).parent().click();
 };
 
-export const getTestElementByClass = (className) => {
-    return cy.get(`*[class^="${className}"]`);
-};
-
 export const getTestElementByType = (type) => {
     return cy.get(`[type="${type}"]`);
 };
