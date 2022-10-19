@@ -124,6 +124,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                             legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
                             name={SøknadFormField.harMedsøker}
                             validate={getYesOrNoValidator()}
+                            data-testid="er-annenSamtidig"
                         />
                     </Box>
 
@@ -133,6 +134,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                 legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
                                 name={SøknadFormField.samtidigHjemme}
                                 validate={getYesOrNoValidator()}
+                                data-testid="er-samtidigHjemme"
                             />
                         </Box>
                     )}
@@ -142,6 +144,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={SøknadFormField.skalOppholdeSegIUtlandetIPerioden}
                             validate={getYesOrNoValidator()}
+                            data-testid="er-iUtlandetIPerioden"
                         />
                     </Box>
                     {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
@@ -177,6 +180,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={SøknadFormField.skalTaUtFerieIPerioden}
                             validate={getYesOrNoValidator()}
+                            data-testid="er-ferieuttakIPerioden"
                         />
                     </Box>
                     {values.skalTaUtFerieIPerioden === YesOrNo.YES && (

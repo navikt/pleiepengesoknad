@@ -105,6 +105,7 @@ const ArbeidssituasjonFrilans = ({
                             showYearSelector={true}
                             maxDate={søknadsdato}
                             validate={getFrilanserStartdatoValidator(formValues, søknadsperiode, søknadsdato)}
+                            data-testid="er-frilanser-startdato"
                         />
                         <FormBlock>
                             <ArbFriFormComponents.YesOrNoQuestion
@@ -112,6 +113,7 @@ const ArbeidssituasjonFrilans = ({
                                 data-testid="erFortsattFrilanser"
                                 legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
                                 validate={getYesOrNoValidator()}
+                                data-testid="er-frilanser-erFortsattFrilanser"
                             />
                         </FormBlock>
                         {erFortsattFrilanser === YesOrNo.NO && (

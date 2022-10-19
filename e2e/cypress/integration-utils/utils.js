@@ -34,6 +34,10 @@ export const getTestElement = (key) => {
     return cy.get(`[data-testid="${key}"]`);
 };
 
+export const getInputByName = (name) => {
+    return cy.get(`*[name="${name}"]`);
+};
+
 export const setInputValue = (key, value) => {
     getTestElement(key).click().type(value);
 };
@@ -45,4 +49,12 @@ export const setInputTime = (key, hours = '', minutes = '') => {
 
 export const selectRadio = (key) => {
     getTestElement(key).parent().click();
+};
+
+export const getTestElementByType = (type) => {
+    return cy.get(`[type="${type}"]`);
+};
+
+export const getElement = (type) => {
+    return cy.get(`${type}`);
 };

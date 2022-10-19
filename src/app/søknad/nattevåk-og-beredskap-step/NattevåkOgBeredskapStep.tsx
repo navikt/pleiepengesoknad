@@ -65,6 +65,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                             </ExpandableInfo>
                         }
                         validate={getYesOrNoValidator()}
+                        data-testid="nattevåk"
                     />
                 </FormBlock>
 
@@ -86,6 +87,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                                     />
                                 </ExpandableInfo>
                             }
+                            data-testid="nattevåk-tilleggsinfo"
                         />
                     </FormBlock>
                 )}
@@ -106,6 +108,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                             </ExpandableInfo>
                         }
                         validate={getYesOrNoValidator()}
+                        data-testid="beredskap"
                     />
                 </FormBlock>
                 {harBeredskap === YesOrNo.YES && (
@@ -126,6 +129,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
                                     />
                                 </ExpandableInfo>
                             }
+                            data-testid="beredskap-tilleggsinfo"
                         />
                     </FormBlock>
                 )}
