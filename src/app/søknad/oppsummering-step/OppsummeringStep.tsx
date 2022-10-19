@@ -197,23 +197,21 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                             />
                                         </div>
                                     </SummaryBlock>
-                                    <div data-testid="oppsummering-annenSøkerSammePeriode">
-                                        <SummaryBlock
-                                            header={intlHelper(
-                                                intl,
-                                                'steg.oppsummering.annenSøkerSammePeriode.header'
-                                            )}>
-                                            {apiValues.harMedsøker === true && intlHelper(intl, 'Ja')}
-                                            {apiValues.harMedsøker === false && intlHelper(intl, 'Nei')}
-                                        </SummaryBlock>
-                                    </div>
-                                    {apiValues.harMedsøker && (
-                                        <div data-testid="oppsummering-samtidigHjemme">
-                                            <SummaryBlock
-                                                header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
-                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
-                                            </SummaryBlock>
+
+                                    <SummaryBlock
+                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
+                                        <div data-testid="oppsummering-annenSøkerSammePeriode">
+                                            <FormattedMessage id={apiValues.harMedsøker ? 'Ja' : 'Nei'} />
                                         </div>
+                                    </SummaryBlock>
+
+                                    {apiValues.harMedsøker && (
+                                        <SummaryBlock
+                                            header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
+                                            <div data-testid="oppsummering-samtidigHjemme">
+                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
+                                            </div>
+                                        </SummaryBlock>
                                     )}
 
                                     {/* Utenlandsopphold i perioden */}

@@ -9,7 +9,6 @@ const {
     getInputByName,
     clickFortsett,
     selectRadioYes,
-    getTestElementByClass,
     getElement,
     clickNeiPaAlleSporsmal,
 } = require('../utils');
@@ -66,12 +65,8 @@ export const oppsummeringTestPeriodeEnkelt = () => {
     getTestElement('oppsummering-tidsrom-fomtom').should((element) =>
         expect(expectedFomTomPeriode).equal(element.text())
     );
-    getTestElement('oppsummering-annenSøkerSammePeriode').within(() => {
-        getTestElementByClass('summaryBlock__content').should((element) => expect('Nei').equal(element.text()));
-    });
-
+    getTestElement('oppsummering-annenSøkerSammePeriode').should((element) => expect('Nei').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden').should((element) => expect('Nei').equal(element.text()));
-
     getTestElement('oppsummering-ferieuttakIPerioden').should((element) => expect('Nei').equal(element.text()));
 };
 
@@ -79,20 +74,21 @@ export const oppsummeringTestPeriode = () => {
     getTestElement('oppsummering-tidsrom-fomtom').should((element) =>
         expect(expectedFomTomPeriode).equal(element.text())
     );
-    getTestElement('oppsummering-annenSøkerSammePeriode').within(() => {
-        getTestElementByClass('summaryBlock__content').should((element) => expect('Ja').equal(element.text()));
-    });
-    getTestElement('oppsummering-samtidigHjemme').within(() => {
-        getTestElementByClass('summaryBlock__content').should((element) => expect('Ja').equal(element.text()));
-    });
+    getTestElement('oppsummering-annenSøkerSammePeriode').should((element) => expect('Ja').equal(element.text()));
+    getTestElement('oppsummering-samtidigHjemme').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden-list').within(() => {
-        getTestElementByClass('utenlandsoppholdSummaryItem__dates').should((element) =>
-            expect(expectedDateUtenlandsoppholdIPerioden).equal(element.text())
-        );
-        getTestElementByClass('utenlandsoppholdSummaryItem__country').should((element) =>
-            expect(expectedLand).equal(element.text())
-        );
+        getElement('li')
+            .eq(0)
+            .within(() => {
+                getElement('span')
+                    .eq(0)
+                    .should((element) => expect(expectedDateUtenlandsoppholdIPerioden).equal(element.text()));
+                getElement('span')
+                    .eq(1)
+                    .should((element) => expect(expectedLand).equal(element.text()));
+            });
+
         cy.get('div')
             .contains('Periode(r) barnet er innlagt')
             .within(() => {
@@ -102,9 +98,9 @@ export const oppsummeringTestPeriode = () => {
     });
     getTestElement('oppsummering-ferieuttakIPerioden').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-ferieuttakIPerioden-list').within(() => {
-        getTestElementByClass('utenlandsoppholdSummaryItem__dates').should((element) =>
-            expect(expectedDateFerie).equal(element.text())
-        );
+        getElement('li')
+            .eq(0)
+            .should((element) => expect(expectedDateFerie).equal(element.text()));
     });
 };
 
