@@ -1,4 +1,4 @@
-FROM cypress/included:4.1.0
+FROM cypress/included:10.9.0
 WORKDIR /usr/src/app
 COPY . .
 RUN CYPRESS_INSTALL_BINARY=0 npm ci

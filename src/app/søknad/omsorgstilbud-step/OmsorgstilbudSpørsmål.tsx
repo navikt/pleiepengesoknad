@@ -78,6 +78,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                         }}
                         labels={{ yes: 'Ja, i hele eller deler av perioden' }}
                         useTwoColumns={false}
+                        data-testid="erIOmsorgstilbud-fortid"
                     />
                 </Box>
             )}
@@ -114,6 +115,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                         }}
                         includeDoNotKnowOption={true}
                         labels={{ yes: 'Ja, i hele eller deler av perioden', doNotKnow: 'Usikker' }}
+                        data-testid="erIOmsorgstilbud-fremtid"
                     />
                 </Box>
             )}
@@ -175,6 +177,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                           }
                                         : undefined;
                                 }}
+                                data-testid="omsorgstilbud-erLiktHverUke"
                             />
                         </FormBlock>
                     )}
@@ -205,6 +208,7 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                                   }
                                                 : undefined;
                                         }}
+                                        data-testid="fasteDager"
                                     />
                                 </SøknadFormComponents.InputGroup>
                             </ResponsivePanel>
