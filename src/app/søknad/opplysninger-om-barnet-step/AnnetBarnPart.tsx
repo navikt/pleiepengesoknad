@@ -82,18 +82,27 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                             }
                         }}
                     />
+                </FormBlock>
 
-                    {barnetHarIkkeFnr && (
+                {barnetHarIkkeFnr && (
+                    <FormBlock>
                         <SøknadFormComponents.RadioGroup
                             legend={intlHelper(intl, 'steg.omBarnet.årsakManglerIdentitetsnummer.spm')}
                             name={SøknadFormField.årsakManglerIdentitetsnummer}
-                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak) => ({
+                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak, index) => ({
                                 label: intlHelper(intl, `steg.omBarnet.årsakManglerIdentitetsnummer.${årsak}`),
                                 value: årsak,
+                                className:
+                                    index === Object.keys(ÅrsakManglerIdentitetsnummer).length - 1
+                                        ? 'siste-element'
+                                        : undefined,
                             }))}
                             validate={getRequiredFieldValidator()}
-                            checked={formValues.årsakManglerIdentitetsnummer}></SøknadFormComponents.RadioGroup>
-                    )}
+                            checked={formValues.årsakManglerIdentitetsnummer}
+                        />
+                    </FormBlock>
+                )}
+                <FormBlock>
                     <SøknadFormComponents.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={SøknadFormField.barnetsNavn}
@@ -180,7 +189,9 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                 )}
                 {barnetHarIkkeFnr &&
                     årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET && (
-                        <FødselsattestPart attachments={attachments} />
+                        <FormBlock>
+                            <FødselsattestPart attachments={attachments} />
+                        </FormBlock>
                     )}
             </SkjemagruppeQuestion>
         </Box>
