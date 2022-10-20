@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
@@ -57,42 +57,50 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     const formatPeriode = (periode: DateRange): string =>
         `${dateFormatter.compact(periode.from)} - ${dateFormatter.compact(periode.to)}`;
 
-    const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber} - ${formatPeriode(arbeidsuke.dateRange)}` : undefined;
+    const ukenummer = arbeidsuke ? `${arbeidsuke.weekNumber}` : undefined;
+    const ukedatoer = arbeidsuke ? `${formatPeriode(arbeidsuke.dateRange)}` : undefined;
 
     const getProsentLabel = () => {
-        return arbeidsuke
-            ? intlHelper(
-                  intl,
-                  arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
-                  { ...intlValues, ukeinfo }
-              )
-            : intlHelper(
-                  intl,
-                  arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
-                  intlValues
-              );
+        return arbeidsuke ? (
+            <>
+                <FormattedMessage id="arbeidIPeriode.uke.ukenummer" values={{ ukenummer }} />
+                <br />
+                <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
+                {/* {intlHelper(
+                    intl,
+                    arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
+                    { ...intlValues, ukenummer, ukedatoer }
+                )} */}
+            </>
+        ) : (
+            intlHelper(
+                intl,
+                arbeidsuke ? 'arbeidIPeriode.prosentAvNormalt.uke.spm' : 'arbeidIPeriode.prosentAvNormalt.spm',
+                intlValues
+            )
+        );
     };
 
     const getTimerLabel = () => {
-        return arbeidsuke
-            ? intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.uke.spm', {
-                  ...intlValues,
-                  timerNormaltString,
-                  ukeinfo,
-              })
-            : intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
-                  ...intlValues,
-                  timerNormaltString,
-              });
+        return arbeidsuke ? (
+            <>
+                <FormattedMessage id="arbeidIPeriode.uke.ukenummer" values={{ ukenummer }} />
+                <br />
+                <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
+            </>
+        ) : (
+            intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
+                ...intlValues,
+                timerNormaltString,
+            })
+        );
     };
 
     const getTimerSuffix = () => {
-        return arbeidsuke
-            ? 'timer'
-            : `timer av normalt ${formatTimerOgMinutter(
-                  intl,
-                  decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-              )} i uken.`;
+        return `timer av normalt ${formatTimerOgMinutter(
+            intl,
+            decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
+        )} i uken.`;
     };
 
     const getProsentSuffix = () => {

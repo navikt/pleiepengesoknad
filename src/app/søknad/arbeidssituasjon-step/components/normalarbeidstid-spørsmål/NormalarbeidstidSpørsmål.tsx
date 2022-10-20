@@ -49,27 +49,19 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 
-    const renderTimerPerUkeSpørsmål = (spørOmTimerISnitt: boolean) => {
+    const renderTimerPerUkeSpørsmål = () => {
         return (
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,
                     erAktivtArbeidsforhold === false
-                        ? spørOmTimerISnitt
-                            ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
-                            : 'arbeidsforhold.arbeiderNormaltTimerPerUke.avsluttet.spm'
-                        : spørOmTimerISnitt
-                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`
-                        : `arbeidsforhold.arbeiderNormaltTimerPerUke.spm`,
+                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
+                        : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
                     intlValues
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={
-                    spørOmTimerISnitt ? (
-                        <InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />
-                    ) : undefined
-                }
+                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
@@ -83,7 +75,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     };
 
     if (brukKunSnittPerUke) {
-        return <FormBlock>{renderTimerPerUkeSpørsmål(true)}</FormBlock>;
+        return <FormBlock>{renderTimerPerUkeSpørsmål()}</FormBlock>;
     }
 
     return (

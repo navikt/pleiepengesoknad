@@ -92,15 +92,11 @@ const ArbeidIPeriodeSpørsmål = ({
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <Ingress>Hvor mye jobber du i perioden du søker for?</Ingress>
+                        <Ingress>Hvor mye jobber du i søknadsperioden?</Ingress>
                         <p>
                             Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du
                             skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir
                             du oss beskjed i slutten av måneden.
-                        </p>
-                        <p>
-                            Hvis det varierer hvor mye du jobber, legger du inn et snitt av det du skal jobbe i
-                            søknadsperioden. Du velger om du vil oppgi snittet som prosent, eller i timer.
                         </p>
                         <FormBlock>
                             <SøknadFormComponents.RadioPanelGroup
