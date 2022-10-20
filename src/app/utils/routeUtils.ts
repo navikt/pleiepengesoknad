@@ -50,5 +50,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormValue
         case RouteConfig.SØKNAD_SENDT_ROUTE:
             return søknadHasBeenSent === true;
     }
+    console.log('not available', path);
+
     return false;
 };

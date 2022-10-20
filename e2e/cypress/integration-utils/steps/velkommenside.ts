@@ -1,4 +1,4 @@
-const { getElement, getTestElement, getTestElementByType } = require('../utils');
+import { getElement, getTestElement, getTestElementByType } from '../utils';
 
 export const fyllUtVelkommenSide = () => {
     it('Velkommenside', () => {

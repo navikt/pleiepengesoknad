@@ -1,4 +1,4 @@
-const { getTestElement } = require('../utils');
+import { getTestElement } from '../utils';
 
 const expectedSøkersNavn = 'Test Testesen'; // avhenger av mock data
 const expectedSøkersFødselsnummer = '23058916765'; // avhenger av mock data

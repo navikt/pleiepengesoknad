@@ -5,7 +5,7 @@ import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './ar
 
 dayjs.extend(isoWeek);
 
-const fyllUtArbeidssituasjonFrilanser = () => {
+export const fyllUtArbeidssituasjonFrilanser = () => {
     getTestElement('arbeidssituasjonFrilanser').within(($body) => {
         if ($body.find('[data-testid=er-frilanser_yes]').length) {
             selectRadioYes('er-frilanser');
@@ -18,6 +18,14 @@ const fyllUtArbeidssituasjonFrilanser = () => {
         cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');
+    });
+};
+
+export const fyllUtArbeidssituasjonErIkkeFrilanser = () => {
+    getTestElement('arbeidssituasjonFrilanser').within(($body) => {
+        if ($body.find('[data-testid=er-frilanser_no]').length) {
+            selectRadioNo('er-frilanser');
+        }
     });
 };
 
@@ -37,9 +45,6 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
     getTestElement('arbeidssituasjonUtenlandskNæring').within(() => {
         selectRadioNo('har-utenlandskNæring');
     });
-};
-export const oppsummeringTestArbeidssituasjonSteg = () => {
-    return true;
 };
 
 export const fyllUtArbeidssituasjonSteg = () => {

@@ -33,33 +33,35 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
     const intl = useIntl();
 
     return (
-        <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
-            <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
+        <div data-testid="oppsummering-arbeidssituasjon">
+            <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
+                <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-            <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
+                <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
 
-            <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
+                <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
 
-            <OpptjeningIUtlandetSummary opptjeningUtland={opptjeningIUtlandet} />
+                <OpptjeningIUtlandetSummary opptjeningUtland={opptjeningIUtlandet} />
 
-            <UtenlandskNæringSummary utenlandskNæring={utenlandskNæring} />
+                <UtenlandskNæringSummary utenlandskNæring={utenlandskNæring} />
 
-            {/* Vernepliktig */}
-            {harVærtEllerErVernepliktig !== undefined && (
-                <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')} headerTag="h3">
-                    <ul>
-                        <li>
-                            {intlHelper(
-                                intl,
-                                harVærtEllerErVernepliktig
-                                    ? 'verneplikt.summary.harVærtVernepliktig'
-                                    : 'verneplikt.summary.harIkkeVærtVernepliktig'
-                            )}
-                        </li>
-                    </ul>
-                </SummaryBlock>
-            )}
-        </SummarySection>
+                {/* Vernepliktig */}
+                {harVærtEllerErVernepliktig !== undefined && (
+                    <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')} headerTag="h3">
+                        <ul>
+                            <li>
+                                {intlHelper(
+                                    intl,
+                                    harVærtEllerErVernepliktig
+                                        ? 'verneplikt.summary.harVærtVernepliktig'
+                                        : 'verneplikt.summary.harIkkeVærtVernepliktig'
+                                )}
+                            </li>
+                        </ul>
+                    </SummaryBlock>
+                )}
+            </SummarySection>
+        </div>
     );
 };
 

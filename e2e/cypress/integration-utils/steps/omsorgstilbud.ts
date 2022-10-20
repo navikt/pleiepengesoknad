@@ -1,14 +1,14 @@
-const { getTestElement, clickFortsett, selectRadioYes, setInputTime, selectRadioNo } = require('../utils');
+import { getTestElement, clickFortsett, selectRadioYes, setInputTime, selectRadioNo } from '../utils';
 
 export const fyllUtOmsorgstilbudFortidFremtid = () => {
     selectRadioYes('erIOmsorgstilbud-fortid');
     selectRadioYes('erIOmsorgstilbud-fremtid');
     selectRadioYes('omsorgstilbud-erLiktHverUke');
 
-    setInputTime('fasteDager__monday', 5, 0);
-    setInputTime('fasteDager__tuesday', 2, 0);
-    setInputTime('fasteDager__wednesday', 5, 0);
-    setInputTime('fasteDager__friday', 5, 0);
+    setInputTime('fasteDager__monday', '5', '0');
+    setInputTime('fasteDager__tuesday', '2', '0');
+    setInputTime('fasteDager__wednesday', '5', '0');
+    setInputTime('fasteDager__friday', '5', '0');
 
     clickFortsett();
 };
@@ -31,7 +31,7 @@ export const oppsummeringTestOmsorgstilbudFortidFremtidEnkelt = () => {
     getTestElement('oppsummering-omsorgstilbud-svarFremtid').should((element) => expect('Nei').equal(element.text()));
 };
 
-export const fyllUtOmsorgstilbudSteg = (testType) => {
+export const fyllUtOmsorgstilbudSteg = (testType?) => {
     it('STEG 5: Omsorgstilbud', () => {
         switch (testType) {
             case 'komplett':
@@ -44,7 +44,7 @@ export const fyllUtOmsorgstilbudSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestOmsorgstilbudSteg = (testType) => {
+export const oppsummeringTestOmsorgstilbudSteg = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestOmsorgstilbudFortidFremtid();

@@ -17,7 +17,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     if (frilans.harInntektSomFrilanser === false) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-                <ul>
+                <ul data-testid="arbeidssituasjon-frilanser">
                     <li>
                         <FormattedMessage id={'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'} tagName="p" />
                     </li>
@@ -28,7 +28,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
 
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-            <ul>
+            <ul data-testid="arbeidssituasjon-frilanser">
                 <li>
                     <FormattedMessage
                         id="oppsummering.arbeidssituasjon.frilans.startet"

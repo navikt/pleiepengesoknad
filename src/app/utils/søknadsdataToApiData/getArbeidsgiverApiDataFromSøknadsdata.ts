@@ -13,7 +13,7 @@ export const getArbeidsgiverApiDataFromSøknadsdata = (
     if (ansattSøknadsdata.erAnsattISøknadsperiode) {
         const { arbeidsgiver, arbeidsforhold } = ansattSøknadsdata;
         return {
-            erAnsatt: true,
+            erAnsatt: ansattSøknadsdata.type === 'sluttetISøknadsperiode' ? false : true,
             type: arbeidsgiver.type,
             navn: arbeidsgiver.navn,
             offentligIdent: arbeidsgiver.offentligIdent,
@@ -32,5 +32,6 @@ export const getArbeidsgiverApiDataFromSøknadsdata = (
         organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
         ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
         ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
+        sluttetFørSøknadsperiode: true,
     };
 };

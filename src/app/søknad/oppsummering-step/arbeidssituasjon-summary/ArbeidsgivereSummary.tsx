@@ -32,11 +32,12 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
     }
 
     return (
-        <>
+        <div data-testid="arbeidssituasjon-arbeidsgivere">
             {arbeidsgivere.map((arbeidsgiver) => {
                 const { navn, organisasjonsnummer, erAnsatt } = arbeidsgiver;
+
                 return (
-                    <div data-testid="oppsummering-arbeidssituasjon-ansatt" key={organisasjonsnummer}>
+                    <div data-testid={`arbeidssituasjon-ansatt-${organisasjonsnummer}`} key={organisasjonsnummer}>
                         <SummaryBlock
                             key={organisasjonsnummer}
                             header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}
@@ -80,7 +81,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                     </div>
                 );
             })}
-        </>
+        </div>
     );
 };
 

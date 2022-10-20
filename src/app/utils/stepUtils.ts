@@ -27,7 +27,9 @@ export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepCo
     };
 };
 
-export const opplysningerOmBarnetStepAvailable = (formData: SøknadFormValues) => welcomingPageIsValid(formData);
+export const opplysningerOmBarnetStepAvailable = (formData: SøknadFormValues) => {
+    return welcomingPageIsValid(formData);
+};
 
 export const opplysningerOmTidsromStepAvailable = (formData: SøknadFormValues) =>
     welcomingPageIsValid(formData) && opplysningerOmBarnetStepIsValid(formData);

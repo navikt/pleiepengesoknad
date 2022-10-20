@@ -1,5 +1,6 @@
 export const clickFortsett = () => cy.get('button[aria-label="Fortsett til neste steg"]').click();
 export const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn søknaden"]').click();
+export const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
 
 export const clickNeiPaAlleSporsmal = () => {
     cy.get('label[class="inputPanel radioPanel"]').each((element) => {
@@ -39,7 +40,7 @@ export const getInputByName = (name) => {
 };
 
 export const setInputValue = (key, value) => {
-    getTestElement(key).click().type(value);
+    getTestElement(key).click().clear().type(value);
 };
 
 export const setInputTime = (key, hours = '', minutes = '') => {

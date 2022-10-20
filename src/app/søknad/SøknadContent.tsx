@@ -27,6 +27,7 @@ import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
+import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
 import { getArbeidsforhold, harFraværIPerioden } from './arbeidstid-step/utils/arbeidstidUtils';
 import { getIngenFraværConfirmationDialog } from './confirmation-dialogs/ingenFraværConfirmation';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
@@ -38,7 +39,6 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
-import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */
@@ -114,6 +114,7 @@ const SøknadContent = ({
             if (nextStepRoute) {
                 persistSoknad({ formValues: values, stepID })
                     .then(() => {
+                        console.log('nav2');
                         navigateTo(nextStepRoute, history);
                     })
                     .catch((error) => {
@@ -359,6 +360,7 @@ const SøknadContent = ({
                 )}
 
                 <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
+
                 <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
             </Switch>
         </>

@@ -1,7 +1,8 @@
-const { getTestElement, getInputByName, clickFortsett, getTestElementByType } = require('../utils');
-const dayjs = require('dayjs');
-const isoWeek = require('dayjs/plugin/isoWeek');
-const locale = require('dayjs/locale/nb');
+import * as dayjs from 'dayjs';
+import * as locale from 'dayjs/locale/nb';
+import * as isoWeek from 'dayjs/plugin/isoWeek';
+import { clickFortsett, getInputByName, getTestElement, getTestElementByType } from '../utils';
+
 dayjs.extend(isoWeek);
 dayjs.locale(locale);
 
@@ -87,7 +88,7 @@ export const oppsummeringTestAnnetBarnUtenFnr = () => {
     );
 };
 
-export const fyllUtOmBarnSteg = (testType) => {
+export const fyllUtOmBarnSteg = (testType?) => {
     it('STEG 1: Barn', () => {
         switch (testType) {
             case 'komplett':
@@ -103,7 +104,7 @@ export const fyllUtOmBarnSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestOmBarn = (testType) => {
+export const oppsummeringTestOmBarn = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestAnnetBarnUtenFnr();

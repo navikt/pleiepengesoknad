@@ -1,4 +1,4 @@
-const { getTestElement, clickFortsett, selectRadioYes } = require('../utils');
+import { getTestElement, clickFortsett, selectRadioYes } from '../utils';
 
 const nattevåkTilleggsinfo = 'Test nattevåk tilleggsinfo';
 const beredskapTilleggsinfo = 'Test beredskap tilleggsinfo';
@@ -25,7 +25,7 @@ const oppsummeringTestNattevåkOgBeredskapKomplett = () => {
     );
 };
 
-export const fyllUtNattevåkOgBeredskapSteg = (testType) => {
+export const fyllUtNattevåkOgBeredskapSteg = (testType?) => {
     it('STEG 6: Nattevåk og beredskap', () => {
         switch (testType) {
             case 'komplett':
@@ -35,7 +35,7 @@ export const fyllUtNattevåkOgBeredskapSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestNattevåkOgBeredskapSteg = (testType) => {
+export const oppsummeringTestNattevåkOgBeredskapSteg = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestNattevåkOgBeredskapKomplett();

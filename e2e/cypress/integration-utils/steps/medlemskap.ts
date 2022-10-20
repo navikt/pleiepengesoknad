@@ -1,17 +1,10 @@
-const dayjs = require('dayjs');
-const isoWeek = require('dayjs/plugin/isoWeek');
-const locale = require('dayjs/locale/nb');
+import * as dayjs from 'dayjs';
+import * as locale from 'dayjs/locale/nb';
+import * as isoWeek from 'dayjs/plugin/isoWeek';
+import { clickFortsett, getElement, getInputByName, getTestElement, selectRadioNo, selectRadioYes } from '../utils';
+
 dayjs.extend(isoWeek);
 dayjs.locale(locale);
-
-const {
-    getTestElement,
-    clickFortsett,
-    selectRadioYes,
-    getInputByName,
-    getElement,
-    selectRadioNo,
-} = require('../utils');
 
 const fomTomMedlemskapSiste12 = dayjs().startOf('day').subtract(1, 'day').format('YYYY-MM-DD');
 const fomTomMedlemskapNeste12 = dayjs().startOf('day').add(1, 'day').format('YYYY-MM-DD');
@@ -89,7 +82,7 @@ const oppsummeringTestMedlemskapKomplett = () => {
     });
 };
 
-export const fyllUtMedlemskapSteg = (testType) => {
+export const fyllUtMedlemskapSteg = (testType?) => {
     it('STEG 5: Medlemskap', () => {
         switch (testType) {
             case 'komplett':
@@ -102,7 +95,7 @@ export const fyllUtMedlemskapSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestMedlemskapSteg = (testType) => {
+export const oppsummeringTestMedlemskapSteg = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestMedlemskapKomplett();

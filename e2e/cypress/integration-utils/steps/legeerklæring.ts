@@ -1,4 +1,4 @@
-const { clickFortsett, getTestElementByType, getTestElement, getElement } = require('../utils');
+import { clickFortsett, getTestElementByType, getTestElement, getElement } from '../utils';
 
 const fileName = 'navlogopng.png';
 const ingenVedleggText = 'Ingen vedlegg er lastet opp';
@@ -7,7 +7,7 @@ const fyllUtLegeerklæringEnFil = () => {
     cy.fixture(fileName, 'binary')
         .then(Cypress.Blob.binaryStringToBlob)
         .then((fileContent) =>
-            getTestElementByType('file').attachFile({
+            (getTestElementByType('file') as any).attachFile({
                 fileContent,
                 fileName,
                 mimeType: 'image/png', //getMimeType(fileName),
@@ -29,7 +29,7 @@ const oppsummeringTestLegeerklæringIngen = () => {
     getTestElement('ingenLegeerklæring').should((element) => expect(ingenVedleggText).equal(element.text()));
 };
 
-export const fyllUtLegeerklæringSteg = (testType) => {
+export const fyllUtLegeerklæringSteg = (testType?) => {
     it('STEG 8: LAST OPP LEGEERKLÆRING', () => {
         switch (testType) {
             case 'komplett':
@@ -42,7 +42,7 @@ export const fyllUtLegeerklæringSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestLegeerklæringSteg = (testType) => {
+export const oppsummeringTestLegeerklæringSteg = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestLegeerklæringEnFil();

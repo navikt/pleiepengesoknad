@@ -1,6 +1,7 @@
-const dayjs = require('dayjs');
-const isoWeek = require('dayjs/plugin/isoWeek');
-const locale = require('dayjs/locale/nb');
+import * as dayjs from 'dayjs';
+import * as locale from 'dayjs/locale/nb';
+import * as isoWeek from 'dayjs/plugin/isoWeek';
+
 dayjs.extend(isoWeek);
 dayjs.locale(locale);
 
@@ -104,7 +105,7 @@ export const oppsummeringTestPeriode = () => {
     });
 };
 
-export const fyllUtPeriodeSteg = (testType) => {
+export const fyllUtPeriodeSteg = (testType?) => {
     it('STEG 2: Periode', () => {
         switch (testType) {
             case 'komplett':
@@ -117,7 +118,7 @@ export const fyllUtPeriodeSteg = (testType) => {
     });
 };
 
-export const oppsummeringTestPeriodeSteg = (testType) => {
+export const oppsummeringTestPeriodeSteg = (testType?) => {
     switch (testType) {
         case 'komplett':
             oppsummeringTestPeriode();
