@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IntlShape, useIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -92,11 +92,11 @@ const ArbeidIPeriodeSpørsmål = ({
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <Ingress>Hvor mye jobber du i søknadsperioden?</Ingress>
+                        <Ingress>
+                            <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
+                        </Ingress>
                         <p>
-                            Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du
-                            skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir
-                            du oss beskjed i slutten av måneden.
+                            <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
                         <FormBlock>
                             <SøknadFormComponents.RadioPanelGroup

@@ -10,6 +10,9 @@ const ArbeidssituasjonStepVeileder: React.FunctionComponent = () => (
         <p>
             <FormattedMessage id="steg.arbeidssituasjon.veileder.2" />
         </p>
+        <p>
+            <FormattedMessage id="steg.arbeidssituasjon.veileder.3" />
+        </p>
     </CounsellorPanel>
 );
 

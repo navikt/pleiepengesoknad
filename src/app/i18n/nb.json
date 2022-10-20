@@ -289,7 +289,8 @@
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
     "steg.arbeidssituasjon.veileder.1": "Nå trenger vi å vite litt om arbeidssituasjonen din, og hvor mye du normalt jobber. Med «normalt» mener vi hvor mye du jobber når du ikke har fravær på grunn av pleiepenger eller annet.",
-    "steg.arbeidssituasjon.veileder.2": "Får du utbetalt penger fra NAV, trenger du ikke informere om dette i søknaden.",
+    "steg.arbeidssituasjon.veileder.2": "Hvis du er arbeidstaker og usikker på hvor mange timer du normalt jobber per uke, finner du som regel svaret i arbeidskontrakten din. Eller, du kan høre med arbeidsgiver.",
+    "steg.arbeidssituasjon.veileder.3": "Får du utbetalt penger fra NAV, trenger du ikke informere om dette i søknaden.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
     "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du i perioden du søker for er, eller var, ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Det gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
@@ -536,14 +537,14 @@
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
     "arbeidsforhold.sluttetFørSøknadsperiode.spm": "Sluttet du hos {navn} før {fraDato}?",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
-    "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm": "Hvor mange timer jobber du per uke {hvor}:",
-    "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm": "Hvor mange timer jobbet du per uke {hvor}:",
+    "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm": "Hvor mange timer jobber du per uke {hvor}?",
+    "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm": "Hvor mange timer jobbet du per uke {hvor}?",
     "arbeidsforhold.utledet": "timer i uka",
 
-    "arbeidsforhold.ansatt.normalTimer.info.tittel": "Hva om jeg jobber variert, eller får en utbetaling fra NAV?",
+    "arbeidsforhold.ansatt.normalTimer.info.tittel": "Hva om jeg jobber turnus, variert, eller har en utbetaling fra NAV for dette arbeidsforholdet?",
     "arbeidsforhold.frilanser.normalTimer.info.tittel": "Hva om jeg jobber variert?",
     "arbeidsforhold.selvstendig.normalTimer.info.tittel": "Hva om jeg jobber variert?",
-    "arbeidsforhold.ansatt.normalTimer.info": "Hvis du er usikker på hvor mange timer du normalt jobber per uke, finner du som regel svaret i arbeidskontrakten din. Du kan eventuelt også høre med arbeidsgiver.",
+    "arbeidsforhold.ansatt.normalTimer.info": "Hvis du i dette arbeidsforholdet nå for eksempel får foreldrepenger eller sykepenger, registrerer du det som var den normale arbeidstiden din før du begynte med dette.",
 
     "arbeidsforhold.normalTimer.info.turnus": "Når du jobber turnus, eller har annen varierende arbeidstid, legger du inn et snitt per uke.",
     "arbeidsforhold.normalTimer.info.turnus.tittel": "Slik regner du ut et snitt når du jobber turnus",
@@ -587,7 +588,7 @@
     "arbeidsforhold.varierende.info.tittel": "Hvordan regner jeg ut et snitt i min situasjon?",
     "arbeidsforhold.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
 
-    "arbeidIPeriode.StepInfo.1": "Her skal du svare på om du jobber noe i perioden du søker om. Altså om du kombinerer pleiepenger med delvis jobb. Du får ikke pleiepenger for tiden du jobber, og derfor reduseres (graderes) pleiepengene mot den tiden du jobber.",
+    "arbeidIPeriode.StepInfo.1": "Her skal du svare på om du jobber noe i perioden du søker om. Altså om du kombinerer pleiepenger med delvis jobb. Du får ikke pleiepenger for tiden du jobber, og derfor graderes pleiepengene mot den tiden du jobber.",
     "arbeidIPeriode.StepInfo.2": "Hvis du for eksempel i søknadsperioden jobber 30 prosent, kan du ha rett til 70 prosent pleiepenger.",
     "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
@@ -601,7 +602,7 @@
     "arbeidIPeriode.erLiktHverUke.nei": "Nei, det varierer",
     "arbeidIPeriode.arbeiderIPerioden.JA": "Ja",
     "arbeidIPeriode.arbeiderIPerioden.NEI": "Nei",
-    "arbeidIPeriode.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du jobber {hvor} i søknadsperioden?",
+    "arbeidIPeriode.timerEllerProsent.spm": "Hvordan vil du oppgi hvor mye du jobber {hvor}?",
     "arbeidIPeriode.iDag.utledet": "timer i uka",
     "arbeidIPeriode.timerEllerProsent.timer": "I timer",
     "arbeidIPeriode.timerEllerProsent.prosent": "I prosent",
@@ -609,10 +610,13 @@
     "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timerNormalt} ({timerRedusert} per dag)",
     "arbeidIPeriode.timerAvNormalt.spm": "Hvor mange timer per uke jobber du {hvor} i søknadsperioden?",
 
-    "arbeidIPeriode.ulikeUkerGruppe.timer.spm": "Hvor mange timer jobber du per uke {hvor}",
-    "arbeidIPeriode.ulikeUkerGruppe.prosent.spm": "Hvor mange prosent jobber du per uke {hvor}",
+    "arbeidIPeriode.ulikeUkerGruppe.timer.spm": "Hvor mange timer jobber du per uke {hvor}?",
+    "arbeidIPeriode.ulikeUkerGruppe.prosent.spm": "Hvor mange prosent jobber du per uke {hvor}?",
     "arbeidIPeriode.uke.ukenummer": "Uke {ukenummer}",
     "arbeidIPeriode.uke.ukedatoer": "{ukedatoer}",
+
+    "arbeidIPeriode.redusert.info.tittel": "Hvor mye jobber du i søknadsperioden?",
+    "arbeidIPeriode.redusert.info.tekst": "Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir du oss beskjed i slutten av den aktuelle måneden.",
 
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",

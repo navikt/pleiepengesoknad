@@ -31,7 +31,9 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                 title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.1'} />
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.3'} />
@@ -53,7 +55,9 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.1'} />
 
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.3'} />
@@ -62,7 +66,9 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.4'} />
                 </p>
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.6'} />
@@ -71,11 +77,6 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
             <p>
                 <FormattedMessage id="arbeidsforhold.ansatt.normalTimer.info" />
             </p>
-            <ExpandableInfo
-                filledBackground={false}
-                title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.utbetalingFraNAV.tittel')}>
-                <FormattedMessage id={'arbeidsforhold.normalTimer.info.utbetalingFraNAV.avsnitt.1'} />
-            </ExpandableInfo>
         </ExpandableInfo>
     );
 };
@@ -90,7 +91,9 @@ const InfoArbeiderNormaltTimerFrilanser = () => {
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.1'} />
 
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.3'} />
@@ -112,7 +115,9 @@ const InfoArbeiderNormaltTimerFrilanser = () => {
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.1'} />
 
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.3'} />
@@ -121,7 +126,9 @@ const InfoArbeiderNormaltTimerFrilanser = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.4'} />
                 </p>
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.6'} />
@@ -141,7 +148,9 @@ const InfoArbeiderNormaltTimerSN = () => {
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.1'} />
 
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.3'} />
@@ -163,7 +172,9 @@ const InfoArbeiderNormaltTimerSN = () => {
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.1'} />
 
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.2'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.3'} />
@@ -172,7 +183,9 @@ const InfoArbeiderNormaltTimerSN = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.4'} />
                 </p>
                 <p>
-                    <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    <strong>
+                        <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.5'} />
+                    </strong>
                 </p>
                 <p>
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.6'} />
