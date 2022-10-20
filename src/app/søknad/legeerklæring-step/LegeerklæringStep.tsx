@@ -33,7 +33,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
         return values ? values[SøknadFormField.legeerklæring] : [];
     }, [values]);
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
-    const totalSize = getTotalSizeOfAttachments([...attachments, ...values.fødselsattest]);
+    const totalSize = getTotalSizeOfAttachments(attachments);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
 
     const ref = React.useRef({ attachments });

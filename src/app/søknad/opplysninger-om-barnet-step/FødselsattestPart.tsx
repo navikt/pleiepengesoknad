@@ -31,7 +31,7 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
     const intl = useIntl();
     const { values, setFieldValue } = useFormikContext<SøknadFormData>();
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const totalSize = getTotalSizeOfAttachments([...attachments, ...values.legeerklæring]);
+    const totalSize = getTotalSizeOfAttachments(attachments);
     const ref = React.useRef({ attachments });
 
     const { logHendelse, logUserLoggedOut } = useAmplitudeInstance();

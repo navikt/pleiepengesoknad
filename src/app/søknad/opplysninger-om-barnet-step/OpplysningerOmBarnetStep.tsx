@@ -24,7 +24,7 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
     const søkerdata = React.useContext(SøkerdataContext);
 
     const attachments: Attachment[] = React.useMemo(() => {
-        return values ? values[SøknadFormField.fødselsattest] : [];
+        return values && values.fødselsattest ? values[SøknadFormField.fødselsattest] : [];
     }, [values]);
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments([...attachments, ...values.legeerklæring]);

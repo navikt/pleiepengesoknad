@@ -42,7 +42,9 @@ export const getApiDataFromSøknadsdata = (
                 fødselsattestVedleggUrls:
                     søknadsdata.barn &&
                     søknadsdata.barn.type === 'annetBarnUtenFnr' &&
-                    søknadsdata.barn.årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET
+                    søknadsdata.barn.årsakManglerIdentitetsnummer ===
+                        ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET &&
+                    søknadsdata.barn.fødselsattest
                         ? getAttachmentsApiDataFromSøknadsdata(søknadsdata.barn.fødselsattest)
                         : [],
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
