@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { connect, useFormikContext } from 'formik';
-import { Normaltekst } from 'nav-frontend-typografi';
 import AttachmentListWithDeletion from '@navikt/sif-common-core/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
 import AttachmentList from '@navikt/sif-common-core/lib/components/attachment-list/AttachmentList';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -29,11 +28,9 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
 
     if (!containsAnyUploadedAttachments(legeerklæring)) {
         const noAttachmentsText = (
-            <Normaltekst>
-                <div data-testid="ingenLegeerklæring">
-                    <FormattedMessage id="vedleggsliste.ingenLegeerklæringLastetOpp" />
-                </div>
-            </Normaltekst>
+            <div data-testid="ingenLegeerklæring">
+                <FormattedMessage id="vedleggsliste.ingenLegeerklæringLastetOpp" />
+            </div>
         );
         if (wrapNoAttachmentsInBox) {
             return <Box margin="m">{noAttachmentsText}</Box>;
