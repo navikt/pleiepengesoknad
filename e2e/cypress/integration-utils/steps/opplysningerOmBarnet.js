@@ -89,9 +89,7 @@ export const oppsummeringTestAnnetBarnUtenFnr = () => {
     );
 
     getTestElement('oppsummering-årsakManglerIdentitetsnummer').should((element) =>
-        expect(`Oppgitt grunn for at barnet ikke har fødselsnummer/D-nummer: ${årsakManglerIdentitetsnummer}`).equal(
-            element.text()
-        )
+        expect(årsakManglerIdentitetsnummer).equal(element.text())
     );
 
     getTestElement('oppsummering-barn-relasjon-annet-beskrivelse').should((element) =>

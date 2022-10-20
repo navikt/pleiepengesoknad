@@ -435,7 +435,7 @@
     "steg.oppsummering.barnet.navn": "Navn: {navn}",
     "steg.oppsummering.barnet.fødselsdato": "Fødselsdato: {dato}",
     "steg.oppsummering.barnet.fnr": "Fødselsnummer: {fnr}",
-    "steg.oppsummering.barnet.barnetHarIkkeFnr": "Oppgitt grunn for at barnet ikke har fødselsnummer/D-nummer: {årsak}",
+    "steg.oppsummering.barnet.barnetHarIkkeFnr": "Uten fødselsnummer/D-nummer:",
     "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.NYFØDT": "Barnet er nyfødt, og har ikke fått fødselsnummer enda",
     "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET": "Barnet bor i utlandet",
     "steg.oppsummering.barnet.årsakManglerIdentitetsnummer.ANNET": "Annet",
@@ -480,7 +480,7 @@
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
     "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
-    "steg.oppsummering.vedlegg.header": "Vedlegg",
+    "steg.oppsummering.vedlegg.header": "Legeerklæring",
 
     "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du jobber {hvor} i perioden du har søkt pleiepenger.",
     "steg.oppsummering.validering.manglendeArbeidsgiverNavn": "Det har oppstått en feil rundt arbeidsgiverinformasjonen; navn på arbeidsgiver mangler. Vennligst gå tilbake og kontroller informasjonen som er oppgitt.",
@@ -524,7 +524,7 @@
     "page.ikkeTilgang.lastNed": "Her kan du laste ned papirsøknaden",
 
     "vedleggsliste.fjernKnapp": "Fjern vedlegg",
-    "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen vedlegg er lastet opp",
+    "vedleggsliste.ingenLegeerklæringLastetOpp": "Ingen legeerklæring er lastet opp",
     "dokumenter.advarsel.totalstørrelse.1": "Du har totalt lastet opp mer enn grensen på 24 Mb. Det betyr at du må fjerne noe av det du har lastet opp. Hvis det betyr at du ikke får plass til alt du ønsker å sende nå, kan du ",
     "dokumenter.advarsel.totalstørrelse.2": "ettersende flere dokumenter.",
 

@@ -65,17 +65,13 @@ const annetBarnSummary = (intl: IntlShape, apiValues: SøknadApiData) => (
         ) : null}
         {apiValues._barnetHarIkkeFnr && apiValues.barn.årsakManglerIdentitetsnummer && (
             <Box margin="l">
-                <div data-testid="oppsummering-årsakManglerIdentitetsnummer">
-                    <FormattedMessage
-                        id="steg.oppsummering.barnet.barnetHarIkkeFnr"
-                        values={{
-                            årsak: intlHelper(
-                                intl,
-                                `steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`
-                            ),
-                        }}
-                    />
-                </div>
+                <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.barnet.barnetHarIkkeFnr')}>
+                    <div data-testid="oppsummering-årsakManglerIdentitetsnummer">
+                        <FormattedMessage
+                            id={`steg.oppsummering.barnet.årsakManglerIdentitetsnummer.${apiValues.barn.årsakManglerIdentitetsnummer}`}
+                        />
+                    </div>
+                </SummaryBlock>
             </Box>
         )}
         {apiValues._barnetHarIkkeFnr === true &&
