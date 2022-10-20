@@ -29,7 +29,7 @@ export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
 };
 
 export const fyllUtArbeidIPeriodeSteg = () => {
-    it('Arbeid i perioden', () => {
+    it('Steg 4: Arbeid i perioden', () => {
         getTestElement('arbeidIPerioden_ansatt').within(() => {
             fyllUtArbeidstidRedusertVarierendeTimer();
         });

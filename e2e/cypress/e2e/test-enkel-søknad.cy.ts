@@ -11,7 +11,7 @@ import { oppsummeringTestPeriodeSteg } from '../integration-utils/steps/periode'
 
 describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
     context('med utmocket, tom mellomlagring', () => {
-        contextConfig();
+        contextConfig({ mellomlagring: {} });
 
         fyllUtEnkelSøknad();
 

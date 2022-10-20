@@ -48,7 +48,7 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
 };
 
 export const fyllUtArbeidssituasjonSteg = () => {
-    it('Arbeidssituasjon', () => {
+    it('Steg 3: Arbeidssituasjon', () => {
         fyllUtArbeidssituasjonAnsatt(ArbeidssituasjonAnsattProfil.ansatt);
         fyllUtArbeidssituasjonFrilanser();
         fyllUtArbeidssituasjonSelvstendig();
