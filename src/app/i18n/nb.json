@@ -463,6 +463,7 @@
     "steg.oppsummering.omsorgstilbud.fortid.svar.JA": "Ja, i hele eller deler av perioden",
     "steg.oppsummering.omsorgstilbud.fortid.svar.NEI": "Nei",
     "steg.oppsummering.omsorgstilbud.fremtid.spm": "Skal barnet være fast og regelmessig i et omsorgstilbud fremover i tid?",
+    "steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid": "Skal barnet være fast og regelmessig i et omsorgstilbud?",
     "steg.oppsummering.omsorgstilbud.fremtid.svar.JA": "Ja, i hele eller deler av perioden",
     "steg.oppsummering.omsorgstilbud.fremtid.svar.NEI": "Nei",
     "steg.oppsummering.omsorgstilbud.fremtid.svar.USIKKER": "Usikker",
