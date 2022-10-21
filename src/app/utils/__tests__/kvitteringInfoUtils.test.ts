@@ -67,7 +67,6 @@ describe('kvitteringUtils', () => {
                 arbeidsforhold: {
                     normalarbeidstid: {
                         _erLiktSnittSomForrigeSøknad: false,
-                        blabla: true,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
                     },
                     arbeidIPeriode: {
@@ -84,7 +83,6 @@ describe('kvitteringUtils', () => {
                 arbeidsforhold: {
                     normalarbeidstid: {
                         _erLiktSnittSomForrigeSøknad: false,
-                        blabla: true,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
                     },
                     arbeidIPeriode: {
