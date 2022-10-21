@@ -172,10 +172,15 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                     <Box margin="m">
                                         <div data-testid="oppsummering-søker-navn">
-                                            <p>{formatName(fornavn, etternavn, mellomnavn)}</p>
+                                            {formatName(fornavn, etternavn, mellomnavn)}
                                         </div>
                                         <div data-testid="oppsummering-søker-fødselsnummer">
-                                            <p>Fødselsnummer: {fødselsnummer}</p>
+                                            <FormattedMessage
+                                                id={'steg.oppsummering.søker.fnr'}
+                                                values={{
+                                                    fødselsnummer: fødselsnummer,
+                                                }}
+                                            />
                                         </div>
                                     </Box>
                                 </SummarySection>
