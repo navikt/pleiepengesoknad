@@ -1,4 +1,4 @@
-import { BarnRelasjon } from '../../types';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { OmBarnetFormData } from '../../types/SøknadFormData';
 import { OmBarnetSøknadsdata } from '../../types/søknadsdata/omBarnetSøknadsdata';
 
@@ -29,6 +29,10 @@ export const extractBarnSøknadsdata = (values: OmBarnetFormData): OmBarnetSøkn
                 relasjonTilBarnet: values.relasjonTilBarnet,
                 relasjonTilBarnetBeskrivelse:
                     values.relasjonTilBarnet === BarnRelasjon.ANNET ? values.relasjonTilBarnetBeskrivelse : undefined,
+                fødselsattest:
+                    values.årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET
+                        ? values.fødselsattest
+                        : [],
             };
         }
         return undefined;

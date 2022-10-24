@@ -22,20 +22,23 @@ import { initialValues, SøknadFormData, SøknadFormField } from '../../types/S�
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
 import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
+import FødselsattestPart from './FødselsattestPart';
+import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 
 interface Props {
     formValues: SøknadFormData;
     søkersFødselsnummer: string;
+    attachments: Attachment[];
 }
 
 const nYearsAgo = (years: number): Date => {
     return dayjs(dateToday).subtract(years, 'y').startOf('year').toDate();
 };
 
-const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) => {
+const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, attachments }) => {
     const intl = useIntl();
     const {
-        values: { barnetHarIkkeFnr },
+        values: { barnetHarIkkeFnr, årsakManglerIdentitetsnummer },
         setFieldValue,
     } = useFormikContext<SøknadFormData>();
 
@@ -79,18 +82,27 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                             }
                         }}
                     />
+                </FormBlock>
 
-                    {barnetHarIkkeFnr && (
+                {barnetHarIkkeFnr && (
+                    <FormBlock>
                         <SøknadFormComponents.RadioGroup
                             legend={intlHelper(intl, 'steg.omBarnet.årsakManglerIdentitetsnummer.spm')}
                             name={SøknadFormField.årsakManglerIdentitetsnummer}
-                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak) => ({
+                            radios={Object.keys(ÅrsakManglerIdentitetsnummer).map((årsak, index) => ({
                                 label: intlHelper(intl, `steg.omBarnet.årsakManglerIdentitetsnummer.${årsak}`),
                                 value: årsak,
+                                className:
+                                    index === Object.keys(ÅrsakManglerIdentitetsnummer).length - 1
+                                        ? 'siste-element'
+                                        : undefined,
                             }))}
                             validate={getRequiredFieldValidator()}
-                            checked={formValues.årsakManglerIdentitetsnummer}></SøknadFormComponents.RadioGroup>
-                    )}
+                            checked={formValues.årsakManglerIdentitetsnummer}
+                        />
+                    </FormBlock>
+                )}
+                <FormBlock>
                     <SøknadFormComponents.Input
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={SøknadFormField.barnetsNavn}
@@ -175,6 +187,12 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer }) =
                         />
                     </FormBlock>
                 )}
+                {barnetHarIkkeFnr &&
+                    årsakManglerIdentitetsnummer === ÅrsakManglerIdentitetsnummer.BARNET_BOR_I_UTLANDET && (
+                        <FormBlock>
+                            <FødselsattestPart attachments={attachments} />
+                        </FormBlock>
+                    )}
             </SkjemagruppeQuestion>
         </Box>
     );

@@ -47,7 +47,12 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                         )}
                         {(søkerFremtid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
                             <SummaryBlock
-                                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
+                                header={intlHelper(
+                                    intl,
+                                    søkerFortidFremtid(søknadsperiode)
+                                        ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
+                                        : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
+                                )}
                                 headerTag="h3">
                                 <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
                                     <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fremtid.svar.NEI`} />
@@ -69,7 +74,12 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.svarFremtid && (
                     <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fremtid.spm')}
+                        header={intlHelper(
+                            intl,
+                            søkerFortidFremtid(søknadsperiode)
+                                ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
+                                : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
+                        )}
                         headerTag="h3">
                         <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
                             <FormattedMessage

@@ -12,14 +12,12 @@ import {
     getDateDurationMapFromDurationWeekdaysInDateRange,
     getDatesInDateRange,
     getDatesWithDurationLongerThanZero,
-    // getDatesWithDurationLongerThanZero,
     getDurationsInDateRange,
     numberDurationAsDuration,
-    // numberDurationAsDuration,
     summarizeDateDurationMap,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import { DurationText } from '@navikt/sif-common-pleiepenger/lib';
 
 interface Props {
@@ -65,7 +63,7 @@ const ArbeidstidMånedTittel: React.FunctionComponent<Props> = ({
                     ukeOgÅr: dayjs(måned.from).format('MMMM YYYY'),
                 })}
             </span>
-            <Normaltekst tag="div">
+            <div>
                 {antallDagerMedTid === 0 ? (
                     <FormattedMessage id="arbeidstidMånedTittel.iPeriodePanel.info.ingenDager" />
                 ) : (
@@ -81,7 +79,7 @@ const ArbeidstidMånedTittel: React.FunctionComponent<Props> = ({
                 <>
                     Fravær <DurationText duration={samletFravær} fullText={true} hideEmptyValues={true} />
                 </>
-            </Normaltekst>
+            </div>
         </Element>
     );
 };
