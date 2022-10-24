@@ -1,7 +1,7 @@
 import { clickFortsett, getTestElementByType, getTestElement, getElement } from '../utils';
 
 const fileName = 'navlogopng.png';
-const ingenVedleggText = 'Ingen vedlegg er lastet opp';
+const ingenLegeerklæringText = 'Ingen legeerklæring er lastet opp';
 
 const fyllUtLegeerklæringEnFil = () => {
     cy.fixture(fileName, 'binary')
@@ -26,7 +26,7 @@ const oppsummeringTestLegeerklæringEnFil = () => {
 };
 
 const oppsummeringTestLegeerklæringIngen = () => {
-    getTestElement('ingenLegeerklæring').should((element) => expect(ingenVedleggText).equal(element.text()));
+    getTestElement('ingenLegeerklæring').should((element) => expect(ingenLegeerklæringText).equal(element.text()));
 };
 
 export const fyllUtLegeerklæringSteg = (testType?) => {

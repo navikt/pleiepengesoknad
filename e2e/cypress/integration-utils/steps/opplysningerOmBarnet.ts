@@ -1,7 +1,7 @@
 import * as dayjs from 'dayjs';
 import * as locale from 'dayjs/locale/nb';
 import * as isoWeek from 'dayjs/plugin/isoWeek';
-import { clickFortsett, getInputByName, getTestElement, getTestElementByType } from '../utils';
+import { clickFortsett, getElement, getInputByName, getTestElement, getTestElementByType } from '../utils';
 
 dayjs.extend(isoWeek);
 dayjs.locale(locale);
@@ -13,7 +13,9 @@ const barnetsFødselsnummer = '08861999573';
 const barnetsFødselsdato = '08.06.2019';
 const expectedRelasjonTilBarn = 'mor';
 const relasjonAnnetBeskrivelse = 'Annet relasjon beskrivelse';
-const årsakManglerIdentitetsnummer = 'Barnet er nyfødt, og har ikke fått fødselsnummer enda';
+const årsakManglerIdentitetsnummer = 'Barnet bor i utlandet';
+const fileName = 'fødselsattest.png';
+// const ingenVedleggText = 'Ingen vedlegg er lastet opp';
 
 export const fyllUtBarnRegistrert = () => {
     getTestElement('opplysninger-om-barnet').then(() => {
@@ -38,11 +40,21 @@ export const fyllUtAnnetBarnUtenFnr = () => {
     getTestElement('opplysninger-om-barnet').then(() => {
         getInputByName('søknadenGjelderEtAnnetBarn').click({ force: true });
         getInputByName('barnetHarIkkeFnr').click({ force: true });
-        getInputByName('årsakManglerIdentitetsnummer').first().check({ force: true });
+        getInputByName('årsakManglerIdentitetsnummer').eq(1).check({ force: true });
         getInputByName('barnetsNavn').click().type(barnetsNavn).blur();
         getInputByName('barnetsFødselsdato').click().type(barnetsFødselsdato).blur();
         getInputByName('relasjonTilBarnet').eq(4).check({ force: true }); //Velg annet
         getTestElement('opplysninger-om-barnet-relasjonAnnetBeskrivelse').click().type(relasjonAnnetBeskrivelse).blur();
+        cy.fixture(fileName, 'binary')
+            .then(Cypress.Blob.binaryStringToBlob)
+            .then((fileContent) =>
+                (getTestElementByType('file') as any).attachFile({
+                    fileContent,
+                    fileName,
+                    mimeType: 'image/png', //getMimeType(fileName),
+                    encoding: 'utf8',
+                })
+            );
         clickFortsett();
     });
 };
@@ -78,14 +90,18 @@ export const oppsummeringTestAnnetBarnUtenFnr = () => {
     );
 
     getTestElement('oppsummering-årsakManglerIdentitetsnummer').should((element) =>
-        expect(`Oppgitt grunn for at barnet ikke har fødselsnummer/D-nummer: ${årsakManglerIdentitetsnummer}`).equal(
-            element.text()
-        )
+        expect(årsakManglerIdentitetsnummer).equal(element.text())
     );
 
     getTestElement('oppsummering-barn-relasjon-annet-beskrivelse').should((element) =>
         expect(relasjonAnnetBeskrivelse).equal(element.text())
     );
+
+    getTestElement('oppsummering-omBarn-fødselsattest').within(() => {
+        getElement('li')
+            .eq(0)
+            .should((element) => expect(fileName).equal(element.text()));
+    });
 };
 
 export const fyllUtOmBarnSteg = (testType?) => {

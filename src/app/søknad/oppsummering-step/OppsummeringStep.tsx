@@ -17,7 +17,6 @@ import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import dayjs from 'dayjs';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { purge, sendApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
@@ -173,10 +172,15 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
                                     <Box margin="m">
                                         <div data-testid="oppsummering-søker-navn">
-                                            <Normaltekst>{formatName(fornavn, etternavn, mellomnavn)}</Normaltekst>
+                                            {formatName(fornavn, etternavn, mellomnavn)}
                                         </div>
                                         <div data-testid="oppsummering-søker-fødselsnummer">
-                                            <Normaltekst>Fødselsnummer: {fødselsnummer}</Normaltekst>
+                                            <FormattedMessage
+                                                id={'steg.oppsummering.søker.fnr'}
+                                                values={{
+                                                    fødselsnummer: fødselsnummer,
+                                                }}
+                                            />
                                         </div>
                                     </Box>
                                 </SummarySection>

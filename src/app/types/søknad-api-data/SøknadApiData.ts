@@ -140,6 +140,7 @@ export interface SøknadApiData {
     harMedsøker: boolean;
     samtidigHjemme?: boolean;
     vedlegg: string[];
+    fødselsattestVedleggUrls: string[];
     medlemskap: MedlemskapApiData;
     utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadApiData;
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData;

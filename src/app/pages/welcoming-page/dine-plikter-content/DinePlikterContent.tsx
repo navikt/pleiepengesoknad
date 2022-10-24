@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Lenke from 'nav-frontend-lenker';
-import { Normaltekst, Systemtittel } from 'nav-frontend-typografi';
+import { Systemtittel } from 'nav-frontend-typografi';
 import getLenker from '../../../lenker';
 
 const getText = (part: string) => <FormattedMessage id={`modal.minePlikter.${part}`} />;
@@ -13,7 +13,7 @@ const DinePlikterContent = () => {
             <Systemtittel>{getText('tittel')}</Systemtittel>
             <ul>
                 <li>
-                    <Normaltekst>{getText('part1')}</Normaltekst>
+                    <p>{getText('part1')}</p>
                     <ul>
                         <li>{getText('part1a')}</li>
                         <li>{getText('part1b')}</li>
