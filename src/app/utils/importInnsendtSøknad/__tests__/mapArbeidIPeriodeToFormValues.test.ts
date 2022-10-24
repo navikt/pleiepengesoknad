@@ -28,8 +28,8 @@ describe('mapArbeidIPeriodeApiDataToFormValues', () => {
             ArbeiderIPeriodenSvar.somVanlig
         );
     });
-    describe('arbeid timer i snitt', () => {
-        it('returnerer riktig når en arbeider timer i snitt', () => {
+    describe('arbeid timer per uke', () => {
+        it('returnerer riktig når en arbeider timer per uke', () => {
             const arbeid: ArbeidIPeriodeApiData = {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,

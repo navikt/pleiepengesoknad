@@ -86,7 +86,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLiktSomForrigeSøknad)}
                         legend={`I forrige søknad oppga du at du normalt jobber ${durationToDecimalDuration(
                             timerPerUkeISnittForrigeSøknad
-                        )} timer i snitt per uke hos ${arbeidsstedNavn}. Stemmer dette fremdeles?`}
+                        )} timer per uke hos ${arbeidsstedNavn}. Stemmer dette fremdeles?`}
                         data-testid="normalarbeidstidErLikForrigeSøknad"
                         validate={(value: any) => {
                             const error = getRequiredFieldValidator()(value);

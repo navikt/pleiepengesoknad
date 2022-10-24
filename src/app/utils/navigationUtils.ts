@@ -14,7 +14,9 @@ const relocateTo = (url: string): void => {
 };
 
 /** Simple route change, no page reload */
-export const navigateTo = (route: string, history: History): void => history.push(route);
+export const navigateTo = (route: string, history: History): void => {
+    history.push(route);
+};
 export const navigateToSoknadStep = (step: StepID, history: History): void => history.push(`${step}`);
 
 export const relocateToLoginPage = (): void => relocateTo(getEnvironmentVariable('LOGIN_URL'));
@@ -24,5 +26,9 @@ export const relocateToDinePleiepenger = (): void => relocateTo(getEnvironmentVa
 
 export const navigateToSoknadFrontpage = (history: History): void =>
     navigateTo(RouteConfig.SØKNAD_ROUTE_PREFIX, history);
-export const navigateToErrorPage = (history: History): void => navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
-export const navigateToKvitteringPage = (history: History): void => navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
+export const navigateToErrorPage = (history: History): void => {
+    navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
+};
+export const navigateToKvitteringPage = (history: History): void => {
+    navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
+};

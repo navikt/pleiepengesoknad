@@ -114,7 +114,6 @@ const SøknadContent = ({
             if (nextStepRoute) {
                 persistSoknad({ formValues: values, stepID })
                     .then(() => {
-                        console.log('nav2');
                         navigateTo(nextStepRoute, history);
                     })
                     .catch((error) => {

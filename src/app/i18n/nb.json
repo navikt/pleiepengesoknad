@@ -475,7 +475,7 @@
     "steg.oppsummering.bekrefterOpplysninger": "Jeg bekrefter at opplysningene jeg har gitt er riktige, og at jeg ikke har holdt tilbake opplysninger som har betydning for min rett til pleiepenger.",
     "steg.oppsummering.bekrefterOpplysninger.ikkeBekreftet": "Du må bekrefte opplysningene",
 
-    "steg.oppsummering.arbeidssituasjon.header": "Din arbeidssituasjon",
+    "steg.oppsummering.arbeidssituasjon.header": "Arbeidssituasjonen din",
     "steg.oppsummering.vedlegg.header": "Vedlegg",
 
     "steg.oppsummering.validering.ugyldigArbeidsforholdAnsatt": "Det er ikke fylt ut informasjon om hvordan du jobber {hvor} i perioden du har søkt pleiepenger.",
@@ -663,10 +663,10 @@
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig": "Jobber som normalt, har ikke fravær på grunn av pleiepenger.",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke": "Jobber likt hver uke i perioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent": "Jobber {prosent} prosent av normalt {timerNormalt} timer i uken (tilsvarer {timerIPeriode} i uken)",
-    "oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke": "Jobber {timer} i snitt per uke i perioden",
-    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.tittel": "Jobber ulikt antall timer i uken:",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.timerPerUke": "Jobber {timer} per uke i perioden",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.tittel": "Jobber varierende antall timer per uke:",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.uke": "Uke {ukenummer}: {timer}",
-    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.tittel": "Jobber en prosent av normalt i uken:",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.tittel": "Jobber varierende prosent av normalt {timer} per uke:",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.uke": "Uke {ukenummer}: {prosent} prosent ({timerIPeriode})",
 
     "timerPerUke": "{timer, plural, one {# time} other {# timer}} per uke",
@@ -783,10 +783,10 @@
 
     "validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er ansatt hos {navn} i perioden du søker pleiepenger.",
     "validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du sluttet hos {navn} før {fraDato}.",
-    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberHasNoValue": "Du må oppgi hvor mange timer du {jobber} i snitt per uke {hvor} i perioden når du ikke har fravær på grunn av pleiepenger.",
-    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberHasInvalidFormat": "Antall timer du normalt {jobber} i snitt per uke {hvor} kan kun bestå av tall.",
-    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooSmall": "Antall timer du normalt {jobber} i snitt per uke {hvor} kan ikke være mindre enn {min}.",
-    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooLarge": "Antall timer du normalt {jobber} i snitt per uke {hvor} kan ikke være mer enn {max}.",
+    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberHasNoValue": "Du må oppgi hvor mange timer du {jobber} per uke {hvor} i perioden når du ikke har fravær på grunn av pleiepenger.",
+    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberHasInvalidFormat": "Antall timer du normalt {jobber} per uke {hvor} kan kun bestå av tall.",
+    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooSmall": "Antall timer du normalt {jobber} per uke {hvor} kan ikke være mindre enn {min}.",
+    "validation.arbeidsforhold.arbeiderNormaltTimerPerUke.numberIsTooLarge": "Antall timer du normalt {jobber} per uke {hvor} kan ikke være mer enn {max}.",
     "validation.arbeidsforhold.erFasteUkedager.ingenTidRegistrert": "Du må fylle ut hvor mange timer du {jobber} hver ukedag {hvor} i perioden.",
     "validation.arbeidsforhold.erFasteUkedager.yesOrNoIsUnanswered": "Du må svare på om du jobber faste dager {hvor}",
     "validation.arbeidsforhold.fastDag.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag} {hvor}.",

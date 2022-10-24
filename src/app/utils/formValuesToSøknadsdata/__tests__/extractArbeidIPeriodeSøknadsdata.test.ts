@@ -32,7 +32,7 @@ describe('extractArbeidIPeriodeSøknadsdata', () => {
         expect((result as any).arbeiderRedusert).toBeTruthy();
         expect((result as any).prosentAvNormalt).toEqual(50);
     });
-    it('returnerer riktig når en arbeider timer i snitt per uke', () => {
+    it('returnerer riktig når en arbeider likt antall timer per uke', () => {
         const result = extractArbeidIPeriodeSøknadsdata({
             arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
             timerEllerProsent: TimerEllerProsent.TIMER,

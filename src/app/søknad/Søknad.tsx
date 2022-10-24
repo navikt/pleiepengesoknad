@@ -17,7 +17,9 @@ const Søknad = () => {
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
-            onError={() => navigateToErrorPage(history)}
+            onError={() => {
+                navigateToErrorPage(history);
+            }}
             contentLoadedRenderer={({ formValues, mellomlagringMetadata, forrigeSøknad }) => {
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(formValues)}>

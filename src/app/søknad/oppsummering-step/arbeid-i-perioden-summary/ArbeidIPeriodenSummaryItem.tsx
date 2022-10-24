@@ -163,7 +163,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                             <FormattedMessage
                                 id="oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.tittel"
                                 values={{
-                                    timerNormalt: timerNormalt,
+                                    timer: intlHelper(intl, 'timer', { timer: timerNormaltNumber }),
                                 }}
                             />
                         </p>
