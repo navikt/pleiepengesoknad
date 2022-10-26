@@ -19,14 +19,16 @@ describe('extractArbeidsforholdSøknadsdata', () => {
     it('returnerer undefined dersom normalarbeidstid er ugyldig', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, normalarbeidstid: undefined },
-            ArbeidsforholdType.ANSATT
+            ArbeidsforholdType.ANSATT,
+            undefined
         );
         expect(result).toBeUndefined();
     });
     it('returnerer arbeidsforhold korrekt når arbeidIPeriode ikke er satt', () => {
         const result = extractArbeidsforholdSøknadsdata(
             { ...arbeidsforholdMedFravær, arbeidIPeriode: undefined },
-            ArbeidsforholdType.ANSATT
+            ArbeidsforholdType.ANSATT,
+            undefined
         );
         expect(result).toBeDefined();
         expect(result?.normalarbeidstid).toBeDefined();

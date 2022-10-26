@@ -21,6 +21,7 @@ import {
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 import { getArbeidsukeKey, getArbeidsukerIPerioden } from '../components/ArbeidstidUkerSpørsmål';
+import { skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 
 export const cleanupArbeidsuker = (
     søknadsperiode: DateRange,
@@ -115,9 +116,14 @@ export const cleanupArbeidstidFrilans = (
         return undefined;
     }
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
+    const erLiktHverUke = skalSvarePåOmEnJobberLiktIPerioden(periodeSomFrilanser)
+        ? frilans.arbeidsforhold.arbeidIPeriode?.erLiktHverUke
+        : YesOrNo.NO;
+
     const normalarbeidstid = frilansSøknadsdata.erFrilanser
         ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
         : undefined;
+
     return {
         ...frilans.arbeidsforhold,
         arbeidIPeriode:
@@ -125,7 +131,11 @@ export const cleanupArbeidstidFrilans = (
             normalarbeidstid &&
             frilans.arbeidsforhold.arbeidIPeriode &&
             frilans.arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(søknadsperiode, frilans.arbeidsforhold.arbeidIPeriode, normalarbeidstid)
+                ? cleanupArbeidIPeriode(
+                      søknadsperiode,
+                      { ...frilans.arbeidsforhold.arbeidIPeriode, erLiktHverUke },
+                      normalarbeidstid
+                  )
                 : undefined,
     };
 };

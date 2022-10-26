@@ -13,6 +13,7 @@ import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../SøknadFormComponents';
+import { skalSvarePåOmEnJobberLiktIPerioden } from '../utils/arbeidstidUtils';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -20,7 +21,6 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
-import { periodeInneholderEnHelArbeidsuke } from '../../../utils/weekOfYearUtils';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -65,8 +65,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { arbeidIPeriode } = arbeidsforhold;
     const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
-
-    const skalSpørreOmEnJobberLikt = periodeInneholderEnHelArbeidsuke(periode);
+    const spørOmEnJobberLiktIPerioden = skalSvarePåOmEnJobberLiktIPerioden(periode);
 
     return (
         <>
@@ -102,7 +101,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
 
-                        {skalSpørreOmEnJobberLikt && (
+                        {spørOmEnJobberLiktIPerioden && (
                             <FormBlock>
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
@@ -123,7 +122,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 />
                             </FormBlock>
                         )}
-                        {(erLiktHverUke !== undefined || skalSpørreOmEnJobberLikt === false) && (
+                        {(erLiktHverUke !== undefined || spørOmEnJobberLiktIPerioden === false) && (
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
                                     name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
@@ -135,7 +134,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             </FormBlock>
                         )}
 
-                        {erLiktHverUke === YesOrNo.NO &&
+                        {(erLiktHverUke === YesOrNo.NO || spørOmEnJobberLiktIPerioden === false) &&
                             timerEllerProsent !== undefined &&
                             arbeidIPeriode !== undefined && (
                                 <FormBlock>

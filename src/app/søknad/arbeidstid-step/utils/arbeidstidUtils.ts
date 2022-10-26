@@ -1,3 +1,4 @@
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import {
     DateDurationMap,
     durationToDecimalDuration,
@@ -17,6 +18,7 @@ import {
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { periodeInneholderEnHelArbeidsuke } from '../../../utils/weekOfYearUtils';
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,
@@ -107,6 +109,9 @@ export const erArbeidsforholdMedFravær = ({
             return harArbeidsukeMedRedusertProsent(arbeidISøknadsperiode.arbeidsuker);
     }
 };
+
+export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
+    periode ? periodeInneholderEnHelArbeidsuke(periode) : true;
 
 export const harFraværIPerioden = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
     return arbeidsforhold.some(erArbeidsforholdMedFravær);

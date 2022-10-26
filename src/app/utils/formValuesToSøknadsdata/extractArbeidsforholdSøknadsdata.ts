@@ -6,7 +6,6 @@ import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
     arbeidsforhold: ArbeidsforholdFrilanserFormValues | ArbeidsforholdFormValues,
-
     arbeidsforholdType: ArbeidsforholdType
 ): ArbeidsforholdSøknadsdata | undefined => {
     const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid, arbeidsforholdType);
