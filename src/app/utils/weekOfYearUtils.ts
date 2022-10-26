@@ -12,10 +12,17 @@ export const getWeekOfYearKey = (dateRange: DateRange): WeekOfYearMapKey => {
     return dateRangeToISODateRange(dateRange);
 };
 
+export const getNumberOfWorkdaysInWeek = (dateRange: DateRange): number => {
+    return Math.min(5, dayjs(dateRange.to).isoWeekday()) - dayjs(dateRange.from).isoWeekday() + 1;
+};
+
 export const getWeekOfYearInfoFromDateRange = (dateRange: DateRange): WeekOfYearInfo => {
+    const numberOfWorkdays = getNumberOfWorkdaysInWeek(dateRange);
     return {
         dateRange,
         year: dateRange.from.getFullYear(),
         weekNumber: dayjs(dateRange.from).week(),
+        isFullWeek: numberOfWorkdays === 5,
+        numberOfWorkdays,
     };
 };

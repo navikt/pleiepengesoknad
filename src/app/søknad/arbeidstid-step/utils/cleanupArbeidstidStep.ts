@@ -20,23 +20,30 @@ import {
 } from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
+import { getArbeidsukeKey, getArbeidsukerIPerioden } from '../components/ArbeidstidUkerSpørsmål';
 
 export const cleanupArbeidsuker = (
+    søknadsperiode: DateRange,
     arbeidsuker: ArbeidsukerFormValues,
     timerEllerProsent: TimerEllerProsent
 ): ArbeidsukerFormValues => {
     const cleanedArbeidsuker: ArbeidsukerFormValues = {};
-    Object.keys(arbeidsuker).map((key) => {
-        const { prosentAvNormalt, snittTimerPerUke } = arbeidsuker[key];
-        cleanedArbeidsuker[key] = {
-            prosentAvNormalt: timerEllerProsent === TimerEllerProsent.PROSENT ? prosentAvNormalt : undefined,
-            snittTimerPerUke: timerEllerProsent === TimerEllerProsent.TIMER ? snittTimerPerUke : undefined,
-        };
+    const arbeidsukerIPerioden = getArbeidsukerIPerioden(søknadsperiode);
+    arbeidsukerIPerioden.forEach((periode) => {
+        const key = getArbeidsukeKey(periode);
+        if (arbeidsuker[key]) {
+            const { prosentAvNormalt, snittTimerPerUke } = arbeidsuker[key];
+            cleanedArbeidsuker[key] = {
+                prosentAvNormalt: timerEllerProsent === TimerEllerProsent.PROSENT ? prosentAvNormalt : undefined,
+                snittTimerPerUke: timerEllerProsent === TimerEllerProsent.TIMER ? snittTimerPerUke : undefined,
+            };
+        }
     });
     return cleanedArbeidsuker;
 };
 
 export const cleanupArbeidIPeriode = (
+    søknadsperiode: DateRange,
     arbeidIPerioden: ArbeidIPeriodeFormValues,
     normalarbeidstid: NormalarbeidstidSøknadsdata | undefined
 ): ArbeidIPeriodeFormValues => {
@@ -65,12 +72,15 @@ export const cleanupArbeidIPeriode = (
             prosentAvNormalt: undefined,
             snittTimerPerUke: undefined,
             arbeidsuker:
-                arbeidsuker && timerEllerProsent ? cleanupArbeidsuker(arbeidsuker, timerEllerProsent) : undefined,
+                arbeidsuker && timerEllerProsent
+                    ? cleanupArbeidsuker(søknadsperiode, arbeidsuker, timerEllerProsent)
+                    : undefined,
         };
     }
 };
 
 export const cleanupArbeidstidAnsatt = (
+    søknadsperiode: DateRange,
     ansatt_arbeidsforhold: ArbeidsforholdFormValues[],
     arbeidsgivere: ArbeidsgivereSøknadsdata | undefined
 ): ArbeidsforholdFormValues[] => {
@@ -86,7 +96,11 @@ export const cleanupArbeidstidAnsatt = (
             ...arbeidsforhold,
             arbeidIPeriode:
                 arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
-                    ? cleanupArbeidIPeriode(arbeidsforhold.arbeidIPeriode, arbeidsgiver.arbeidsforhold.normalarbeidstid)
+                    ? cleanupArbeidIPeriode(
+                          søknadsperiode,
+                          arbeidsforhold.arbeidIPeriode,
+                          arbeidsgiver.arbeidsforhold.normalarbeidstid
+                      )
                     : undefined,
         };
     });
@@ -111,7 +125,7 @@ export const cleanupArbeidstidFrilans = (
             normalarbeidstid &&
             frilans.arbeidsforhold.arbeidIPeriode &&
             frilans.arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(frilans.arbeidsforhold.arbeidIPeriode, normalarbeidstid)
+                ? cleanupArbeidIPeriode(søknadsperiode, frilans.arbeidsforhold.arbeidIPeriode, normalarbeidstid)
                 : undefined,
     };
 };
@@ -138,7 +152,7 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
             selvstendig_arbeidsforhold?.arbeidIPeriode &&
             periodeSomSelvstendigNæringsdrivende &&
             selvstendig_arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(selvstendig_arbeidsforhold?.arbeidIPeriode, normalarbeidstid)
+                ? cleanupArbeidIPeriode(søknadsperiode, selvstendig_arbeidsforhold?.arbeidIPeriode, normalarbeidstid)
                 : undefined,
     };
 };
@@ -151,7 +165,7 @@ export const cleanupArbeidstidStep = (
     const values: SøknadFormValues = { ...formData };
 
     values.ansatt_arbeidsforhold = arbeidSøknadsdata.arbeidsgivere
-        ? cleanupArbeidstidAnsatt(values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere)
+        ? cleanupArbeidstidAnsatt(søknadsperiode, values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere)
         : values.ansatt_arbeidsforhold;
     values.frilans.arbeidsforhold = cleanupArbeidstidFrilans(values.frilans, arbeidSøknadsdata.frilans, søknadsperiode);
     values.selvstendig.arbeidsforhold = cleanupArbeidstidSelvstendigNæringdrivende(

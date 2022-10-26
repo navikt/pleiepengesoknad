@@ -9,4 +9,6 @@ export interface WeekOfYearInfo {
     weekNumber: number;
     year: number;
     dateRange: DateRange;
+    isFullWeek: boolean;
+    numberOfWorkdays: number;
 }

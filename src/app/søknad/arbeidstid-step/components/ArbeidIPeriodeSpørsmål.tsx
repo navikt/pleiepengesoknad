@@ -98,36 +98,38 @@ const ArbeidIPeriodeSpørsmål = ({
                         <p>
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
+
                         <FormBlock>
-                            <SøknadFormComponents.RadioPanelGroup
-                                name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
-                                legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
-                                radios={getTimerEllerProsentRadios(intl, intlValues)}
-                                validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
+                            <SøknadFormComponents.YesOrNoQuestion
+                                name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
+                                legend={intlHelper(
+                                    intl,
+                                    `arbeidIPeriode.erLiktHverUke.${
+                                        timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
+                                    }.spm`,
+                                    intlValues
+                                )}
+                                validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                                 useTwoColumns={true}
+                                data-testid="er-likt-hver-uke"
+                                labels={{
+                                    yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
+                                    no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
+                                }}
                             />
                         </FormBlock>
-                        {timerEllerProsent !== undefined && (
+                        {erLiktHverUke !== undefined && (
                             <FormBlock>
-                                <SøknadFormComponents.YesOrNoQuestion
-                                    name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
-                                    legend={intlHelper(
-                                        intl,
-                                        `arbeidIPeriode.erLiktHverUke.${
-                                            timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
-                                        }.spm`,
-                                        intlValues
-                                    )}
-                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                <SøknadFormComponents.RadioPanelGroup
+                                    name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
+                                    legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
+                                    radios={getTimerEllerProsentRadios(intl, intlValues)}
+                                    validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
                                     useTwoColumns={true}
-                                    data-testid="er-likt-hver-uke"
-                                    labels={{
-                                        yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
-                                        no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
-                                    }}
                                 />
                             </FormBlock>
                         )}
+
                         {erLiktHverUke === YesOrNo.NO &&
                             timerEllerProsent !== undefined &&
                             arbeidIPeriode !== undefined && (
@@ -149,6 +151,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 intlValues={intlValues}
                                 normalarbeidstid={normalarbeidstid}
                                 timerEllerProsent={timerEllerProsent}
+                                periode={periode}
                             />
                         )}
                     </ResponsivePanel>
