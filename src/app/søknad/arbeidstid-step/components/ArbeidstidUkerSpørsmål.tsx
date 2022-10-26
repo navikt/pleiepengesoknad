@@ -35,7 +35,9 @@ interface Props {
 }
 
 export const getArbeidsukerIPerioden = (periode: DateRange): WeekOfYearInfo[] => {
-    return getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
+    return getWeeksInDateRange(periode)
+        .filter((uke) => dayjs(uke.from).isoWeekday() <= 5)
+        .map(getWeekOfYearInfoFromDateRange);
 };
 
 const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({

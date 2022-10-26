@@ -1,6 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { getNumberOfWorkdaysInWeek } from '../weekOfYearUtils';
+import { getNumberOfWorkdaysInWeek, periodeInneholderEnHelArbeidsuke } from '../weekOfYearUtils';
 
 describe('weekOfYearUtils', () => {
     describe('getNumberOfWorkdaysInWeek', () => {
@@ -34,6 +34,30 @@ describe('weekOfYearUtils', () => {
         it('returnerer riktig for en uke som er fra lørdag til søndag', () => {
             const result = getNumberOfWorkdaysInWeek({ from: lørdag, to: søndag });
             expect(result).toEqual(0);
+        });
+    });
+
+    describe('periodeInneholderEnHelUke', () => {
+        const mandag: Date = ISODateToDate('2022-01-03');
+        const tirsdag: Date = ISODateToDate('2022-01-04');
+        const torsdag: Date = ISODateToDate('2022-01-06');
+        const fredag: Date = ISODateToDate('2022-01-07');
+        const mandag2: Date = ISODateToDate('2022-01-10');
+        const tirsdag2: Date = ISODateToDate('2022-01-11');
+        const torsdag2: Date = ISODateToDate('2022-01-13');
+        const fredag2: Date = ISODateToDate('2022-01-14');
+        const mandag3: Date = ISODateToDate('2022-01-17');
+        const tirsdag3: Date = ISODateToDate('2022-01-18');
+        const fredag3: Date = ISODateToDate('2022-01-21');
+
+        it('returner true dersom uke 1 starter midt i og uke 2 slutter fredag', () => {
+            expect(periodeInneholderEnHelArbeidsuke({ from: tirsdag, to: fredag2 })).toBe(true);
+        });
+        it('returner true dersom uke starter på mandag og slutter på fredag', () => {
+            expect(periodeInneholderEnHelArbeidsuke({ from: mandag, to: fredag })).toBe(true);
+        });
+        it('returner false dersom uke starter på mandag og slutter på torsdag', () => {
+            expect(periodeInneholderEnHelArbeidsuke({ from: mandag, to: torsdag })).toBe(false);
         });
     });
 });

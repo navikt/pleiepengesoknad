@@ -18,8 +18,9 @@ import {
     getArbeidIPeriodeErLiktHverUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
-import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
+import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
+import { periodeInneholderEnHelArbeidsuke } from '../../../utils/weekOfYearUtils';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -65,6 +66,8 @@ const ArbeidIPeriodeSpørsmål = ({
     const { arbeidIPeriode } = arbeidsforhold;
     const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
 
+    const skalSpørreOmEnJobberLikt = periodeInneholderEnHelArbeidsuke(periode);
+
     return (
         <>
             <SøknadFormComponents.RadioPanelGroup
@@ -99,26 +102,28 @@ const ArbeidIPeriodeSpørsmål = ({
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
 
-                        <FormBlock>
-                            <SøknadFormComponents.YesOrNoQuestion
-                                name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
-                                legend={intlHelper(
-                                    intl,
-                                    `arbeidIPeriode.erLiktHverUke.${
-                                        timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
-                                    }.spm`,
-                                    intlValues
-                                )}
-                                validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
-                                useTwoColumns={true}
-                                data-testid="er-likt-hver-uke"
-                                labels={{
-                                    yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
-                                    no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
-                                }}
-                            />
-                        </FormBlock>
-                        {erLiktHverUke !== undefined && (
+                        {skalSpørreOmEnJobberLikt && (
+                            <FormBlock>
+                                <SøknadFormComponents.YesOrNoQuestion
+                                    name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
+                                    legend={intlHelper(
+                                        intl,
+                                        `arbeidIPeriode.erLiktHverUke.${
+                                            timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
+                                        }.spm`,
+                                        intlValues
+                                    )}
+                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                    useTwoColumns={true}
+                                    data-testid="er-likt-hver-uke"
+                                    labels={{
+                                        yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
+                                        no: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.nei`),
+                                    }}
+                                />
+                            </FormBlock>
+                        )}
+                        {(erLiktHverUke !== undefined || skalSpørreOmEnJobberLikt === false) && (
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
                                     name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
