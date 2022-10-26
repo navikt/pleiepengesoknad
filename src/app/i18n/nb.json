@@ -614,7 +614,7 @@
     "arbeidIPeriode.timerEllerProsent.prosent": "I prosent",
     "arbeidIPeriode.prosentAvNormalt.spm": "Hvor mange prosent jobber du {hvor} i søknadsperioden?",
     "arbeidIPeriode.prosent.utledet.medTimer": "prosent av {timerNormalt} ({timerRedusert} per dag)",
-    "arbeidIPeriode.timerAvNormalt.spm": "Hvor mange timer per uke jobber du {hvor} i søknadsperioden?",
+    "arbeidIPeriode.timerAvNormalt.spm": "Hvor mange timer jobber du per uke {hvor} i søknadsperioden?",
 
     "arbeidIPeriode.ulikeUkerGruppe.timer.spm": "Hvor mange timer jobber du per uke {hvor}?",
     "arbeidIPeriode.ulikeUkerGruppe.prosent.spm": "Hvor mange prosent jobber du per uke {hvor}?",
