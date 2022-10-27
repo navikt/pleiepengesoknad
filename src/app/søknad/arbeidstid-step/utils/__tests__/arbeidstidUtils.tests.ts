@@ -1,6 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import dayjs from 'dayjs';
+import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
