@@ -84,7 +84,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
                                         arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                         arbeidsforhold={arbeidsforhold}
-                                        aktivPeriode={periode}
+                                        arbeidsperiode={periode}
                                         søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
@@ -107,7 +107,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     arbeidsstedNavn="Frilansoppdrag"
                                     arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                     arbeidsforhold={frilans.arbeidsforhold}
-                                    aktivPeriode={arbeid.frilans.aktivPeriode}
+                                    arbeidsperiode={arbeid.frilans.aktivPeriode}
                                     søknadsperiode={søknadsperiode}
                                     parentFieldName={FrilansFormField.arbeidsforhold}
                                     onArbeidstidVariertChange={handleArbeidstidChanged}
@@ -128,7 +128,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsstedNavn="Selvstendig næringsdrivende"
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 arbeidsforhold={selvstendig.arbeidsforhold}
-                                aktivPeriode={periodeSomSelvstendigISøknadsperiode}
+                                arbeidsperiode={periodeSomSelvstendigISøknadsperiode}
                                 søknadsperiode={søknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
