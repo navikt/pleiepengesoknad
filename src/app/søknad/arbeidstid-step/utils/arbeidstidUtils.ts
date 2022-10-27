@@ -171,6 +171,9 @@ export const getAktivArbeidsforholdVarighetType = (
     søknadsperiode: DateRange,
     aktivPeriode: DateRange
 ): AktivtArbeidsforholdVarighetType => {
+    if (dayjs(aktivPeriode.from).isAfter(søknadsperiode.to) || dayjs(aktivPeriode.to).isBefore(søknadsperiode.from)) {
+        return AktivtArbeidsforholdVarighetType.utenforPeriode;
+    }
     const starterEtter = dayjs(aktivPeriode.from).isAfter(søknadsperiode.from);
     const slutterFør = dayjs(aktivPeriode.to).isBefore(søknadsperiode.to);
 

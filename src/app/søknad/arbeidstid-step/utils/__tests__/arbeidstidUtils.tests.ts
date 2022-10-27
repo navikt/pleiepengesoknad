@@ -1,7 +1,15 @@
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { erArbeidsforholdMedFravær, summerArbeidstimerIArbeidsuker } from '../arbeidstidUtils';
+import {
+    AktivtArbeidsforholdVarighetType,
+    erArbeidsforholdMedFravær,
+    getAktivArbeidsforholdVarighetType,
+    summerArbeidstimerIArbeidsuker,
+} from '../arbeidstidUtils';
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
     timerPerUkeISnitt: 20,
@@ -65,6 +73,50 @@ describe('arbeidstidUtils', () => {
                 c: { timer: 3 },
             });
             expect(result).toEqual(6);
+        });
+    });
+
+    describe('getAktivArbeidsforholdVarighetType', () => {
+        const søknadsperiode: DateRange = {
+            from: ISODateToDate('2022-01-03'),
+            to: ISODateToDate('2022-01-16'),
+        };
+        const førSøknadsperiode = ISODateToDate('2022-01-01');
+        const iSøknadadsperiode = ISODateToDate('2022-01-05');
+        const etterSøknadsperiode = ISODateToDate('2022-01-19');
+
+        it('returnerer riktig når aktiv periode dekker hele søknadsperioden', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, { from: førSøknadsperiode, to: etterSøknadsperiode })
+            ).toEqual(AktivtArbeidsforholdVarighetType.gjelderHelePerioden);
+        });
+        it('returnerer riktig når aktiv periode starter i men og slutter etter søknadsperiode', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, { from: iSøknadadsperiode, to: etterSøknadsperiode })
+            ).toEqual(AktivtArbeidsforholdVarighetType.starterIPeriode);
+        });
+        it('returnerer riktig når aktiv periode starter før men slutter i søknadsperiode', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, { from: førSøknadsperiode, to: iSøknadadsperiode })
+            ).toEqual(AktivtArbeidsforholdVarighetType.slutterIPeriode);
+        });
+        it('returnerer riktig når aktiv periode starter i og slutter i søknadsperiode', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, { from: iSøknadadsperiode, to: iSøknadadsperiode })
+            ).toEqual(AktivtArbeidsforholdVarighetType.starterOgSlutterIPeriode);
+        });
+        it('returnerer riktig når aktiv periode starter  og slutter før søknadsperiode', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, { from: førSøknadsperiode, to: førSøknadsperiode })
+            ).toEqual(AktivtArbeidsforholdVarighetType.utenforPeriode);
+        });
+        it('returnerer riktig når aktiv periode starter  og slutter etter søknadsperiode', () => {
+            expect(
+                getAktivArbeidsforholdVarighetType(søknadsperiode, {
+                    from: etterSøknadsperiode,
+                    to: etterSøknadsperiode,
+                })
+            ).toEqual(AktivtArbeidsforholdVarighetType.utenforPeriode);
         });
     });
 });
