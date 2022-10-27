@@ -21,7 +21,7 @@ export const getDelvisAktivtArbeidsforholdInfo = (arbeidsforholdType: Arbeidsfor
         case ArbeidsforholdType.ANSATT:
             return {
                 tittel: 'Når du er ansatt deler av søknadsperioden',
-                tekst: 'Du har oppgitt at du er ansatt bare deler av søknadsperioden. Da oppgir du bare informasjon om den perioden som du er selvstendig næringsdrivende.',
+                tekst: 'Du har oppgitt at du er ansatt bare deler av søknadsperioden. Da gjelder spørsmålene nedenfor kun de dagene i søknadsperioden som du er selvstendig næringdrivende.',
             };
         default:
             return undefined;

@@ -164,7 +164,8 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                                 <p>
                                     Når søknadsperioden din ikke dekker hele uken, skal du oppgi hvor mange prosent du
                                     jobber av normalt de dagene som er en del av søknadsperioden din (i ditt tilfelle{' '}
-                                    {fraDag} til {tilDag}). Dager utenfor søknadsperioden trenger du ikke ta med.
+                                    {fraDag} til {tilDag}). Du skal ikke ta hensyn til de dagene i uken som er utenfor
+                                    søknadsperioden.
                                 </p>
                                 <p>
                                     Eksempel: Dersom søknadsperioden din starter en torsdag, og du skal jobbe 50 prosent
@@ -200,9 +201,9 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                     </>
                 ) : (
                     <>
-                        Når du jobber like mye hver uke i søknadsperioden, men søknadsperioden starter eller slutter
-                        midt i en uke, oppgir du antall timer du jobber i en hel uke. Du skal ikke regne inn de dagene
-                        som er utenfor søknadsperioden.
+                        Når du jobber like mange timer hver uke i søknadsperioden, men søknadsperioden starter eller
+                        slutter midt i en uke, skal du oppgi antall timer som du jobber i en hel uke. Du skal ikke ta
+                        hensyn til de dagene som er utenfor søknadsperioden.
                     </>
                 )}
             </ExpandableInfo>
