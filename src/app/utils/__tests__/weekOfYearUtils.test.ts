@@ -1,5 +1,6 @@
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { getNumberOfWorkdaysInWeek, periodeInneholderEnHelArbeidsuke } from '../weekOfYearUtils';
+import { periodeInneholderEnHelArbeidsuke } from '../../søknad/arbeidstid-step/utils/arbeidstidUtils';
+import { getNumberOfWorkdaysInWeek } from '../weekOfYearUtils';
 
 describe('weekOfYearUtils', () => {
     describe('getNumberOfWorkdaysInWeek', () => {

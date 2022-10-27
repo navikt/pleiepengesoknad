@@ -6,10 +6,14 @@ import {
     getDatesWithDurationLongerThanZero,
     getWeekdayFromDate,
     getWeekdaysWithDuration,
+    getWeeksInDateRange,
     ISODateToDate,
     summarizeDurationInDurationWeekdays,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import {
     ArbeidsukerProsentSøknadsdata,
@@ -18,7 +22,10 @@ import {
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { periodeInneholderEnHelArbeidsuke } from '../../../utils/weekOfYearUtils';
+import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
+
+dayjs.extend(isSameOrBefore);
+dayjs.extend(isSameOrAfter);
 
 export const getDurationWeekdaysNotInDurationWeekdays = (
     weekdays1: DurationWeekdays,
@@ -110,6 +117,11 @@ export const erArbeidsforholdMedFravær = ({
     }
 };
 
+export const periodeInneholderEnHelArbeidsuke = (periode: DateRange): boolean => {
+    const uker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
+    return uker.some((uke) => uke.isFullWeek === true);
+};
+
 export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
     periode ? periodeInneholderEnHelArbeidsuke(periode) : true;
 
@@ -135,4 +147,49 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];
     return [...arbeidsgivere, ...frilans, ...selvstendig];
+};
+
+export const gjelderArbeidsforholdHeleSøknadsperioden = (
+    søknadsperiode: DateRange,
+    aktivPeriode: DateRange
+): boolean => {
+    return (
+        getAktivArbeidsforholdVarighetType(søknadsperiode, aktivPeriode) ===
+        AktivtArbeidsforholdVarighetType.gjelderHelePerioden
+    );
+};
+
+export enum AktivtArbeidsforholdVarighetType {
+    gjelderHelePerioden = 'gjelderHelePerioden',
+    starterIPeriode = 'starterIPeriode',
+    slutterIPeriode = 'slutterIPeriode',
+    starterOgSlutterIPeriode = 'starterOgSlutterIPeriode',
+    utenforPeriode = 'utenforPeriode',
+}
+
+export const getAktivArbeidsforholdVarighetType = (
+    søknadsperiode: DateRange,
+    aktivPeriode: DateRange
+): AktivtArbeidsforholdVarighetType => {
+    const starterEtter = dayjs(aktivPeriode.from).isAfter(søknadsperiode.from);
+    const slutterFør = dayjs(aktivPeriode.to).isBefore(søknadsperiode.to);
+
+    /** Starter og slutter i periode */
+    if (starterEtter && slutterFør) {
+        return AktivtArbeidsforholdVarighetType.starterOgSlutterIPeriode;
+    }
+    /** Slutter i periode */
+    if (!starterEtter && slutterFør) {
+        return AktivtArbeidsforholdVarighetType.slutterIPeriode;
+    }
+    /** Starter i periode */
+    if (starterEtter && !slutterFør) {
+        return AktivtArbeidsforholdVarighetType.starterIPeriode;
+    }
+    /** Starter før og slutter etter periode */
+    if (!starterEtter && !slutterFør) {
+        return AktivtArbeidsforholdVarighetType.gjelderHelePerioden;
+    }
+    /** Gjelder ikke perioden i det hele tatt */
+    return AktivtArbeidsforholdVarighetType.utenforPeriode;
 };

@@ -1,5 +1,5 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { dateRangeToISODateRange, getWeeksInDateRange, ISODateRange } from '@navikt/sif-common-utils/lib';
+import { dateRangeToISODateRange, ISODateRange } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { WeekOfYearInfo } from '../types/WeekOfYear';
@@ -25,9 +25,4 @@ export const getWeekOfYearInfoFromDateRange = (dateRange: DateRange): WeekOfYear
         isFullWeek: numberOfWorkdays === 5,
         numberOfWorkdays,
     };
-};
-
-export const periodeInneholderEnHelArbeidsuke = (periode: DateRange): boolean => {
-    const uker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
-    return uker.some((uke) => uke.isFullWeek === true);
 };

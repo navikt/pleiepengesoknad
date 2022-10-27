@@ -18,13 +18,13 @@ import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import { søkerKunFortid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
     validateTildato,
     validateUtenlandsoppholdIPerioden,
 } from '../../validation/fieldValidations';
-import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
@@ -35,11 +35,11 @@ dayjs.extend(minMax);
 const cleanupTidsromStep = (values: SøknadFormValues, søknadsperiode: DateRange): SøknadFormValues => {
     const cleanedValues = { ...values };
 
-    if (cleanedValues.omsorgstilbud && søkerFortid(søknadsperiode)) {
+    if (cleanedValues.omsorgstilbud && søkerKunFortid(søknadsperiode)) {
         cleanedValues.omsorgstilbud.erIOmsorgstilbudFremtid = undefined;
         cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
     }
-    if (cleanedValues.omsorgstilbud && søkerFremtid(søknadsperiode)) {
+    if (cleanedValues.omsorgstilbud && søkerKunFremtid(søknadsperiode)) {
         cleanedValues.omsorgstilbud.erIOmsorgstilbudFortid = undefined;
         cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
     }

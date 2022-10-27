@@ -5,7 +5,7 @@ import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-p
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
@@ -30,10 +30,10 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const formikProps = useFormikContext<SøknadFormValues>();
     const { persistSoknad } = usePersistSoknad();
     const {
-        søknadsdata: { arbeid },
+        søknadsdata: { arbeid, søknadsperiode },
     } = useSøknadsdataContext();
 
-    if (!arbeid) {
+    if (!arbeid || !søknadsperiode) {
         return <GeneralErrorPage />;
     }
 
@@ -58,13 +58,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             <Box padBottom="m">
                 <CounsellorPanel>
                     <p>
-                        <FormattedMessage
-                            id={'arbeidIPeriode.StepInfo.1'}
-                            values={{
-                                fra: prettifyDateFull(periode.from),
-                                til: prettifyDateFull(periode.to),
-                            }}
-                        />
+                        <FormattedMessage id={'arbeidIPeriode.StepInfo.1'} />
                     </p>
                     <p>
                         <FormattedMessage id={'arbeidIPeriode.StepInfo.2'} />
@@ -90,7 +84,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
                                         arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                         arbeidsforhold={arbeidsforhold}
-                                        periode={periode}
+                                        aktivPeriode={periode}
+                                        søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
@@ -112,7 +107,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     arbeidsstedNavn="Frilansoppdrag"
                                     arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                     arbeidsforhold={frilans.arbeidsforhold}
-                                    periode={arbeid.frilans.aktivPeriode}
+                                    aktivPeriode={arbeid.frilans.aktivPeriode}
+                                    søknadsperiode={søknadsperiode}
                                     parentFieldName={FrilansFormField.arbeidsforhold}
                                     onArbeidstidVariertChange={handleArbeidstidChanged}
                                 />
@@ -132,7 +128,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsstedNavn="Selvstendig næringsdrivende"
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 arbeidsforhold={selvstendig.arbeidsforhold}
-                                periode={periodeSomSelvstendigISøknadsperiode}
+                                aktivPeriode={periodeSomSelvstendigISøknadsperiode}
+                                søknadsperiode={søknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
                             />

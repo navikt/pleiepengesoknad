@@ -10,11 +10,7 @@ import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/uti
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import {
-    søkerFortid,
-    søkerFortidFremtid,
-    søkerFremtid,
-} from '../../../søknad/omsorgstilbud-step/omsorgstilbudStepUtils';
+import { søkerKunFortid, søkerFortidOgFremtid, søkerKunFremtid } from '../../../utils/søknadsperiodeUtils';
 
 interface Props {
     søknadsperiode: DateRange;
@@ -36,7 +32,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                 })}>
                 {omsorgstilbud === undefined && (
                     <>
-                        {(søkerFortid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
+                        {(søkerKunFortid(søknadsperiode) || søkerFortidOgFremtid(søknadsperiode)) && (
                             <SummaryBlock
                                 header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
                                 headerTag="h3">
@@ -45,11 +41,11 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                                 </div>
                             </SummaryBlock>
                         )}
-                        {(søkerFremtid(søknadsperiode) || søkerFortidFremtid(søknadsperiode)) && (
+                        {(søkerKunFremtid(søknadsperiode) || søkerFortidOgFremtid(søknadsperiode)) && (
                             <SummaryBlock
                                 header={intlHelper(
                                     intl,
-                                    søkerFortidFremtid(søknadsperiode)
+                                    søkerFortidOgFremtid(søknadsperiode)
                                         ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
                                         : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
                                 )}
@@ -76,7 +72,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     <SummaryBlock
                         header={intlHelper(
                             intl,
-                            søkerFortidFremtid(søknadsperiode)
+                            søkerFortidOgFremtid(søknadsperiode)
                                 ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
                                 : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
                         )}
@@ -92,7 +88,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     <SummaryBlock
                         header={intlHelper(
                             intl,
-                            søkerFortid(søknadsperiode)
+                            søkerKunFortid(søknadsperiode)
                                 ? 'steg.oppsummering.omsorgstilbud.fast.header.fortid'
                                 : 'steg.oppsummering.omsorgstilbud.fast.header'
                         )}

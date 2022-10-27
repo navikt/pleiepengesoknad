@@ -13,7 +13,7 @@ import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import { skalSvarePåOmEnJobberLiktIPerioden } from '../utils/arbeidstidUtils';
+import { gjelderArbeidsforholdHeleSøknadsperioden, skalSvarePåOmEnJobberLiktIPerioden } from '../utils/arbeidstidUtils';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -21,6 +21,9 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
+import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { getDelvisAktivtArbeidsforholdInfo } from '../utils/getDelvisAktivtArbeidsforholdInfo';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -28,7 +31,8 @@ interface Props {
     arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
-    periode: DateRange;
+    aktivPeriode: DateRange;
+    søknadsperiode: DateRange;
     onArbeidstidVariertChange: () => void;
 }
 
@@ -36,7 +40,8 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsforhold,
     parentFieldName,
     arbeidsforholdType,
-    periode,
+    aktivPeriode,
+    søknadsperiode,
     arbeidsstedNavn,
     normalarbeidstid,
     onArbeidstidVariertChange,
@@ -57,7 +62,7 @@ const ArbeidIPeriodeSpørsmål = ({
             arbeidsstedNavn,
             jobberNormaltTimer: undefined, // normalarbeidstid.timerPerUke,
         },
-        periode,
+        periode: aktivPeriode,
     });
 
     const arbeidIPeriodeParentFieldName = `${parentFieldName}.arbeidIPeriode`;
@@ -65,7 +70,12 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { arbeidIPeriode } = arbeidsforhold;
     const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
-    const spørOmEnJobberLiktIPerioden = skalSvarePåOmEnJobberLiktIPerioden(periode);
+    const spørOmEnJobberLiktIPerioden = skalSvarePåOmEnJobberLiktIPerioden(aktivPeriode);
+
+    const delvisAktivtArbeidsforholdInfo =
+        gjelderArbeidsforholdHeleSøknadsperioden(søknadsperiode, aktivPeriode) === false
+            ? getDelvisAktivtArbeidsforholdInfo(arbeidsforholdType)
+            : undefined;
 
     return (
         <>
@@ -97,12 +107,22 @@ const ArbeidIPeriodeSpørsmål = ({
                         <Ingress>
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
                         </Ingress>
-                        <p>
-                            <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
-                        </p>
+                        {søkerNoeFremtid(aktivPeriode) && (
+                            <p>
+                                <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
+                            </p>
+                        )}
+
+                        {delvisAktivtArbeidsforholdInfo && (
+                            <FormBlock margin="l">
+                                <ExpandableInfo title={delvisAktivtArbeidsforholdInfo.tittel}>
+                                    {delvisAktivtArbeidsforholdInfo.tekst}
+                                </ExpandableInfo>
+                            </FormBlock>
+                        )}
 
                         {spørOmEnJobberLiktIPerioden && (
-                            <FormBlock>
+                            <FormBlock margin="l">
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                                     legend={intlHelper(
@@ -139,7 +159,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             arbeidIPeriode !== undefined && (
                                 <FormBlock>
                                     <ArbeidstidUkerSpørsmål
-                                        periode={periode}
+                                        periode={aktivPeriode}
                                         parentFieldName={arbeidIPeriodeParentFieldName}
                                         normalarbeidstid={normalarbeidstid}
                                         timerEllerProsent={timerEllerProsent}
@@ -148,6 +168,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                     />
                                 </FormBlock>
                             )}
+
                         {erLiktHverUke === YesOrNo.YES && timerEllerProsent !== undefined && arbeidIPeriode && (
                             <ArbeidstidInput
                                 arbeidIPeriode={arbeidIPeriode}
@@ -155,7 +176,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 intlValues={intlValues}
                                 normalarbeidstid={normalarbeidstid}
                                 timerEllerProsent={timerEllerProsent}
-                                periode={periode}
+                                periode={aktivPeriode}
                             />
                         )}
                     </ResponsivePanel>
