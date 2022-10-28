@@ -22,6 +22,7 @@ import {
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
+import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
 
 dayjs.extend(isSameOrBefore);
@@ -82,16 +83,11 @@ export const arbeiderMindreEnnNormaltFasteUkedager = (
 };
 
 export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøknadsdata) => {
-    const timer = Object.keys(arbeidsuker)
-        .map((key) => arbeidsuker[key].timer || 0)
-        .reduce((prev, curr) => prev + curr, 0);
-    return timer;
+    return arbeidsuker.map(({ timer }) => timer || 0).reduce((prev, curr) => prev + curr, 0);
 };
 
 export const harArbeidsukeMedRedusertProsent = (arbeidsuker: ArbeidsukerProsentSøknadsdata) => {
-    return Object.keys(arbeidsuker)
-        .map((key) => arbeidsuker[key].prosentAvNormalt || 0)
-        .some((prosent) => prosent < 100);
+    return arbeidsuker.map(({ prosentAvNormalt }) => prosentAvNormalt || 0).some((prosent) => prosent < 100);
 };
 
 export const erArbeidsforholdMedFravær = ({
@@ -149,50 +145,8 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
     return [...arbeidsgivere, ...frilans, ...selvstendig];
 };
 
-export const gjelderArbeidsforholdHeleSøknadsperioden = (
-    søknadsperiode: DateRange,
-    aktivPeriode: DateRange
-): boolean => {
-    return (
-        getAktivArbeidsforholdVarighetType(søknadsperiode, aktivPeriode) ===
-        AktivtArbeidsforholdVarighetType.gjelderHelePerioden
-    );
-};
-
-export enum AktivtArbeidsforholdVarighetType {
-    gjelderHelePerioden = 'gjelderHelePerioden',
-    starterIPeriode = 'starterIPeriode',
-    slutterIPeriode = 'slutterIPeriode',
-    starterOgSlutterIPeriode = 'starterOgSlutterIPeriode',
-    utenforPeriode = 'utenforPeriode',
-}
-
-export const getAktivArbeidsforholdVarighetType = (
-    søknadsperiode: DateRange,
-    aktivPeriode: DateRange
-): AktivtArbeidsforholdVarighetType => {
-    if (dayjs(aktivPeriode.from).isAfter(søknadsperiode.to) || dayjs(aktivPeriode.to).isBefore(søknadsperiode.from)) {
-        return AktivtArbeidsforholdVarighetType.utenforPeriode;
-    }
-    const starterEtter = dayjs(aktivPeriode.from).isAfter(søknadsperiode.from);
-    const slutterFør = dayjs(aktivPeriode.to).isBefore(søknadsperiode.to);
-
-    /** Starter og slutter i periode */
-    if (starterEtter && slutterFør) {
-        return AktivtArbeidsforholdVarighetType.starterOgSlutterIPeriode;
-    }
-    /** Slutter i periode */
-    if (!starterEtter && slutterFør) {
-        return AktivtArbeidsforholdVarighetType.slutterIPeriode;
-    }
-    /** Starter i periode */
-    if (starterEtter && !slutterFør) {
-        return AktivtArbeidsforholdVarighetType.starterIPeriode;
-    }
-    /** Starter før og slutter etter periode */
-    if (!starterEtter && !slutterFør) {
-        return AktivtArbeidsforholdVarighetType.gjelderHelePerioden;
-    }
-    /** Gjelder ikke perioden i det hele tatt */
-    return AktivtArbeidsforholdVarighetType.utenforPeriode;
+export const getArbeidsukerIPerioden = (periode: DateRange): WeekOfYearInfo[] => {
+    return getWeeksInDateRange(periode)
+        .filter((uke) => dayjs(uke.from).isoWeekday() <= 5) // Ikke ta med uker som starter lørdag eller søndag
+        .map(getWeekOfYearInfoFromDateRange);
 };

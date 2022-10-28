@@ -1,18 +1,15 @@
-import { ISODateRange } from '@navikt/sif-common-utils/lib';
-import { WeekOfYearMapKey } from '../../utils/weekOfYearUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukerProsentSøknadsdata = {
-    [key: ISODateRange]: {
-        prosentAvNormalt: number;
-    };
-};
+    periode: DateRange;
+    prosentAvNormalt: number;
+}[];
 
 export type ArbeidsukerTimerSøknadsdata = {
-    [key: WeekOfYearMapKey]: {
-        timer: number;
-    };
-};
+    periode: DateRange;
+    timer: number;
+}[];
 
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderIkke;

@@ -1,4 +1,5 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiDataJobberIkke,
@@ -22,29 +23,39 @@ const uke1 = '2022-01-03/2022-01-09';
 const uke2 = '2022-01-10/2022-01-16';
 const uke3 = '2022-01-17/2022-01-23';
 
-const arbeidsukerProsent: ArbeidsukerProsentSøknadsdata = {
-    [uke1]: {
+const uke1DateRange = ISODateRangeToDateRange(uke1);
+const uke2DateRange = ISODateRangeToDateRange(uke2);
+const uke3DateRange = ISODateRangeToDateRange(uke3);
+
+const arbeidsukerProsent: ArbeidsukerProsentSøknadsdata = [
+    {
+        periode: uke1DateRange,
         prosentAvNormalt: 20,
     },
-    [uke2]: {
+    {
+        periode: uke2DateRange,
         prosentAvNormalt: 30,
     },
-    [uke3]: {
+    {
+        periode: uke3DateRange,
         prosentAvNormalt: 40.5,
     },
-};
+];
 
-const arbeidsukerTimer: ArbeidsukerTimerSøknadsdata = {
-    [uke1]: {
+const arbeidsukerTimer: ArbeidsukerTimerSøknadsdata = [
+    {
+        periode: uke1DateRange,
         timer: 5,
     },
-    [uke2]: {
+    {
+        periode: uke2DateRange,
         timer: 6,
     },
-    [uke3]: {
+    {
+        periode: uke3DateRange,
         timer: 6.2,
     },
-};
+];
 
 describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
     describe('getArbeidsukerTimerApiData', () => {

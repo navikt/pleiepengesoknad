@@ -78,7 +78,7 @@ const erUregistrertFrilanser = () => {
 };
 
 const erIkkeFrilanser = () => {
-    it.only('er IKKE frilanser', () => {
+    it('er IKKE frilanser', () => {
         gotoStep('arbeidssituasjon');
         fyllUtArbeidssituasjonErIkkeFrilanser();
         gåTilOppsummeringFraArbeidssituasjon();

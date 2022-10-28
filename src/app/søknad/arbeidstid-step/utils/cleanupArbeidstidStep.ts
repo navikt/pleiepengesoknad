@@ -20,16 +20,16 @@ import {
 } from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
-import { getArbeidsukeKey, getArbeidsukerIPerioden } from '../components/ArbeidstidUkerSpørsmål';
-import { skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
+import { getArbeidsukeKey } from '../components/ArbeidstidUkerSpørsmål';
+import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 
 export const cleanupArbeidsuker = (
-    søknadsperiode: DateRange,
+    periode: DateRange,
     arbeidsuker: ArbeidsukerFormValues,
     timerEllerProsent: TimerEllerProsent
 ): ArbeidsukerFormValues => {
     const cleanedArbeidsuker: ArbeidsukerFormValues = {};
-    const arbeidsukerIPerioden = getArbeidsukerIPerioden(søknadsperiode);
+    const arbeidsukerIPerioden = getArbeidsukerIPerioden(periode);
     arbeidsukerIPerioden.forEach((periode) => {
         const key = getArbeidsukeKey(periode);
         if (arbeidsuker[key]) {
@@ -132,7 +132,7 @@ export const cleanupArbeidstidFrilans = (
             frilans.arbeidsforhold.arbeidIPeriode &&
             frilans.arbeidsforhold.normalarbeidstid
                 ? cleanupArbeidIPeriode(
-                      søknadsperiode,
+                      periodeSomFrilanser,
                       { ...frilans.arbeidsforhold.arbeidIPeriode, erLiktHverUke },
                       normalarbeidstid
                   )

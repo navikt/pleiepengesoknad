@@ -1,5 +1,5 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { dateToISODate, decimalDurationToISODuration, ISODateRangeToDateRange } from '@navikt/sif-common-utils';
+import { dateToISODate, decimalDurationToISODuration } from '@navikt/sif-common-utils';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
@@ -16,15 +16,13 @@ import {
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 
 export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknadsdata): ArbeidsukeTimerApiData[] => {
-    return Object.keys(arbeidsuker).map((key) => {
-        const { from, to } = ISODateRangeToDateRange(key);
-        const arbeidsuke = arbeidsuker[key];
+    return arbeidsuker.map(({ periode: { from, to }, timer }) => {
         return <ArbeidsukeTimerApiData>{
             periode: {
                 fraOgMed: dateToISODate(from),
                 tilOgMed: dateToISODate(to),
             },
-            timer: decimalDurationToISODuration(arbeidsuke.timer),
+            timer: decimalDurationToISODuration(timer),
         };
     });
 };
@@ -32,9 +30,7 @@ export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknads
 export const getArbeidsukerProsentApiData = (
     arbeidsuker: ArbeidsukerProsentSøknadsdata
 ): ArbeidsukeProsentApiData[] => {
-    return Object.keys(arbeidsuker).map((key) => {
-        const { from, to } = ISODateRangeToDateRange(key);
-        const { prosentAvNormalt } = arbeidsuker[key];
+    return arbeidsuker.map(({ periode: { from, to }, prosentAvNormalt }) => {
         return <ArbeidsukeProsentApiData>{
             periode: {
                 fraOgMed: dateToISODate(from),

@@ -85,7 +85,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                         arbeidsforhold={arbeidsforhold}
                                         arbeidsperiode={periode}
-                                        søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
@@ -108,7 +107,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                     arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                     arbeidsforhold={frilans.arbeidsforhold}
                                     arbeidsperiode={arbeid.frilans.aktivPeriode}
-                                    søknadsperiode={søknadsperiode}
                                     parentFieldName={FrilansFormField.arbeidsforhold}
                                     onArbeidstidVariertChange={handleArbeidstidChanged}
                                 />
@@ -129,7 +127,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                 arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
                                 arbeidsforhold={selvstendig.arbeidsforhold}
                                 arbeidsperiode={periodeSomSelvstendigISøknadsperiode}
-                                søknadsperiode={søknadsperiode}
                                 parentFieldName={SelvstendigFormField.arbeidsforhold}
                                 onArbeidstidVariertChange={handleArbeidstidChanged}
                             />

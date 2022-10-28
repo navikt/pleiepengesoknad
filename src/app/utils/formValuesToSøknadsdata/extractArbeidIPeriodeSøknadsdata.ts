@@ -1,6 +1,6 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { dateUtils } from '@navikt/sif-common-utils/lib';
+import { dateUtils, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
@@ -16,12 +16,13 @@ export const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): D
 });
 
 export const extractArbeidsukerTimerSøknadsdata = (arbeidsuker: ArbeidsukerFormValues): ArbeidsukerTimerSøknadsdata => {
-    const arbeidsukerSøknadsdata: ArbeidsukerTimerSøknadsdata = {};
-    Object.keys(arbeidsuker).forEach((key) => {
-        const arbeidsuke = arbeidsuker[key];
+    const arbeidsukerSøknadsdata: ArbeidsukerTimerSøknadsdata = [];
+    Object.keys(arbeidsuker).forEach((isoDateRange) => {
+        const arbeidsuke = arbeidsuker[isoDateRange];
+        const periode = ISODateRangeToDateRange(isoDateRange);
         const timerISnittPerUke = getNumberFromNumberInputValue(arbeidsuke.snittTimerPerUke);
         if (timerISnittPerUke !== undefined) {
-            arbeidsukerSøknadsdata[key] = { timer: timerISnittPerUke };
+            arbeidsukerSøknadsdata.push({ periode, timer: timerISnittPerUke });
         }
     });
     return arbeidsukerSøknadsdata;
@@ -30,12 +31,13 @@ export const extractArbeidsukerTimerSøknadsdata = (arbeidsuker: ArbeidsukerForm
 export const extractArbeidsukerProsentSøknadsdata = (
     arbeidsuker: ArbeidsukerFormValues
 ): ArbeidsukerProsentSøknadsdata => {
-    const arbeidsukerSøknadsdata: ArbeidsukerProsentSøknadsdata = {};
-    Object.keys(arbeidsuker).forEach((weekOfYearKey) => {
-        const arbeidsuke = arbeidsuker[weekOfYearKey];
+    const arbeidsukerSøknadsdata: ArbeidsukerProsentSøknadsdata = [];
+    Object.keys(arbeidsuker).forEach((isoDateRange) => {
+        const arbeidsuke = arbeidsuker[isoDateRange];
+        const periode = ISODateRangeToDateRange(isoDateRange);
         const prosentAvNormalt = getNumberFromNumberInputValue(arbeidsuke.prosentAvNormalt);
         if (prosentAvNormalt !== undefined) {
-            arbeidsukerSøknadsdata[weekOfYearKey] = { prosentAvNormalt };
+            arbeidsukerSøknadsdata.push({ periode, prosentAvNormalt });
         }
     });
     return arbeidsukerSøknadsdata;

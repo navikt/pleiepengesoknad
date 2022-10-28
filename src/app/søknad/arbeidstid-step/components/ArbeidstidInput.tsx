@@ -154,43 +154,44 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
 
     const getIkkeFullstendigUkeInfo = () => {
         if (arbeidsuke) {
-            if (arbeidsuke?.isFullWeek === false) {
-                const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
-                const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
-                return (
-                    <ExpandableInfo title="Når søknadsperioden din dekker bare deler av denne uken">
-                        {timerEllerProsent === TimerEllerProsent.PROSENT ? (
-                            <>
-                                <p>
-                                    Når søknadsperioden din ikke dekker hele uken, skal du oppgi hvor mange prosent du
-                                    jobber av normalt de dagene som er en del av søknadsperioden din (i ditt tilfelle{' '}
-                                    {fraDag} til {tilDag}). Du skal ikke ta hensyn til de dagene i uken som er utenfor
-                                    søknadsperioden.
-                                </p>
-                                <p>
-                                    Eksempel: Dersom søknadsperioden din starter en torsdag, og du skal jobbe 50 prosent
-                                    av normalt hver uke søknadsperioden, oppgir du 50 prosent. Selv om du jobber 100
-                                    prosent de andre dagene som er utenfor søknadsperioden.
-                                </p>
-                            </>
-                        ) : (
-                            <>
-                                <p>
-                                    Når søknadsperioden din ikke dekker hele denne uken, skal du oppgi hvor mange timer
-                                    du jobber de dagene i uken som er en del av søknadsperioden din ({fraDag} til{' '}
-                                    {tilDag}). Dager utenfor søknadsperioden skal ikke tas med.
-                                </p>
-                                <p>
-                                    Eksempel: Du jobber normalt 7,5 timer hver dag fra mandag til fredag, men skal nå
-                                    jobbe 2 timer hver dag i stedet. Dersom søknadsperioden din da starter på en torsdag
-                                    skal du bare ta med timene du skal jobbe for torsdag og fredag; altså 4 timer.
-                                </p>
-                            </>
-                        )}
-                    </ExpandableInfo>
-                );
-            }
             return undefined;
+            // if (arbeidsuke?.isFullWeek === false) {
+            //     const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
+            //     const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
+            //     return (
+            //         <ExpandableInfo title="Når søknadsperioden din dekker bare deler av denne uken">
+            //             {timerEllerProsent === TimerEllerProsent.PROSENT ? (
+            //                 <>
+            //                     <p>
+            //                         Når søknadsperioden din ikke dekker hele uken, skal du oppgi hvor mange prosent du
+            //                         jobber av normalt de dagene som er en del av søknadsperioden din (i ditt tilfelle{' '}
+            //                         {fraDag} til {tilDag}). Du skal ikke ta hensyn til de dagene i uken som er utenfor
+            //                         søknadsperioden.
+            //                     </p>
+            //                     <p>
+            //                         Eksempel: Dersom søknadsperioden din starter en torsdag, og du skal jobbe 50 prosent
+            //                         av normalt hver uke søknadsperioden, oppgir du 50 prosent. Selv om du jobber 100
+            //                         prosent de andre dagene som er utenfor søknadsperioden.
+            //                     </p>
+            //                 </>
+            //             ) : (
+            //                 <>
+            //                     <p>
+            //                         Når søknadsperioden din ikke dekker hele denne uken, skal du oppgi hvor mange timer
+            //                         du jobber de dagene i uken som er en del av søknadsperioden din ({fraDag} til{' '}
+            //                         {tilDag}). Dager utenfor søknadsperioden skal ikke tas med.
+            //                     </p>
+            //                     <p>
+            //                         Eksempel: Du jobber normalt 7,5 timer hver dag fra mandag til fredag, men skal nå
+            //                         jobbe 2 timer hver dag i stedet. Dersom søknadsperioden din da starter på en torsdag
+            //                         skal du bare ta med timene du skal jobbe for torsdag og fredag; altså 4 timer.
+            //                     </p>
+            //                 </>
+            //             )}
+            //         </ExpandableInfo>
+            //     );
+            // }
+            // return undefined;
         }
         return periode && søkerKunHeleUker(periode) ? undefined : (
             <ExpandableInfo title="Når søknadsperioden din starter eller slutter midt i en uke">

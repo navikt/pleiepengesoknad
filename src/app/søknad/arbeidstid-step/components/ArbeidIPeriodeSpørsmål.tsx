@@ -22,7 +22,6 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
-import DelvisArbeidsforholdInfo from './DelvisArbeidsforholdInfo';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -31,7 +30,6 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     arbeidsperiode: DateRange;
-    søknadsperiode: DateRange;
     onArbeidstidVariertChange: () => void;
 }
 
@@ -40,7 +38,6 @@ const ArbeidIPeriodeSpørsmål = ({
     parentFieldName,
     arbeidsforholdType,
     arbeidsperiode,
-    søknadsperiode,
     arbeidsstedNavn,
     normalarbeidstid,
     onArbeidstidVariertChange,
@@ -69,6 +66,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     const { arbeidIPeriode } = arbeidsforhold;
     const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
+
     const visErLiktHverUkeSpørsmål = skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode);
 
     return (
@@ -108,14 +106,8 @@ const ArbeidIPeriodeSpørsmål = ({
                             </p>
                         )}
 
-                        <DelvisArbeidsforholdInfo
-                            søknadsperiode={søknadsperiode}
-                            arbeidsperiode={arbeidsperiode}
-                            arbeidsforholdType={arbeidsforholdType}
-                        />
-
                         {visErLiktHverUkeSpørsmål && (
-                            <FormBlock margin="l">
+                            <FormBlock>
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                                     legend={intlHelper(
@@ -162,16 +154,19 @@ const ArbeidIPeriodeSpørsmål = ({
                                 </FormBlock>
                             )}
 
-                        {erLiktHverUke === YesOrNo.YES && timerEllerProsent !== undefined && arbeidIPeriode && (
-                            <ArbeidstidInput
-                                arbeidIPeriode={arbeidIPeriode}
-                                parentFieldName={arbeidIPeriodeParentFieldName}
-                                intlValues={intlValues}
-                                normalarbeidstid={normalarbeidstid}
-                                timerEllerProsent={timerEllerProsent}
-                                periode={arbeidsperiode}
-                            />
-                        )}
+                        {visErLiktHverUkeSpørsmål === true &&
+                            erLiktHverUke === YesOrNo.YES &&
+                            timerEllerProsent !== undefined &&
+                            arbeidIPeriode && (
+                                <ArbeidstidInput
+                                    arbeidIPeriode={arbeidIPeriode}
+                                    parentFieldName={arbeidIPeriodeParentFieldName}
+                                    intlValues={intlValues}
+                                    normalarbeidstid={normalarbeidstid}
+                                    timerEllerProsent={timerEllerProsent}
+                                    periode={arbeidsperiode}
+                                />
+                            )}
                     </ResponsivePanel>
                 </FormBlock>
             )}
