@@ -91,7 +91,7 @@ export const extractArbeidIPeriodeSøknadsdata = ({
             };
         }
     }
-    if (erLiktHverUke === YesOrNo.NO && arbeidsuker) {
+    if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
         if (timerEllerProsent === TimerEllerProsent.TIMER) {
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
