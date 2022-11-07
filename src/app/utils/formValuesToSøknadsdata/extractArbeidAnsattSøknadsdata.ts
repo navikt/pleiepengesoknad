@@ -38,5 +38,6 @@ export const extractArbeidAnsattSøknadsdata = (
             arbeidsforhold: arbeidsforholdSøknadsdata,
         };
     }
+    console.log('undefined arbeidsforhold', arbeidsforhold);
     return undefined;
 };

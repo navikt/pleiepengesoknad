@@ -1,8 +1,14 @@
-import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
+import { ArbeidsforholdSøknadsdata } from '../../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { erArbeidsforholdMedFravær, summerArbeidstimerIArbeidsuker } from '../arbeidstidUtils';
+import {
+    arbeidsperiodeErKortereEnnSøknadsperiode,
+    harFraværFraJobb,
+    summerArbeidstimerIArbeidsuker,
+} from '../arbeidstidUtils';
 
 const normalarbeidstid: NormalarbeidstidSøknadsdata = {
     timerPerUkeISnitt: 20,
@@ -26,31 +32,22 @@ const arbeiderRedusert: ArbeidIPeriodeSøknadsdata = {
     timerISnittPerUke: 5,
 };
 
+const arbeidsforhold: ArbeidsforholdSøknadsdata[] = [{ normalarbeidstid, arbeidISøknadsperiode: arbeiderVanlig }];
+
 describe('arbeidstidUtils', () => {
-    describe('erArbeidsforholdMedFravær', () => {
-        it('returner true når en ikke arbeiderer i perioden', () => {
+    describe('harFraværFraJobb', () => {
+        it('returnerer false når en kun jobber normalt', () => {
+            expect(harFraværFraJobb(arbeidsforhold)).toBeFalsy();
+        });
+        it('returnerer true når en har et arbeidsforhold hvor en jobber redusert', () => {
             expect(
-                erArbeidsforholdMedFravær({
-                    normalarbeidstid,
-                    arbeidISøknadsperiode: arbeiderIkke,
-                })
+                harFraværFraJobb([...arbeidsforhold, { normalarbeidstid, arbeidISøknadsperiode: arbeiderRedusert }])
             ).toBeTruthy();
         });
-        it('returner true når en arbeider redusert i perioden', () => {
+        it('returnerer true når en har et arbeidsforhold hvor en ikke jobber', () => {
             expect(
-                erArbeidsforholdMedFravær({
-                    normalarbeidstid,
-                    arbeidISøknadsperiode: arbeiderRedusert,
-                })
+                harFraværFraJobb([...arbeidsforhold, { normalarbeidstid, arbeidISøknadsperiode: arbeiderIkke }])
             ).toBeTruthy();
-        });
-        it('returner false når en arbeider som vanlig', () => {
-            expect(
-                erArbeidsforholdMedFravær({
-                    normalarbeidstid,
-                    arbeidISøknadsperiode: arbeiderVanlig,
-                })
-            ).toBeFalsy();
         });
     });
 
@@ -67,6 +64,47 @@ describe('arbeidstidUtils', () => {
                 { periode, timer: 3 },
             ]);
             expect(result).toEqual(6);
+        });
+    });
+
+    describe('arbeidsperiodeErKortereEnnSøknadsperiode', () => {
+        const mandag: Date = ISODateToDate('2022-01-03');
+        const tirsdag: Date = ISODateToDate('2022-01-04');
+        const torsdag: Date = ISODateToDate('2022-01-06');
+        const fredag: Date = ISODateToDate('2022-01-07');
+        it('returnerer true når arbeidsperiode starter etter søknadsperiode starter', () => {
+            const arbeidsperiode: DateRange = {
+                from: tirsdag,
+                to: fredag,
+            };
+            const søknadsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeTruthy();
+        });
+        it('returnerer true når arbeidsperiode slutter før søknadsperiode slutter', () => {
+            const arbeidsperiode: DateRange = {
+                from: mandag,
+                to: torsdag,
+            };
+            const søknadsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeTruthy();
+        });
+        it('returnerer false når arbeidsperiode starter og slutter samme dager eller utenfor søknadsperiode', () => {
+            const arbeidsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            const søknadsperiode: DateRange = {
+                from: tirsdag,
+                to: torsdag,
+            };
+            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeFalsy();
+            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeFalsy();
         });
     });
 });

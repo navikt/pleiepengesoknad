@@ -28,7 +28,7 @@ import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/n
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
 import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
-import { getArbeidsforhold, harFraværIPerioden } from './arbeidstid-step/utils/arbeidstidUtils';
+import { getArbeidsforhold, harFraværFraJobb } from './arbeidstid-step/utils/arbeidstidUtils';
 import { getIngenFraværConfirmationDialog } from './confirmation-dialogs/ingenFraværConfirmation';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
@@ -238,7 +238,7 @@ const SøknadContent = ({
                                         setSøknadsdata(søknadsdata);
                                         if (
                                             søknadsdata.arbeid &&
-                                            harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false
+                                            harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid)) === false
                                         ) {
                                             setConfirmationDialog(
                                                 getIngenFraværConfirmationDialog({

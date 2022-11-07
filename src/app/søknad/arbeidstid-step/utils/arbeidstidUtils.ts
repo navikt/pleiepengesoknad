@@ -90,29 +90,6 @@ export const harArbeidsukeMedRedusertProsent = (arbeidsuker: ArbeidsukerProsentS
     return arbeidsuker.map(({ prosentAvNormalt }) => prosentAvNormalt || 0).some((prosent) => prosent < 100);
 };
 
-export const erArbeidsforholdMedFravær = ({
-    arbeidISøknadsperiode,
-    normalarbeidstid,
-}: ArbeidsforholdSøknadsdata): boolean => {
-    if (!arbeidISøknadsperiode) {
-        return false;
-    }
-    switch (arbeidISøknadsperiode.type) {
-        case ArbeidIPeriodeType.arbeiderIkke:
-            return true;
-        case ArbeidIPeriodeType.arbeiderVanlig:
-            return false;
-        case ArbeidIPeriodeType.arbeiderProsentAvNormalt:
-            return arbeidISøknadsperiode.prosentAvNormalt < 100;
-        case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
-            return arbeiderMindreEnnNormaltISnittPerUke(arbeidISøknadsperiode.timerISnittPerUke, normalarbeidstid);
-        case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
-            return summerArbeidstimerIArbeidsuker(arbeidISøknadsperiode.arbeidsuker) > 0;
-        case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
-            return harArbeidsukeMedRedusertProsent(arbeidISøknadsperiode.arbeidsuker);
-    }
-};
-
 export const periodeInneholderEnHelArbeidsuke = (periode: DateRange): boolean => {
     const uker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
     return uker.some((uke) => uke.isFullWeek === true);
@@ -121,8 +98,23 @@ export const periodeInneholderEnHelArbeidsuke = (periode: DateRange): boolean =>
 export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
     periode ? periodeInneholderEnHelArbeidsuke(periode) : true;
 
-export const harFraværIPerioden = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
-    return arbeidsforhold.some(erArbeidsforholdMedFravær);
+export const arbeidsperiodeErKortereEnnSøknadsperiode = (
+    arbeidsperiode: DateRange,
+    søknadsperiode: DateRange
+): boolean => {
+    return (
+        dayjs(arbeidsperiode.from).isAfter(søknadsperiode.from, 'day') ||
+        dayjs(arbeidsperiode.to).isBefore(søknadsperiode.to, 'day')
+    );
+};
+
+export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
+    return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
+        if (!arbeidISøknadsperiode) {
+            return false;
+        }
+        return arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig;
+    });
 };
 
 export const harArbeidIPerioden = (arbeid?: ArbeidSøknadsdata): boolean =>

@@ -20,7 +20,6 @@ export const fyllUtArbeidstidRedusertVarierendeTimer = () => {
     const timer: string[] = ['10', '0', '20', '10', '10'];
     selectRadio(ArbeiderIPeriodenSvar.redusert);
     selectRadio('er-likt-hver-uke_no');
-    selectRadio('timer');
     getTestElement('arbeidsuker').within(() => {
         cy.get(`[data-testid="timer-verdi"]`).each((element, idx) => {
             cy.wrap(element).click().type(timer[idx]);

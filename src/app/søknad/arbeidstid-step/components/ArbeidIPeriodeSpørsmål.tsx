@@ -3,7 +3,7 @@ import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
@@ -14,7 +14,7 @@ import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import { skalSvarePåOmEnJobberLiktIPerioden } from '../utils/arbeidstidUtils';
+import { arbeidIPeriodeSpørsmålConfig } from '../utils/arbeidIPeriodeSpørsmålConfig';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
@@ -30,6 +30,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     arbeidsperiode: DateRange;
+    søknadsperiode: DateRange;
     onArbeidstidVariertChange: () => void;
 }
 
@@ -38,6 +39,7 @@ const ArbeidIPeriodeSpørsmål = ({
     parentFieldName,
     arbeidsforholdType,
     arbeidsperiode,
+    søknadsperiode,
     arbeidsstedNavn,
     normalarbeidstid,
     onArbeidstidVariertChange,
@@ -65,9 +67,12 @@ const ArbeidIPeriodeSpørsmål = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, timerEllerProsent, erLiktHverUke } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, timerEllerProsent } = arbeidIPeriode || {};
 
-    const visErLiktHverUkeSpørsmål = skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode);
+    const visibility = arbeidIPeriodeSpørsmålConfig.getVisbility({
+        formValues: arbeidIPeriode || {},
+        arbeidsperiode,
+    });
 
     return (
         <>
@@ -105,18 +110,11 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                             </p>
                         )}
-
-                        {visErLiktHverUkeSpørsmål && (
+                        {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (
                             <FormBlock>
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
-                                    legend={intlHelper(
-                                        intl,
-                                        `arbeidIPeriode.erLiktHverUke.${
-                                            timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
-                                        }.spm`,
-                                        intlValues
-                                    )}
+                                    legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
                                     validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                                     useTwoColumns={true}
                                     data-testid="er-likt-hver-uke"
@@ -127,7 +125,7 @@ const ArbeidIPeriodeSpørsmål = ({
                                 />
                             </FormBlock>
                         )}
-                        {(erLiktHverUke !== undefined || visErLiktHverUkeSpørsmål === false) && (
+                        {visibility.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent) && (
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
                                     name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
@@ -139,25 +137,23 @@ const ArbeidIPeriodeSpørsmål = ({
                             </FormBlock>
                         )}
 
-                        {(erLiktHverUke === YesOrNo.NO || visErLiktHverUkeSpørsmål === false) &&
-                            timerEllerProsent !== undefined &&
-                            arbeidIPeriode !== undefined && (
-                                <FormBlock>
-                                    <ArbeidstidUkerSpørsmål
-                                        periode={arbeidsperiode}
-                                        parentFieldName={arbeidIPeriodeParentFieldName}
-                                        normalarbeidstid={normalarbeidstid}
-                                        timerEllerProsent={timerEllerProsent}
-                                        arbeidIPeriode={arbeidIPeriode}
-                                        intlValues={intlValues}
-                                    />
-                                </FormBlock>
-                            )}
+                        {visibility.isVisible(ArbeidIPeriodeFormField.arbeidsuker) && arbeidIPeriode !== undefined && (
+                            <FormBlock>
+                                <ArbeidstidUkerSpørsmål
+                                    periode={arbeidsperiode}
+                                    søknadsperiode={søknadsperiode}
+                                    parentFieldName={arbeidIPeriodeParentFieldName}
+                                    normalarbeidstid={normalarbeidstid}
+                                    timerEllerProsent={TimerEllerProsent.TIMER}
+                                    arbeidIPeriode={arbeidIPeriode}
+                                    intlValues={intlValues}
+                                />
+                            </FormBlock>
+                        )}
 
-                        {visErLiktHverUkeSpørsmål === true &&
-                            erLiktHverUke === YesOrNo.YES &&
-                            timerEllerProsent !== undefined &&
-                            arbeidIPeriode && (
+                        {visibility.isVisible(ArbeidIPeriodeFormField.timerEllerProsent) &&
+                            arbeidIPeriode &&
+                            timerEllerProsent && (
                                 <ArbeidstidInput
                                     arbeidIPeriode={arbeidIPeriode}
                                     parentFieldName={arbeidIPeriodeParentFieldName}

@@ -37,6 +37,7 @@
         "@navikt/sif-common-formik": "^23.2.0",
         "@navikt/sif-common-forms": "^17.5.1",
         "@navikt/sif-common-pleiepenger": "^4.1.1",
+        "@navikt/sif-common-question-config": "^0.0.7",
         "@navikt/sif-common-sentry": "^0.4.3",
         "@navikt/sif-common-utils": "3.15.3",
         "ajv": "^8.11.0",

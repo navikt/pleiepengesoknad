@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
-import { dateRangeToISODateRange, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { dateFormatter, dateRangeToISODateRange, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../types';
@@ -13,7 +13,7 @@ import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
 import ArbeidstidInput from './ArbeidstidInput';
-import { getArbeidsukerIPerioden } from '../utils/arbeidstidUtils';
+import { arbeidsperiodeErKortereEnnSøknadsperiode, getArbeidsukerIPerioden } from '../utils/arbeidstidUtils';
 
 dayjs.extend(weekOfYear);
 
@@ -26,6 +26,7 @@ const getArbeidsukeFieldName = (parentFieldName: string, week: WeekOfYearInfo): 
 
 interface Props {
     periode: DateRange;
+    søknadsperiode: DateRange;
     parentFieldName: string;
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     timerEllerProsent: TimerEllerProsent;
@@ -35,6 +36,7 @@ interface Props {
 
 const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     periode,
+    søknadsperiode,
     parentFieldName,
     normalarbeidstid,
     timerEllerProsent,
@@ -59,7 +61,16 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                     timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
                 }.spm`,
                 { ...intlValues, timerNormaltString }
-            )}>
+            )}
+            description={
+                arbeidsperiodeErKortereEnnSøknadsperiode(periode, søknadsperiode) ? (
+                    <>
+                        Arbeidsperioden {intlValues.hvor} er kortere enn søknadsperioden. Da trenger du kun oppgi
+                        informasjon for ukene i dette tidsrommet ({dateFormatter.compact(periode.from)} til{' '}
+                        {dateFormatter.compact(periode.to)}).
+                    </>
+                ) : undefined
+            }>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
                     <div key={dateRangeToISODateRange(arbeidsuke.dateRange)}>

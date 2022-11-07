@@ -176,7 +176,11 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                     <div>
                         <p>
                             <FormattedMessage
-                                id="oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.tittel"
+                                id={
+                                    arbeidIPeriode.arbeidsuker.length === 1
+                                        ? 'oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.enkeltuke.timer.tittel'
+                                        : 'oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.timer.tittel'
+                                }
                                 values={{ timerNormalt: timerNormalt }}
                             />
                         </p>
