@@ -29,6 +29,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 dayjs.extend(minMax);
 
@@ -86,6 +87,20 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}>
             <SøknadFormComponents.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.info.tittel')}>
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.1" />
+                        </p>
+                        <p>
+                            <strong>
+                                <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.2" />
+                            </strong>
+                            <br />
+                            <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.3" />
+                        </p>
+                    </ExpandableInfo>
+                }
                 minDate={
                     barnetSøknadenGjelder?.fødselsdato
                         ? dayjs
