@@ -1,18 +1,19 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import {
+    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilanserNyFormValues,
+} from '../types/ArbeidsforholdFormValues';
 import dayjs from 'dayjs';
-import { Arbeidsgiver } from '../types';
-import { FrilansFormData } from '../types/FrilansFormData';
+import { FrilansFormData, FrilansOppdragKategori, FrilansOppdragSvar, YesOrNoRadio } from '../types/FrilansFormData';
 
-export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
+export const harFrilansoppdrag = (frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[] | undefined) =>
+    // TODO legg till mer varianter
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
 
-export const harSvartErFrilanserEllerHarFrilansoppdrag = (
-    harHattInntektSomFrilanser: YesOrNo | undefined,
-    frilansoppdrag: Arbeidsgiver[] | undefined
-): boolean => {
-    return harFrilansoppdrag(frilansoppdrag) || harHattInntektSomFrilanser === YesOrNo.YES;
+export const harSvartErFrilanserEllerHarFrilansoppdrag = (harHattInntektSomFrilanser: YesOrNo | undefined): boolean => {
+    return harHattInntektSomFrilanser === YesOrNo.YES;
 };
 
 export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
@@ -25,18 +26,85 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
     return true;
 };
 
+export const harFrlilansOppdragISøknadsperiode = (
+    oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues,
+    søknadsperiode: DateRange
+): boolean => {
+    if (oppdrag.arbeidsgiver.ansattFom === undefined) {
+        return false;
+    }
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(oppdrag.sluttdato);
+
+    const harFrilansOppdragIPerioden =
+        oppdrag.frilansOppdragIPerioden === FrilansOppdragSvar.JA ||
+        oppdrag.frilansOppdragIPerioden === FrilansOppdragSvar.JAAVSLUTESIPERIODEN;
+    const harStyremedlemHeleInntekt =
+        oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV &&
+        oppdrag.styremedlemHeleInntekt === YesOrNoRadio.JA;
+
+    return (
+        harFrilansOppdragIPerioden &&
+        !harStyremedlemHeleInntekt &&
+        oppdrag.frilansOppdragKategori !== FrilansOppdragKategori.FOSTERFORELDER &&
+        erFrilanserITidsrom(søknadsperiode, oppdrag.arbeidsgiver.ansattFom, frilansSluttdato)
+    );
+};
+
+export const frlilansOppdragISøknadsperiode = (
+    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[],
+    søknadsperiode: DateRange
+): boolean => {
+    return arbeidsforhold.some((oppdrag) => harFrlilansOppdragISøknadsperiode(oppdrag, søknadsperiode));
+};
+
+export const harNyFrlilansOppdragISøknadsperiode = (
+    oppdrag: ArbeidsforholdFrilanserNyFormValues,
+    søknadsperiode: DateRange,
+    erFrilanserIPeriode?: YesOrNo
+): boolean => {
+    if (erFrilanserIPeriode === YesOrNo.NO) {
+        return false;
+    }
+    const frilansStartdato = datepickerUtils.getDateFromDateString(oppdrag.startdato);
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(oppdrag.sluttdato);
+
+    if (frilansStartdato === undefined) {
+        return false;
+    }
+
+    const harStyremedlemHeleInntekt =
+        oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV &&
+        oppdrag.styremedlemHeleInntekt === YesOrNoRadio.JA;
+
+    return (
+        !harStyremedlemHeleInntekt &&
+        oppdrag.frilansOppdragKategori !== FrilansOppdragKategori.FOSTERFORELDER &&
+        erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato)
+    );
+};
+
+export const nyFrlilansOppdragISøknadsperiode = (
+    arbeidsforhold: ArbeidsforholdFrilanserNyFormValues[],
+    søknadsperiode: DateRange,
+    erFrilanserIPeriode?: YesOrNo
+): boolean => {
+    return arbeidsforhold.some((oppdrag) =>
+        harNyFrlilansOppdragISøknadsperiode(oppdrag, søknadsperiode, erFrilanserIPeriode)
+    );
+};
+
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[] | undefined
+    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData
 ): boolean => {
     if (erFortsattFrilanser === YesOrNo.YES) {
         return true;
     }
+    // TO DO FRILANS MED OPPDRAG
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
 
-    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser, frilansoppdrag)) {
+    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser)) {
         return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
     return false;

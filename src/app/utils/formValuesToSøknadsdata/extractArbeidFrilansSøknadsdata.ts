@@ -1,7 +1,6 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { Arbeidsgiver } from '../../types';
 import { FrilansFormData } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
@@ -9,10 +8,9 @@ import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøkna
 
 export const extractArbeidFrilansSøknadsdata = (
     frilans: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[],
     søknadsperiode: DateRange
 ): ArbeidFrilansSøknadsdata | undefined => {
-    const erFrilanser = frilans.harHattInntektSomFrilanser === YesOrNo.YES || frilansoppdrag.length > 0;
+    const erFrilanser = frilans.harHattInntektSomFrilanser === YesOrNo.YES;
 
     /** Er ikke frilanser */
     if (!erFrilanser) {

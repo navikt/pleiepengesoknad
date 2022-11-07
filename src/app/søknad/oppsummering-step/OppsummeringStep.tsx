@@ -282,7 +282,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                 <ArbeidssituasjonSummary
                                     apiValues={apiValues}
                                     søknadsperiode={søknadsperiode}
-                                    frilansoppdrag={values.frilansoppdrag}
+                                    // frilansoppdrag={values.frilansoppdrag}
                                 />
 
                                 {/* Arbeid i søknadsperiode */}

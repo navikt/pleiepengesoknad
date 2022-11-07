@@ -38,7 +38,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     }
 
     const {
-        values: { ansatt_arbeidsforhold, frilans, selvstendig },
+        values: { ansatt_arbeidsforhold, frilans, selvstendig, frilansoppdrag, nyfrilansoppdrag },
     } = formikProps;
 
     const periodeSomSelvstendigISøknadsperiode =
@@ -86,6 +86,70 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforhold={arbeidsforhold}
                                         arbeidsperiode={periode}
                                         parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
+                                        onArbeidstidVariertChange={handleArbeidstidChanged}
+                                    />
+                                </div>
+                            </FormSection>
+                        );
+                    })}
+                </FormBlock>
+            )}
+            {frilansoppdrag.length > 0 && (
+                <FormBlock>
+                    {frilansoppdrag.map((oppdrag, index) => {
+                        const frilansoppdrag = arbeid.frilansOppdrag?.get(oppdrag.arbeidsgiver.id);
+
+                        /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
+                        if (
+                            !frilansoppdrag ||
+                            frilansoppdrag.type === 'utenArbeidsForhold' ||
+                            frilansoppdrag.type === 'sluttetFørSøknadsperiode'
+                        ) {
+                            return null;
+                        }
+
+                        return (
+                            <FormSection title={frilansoppdrag.arbeidsgiver.navn} key={frilansoppdrag.arbeidsgiver.id}>
+                                <div data-testid="arbeidIPerioden_frilansOppdrag">
+                                    <ArbeidIPeriodeSpørsmål
+                                        normalarbeidstid={frilansoppdrag.arbeidsforhold.normalarbeidstid}
+                                        arbeidsstedNavn={oppdrag.arbeidsgiver.navn}
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        arbeidsforhold={oppdrag}
+                                        arbeidsperiode={periode}
+                                        parentFieldName={`${SøknadFormField.frilansoppdrag}.${index}`}
+                                        onArbeidstidVariertChange={handleArbeidstidChanged}
+                                    />
+                                </div>
+                            </FormSection>
+                        );
+                    })}
+                </FormBlock>
+            )}
+            {nyfrilansoppdrag.length > 0 && (
+                <FormBlock>
+                    {nyfrilansoppdrag.map((oppdrag, index) => {
+                        const frilansoppdrag = arbeid.nyFrilans?.get(oppdrag.id);
+
+                        /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
+                        if (
+                            !frilansoppdrag ||
+                            frilansoppdrag.type === 'utenArbeidsforhold' ||
+                            frilansoppdrag.type === 'erIkkeFrilanser'
+                        ) {
+                            return null;
+                        }
+
+                        return (
+                            <FormSection title={frilansoppdrag.navn} key={frilansoppdrag.id}>
+                                <div data-testid="arbeidIPerioden_frilansOppdrag">
+                                    <ArbeidIPeriodeSpørsmål
+                                        normalarbeidstid={frilansoppdrag.arbeidsforhold.normalarbeidstid}
+                                        arbeidsstedNavn={oppdrag.navn}
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        arbeidsforhold={oppdrag}
+                                        arbeidsperiode={periode}
+                                        parentFieldName={`${SøknadFormField.nyfrilansoppdrag}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
                                 </div>

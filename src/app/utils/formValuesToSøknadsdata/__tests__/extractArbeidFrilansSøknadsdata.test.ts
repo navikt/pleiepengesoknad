@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { dateToISODate, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { extractArbeidFrilansSøknadsdata } from '../extractArbeidFrilansSøknadsdata';
@@ -14,7 +13,7 @@ const datoISøknadsperiode = dayjs(søknadsperiode.from).add(2, 'day').toDate();
 const arbeidsforholdSpy = jest.spyOn(arbeidsforholdMock, 'extractArbeidsforholdSøknadsdata');
 const mockArbeidsforhold: ArbeidsforholdFrilanserFormValues = {} as any;
 
-const frilansoppdrag: Arbeidsgiver[] = [{} as any];
+// const frilansoppdrag: Arbeidsgiver[] = [{} as any];
 
 const formData: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
@@ -28,7 +27,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
         it('returnerer erIkkeFrilanser dersom bruker ikke har oppdrag og har svart nei', () => {
             const result = extractArbeidFrilansSøknadsdata(
                 { ...formData, harHattInntektSomFrilanser: YesOrNo.NO },
-                [],
                 søknadsperiode
             );
             expect(result).toBeDefined();
@@ -42,7 +40,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                     erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: dateToISODate(datoFørSøknadsperiode),
                 },
-                frilansoppdrag,
                 søknadsperiode
             );
             expect(result).toBeDefined();
@@ -62,7 +59,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                     erFortsattFrilanser: YesOrNo.NO,
                     sluttdato: dateToISODate(datoISøknadsperiode),
                 },
-                frilansoppdrag,
                 søknadsperiode
             );
             expect(result).toBeDefined();
@@ -76,7 +72,6 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                     harHattInntektSomFrilanser: YesOrNo.YES,
                     erFortsattFrilanser: YesOrNo.YES,
                 },
-                frilansoppdrag,
                 søknadsperiode
             );
             expect(result).toBeDefined();

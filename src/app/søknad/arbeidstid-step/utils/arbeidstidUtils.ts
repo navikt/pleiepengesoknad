@@ -138,11 +138,23 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
+    const frilansOppdarg: ArbeidsforholdSøknadsdata[] = [];
+    arbeid.frilansOppdrag?.forEach((a) => {
+        if (a.type === 'sluttetISøknadsperiode' || a.type === 'pågående') {
+            frilansOppdarg.push(a.arbeidsforhold);
+        }
+    });
+    const nyFrilans: ArbeidsforholdSøknadsdata[] = [];
+    arbeid.nyFrilans?.forEach((a) => {
+        if (a.type === 'sluttetISøknadsperiode' || a.type === 'pågående') {
+            frilansOppdarg.push(a.arbeidsforhold);
+        }
+    });
     const frilans: ArbeidsforholdSøknadsdata[] = arbeid.frilans?.erFrilanser ? [arbeid.frilans.arbeidsforhold] : [];
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];
-    return [...arbeidsgivere, ...frilans, ...selvstendig];
+    return [...arbeidsgivere, ...frilans, ...selvstendig, ...frilansOppdarg, ...nyFrilans];
 };
 
 export const getArbeidsukerIPerioden = (periode: DateRange): WeekOfYearInfo[] => {

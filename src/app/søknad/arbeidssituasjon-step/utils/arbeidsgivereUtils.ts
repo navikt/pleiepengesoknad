@@ -1,6 +1,9 @@
 import { FormikProps } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../types';
-import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserMedOppdragFormValues,
+} from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues, SøknadFormField } from '../../../types/SøknadFormValues';
 import appSentryLogger from '../../../utils/appSentryLogger';
 
@@ -40,6 +43,28 @@ export const syncAnsattArbeidsforhold = (
     return syncedArbeidsforhold;
 };
 
+export const syncFrilansoppdragArbeidsforhold = (
+    arbeidsgivere: Arbeidsgiver[],
+    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[] = []
+): Array<ArbeidsforholdFrilanserMedOppdragFormValues> => {
+    const syncedArbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[] = [];
+
+    arbeidsgivere.forEach((arbeidsgiver) => {
+        const forhold = arbeidsforhold.find((f) => f.arbeidsgiver.id === arbeidsgiver.id);
+        if (!arbeidsgiver.navn) {
+            appSentryLogger.logError(
+                'Get arbeidsgiver: Manglende navn på frilansoppdrag',
+                `${JSON.stringify(arbeidsgiver)}`
+            );
+        }
+        syncedArbeidsforhold.push({
+            arbeidsgiver,
+            ...forhold,
+        });
+    });
+    return syncedArbeidsforhold;
+};
+
 /**
  * Oppdaterer SøknadFormValues med nye arbeidsforhold etter at en har hentet
  * arbeidsgivere i søknadsperiode
@@ -57,6 +82,10 @@ export const oppdaterSøknadMedArbeidsgivere = (
     );
     setFieldValue(SøknadFormField.ansatt_arbeidsforhold, ansattArbeidsforhold);
 
-    const frilansoppdrag = arbeidsgivere.filter(erFrilansoppdrag);
+    // const frilansoppdrag = arbeidsgivere.filter(erFrilansoppdrag);
+    const frilansoppdrag = syncFrilansoppdragArbeidsforhold(
+        arbeidsgivere.filter(erFrilansoppdrag),
+        values.frilansoppdrag
+    );
     setFieldValue(SøknadFormField.frilansoppdrag, frilansoppdrag);
 };

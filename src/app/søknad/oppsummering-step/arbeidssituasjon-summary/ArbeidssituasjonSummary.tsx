@@ -8,14 +8,13 @@ import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
 import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSummary';
-import { Arbeidsgiver } from '../../../types';
 import OpptjeningIUtlandetSummary from './OpptjeningIUtlandetSummary';
 import UtenlandskNæringSummary from './ArbeidssituasjonUtenlandskNæringSummary';
 
 interface Props {
     apiValues: SøknadApiData;
     søknadsperiode: DateRange;
-    frilansoppdrag: Arbeidsgiver[];
+    // frilansoppdrag: Arbeidsgiver[];
 }
 
 const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
@@ -28,7 +27,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         utenlandskNæring,
     },
     søknadsperiode,
-    frilansoppdrag,
+    // frilansoppdrag,
 }) => {
     const intl = useIntl();
 
@@ -37,7 +36,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
             <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
                 <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
 
-                <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
+                <ArbeidssituasjonFrilansSummary frilans={frilans} />
 
                 <ArbeidssituasjonSelvstendigSummary selvstendig={selvstendigNæringsdrivende} />
 

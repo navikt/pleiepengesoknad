@@ -12,7 +12,6 @@ import {
     ArbeidsforholdFormField,
     ArbeidsforholdFrilanserFormValues,
     ArbeidsforholdSelvstendigFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
@@ -21,11 +20,7 @@ import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken
 interface Props {
     arbeidsforholdFieldName: string;
     arbeidsstedNavn?: string;
-    arbeidsforhold:
-        | ArbeidsforholdFormValues
-        | ArbeidsforholdFrilanserFormValues
-        | ArbeidsforholdFrilanserMedOppdragFormValues
-        | ArbeidsforholdSelvstendigFormValues;
+    arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues | ArbeidsforholdSelvstendigFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
@@ -34,7 +29,7 @@ interface Props {
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
 
-const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
+const NormalarbeidstidSpørsmålNy: React.FunctionComponent<Props> = ({
     arbeidsforholdFieldName,
     arbeidsforhold,
     arbeidsforholdType,
@@ -132,4 +127,4 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     );
 };
 
-export default NormalarbeidstidSpørsmål;
+export default NormalarbeidstidSpørsmålNy;

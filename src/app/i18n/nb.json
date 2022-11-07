@@ -302,7 +302,7 @@
 
     "steg.arbeidssituasjon.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
     "steg.arbeidssituasjon.info.tittel": "Mangler det et arbeidsforhold her?",
-    "steg.arbeidssituasjon.frilanser.tittel": "Frilans",
+    "steg.arbeidssituasjon.frilanser.tittel": "Frilanser, oppdragstaker og honorarer",
     "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
 
     "steg.arbeidssituasjon.opptjeningUtland.tittel": "Jobbet i et annet EØS-land",
@@ -922,7 +922,23 @@
 
     "arbeidssituasjonFrilanser.frilanserPart.tittel": "Om deg som frilanser",
 
+    "frilansoppdragListe.oppdrag.info": "Du har frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Merk at hvis du mottar fosterhjemsgodtgjørelse eller omsorgsstønad fra kommunen er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
+    "frilansoppdragListe.oppdrag.spm": "Stemmer det at du har dette frilansoppdraget i perioden du søker for?",
+    "frilansoppdragListe.oppdrag.yes": "Ja",
+    "frilansoppdragListe.oppdrag.yesAvsluttesIPerioden": "Ja, men det avsluttes i perioden",
+    "frilansoppdragListe.oppdrag.no": "Nei, det er avsluttet før perioden",
+
+    "frilansoppdragListe.oppdrag.kategori.spm": "Hvilken type frilansoppdrag er {oppdargsNavn}?",
+    "frilansoppdragListe.oppdrag.Omsorgsstønad": "Omsorgsstønad",
+    "frilansoppdragListe.oppdrag.Frilanser": "Frilanser",
+    "frilansoppdragListe.oppdrag.StyremedlemEllerVerv": "Styremedlem Eller Verv",
+    "frilansoppdragListe.oppdrag.Fosterforelder": "Fosterforelder",
+
+    "frilansoppdragListe.oppdrag.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
+    "yes": "Ja",
+    "no": "Nei",
+
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
     "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",
     "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i perioden:",

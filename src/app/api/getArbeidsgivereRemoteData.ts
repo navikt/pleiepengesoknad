@@ -53,7 +53,7 @@ const mapAAregArbeidsgiverRemoteDataToArbeidsgiver = (data: AAregArbeidsgiverRem
     data.frilansoppdrag?.forEach((a) => {
         arbeidsgivere.push({
             type: ArbeidsgiverType.FRILANSOPPDRAG,
-            id: a.offentligIdent || a.organisasjonsnummer || 'ukjent',
+            id: a.offentligIdent || a.organisasjonsnummer || a.navn || 'ukjent',
             organisasjonsnummer: a.organisasjonsnummer,
             offentligIdent: a.offentligIdent,
             navn: a.navn || 'Frilansoppdrag',

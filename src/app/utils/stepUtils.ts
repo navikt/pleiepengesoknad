@@ -13,7 +13,11 @@ import {
     welcomingPageIsValid,
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
-import { erFrilanserISøknadsperiode } from './frilanserUtils';
+import {
+    erFrilanserISøknadsperiode,
+    frlilansOppdragISøknadsperiode,
+    nyFrlilansOppdragISøknadsperiode,
+} from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -93,8 +97,13 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
         return false;
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
-    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag);
+    const harFrilansOppdrag = frlilansOppdragISøknadsperiode(formValues.frilansoppdrag, søknadsperiode);
+    const haNyFrilansOppdrag = nyFrlilansOppdragISøknadsperiode(
+        formValues.nyfrilansoppdrag,
+        søknadsperiode,
+        formValues.erFrilanserIPeriode
+    );
+    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans);
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
-
-    return erAnsatt || erFrilanser || erSelvstendig;
+    return erAnsatt || harFrilansOppdrag || haNyFrilansOppdrag || erFrilanser || erSelvstendig;
 };
