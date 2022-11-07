@@ -552,12 +552,12 @@
     "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm": "Hvor mange timer jobbet du per uke {hvor}?",
     "arbeidsforhold.utledet": "timer i uka",
 
-    "arbeidsforhold.ansatt.normalTimer.info.tittel": "Hva om jeg jobber turnus, variert, eller har en utbetaling fra NAV for dette arbeidsforholdet?",
-    "arbeidsforhold.frilanser.normalTimer.info.tittel": "Hva om jeg jobber variert?",
-    "arbeidsforhold.selvstendig.normalTimer.info.tittel": "Hva om jeg jobber variert?",
+    "arbeidsforhold.ansatt.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
+    "arbeidsforhold.frilanser.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
+    "arbeidsforhold.selvstendig.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
     "arbeidsforhold.ansatt.normalTimer.info": "Hvis du i dette arbeidsforholdet nå for eksempel får foreldrepenger eller sykepenger, registrerer du det som var den normale arbeidstiden din før du begynte med dette.",
 
-    "arbeidsforhold.normalTimer.info.turnus": "Når du jobber turnus, eller har annen varierende arbeidstid, legger du inn et snitt per uke.",
+    "arbeidsforhold.normalTimer.info.turnus": "Når du jobber turnus, eller har annen varierende arbeidstid, oppgir du et snitt per uke.",
     "arbeidsforhold.normalTimer.info.turnus.tittel": "Slik regner du ut et snitt når du jobber turnus",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.1": "Du regner ut snittet ved å legge sammen antall timer du jobber totalt i hele turnusperioden din, og deler det med antall uker som turnusperioden din består av.",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.2": "Eksempel:",
@@ -566,6 +566,13 @@
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.4a": "20 timer + 40 timer + 15 timer = 75 timer",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.4b": "Så deler du antall timer med antall uker i turnusperioden din: 75 / 3 = 25",
     "arbeidsforhold.normalTimer.info.turnus.avsnitt.5": "Du jobber altså i snitt 25 timer per uke, og det er dette tallet du oppgir.",
+
+    "arbeidsforhold.ansatt.normalTimer.info.utbetalingNav.tittel": "Jeg har en ytelse fra NAV for dette arbeidsforholdet nå",
+    "arbeidsforhold.ansatt.normalTimer.info.utbetalingNav.info": "Når du har en ytelse fra NAV for dette arbeidsforholdet nå, oppgir du det som var den normale arbeidstiden din før du begynte med ytelsen. En ytelse kan for eksempel være foreldrepenger eller sykepenger.",
+    "arbeidsforhold.frilanser.normalTimer.info.utbetalingNav.tittel": "Jeg har en ytelse fra NAV som frilanser nå",
+    "arbeidsforhold.frilanser.normalTimer.info.utbetalingNav.info": "Når du har en ytelse fra NAV som frilanser nå, oppgir du det som var den normale arbeidstiden din før du begynte med ytelsen. En ytelse kan for eksempel være foreldrepenger eller sykepenger.",
+    "arbeidsforhold.sn.normalTimer.info.utbetalingNav.tittel": "Jeg har en ytelse fra NAV som selvstendig næringsdrivende nå",
+    "arbeidsforhold.sn.normalTimer.info.utbetalingNav.info": "Når du har en ytelse fra NAV som selvstendig næringsdrivende nå, oppgir du det som var den normale arbeidstiden din før du begynte med ytelsen. En ytelse kan for eksempel være foreldrepenger eller sykepenger.",
 
     "arbeidsforhold.normalTimer.info.varierende.tittel": "Slik regner du ut et snitt ved varierende arbeidstid",
     "arbeidsforhold.normalTimer.info.varierende.avsnitt.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
