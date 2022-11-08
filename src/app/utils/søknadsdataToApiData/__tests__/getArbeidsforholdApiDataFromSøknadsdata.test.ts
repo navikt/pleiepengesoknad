@@ -6,16 +6,11 @@ import {
     ArbeidIPeriodeApiDataJobberVanlig,
     ArbeidIPeriodeApiDataProsent,
     ArbeidIPeriodeApiDataTimerPerUke,
-    ArbeidIPeriodeApiDataUlikeUkerProsent,
     ArbeidIPeriodeApiDataUlikeUkerTimer,
 } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';
-import {
-    ArbeidsukerProsentSøknadsdata,
-    ArbeidsukerTimerSøknadsdata,
-} from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
+import { ArbeidsukerTimerSøknadsdata } from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import {
     getArbeidIPeriodeApiDataFromSøknadsdata,
-    getArbeidsukerProsentApiData,
     getArbeidsukerTimerApiData,
 } from '../getArbeidsforholdApiDataFromSøknadsdata';
 
@@ -26,21 +21,6 @@ const uke3 = '2022-01-17/2022-01-23';
 const uke1DateRange = ISODateRangeToDateRange(uke1);
 const uke2DateRange = ISODateRangeToDateRange(uke2);
 const uke3DateRange = ISODateRangeToDateRange(uke3);
-
-const arbeidsukerProsent: ArbeidsukerProsentSøknadsdata = [
-    {
-        periode: uke1DateRange,
-        prosentAvNormalt: 20,
-    },
-    {
-        periode: uke2DateRange,
-        prosentAvNormalt: 30,
-    },
-    {
-        periode: uke3DateRange,
-        prosentAvNormalt: 40.5,
-    },
-];
 
 const arbeidsukerTimer: ArbeidsukerTimerSøknadsdata = [
     {
@@ -74,31 +54,6 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
             expect(result[2]).toEqual({
                 periode: { fraOgMed: '2022-01-17', tilOgMed: '2022-01-23' },
                 timer: 'PT6H12M',
-            });
-        });
-    });
-
-    describe('getArbeidsukerProsentApiData', () => {
-        const result = getArbeidsukerProsentApiData(arbeidsukerProsent);
-        it('mapper om prosent riktig', () => {
-            expect(result[0]).toBeDefined();
-            expect(result[0]).toEqual({
-                periode: { fraOgMed: '2022-01-03', tilOgMed: '2022-01-09' },
-                prosentAvNormalt: 20,
-            });
-        });
-        it('mapper om prosent riktig', () => {
-            expect(result[1]).toBeDefined();
-            expect(result[1]).toEqual({
-                periode: { fraOgMed: '2022-01-10', tilOgMed: '2022-01-16' },
-                prosentAvNormalt: 30,
-            });
-        });
-        it('mapper om prosent riktig', () => {
-            expect(result[2]).toBeDefined();
-            expect(result[2]).toEqual({
-                periode: { fraOgMed: '2022-01-17', tilOgMed: '2022-01-23' },
-                prosentAvNormalt: 40.5,
             });
         });
     });
@@ -159,43 +114,7 @@ describe('getArbeidsforholdApiDataFromSøknadsdata', () => {
                 })
             ).toEqual(result);
         });
-        it(`mapper riktig for ArbeidIPeriodeType === ${ArbeidIPeriodeType.arbeiderUlikeUkerProsent}`, () => {
-            const result: ArbeidIPeriodeApiDataUlikeUkerProsent = {
-                type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
-                arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                arbeidsuker: [
-                    {
-                        periode: {
-                            fraOgMed: '2022-01-03',
-                            tilOgMed: '2022-01-09',
-                        },
-                        prosentAvNormalt: 20,
-                    },
-                    {
-                        periode: {
-                            fraOgMed: '2022-01-10',
-                            tilOgMed: '2022-01-16',
-                        },
-                        prosentAvNormalt: 30,
-                    },
-                    {
-                        periode: {
-                            fraOgMed: '2022-01-17',
-                            tilOgMed: '2022-01-23',
-                        },
-                        prosentAvNormalt: 40.5,
-                    },
-                ],
-            };
-            expect(
-                getArbeidIPeriodeApiDataFromSøknadsdata({
-                    type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
-                    arbeiderIPerioden: true,
-                    arbeiderRedusert: true,
-                    arbeidsuker: arbeidsukerProsent,
-                })
-            ).toEqual(result);
-        });
+
         it(`mapper riktig for ArbeidIPeriodeType === ${ArbeidIPeriodeType.arbeiderUlikeUkerTimer}`, () => {
             const result: ArbeidIPeriodeApiDataUlikeUkerTimer = {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,

@@ -13,7 +13,6 @@ import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    ArbeidsukeProsentApiData,
     ArbeidsukeTimerApiData,
     NormalarbeidstidApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
@@ -53,33 +52,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
             timerNormalt,
             timerIPeriode: getTimerFraProsentAvNormalt(prosent),
         });
-    };
-
-    const getArbeiderUlikeUkerProsentSummary = (arbeidsuker: ArbeidsukeProsentApiData[]) => {
-        return (
-            <ul>
-                {arbeidsuker.map((uke) => {
-                    const dateRange: DateRange = {
-                        from: ISODateToDate(uke.periode.fraOgMed),
-                        to: ISODateToDate(uke.periode.tilOgMed),
-                    };
-                    const week = getWeekOfYearInfoFromDateRange(dateRange);
-                    return (
-                        <li key={week.weekNumber}>
-                            <FormattedMessage
-                                id="oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.uke"
-                                values={{
-                                    ukenummer: week.weekNumber,
-                                    timerIPeriode: getTimerFraProsentAvNormalt(uke.prosentAvNormalt),
-                                    prosent: Intl.NumberFormat().format(uke.prosentAvNormalt),
-                                    timerNormalt: timerNormalt,
-                                }}
-                            />
-                        </li>
-                    );
-                })}
-            </ul>
-        );
     };
 
     const getArbeiderUlikeUkerTimerSummary = (arbeidsuker: ArbeidsukeTimerApiData[]) => {
@@ -155,20 +127,6 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                             />
                         </li>
                     </ul>
-                );
-            case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
-                return (
-                    <div>
-                        <p>
-                            <FormattedMessage
-                                id="oppsummering.arbeidIPeriode.arbeiderIPerioden.ulikeUker.prosent.tittel"
-                                values={{
-                                    timer: intlHelper(intl, 'timer', { timer: timerNormaltNumber }),
-                                }}
-                            />
-                        </p>
-                        {getArbeiderUlikeUkerProsentSummary(arbeidIPeriode.arbeidsuker)}
-                    </div>
                 );
 
             case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:

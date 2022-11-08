@@ -4,11 +4,7 @@ import { dateUtils, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib
 import { TimerEllerProsent } from '../../types';
 import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
-import {
-    ArbeidIPeriodeSøknadsdata,
-    ArbeidsukerProsentSøknadsdata,
-    ArbeidsukerTimerSøknadsdata,
-} from '../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeSøknadsdata, ArbeidsukerTimerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): DateRange => ({
     from: dateUtils.getLastOfTwoDates(dr1.from, dr2.from),
@@ -23,21 +19,6 @@ export const extractArbeidsukerTimerSøknadsdata = (arbeidsuker: ArbeidsukerForm
         const timerISnittPerUke = getNumberFromNumberInputValue(arbeidsuke.snittTimerPerUke);
         if (timerISnittPerUke !== undefined) {
             arbeidsukerSøknadsdata.push({ periode, timer: timerISnittPerUke });
-        }
-    });
-    return arbeidsukerSøknadsdata;
-};
-
-export const extractArbeidsukerProsentSøknadsdata = (
-    arbeidsuker: ArbeidsukerFormValues
-): ArbeidsukerProsentSøknadsdata => {
-    const arbeidsukerSøknadsdata: ArbeidsukerProsentSøknadsdata = [];
-    Object.keys(arbeidsuker).forEach((isoDateRange) => {
-        const arbeidsuke = arbeidsuker[isoDateRange];
-        const periode = ISODateRangeToDateRange(isoDateRange);
-        const prosentAvNormalt = getNumberFromNumberInputValue(arbeidsuke.prosentAvNormalt);
-        if (prosentAvNormalt !== undefined) {
-            arbeidsukerSøknadsdata.push({ periode, prosentAvNormalt });
         }
     });
     return arbeidsukerSøknadsdata;
@@ -92,22 +73,12 @@ export const extractArbeidIPeriodeSøknadsdata = ({
         }
     }
     if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
-        if (timerEllerProsent === TimerEllerProsent.TIMER || timerEllerProsent === undefined) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
-                arbeiderRedusert: true,
-                arbeiderIPerioden: true,
-                arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
-            };
-        }
-        if (timerEllerProsent === TimerEllerProsent.PROSENT) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
-                arbeiderRedusert: true,
-                arbeiderIPerioden: true,
-                arbeidsuker: extractArbeidsukerProsentSøknadsdata(arbeidsuker),
-            };
-        }
+        return {
+            type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
+            arbeiderRedusert: true,
+            arbeiderIPerioden: true,
+            arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
+        };
     }
 
     return undefined;

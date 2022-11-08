@@ -17,10 +17,7 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
-import {
-    ArbeidsukerProsentSøknadsdata,
-    ArbeidsukerTimerSøknadsdata,
-} from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
+import { ArbeidsukerTimerSøknadsdata } from '../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
@@ -86,10 +83,6 @@ export const arbeiderMindreEnnNormaltFasteUkedager = (
 
 export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøknadsdata) => {
     return arbeidsuker.map(({ timer }) => timer || 0).reduce((prev, curr) => prev + curr, 0);
-};
-
-export const harArbeidsukeMedRedusertProsent = (arbeidsuker: ArbeidsukerProsentSøknadsdata) => {
-    return arbeidsuker.map(({ prosentAvNormalt }) => prosentAvNormalt || 0).some((prosent) => prosent < 100);
 };
 
 export const periodeInneholderToHeleArbeidsuker = (periode: DateRange): boolean => {

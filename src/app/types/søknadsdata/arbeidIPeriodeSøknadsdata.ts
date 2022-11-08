@@ -1,11 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
-export type ArbeidsukerProsentSøknadsdata = {
-    periode: DateRange;
-    prosentAvNormalt: number;
-}[];
-
 export type ArbeidsukerTimerSøknadsdata = {
     periode: DateRange;
     timer: number;
@@ -33,13 +28,6 @@ interface ArbeidISøknadsperiodeProsentSøknadsdata {
     prosentAvNormalt: number;
 }
 
-interface ArbeidISøknadsperiodeUlikeUkerProsent {
-    type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent;
-    arbeiderIPerioden: true;
-    arbeiderRedusert: true;
-    arbeidsuker: ArbeidsukerProsentSøknadsdata;
-}
-
 interface ArbeidISøknadsperiodeUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     arbeiderIPerioden: true;
@@ -52,5 +40,4 @@ export type ArbeidIPeriodeSøknadsdata =
     | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
     | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
     | ArbeidISøknadsperiodeProsentSøknadsdata
-    | ArbeidISøknadsperiodeUlikeUkerTimer
-    | ArbeidISøknadsperiodeUlikeUkerProsent;
+    | ArbeidISøknadsperiodeUlikeUkerTimer;
