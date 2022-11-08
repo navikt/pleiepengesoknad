@@ -160,7 +160,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                     intlValues={intlValues}
                                     normalarbeidstid={normalarbeidstid}
                                     timerEllerProsent={timerEllerProsent}
-                                    periode={arbeidsperiode}
                                 />
                             )}
                     </ResponsivePanel>

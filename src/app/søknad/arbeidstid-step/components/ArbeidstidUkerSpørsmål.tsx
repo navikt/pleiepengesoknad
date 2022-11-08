@@ -1,5 +1,5 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
@@ -12,8 +12,12 @@ import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normal
 import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
+import {
+    ArbeidsperiodeIForholdTilSøknadsperiode,
+    getArbeidsperiodeIForholdTilSøknadsperiode,
+    getArbeidsukerIPerioden,
+} from '../utils/arbeidstidUtils';
 import ArbeidstidInput from './ArbeidstidInput';
-import { arbeidsperiodeErKortereEnnSøknadsperiode, getArbeidsukerIPerioden } from '../utils/arbeidstidUtils';
 
 dayjs.extend(weekOfYear);
 
@@ -33,6 +37,27 @@ interface Props {
     arbeidIPeriode: ArbeidIPeriodeFormValues;
     intlValues: ArbeidIPeriodeIntlValues;
 }
+
+const getPeriodeISøknadsperiodeInfo = (intl: IntlShape, periode: DateRange, søknadsperiode: DateRange) => {
+    const arbeidsperiodeVariant = getArbeidsperiodeIForholdTilSøknadsperiode(periode, søknadsperiode);
+    switch (arbeidsperiodeVariant) {
+        case ArbeidsperiodeIForholdTilSøknadsperiode.slutterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.slutterIPerioden', {
+                fra: dateFormatter.full(periode.to),
+            });
+        case ArbeidsperiodeIForholdTilSøknadsperiode.starterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.starterIPerioden', {
+                fra: dateFormatter.full(periode.from),
+            });
+        case ArbeidsperiodeIForholdTilSøknadsperiode.starterOgSlutterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.starterOgSlutterIPerioden', {
+                fra: dateFormatter.full(periode.from),
+                til: dateFormatter.full(periode.to),
+            });
+        default:
+            return '';
+    }
+};
 
 const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     periode,
@@ -60,17 +85,12 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                 `arbeidIPeriode.ulikeUkerGruppe.${
                     timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
                 }.spm`,
-                { ...intlValues, timerNormaltString }
-            )}
-            description={
-                arbeidsperiodeErKortereEnnSøknadsperiode(periode, søknadsperiode) ? (
-                    <>
-                        Arbeidsperioden {intlValues.hvor} er kortere enn søknadsperioden. Da trenger du kun oppgi
-                        informasjon for ukene i dette tidsrommet ({dateFormatter.compact(periode.from)} til{' '}
-                        {dateFormatter.compact(periode.to)}).
-                    </>
-                ) : undefined
-            }>
+                {
+                    ...intlValues,
+                    timerNormaltString,
+                    periode: getPeriodeISøknadsperiodeInfo(intl, periode, søknadsperiode),
+                }
+            )}>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
                     <div key={dateRangeToISODateRange(arbeidsuke.dateRange)}>

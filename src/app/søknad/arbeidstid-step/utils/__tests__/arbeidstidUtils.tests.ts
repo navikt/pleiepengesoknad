@@ -5,7 +5,8 @@ import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbei
 import { ArbeidsforholdSøknadsdata } from '../../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import {
-    arbeidsperiodeErKortereEnnSøknadsperiode,
+    ArbeidsperiodeIForholdTilSøknadsperiode,
+    getArbeidsperiodeIForholdTilSøknadsperiode,
     harFraværFraJobb,
     summerArbeidstimerIArbeidsuker,
 } from '../arbeidstidUtils';
@@ -67,12 +68,13 @@ describe('arbeidstidUtils', () => {
         });
     });
 
-    describe('arbeidsperiodeErKortereEnnSøknadsperiode', () => {
+    describe('getArbeidsperiodeIForholdTilSøknadsperiode', () => {
         const mandag: Date = ISODateToDate('2022-01-03');
         const tirsdag: Date = ISODateToDate('2022-01-04');
         const torsdag: Date = ISODateToDate('2022-01-06');
         const fredag: Date = ISODateToDate('2022-01-07');
-        it('returnerer true når arbeidsperiode starter etter søknadsperiode starter', () => {
+
+        it('returnerer starterIPerioden når arbeidsperiode starter i søknadsperioden', () => {
             const arbeidsperiode: DateRange = {
                 from: tirsdag,
                 to: fredag,
@@ -81,9 +83,11 @@ describe('arbeidstidUtils', () => {
                 from: mandag,
                 to: fredag,
             };
-            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeTruthy();
+            expect(getArbeidsperiodeIForholdTilSøknadsperiode(arbeidsperiode, søknadsperiode)).toEqual(
+                ArbeidsperiodeIForholdTilSøknadsperiode.starterIPerioden
+            );
         });
-        it('returnerer true når arbeidsperiode slutter før søknadsperiode slutter', () => {
+        it('returnerer slutterIPerioden når arbeidsperiode slutter i søknadsperioden', () => {
             const arbeidsperiode: DateRange = {
                 from: mandag,
                 to: torsdag,
@@ -92,19 +96,35 @@ describe('arbeidstidUtils', () => {
                 from: mandag,
                 to: fredag,
             };
-            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeTruthy();
+            expect(getArbeidsperiodeIForholdTilSøknadsperiode(arbeidsperiode, søknadsperiode)).toEqual(
+                ArbeidsperiodeIForholdTilSøknadsperiode.slutterIPerioden
+            );
         });
-        it('returnerer false når arbeidsperiode starter og slutter samme dager eller utenfor søknadsperiode', () => {
+        it('returnerer starterOgSlutterIPerioden når arbeidsperiode starter og slutter i søknadsperioden', () => {
             const arbeidsperiode: DateRange = {
-                from: mandag,
-                to: fredag,
-            };
-            const søknadsperiode: DateRange = {
                 from: tirsdag,
                 to: torsdag,
             };
-            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeFalsy();
-            expect(arbeidsperiodeErKortereEnnSøknadsperiode(arbeidsperiode, søknadsperiode)).toBeFalsy();
+            const søknadsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            expect(getArbeidsperiodeIForholdTilSøknadsperiode(arbeidsperiode, søknadsperiode)).toEqual(
+                ArbeidsperiodeIForholdTilSøknadsperiode.starterOgSlutterIPerioden
+            );
+        });
+        it('returnerer gjelderHelePerioden når arbeidsperiode starter og slutter samme dager som søknadsperioden', () => {
+            const arbeidsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            const søknadsperiode: DateRange = {
+                from: mandag,
+                to: fredag,
+            };
+            expect(getArbeidsperiodeIForholdTilSøknadsperiode(arbeidsperiode, søknadsperiode)).toEqual(
+                ArbeidsperiodeIForholdTilSøknadsperiode.gjelderHelePerioden
+            );
         });
     });
 });

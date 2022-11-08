@@ -1,6 +1,8 @@
+import { OpenDateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import {
     DateDurationMap,
+    dateRangeUtils,
     durationToDecimalDuration,
     DurationWeekdays,
     getDatesWithDurationLongerThanZero,
@@ -90,22 +92,36 @@ export const harArbeidsukeMedRedusertProsent = (arbeidsuker: ArbeidsukerProsentS
     return arbeidsuker.map(({ prosentAvNormalt }) => prosentAvNormalt || 0).some((prosent) => prosent < 100);
 };
 
-export const periodeInneholderEnHelArbeidsuke = (periode: DateRange): boolean => {
+export const periodeInneholderToHeleArbeidsuker = (periode: DateRange): boolean => {
     const uker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
-    return uker.some((uke) => uke.isFullWeek === true);
+    return uker.filter((uke) => uke.isFullWeek === true).length >= 2;
 };
 
 export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
-    periode ? periodeInneholderEnHelArbeidsuke(periode) : true;
+    periode ? periodeInneholderToHeleArbeidsuker(periode) : true;
 
-export const arbeidsperiodeErKortereEnnSøknadsperiode = (
-    arbeidsperiode: DateRange,
+export enum ArbeidsperiodeIForholdTilSøknadsperiode {
+    'starterIPerioden' = 'starterIPerioden',
+    'slutterIPerioden' = 'slutterIPerioden',
+    'starterOgSlutterIPerioden' = 'starterOgSlutterIPerioden',
+    'gjelderHelePerioden' = 'gjelderHelePerioden',
+}
+export const getArbeidsperiodeIForholdTilSøknadsperiode = (
+    periode: OpenDateRange,
     søknadsperiode: DateRange
-): boolean => {
-    return (
-        dayjs(arbeidsperiode.from).isAfter(søknadsperiode.from, 'day') ||
-        dayjs(arbeidsperiode.to).isBefore(søknadsperiode.to, 'day')
-    );
+): ArbeidsperiodeIForholdTilSøknadsperiode => {
+    if (
+        dateRangeUtils.isDateInsideDateRange(periode.from, søknadsperiode) &&
+        periode.to &&
+        dateRangeUtils.isDateInsideDateRange(periode.to, søknadsperiode)
+    ) {
+        return ArbeidsperiodeIForholdTilSøknadsperiode.starterOgSlutterIPerioden;
+    } else if (dateRangeUtils.isDateInsideDateRange(periode.from, søknadsperiode)) {
+        return ArbeidsperiodeIForholdTilSøknadsperiode.starterIPerioden;
+    } else if (periode.to && dateRangeUtils.isDateInsideDateRange(periode.to, søknadsperiode)) {
+        return ArbeidsperiodeIForholdTilSøknadsperiode.slutterIPerioden;
+    }
+    return ArbeidsperiodeIForholdTilSøknadsperiode.gjelderHelePerioden;
 };
 
 export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {

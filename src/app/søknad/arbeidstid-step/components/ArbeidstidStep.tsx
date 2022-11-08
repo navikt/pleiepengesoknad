@@ -63,6 +63,9 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                     <p>
                         <FormattedMessage id={'arbeidIPeriode.StepInfo.2'} />
                     </p>
+                    <p>
+                        <FormattedMessage id={'arbeidIPeriode.StepInfo.3'} />
+                    </p>
                 </CounsellorPanel>
             </Box>
 

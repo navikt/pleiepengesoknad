@@ -1,5 +1,5 @@
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { periodeInneholderEnHelArbeidsuke } from '../../søknad/arbeidstid-step/utils/arbeidstidUtils';
+import { periodeInneholderToHeleArbeidsuker } from '../../søknad/arbeidstid-step/utils/arbeidstidUtils';
 import { getNumberOfWorkdaysInWeek } from '../weekOfYearUtils';
 
 describe('weekOfYearUtils', () => {
@@ -37,21 +37,33 @@ describe('weekOfYearUtils', () => {
         });
     });
 
-    describe('periodeInneholderEnHelUke', () => {
-        const mandag: Date = ISODateToDate('2022-01-03');
-        const tirsdag: Date = ISODateToDate('2022-01-04');
-        const torsdag: Date = ISODateToDate('2022-01-06');
-        const fredag: Date = ISODateToDate('2022-01-07');
-        const fredag2: Date = ISODateToDate('2022-01-14');
+    describe('periodeInneholderToHeleUker', () => {
+        const uke1 = {
+            mandag: ISODateToDate('2022-01-03'),
+            tirsdag: ISODateToDate('2022-01-04'),
+            torsdag: ISODateToDate('2022-01-06'),
+            fredag: ISODateToDate('2022-01-07'),
+        };
+        const uke2 = {
+            mandag: ISODateToDate('2022-01-10'),
+            fredag: ISODateToDate('2022-01-14'),
+        };
+        const uke3 = {
+            mandag: ISODateToDate('2022-01-17'),
+            fredag: ISODateToDate('2022-01-21'),
+        };
 
-        it('returner true dersom uke 1 starter midt i og uke 2 slutter fredag', () => {
-            expect(periodeInneholderEnHelArbeidsuke({ from: tirsdag, to: fredag2 })).toBe(true);
+        it('returner true dersom en starter mandag uke1 i og slutter fredag uke 2', () => {
+            expect(periodeInneholderToHeleArbeidsuker({ from: uke1.mandag, to: uke2.fredag })).toBe(true);
         });
-        it('returner true dersom uke starter på mandag og slutter på fredag', () => {
-            expect(periodeInneholderEnHelArbeidsuke({ from: mandag, to: fredag })).toBe(true);
+        it('returner false dersom en starter mandag uke1 i og slutter torsdag uke 2', () => {
+            expect(periodeInneholderToHeleArbeidsuker({ from: uke1.tirsdag, to: uke2.fredag })).toBe(false);
         });
-        it('returner false dersom uke starter på mandag og slutter på torsdag', () => {
-            expect(periodeInneholderEnHelArbeidsuke({ from: mandag, to: torsdag })).toBe(false);
+        it('returner false dersom en starter tirsdag uke1 i og slutter fredag uke 2', () => {
+            expect(periodeInneholderToHeleArbeidsuker({ from: uke1.tirsdag, to: uke2.fredag })).toBe(false);
+        });
+        it('returner true dersom en starter fredag uke1 i og slutter fredag uke 3', () => {
+            expect(periodeInneholderToHeleArbeidsuker({ from: uke1.fredag, to: uke3.fredag })).toBe(true);
         });
     });
 });
