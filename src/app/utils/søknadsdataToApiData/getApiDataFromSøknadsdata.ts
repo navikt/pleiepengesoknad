@@ -3,7 +3,6 @@ import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUti
 import { RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { SøknadApiData, SøknadApiDataVersjon } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { MELLOMLAGRING_VERSION } from '../../types/SøknadTempStorageData';
 import appSentryLogger from '../appSentryLogger';
 import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from './getArbeidsgivereApiDataFromSøknadsdata';
@@ -33,9 +32,8 @@ export const getApiDataFromSøknadsdata = (
         try {
             const sprak = getValidSpråk(locale);
             const apiData: SøknadApiData = {
-                versjon: MELLOMLAGRING_VERSION,
-                apiDataVersjon: SøknadApiDataVersjon,
                 språk: sprak,
+                apiDataVersjon: SøknadApiDataVersjon,
                 harForståttRettigheterOgPlikter:
                     harForståttRettigheterOgPlikter !== undefined ? harForståttRettigheterOgPlikter : false,
                 harBekreftetOpplysninger: harBekreftetOpplysninger !== undefined ? harBekreftetOpplysninger : false,

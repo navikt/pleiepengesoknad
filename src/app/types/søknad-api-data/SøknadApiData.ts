@@ -131,7 +131,6 @@ export interface BeredskapApiData {
 }
 
 export interface SøknadApiData {
-    versjon: string;
     apiDataVersjon: string;
     språk: Locale;
     harForståttRettigheterOgPlikter: boolean;
