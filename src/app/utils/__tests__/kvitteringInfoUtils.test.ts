@@ -17,7 +17,6 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
         },
         normalarbeidstid: {
-            _erLiktSnittSomForrigeSøknad: false,
             timerPerUkeISnitt: decimalDurationToISODuration(2),
         },
     },
@@ -66,7 +65,6 @@ describe('kvitteringUtils', () => {
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        _erLiktSnittSomForrigeSøknad: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
                     },
                     arbeidIPeriode: {
@@ -82,7 +80,6 @@ describe('kvitteringUtils', () => {
                 erAnsatt: true,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        _erLiktSnittSomForrigeSøknad: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
                     },
                     arbeidIPeriode: {

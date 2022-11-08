@@ -16,6 +16,8 @@ export * from './arbeidsforholdApiData';
 export * from './selvstendigApiData';
 export * from './frilansApiData';
 
+export const SøknadApiDataVersjon = 'Søknad-1.0.0';
+
 export interface PeriodeApiData {
     fraOgMed: ISODate;
     tilOgMed: ISODate;
@@ -127,8 +129,10 @@ export interface BeredskapApiData {
     beredskap: boolean;
     tilleggsinformasjon?: string;
 }
+
 export interface SøknadApiData {
     versjon: string;
+    apiDataVersjon: string;
     språk: Locale;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;

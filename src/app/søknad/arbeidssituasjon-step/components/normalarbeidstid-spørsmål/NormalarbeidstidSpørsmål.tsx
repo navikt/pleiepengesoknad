@@ -3,13 +3,11 @@ import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-import { Duration, durationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import {
-    ArbeidsforholdFormValues,
     ArbeidsforholdFormField,
+    ArbeidsforholdFormValues,
     ArbeidsforholdFrilanserFormValues,
     ArbeidsforholdSelvstendigFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
@@ -24,7 +22,6 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
-    timerPerUkeISnittForrigeSøknad?: Duration;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -36,7 +33,6 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     erAktivtArbeidsforhold,
     arbeidsstedNavn,
     brukKunSnittPerUke,
-    timerPerUkeISnittForrigeSøknad,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -80,29 +76,6 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            {timerPerUkeISnittForrigeSøknad !== undefined && (
-                <>
-                    <FormComponents.YesOrNoQuestion
-                        name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_erLiktSomForrigeSøknad)}
-                        legend={`I forrige søknad oppga du at du normalt jobber ${durationToDecimalDuration(
-                            timerPerUkeISnittForrigeSøknad
-                        )} timer per uke hos ${arbeidsstedNavn}. Stemmer dette fremdeles?`}
-                        data-testid="normalarbeidstidErLikForrigeSøknad"
-                        validate={(value: any) => {
-                            const error = getRequiredFieldValidator()(value);
-                            return error
-                                ? {
-                                      key: 'validation.arbeidsforhold.erLiktSomForrigeSøknad',
-                                      values: intlValues,
-                                      keepKeyUnaltered: true,
-                                  }
-                                : undefined;
-                        }}
-                        useTwoColumns={true}
-                    />
-                </>
-            )}
-
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,

@@ -7,6 +7,5 @@ export const getNormalarbeidstidApiDataFromSøknadsdata = (
 ): NormalarbeidstidApiData => {
     return {
         timerPerUkeISnitt: decimalDurationToISODuration(normalarbeidstid.timerPerUkeISnitt),
-        _erLiktSnittSomForrigeSøknad: normalarbeidstid.erLiktSnittSomForrigeSøknad,
     };
 };
