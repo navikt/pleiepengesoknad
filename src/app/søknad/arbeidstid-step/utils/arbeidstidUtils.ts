@@ -1,15 +1,10 @@
 import { OpenDateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import {
-    DateDurationMap,
     dateRangeUtils,
     durationToDecimalDuration,
     DurationWeekdays,
-    getDatesWithDurationLongerThanZero,
-    getWeekdayFromDate,
-    getWeekdaysWithDuration,
     getWeeksInDateRange,
-    ISODateToDate,
     summarizeDurationInDurationWeekdays,
     Weekday,
 } from '@navikt/sif-common-utils/lib';
@@ -43,22 +38,6 @@ export const getDurationWeekdaysNotInDurationWeekdays = (
 
 export const arbeiderFasteAndreDagerEnnNormalt = (normalt: DurationWeekdays, faktisk: DurationWeekdays = {}): boolean =>
     getDurationWeekdaysNotInDurationWeekdays(normalt, faktisk).length > 0;
-
-export const arbeiderAndreEnkeltdagerEnnNormalt = (
-    normalt: DurationWeekdays,
-    enkeltdager: DateDurationMap = {}
-): boolean => {
-    const ukedager = getWeekdaysWithDuration(normalt);
-    if (ukedager.length === 5) {
-        return false; // Jobber alle ukedager
-    }
-    const dagerMedTid = getDatesWithDurationLongerThanZero(enkeltdager);
-    const harDagerPåAndreDager = dagerMedTid.some((isoDate) => {
-        const weekday = getWeekdayFromDate(ISODateToDate(isoDate));
-        return weekday && ukedager.includes(weekday) === false;
-    });
-    return harDagerPåAndreDager;
-};
 
 const getTimerPerUkeFraFasteUkedager = (timerFasteUkedager: DurationWeekdays): number => {
     return durationToDecimalDuration(summarizeDurationInDurationWeekdays(timerFasteUkedager));

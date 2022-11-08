@@ -1,37 +1,12 @@
 import { IntlShape } from 'react-intl';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import getTimeValidator from '@navikt/sif-common-formik/lib/validation/getTimeValidator';
 import {
     ArbeidIPeriodeIntlValues,
     formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
 } from '@navikt/sif-common-pleiepenger';
-import { ArbeidstidUkeInputEnkeltdagValidator } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-uke-input/ArbeidstidUkeInput';
-import { dateFormatter, decimalDurationToDuration, getWeekdayFromDate } from '@navikt/sif-common-utils/lib';
+import { decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { WeekOfYearInfo } from '../../types/WeekOfYear';
-
-export const getArbeidIPeriodeEnkeltdagValidator =
-    (intlValues: ArbeidIPeriodeIntlValues): ArbeidstidUkeInputEnkeltdagValidator | undefined =>
-    (date) =>
-    (duration) => {
-        const weekday = getWeekdayFromDate(date);
-        if (!weekday) {
-            // lørdag eller søndag
-            return undefined;
-        }
-        const dag = dateFormatter.dayDateShortMonthYear(date);
-        const error = getTimeValidator({
-            min: { hours: 0, minutes: 0 },
-            max: { hours: 24, minutes: 60 },
-        })(duration);
-        return error
-            ? {
-                  key: `validation.arbeidIPeriode.enkeltdagerFastNormaltid.tid.${error}`,
-                  keepKeyUnaltered: true,
-                  values: { ...intlValues, dag },
-              }
-            : undefined;
-    };
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
     (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: WeekOfYearInfo) => (value: string) => {
