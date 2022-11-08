@@ -296,9 +296,7 @@
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
     "steg.arbeidssituasjon.veileder.1": "Nå trenger vi å vite litt om arbeidssituasjonen din, og hvor mye du normalt jobber. Med «normalt» mener vi hvor mye du jobber når du ikke har fravær på grunn av pleiepenger eller annet.",
-    "steg.arbeidssituasjon.veileder.2": "Det er normalarbeidstiden din <strong>før</strong> du starter med pleiepenger som vi er ute etter her, uavhengig av om du søker for første gang, eller om du søker forlengelse.",
-    "steg.arbeidssituasjon.veileder.3": "Hvis du er arbeidstaker og usikker på hvor mange timer du normalt jobber per uke, finner du som regel svaret i arbeidskontrakten din. Eller, du kan høre med arbeidsgiver.",
-    "steg.arbeidssituasjon.veileder.4": "Hvis du mottar ytelse fra NAV (for eksempel foreldrepenger eller sykepenger) opplyser du om det som var din normale arbeidstid før du startet å motta ytelsen.",
+    "steg.arbeidssituasjon.veileder.2": "Det er normalarbeidstiden din <strong>før</strong> du starter med pleiepenger som vi er ute etter her, uavhengig av om du søker for første gang, eller om du søker forlengelse. Hvis du mottar ytelse fra NAV (for eksempel foreldrepenger eller sykepenger) opplyser du om det som var din normale arbeidstid før du startet å motta ytelsen.",
     "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
     "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du i perioden du søker for er, eller var, ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Det gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
