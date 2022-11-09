@@ -1,3 +1,5 @@
+import { prettifyDateExtended } from '@navikt/sif-common-utils/lib';
+
 const {
     getTestElement,
     selectRadioNo,
@@ -23,7 +25,7 @@ const dato = dayjs().startOf('day').subtract(1, 'day');
 const fraDatoTilDato = dato.format('DD.MM.YYYY');
 const expectedOpptjeningLand = 'Belgia';
 const expectedOpptjeningType = 'arbeidstaker';
-const expectedOpptjeningDato = `${dato.format('DD. MMM YYYY')} - ${dato.format('DD. MMM YYYY')}`;
+const expectedOpptjeningDato = `${prettifyDateExtended(dato)} - ${prettifyDateExtended(dato)}`;
 
 const fyllUtNormalarbeidstidFasteDager = () => {
     selectRadioYes('jobber-heltid');
