@@ -26,6 +26,7 @@ import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import { getGyldigRedirectStepForMellomlagretSøknad } from '../utils/stepUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
 import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
 import { getArbeidsforhold, harFraværFraJobb } from './arbeidstid-step/utils/arbeidstidUtils';
@@ -37,7 +38,7 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
-import { getSøknadStepConfig, StepID } from './søknadStepsConfig';
+import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
 
 interface PleiepengesøknadContentProps {
@@ -67,9 +68,9 @@ const SøknadContent = ({
     const { persistSoknad } = usePersistSoknad();
 
     const sendUserToStep = useCallback(
-        async (route: string) => {
-            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
-            navigateTo(route, history);
+        async (step: StepID) => {
+            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step });
+            navigateTo(step, history);
         },
         [logHendelse, history]
     );
@@ -89,16 +90,7 @@ const SøknadContent = ({
                 setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
             }
             if (isOnWelcomPage && nextStepRoute !== undefined && mellomlagringMetadata.lastStepID) {
-                const stepConfig = getSøknadStepConfig(values);
-                const nextStep = stepConfig[mellomlagringMetadata.lastStepID].nextStep;
-
-                if (nextStep && isAvailable(nextStep, values)) {
-                    sendUserToStep(nextStepRoute);
-                } else if (isAvailable(mellomlagringMetadata.lastStepID, values)) {
-                    sendUserToStep(getSøknadRoute(mellomlagringMetadata.lastStepID));
-                } else {
-                    sendUserToStep(getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET));
-                }
+                sendUserToStep(getGyldigRedirectStepForMellomlagretSøknad(mellomlagringMetadata.lastStepID, values));
             }
             if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
                 sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
