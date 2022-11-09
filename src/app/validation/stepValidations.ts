@@ -13,6 +13,7 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetHarIkkeFnr,
     årsakManglerIdentitetsnummer,
     barnetSøknadenGjelder,
+    søknadenGjelderEtAnnetBarn,
 }: SøknadFormValues) => {
     const fødselsnummerValidation = () => {
         if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakManglerIdentitetsnummer !== undefined) {
@@ -23,6 +24,10 @@ export const opplysningerOmBarnetStepIsValid = ({
 
     if (!formIsValid && barnetSøknadenGjelder !== undefined) {
         return getStringValidator({ required: true })(barnetSøknadenGjelder) === undefined;
+    }
+
+    if (barnetSøknadenGjelder === undefined && søknadenGjelderEtAnnetBarn === false) {
+        return false;
     }
 
     return formIsValid;

@@ -37,7 +37,7 @@ import OmsorgstilbudStep from './omsorgstilbud-step/OmsorgstilbudStep';
 import OpplysningerOmBarnetStep from './opplysninger-om-barnet-step/OpplysningerOmBarnetStep';
 import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
-import { StepID } from './søknadStepsConfig';
+import { getSøknadStepConfig, StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
 
 interface PleiepengesøknadContentProps {
@@ -75,6 +75,7 @@ const SøknadContent = ({
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
+
     const nextStepRoute = søknadHasBeenSent
         ? undefined
         : mellomlagringMetadata?.lastStepID
@@ -87,8 +88,17 @@ const SøknadContent = ({
             if (mellomlagringMetadata.importertSøknadMetadata !== undefined) {
                 setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
             }
-            if (isOnWelcomPage && nextStepRoute !== undefined) {
-                sendUserToStep(nextStepRoute);
+            if (isOnWelcomPage && nextStepRoute !== undefined && mellomlagringMetadata.lastStepID) {
+                const stepConfig = getSøknadStepConfig(values);
+                const nextStep = stepConfig[mellomlagringMetadata.lastStepID].nextStep;
+
+                if (nextStep && isAvailable(nextStep, values)) {
+                    sendUserToStep(nextStepRoute);
+                } else if (isAvailable(mellomlagringMetadata.lastStepID, values)) {
+                    sendUserToStep(getSøknadRoute(mellomlagringMetadata.lastStepID));
+                } else {
+                    sendUserToStep(getSøknadRoute(StepID.OPPLYSNINGER_OM_BARNET));
+                }
             }
             if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
                 sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
@@ -100,6 +110,7 @@ const SøknadContent = ({
         nextStepRoute,
         sendUserToStep,
         setImportertSøknadMetadata,
+        values,
         søknadHasBeenSent,
     ]);
 

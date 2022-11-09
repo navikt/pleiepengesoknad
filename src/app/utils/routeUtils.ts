@@ -13,18 +13,16 @@ import {
     arbeidIPeriodeStepIsAvailable,
 } from './stepUtils';
 
-export const getSøknadRoute = (stepId: StepID | undefined) => {
-    if (stepId !== undefined) {
-        return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
-    }
-    return undefined;
+export const getSøknadRoute = (stepId: StepID) => {
+    return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 };
 
 export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormValues): string | undefined => {
     const stepConfig = getSøknadStepConfig(formData);
-    return stepConfig[stepId] && stepConfig[stepId].included === true
-        ? getSøknadRoute(stepConfig[stepId].nextStep)
-        : undefined;
+    const nextStep =
+        stepConfig[stepId] && stepConfig[stepId].included === true ? stepConfig[stepId].nextStep : undefined;
+
+    return nextStep ? getSøknadRoute(nextStep) : undefined;
 };
 
 export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormValues, søknadHasBeenSent?: boolean) => {
