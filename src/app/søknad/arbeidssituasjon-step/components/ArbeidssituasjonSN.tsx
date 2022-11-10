@@ -69,27 +69,29 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
 
                         {(harFlereVirksomheter === YesOrNo.YES || harFlereVirksomheter === YesOrNo.NO) && (
                             <FormBlock>
-                                <VirksomhetInfoAndDialog
-                                    name={SelvstendigFormField.virksomhet}
-                                    harFlereVirksomheter={søkerHarFlereVirksomheter}
-                                    labels={{
-                                        infoTitle: virksomhet
-                                            ? intlHelper(intl, 'selvstendig.infoDialog.infoTittel')
-                                            : undefined,
-                                        editLabel: intlHelper(intl, 'selvstendig.infoDialog.endreKnapp'),
-                                        deleteLabel: intlHelper(intl, 'selvstendig.infoDialog.fjernKnapp'),
-                                        addLabel: intlHelper(intl, 'selvstendig.infoDialog.registrerKnapp'),
-                                        modalTitle: harFlereVirksomheter
-                                            ? intlHelper(intl, 'selvstendig.infoDialog.tittel.flere')
-                                            : intlHelper(intl, 'selvstendig.infoDialog.tittel.en'),
-                                    }}
-                                    validate={(value) => {
-                                        if (getRequiredFieldValidator()(value) !== undefined) {
-                                            return getRequiredFieldValidator()(value);
-                                        }
-                                        return getSelvstendigIPeriodeValidator(søknadsperiode, virksomhet);
-                                    }}
-                                />
+                                <div id={SelvstendigFormField.virksomhet} tabIndex={-1}>
+                                    <VirksomhetInfoAndDialog
+                                        name={SelvstendigFormField.virksomhet}
+                                        harFlereVirksomheter={søkerHarFlereVirksomheter}
+                                        labels={{
+                                            infoTitle: virksomhet
+                                                ? intlHelper(intl, 'selvstendig.infoDialog.infoTittel')
+                                                : undefined,
+                                            editLabel: intlHelper(intl, 'selvstendig.infoDialog.endreKnapp'),
+                                            deleteLabel: intlHelper(intl, 'selvstendig.infoDialog.fjernKnapp'),
+                                            addLabel: intlHelper(intl, 'selvstendig.infoDialog.registrerKnapp'),
+                                            modalTitle: harFlereVirksomheter
+                                                ? intlHelper(intl, 'selvstendig.infoDialog.tittel.flere')
+                                                : intlHelper(intl, 'selvstendig.infoDialog.tittel.en'),
+                                        }}
+                                        validate={(value) => {
+                                            if (getRequiredFieldValidator()(value) !== undefined) {
+                                                return getRequiredFieldValidator()(value);
+                                            }
+                                            return getSelvstendigIPeriodeValidator(søknadsperiode, virksomhet);
+                                        }}
+                                    />
+                                </div>
                             </FormBlock>
                         )}
                         {virksomhet !== undefined && (

@@ -23,7 +23,7 @@ const dato = dayjs().startOf('day').subtract(1, 'day');
 const fraDatoTilDato = dato.format('DD.MM.YYYY');
 const expectedOpptjeningLand = 'Belgia';
 const expectedOpptjeningType = 'arbeidstaker';
-const expectedOpptjeningDato = `${dato.format('DD. MMM YYYY')} - ${dato.format('DD. MMM YYYY')}`;
+const expectedOpptjeningDato = `${dato.format('D. MMM YYYY')} - ${dato.format('D. MMM YYYY')}`;
 
 const fyllUtNormalarbeidstidFasteDager = () => {
     selectRadioYes('jobber-heltid');
