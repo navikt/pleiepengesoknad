@@ -1,6 +1,5 @@
 import { contextConfig } from '../integration-utils/contextConfig';
 import { fyllUtEnkelSøknad } from '../integration-utils/fyll-ut-søknad';
-import { oppsummeringTestArbeidssituasjon } from '../integration-utils/steps/arbeidssituasjon/arbeidssituasjonOppsummering';
 import { kvittering } from '../integration-utils/steps/kvittering';
 import { oppsummeringTestLegeerklæringSteg } from '../integration-utils/steps/legeerklæring';
 import { oppsummeringTestMedlemskapSteg } from '../integration-utils/steps/medlemskap';
@@ -19,7 +18,7 @@ describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
             oppsummeringTestOmDeg();
             oppsummeringTestOmBarn();
             oppsummeringTestPeriodeSteg();
-            oppsummeringTestArbeidssituasjon();
+            /** Oppsummering arbeid kjøres som egne tester */
             oppsummeringTestOmsorgstilbudSteg();
             oppsummeringTestMedlemskapSteg();
             oppsummeringTestLegeerklæringSteg();
