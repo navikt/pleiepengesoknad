@@ -55,6 +55,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
                     <ResponsivePanel>
                         <ArbSNFormComponents.YesOrNoQuestion
                             name={SelvstendigFormField.harFlereVirksomheter}
+                            data-testid="har-flere-virksomheter"
                             legend={intlHelper(intl, 'selvstendig.harFlereVirksomheter.spm')}
                             validate={getYesOrNoValidator()}
                         />
