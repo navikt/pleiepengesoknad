@@ -11,7 +11,6 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import GeneralErrorPage from '../../../pages/general-error-page/GeneralErrorPage';
-import { FrilansFormField } from '../../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../../types/SelvstendigFormData';
 import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
@@ -38,7 +37,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     }
 
     const {
-        values: { ansatt_arbeidsforhold, frilans, selvstendig, frilansoppdrag, nyfrilansoppdrag },
+        values: { ansatt_arbeidsforhold, selvstendig, frilansoppdrag, nyfrilansoppdrag },
     } = formikProps;
 
     const periodeSomSelvstendigISøknadsperiode =
@@ -154,26 +153,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                     })}
                 </FormBlock>
             )}
-
-            {frilans.arbeidsforhold &&
-                arbeid.frilans?.erFrilanser === true &&
-                arbeid.frilans?.harInntektISøknadsperiode === true && (
-                    <FormBlock>
-                        <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
-                            <div data-testid="arbeidIPerioden_frilanser">
-                                <ArbeidIPeriodeSpørsmål
-                                    normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
-                                    arbeidsstedNavn="Frilansoppdrag"
-                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                    arbeidsforhold={frilans.arbeidsforhold}
-                                    arbeidsperiode={arbeid.frilans.aktivPeriode}
-                                    parentFieldName={FrilansFormField.arbeidsforhold}
-                                    onArbeidstidVariertChange={handleArbeidstidChanged}
-                                />
-                            </div>
-                        </FormSection>
-                    </FormBlock>
-                )}
 
             {selvstendig.harHattInntektSomSN === YesOrNo.YES &&
                 selvstendig.arbeidsforhold &&

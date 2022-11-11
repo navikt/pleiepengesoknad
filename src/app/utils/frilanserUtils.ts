@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../types/ArbeidsforholdFormValues';
 import dayjs from 'dayjs';
-import { FrilansFormData, FrilanserOppdragType } from '../types/FrilansFormData';
+import { FrilanserOppdragType } from '../types/FrilansFormData';
 import { FrilanserOppdragIPeriodenApi } from '../types/søknad-api-data/frilansOppdragApiData';
 
 export const harFrilansoppdrag = (frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[] | undefined) =>
@@ -92,22 +92,6 @@ export const nyFrlilansOppdragISøknadsperiode = (
     );
 };
 
-export const erFrilanserISøknadsperiode = (
-    søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData
-): boolean => {
-    if (erFortsattFrilanser === YesOrNo.YES) {
-        return true;
-    }
-    // TO DO FRILANS MED OPPDRAG
-    const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
-    const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
-
-    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser)) {
-        return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
-    }
-    return false;
-};
 /**
  *
  * @param periode
@@ -120,7 +104,7 @@ export const erFrilanserISøknadsperiode = (
  * Returnerer undefined dersom start og/eller slutt som frilanser
  * gjør at bruker ikke var frilanser i perioden
  */
-
+/*
 export const getPeriodeSomFrilanserInnenforPeriode = (
     periode: DateRange,
     { startdato, sluttdato, erFortsattFrilanser }: FrilansFormData
@@ -155,7 +139,7 @@ export const getPeriodeSomFrilanserInnenforPeriode = (
         to: toDate,
     };
 };
-
+*/
 export const getPeriodeSomFrilanserInnenforSøknadsperiode = (
     søknadsperiode: DateRange,
     startdato: Date,

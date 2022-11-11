@@ -1,20 +1,23 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
-import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserMedOppdragFormValues,
+} from '../../../types/ArbeidsforholdFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
+import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
 
 export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold,
-    frilans,
+    frilansoppdrag,
+    nyfrilansoppdrag,
     selvstendig,
 }: {
     ansatt_arbeidsforhold: ArbeidsforholdFormValues[];
-    frilans: FrilansFormData;
+    frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
+    nyfrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
     selvstendig: SelvstendigFormData;
 }): boolean => {
-    const { harHattInntektSomFrilanser } = frilans || {};
-
     /** Selvstendig næringsdrivende */
     if (
         isYesOrNoAnswered(selvstendig.harHattInntektSomSN) === false ||
@@ -22,17 +25,29 @@ export const visVernepliktSpørsmål = ({
     ) {
         return false;
     }
-    /** Frilanser */
-    if (
-        isYesOrNoAnswered(frilans?.harHattInntektSomFrilanser) === false ||
-        frilans?.harHattInntektSomFrilanser === YesOrNo.YES
-    ) {
-        return false;
-    }
-    if (harHattInntektSomFrilanser !== YesOrNo.NO) {
+
+    /** Frilanser lagt til */
+    if (nyfrilansoppdrag.length > 0) {
         return false;
     }
 
+    /** Frilanser Registrerte */
+    if (frilansoppdrag.length > 0) {
+        console.log('frilansoppdrag test');
+        if (frilansoppdrag.some((oppdrag) => oppdrag.frilansOppdragIPerioden === undefined)) {
+            return false;
+        }
+
+        if (
+            frilansoppdrag.some(
+                (oppdrag) =>
+                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
+                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN
+            )
+        ) {
+            return false;
+        }
+    }
     /** Arbeidsgivere */
     if (ansatt_arbeidsforhold.length > 0) {
         if (ansatt_arbeidsforhold.some((a) => isYesOrNoAnswered(a.erAnsatt) === false)) {

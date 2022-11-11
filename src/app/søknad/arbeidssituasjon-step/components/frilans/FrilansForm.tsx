@@ -1,25 +1,28 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { DateRange, getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { FrilansNyFormField, FrilanserOppdragType, FrilansOppdragFormField } from '../../../types/FrilansFormData';
+import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { FrilansNyFormField, FrilanserOppdragType, FrilansOppdragFormField } from '../../../../types/FrilansFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
-import FrilansIcon from '../../../components/frilans-icon/FrilansIconSvg';
+import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import FrilansIcon from '../../../../components/frilans-icon/FrilansIconSvg';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import NormalarbeidstidSpørsmål from '../normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { getFrilansOppdragIStyremedlemSvarRadios, getSelectFrilansKategoriOptions } from '../utils/FrilansOppdragUtils';
+import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
+import {
+    getFrilansOppdragIStyremedlemSvarRadios,
+    getSelectFrilansKategoriOptions,
+    visFrilansOppdragNormalarbeidstid,
+} from '../../utils/FrilansOppdragUtils';
 import { useFormikContext } from 'formik';
-import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
+import { SøknadFormField, SøknadFormValues } from '../../../../types/SøknadFormValues';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
 import { Xknapp } from 'nav-frontend-ikonknapper';
-//import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getNyFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
-import { getNyFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
+import { getNyFrilanserSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
+import { getNyFrilanserStartdatoValidator } from '../../validation/frilansStartdatoValidator';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
     FrilansOppdragFormField,
@@ -103,21 +106,17 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                     </Box>
                 )}
 
-                {oppdrag.frilansOppdragKategori &&
-                    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
-                        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
-                        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
-                            oppdrag.styremedlemHeleInntekt === YesOrNo.NO)) && (
-                        <Box>
-                            <NormalarbeidstidSpørsmål
-                                arbeidsforholdFieldName={parentFieldName}
-                                arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                arbeidsforhold={oppdrag || {}}
-                                erAktivtArbeidsforhold={true}
-                                brukKunSnittPerUke={true}
-                            />
-                        </Box>
-                    )}
+                {visFrilansOppdragNormalarbeidstid(oppdrag) && (
+                    <Box>
+                        <NormalarbeidstidSpørsmål
+                            arbeidsforholdFieldName={parentFieldName}
+                            arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                            arbeidsforhold={oppdrag || {}}
+                            erAktivtArbeidsforhold={true}
+                            brukKunSnittPerUke={true}
+                        />
+                    </Box>
+                )}
                 <div style={{ textAlign: 'right' }}>
                     <Xknapp htmlType={'button'} onClick={deleteFrilans} />
                 </div>

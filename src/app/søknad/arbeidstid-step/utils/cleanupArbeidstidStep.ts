@@ -4,24 +4,19 @@ import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../../types/ArbeidIPeriodeFormValues';
-import {
-    ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserFormValues,
-    ArbeidsforholdSelvstendigFormValues,
-} from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import { ArbeidsforholdFormValues, ArbeidsforholdSelvstendigFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import {
-    ArbeidFrilansSøknadsdata,
     ArbeidSelvstendigSøknadsdata,
     ArbeidsgivereSøknadsdata,
     ArbeidSøknadsdata,
     NormalarbeidstidSøknadsdata,
 } from '../../../types/søknadsdata/Søknadsdata';
-import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
+// import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 import { getArbeidsukeKey } from '../components/ArbeidstidUkerSpørsmål';
-import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
+import { getArbeidsukerIPerioden } from './arbeidstidUtils';
+// import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 
 export const cleanupArbeidsuker = (
     periode: DateRange,
@@ -107,7 +102,7 @@ export const cleanupArbeidstidAnsatt = (
     });
 };
 
-export const cleanupArbeidstidFrilans = (
+/*export const cleanupArbeidstidFrilans = (
     frilans: FrilansFormData,
     frilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined,
     søknadsperiode: DateRange
@@ -139,6 +134,7 @@ export const cleanupArbeidstidFrilans = (
                 : undefined,
     };
 };
+*/
 
 export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
@@ -174,10 +170,10 @@ export const cleanupArbeidstidStep = (
 ): SøknadFormValues => {
     const values: SøknadFormValues = { ...formData };
 
+    //TODO NYFRILANS OG MED OOPDRAG
     values.ansatt_arbeidsforhold = arbeidSøknadsdata.arbeidsgivere
         ? cleanupArbeidstidAnsatt(søknadsperiode, values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere)
         : values.ansatt_arbeidsforhold;
-    values.frilans.arbeidsforhold = cleanupArbeidstidFrilans(values.frilans, arbeidSøknadsdata.frilans, søknadsperiode);
     values.selvstendig.arbeidsforhold = cleanupArbeidstidSelvstendigNæringdrivende(
         søknadsperiode,
         arbeidSøknadsdata.selvstendig,

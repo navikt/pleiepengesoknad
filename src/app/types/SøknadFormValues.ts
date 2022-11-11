@@ -5,7 +5,6 @@ import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserMedOppdragFormValues } from './ArbeidsforholdFormValues';
-import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
@@ -107,7 +106,6 @@ export interface SøknadFormValues {
     [SøknadFormField.harBeredskap]: YesOrNo;
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
-    [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
     [SøknadFormField.nyfrilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
@@ -148,9 +146,6 @@ export const initialValues: SøknadFormValues = {
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
-    [SøknadFormField.frilans]: {
-        harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
-    },
     [SøknadFormField.selvstendig]: {
         harHattInntektSomSN: YesOrNo.UNANSWERED,
     },

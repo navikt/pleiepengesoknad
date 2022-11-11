@@ -13,11 +13,7 @@ import {
     welcomingPageIsValid,
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
-import {
-    erFrilanserISøknadsperiode,
-    frlilansOppdragISøknadsperiode,
-    nyFrlilansOppdragISøknadsperiode,
-} from './frilanserUtils';
+import { frlilansOppdragISøknadsperiode, nyFrlilansOppdragISøknadsperiode } from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
@@ -103,7 +99,6 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
         søknadsperiode,
         formValues.erFrilanserIPeriode
     );
-    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans);
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
-    return erAnsatt || harFrilansOppdrag || harNyFrilansOppdrag || erFrilanser || erSelvstendig;
+    return erAnsatt || harFrilansOppdrag || harNyFrilansOppdrag || erSelvstendig;
 };

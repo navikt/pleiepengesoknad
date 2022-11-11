@@ -1,15 +1,3 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ISODate } from '@navikt/sif-common-utils/lib';
-import { ArbeidsforholdFrilanserFormValues } from './ArbeidsforholdFormValues';
-
-export enum FrilansFormField {
-    harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
-    startdato = 'frilans.startdato',
-    sluttdato = 'frilans.sluttdato',
-    erFortsattFrilanser = 'frilans.erFortsattFrilanser',
-    arbeidsforhold = 'frilans.arbeidsforhold',
-}
-
 export enum FrilansOppdragFormField {
     frilansOppdragIPerioden = 'frilansOppdragIPerioden',
     sluttdato = 'sluttdato',
@@ -34,14 +22,6 @@ export enum FrilansNyFormField {
     normalarbeidstid_erLiktSomForrigeSøknad = 'normalarbeidstid.erLiktSomForrigeSøknad',
     normalarbeidstid_TimerPerUke = 'normalarbeidstid.timerPerUke',
     arbeidIPeriode = 'arbeidIPeriode',
-}
-
-export interface FrilansFormData {
-    harHattInntektSomFrilanser?: YesOrNo;
-    erFortsattFrilanser?: YesOrNo;
-    startdato?: ISODate;
-    sluttdato?: ISODate;
-    arbeidsforhold?: ArbeidsforholdFrilanserFormValues;
 }
 
 export enum FrilanserOppdragType {

@@ -2,25 +2,25 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FrilansOppdragFormField, FrilanserOppdragType } from '../../../types/FrilansFormData';
+import { FrilansOppdragFormField, FrilanserOppdragType } from '../../../../types/FrilansFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
-import FrilansIcon from '../../../components/frilans-icon/FrilansIconSvg';
+import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import FrilansIcon from '../../../../components/frilans-icon/FrilansIconSvg';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import NormalarbeidstidSpørsmål from '../normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import {
     getFrilansOppdragIPeriodenRadios,
     getFrilansOppdragIStyremedlemSvarRadios,
     getSelectFrilansKategoriOptions,
     renderTidsromFrilansOppdrag,
     visFrilansOppdragNormalarbeidstid,
-} from '../utils/FrilansOppdragUtils';
-import { getFrilansOppdragSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
-import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
+} from '../../utils/FrilansOppdragUtils';
+import { getFrilansOppdragSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
+import { FrilanserOppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansOppdragApiData';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
     FrilansOppdragFormField,

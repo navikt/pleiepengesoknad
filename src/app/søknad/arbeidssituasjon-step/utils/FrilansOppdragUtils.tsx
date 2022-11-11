@@ -28,33 +28,6 @@ export const renderTidsromFrilansOppdrag = ({ ansattFom, ansattTom }: Arbeidsgiv
     return undefined;
 };
 
-export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
-    return [
-        <option key={0} value="">
-            Velg kategori
-        </option>,
-        <option key={1} value={FrilanserOppdragType.FOSTERFORELDER}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.FOSTERFORELDER}`)}
-        </option>,
-        <option key={2} value={FrilanserOppdragType.FRILANSER}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.FRILANSER}`)}
-        </option>,
-        <option key={3} value={FrilanserOppdragType.OMSORGSSTØNAD}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.OMSORGSSTØNAD}`)}
-        </option>,
-        <option key={4} value={FrilanserOppdragType.STYREMEDLEM_ELLER_VERV}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.STYREMEDLEM_ELLER_VERV}`)}
-        </option>,
-    ];
-};
-
-export const visFrilansOppdragNormalarbeidstid = (oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues) =>
-    oppdrag.frilansOppdragKategori &&
-    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
-        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
-        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
-            oppdrag.styremedlemHeleInntekt === YesOrNo.NO));
-
 export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
     {
         label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA}`),
@@ -73,6 +46,20 @@ export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
     },
 ];
 
+export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
+    const førstOption = [
+        <option key={0} value="">
+            Velg kategori
+        </option>,
+    ];
+    const options = Object.keys(FrilanserOppdragType).map((type, index) => (
+        <option key={index + 1} value={type}>
+            {intlHelper(intl, `frilansoppdragListe.oppdrag.${type}`)}
+        </option>
+    ));
+    return [...førstOption, ...options];
+};
+
 export const getFrilansOppdragIStyremedlemSvarRadios = (intl: IntlShape) => [
     {
         label: intlHelper(intl, `${YesOrNo.YES}`),
@@ -83,3 +70,10 @@ export const getFrilansOppdragIStyremedlemSvarRadios = (intl: IntlShape) => [
         value: YesOrNo.NO,
     },
 ];
+
+export const visFrilansOppdragNormalarbeidstid = (oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues) =>
+    oppdrag.frilansOppdragKategori &&
+    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
+        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
+        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+            oppdrag.styremedlemHeleInntekt === YesOrNo.NO));

@@ -150,11 +150,11 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             frilansOppdarg.push(a.arbeidsforhold);
         }
     });
-    const frilans: ArbeidsforholdSøknadsdata[] = arbeid.frilans?.erFrilanser ? [arbeid.frilans.arbeidsforhold] : [];
+
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];
-    return [...arbeidsgivere, ...frilans, ...selvstendig, ...frilansOppdarg, ...nyFrilans];
+    return [...arbeidsgivere, ...selvstendig, ...frilansOppdarg, ...nyFrilans];
 };
 
 export const getArbeidsukerIPerioden = (periode: DateRange): WeekOfYearInfo[] => {

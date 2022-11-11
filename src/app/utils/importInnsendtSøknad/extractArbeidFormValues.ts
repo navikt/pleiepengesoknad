@@ -6,12 +6,10 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { ArbeidsgiverType } from '../../types';
 import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../types/FrilansFormData';
 import { SøknadsimportEndring, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
-import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
 import { SelvstendigApiData } from '../../types/søknad-api-data/selvstendigApiData';
 import { OpptjeningIUtlandetApiData, UtenlandskNæringApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
@@ -28,8 +26,8 @@ dayjs.extend(isSameOrAfter);
 type ArbeidFormValues = Pick<
     SøknadFormValues,
     //TODO
-    //| SøknadFormField.frilans
     | SøknadFormField.frilansoppdrag
+    | SøknadFormField.nyfrilansoppdrag
     | SøknadFormField.ansatt_arbeidsforhold
     | SøknadFormField.opptjeningUtland
     | SøknadFormField.selvstendig
@@ -55,26 +53,6 @@ export const mapArbeidsgiverToFormValues = (
         arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(arbeidsgiver.arbeidsforhold?.arbeidIPeriode),
     };
     return formValues;
-};
-
-export const mapFrilanserToFormValues = (frilanser: FrilansApiData): FrilansFormData => {
-    if (frilanser.harInntektSomFrilanser) {
-        const erFortsattFrilanser = booleanToYesOrNo(frilanser.jobberFortsattSomFrilans);
-        return {
-            harHattInntektSomFrilanser: YesOrNo.YES,
-            erFortsattFrilanser: booleanToYesOrNo(frilanser.jobberFortsattSomFrilans),
-            startdato: frilanser.startdato,
-            sluttdato: erFortsattFrilanser ? frilanser.sluttdato : '',
-            arbeidsforhold: {
-                arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(frilanser.arbeidsforhold.arbeidIPeriode),
-                normalarbeidstid: mapNormalarbeidstidApiDataToFormValues(frilanser.arbeidsforhold.normalarbeidstid),
-                sluttetFørSøknadsperiode: YesOrNo.NO,
-            },
-        };
-    }
-    return {
-        harHattInntektSomFrilanser: YesOrNo.NO,
-    };
 };
 
 export const mapSelvstendigToFormValues = (selvstendig: SelvstendigApiData): SelvstendigFormData => {
@@ -132,8 +110,8 @@ export const extractArbeidFormValues = (
 
     const formValues = {
         ansatt_arbeidsforhold: ansatt_arbeidsforhold,
-        // frilans: mapFrilanserToFormValues(søknad.frilans),
         //TODO
+        nyfrilansoppdrag: [],
         frilansoppdrag: [],
         selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
         harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),

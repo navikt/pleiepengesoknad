@@ -68,9 +68,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
             id={StepID.ARBEIDSSITUASJON}
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
-            onStepCleanup={
-                søknadsperiode ? (values) => cleanupArbeidssituasjonStep(values, søknadsperiode) : undefined
-            }>
+            onStepCleanup={(values) => cleanupArbeidssituasjonStep(values)}>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>

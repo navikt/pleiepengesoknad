@@ -1,13 +1,26 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { visVernepliktSpørsmål } from '../visVernepliktSpørsmål';
 import { ArbeidsgiverType } from '../../../../types/Arbeidsgiver';
-import { ArbeidsforholdFormValues } from '../../../../types/ArbeidsforholdFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserMedOppdragFormValues,
+} from '../../../../types/ArbeidsforholdFormValues';
+import { FrilanserOppdragIPeriodenApi } from 'app/types/søknad-api-data/frilansOppdragApiData';
 
 const defaultAnsattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {
         id: '123',
         navn: 'abc',
         type: ArbeidsgiverType.ORGANISASJON,
+    },
+    normalarbeidstid: {},
+};
+
+const defaultFrilansArbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues = {
+    arbeidsgiver: {
+        id: '12345',
+        navn: 'abc',
+        type: ArbeidsgiverType.FRILANSOPPDRAG,
     },
     normalarbeidstid: {},
 };
@@ -21,11 +34,13 @@ describe('visVernepliktSpørsmål', () => {
                     erAnsatt: YesOrNo.UNANSWERED,
                 },
             ];
-            const frilans = { harHattInntektSomFrilanser: YesOrNo.UNANSWERED };
+            const frilansoppdrag = [defaultFrilansArbeidsforhold];
+            const nyfrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[] = [];
             const selvstendig__harHattInntektSomSN = YesOrNo.UNANSWERED;
             const result = visVernepliktSpørsmål({
                 ansatt_arbeidsforhold,
-                frilans,
+                frilansoppdrag,
+                nyfrilansoppdrag,
                 selvstendig: {
                     harHattInntektSomSN: selvstendig__harHattInntektSomSN,
                 },
@@ -36,7 +51,8 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [{ ...defaultAnsattArbeidsforhold, erAnsatt: YesOrNo.YES }],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -52,7 +68,8 @@ describe('visVernepliktSpørsmål', () => {
                             erAnsatt: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -69,7 +86,8 @@ describe('visVernepliktSpørsmål', () => {
                             sluttetFørSøknadsperiode: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -86,7 +104,8 @@ describe('visVernepliktSpørsmål', () => {
                             sluttetFørSøknadsperiode: YesOrNo.NO,
                         },
                     ],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -97,7 +116,10 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.YES },
+                    frilansoppdrag: [
+                        { ...defaultFrilansArbeidsforhold, frilansOppdragIPerioden: FrilanserOppdragIPeriodenApi.JA },
+                    ],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -108,7 +130,10 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.YES },
+                    frilansoppdrag: [
+                        { ...defaultFrilansArbeidsforhold, frilansOppdragIPerioden: FrilanserOppdragIPeriodenApi.JA },
+                    ],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.UNANSWERED,
                     },
@@ -119,7 +144,8 @@ describe('visVernepliktSpørsmål', () => {
             expect(
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.YES,
                     },
@@ -135,9 +161,8 @@ describe('visVernepliktSpørsmål', () => {
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
-                    frilans: {
-                        harHattInntektSomFrilanser: YesOrNo.NO,
-                    },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                 })
             ).toBeTruthy();
         });
@@ -154,7 +179,8 @@ describe('visVernepliktSpørsmål', () => {
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
-                    frilans: { harHattInntektSomFrilanser: YesOrNo.NO },
+                    frilansoppdrag: [],
+                    nyfrilansoppdrag: [],
                 })
             ).toBeTruthy();
         });
