@@ -28,10 +28,9 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         utenlandskNæring,
     },
     søknadsperiode,
-    // frilansoppdrag,
 }) => {
     const intl = useIntl();
-    console.log('frilanserOppdrag: ', frilanserOppdrag);
+
     return (
         <div data-testid="oppsummering-arbeidssituasjon">
             <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>

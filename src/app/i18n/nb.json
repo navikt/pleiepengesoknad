@@ -107,7 +107,7 @@
     "barnRelasjon.ANNET": "Annet",
 
     "arbeidsgiver.tittel": "{navn} (organisasjonsnummer {organisasjonsnummer})",
-    "frilans.tittel": "Frilans",
+    "frilans.tittel": "Frilans: {navn}",
     "frilans.tittel.start": "Frilanser hos {hvor} (startet {startdato})",
     "frilans.tittel.slutt": "Frilanser hos {hvor} (sluttet {sluttdato})",
     "frilans.tittel.startOgSlutt": "Frilanser hos {hvor} (startet {startdato}, sluttet {sluttdato})",
@@ -646,20 +646,22 @@
 
     "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser",
     "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser i perioden det søkes for",
-    "oppsummering.arbeidssituasjon.frilans.startet": "Startet som frilanser {dato}",
+
     "oppsummering.arbeidssituasjon.frilans.fortsattFrilanser": "Er fortsatt frilanser",
     "oppsummering.arbeidssituasjon.frilans.sluttet": "Sluttet som frilanser {dato}",
     "oppsummering.arbeidssituasjon.frilans.frilansoppdrag": "Frilansoppdrag registrert i perioden:",
 
     "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.spm": "Har dette frilansoppdraget i perioden: ",
-    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA": "Ja",
-    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA_MEN_AVSLUTTES_I_PERIODEN": "Ja, men det avsluttes i perioden",
-    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.NEI": "Nei",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA": "Har dette frilansoppdraget: Ja",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA_MEN_AVSLUTTES_I_PERIODEN": "Har dette frilansoppdraget: Ja, men det avsluttes i perioden",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.NEI": "Har dette frilansoppdraget: Nei",
 
-    "oppsummering.arbeidssituasjon.frilans.oppdragType.OMSORGSSTØNAD": "Omsorgsstønad",
-    "oppsummering.arbeidssituasjon.frilans.oppdragType.FRILANSER": "Frilanser",
-    "oppsummering.arbeidssituasjon.frilans.oppdragType.STYREMEDLEM_ELLER_VERV": "Styremedlem Eller Verv",
-    "oppsummering.arbeidssituasjon.frilans.oppdragType.FOSTERFORELDER": "Fosterforelder",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.OMSORGSSTØNAD": "Oppdrag type: Omsorgsstønad",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.FRILANSER": "Oppdrag type: Frilanser",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.STYREMEDLEM_ELLER_VERV": "Oppdrag type: Styremedlem Eller Verv",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.FOSTERFORELDER": "Oppdrag type: Fosterforelder",
+    "oppsummering.arbeidssituasjon.frilans.startet": "Startet {ansattFom}",
+    "oppsummering.arbeidssituasjon.frilans.avsluttetIPerioden": "Sluttet {ansattTom}",
 
     "oppsummering.arbeidssituasjon.selvstendig.header": "Selvstendig næringsdrivende",
     "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for",

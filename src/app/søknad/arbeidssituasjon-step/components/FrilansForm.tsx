@@ -16,7 +16,7 @@ import { getFrilansOppdragIStyremedlemSvarRadios, getSelectFrilansKategoriOption
 import { useFormikContext } from 'formik';
 import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
-import { Knapp } from 'nav-frontend-knapper';
+import { Xknapp } from 'nav-frontend-ikonknapper';
 //import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getNyFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { getNyFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
@@ -118,11 +118,9 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                             />
                         </Box>
                     )}
-                <FormBlock>
-                    <Knapp htmlType={'button'} onClick={deleteFrilans}>
-                        {'Slett'}
-                    </Knapp>
-                </FormBlock>
+                <div style={{ textAlign: 'right' }}>
+                    <Xknapp htmlType={'button'} onClick={deleteFrilans} />
+                </div>
             </ArbeidssituasjonPanel>
         </Box>
     );

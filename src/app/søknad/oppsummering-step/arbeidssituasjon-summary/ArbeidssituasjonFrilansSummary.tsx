@@ -3,9 +3,9 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 // import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { FrilanserApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import { FrilanserApiData, FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
-// import NormalarbeidstidSummary from './NormalarbeidstidSummary';
+import { apiStringDateToDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 interface Props {
     frilansere?: FrilanserApiData[];
@@ -13,7 +13,7 @@ interface Props {
 
 const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
     const intl = useIntl();
-    console.log(frilansere);
+
     if (frilansere.length === 0) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
@@ -29,14 +29,15 @@ const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
     return (
         <div data-testid="arbeidssituasjon-frilansere">
             {frilansere.map((frilans, index) => {
-                const { navn, organisasjonsnummer, harOppdragIPerioden, oppdragType, manuellOppføring } = frilans;
-                {
-                    console.log('Frilans: ', frilans);
-                }
+                const { navn, harOppdragIPerioden, oppdragType, manuellOppføring, ansattFom, ansattTom } = frilans;
+                const avsluttet =
+                    (manuellOppføring === true && ansattTom !== undefined) ||
+                    harOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN;
+
                 return (
                     <SummaryBlock
                         key={index}
-                        header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}
+                        header={intlHelper(intl, 'frilans.tittel', { navn })}
                         headerTag="h3"
                         indentChildren={false}>
                         <ul>
@@ -47,6 +48,16 @@ const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
                                     />
                                 </li>
                             )}
+                            {manuellOppføring === true && ansattFom && (
+                                <li>
+                                    <FormattedMessage
+                                        id={`oppsummering.arbeidssituasjon.frilans.startet`}
+                                        values={{
+                                            ansattFom: prettifyDateFull(apiStringDateToDate(ansattFom)),
+                                        }}
+                                    />
+                                </li>
+                            )}
                             {oppdragType && (
                                 <li>
                                     <FormattedMessage
@@ -54,11 +65,20 @@ const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
                                     />
                                 </li>
                             )}
-
+                            {avsluttet && ansattTom && (
+                                <li>
+                                    <FormattedMessage
+                                        id={'oppsummering.arbeidssituasjon.frilans.avsluttetIPerioden'}
+                                        values={{
+                                            ansattTom: prettifyDateFull(apiStringDateToDate(ansattTom)),
+                                        }}
+                                    />
+                                </li>
+                            )}
                             {frilans.arbeidsforhold && (
                                 <li>
                                     <NormalarbeidstidSummary
-                                        erAnsatt={true} //TODO
+                                        erAnsatt={!avsluttet}
                                         normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
                                     />
                                 </li>

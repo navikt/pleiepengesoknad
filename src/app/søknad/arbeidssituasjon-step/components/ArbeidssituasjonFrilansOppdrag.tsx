@@ -59,7 +59,7 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                 </FormBlock>
                 {(oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
                     oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN) && (
-                    <>
+                    <Box padBottom="l">
                         <Box margin="l">
                             <FrilansOppdragFormComponents.Select
                                 name={getFieldName(FrilansOppdragFormField.frilansOppdragKategori)}
@@ -104,7 +104,7 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                 />
                             </Box>
                         )}
-                    </>
+                    </Box>
                 )}
             </ArbeidssituasjonPanel>
         </Box>
