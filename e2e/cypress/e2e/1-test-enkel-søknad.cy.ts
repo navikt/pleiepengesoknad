@@ -18,7 +18,7 @@ describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
             oppsummeringTestOmDeg();
             oppsummeringTestOmBarn();
             oppsummeringTestPeriodeSteg();
-            /** Oppsummering arbeid kjøres som egne tester */
+            /** Oppsummeringer for arbeidssituasjon og arbeidstid kjøres som egne tester */
             oppsummeringTestOmsorgstilbudSteg();
             oppsummeringTestMedlemskapSteg();
             oppsummeringTestLegeerklæringSteg();

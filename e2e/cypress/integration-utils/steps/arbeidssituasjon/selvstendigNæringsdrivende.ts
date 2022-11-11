@@ -11,7 +11,7 @@ import {
     selectRadioNo,
     selectRadioYes,
 } from '../../utils';
-import { fyllUtArbeidIPeriodeSteg, fyllUtArbeidstidJobberIkke } from '../arbeid-i-periode/arbeidIPeriode';
+import { fyllUtArbeidstidJobberIkke } from '../arbeid-i-periode/arbeidIPeriode';
 
 export const fyllUtArbeidssituasjonErIkkeSelvstendig = () => {
     getTestElement('arbeidssituasjonSelvstendig').within(() => {
@@ -23,7 +23,7 @@ const virksomhet = {
     næringstype: 'JORDBRUK_SKOGBRUK',
     registrertINorge: 'yes',
     navn: 'Abc',
-    organisasjonsnummer: '999263550',
+    organisasjonsnummer: '999263550' /** Navs orgnur */,
     fraOgMed: '01.01.2010',
     tilOgMed: dayjs().subtract(1, 'day').format('DD.MM.YYYY'),
     hattVarigEndringAvNæringsinntektSiste4Kalenderår: 'yes',

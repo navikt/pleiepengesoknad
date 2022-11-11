@@ -24,7 +24,7 @@ export const fyllUtKomplettSøknad = () => {
     fyllUtVelkommenSide();
     fyllUtOmBarnSteg(TestType.KOMPLETT);
     fyllUtPeriodeSteg(TestType.KOMPLETT);
-    fyllUtArbeidssituasjonSteg();
+    fyllUtArbeidssituasjonSteg(TestType.KOMPLETT);
     fyllUtArbeidIPeriodeSteg();
     fyllUtOmsorgstilbudSteg(TestType.KOMPLETT); // Avhenger av peroden !!!
     fyllUtNattevåkOgBeredskapSteg(TestType.KOMPLETT);

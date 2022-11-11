@@ -69,12 +69,6 @@ const sluttetFørSøknadsperiodeTest = () => {
     });
 };
 
-// export const ansatt_fyllUtOgTest = {
-//     sluttetFørSøknadsperiodeTest,
-//     ansattHeleSøknadsperiodeTest,
-//     ansattISøknadsperiodeTest,
-// };
-
 export const testArbeidssituasjonAnsatt = () => {
     contextConfig({ mellomlagring });
     describe('Arbeidssituasjon ansatt', () => {

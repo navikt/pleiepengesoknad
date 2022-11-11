@@ -1,31 +1,18 @@
-import * as dayjs from 'dayjs';
-import * as isoWeek from 'dayjs/plugin/isoWeek';
-import { clickFortsett, getTestElement, selectRadioNo } from '../../utils';
+import { TestType } from '../../types/TestTyper';
+import { clickFortsett } from '../../utils';
 import { fyllUtArbeidssituasjonAnsatt } from './ansatt';
 import { fyllUtArbeidssituasjonFrilanser } from './frilanser';
+import { fyllUtArbeidssituasjonOpptjeningUtland } from './opptjeningUtland';
 import { fyllUtArbeidssituasjonErIkkeSelvstendig } from './selvstendigNæringsdrivende';
+import { fyllUtArbeidssituasjonUtenlandskNæring } from './utenlandskNæring';
 
-dayjs.extend(isoWeek);
-
-const fyllUtArbeidssituasjonOpptjeningUtland = () => {
-    getTestElement('arbeidssituasjonOpptjeningUtland').within(() => {
-        selectRadioNo('har-opptjeningUtland');
-    });
-};
-
-const fyllUtArbeidssituasjonUtenlandskNæring = () => {
-    getTestElement('arbeidssituasjonUtenlandskNæring').within(() => {
-        selectRadioNo('har-utenlandskNæring');
-    });
-};
-
-export const fyllUtArbeidssituasjonSteg = () => {
+export const fyllUtArbeidssituasjonSteg = (testType: TestType = TestType.ENKEL) => {
     it('Steg 3: Arbeidssituasjon', () => {
         fyllUtArbeidssituasjonAnsatt();
         fyllUtArbeidssituasjonFrilanser();
         fyllUtArbeidssituasjonErIkkeSelvstendig();
-        fyllUtArbeidssituasjonOpptjeningUtland();
-        fyllUtArbeidssituasjonUtenlandskNæring();
+        fyllUtArbeidssituasjonUtenlandskNæring(testType);
+        fyllUtArbeidssituasjonOpptjeningUtland(testType);
         clickFortsett();
     });
 };
