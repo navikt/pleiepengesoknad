@@ -14,28 +14,12 @@ interface ArbeidssituasjonAnsattValues {
     timerPerUke?: string;
 }
 
-const ansatt: ArbeidssituasjonAnsattValues = {
-    erAnsatt: true,
-    timerPerUke: '30',
-};
-
-const sluttetISøknadsperiode: ArbeidssituasjonAnsattValues = {
-    erAnsatt: false,
-    sluttetFørSøknadsperiode: false,
-    timerPerUke: '30',
-};
-const sluttetFørSøknadsperiode: ArbeidssituasjonAnsattValues = {
-    erAnsatt: false,
-    sluttetFørSøknadsperiode: true,
-};
-
-export const ArbeidssituasjonAnsattProfil = {
-    ansatt,
-    sluttetISøknadsperiode,
-    sluttetFørSøknadsperiode,
-};
-
-export const fyllUtArbeidssituasjonAnsatt = (values: ArbeidssituasjonAnsattValues) => {
+export const fyllUtArbeidssituasjonAnsatt = (
+    values: ArbeidssituasjonAnsattValues = {
+        erAnsatt: true,
+        timerPerUke: '30',
+    }
+) => {
     const { erAnsatt, sluttetFørSøknadsperiode, timerPerUke } = values;
     getTestElement('arbeidssituasjonAnsatt').within(() => {
         selectRadioYesOrNo('er-ansatt', erAnsatt);
@@ -84,6 +68,12 @@ const sluttetFørSøknadsperiodeTest = () => {
         el.should('contain', `Sluttet før ${periodeFraString}`);
     });
 };
+
+// export const ansatt_fyllUtOgTest = {
+//     sluttetFørSøknadsperiodeTest,
+//     ansattHeleSøknadsperiodeTest,
+//     ansattISøknadsperiodeTest,
+// };
 
 export const testArbeidssituasjonAnsatt = () => {
     contextConfig({ mellomlagring });

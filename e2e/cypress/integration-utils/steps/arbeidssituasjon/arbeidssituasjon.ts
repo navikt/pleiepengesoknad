@@ -1,7 +1,7 @@
 import * as dayjs from 'dayjs';
 import * as isoWeek from 'dayjs/plugin/isoWeek';
 import { clickFortsett, getTestElement, selectRadioNo } from '../../utils';
-import { ArbeidssituasjonAnsattProfil, fyllUtArbeidssituasjonAnsatt } from './ansatt';
+import { fyllUtArbeidssituasjonAnsatt } from './ansatt';
 import { fyllUtArbeidssituasjonFrilanser } from './frilanser';
 import { fyllUtArbeidssituasjonErIkkeSelvstendig } from './selvstendigNæringsdrivende';
 
@@ -21,7 +21,7 @@ const fyllUtArbeidssituasjonUtenlandskNæring = () => {
 
 export const fyllUtArbeidssituasjonSteg = () => {
     it('Steg 3: Arbeidssituasjon', () => {
-        fyllUtArbeidssituasjonAnsatt(ArbeidssituasjonAnsattProfil.ansatt);
+        fyllUtArbeidssituasjonAnsatt();
         fyllUtArbeidssituasjonFrilanser();
         fyllUtArbeidssituasjonErIkkeSelvstendig();
         fyllUtArbeidssituasjonOpptjeningUtland();
