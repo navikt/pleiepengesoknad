@@ -23,6 +23,7 @@ import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUt
 import { Xknapp } from 'nav-frontend-ikonknapper';
 import { getNyFrilanserSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
 import { getNyFrilanserStartdatoValidator } from '../../validation/frilansStartdatoValidator';
+import { validateNavn } from '../../../../validation/fieldValidations';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
     FrilansOppdragFormField,
@@ -53,7 +54,18 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                     <FrilansOppdragFormComponents.Input
                         label={'Navn på oppdragsgiver'}
                         name={getFieldName(FrilansNyFormField.arbeidsgiver_navn)}
-                        validate={getRequiredFieldValidator()}
+                        validate={(value) => {
+                            const error = validateNavn(value);
+                            return error
+                                ? {
+                                      key: 'validation.nyfrilansoppdrag.arbeidsgiver.navn.noValue',
+                                      values: {
+                                          navn: oppdrag.arbeidsgiver.navn,
+                                      },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
                         bredde={'XL'}
                     />
                 </FormBlock>
@@ -68,7 +80,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 </Box>
                 <FormBlock margin="l">
                     <FrilansOppdragFormComponents.Checkbox
-                        label={'Sluttet'}
+                        label={'Sluttet i søknadsperiode'}
                         name={getFieldName(FrilansNyFormField.sluttet)}
                     />
                 </FormBlock>
@@ -81,7 +93,22 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                             showYearSelector={true}
                             minDate={oppdrag.arbeidsgiver.ansattFom}
                             maxDate={søknadsdato}
-                            validate={getNyFrilanserSluttdatoValidator(oppdrag, søknadsperiode, søknadsdato)}
+                            validate={(value) => {
+                                const error = getNyFrilanserSluttdatoValidator(
+                                    oppdrag,
+                                    søknadsperiode,
+                                    søknadsdato
+                                )(value);
+                                return error
+                                    ? {
+                                          key: `validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.${error}`,
+                                          values: {
+                                              navn: oppdrag.arbeidsgiver.navn,
+                                          },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
+                            }}
                         />
                     </Box>
                 )}
@@ -91,7 +118,15 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                         name={getFieldName(FrilansNyFormField.frilansOppdragKategori)}
                         label={'Hvilken type frilansoppdrag er dette?'}
                         bredde={'l'}
-                        validate={getRequiredFieldValidator()}>
+                        validate={(value) => {
+                            const error = getRequiredFieldValidator()(value);
+                            return error
+                                ? {
+                                      key: 'validation.nyfrilansoppdrag.frilansOppdragKategori.noValue',
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}>
                         {getSelectFrilansKategoriOptions(intl)}
                     </FrilansOppdragFormComponents.Select>
                 </Box>

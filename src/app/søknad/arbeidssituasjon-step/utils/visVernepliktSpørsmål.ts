@@ -33,7 +33,6 @@ export const visVernepliktSpørsmål = ({
 
     /** Frilanser Registrerte */
     if (frilansoppdrag.length > 0) {
-        console.log('frilansoppdrag test');
         if (frilansoppdrag.some((oppdrag) => oppdrag.frilansOppdragIPerioden === undefined)) {
             return false;
         }

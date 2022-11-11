@@ -55,7 +55,19 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                         legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.spm')}
                         name={getFieldName(FrilansOppdragFormField.frilansOppdragIPerioden)}
                         radios={getFrilansOppdragIPeriodenRadios(intl)}
-                        validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
+                        validate={(value) => {
+                            const error = getRequiredFieldValidator()(value);
+                            return error
+                                ? {
+                                      key: 'validation.frilansoppdrag.frilansOppdragIPerioden.noValue',
+                                      values: {
+                                          navn: oppdrag.arbeidsgiver.navn,
+                                      },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
+                    />
                 </FormBlock>
                 {(oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
                     oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN) && (
@@ -67,7 +79,18 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                     oppdargsNavn: oppdrag.arbeidsgiver.navn,
                                 })}
                                 bredde={'l'}
-                                validate={getRequiredFieldValidator()}>
+                                validate={(value) => {
+                                    const error = getRequiredFieldValidator()(value);
+                                    return error
+                                        ? {
+                                              key: 'validation.frilansoppdrag.frilansOppdragKategori.noValue',
+                                              values: {
+                                                  navn: oppdrag.arbeidsgiver.navn,
+                                              },
+                                              keepKeyUnaltered: true,
+                                          }
+                                        : undefined;
+                                }}>
                                 {getSelectFrilansKategoriOptions(intl)}
                             </FrilansOppdragFormComponents.Select>
                         </Box>
@@ -77,7 +100,19 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                     legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
                                     name={getFieldName(FrilansOppdragFormField.styremedlemHeleInntekt)}
                                     radios={getFrilansOppdragIStyremedlemSvarRadios(intl)}
-                                    validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
+                                    validate={(value) => {
+                                        const error = getRequiredFieldValidator()(value);
+                                        return error
+                                            ? {
+                                                  key: 'validation.frilansoppdrag.styremedlemHeleInntekt.noValue',
+                                                  values: {
+                                                      navn: oppdrag.arbeidsgiver.navn,
+                                                  },
+                                                  keepKeyUnaltered: true,
+                                              }
+                                            : undefined;
+                                    }}
+                                />
                             </Box>
                         )}
                         {oppdrag.frilansOppdragIPerioden ===
@@ -89,7 +124,22 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                     showYearSelector={true}
                                     minDate={oppdrag.arbeidsgiver.ansattFom}
                                     maxDate={søknadsdato}
-                                    validate={getFrilansOppdragSluttdatoValidator(oppdrag, søknadsperiode, søknadsdato)}
+                                    validate={(value) => {
+                                        const error = getFrilansOppdragSluttdatoValidator(
+                                            oppdrag,
+                                            søknadsperiode,
+                                            søknadsdato
+                                        )(value);
+                                        return error
+                                            ? {
+                                                  key: `validation.frilansoppdrag.sluttdato.${error}`,
+                                                  values: {
+                                                      navn: oppdrag.arbeidsgiver.navn,
+                                                  },
+                                                  keepKeyUnaltered: true,
+                                              }
+                                            : undefined;
+                                    }}
                                 />
                             </Box>
                         )}

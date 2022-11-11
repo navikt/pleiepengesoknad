@@ -832,6 +832,32 @@
     "validation.frilans.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
     "validation.frilans.erFortsattFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
 
+    "validation.frilansoppdrag.frilansOppdragIPerioden.noValue": "Du må svare på om at du har {navn} frilansoppdraget i perioden du søker for.",
+    "validation.frilansoppdrag.frilansOppdragKategori.noValue": "Du må velge frilansoppdrag type hos {navn}.",
+
+    "validation.frilansoppdrag.sluttdato.dateHasNoValue": "Du må svare når sluttet du som frilanser i {navn}.",
+    "validation.frilansoppdrag.sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet hos {navn} i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.frilansoppdrag.sluttdato.dateIsAfterMax": "Datoen for når du sluttet hos {navn} kan ikke være etter dagens dato.",
+    "validation.frilansoppdrag.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet hos {navn} kan ikke være før datoen du startet.",
+    "validation.frilansoppdrag.sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet i {navn} før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei, det er avsluttet før perioden\" på spørsmålet om du har dette frilansoppdraget i perioden du søker for.",
+
+    "validation.frilansoppdrag.styremedlemHeleInntekt.noValue": "Du må svare \"Ja\" eller \"Nei\" på om du beholder hele inntekten fra {navn} vervet i perioden du søker for.",
+
+    "validation.nyfrilansoppdrag.arbeidsgiver.navn.noValue": "Du må skrive inn navn på nyregistrerte frilansoppdrag.",
+
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
+    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+
+    "validation.nyfrilansoppdrag.frilansOppdragKategori.noValue": "Du må velge frilansoppdrag type hos på nyregistrerte frilansoppdrag.",
+
     "validation.selvstendig.harHattInntektSomSN.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er selvstendig næringsdrivende i perioden du søker for.",
     "validation.selvstendig.harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
     "validation.selvstendig.virksomhet.noValue": "Du må oppgi informasjon om virksomheten din som selvstendig næringsdrivende.",
