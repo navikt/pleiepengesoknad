@@ -1,4 +1,4 @@
-import { dateToISODate } from '@navikt/sif-common-utils/lib';
+/*import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { FrilansApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './getArbeidsforholdApiDataFromSøknadsdata';
@@ -37,3 +37,4 @@ export const getFrilansApiDataFromSøknadsdata = (
             };
     }
 };
+*/

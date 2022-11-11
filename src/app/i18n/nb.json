@@ -651,6 +651,16 @@
     "oppsummering.arbeidssituasjon.frilans.sluttet": "Sluttet som frilanser {dato}",
     "oppsummering.arbeidssituasjon.frilans.frilansoppdrag": "Frilansoppdrag registrert i perioden:",
 
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.spm": "Har dette frilansoppdraget i perioden: ",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA": "Ja",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.JA_MEN_AVSLUTTES_I_PERIODEN": "Ja, men det avsluttes i perioden",
+    "oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.NEI": "Nei",
+
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.OMSORGSSTØNAD": "Omsorgsstønad",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.FRILANSER": "Frilanser",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.STYREMEDLEM_ELLER_VERV": "Styremedlem Eller Verv",
+    "oppsummering.arbeidssituasjon.frilans.oppdragType.FOSTERFORELDER": "Fosterforelder",
+
     "oppsummering.arbeidssituasjon.selvstendig.header": "Selvstendig næringsdrivende",
     "oppsummering.arbeidssituasjon.selvstendig.erIkkeSN": "Er ikke selvstendig næringsdrivende i perioden det søkes for",
 
@@ -925,15 +935,15 @@
     "frilansoppdragListe.oppdrag.info": "Du har frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Merk at hvis du mottar fosterhjemsgodtgjørelse eller omsorgsstønad fra kommunen er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
     "frilansoppdragListe.oppdrag.spm": "Stemmer det at du har dette frilansoppdraget i perioden du søker for?",
-    "frilansoppdragListe.oppdrag.yes": "Ja",
-    "frilansoppdragListe.oppdrag.yesAvsluttesIPerioden": "Ja, men det avsluttes i perioden",
-    "frilansoppdragListe.oppdrag.no": "Nei, det er avsluttet før perioden",
+    "frilansoppdragListe.oppdrag.JA": "Ja",
+    "frilansoppdragListe.oppdrag.JA_MEN_AVSLUTTES_I_PERIODEN": "Ja, men det avsluttes i perioden",
+    "frilansoppdragListe.oppdrag.NEI": "Nei, det er avsluttet før perioden",
 
     "frilansoppdragListe.oppdrag.kategori.spm": "Hvilken type frilansoppdrag er {oppdargsNavn}?",
-    "frilansoppdragListe.oppdrag.Omsorgsstønad": "Omsorgsstønad",
-    "frilansoppdragListe.oppdrag.Frilanser": "Frilanser",
-    "frilansoppdragListe.oppdrag.StyremedlemEllerVerv": "Styremedlem Eller Verv",
-    "frilansoppdragListe.oppdrag.Fosterforelder": "Fosterforelder",
+    "frilansoppdragListe.oppdrag.OMSORGSSTØNAD": "Omsorgsstønad",
+    "frilansoppdragListe.oppdrag.FRILANSER": "Frilanser",
+    "frilansoppdragListe.oppdrag.STYREMEDLEM_ELLER_VERV": "Styremedlem Eller Verv",
+    "frilansoppdragListe.oppdrag.FOSTERFORELDER": "Fosterforelder",
 
     "frilansoppdragListe.oppdrag.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
     "yes": "Ja",

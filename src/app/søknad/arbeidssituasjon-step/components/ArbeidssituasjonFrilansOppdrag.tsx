@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FrilansOppdragFormField, FrilansOppdragKategori, FrilansOppdragSvar } from '../../../types/FrilansFormData';
+import { FrilansOppdragFormField, FrilanserOppdragType } from '../../../types/FrilansFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
@@ -20,6 +20,7 @@ import {
     visFrilansOppdragNormalarbeidstid,
 } from '../utils/FrilansOppdragUtils';
 import { getFrilansOppdragSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
+import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
     FrilansOppdragFormField,
@@ -56,8 +57,8 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                         radios={getFrilansOppdragIPeriodenRadios(intl)}
                         validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
                 </FormBlock>
-                {(oppdrag.frilansOppdragIPerioden === FrilansOppdragSvar.JA ||
-                    oppdrag.frilansOppdragIPerioden === FrilansOppdragSvar.JAAVSLUTESIPERIODEN) && (
+                {(oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
+                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN) && (
                     <>
                         <Box margin="l">
                             <FrilansOppdragFormComponents.Select
@@ -70,7 +71,7 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                 {getSelectFrilansKategoriOptions(intl)}
                             </FrilansOppdragFormComponents.Select>
                         </Box>
-                        {oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV && (
+                        {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
                             <Box margin="l">
                                 <FrilansOppdragFormComponents.RadioGroup
                                     legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
@@ -79,7 +80,8 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                     validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
                             </Box>
                         )}
-                        {oppdrag.frilansOppdragIPerioden === FrilansOppdragSvar.JAAVSLUTESIPERIODEN && (
+                        {oppdrag.frilansOppdragIPerioden ===
+                            FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN && (
                             <Box margin="l">
                                 <FrilansOppdragFormComponents.DatePicker
                                     name={getFieldName(FrilansOppdragFormField.sluttdato)}

@@ -9,15 +9,9 @@ import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPan
 import FrilansIcon from '../../../../components/frilans-icon/FrilansIconSvg';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import {
-    FrilansFormData,
-    FrilansOppdragFormField,
-    FrilansOppdragKategori,
-    FrilansOppdragSvar,
-    YesOrNoRadio,
-} from '../../../../types/FrilansFormData';
+import { FrilansFormData, FrilansOppdragFormField, FrilanserOppdragType } from '../../../../types/FrilansFormData';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { DateRange, getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import NormalarbeidstidSpørsmål from '../normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
@@ -25,6 +19,7 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getFrilanserSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
 import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
+import { FrilanserOppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansOppdragApiData';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
     FrilansOppdragFormField,
@@ -70,7 +65,7 @@ const FrilansoppdragListe: React.FC<Props> = ({
     const getFieldName = (field: FrilansOppdragFormField, index: number): FrilansOppdragFormField =>
         `${parentFieldName}.${index}.${field}` as any;
     const getSelectOptions = () => {
-        return Object.keys(FrilansOppdragKategori).map((kategori, index) => (
+        return Object.keys(FrilanserOppdragType).map((kategori, index) => (
             <option key={index} value={kategori}>
                 {intlHelper(intl, `frilansoppdragListe.oppdrag.${kategori}`)}
             </option>
@@ -90,7 +85,7 @@ const FrilansoppdragListe: React.FC<Props> = ({
                         <FrilansOppdragFormComponents.RadioGroup
                             legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.spm')}
                             name={getFieldName(FrilansOppdragFormField.frilansOppdragIPerioden, index)}
-                            radios={Object.keys(FrilansOppdragSvar).map((svar) => ({
+                            radios={Object.keys(FrilanserOppdragIPeriodenApi).map((svar) => ({
                                 label: intlHelper(intl, `frilansoppdragListe.oppdrag.${svar}`),
                                 //TODO
                                 value: svar,
@@ -115,12 +110,12 @@ const FrilansoppdragListe: React.FC<Props> = ({
                             name={getFieldName(FrilansOppdragFormField.styremedlemHeleInntekt, index)}
                             radios={[
                                 {
-                                    label: intlHelper(intl, `${YesOrNoRadio.JA}`),
-                                    value: YesOrNoRadio.JA,
+                                    label: intlHelper(intl, `${YesOrNo.YES}`),
+                                    value: YesOrNo.NO,
                                 },
                                 {
-                                    label: intlHelper(intl, `${YesOrNoRadio.NEI}`),
-                                    value: YesOrNoRadio.NEI,
+                                    label: intlHelper(intl, `${YesOrNo.NO}`),
+                                    value: YesOrNo.YES,
                                 },
                             ]}
                             validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>

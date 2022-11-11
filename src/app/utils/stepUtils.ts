@@ -98,12 +98,12 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
     const harFrilansOppdrag = frlilansOppdragISøknadsperiode(formValues.frilansoppdrag, søknadsperiode);
-    const haNyFrilansOppdrag = nyFrlilansOppdragISøknadsperiode(
+    const harNyFrilansOppdrag = nyFrlilansOppdragISøknadsperiode(
         formValues.nyfrilansoppdrag,
         søknadsperiode,
         formValues.erFrilanserIPeriode
     );
     const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans);
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
-    return erAnsatt || harFrilansOppdrag || haNyFrilansOppdrag || erFrilanser || erSelvstendig;
+    return erAnsatt || harFrilansOppdrag || harNyFrilansOppdrag || erFrilanser || erSelvstendig;
 };

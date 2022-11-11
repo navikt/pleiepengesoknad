@@ -21,11 +21,12 @@ export const extractArbeidSøknadsdata = (
         values.erFrilanserIPeriode,
         søknadsperiode
     );
+    // const nyFrilans = extractFrilansOppdragArbeidsforholdSøknadsdata(values.nyfrilansoppdrag, søknadsperiode);
     const selvstendig = extractArbeidSelvstendigSøknadsdata(values.selvstendig, søknadsperiode);
     const opptjeningUtland = extractOpptjeningUtlandSøknadsdata(values);
     const utenlandskNæring = extractUtenlandskNæringSøknadsdata(values);
 
-    if (!arbeidsgivere && !frilans && !selvstendig) {
+    if (!arbeidsgivere && !frilans && !selvstendig && !nyFrilans && !frilansOppdrag) {
         return undefined;
     }
     return {

@@ -1,18 +1,20 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
+// import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
+import { FrilanserApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
+// import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
 interface Props {
-    frilans: FrilansApiData;
+    frilansere?: FrilanserApiData[];
 }
 
-const ArbeidssituasjonFrilansSummary = ({ frilans }: Props) => {
+const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
     const intl = useIntl();
-    if (frilans.harInntektSomFrilanser === false) {
+    console.log(frilansere);
+    if (frilansere.length === 0) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
                 <ul data-testid="arbeidssituasjon-frilanser">
@@ -25,37 +27,47 @@ const ArbeidssituasjonFrilansSummary = ({ frilans }: Props) => {
     }
 
     return (
-        <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-            <ul data-testid="arbeidssituasjon-frilanser">
-                <li>
-                    <FormattedMessage
-                        id="oppsummering.arbeidssituasjon.frilans.startet"
-                        values={{ dato: prettifyApiDate(frilans.startdato) }}
-                    />
-                </li>
-                {frilans.sluttdato && (
-                    <li>
-                        <FormattedMessage
-                            id="oppsummering.arbeidssituasjon.frilans.sluttet"
-                            values={{ dato: prettifyApiDate(frilans.sluttdato) }}
-                        />
-                    </li>
-                )}
-                {frilans.jobberFortsattSomFrilans && (
-                    <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
-                    </li>
-                )}
-                {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
-                <li>
-                    <NormalarbeidstidSummary
-                        erAnsatt={frilans.jobberFortsattSomFrilans}
-                        normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
-                    />
-                </li>
-            </ul>
-        </SummaryBlock>
+        <div data-testid="arbeidssituasjon-frilansere">
+            {frilansere.map((frilans, index) => {
+                const { navn, organisasjonsnummer, harOppdragIPerioden, oppdragType, manuellOppføring } = frilans;
+                {
+                    console.log('Frilans: ', frilans);
+                }
+                return (
+                    <SummaryBlock
+                        key={index}
+                        header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}
+                        headerTag="h3"
+                        indentChildren={false}>
+                        <ul>
+                            {manuellOppføring === false && (
+                                <li>
+                                    <FormattedMessage
+                                        id={`oppsummering.arbeidssituasjon.frilans.harOppdragIPerioden.${harOppdragIPerioden}`}
+                                    />
+                                </li>
+                            )}
+                            {oppdragType && (
+                                <li>
+                                    <FormattedMessage
+                                        id={`oppsummering.arbeidssituasjon.frilans.oppdragType.${oppdragType}`}
+                                    />
+                                </li>
+                            )}
+
+                            {frilans.arbeidsforhold && (
+                                <li>
+                                    <NormalarbeidstidSummary
+                                        erAnsatt={true} //TODO
+                                        normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
+                                    />
+                                </li>
+                            )}
+                        </ul>
+                    </SummaryBlock>
+                );
+            })}
+        </div>
     );
 };
-
 export default ArbeidssituasjonFrilansSummary;

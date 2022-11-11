@@ -6,15 +6,15 @@ import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsop
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
-import { FrilansApiData } from './frilansApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
+import { FrilanserOppdragApi } from './frilansOppdragApiData';
 
 export * from './arbeidIPeriodeApiData';
 export * from './arbeidsgiverApiData';
 export * from './normalarbeidstidApiData';
 export * from './arbeidsforholdApiData';
 export * from './selvstendigApiData';
-export * from './frilansApiData';
+export * from './frilansOppdragApiData';
 
 export interface PeriodeApiData {
     fraOgMed: ISODate;
@@ -148,7 +148,7 @@ export interface SøknadApiData {
     nattevåk?: NattevåkApiData;
     beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
-    frilans: FrilansApiData;
+    frilanserOppdrag: FrilanserOppdragApi; // TODO oblogatorisk
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     opptjeningIUtlandet: OpptjeningIUtlandetApiData[];

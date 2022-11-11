@@ -9,6 +9,7 @@ import { UtenlandskNæringSøknadsdata } from './utenlandskNæringSøknadsdata';
 export interface ArbeidSøknadsdata {
     arbeidsgivere?: ArbeidsgivereSøknadsdata;
     frilansOppdrag?: OppdragsgivereSøknadsdata;
+    // nyFrilans?: OppdragsgivereSøknadsdata;
     nyFrilans?: FrilansereSøknadsdata;
     frilans?: ArbeidFrilansSøknadsdata;
     selvstendig?: ArbeidSelvstendigSøknadsdata;

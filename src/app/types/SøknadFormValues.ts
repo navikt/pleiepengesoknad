@@ -4,11 +4,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
-import {
-    ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
-    ArbeidsforholdFrilanserNyFormValues,
-} from './ArbeidsforholdFormValues';
+import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserMedOppdragFormValues } from './ArbeidsforholdFormValues';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
@@ -114,7 +110,7 @@ export interface SøknadFormValues {
     [SøknadFormField.frilans]: FrilansFormData;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
-    [SøknadFormField.nyfrilansoppdrag]: ArbeidsforholdFrilanserNyFormValues[];
+    [SøknadFormField.nyfrilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
     [SøknadFormField.erFrilanserIPeriode]: YesOrNo;
     [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormValues[];
     [SøknadFormField.harOpptjeningUtland]: YesOrNo;

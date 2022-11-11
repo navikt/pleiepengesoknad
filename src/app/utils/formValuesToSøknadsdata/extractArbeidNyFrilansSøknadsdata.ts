@@ -1,45 +1,39 @@
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { FrilansOppdragKategori, YesOrNoRadio } from '../../types/FrilansFormData';
-import { ArbeidsforholdFrilanserNyFormValues } from '../../types/ArbeidsforholdFormValues';
+import { FrilanserOppdragType } from '../../types/FrilansFormData';
+import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../types/ArbeidsforholdFormValues';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
 import { ArbeidNyFrilansSøknadsdata } from '../../types/søknadsdata/arbeidNyFrilansSøknadsdata';
 
 export const extractArbeidNyFrilansSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdFrilanserNyFormValues,
+    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues,
     erFrilanserIPeriode: YesOrNo,
     søknadsperiode: DateRange
 ): ArbeidNyFrilansSøknadsdata | undefined => {
     if (erFrilanserIPeriode === YesOrNo.NO) {
-        return {
-            type: 'erIkkeFrilanser',
-            erFrilanser: false,
-        };
+        return undefined;
     }
+
     /** Bruker har ikke besvart denne informasjonen enda */
     if (arbeidsforhold.frilansOppdragKategori === undefined) {
         return undefined;
     }
 
-    const startdato = datepickerUtils.getDateFromDateString(arbeidsforhold.startdato);
-    const sluttdato = datepickerUtils.getDateFromDateString(arbeidsforhold.sluttdato);
+    const startdato = arbeidsforhold.arbeidsgiver.ansattFom;
+    const sluttdato = arbeidsforhold.arbeidsgiver.ansattTom;
     const utenArbeidsforhold =
-        arbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.FOSTERFORELDER ||
-        (arbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV &&
-            arbeidsforhold.styremedlemHeleInntekt === YesOrNoRadio.JA);
+        arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER ||
+        (arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+            arbeidsforhold.styremedlemHeleInntekt === YesOrNo.YES);
     if (utenArbeidsforhold && startdato) {
         return {
             type: 'utenArbeidsforhold',
-            id: arbeidsforhold.id,
-            navn: arbeidsforhold.navn,
+            arbeidsgiver: arbeidsforhold.arbeidsgiver,
             frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
-            startdato,
-            sluttdato,
             styremedlemHeleInntekt:
-                arbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV
-                    ? YesOrNoRadio.JA
+                arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
+                    ? true
                     : undefined,
         };
     }
@@ -52,31 +46,26 @@ export const extractArbeidNyFrilansSøknadsdata = (
         if (startdato && sluttdato && aktivPeriode) {
             return {
                 type: 'sluttetISøknadsperiode',
-                id: arbeidsforhold.id,
-                navn: arbeidsforhold.navn,
+                arbeidsgiver: arbeidsforhold.arbeidsgiver,
                 frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
-                startdato,
-                sluttdato,
                 aktivPeriode,
                 arbeidsforhold: arbeidsforholdSøknadsdata,
                 styremedlemHeleInntekt:
-                    arbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV
-                        ? YesOrNoRadio.NEI
+                    arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
+                        ? false
                         : undefined,
             };
         }
         if (sluttdato === undefined && startdato && aktivPeriode) {
             return {
                 type: 'pågående',
-                id: arbeidsforhold.id,
-                navn: arbeidsforhold.navn,
-                startdato,
+                arbeidsgiver: arbeidsforhold.arbeidsgiver,
                 frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
                 aktivPeriode,
                 arbeidsforhold: arbeidsforholdSøknadsdata,
                 styremedlemHeleInntekt:
-                    arbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV
-                        ? YesOrNoRadio.NEI
+                    arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
+                        ? false
                         : undefined,
             };
         }

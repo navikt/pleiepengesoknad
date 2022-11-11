@@ -13,6 +13,8 @@ import { UtenlandsoppholdIPeriodenSøknadsdata } from './utenlandsoppholdIPeriod
 export * from './omBarnetSøknadsdata';
 export * from './arbeidIPeriodeSøknadsdata';
 export * from './arbeidAnsattSøknadsdata';
+export * from './arbeidFrilansOppdragSøknadsdata';
+// export * from './arbeidNyFrilansSøknadsdata';
 export * from './arbeidFrilansSøknadsdata';
 export * from './arbeidSelvstendigSøknadsdata';
 export * from './opptjeningUtlandSøknadsdata';

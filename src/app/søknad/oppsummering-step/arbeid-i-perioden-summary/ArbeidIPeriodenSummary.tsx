@@ -9,6 +9,7 @@ import { ArbeidsgiverType } from '../../../types';
 import {
     ArbeidsforholdApiData,
     ArbeidsgiverApiData,
+    FrilanserApiData,
     SøknadApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
@@ -23,7 +24,7 @@ export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
     tittel: string;
 }
 
-const getTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: DateRange) => {
+const getTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData | FrilanserApiData, periode: DateRange) => {
     switch (arbeidsgiver.type) {
         case ArbeidsgiverType.ORGANISASJON:
             return intlHelper(intl, 'arbeidsgiver.tittel', {
@@ -60,7 +61,7 @@ const getTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: 
 };
 
 const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
-    apiValues: { arbeidsgivere, frilans, selvstendigNæringsdrivende },
+    apiValues: { arbeidsgivere, frilanserOppdrag, selvstendigNæringsdrivende },
     søknadsperiode,
 }) => {
     const intl = useIntl();
@@ -75,13 +76,23 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         }
     });
 
-    if (frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
+    frilanserOppdrag.oppdrag &&
+        frilanserOppdrag.oppdrag.forEach((frilanserApiData) => {
+            if (frilanserApiData.arbeidsforhold) {
+                arbeidsforholdIPerioden.push({
+                    ...frilanserApiData.arbeidsforhold,
+                    tittel: getTittel(intl, frilanserApiData, søknadsperiode),
+                });
+            }
+        });
+
+    /*if (frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
         arbeidsforholdIPerioden.push({
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
         });
     }
-
+*/
     if (selvstendigNæringsdrivende.harInntektSomSelvstendig && selvstendigNæringsdrivende.arbeidsforhold) {
         arbeidsforholdIPerioden.push({
             ...selvstendigNæringsdrivende.arbeidsforhold,

@@ -16,6 +16,7 @@ import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import SøknadFormComponents from '../../../søknad/SøknadFormComponents';
 import { guid } from '@navikt/sif-common-utils/lib';
+import { ArbeidsgiverType } from '../../../types';
 
 interface Props {
     frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
@@ -32,7 +33,10 @@ const ArbeidssituasjonFrilans = ({ frilansoppdrag, søknadsperiode, søknadsdato
     const leggTillFrilans = () => {
         const nyFrilansOppdrag = [
             {
-                id: guid(),
+                arbeidsgiver: {
+                    id: guid(),
+                    type: ArbeidsgiverType.FRILANSOPPDRAG,
+                },
             },
         ];
 

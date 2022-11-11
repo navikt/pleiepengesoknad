@@ -1,12 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
+import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
 import {
     ArbeidsforholdFormValues,
     ArbeidsforholdFrilanserMedOppdragFormValues,
     NormalarbeidstidFormValues,
-    ArbeidsforholdFrilanserNyFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData, FrilansOppdragKategori, FrilansOppdragSvar } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilanserOppdragType } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode } from '../../../utils/frilanserUtils';
@@ -52,22 +52,22 @@ export const cleanupFrilansArbeidsforhold = (
     arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues
 ): ArbeidsforholdFrilanserMedOppdragFormValues => {
     const cleanedArbeidsforhold = { ...arbeidsforhold };
-    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilansOppdragSvar.NEI) {
+    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.NEI) {
         cleanedArbeidsforhold.sluttdato = undefined;
         cleanedArbeidsforhold.normalarbeidstid = undefined;
         cleanedArbeidsforhold.frilansOppdragKategori = undefined;
         cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
     }
-    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilansOppdragSvar.JA) {
+    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA) {
         cleanedArbeidsforhold.sluttdato = undefined;
     }
 
-    if (cleanedArbeidsforhold.frilansOppdragKategori !== FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV) {
+    if (cleanedArbeidsforhold.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
         cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
     }
 
-    if (cleanedArbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.FOSTERFORELDER) {
+    if (cleanedArbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
         cleanedArbeidsforhold.normalarbeidstid = undefined;
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
         cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
@@ -80,19 +80,19 @@ export const cleanupFrilansArbeidsforhold = (
 };
 
 export const cleanupNyFrilansArbeidsforhold = (
-    arbeidsforhold: ArbeidsforholdFrilanserNyFormValues
-): ArbeidsforholdFrilanserNyFormValues => {
+    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues
+): ArbeidsforholdFrilanserMedOppdragFormValues => {
     const cleanedArbeidsforhold = { ...arbeidsforhold };
 
     if (cleanedArbeidsforhold.sluttet !== true) {
-        cleanedArbeidsforhold.sluttdato = undefined;
+        cleanedArbeidsforhold.arbeidsgiver.ansattTom = undefined;
     }
 
-    if (cleanedArbeidsforhold.frilansOppdragKategori !== FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV) {
+    if (cleanedArbeidsforhold.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
         cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
     }
 
-    if (cleanedArbeidsforhold.frilansOppdragKategori === FrilansOppdragKategori.FOSTERFORELDER) {
+    if (cleanedArbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
         cleanedArbeidsforhold.normalarbeidstid = undefined;
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
         cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;

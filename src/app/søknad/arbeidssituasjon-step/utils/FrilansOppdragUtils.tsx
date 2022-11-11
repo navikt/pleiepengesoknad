@@ -2,9 +2,11 @@ import React from 'react';
 import { prettifyDateExtended } from '@navikt/sif-common-utils/lib';
 import { FormattedMessage, IntlShape } from 'react-intl';
 import { Arbeidsgiver } from '../../../types';
-import { FrilansOppdragKategori, FrilansOppdragSvar, YesOrNoRadio } from '../../../types/FrilansFormData';
+import { FrilanserOppdragType } from '../../../types/FrilansFormData';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 export const renderTidsromFrilansOppdrag = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     if (ansattFom && ansattTom) {
@@ -31,50 +33,53 @@ export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
         <option key={0} value="">
             Velg kategori
         </option>,
-        <option key={1} value={FrilansOppdragKategori.FOSTERFORELDER}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragKategori.FOSTERFORELDER}`)}
+        <option key={1} value={FrilanserOppdragType.FOSTERFORELDER}>
+            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.FOSTERFORELDER}`)}
         </option>,
-        <option key={2} value={FrilansOppdragKategori.FRILANSER}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragKategori.FRILANSER}`)}
+        <option key={2} value={FrilanserOppdragType.FRILANSER}>
+            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.FRILANSER}`)}
         </option>,
-        <option key={3} value={FrilansOppdragKategori.OMSORGSSTØNAD}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragKategori.OMSORGSSTØNAD}`)}
+        <option key={3} value={FrilanserOppdragType.OMSORGSSTØNAD}>
+            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.OMSORGSSTØNAD}`)}
         </option>,
-        <option key={4} value={FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV}`)}
+        <option key={4} value={FrilanserOppdragType.STYREMEDLEM_ELLER_VERV}>
+            {intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragType.STYREMEDLEM_ELLER_VERV}`)}
         </option>,
     ];
 };
 
 export const visFrilansOppdragNormalarbeidstid = (oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues) =>
     oppdrag.frilansOppdragKategori &&
-    (oppdrag.frilansOppdragKategori === FrilansOppdragKategori.FRILANSER ||
-        oppdrag.frilansOppdragKategori === FrilansOppdragKategori.OMSORGSSTØNAD ||
-        (oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV &&
-            oppdrag.styremedlemHeleInntekt === YesOrNoRadio.NEI));
+    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
+        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
+        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+            oppdrag.styremedlemHeleInntekt === YesOrNo.NO));
 
 export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
     {
-        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragSvar.JA}`),
-        value: FrilansOppdragSvar.JA,
+        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA}`),
+        value: FrilanserOppdragIPeriodenApi.JA,
     },
     {
-        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragSvar.JAAVSLUTESIPERIODEN}`),
-        value: FrilansOppdragSvar.JAAVSLUTESIPERIODEN,
+        label: intlHelper(
+            intl,
+            `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`
+        ),
+        value: FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN,
     },
     {
-        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilansOppdragSvar.NEI}`),
-        value: FrilansOppdragSvar.NEI,
+        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.NEI}`),
+        value: FrilanserOppdragIPeriodenApi.NEI,
     },
 ];
 
 export const getFrilansOppdragIStyremedlemSvarRadios = (intl: IntlShape) => [
     {
-        label: intlHelper(intl, `${YesOrNoRadio.JA}`),
-        value: YesOrNoRadio.JA,
+        label: intlHelper(intl, `${YesOrNo.YES}`),
+        value: YesOrNo.YES,
     },
     {
-        label: intlHelper(intl, `${YesOrNoRadio.NEI}`),
-        value: YesOrNoRadio.NEI,
+        label: intlHelper(intl, `${YesOrNo.NO}`),
+        value: YesOrNo.NO,
     },
 ];

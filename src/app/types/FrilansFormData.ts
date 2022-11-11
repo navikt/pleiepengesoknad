@@ -20,12 +20,14 @@ export enum FrilansOppdragFormField {
     normalarbeidstid_TimerPerUke = 'normalarbeidstid.timerPerUke',
     arbeidIPeriode = 'arbeidIPeriode',
 }
+
 export enum FrilansNyFormField {
-    id = 'id',
-    navn = 'navn',
-    startdato = 'startdato',
+    arbeidsgiver_id = 'arbeidsgiver.id',
+    arbeidsgiver_navn = 'arbeidsgiver.navn',
+    arbeidsgiver_type = 'arbeidsgiver.type',
+    arbeidsgiver_ansattFom = 'arbeidsgiver.ansattFom',
+    arbeidsgiver_ansattTom = 'arbeidsgiver.ansattTom',
     sluttet = 'sluttet',
-    sluttdato = 'sluttdato',
     frilansOppdragKategori = 'frilansOppdragKategori',
     styremedlemHeleInntekt = 'styremedlemHeleInntekt',
     normalarbeidstid = 'normalarbeidstid',
@@ -42,20 +44,9 @@ export interface FrilansFormData {
     arbeidsforhold?: ArbeidsforholdFrilanserFormValues;
 }
 
-export enum FrilansOppdragSvar {
-    JA = 'yes',
-    JAAVSLUTESIPERIODEN = 'yesAvsluttesIPerioden',
-    NEI = 'no',
-}
-
-export enum FrilansOppdragKategori {
-    OMSORGSSTØNAD = 'Omsorgsstønad',
-    FRILANSER = 'Frilanser',
-    STYREMEDLEM_ELLER_VERV = 'StyremedlemEllerVerv',
-    FOSTERFORELDER = 'Fosterforelder',
-}
-
-export enum YesOrNoRadio {
-    JA = 'yes',
-    NEI = 'no',
+export enum FrilanserOppdragType {
+    OMSORGSSTØNAD = 'OMSORGSSTØNAD',
+    FRILANSER = 'FRILANSER',
+    STYREMEDLEM_ELLER_VERV = 'STYREMEDLEM_ELLER_VERV',
+    FOSTERFORELDER = 'FOSTERFORELDER',
 }

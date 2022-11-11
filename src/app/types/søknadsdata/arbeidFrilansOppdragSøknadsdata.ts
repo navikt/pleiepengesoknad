@@ -1,42 +1,45 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../Arbeidsgiver';
-import { FrilansOppdragKategori, YesOrNoRadio } from '../FrilansFormData';
+import { FrilanserOppdragType } from '../FrilansFormData';
+import { FrilanserOppdragIPeriodenApi } from '../søknad-api-data/frilansOppdragApiData';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
 export type OppdragsgivereSøknadsdata = Map<string, ArbeidFrilansOppdragSøknadsdata>;
 
-export interface ArbeidFrilansOppdragSøknadsdataSluttetFørSøknadsperiode {
+export interface FrilansOppdragSluttetFørSøknadsperiode {
     type: 'sluttetFørSøknadsperiode';
     arbeidsgiver: Arbeidsgiver;
 }
-export interface ArbeidFrilansUtenArbeidsForhold {
-    type: 'utenArbeidsForhold';
-    sluttdato?: Date;
-    frilansOppdragKategori: FrilansOppdragKategori;
+
+export interface FrilansUtenArbeidsforhold {
+    type: 'utenArbeidsforhold';
+    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
+    frilansOppdragKategori: FrilanserOppdragType.FOSTERFORELDER | FrilanserOppdragType.STYREMEDLEM_ELLER_VERV;
+    styremedlemHeleInntekt?: true;
     arbeidsgiver: Arbeidsgiver;
-    styremedlemHeleInntekt?: YesOrNoRadio.JA;
 }
 
-export interface ArbeidFrilansOppdragSøknadsdataSluttetISøknadsperiode {
+export interface FrilansOppdragSøknadsdataSluttetISøknadsperiode {
     type: 'sluttetISøknadsperiode';
-    sluttdato: Date;
-    frilansOppdragKategori: FrilansOppdragKategori;
+    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
+    frilansOppdragKategori: FrilanserOppdragType;
     arbeidsgiver: Arbeidsgiver;
-    styremedlemHeleInntekt?: YesOrNoRadio.NEI;
+    styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 
 export interface ArbeidFrilansOppdragSøknadsdataPågående {
     type: 'pågående';
-    frilansOppdragKategori: FrilansOppdragKategori;
+    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
+    frilansOppdragKategori: FrilanserOppdragType;
     arbeidsgiver: Arbeidsgiver;
-    styremedlemHeleInntekt?: YesOrNoRadio;
+    styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 export type ArbeidFrilansOppdragSøknadsdata =
-    | ArbeidFrilansOppdragSøknadsdataSluttetFørSøknadsperiode
-    | ArbeidFrilansOppdragSøknadsdataSluttetISøknadsperiode
+    | FrilansOppdragSluttetFørSøknadsperiode
+    | FrilansOppdragSøknadsdataSluttetISøknadsperiode
     | ArbeidFrilansOppdragSøknadsdataPågående
-    | ArbeidFrilansUtenArbeidsForhold;
+    | FrilansUtenArbeidsforhold;

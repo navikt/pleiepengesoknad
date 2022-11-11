@@ -1,8 +1,8 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FrilansNyFormField, FrilansOppdragKategori, YesOrNoRadio } from '../../../types/FrilansFormData';
+import { DateRange, getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { FrilansNyFormField, FrilanserOppdragType, FrilansOppdragFormField } from '../../../types/FrilansFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
@@ -11,24 +11,24 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFrilanserNyFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { getFrilansOppdragIStyremedlemSvarRadios, getSelectFrilansKategoriOptions } from '../utils/FrilansOppdragUtils';
 import { useFormikContext } from 'formik';
 import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
 import { Knapp } from 'nav-frontend-knapper';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+//import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getNyFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { getNyFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 
 const FrilansOppdragFormComponents = getTypedFormComponents<
-    FrilansNyFormField,
-    ArbeidsforholdFrilanserNyFormValues,
+    FrilansOppdragFormField,
+    ArbeidsforholdFrilanserMedOppdragFormValues,
     ValidationError
 >();
 
 interface Props {
-    oppdrag: ArbeidsforholdFrilanserNyFormValues;
+    oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues;
     parentFieldName: string;
     søknadsperiode: DateRange;
     søknadsdato: Date;
@@ -37,7 +37,7 @@ interface Props {
 const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiode, søknadsdato }) => {
     const intl = useIntl();
     const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
-    const getFieldName = (field: FrilansNyFormField): FrilansNyFormField => `${parentFieldName}.${field}` as any;
+    const getFieldName = (field: FrilansNyFormField): FrilansOppdragFormField => `${parentFieldName}.${field}` as any;
 
     const deleteFrilans = () => {
         setFieldValue(SøknadFormField.nyfrilansoppdrag, removeElementFromArray(oppdrag, values.nyfrilansoppdrag));
@@ -49,14 +49,14 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 <FormBlock>
                     <FrilansOppdragFormComponents.Input
                         label={'Navn på oppdragsgiver'}
-                        name={getFieldName(FrilansNyFormField.navn)}
+                        name={getFieldName(FrilansNyFormField.arbeidsgiver_navn)}
                         validate={getRequiredFieldValidator()}
                         bredde={'XL'}
                     />
                 </FormBlock>
                 <Box margin="l">
                     <FrilansOppdragFormComponents.DatePicker
-                        name={getFieldName(FrilansNyFormField.startdato)}
+                        name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattFom)}
                         label={intlHelper(intl, 'frilanser.nårStartet.spm')}
                         showYearSelector={true}
                         maxDate={søknadsdato}
@@ -73,10 +73,10 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 {oppdrag.sluttet === true && (
                     <Box margin="l">
                         <FrilansOppdragFormComponents.DatePicker
-                            name={getFieldName(FrilansNyFormField.sluttdato)}
+                            name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattTom)}
                             label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
                             showYearSelector={true}
-                            minDate={datepickerUtils.getDateFromDateString(oppdrag.startdato)}
+                            minDate={oppdrag.arbeidsgiver.ansattFom}
                             maxDate={søknadsdato}
                             validate={getNyFrilanserSluttdatoValidator(oppdrag, søknadsperiode, søknadsdato)}
                         />
@@ -93,7 +93,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                     </FrilansOppdragFormComponents.Select>
                 </Box>
 
-                {oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV && (
+                {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
                     <Box margin="l">
                         <FrilansOppdragFormComponents.RadioGroup
                             legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
@@ -104,10 +104,10 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 )}
 
                 {oppdrag.frilansOppdragKategori &&
-                    (oppdrag.frilansOppdragKategori === FrilansOppdragKategori.FRILANSER ||
-                        oppdrag.frilansOppdragKategori === FrilansOppdragKategori.OMSORGSSTØNAD ||
-                        (oppdrag.frilansOppdragKategori === FrilansOppdragKategori.STYREMEDLEM_ELLER_VERV &&
-                            oppdrag.styremedlemHeleInntekt === YesOrNoRadio.NEI)) && (
+                    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
+                        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
+                        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+                            oppdrag.styremedlemHeleInntekt === YesOrNo.NO)) && (
                         <Box>
                             <NormalarbeidstidSpørsmål
                                 arbeidsforholdFieldName={parentFieldName}

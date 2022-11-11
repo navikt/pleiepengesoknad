@@ -102,7 +102,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
                         if (
                             !frilansoppdrag ||
-                            frilansoppdrag.type === 'utenArbeidsForhold' ||
+                            frilansoppdrag.type === 'utenArbeidsforhold' ||
                             frilansoppdrag.type === 'sluttetFørSøknadsperiode'
                         ) {
                             return null;
@@ -129,23 +129,19 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             {nyfrilansoppdrag.length > 0 && (
                 <FormBlock>
                     {nyfrilansoppdrag.map((oppdrag, index) => {
-                        const frilansoppdrag = arbeid.nyFrilans?.get(oppdrag.id);
+                        const frilansoppdrag = arbeid.nyFrilans?.get(oppdrag.arbeidsgiver.id);
 
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
-                        if (
-                            !frilansoppdrag ||
-                            frilansoppdrag.type === 'utenArbeidsforhold' ||
-                            frilansoppdrag.type === 'erIkkeFrilanser'
-                        ) {
+                        if (!frilansoppdrag || frilansoppdrag.type === 'utenArbeidsforhold') {
                             return null;
                         }
 
                         return (
-                            <FormSection title={frilansoppdrag.navn} key={frilansoppdrag.id}>
+                            <FormSection title={frilansoppdrag.arbeidsgiver.navn} key={frilansoppdrag.arbeidsgiver.id}>
                                 <div data-testid="arbeidIPerioden_frilansOppdrag">
                                     <ArbeidIPeriodeSpørsmål
                                         normalarbeidstid={frilansoppdrag.arbeidsforhold.normalarbeidstid}
-                                        arbeidsstedNavn={oppdrag.navn}
+                                        arbeidsstedNavn={oppdrag.arbeidsgiver.navn}
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                         arbeidsforhold={oppdrag}
                                         arbeidsperiode={periode}

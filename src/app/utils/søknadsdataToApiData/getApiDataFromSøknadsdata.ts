@@ -8,7 +8,7 @@ import appSentryLogger from '../appSentryLogger';
 import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from './getArbeidsgivereApiDataFromSøknadsdata';
 import { getBarnApiDataFromSøknadsdata } from './getBarnApiDataFromSøknadsdata';
-import { getFrilansApiDataFromSøknadsdata } from './getFrilansApiDataFromSøknadsdata';
+// import { getFrilansApiDataFromSøknadsdata } from './getFrilansApiDataFromSøknadsdata';
 import { getMedlemskapApiDataFromSøknadsdata } from './getMedlemskapApiDataFromSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from './getSelvstendigApiDataFromSøknadsdata';
 import { getMedsøkerApiDataFromSøknadsdata } from './getMedsøkerApiDataFromSøknadsdata';
@@ -20,6 +20,7 @@ import { getOmsorgstilbudApiDataFromSøknadsdata } from './getOmsorgstibudApiDat
 import { getAttachmentsApiDataFromSøknadsdata } from './getAttachmentsApiDataFromSøknadsdata';
 import { getOpptjeningIUtlandetSøknadsdata } from './getOpptjeningIUtlandetSøknadsdata';
 import { getUtenlandskNæringSøknadsdata } from './getUtenlandskNæringSøknadsdata';
+import { getFrilansOppdragerApiDataFromSøknadsdata } from './getFrilansOppdragerApiDataFromSøknadsdata';
 
 export const getApiDataFromSøknadsdata = (
     barn: RegistrerteBarn[],
@@ -53,7 +54,11 @@ export const getApiDataFromSøknadsdata = (
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
-                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
+                frilanserOppdrag: getFrilansOppdragerApiDataFromSøknadsdata(
+                    søknadsdata.arbeid?.frilansOppdrag,
+                    søknadsdata.arbeid?.nyFrilans
+                ),
+                // frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
                     søknadsdata.arbeid?.selvstendig,
                     søknadsperiode,
