@@ -45,119 +45,123 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
     const getFieldName = (field: FrilansOppdragFormField): FrilansOppdragFormField =>
         `${parentFieldName}.${field}` as any;
     return (
-        <Box padBottom="m">
-            <ArbeidssituasjonPanel
-                title={oppdrag.arbeidsgiver.navn}
-                description={renderTidsrom(oppdrag.arbeidsgiver)}
-                titleIcon={<FrilansIcon />}>
-                <FormBlock>
-                    <FrilansOppdragFormComponents.RadioGroup
-                        legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.spm')}
-                        name={getFieldName(FrilansOppdragFormField.frilansOppdragIPerioden)}
-                        radios={getFrilansOppdragIPeriodenRadios(intl)}
-                        validate={(value) => {
-                            const error = getRequiredFieldValidator()(value);
-                            return error
-                                ? {
-                                      key: 'validation.frilansoppdrag.frilansOppdragIPerioden.noValue',
-                                      values: {
-                                          navn: oppdrag.arbeidsgiver.navn,
-                                      },
-                                      keepKeyUnaltered: true,
-                                  }
-                                : undefined;
-                        }}
-                    />
-                </FormBlock>
-                {(oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
-                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN) && (
-                    <Box padBottom="l">
-                        <Box margin="l">
-                            <FrilansOppdragFormComponents.Select
-                                name={getFieldName(FrilansOppdragFormField.frilansOppdragKategori)}
-                                label={intlHelper(intl, 'frilansoppdragListe.oppdrag.kategori.spm', {
-                                    oppdargsNavn: oppdrag.arbeidsgiver.navn,
-                                })}
-                                bredde={'l'}
-                                validate={(value) => {
-                                    const error = getRequiredFieldValidator()(value);
-                                    return error
-                                        ? {
-                                              key: 'validation.frilansoppdrag.frilansOppdragKategori.noValue',
-                                              values: {
-                                                  navn: oppdrag.arbeidsgiver.navn,
-                                              },
-                                              keepKeyUnaltered: true,
-                                          }
-                                        : undefined;
-                                }}>
-                                {getSelectFrilansKategoriOptions(intl)}
-                            </FrilansOppdragFormComponents.Select>
-                        </Box>
-                        {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
+        <div data-testid="arbeidssituasjonFrilansOppdrag">
+            <Box padBottom="m">
+                <ArbeidssituasjonPanel
+                    title={oppdrag.arbeidsgiver.navn}
+                    description={renderTidsrom(oppdrag.arbeidsgiver)}
+                    titleIcon={<FrilansIcon />}>
+                    <FormBlock>
+                        <FrilansOppdragFormComponents.RadioGroup
+                            legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.spm')}
+                            name={getFieldName(FrilansOppdragFormField.frilansOppdragIPerioden)}
+                            radios={getFrilansOppdragIPeriodenRadios(intl)}
+                            validate={(value) => {
+                                const error = getRequiredFieldValidator()(value);
+                                return error
+                                    ? {
+                                          key: 'validation.frilansoppdrag.frilansOppdragIPerioden.noValue',
+                                          values: {
+                                              navn: oppdrag.arbeidsgiver.navn,
+                                          },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
+                            }}
+                        />
+                    </FormBlock>
+                    {(oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
+                        oppdrag.frilansOppdragIPerioden ===
+                            FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN) && (
+                        <Box padBottom="l">
                             <Box margin="l">
-                                <FrilansOppdragFormComponents.RadioGroup
-                                    legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
-                                    name={getFieldName(FrilansOppdragFormField.styremedlemHeleInntekt)}
-                                    radios={getYesOrNoRadios(intl)}
+                                <FrilansOppdragFormComponents.Select
+                                    name={getFieldName(FrilansOppdragFormField.frilansOppdragKategori)}
+                                    label={intlHelper(intl, 'frilansoppdragListe.oppdrag.kategori.spm', {
+                                        oppdargsNavn: oppdrag.arbeidsgiver.navn,
+                                    })}
+                                    bredde={'l'}
+                                    data-testid="arbeidssituasjonFrilansOppdrag-type"
                                     validate={(value) => {
                                         const error = getRequiredFieldValidator()(value);
                                         return error
                                             ? {
-                                                  key: 'validation.frilansoppdrag.styremedlemHeleInntekt.noValue',
+                                                  key: 'validation.frilansoppdrag.frilansOppdragKategori.noValue',
                                                   values: {
                                                       navn: oppdrag.arbeidsgiver.navn,
                                                   },
                                                   keepKeyUnaltered: true,
                                               }
                                             : undefined;
-                                    }}
-                                />
+                                    }}>
+                                    {getSelectFrilansKategoriOptions(intl)}
+                                </FrilansOppdragFormComponents.Select>
                             </Box>
-                        )}
-                        {oppdrag.frilansOppdragIPerioden ===
-                            FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN && (
-                            <Box margin="l">
-                                <FrilansOppdragFormComponents.DatePicker
-                                    name={getFieldName(FrilansOppdragFormField.sluttdato)}
-                                    label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
-                                    showYearSelector={true}
-                                    minDate={oppdrag.arbeidsgiver.ansattFom}
-                                    maxDate={søknadsdato}
-                                    validate={(value) => {
-                                        const error = getFrilansOppdragSluttdatoValidator(
-                                            oppdrag,
-                                            søknadsperiode,
-                                            søknadsdato
-                                        )(value);
-                                        return error
-                                            ? {
-                                                  key: `validation.frilansoppdrag.sluttdato.${error}`,
-                                                  values: {
-                                                      navn: oppdrag.arbeidsgiver.navn,
-                                                  },
-                                                  keepKeyUnaltered: true,
-                                              }
-                                            : undefined;
-                                    }}
-                                />
-                            </Box>
-                        )}
-                        {visFrilansOppdragNormalarbeidstid(oppdrag) && (
-                            <Box>
-                                <NormalarbeidstidSpørsmål
-                                    arbeidsforholdFieldName={parentFieldName}
-                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                    arbeidsforhold={oppdrag || {}}
-                                    erAktivtArbeidsforhold={true}
-                                    brukKunSnittPerUke={true}
-                                />
-                            </Box>
-                        )}
-                    </Box>
-                )}
-            </ArbeidssituasjonPanel>
-        </Box>
+                            {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
+                                <Box margin="l">
+                                    <FrilansOppdragFormComponents.RadioGroup
+                                        legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
+                                        name={getFieldName(FrilansOppdragFormField.styremedlemHeleInntekt)}
+                                        radios={getYesOrNoRadios(intl, 'er-styremedlem')}
+                                        validate={(value) => {
+                                            const error = getRequiredFieldValidator()(value);
+                                            return error
+                                                ? {
+                                                      key: 'validation.frilansoppdrag.styremedlemHeleInntekt.noValue',
+                                                      values: {
+                                                          navn: oppdrag.arbeidsgiver.navn,
+                                                      },
+                                                      keepKeyUnaltered: true,
+                                                  }
+                                                : undefined;
+                                        }}
+                                    />
+                                </Box>
+                            )}
+                            {oppdrag.frilansOppdragIPerioden ===
+                                FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN && (
+                                <Box margin="l">
+                                    <FrilansOppdragFormComponents.DatePicker
+                                        name={getFieldName(FrilansOppdragFormField.sluttdato)}
+                                        label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                        showYearSelector={true}
+                                        minDate={oppdrag.arbeidsgiver.ansattFom}
+                                        maxDate={søknadsdato}
+                                        validate={(value) => {
+                                            const error = getFrilansOppdragSluttdatoValidator(
+                                                oppdrag,
+                                                søknadsperiode,
+                                                søknadsdato
+                                            )(value);
+                                            return error
+                                                ? {
+                                                      key: `validation.frilansoppdrag.sluttdato.${error}`,
+                                                      values: {
+                                                          navn: oppdrag.arbeidsgiver.navn,
+                                                      },
+                                                      keepKeyUnaltered: true,
+                                                  }
+                                                : undefined;
+                                        }}
+                                    />
+                                </Box>
+                            )}
+                            {visFrilansOppdragNormalarbeidstid(oppdrag) && (
+                                <Box>
+                                    <NormalarbeidstidSpørsmål
+                                        arbeidsforholdFieldName={parentFieldName}
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        arbeidsforhold={oppdrag || {}}
+                                        erAktivtArbeidsforhold={true}
+                                        brukKunSnittPerUke={true}
+                                    />
+                                </Box>
+                            )}
+                        </Box>
+                    )}
+                </ArbeidssituasjonPanel>
+            </Box>
+        </div>
     );
 };
 

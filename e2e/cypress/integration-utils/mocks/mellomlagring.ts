@@ -17,10 +17,31 @@ export const mellomlagring = {
                     id: '947064649',
                     organisasjonsnummer: '947064649',
                     navn: 'SJOKKERENDE ELEKTRIKER',
+                    ansattFom: '2022-01-01',
                 },
                 erAnsatt: 'yes',
                 normalarbeidstid: {
                     timerPerUke: '10',
+                },
+                arbeidIPeriode: {
+                    arbeiderIPerioden: 'HELT_FRAVÆR',
+                },
+            },
+        ],
+        nyfrilansoppdrag: [],
+        frilansoppdrag: [
+            {
+                arbeidsgiver: {
+                    type: 'FRILANSOPPDRAG',
+                    id: '991012133',
+                    organisasjonsnummer: '991012133',
+                    navn: 'Hurdal frilanssenter',
+                    ansattFom: '2022-01-01',
+                },
+                frilansOppdragIPerioden: 'JA',
+                frilansOppdragKategori: 'FRILANSER',
+                normalarbeidstid: {
+                    timerPerUke: '20',
                 },
                 arbeidIPeriode: {
                     arbeiderIPerioden: 'HELT_FRAVÆR',
@@ -43,23 +64,10 @@ export const mellomlagring = {
         },
         harNattevåk: 'unanswered',
         harBeredskap: 'unanswered',
-        frilans: {
-            harHattInntektSomFrilanser: 'yes',
-            startdato: '2010-10-01',
-            erFortsattFrilanser: 'yes',
-            arbeidsforhold: {
-                normalarbeidstid: {
-                    timerPerUke: '20',
-                },
-                arbeidIPeriode: {
-                    arbeiderIPerioden: 'HELT_FRAVÆR',
-                },
-            },
-        },
         selvstendig: {
             harHattInntektSomSN: 'no',
         },
-        frilansoppdrag: [],
+
         harOpptjeningUtland: 'no',
         opptjeningUtland: [],
         harUtenlandskNæring: 'no',

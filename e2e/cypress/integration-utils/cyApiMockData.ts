@@ -20,7 +20,7 @@ const barnMock = {
 };
 
 export const frilansoppdrag = {
-    type: 'type oppdrag',
+    type: 'FRILANSOPPDRAG',
     organisasjonsnummer: '991012133',
     navn: 'Hurdal frilanssenter',
     ansattFom: '2022-01-01',
@@ -30,6 +30,7 @@ export const frilansoppdrag = {
 const arbeidsgivereMock = {
     organisasjoner: [{ navn: 'WHOA.BOA', organisasjonsnummer: '947064649' }],
     frilansoppdrag: [frilansoppdrag],
+    //frilansoppdrag: [],
     privatarbeidsgiver: [],
 };
 

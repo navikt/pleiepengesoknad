@@ -138,7 +138,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                         <FrilansOppdragFormComponents.RadioGroup
                             legend={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.styremedlem.spm')}
                             name={getFieldName(FrilansNyFormField.styremedlemHeleInntekt)}
-                            radios={getYesOrNoRadios(intl)}
+                            radios={getYesOrNoRadios(intl, 'er-styremedlem')}
                             validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
                     </Box>
                 )}

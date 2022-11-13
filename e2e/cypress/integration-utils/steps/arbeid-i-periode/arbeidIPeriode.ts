@@ -32,7 +32,7 @@ export const fyllUtArbeidIPeriodeSteg = () => {
         getTestElement('arbeidIPerioden_ansatt').within(() => {
             fyllUtArbeidstidRedusertVarierendeTimer();
         });
-        getTestElement('arbeidIPerioden_frilanser').within(() => {
+        getTestElement('arbeidIPerioden_frilansOppdrag').within(() => {
             fyllUtArbeidstidJobberIkke();
         });
         clickFortsett();

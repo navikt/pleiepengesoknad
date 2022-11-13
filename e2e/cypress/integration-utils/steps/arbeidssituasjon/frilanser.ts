@@ -4,23 +4,24 @@ import { mellomlagring } from '../../mocks/mellomlagring';
 import {
     getTestElement,
     gåTilOppsummeringFraArbeidssituasjon,
+    selectNyRadio,
     selectRadioNo,
-    selectRadioYes,
+    // selectRadioYes,
+    selectValueInSelect,
     setInputValue,
 } from '../../utils';
 
 export const fyllUtArbeidssituasjonFrilanser = () => {
-    getTestElement('arbeidssituasjonFrilanser').within(($body) => {
-        if ($body.find('[data-testid=er-frilanser_yes]').length) {
-            selectRadioYes('er-frilanser');
+    getTestElement('arbeidssituasjonFrilansOppdrag').within(($body) => {
+        if ($body.find('[data-testid=frilans-i-perioden_JA]').length) {
+            selectNyRadio('frilans-i-perioden_JA');
         }
-        if ($body.find('[data-testid=fosterhjemsgodtgjørelse_mottar]').length) {
-            selectRadioYes('fosterhjemsgodtgjørelse_mottar');
-        }
-        const startDato = mellomlagring.formValues.frilans.startdato;
+        selectValueInSelect('arbeidssituasjonFrilansOppdrag-type', 'FRILANSER');
 
-        cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
-        selectRadioYes('erFortsattFrilanser');
+        // const startDato = mellomlagring.formValues.frilans.startdato;
+
+        // cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
+        // selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');
     });
 };

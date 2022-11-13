@@ -50,7 +50,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                             })}
                             data-testid="er-ansatt"
                             name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
-                            radios={getYesOrNoRadios(intl)}
+                            radios={getYesOrNoRadios(intl, 'er-ansatt')}
                             validate={(value) => {
                                 return getYesOrNoValidator()(value)
                                     ? {
@@ -78,7 +78,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                         })}
                                         data-testid="sluttet-før-søknadsperiode"
                                         name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}
-                                        radios={getYesOrNoRadios(intl)}
+                                        radios={getYesOrNoRadios(intl, 'sluttet-før-søknadsperiode')}
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
                                             return error

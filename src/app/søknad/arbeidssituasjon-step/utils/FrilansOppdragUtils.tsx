@@ -32,6 +32,7 @@ export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
     {
         label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA}`),
         value: FrilanserOppdragIPeriodenApi.JA,
+        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.JA}`,
     },
     {
         label: intlHelper(
@@ -39,10 +40,12 @@ export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
             `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`
         ),
         value: FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN,
+        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`,
     },
     {
         label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.NEI}`),
         value: FrilanserOppdragIPeriodenApi.NEI,
+        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.NEI}`,
     },
 ];
 
@@ -60,14 +63,16 @@ export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
     return [...førstOption, ...options];
 };
 
-export const getYesOrNoRadios = (intl: IntlShape) => [
+export const getYesOrNoRadios = (intl: IntlShape, testId: string) => [
     {
         label: intlHelper(intl, `${YesOrNo.YES}`),
         value: YesOrNo.YES,
+        'data-testid': `${testId}_yes`,
     },
     {
         label: intlHelper(intl, `${YesOrNo.NO}`),
         value: YesOrNo.NO,
+        'data-testid': `${testId}_no`,
     },
 ];
 
