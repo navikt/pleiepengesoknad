@@ -25,7 +25,7 @@ import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvsten
 import { getArbeidsukeKey } from '../components/ArbeidstidUkerSpørsmål';
 // import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 import { arbeidIPeriodeSpørsmålConfig } from './arbeidIPeriodeSpørsmålConfig';
-import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
+import { getArbeidsukerIPerioden } from './arbeidstidUtils';
 
 export const cleanupArbeidsuker = (
     periode: DateRange,

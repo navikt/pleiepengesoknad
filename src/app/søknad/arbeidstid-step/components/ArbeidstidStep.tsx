@@ -117,6 +117,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                         arbeidsforhold={oppdrag}
                                         arbeidsperiode={periode}
+                                        søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.frilansoppdrag}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
@@ -145,6 +146,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                         arbeidsforhold={oppdrag}
                                         arbeidsperiode={periode}
+                                        søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.nyfrilansoppdrag}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
