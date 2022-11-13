@@ -25,5 +25,5 @@ export interface FrilanserApiData {
 
 export interface FrilanserOppdragApi {
     harInntektSomFrilanser: boolean;
-    oppdrag?: FrilanserApiData[];
+    oppdrag: FrilanserApiData[];
 }

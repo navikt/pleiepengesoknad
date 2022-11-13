@@ -77,12 +77,23 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                         label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.nårStartet.spm')}
                         showYearSelector={true}
                         maxDate={søknadsdato}
-                        validate={getNyFrilanserStartdatoValidator(oppdrag, søknadsperiode, søknadsdato)}
+                        validate={(value) => {
+                            const error = getNyFrilanserStartdatoValidator(oppdrag, søknadsperiode, søknadsdato)(value);
+                            return error
+                                ? {
+                                      key: `validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.${error}`,
+                                      values: {
+                                          navn: oppdrag.arbeidsgiver.navn,
+                                      },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
                     />
                 </Box>
                 <FormBlock margin="l">
                     <FrilansOppdragFormComponents.Checkbox
-                        label={'Sluttet i søknadsperiode'}
+                        label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.sluttet')}
                         name={getFieldName(FrilansNyFormField.sluttet)}
                     />
                 </FormBlock>

@@ -151,7 +151,7 @@ export interface SøknadApiData {
     nattevåk?: NattevåkApiData;
     beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
-    frilanserOppdrag: FrilanserOppdragApi; // TODO oblogatorisk
+    frilanserOppdrag: FrilanserOppdragApi;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     opptjeningIUtlandet: OpptjeningIUtlandetApiData[];

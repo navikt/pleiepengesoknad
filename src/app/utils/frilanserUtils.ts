@@ -7,7 +7,6 @@ import { FrilanserOppdragType } from '../types/FrilansFormData';
 import { FrilanserOppdragIPeriodenApi } from '../types/søknad-api-data/frilansOppdragApiData';
 
 export const harFrilansoppdrag = (frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[] | undefined) =>
-    // TODO legg till mer varianter
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
 
 export const harSvartErFrilanserEllerHarFrilansoppdrag = (harHattInntektSomFrilanser: YesOrNo | undefined): boolean => {

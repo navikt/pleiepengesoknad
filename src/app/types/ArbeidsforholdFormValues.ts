@@ -27,7 +27,6 @@ export interface ArbeidsforholdFormValues {
     arbeidIPeriode?: ArbeidIPeriodeFormValues;
 }
 
-export type ArbeidsforholdFrilanserFormValues = Omit<ArbeidsforholdFormValues, 'arbeidsgiver' | 'erAnsatt'>;
 export type ArbeidsforholdFrilanserMedOppdragFormValues = Omit<
     ArbeidsforholdFormValues,
     'erAnsatt' | 'sluttetFørSøknadsperiode'

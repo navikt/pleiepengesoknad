@@ -10,8 +10,8 @@ export const getFrilansOppdragerApiDataFromSøknadsdata = (
 ): FrilanserOppdragApi => {
     if ((!oppdragsgivere || oppdragsgivere.size === 0) && (!nyFrilans || nyFrilans.size === 0)) {
         return {
-            // TODO
             harInntektSomFrilanser: false,
+            oppdrag: [],
         };
     }
     const frilansOppdragApiData: FrilanserApiData[] = [];
@@ -19,7 +19,7 @@ export const getFrilansOppdragerApiDataFromSøknadsdata = (
         oppdragsgivere.forEach((oppdragsgiver) => {
             frilansOppdragApiData.push(getFrilansOppdragApiDataFromSøknadsdata(oppdragsgiver));
         });
-    //TODO
+
     const nyfrilansoppdrag: FrilanserApiData[] = [];
     nyFrilans &&
         nyFrilans.forEach((oppdrag) => {

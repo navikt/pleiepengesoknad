@@ -6,13 +6,7 @@ import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/Arbe
 import dayjs from 'dayjs';
 
 export const getNyFrilanserSluttdatoValidator =
-    (
-        formData: ArbeidsforholdFrilanserMedOppdragFormValues,
-        søknadsperiode: DateRange,
-        søknadsdato: Date
-        //TODO
-        //harFrilansoppdrag: boolean
-    ) =>
+    (formData: ArbeidsforholdFrilanserMedOppdragFormValues, søknadsperiode: DateRange, søknadsdato: Date) =>
     (value: string): ValidationResult<ValidationError> => {
         const dateError = getDateValidator({
             required: true,

@@ -49,40 +49,43 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormVa
 export const cleanupFrilansArbeidsforhold = (
     arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues
 ): ArbeidsforholdFrilanserMedOppdragFormValues => {
-    //TODO erFrilans i søknadsperiode hvis nødvendig
-    const cleanedArbeidsforhold = { ...arbeidsforhold };
-    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.NEI) {
-        cleanedArbeidsforhold.sluttdato = undefined;
-        cleanedArbeidsforhold.normalarbeidstid = undefined;
-        cleanedArbeidsforhold.frilansOppdragKategori = undefined;
-        cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
-        cleanedArbeidsforhold.arbeidIPeriode = undefined;
+    const cleanedFrilansoppdrag = { ...arbeidsforhold };
+    if (cleanedFrilansoppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.NEI) {
+        cleanedFrilansoppdrag.sluttdato = undefined;
+        cleanedFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedFrilansoppdrag.frilansOppdragKategori = undefined;
+        cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
+        cleanedFrilansoppdrag.arbeidIPeriode = undefined;
     }
-    if (cleanedArbeidsforhold.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA) {
-        cleanedArbeidsforhold.sluttdato = undefined;
-    }
-
-    if (cleanedArbeidsforhold.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
-        cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
+    if (cleanedFrilansoppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA) {
+        cleanedFrilansoppdrag.sluttdato = undefined;
     }
 
-    if (cleanedArbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
-        cleanedArbeidsforhold.normalarbeidstid = undefined;
-        cleanedArbeidsforhold.arbeidIPeriode = undefined;
-        cleanedArbeidsforhold.styremedlemHeleInntekt = undefined;
+    if (cleanedFrilansoppdrag.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
+        cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
+    }
+    if (
+        cleanedFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+        cleanedFrilansoppdrag.styremedlemHeleInntekt === YesOrNo.YES
+    ) {
+        cleanedFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedFrilansoppdrag.arbeidIPeriode = undefined;
+    }
+    if (cleanedFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
+        cleanedFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedFrilansoppdrag.arbeidIPeriode = undefined;
+        cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
     }
 
-    if (cleanedArbeidsforhold.normalarbeidstid) {
-        cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid);
+    if (cleanedFrilansoppdrag.normalarbeidstid) {
+        cleanedFrilansoppdrag.normalarbeidstid = cleanupNormalarbeidstid(cleanedFrilansoppdrag.normalarbeidstid);
     }
-    return cleanedArbeidsforhold;
+    return cleanedFrilansoppdrag;
 };
 
 export const cleanupNyFrilansArbeidsforhold = (
     nyFrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues
 ): ArbeidsforholdFrilanserMedOppdragFormValues => {
-    //TODO erFrilans i søknadsperiode hvis nødvendig
-    // HUSK [SøknadFormField.erFrilanserIPeriode]
     const cleanedNyFrilansoppdrag = { ...nyFrilansoppdrag };
 
     if (cleanedNyFrilansoppdrag.sluttet !== true) {
@@ -91,6 +94,14 @@ export const cleanupNyFrilansArbeidsforhold = (
 
     if (cleanedNyFrilansoppdrag.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
         cleanedNyFrilansoppdrag.styremedlemHeleInntekt = undefined;
+    }
+
+    if (
+        cleanedNyFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+        cleanedNyFrilansoppdrag.styremedlemHeleInntekt === YesOrNo.YES
+    ) {
+        cleanedNyFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedNyFrilansoppdrag.arbeidIPeriode = undefined;
     }
 
     if (cleanedNyFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {

@@ -8,7 +8,6 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import {
     ArbeidsforholdFormField,
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserFormValues,
     ArbeidsforholdSelvstendigFormValues,
     ArbeidsforholdFrilanserMedOppdragFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
@@ -21,7 +20,6 @@ interface Props {
     arbeidsstedNavn?: string;
     arbeidsforhold:
         | ArbeidsforholdFormValues
-        | ArbeidsforholdFrilanserFormValues
         | ArbeidsforholdFrilanserMedOppdragFormValues
         | ArbeidsforholdSelvstendigFormValues;
     arbeidsforholdType: ArbeidsforholdType;

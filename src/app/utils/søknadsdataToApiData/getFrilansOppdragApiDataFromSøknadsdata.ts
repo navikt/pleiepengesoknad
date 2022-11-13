@@ -31,8 +31,8 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
                 harOppdragIPerioden: frilansOppdragSøknadsdata.harOppdragIPerioden,
-                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori, // todo
-                styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt, // todo
+                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
+                styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,
                 manuellOppføring: false,
             };
         case 'sluttetISøknadsperiode':
@@ -42,7 +42,7 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 organisasjonsnummer: arbeidsgiver.organisasjonsnummer,
                 offentligIdent: arbeidsgiver.offentligIdent,
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
-                ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
+                ansattTom: dateToISODateOrUndefined(frilansOppdragSøknadsdata.aktivPeriode.to),
                 harOppdragIPerioden: frilansOppdragSøknadsdata.harOppdragIPerioden,
                 oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
                 styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,

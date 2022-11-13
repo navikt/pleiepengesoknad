@@ -19,8 +19,8 @@ export const getNyFrilansApiDataFromSøknadsdata = (
                 offentligIdent: arbeidsgiver.offentligIdent,
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
-                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori, // todo
-                styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt, // todo
+                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
+                styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,
                 manuellOppføring: true,
             };
         case 'sluttetISøknadsperiode':
