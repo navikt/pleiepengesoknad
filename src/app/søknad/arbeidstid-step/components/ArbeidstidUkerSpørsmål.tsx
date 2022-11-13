@@ -1,9 +1,9 @@
 import React from 'react';
-import { useIntl } from 'react-intl';
+import { IntlShape, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/lib';
-import { dateRangeToISODateRange, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { dateFormatter, dateRangeToISODateRange, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../types';
@@ -12,8 +12,12 @@ import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normal
 import { WeekOfYearInfo } from '../../../types/WeekOfYear';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
+import {
+    ArbeidsperiodeIForholdTilSøknadsperiode,
+    getArbeidsperiodeIForholdTilSøknadsperiode,
+    getArbeidsukerIPerioden,
+} from '../utils/arbeidstidUtils';
 import ArbeidstidInput from './ArbeidstidInput';
-import { getArbeidsukerIPerioden } from '../utils/arbeidstidUtils';
 
 dayjs.extend(weekOfYear);
 
@@ -26,6 +30,7 @@ const getArbeidsukeFieldName = (parentFieldName: string, week: WeekOfYearInfo): 
 
 interface Props {
     periode: DateRange;
+    søknadsperiode: DateRange;
     parentFieldName: string;
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     timerEllerProsent: TimerEllerProsent;
@@ -33,8 +38,30 @@ interface Props {
     intlValues: ArbeidIPeriodeIntlValues;
 }
 
+const getPeriodeISøknadsperiodeInfo = (intl: IntlShape, periode: DateRange, søknadsperiode: DateRange) => {
+    const arbeidsperiodeVariant = getArbeidsperiodeIForholdTilSøknadsperiode(periode, søknadsperiode);
+    switch (arbeidsperiodeVariant) {
+        case ArbeidsperiodeIForholdTilSøknadsperiode.slutterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.slutterIPerioden', {
+                fra: dateFormatter.full(periode.to),
+            });
+        case ArbeidsperiodeIForholdTilSøknadsperiode.starterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.starterIPerioden', {
+                fra: dateFormatter.full(periode.from),
+            });
+        case ArbeidsperiodeIForholdTilSøknadsperiode.starterOgSlutterIPerioden:
+            return intlHelper(intl, 'arbeidIPeriode.arbeidsperiode.starterOgSlutterIPerioden', {
+                fra: dateFormatter.full(periode.from),
+                til: dateFormatter.full(periode.to),
+            });
+        default:
+            return '';
+    }
+};
+
 const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     periode,
+    søknadsperiode,
     parentFieldName,
     normalarbeidstid,
     timerEllerProsent,
@@ -58,7 +85,11 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                 `arbeidIPeriode.ulikeUkerGruppe.${
                     timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
                 }.spm`,
-                { ...intlValues, timerNormaltString }
+                {
+                    ...intlValues,
+                    timerNormaltString,
+                    periode: getPeriodeISøknadsperiodeInfo(intl, periode, søknadsperiode),
+                }
             )}>
             {arbeidsuker.map((arbeidsuke) => {
                 return (

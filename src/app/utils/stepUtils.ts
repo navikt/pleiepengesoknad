@@ -2,7 +2,7 @@ import { IntlShape } from 'react-intl';
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
+import { getSøknadStepConfig, StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import {
     arbeidssituasjonStepIsValid,
@@ -15,6 +15,7 @@ import {
 import { erAnsattISøknadsperiode } from './ansattUtils';
 import { frlilansOppdragISøknadsperiode, nyFrlilansOppdragISøknadsperiode } from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
+import { isAvailable } from './routeUtils';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -101,4 +102,19 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
     );
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
     return erAnsatt || harFrilansOppdrag || harNyFrilansOppdrag || erSelvstendig;
+};
+
+export const getGyldigRedirectStepForMellomlagretSøknad = (lastStepID: StepID, values: SøknadFormValues): StepID => {
+    const stepConfig = getSøknadStepConfig(values);
+    /** Vi mellomlagrer steget bruker er på når hen går videre til neste steg. Derfor
+     * skal vi redirekte til påfølgende steg.
+     */
+    const nextStep = stepConfig[lastStepID].nextStep;
+    if (nextStep && isAvailable(nextStep, values)) {
+        return nextStep;
+    } else if (isAvailable(lastStepID, values)) {
+        return lastStepID;
+    } else {
+        return StepID.OPPLYSNINGER_OM_BARNET;
+    }
 };

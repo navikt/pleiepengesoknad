@@ -84,6 +84,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforholdType={ArbeidsforholdType.ANSATT}
                                         arbeidsforhold={arbeidsforhold}
                                         arbeidsperiode={periode}
+                                        søknadsperiode={søknadsperiode}
                                         parentFieldName={`${SøknadFormField.ansatt_arbeidsforhold}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
@@ -160,15 +161,18 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                 arbeid.selvstendig?.type === 'erSN' && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
-                            <ArbeidIPeriodeSpørsmål
-                                normalarbeidstid={arbeid.selvstendig.arbeidsforhold.normalarbeidstid}
-                                arbeidsstedNavn="Selvstendig næringsdrivende"
-                                arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
-                                arbeidsforhold={selvstendig.arbeidsforhold}
-                                arbeidsperiode={periodeSomSelvstendigISøknadsperiode}
-                                parentFieldName={SelvstendigFormField.arbeidsforhold}
-                                onArbeidstidVariertChange={handleArbeidstidChanged}
-                            />
+                            <div data-testid="arbeidIPerioden_selvstendig">
+                                <ArbeidIPeriodeSpørsmål
+                                    normalarbeidstid={arbeid.selvstendig.arbeidsforhold.normalarbeidstid}
+                                    arbeidsstedNavn="Selvstendig næringsdrivende"
+                                    arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
+                                    arbeidsforhold={selvstendig.arbeidsforhold}
+                                    arbeidsperiode={periodeSomSelvstendigISøknadsperiode}
+                                    søknadsperiode={søknadsperiode}
+                                    parentFieldName={SelvstendigFormField.arbeidsforhold}
+                                    onArbeidstidVariertChange={handleArbeidstidChanged}
+                                />
+                            </div>
                         </FormSection>
                     </FormBlock>
                 )}

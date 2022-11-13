@@ -56,14 +56,14 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
         );
     };
     return (
-        <div data-testid="oppsummering-utenlandskNæring">
+        <div data-testid="arbeidssituasjon-utenlandskNæring">
             <SummaryBlock
                 header={intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.listetittel')}
                 headerTag="h3">
                 {utenlandskNæring.length === 0 && (
-                    <>
-                        <FormattedMessage id={'oppsummering.arbeidssituasjon.utenlandskNæring.nei'} tagName="p" />
-                    </>
+                    <p data-testid={'arbeidssituasjon-harUtenlandskNæringSvar'}>
+                        {intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.nei')}
+                    </p>
                 )}
                 {utenlandskNæring.length > 0 && (
                     <ul>{utenlandskNæring.map((næring) => renderUtenlandskNæring(næring))}</ul>

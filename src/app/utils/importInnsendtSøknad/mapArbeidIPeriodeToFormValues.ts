@@ -9,15 +9,10 @@ import {
     ArbeidIPeriodeApiDataProsent,
     ArbeidIPeriodeApiDataTimerPerUke,
     ArbeidIPeriodeApiDataUlikeUkerTimer,
-    ArbeidIPeriodeApiDataUlikeUkerProsent,
     ArbeidsukeTimerApiData,
-    ArbeidsukeProsentApiData,
 } from '../../types/søknad-api-data/arbeidIPeriodeApiData';
 
-const sortArbeidsuke = (
-    uke1: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData,
-    uke2: ArbeidsukeTimerApiData | ArbeidsukeProsentApiData
-) => {
+const sortArbeidsuke = (uke1: ArbeidsukeTimerApiData, uke2: ArbeidsukeTimerApiData) => {
     return dayjs(uke1.periode.fraOgMed).isBefore(uke2.periode.fraOgMed) ? 1 : -1;
 };
 
@@ -40,24 +35,6 @@ export const mapArbeidIPeriodeApiDataProsentToFormValues = (
         timerEllerProsent: TimerEllerProsent.PROSENT,
         erLiktHverUke: YesOrNo.YES,
         prosentAvNormalt: `${arbeid.prosentAvNormalt}`.replace('.', ','),
-    };
-};
-
-export const mapArbeidIPeriodeApiDataUlikeUkerProsentToFormValues = (
-    arbeid: ArbeidIPeriodeApiDataUlikeUkerProsent
-): ArbeidIPeriodeFormValues => {
-    const arbeidsuker: ArbeidsukerFormValues = {};
-    arbeid.arbeidsuker.forEach(({ periode: { fraOgMed: from, tilOgMed: to }, prosentAvNormalt }) => {
-        const periode: DateRange = { from: ISODateToDate(from), to: ISODateToDate(to) };
-        arbeidsuker[dateRangeToISODateRange(periode)] = {
-            prosentAvNormalt: prosentAvNormalt ? `${prosentAvNormalt}` : undefined,
-        };
-    });
-    return {
-        arbeiderIPerioden: arbeid.arbeiderIPerioden,
-        timerEllerProsent: TimerEllerProsent.TIMER,
-        erLiktHverUke: YesOrNo.NO,
-        arbeidsuker,
     };
 };
 
@@ -95,8 +72,6 @@ export const mapArbeidIPeriodeApiDataToFormValues = (
             return mapArbeidIPeriodeApiDataProsentToFormValues(arbeid);
         case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
             return mapArbeidIPeriodeApiDataTimerPerUkeToFormValues(arbeid);
-        case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
-            return mapArbeidIPeriodeApiDataUlikeUkerProsentToFormValues(arbeid);
         case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
             return mapArbeidIPeriodeApiDataUlikeUkerTimerToFormValues(arbeid);
     }

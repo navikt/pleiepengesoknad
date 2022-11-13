@@ -26,9 +26,10 @@ import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import { getGyldigRedirectStepForMellomlagretSøknad } from '../utils/stepUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
 import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
-import { getArbeidsforhold, harFraværIPerioden } from './arbeidstid-step/utils/arbeidstidUtils';
+import { getArbeidsforhold, harFraværFraJobb } from './arbeidstid-step/utils/arbeidstidUtils';
 import { getIngenFraværConfirmationDialog } from './confirmation-dialogs/ingenFraværConfirmation';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
@@ -67,14 +68,15 @@ const SøknadContent = ({
     const { persistSoknad } = usePersistSoknad();
 
     const sendUserToStep = useCallback(
-        async (route: string) => {
-            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
-            navigateTo(route, history);
+        async (step: StepID) => {
+            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step });
+            navigateTo(step, history);
         },
         [logHendelse, history]
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
+
     const nextStepRoute = søknadHasBeenSent
         ? undefined
         : mellomlagringMetadata?.lastStepID
@@ -87,8 +89,8 @@ const SøknadContent = ({
             if (mellomlagringMetadata.importertSøknadMetadata !== undefined) {
                 setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
             }
-            if (isOnWelcomPage && nextStepRoute !== undefined) {
-                sendUserToStep(nextStepRoute);
+            if (isOnWelcomPage && nextStepRoute !== undefined && mellomlagringMetadata.lastStepID) {
+                sendUserToStep(getGyldigRedirectStepForMellomlagretSøknad(mellomlagringMetadata.lastStepID, values));
             }
             if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
                 sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
@@ -100,6 +102,7 @@ const SøknadContent = ({
         nextStepRoute,
         sendUserToStep,
         setImportertSøknadMetadata,
+        values,
         søknadHasBeenSent,
     ]);
 
@@ -238,7 +241,7 @@ const SøknadContent = ({
                                         setSøknadsdata(søknadsdata);
                                         if (
                                             søknadsdata.arbeid &&
-                                            harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false
+                                            harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid)) === false
                                         ) {
                                             setConfirmationDialog(
                                                 getIngenFraværConfirmationDialog({

@@ -26,6 +26,7 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
             <p>
                 <FormattedMessage id={`arbeidsforhold.normalTimer.info.turnus`} />
             </p>
+
             <ExpandableInfo
                 filledBackground={false}
                 title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
@@ -74,9 +75,6 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.6'} />
                 </p>
             </ExpandableInfo>
-            <p>
-                <FormattedMessage id="arbeidsforhold.ansatt.normalTimer.info" />
-            </p>
         </ExpandableInfo>
     );
 };
@@ -85,6 +83,10 @@ const InfoArbeiderNormaltTimerFrilanser = () => {
     const intl = useIntl();
     return (
         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.info.tittel')}>
+            <p>
+                <FormattedMessage id={`arbeidsforhold.normalTimer.info.turnus`} />
+            </p>
+
             <ExpandableInfo
                 filledBackground={false}
                 title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
@@ -142,6 +144,10 @@ const InfoArbeiderNormaltTimerSN = () => {
     const intl = useIntl();
     return (
         <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.selvstendig.normalTimer.info.tittel')}>
+            <p>
+                <FormattedMessage id={`arbeidsforhold.normalTimer.info.turnus`} />
+            </p>
+
             <ExpandableInfo
                 filledBackground={false}
                 title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>

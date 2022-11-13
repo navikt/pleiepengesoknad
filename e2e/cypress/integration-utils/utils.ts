@@ -23,6 +23,14 @@ export const selectRadioYesOrNo = (key, selectYes) => {
         .click();
 };
 
+export const selectRadioByNameAndValue = (name, value) => {
+    cy.get(`[name="${name}"][value="${value}"]`).parent().click();
+};
+
+export const checkCheckbuttonByName = (name) => {
+    cy.get(`[type="checkbox"][name="${name}"]`).click();
+};
+
 export const selectRadioYes = (key) => {
     getTestElement(`${key}_yes`).parent().click();
 };
@@ -58,4 +66,28 @@ export const getTestElementByType = (type) => {
 
 export const getElement = (type) => {
     return cy.get(`${type}`);
+};
+
+export const gåTilOppsummeringFraArbeidssituasjon = () => {
+    /** cy.visit reloads, og da må en blir mellomlagring feil - fake click fortsett */
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+};
+
+export const gåTilOppsummeringFraArbeidIPerioden = () => {
+    /** cy.visit reloads, og da må en blir mellomlagring feil - fake click fortsett */
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
+    cy.wait(100);
+    clickFortsett();
 };

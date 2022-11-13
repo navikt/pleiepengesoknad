@@ -98,7 +98,7 @@ const arbeidsgivereMock = {
     privatarbeidsgiver: [],
 };
 
-const FORRIGE_SØKNAD = './server/mockdata/søknad-prosent-av-normalt.json';
+const FORRIGE_SØKNAD = './server/mockdata/depr_søknad.json';
 
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 

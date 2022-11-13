@@ -3,8 +3,16 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../../types/ArbeidIPeriodeFormValues';
-import { ArbeidsforholdFormValues, ArbeidsforholdSelvstendigFormValues } from '../../../types/ArbeidsforholdFormValues';
+import {
+    ArbeidIPeriodeFormField,
+    ArbeidIPeriodeFormValues,
+    ArbeidsukerFormValues,
+} from '../../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ///ArbeidsforholdFrilanserFormValues,
+    ArbeidsforholdSelvstendigFormValues,
+} from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import {
     ArbeidSelvstendigSøknadsdata,
@@ -15,8 +23,9 @@ import {
 // import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
 import { getArbeidsukeKey } from '../components/ArbeidstidUkerSpørsmål';
-import { getArbeidsukerIPerioden } from './arbeidstidUtils';
 // import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
+import { arbeidIPeriodeSpørsmålConfig } from './arbeidIPeriodeSpørsmålConfig';
+import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 
 export const cleanupArbeidsuker = (
     periode: DateRange,
@@ -39,38 +48,43 @@ export const cleanupArbeidsuker = (
 };
 
 export const cleanupArbeidIPeriode = (
-    søknadsperiode: DateRange,
+    arbeidsperiode: DateRange,
     arbeidIPerioden: ArbeidIPeriodeFormValues,
     normalarbeidstid: NormalarbeidstidSøknadsdata | undefined
 ): ArbeidIPeriodeFormValues => {
+    const config = arbeidIPeriodeSpørsmålConfig.getVisbility({
+        formValues: arbeidIPerioden,
+        arbeidsperiode,
+    });
+
     const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
-        erLiktHverUke: arbeidIPerioden.erLiktHverUke,
     };
-
+    if (arbeid.arbeiderIPerioden !== ArbeiderIPeriodenSvar.redusert) {
+        return arbeid;
+    }
     if (!normalarbeidstid) {
         throw 'cleanupArbeidIPeriode: normalarbeidstid er undefined';
     }
 
-    if (arbeid.arbeiderIPerioden !== ArbeiderIPeriodenSvar.redusert) {
-        return arbeid;
+    if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {
+        arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
     }
-
-    const { timerEllerProsent, prosentAvNormalt, snittTimerPerUke, arbeidsuker, erLiktHverUke } = arbeidIPerioden;
-    arbeid.timerEllerProsent = timerEllerProsent;
-    if (erLiktHverUke === YesOrNo.YES) {
-        return timerEllerProsent === TimerEllerProsent.PROSENT
-            ? { ...arbeid, timerEllerProsent, prosentAvNormalt, arbeidsuker: undefined }
-            : { ...arbeid, timerEllerProsent, snittTimerPerUke, arbeidsuker: undefined };
+    if (config.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent)) {
+        arbeid.timerEllerProsent = arbeidIPerioden.timerEllerProsent;
+    }
+    if (arbeid.erLiktHverUke === YesOrNo.YES) {
+        return arbeid.timerEllerProsent === TimerEllerProsent.PROSENT
+            ? { ...arbeid, prosentAvNormalt: arbeidIPerioden.prosentAvNormalt, arbeidsuker: undefined }
+            : { ...arbeid, snittTimerPerUke: arbeidIPerioden.snittTimerPerUke, arbeidsuker: undefined };
     } else {
         return {
             ...arbeid,
             prosentAvNormalt: undefined,
             snittTimerPerUke: undefined,
-            arbeidsuker:
-                arbeidsuker && timerEllerProsent
-                    ? cleanupArbeidsuker(søknadsperiode, arbeidsuker, timerEllerProsent)
-                    : undefined,
+            arbeidsuker: arbeidIPerioden.arbeidsuker
+                ? cleanupArbeidsuker(arbeidsperiode, arbeidIPerioden.arbeidsuker, TimerEllerProsent.TIMER)
+                : undefined,
         };
     }
 };

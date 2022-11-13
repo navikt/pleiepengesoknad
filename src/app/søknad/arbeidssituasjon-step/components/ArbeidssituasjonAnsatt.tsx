@@ -8,15 +8,11 @@ import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
-import { SøknadFormValues } from '../../../types/SøknadFormValues';
-import { søknadErBasertPåForrigeSøknad } from '../../../utils/forrigeSøknadUtils';
-import { useSøknadsdataContext } from '../../SøknadsdataContext';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
-import { Arbeidsgiver } from '../../../types';
+// import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
+// import { Arbeidsgiver } from '../../../types';
 import OfficeIcon from '../../../components/office-icon/OfficeIconSvg';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
 import { getYesOrNoRadios, renderTidsrom } from '../utils/FrilansOppdragUtils';
@@ -33,26 +29,9 @@ interface Props {
     søknadsperiode: DateRange;
 }
 
-const getNormalarbeidstidForrigeSøknad = (
-    arbeidsgiver: Arbeidsgiver,
-    importertSøknadMetadata?: ImportertSøknadMetadata
-): AnsattNormalarbeidstidSnitt | undefined => {
-    if (!importertSøknadMetadata || !importertSøknadMetadata.ansattNormalarbeidstidSnitt) {
-        return undefined;
-    }
-    return importertSøknadMetadata.ansattNormalarbeidstidSnitt.find((f) => f.id === arbeidsgiver.id);
-};
-
 const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldName, søknadsperiode }) => {
     const intl = useIntl();
     const erAvsluttet = arbeidsforhold.erAnsatt === YesOrNo.NO;
-
-    const { values } = useFormikContext<SøknadFormValues>();
-    const { importertSøknadMetadata } = useSøknadsdataContext();
-
-    const timerPerUkeISnittForrigeSøknad = søknadErBasertPåForrigeSøknad(values, importertSøknadMetadata)
-        ? getNormalarbeidstidForrigeSøknad(arbeidsforhold.arbeidsgiver, importertSøknadMetadata)
-        : undefined;
 
     const getFieldName = (field: ArbeidsforholdFormField): ArbeidsforholdFormField =>
         `${parentFieldName}.${field}` as any;
@@ -125,7 +104,6 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                 erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
                                 arbeidsforholdFieldName={parentFieldName}
                                 brukKunSnittPerUke={false}
-                                timerPerUkeISnittForrigeSøknad={timerPerUkeISnittForrigeSøknad?.timerISnitt}
                             />
                         )}
                     </FormBlock>

@@ -4,13 +4,11 @@ import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
     ArbeidsforholdApiData,
-    ArbeidsukeProsentApiData,
     ArbeidsukeTimerApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
 import {
     ArbeidIPeriodeSøknadsdata,
     ArbeidsforholdSøknadsdata,
-    ArbeidsukerProsentSøknadsdata,
     ArbeidsukerTimerSøknadsdata,
 } from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
@@ -23,20 +21,6 @@ export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknads
                 tilOgMed: dateToISODate(to),
             },
             timer: decimalDurationToISODuration(timer),
-        };
-    });
-};
-
-export const getArbeidsukerProsentApiData = (
-    arbeidsuker: ArbeidsukerProsentSøknadsdata
-): ArbeidsukeProsentApiData[] => {
-    return arbeidsuker.map(({ periode: { from, to }, prosentAvNormalt }) => {
-        return <ArbeidsukeProsentApiData>{
-            periode: {
-                fraOgMed: dateToISODate(from),
-                tilOgMed: dateToISODate(to),
-            },
-            prosentAvNormalt,
         };
     });
 };
@@ -65,12 +49,6 @@ export const getArbeidIPeriodeApiDataFromSøknadsdata = (arbeid: ArbeidIPeriodeS
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
                 timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
-            };
-        case ArbeidIPeriodeType.arbeiderUlikeUkerProsent:
-            return {
-                type: ArbeidIPeriodeType.arbeiderUlikeUkerProsent,
-                arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
-                arbeidsuker: getArbeidsukerProsentApiData(arbeid.arbeidsuker),
             };
         case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
             return {
