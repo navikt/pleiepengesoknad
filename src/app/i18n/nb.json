@@ -291,11 +291,11 @@
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
 
     "steg.arbeidssituasjon.tittel": "Arbeidsgivere",
-    "steg.arbeidssituasjon.veileder.1": "Nå trenger vi å vite litt om arbeidssituasjonen din, og hvor mye du normalt jobber. Med «normalt» mener vi hvor mye du jobber når du ikke har fravær på grunn av pleiepenger eller annet.",
-    "steg.arbeidssituasjon.veileder.2": "Hvis du er arbeidstaker og usikker på hvor mange timer du normalt jobber per uke, finner du som regel svaret i arbeidskontrakten din. Eller, du kan høre med arbeidsgiver.",
-    "steg.arbeidssituasjon.veileder.3": "Får du utbetalt penger fra NAV, trenger du ikke informere om dette i søknaden.",
+    "steg.arbeidssituasjon.veileder.1": "Nå trenger vi å vite litt om arbeidssituasjonen din og hvor mye du normalt jobber når du ikke har fravær fra jobben din.",
+
     "steg.arbeidssituasjon.veileder.medArbeidsgiver": "Nedenfor ser du {antall, plural, one {arbeidsgiveren} other {arbeidsgivere}} du er registrert ansatt hos i AA-registeret i perioden du søker om pleiepenger. For at vi skal være sikre på at opplysningene er riktige må du bekrefte om du er, eller har vært, ansatt der.",
     "steg.arbeidssituasjon.veileder.ingenArbeidsgiverFunnet": "Vi har ikke funnet noen arbeidsgivere registrert på deg i AA-registeret.",
+    "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver.tittel": "Har du arbeidsforhold som ikke vises?",
     "steg.arbeidssituasjon.veileder.manglerDetArbeidsgiver": "Hvis du i perioden du søker for er, eller var, ansatt hos en arbeidsgiver som ikke vises her, må du be arbeidsgiveren om å sende en ny A-melding. Det gjør de enten via eget lønns- og personalsystem, eller via Altinn.",
     "steg.arbeidssituasjon.info.tekst": "Dersom det mangler en arbeidsgiver her, må du be arbeidsgiveren din sende ny A-melding, enten via lønns- og personalsystemet eller gjennom Altinn.",
     "steg.arbeidssituasjon.ingenOpplysninger": "Vi har ikke funnet noen arbeidsgiver registrert på deg.",
@@ -976,6 +976,14 @@
     "frilansoppdragListe.oppdrag.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
     "yes": "Ja",
     "no": "Nei",
+
+    "nyfrilansoppdrag.arbeidsgiver.title": "Registrer frilansoppdrag",
+    "nyfrilansoppdrag.arbeidsgiver.navn": "Navn på oppdragsgiver",
+    "nyfrilansoppdrag.arbeidsgiver.nårStartet.spm": "Når startet du å jobbe som frilanser?",
+    "nyfrilansoppdrag.arbeidsgiver.sluttet": "Sluttet i søknadsperiode",
+    "nyfrilansoppdrag.arbeidsgiver.nårSluttet.spm": "Når sluttet du som frilanser?",
+    "nyfrilansoppdrag.arbeidsgiver.frilansOppdragKategori.spm": "Hvilken type frilansoppdrag er dette?",
+    "nyfrilansoppdrag.arbeidsgiver.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
 
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
     "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",

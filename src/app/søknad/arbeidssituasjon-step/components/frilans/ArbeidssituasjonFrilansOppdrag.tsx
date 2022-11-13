@@ -14,9 +14,9 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import {
     getFrilansOppdragIPeriodenRadios,
-    getFrilansOppdragIStyremedlemSvarRadios,
+    getYesOrNoRadios,
     getSelectFrilansKategoriOptions,
-    renderTidsromFrilansOppdrag,
+    renderTidsrom,
     visFrilansOppdragNormalarbeidstid,
 } from '../../utils/FrilansOppdragUtils';
 import { getFrilansOppdragSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
@@ -48,7 +48,7 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
         <Box padBottom="m">
             <ArbeidssituasjonPanel
                 title={oppdrag.arbeidsgiver.navn}
-                description={renderTidsromFrilansOppdrag(oppdrag.arbeidsgiver)}
+                description={renderTidsrom(oppdrag.arbeidsgiver)}
                 titleIcon={<FrilansIcon />}>
                 <FormBlock>
                     <FrilansOppdragFormComponents.RadioGroup
@@ -99,7 +99,7 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                 <FrilansOppdragFormComponents.RadioGroup
                                     legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
                                     name={getFieldName(FrilansOppdragFormField.styremedlemHeleInntekt)}
-                                    radios={getFrilansOppdragIStyremedlemSvarRadios(intl)}
+                                    radios={getYesOrNoRadios(intl)}
                                     validate={(value) => {
                                         const error = getRequiredFieldValidator()(value);
                                         return error

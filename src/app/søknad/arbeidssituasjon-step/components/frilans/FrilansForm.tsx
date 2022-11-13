@@ -13,7 +13,7 @@ import NormalarbeidstidSpørsmål from '../normalarbeidstid-spørsmål/Normalarb
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import {
-    getFrilansOppdragIStyremedlemSvarRadios,
+    getYesOrNoRadios,
     getSelectFrilansKategoriOptions,
     visFrilansOppdragNormalarbeidstid,
 } from '../../utils/FrilansOppdragUtils';
@@ -49,10 +49,12 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
 
     return (
         <Box padBottom="m">
-            <ArbeidssituasjonPanel title={'Registrer frilansoppdrag'} titleIcon={<FrilansIcon />}>
+            <ArbeidssituasjonPanel
+                title={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.title')}
+                titleIcon={<FrilansIcon />}>
                 <FormBlock>
                     <FrilansOppdragFormComponents.Input
-                        label={'Navn på oppdragsgiver'}
+                        label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.navn')}
                         name={getFieldName(FrilansNyFormField.arbeidsgiver_navn)}
                         validate={(value) => {
                             const error = validateNavn(value);
@@ -72,7 +74,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 <Box margin="l">
                     <FrilansOppdragFormComponents.DatePicker
                         name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattFom)}
-                        label={intlHelper(intl, 'frilanser.nårStartet.spm')}
+                        label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.nårStartet.spm')}
                         showYearSelector={true}
                         maxDate={søknadsdato}
                         validate={getNyFrilanserStartdatoValidator(oppdrag, søknadsperiode, søknadsdato)}
@@ -89,7 +91,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                     <Box margin="l">
                         <FrilansOppdragFormComponents.DatePicker
                             name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattTom)}
-                            label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                            label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.nårSluttet.spm')}
                             showYearSelector={true}
                             minDate={oppdrag.arbeidsgiver.ansattFom}
                             maxDate={søknadsdato}
@@ -116,7 +118,7 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 <Box margin="l">
                     <FrilansOppdragFormComponents.Select
                         name={getFieldName(FrilansNyFormField.frilansOppdragKategori)}
-                        label={'Hvilken type frilansoppdrag er dette?'}
+                        label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.frilansOppdragKategori.spm')}
                         bredde={'l'}
                         validate={(value) => {
                             const error = getRequiredFieldValidator()(value);
@@ -134,9 +136,9 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
                     <Box margin="l">
                         <FrilansOppdragFormComponents.RadioGroup
-                            legend={intlHelper(intl, 'frilansoppdragListe.oppdrag.styremedlem.spm')}
+                            legend={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.styremedlem.spm')}
                             name={getFieldName(FrilansNyFormField.styremedlemHeleInntekt)}
-                            radios={getFrilansOppdragIStyremedlemSvarRadios(intl)}
+                            radios={getYesOrNoRadios(intl)}
                             validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
                     </Box>
                 )}

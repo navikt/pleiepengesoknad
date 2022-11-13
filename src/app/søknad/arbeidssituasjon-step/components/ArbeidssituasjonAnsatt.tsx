@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
@@ -11,7 +10,6 @@ import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types'
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { Undertittel } from 'nav-frontend-typografi';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { søknadErBasertPåForrigeSøknad } from '../../../utils/forrigeSøknadUtils';
@@ -19,6 +17,9 @@ import { useSøknadsdataContext } from '../../SøknadsdataContext';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
 import { Arbeidsgiver } from '../../../types';
+import OfficeIcon from '../../../components/office-icon/OfficeIconSvg';
+import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import { getYesOrNoRadios, renderTidsrom } from '../utils/FrilansOppdragUtils';
 
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,
@@ -58,47 +59,47 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
 
     return (
         <div data-testid="arbeidssituasjonAnsatt">
-            <FormBlock margin="xl">
-                <Box padBottom="m">
-                    <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
-                        {arbeidsforhold.arbeidsgiver.navn}
-                    </Undertittel>
-                </Box>
-                <Box>
-                    <AnsattFormComponents.YesOrNoQuestion
-                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
-                            navn: arbeidsforhold.arbeidsgiver.navn,
-                        })}
-                        data-testid="er-ansatt"
-                        name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
-                        validate={(value) => {
-                            return getYesOrNoValidator()(value)
-                                ? {
-                                      key: 'validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered',
-                                      values: { navn: arbeidsforhold.arbeidsgiver.navn },
-                                      keepKeyUnaltered: true,
-                                  }
-                                : undefined;
-                        }}
-                    />
-                </Box>
-            </FormBlock>
-            {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
-                <FormBlock margin="l">
-                    <ResponsivePanel>
+            <ArbeidssituasjonPanel
+                title={arbeidsforhold.arbeidsgiver.navn}
+                description={renderTidsrom(arbeidsforhold.arbeidsgiver)}
+                titleIcon={<OfficeIcon />}>
+                <FormBlock margin="xl">
+                    <Box>
+                        <AnsattFormComponents.RadioGroup
+                            legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
+                                navn: arbeidsforhold.arbeidsgiver.navn,
+                            })}
+                            data-testid="er-ansatt"
+                            name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
+                            radios={getYesOrNoRadios(intl)}
+                            validate={(value) => {
+                                return getYesOrNoValidator()(value)
+                                    ? {
+                                          key: 'validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered',
+                                          values: { navn: arbeidsforhold.arbeidsgiver.navn },
+                                          keepKeyUnaltered: true,
+                                      }
+                                    : undefined;
+                            }}
+                        />
+                    </Box>
+                </FormBlock>
+                {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
+                    <FormBlock margin="l">
                         {erAvsluttet && (
                             <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
                                 <FormBlock>
-                                    <AnsattFormComponents.YesOrNoQuestion
-                                        name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}
+                                    <AnsattFormComponents.RadioGroup
                                         legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
                                             navn: arbeidsforhold.arbeidsgiver.navn,
                                             fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
                                         data-testid="sluttet-før-søknadsperiode"
+                                        name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}
+                                        radios={getYesOrNoRadios(intl)}
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
                                             return error
@@ -127,9 +128,9 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                 timerPerUkeISnittForrigeSøknad={timerPerUkeISnittForrigeSøknad?.timerISnitt}
                             />
                         )}
-                    </ResponsivePanel>
-                </FormBlock>
-            )}
+                    </FormBlock>
+                )}
+            </ArbeidssituasjonPanel>
         </div>
     );
 };

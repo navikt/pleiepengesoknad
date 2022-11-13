@@ -8,7 +8,7 @@ import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/Arbe
 import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
-export const renderTidsromFrilansOppdrag = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
+export const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     if (ansattFom && ansattTom) {
         return (
             <FormattedMessage
@@ -60,7 +60,7 @@ export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
     return [...førstOption, ...options];
 };
 
-export const getFrilansOppdragIStyremedlemSvarRadios = (intl: IntlShape) => [
+export const getYesOrNoRadios = (intl: IntlShape) => [
     {
         label: intlHelper(intl, `${YesOrNo.YES}`),
         value: YesOrNo.YES,
