@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
@@ -10,7 +10,6 @@ import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { Hovedknapp } from 'nav-frontend-knapper';
-import Lenke from 'nav-frontend-lenker';
 import { Element, Undertittel } from 'nav-frontend-typografi';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
@@ -32,7 +31,7 @@ const getBarnNavn = (barn: RegistrerteBarn): string => {
     return formatName(barn.fornavn, barn.etternavn, barn.mellomnavn);
 };
 
-const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Props) => {
+const SamtykkeForm = ({ forrigeSøknad, onConfirm }: Props) => {
     const intl = useIntl();
     return (
         <AppForm.Form
@@ -87,20 +86,16 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm, onOpenDinePlikterModal }: Pro
             <FormBlock>
                 <div data-testid={'welcomingPage-harForståttRettigheterOgPlikter'}>
                     <AppForm.ConfirmationCheckbox
-                        label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
+                        // label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
+                        label="Jeg vil svare så godt jeg kan på spørsmålene i søknaden."
                         name={SøknadFormField.harForståttRettigheterOgPlikter}
                         data-cy={'harForståttRettigheterOgPlikter'}
                         validate={getCheckedValidator()}>
-                        <FormattedMessage
-                            id="welcomingPage.samtykke.harForståttLabel"
-                            values={{
-                                plikterLink: (
-                                    <Lenke href="#" onClick={onOpenDinePlikterModal}>
-                                        {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
-                                    </Lenke>
-                                ),
-                            }}
-                        />
+                        <strong>Vi stoler på deg</strong>
+                        {/* <p>
+                            Vi stoler på at du svarer så godt du kan på spørsmålene, og at du har lest og forstått
+                            dine plikter.
+                        </p> */}
                     </AppForm.ConfirmationCheckbox>
                 </div>
             </FormBlock>

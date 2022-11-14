@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import InfoDialog from '@navikt/sif-common-core/lib/components/dialogs/info-dialog/InfoDialog';
 import FrontPageBanner from '@navikt/sif-common-core/lib/components/front-page-banner/FrontPageBanner';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
+import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { Sidetittel } from 'nav-frontend-typografi';
+import { Sidetittel, Undertittel } from 'nav-frontend-typografi';
+import OmSøknaden from '../../components/om-søknaden/OmSøknaden';
+import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { StepConfigProps } from '../../søknad/søknadStepsConfig';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
@@ -29,30 +33,52 @@ interface DialogState {
 const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeSøknad }) => {
     const [dialogState, setDialogState] = useState<DialogState>({});
     const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
-
+    const søkerdata = useContext(SøkerdataContext);
+    const { søker } = søkerdata || {};
     const intl = useIntl();
 
     useLogSidevisning(SIFCommonPageKey.velkommen);
+    const utenIllustrasjon = 1 + 1 === 2;
 
     return (
         <div data-testid="welcomePage">
             <Page
                 title={intlHelper(intl, 'welcomingPage.sidetittel')}
                 className={bem.block}
-                topContentRenderer={() => (
-                    <FrontPageBanner
-                        bannerSize="large"
-                        counsellorWithSpeechBubbleProps={{
-                            strongText: intlHelper(intl, 'welcomingPage.banner.tittel'),
-                            normalText: intlHelper(intl, 'welcomingPage.banner.tekst'),
-                        }}
-                    />
-                )}>
-                <Box margin="xxl">
-                    <Sidetittel className={bem.element('title')}>
-                        <FormattedMessage id="welcomingPage.introtittel" />
-                    </Sidetittel>
-                </Box>
+                topContentRenderer={
+                    utenIllustrasjon
+                        ? () => <StepBanner text={intlHelper(intl, 'application.title')} tag="h1" />
+                        : () => (
+                              <FrontPageBanner
+                                  bannerSize="large"
+                                  counsellorWithSpeechBubbleProps={{
+                                      strongText: intlHelper(intl, 'welcomingPage.banner.tittel'),
+                                      normalText: intlHelper(intl, 'welcomingPage.banner.tekst'),
+                                  }}
+                              />
+                          )
+                }>
+                {utenIllustrasjon === false && (
+                    <Box margin="xxl">
+                        <Sidetittel className={bem.element('title')}>
+                            <FormattedMessage id="welcomingPage.introtittel" />
+                        </Sidetittel>
+                    </Box>
+                )}
+                {utenIllustrasjon === true && (
+                    <Box margin="xxl">
+                        <CounsellorPanel kompakt={true}>
+                            <Undertittel>Hei{søker ? ` ${søker.fornavn}` : ''}!</Undertittel>
+                            <p>Jeg er her for å veilede deg gjennom søknaden om pleiepenger for sykt barn.</p>
+                            <p>
+                                Svarene dine tar vi vare på underveis, så dersom du ønsker å ta en pause, eller blir
+                                avbrutt, fortsetter du der du var når du kommer tilbake til søknaden.
+                            </p>
+                        </CounsellorPanel>
+                    </Box>
+                )}
+
+                <OmSøknaden />
 
                 <SamtykkeForm
                     onConfirm={onValidSubmit}
