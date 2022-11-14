@@ -14,6 +14,7 @@ import {
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
+import { FrilanserOppdragType } from '../../../../types/FrilansFormData';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -25,6 +26,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
+    frilanserOppdragType?: FrilanserOppdragType;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -36,6 +38,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     erAktivtArbeidsforhold,
     arbeidsstedNavn,
     brukKunSnittPerUke,
+    frilanserOppdragType,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -48,19 +51,30 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 
+    const getLabelTilNumberInput = () => {
+        if (arbeidsforholdType === ArbeidsforholdType.FRILANSER && frilanserOppdragType) {
+            return erAktivtArbeidsforhold === false
+                ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.${frilanserOppdragType}.spm`
+                : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.${frilanserOppdragType}.spm`;
+        }
+
+        return arbeidsforholdType !== ArbeidsforholdType.FRILANSER && erAktivtArbeidsforhold === false
+            ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
+            : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`;
+    };
+
     const renderTimerPerUkeSpørsmål = () => {
         return (
             <FormComponents.NumberInput
-                label={intlHelper(
-                    intl,
-                    erAktivtArbeidsforhold === false
-                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
-                        : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
-                    intlValues
-                )}
+                label={intlHelper(intl, getLabelTilNumberInput(), intlValues)}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilanserOppdragType={frilanserOppdragType}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
@@ -80,16 +94,15 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     return (
         <>
             <FormComponents.NumberInput
-                label={intlHelper(
-                    intl,
-                    erAktivtArbeidsforhold === false
-                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
-                        : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
-                    intlValues
-                )}
+                label={intlHelper(intl, getLabelTilNumberInput(), intlValues)}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilanserOppdragType={frilanserOppdragType}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"

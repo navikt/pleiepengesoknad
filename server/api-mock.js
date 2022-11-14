@@ -77,18 +77,16 @@ const privatArbeidsgiverMock = {
     ansattTom: '2021-12-31',
 };
 const frilansoppdrag = {
-    type: 'type oppdrag',
+    type: 'FRILANSER',
     organisasjonsnummer: '991012133',
     navn: 'Hurdal frilanssenter',
     ansattFom: '2022-01-01',
-    ansattTom: '2022-01-15',
 };
 const frilansoppdrag2 = {
-    type: 'type oppdrag',
+    type: 'FRILANSER',
     organisasjonsnummer: '991012134',
     navn: 'Svandalen frilanssenter',
-    ansattFom: '2022-01-01',
-    ansattTom: '2022-01-15',
+    ansattFom: '2022-03-01',
 };
 
 const arbeidsgivereMock = {

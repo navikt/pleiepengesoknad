@@ -151,9 +151,10 @@ const ArbeidssituasjonFrilansOppdrag: React.FunctionComponent<Props> = ({
                                     <NormalarbeidstidSpørsmål
                                         arbeidsforholdFieldName={parentFieldName}
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                        arbeidsforhold={oppdrag || {}}
+                                        arbeidsforhold={oppdrag}
                                         erAktivtArbeidsforhold={true}
                                         brukKunSnittPerUke={true}
+                                        frilanserOppdragType={oppdrag.frilansOppdragKategori}
                                     />
                                 </Box>
                             )}

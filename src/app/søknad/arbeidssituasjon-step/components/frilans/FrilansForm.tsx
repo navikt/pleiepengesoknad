@@ -159,9 +159,10 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                         <NormalarbeidstidSpørsmål
                             arbeidsforholdFieldName={parentFieldName}
                             arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                            arbeidsforhold={oppdrag || {}}
+                            arbeidsforhold={oppdrag}
                             erAktivtArbeidsforhold={true}
                             brukKunSnittPerUke={true}
+                            frilanserOppdragType={oppdrag.frilansOppdragKategori}
                         />
                     </Box>
                 )}
