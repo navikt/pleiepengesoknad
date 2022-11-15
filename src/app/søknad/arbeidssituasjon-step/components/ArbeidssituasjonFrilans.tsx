@@ -17,6 +17,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import SøknadFormComponents from '../../../søknad/SøknadFormComponents';
 import { guid } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType } from '../../../types';
+import AddIcon from '../../../components/add-icon/AddIconSvg';
 
 interface Props {
     frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
@@ -95,9 +96,10 @@ const ArbeidssituasjonFrilans = ({ frilansoppdrag, søknadsperiode, søknadsdato
                     />
                 ))}
             {(søkerHarFrilansoppdrag || values.erFrilanserIPeriode === YesOrNo.YES) && (
-                <Box margin="m">
-                    <Knapp htmlType={'button'} onClick={leggTillFrilans}>
-                        {'Legg til ny Frilansoppdrag'}
+                <Box margin="l">
+                    <Knapp htmlType={'button'} onClick={leggTillFrilans} kompakt>
+                        <AddIcon />
+                        <span>{intlHelper(intl, 'frilanser.leggTilOppdrag.btn')}</span>
                     </Knapp>
                 </Box>
             )}

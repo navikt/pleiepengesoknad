@@ -993,6 +993,9 @@
     "nyfrilansoppdrag.arbeidsgiver.nårSluttet.spm": "Når sluttet du som frilanser?",
     "nyfrilansoppdrag.arbeidsgiver.frilansOppdragKategori.spm": "Hvilken type frilansoppdrag er dette?",
     "nyfrilansoppdrag.arbeidsgiver.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
+    "nyfrilansoppdrag.arbeidsgiver.slettBtn": "Slett frilansoppdrag",
+
+    "frilanser.leggTilOppdrag.btn": "Legg til frilansoppdrag",
 
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
     "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",

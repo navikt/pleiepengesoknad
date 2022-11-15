@@ -2,33 +2,26 @@
 
 .arbeidssituasjonPanel {
     margin-top: 1rem;
-    margin-bottom: 1rem;
+    display: flex;
 
-    &__titleIcon {
-        margin-right: 0.5rem;
+    &__icon {
         width: 1.5rem;
+        flex: 1 1 auto;
         svg * {
-            // fill: @navMorkGra;
             width: 1.5rem;
         }
     }
-    &__title {
-        display: flex;
-        width: 100%;
-        justify-items: stretch;
-    }
-    &__description {
-        display: flex;
-        margin-left: 2rem;
-        width: 100%;
-        justify-items: stretch;
-    }
+
     &__content {
-        margin-top: 1rem;
-        margin-left: 2rem;
-        margin-right: 1.5rem;
-        &--indent {
-            margin-left: 2.5rem;
+        margin-left: 1rem;
+        margin-right: 1rem;
+        flex: 2 1 100%;
+        &__child {
+            margin-top: 1.5rem;
         }
+    }
+
+    &__button {
+        flex: 1 1 auto;
     }
 }

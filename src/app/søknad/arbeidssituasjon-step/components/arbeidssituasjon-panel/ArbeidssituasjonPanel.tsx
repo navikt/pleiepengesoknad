@@ -12,22 +12,20 @@ interface Props {
     tag?: string;
     titleIcon?: React.ReactNode;
     children: React.ReactNode;
+    deleteButton?: JSX.Element;
 }
 
 const bem = bemUtils('arbeidssituasjonPanel');
-
-const ArbeidssituasjonPanel = ({ title, description, tag, titleIcon, children }: Props) => (
-    <ResponsivePanel className={bem.block} style={{ padding: '1rem' }}>
-        <Undertittel tag={tag} className={bem.element('title')}>
-            {titleIcon && <div className={bem.element('titleIcon')}>{titleIcon}</div>}
-            {title}
-        </Undertittel>
-        {description && (
-            <div className={bem.element('description')}>
-                <FormattedMessage id="frilansoppdragListe.oppdrag" values={{ tidsrom: description }} />
-            </div>
-        )}
-        <div className={bem.element('content')}>{children}</div>{' '}
+const bemItem = bem.child('content');
+const ArbeidssituasjonPanel = ({ title, description, tag = 'h3', titleIcon, children, deleteButton }: Props) => (
+    <ResponsivePanel className={bem.block} style={{ padding: '1rem', paddingBottom: '1.7rem' }}>
+        {titleIcon && <div className={bemItem.element('icon')}>{titleIcon}</div>}
+        <div className={bemItem.block}>
+            <Undertittel tag={tag}>{title}</Undertittel>
+            {description && <FormattedMessage id="frilansoppdragListe.oppdrag" values={{ tidsrom: description }} />}
+            <div className={bemItem.element('child')}>{children}</div>
+        </div>
+        {deleteButton !== undefined && <div className={bemItem.element('button')}>{deleteButton}</div>}
     </ResponsivePanel>
 );
 

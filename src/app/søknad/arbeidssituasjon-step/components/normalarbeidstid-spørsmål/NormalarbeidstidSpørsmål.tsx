@@ -1,6 +1,5 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
@@ -15,6 +14,7 @@ import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValue
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
 import { FrilanserOppdragType } from '../../../../types/FrilansFormData';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -88,7 +88,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     };
 
     if (brukKunSnittPerUke) {
-        return <FormBlock>{renderTimerPerUkeSpørsmål()}</FormBlock>;
+        return <Box margin="l">{renderTimerPerUkeSpørsmål()}</Box>;
     }
 
     return (
