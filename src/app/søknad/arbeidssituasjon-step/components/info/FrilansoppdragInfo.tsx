@@ -11,7 +11,7 @@ interface Props {
 
 const FrilansoppdragInfo: React.FunctionComponent<Props> = ({ frilansoppdrag }) => (
     <Box padBottom="m">
-        <Ingress>
+        <Ingress tag="h3">
             <FormattedMessage id="frilansoppdragInfo.tittel" />
         </Ingress>
         <FrilansoppdragListe frilansoppdrag={frilansoppdrag} />

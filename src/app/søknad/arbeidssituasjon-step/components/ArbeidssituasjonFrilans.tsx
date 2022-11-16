@@ -92,7 +92,7 @@ const ArbeidssituasjonFrilans = ({
                 <Box margin="l">
                     {søkerHarFrilansoppdrag && (
                         <Box padBottom="l">
-                            <Ingress>
+                            <Ingress tag="h3">
                                 <FormattedMessage id="arbeidssituasjonFrilanser.frilanserPart.tittel" />
                             </Ingress>
                         </Box>
