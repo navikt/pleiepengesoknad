@@ -12,7 +12,7 @@ import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
     ArbeidsforholdSelvstendigFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
@@ -33,7 +33,7 @@ interface Props {
     arbeidsforhold:
         | ArbeidsforholdFormValues
         | ArbeidsforholdSelvstendigFormValues
-        | ArbeidsforholdFrilanserMedOppdragFormValues;
+        | ArbeidsforholdFrilansoppdragFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
     arbeidsperiode: DateRange;

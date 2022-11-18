@@ -1,11 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
     NormalarbeidstidFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
-import { FrilanserOppdragType } from '../../../types/FrilansFormData';
+import { FrilansoppdragType } from '../../../types/FrilansoppdragFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
@@ -47,31 +47,31 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormVa
 };
 
 export const cleanupFrilansArbeidsforhold = (
-    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues
-): ArbeidsforholdFrilanserMedOppdragFormValues => {
+    arbeidsforhold: ArbeidsforholdFrilansoppdragFormValues
+): ArbeidsforholdFrilansoppdragFormValues => {
     const cleanedFrilansoppdrag = { ...arbeidsforhold };
-    if (cleanedFrilansoppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.NEI) {
+    if (cleanedFrilansoppdrag.frilansoppdragIPerioden === FrilansoppdragIPeriodenApi.NEI) {
         cleanedFrilansoppdrag.sluttdato = undefined;
         cleanedFrilansoppdrag.normalarbeidstid = undefined;
-        cleanedFrilansoppdrag.frilansOppdragKategori = undefined;
+        cleanedFrilansoppdrag.frilansoppdragKategori = undefined;
         cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
         cleanedFrilansoppdrag.arbeidIPeriode = undefined;
     }
-    if (cleanedFrilansoppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA) {
+    if (cleanedFrilansoppdrag.frilansoppdragIPerioden === FrilansoppdragIPeriodenApi.JA) {
         cleanedFrilansoppdrag.sluttdato = undefined;
     }
 
-    if (cleanedFrilansoppdrag.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
+    if (cleanedFrilansoppdrag.frilansoppdragKategori !== FrilansoppdragType.STYREMEDLEM_ELLER_VERV) {
         cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
     }
     if (
-        cleanedFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+        cleanedFrilansoppdrag.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV &&
         cleanedFrilansoppdrag.styremedlemHeleInntekt === YesOrNo.YES
     ) {
         cleanedFrilansoppdrag.normalarbeidstid = undefined;
         cleanedFrilansoppdrag.arbeidIPeriode = undefined;
     }
-    if (cleanedFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
+    if (cleanedFrilansoppdrag.frilansoppdragKategori === FrilansoppdragType.FOSTERFORELDER) {
         cleanedFrilansoppdrag.normalarbeidstid = undefined;
         cleanedFrilansoppdrag.arbeidIPeriode = undefined;
         cleanedFrilansoppdrag.styremedlemHeleInntekt = undefined;
@@ -83,37 +83,39 @@ export const cleanupFrilansArbeidsforhold = (
     return cleanedFrilansoppdrag;
 };
 
-export const cleanupNyFrilansArbeidsforhold = (
-    nyFrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues
-): ArbeidsforholdFrilanserMedOppdragFormValues => {
-    const cleanedNyFrilansoppdrag = { ...nyFrilansoppdrag };
+export const cleanupNyttFrilansoppdragArbeidsforhold = (
+    nyttFrilansoppdrag: ArbeidsforholdFrilansoppdragFormValues
+): ArbeidsforholdFrilansoppdragFormValues => {
+    const cleanedNyttFrilansoppdrag = { ...nyttFrilansoppdrag };
 
-    if (cleanedNyFrilansoppdrag.sluttet !== true) {
-        cleanedNyFrilansoppdrag.arbeidsgiver.ansattTom = undefined;
+    if (cleanedNyttFrilansoppdrag.sluttet !== true) {
+        cleanedNyttFrilansoppdrag.arbeidsgiver.ansattTom = undefined;
     }
 
-    if (cleanedNyFrilansoppdrag.frilansOppdragKategori !== FrilanserOppdragType.STYREMEDLEM_ELLER_VERV) {
-        cleanedNyFrilansoppdrag.styremedlemHeleInntekt = undefined;
+    if (cleanedNyttFrilansoppdrag.frilansoppdragKategori !== FrilansoppdragType.STYREMEDLEM_ELLER_VERV) {
+        cleanedNyttFrilansoppdrag.styremedlemHeleInntekt = undefined;
     }
 
     if (
-        cleanedNyFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
-        cleanedNyFrilansoppdrag.styremedlemHeleInntekt === YesOrNo.YES
+        cleanedNyttFrilansoppdrag.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV &&
+        cleanedNyttFrilansoppdrag.styremedlemHeleInntekt === YesOrNo.YES
     ) {
-        cleanedNyFrilansoppdrag.normalarbeidstid = undefined;
-        cleanedNyFrilansoppdrag.arbeidIPeriode = undefined;
+        cleanedNyttFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedNyttFrilansoppdrag.arbeidIPeriode = undefined;
     }
 
-    if (cleanedNyFrilansoppdrag.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER) {
-        cleanedNyFrilansoppdrag.normalarbeidstid = undefined;
-        cleanedNyFrilansoppdrag.arbeidIPeriode = undefined;
-        cleanedNyFrilansoppdrag.styremedlemHeleInntekt = undefined;
+    if (cleanedNyttFrilansoppdrag.frilansoppdragKategori === FrilansoppdragType.FOSTERFORELDER) {
+        cleanedNyttFrilansoppdrag.normalarbeidstid = undefined;
+        cleanedNyttFrilansoppdrag.arbeidIPeriode = undefined;
+        cleanedNyttFrilansoppdrag.styremedlemHeleInntekt = undefined;
     }
 
-    if (cleanedNyFrilansoppdrag.normalarbeidstid) {
-        cleanedNyFrilansoppdrag.normalarbeidstid = cleanupNormalarbeidstid(cleanedNyFrilansoppdrag.normalarbeidstid);
+    if (cleanedNyttFrilansoppdrag.normalarbeidstid) {
+        cleanedNyttFrilansoppdrag.normalarbeidstid = cleanupNormalarbeidstid(
+            cleanedNyttFrilansoppdrag.normalarbeidstid
+        );
     }
-    return cleanedNyFrilansoppdrag;
+    return cleanedNyttFrilansoppdrag;
 };
 
 const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): SelvstendigFormData => {
@@ -137,8 +139,10 @@ export const cleanupArbeidssituasjonStep = (formValues: SøknadFormValues): Søk
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(cleanupAnsattArbeidsforhold);
     values.frilansoppdrag = values.frilansoppdrag.map(cleanupFrilansArbeidsforhold);
-    values.nyfrilansoppdrag =
-        values.erFrilanserIPeriode === YesOrNo.NO ? [] : values.nyfrilansoppdrag.map(cleanupNyFrilansArbeidsforhold);
+    values.nyttFrilansoppdrag =
+        values.erFrilanserIPeriode === YesOrNo.NO
+            ? []
+            : values.nyttFrilansoppdrag.map(cleanupNyttFrilansoppdragArbeidsforhold);
     values.selvstendig = cleanupSelvstendigArbeidssituasjon(values.selvstendig);
 
     if (!visVernepliktSpørsmål(values)) {

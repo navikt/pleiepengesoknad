@@ -28,7 +28,7 @@ export const mellomlagring = {
                 },
             },
         ],
-        nyfrilansoppdrag: [],
+        nyttFrilansoppdrag: [],
         frilansoppdrag: [
             {
                 arbeidsgiver: {
@@ -38,8 +38,8 @@ export const mellomlagring = {
                     navn: 'Hurdal frilanssenter',
                     ansattFom: '2022-01-01',
                 },
-                frilansOppdragIPerioden: 'JA',
-                frilansOppdragKategori: 'FRILANSER',
+                frilansoppdragIPerioden: 'JA',
+                frilansoppdragKategori: 'FRILANSER',
                 normalarbeidstid: {
                     timerPerUke: '20',
                 },

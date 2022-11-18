@@ -8,12 +8,12 @@ import {
     ArbeidsforholdFormField,
     ArbeidsforholdFormValues,
     ArbeidsforholdSelvstendigFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
-import { FrilanserOppdragType } from '../../../../types/FrilansFormData';
+import { FrilansoppdragType } from '../../../../types/FrilansoppdragFormData';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 
 interface Props {
@@ -21,12 +21,12 @@ interface Props {
     arbeidsstedNavn?: string;
     arbeidsforhold:
         | ArbeidsforholdFormValues
-        | ArbeidsforholdFrilanserMedOppdragFormValues
+        | ArbeidsforholdFrilansoppdragFormValues
         | ArbeidsforholdSelvstendigFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
-    frilanserOppdragType?: FrilanserOppdragType;
+    frilanserOppdragType?: FrilansoppdragType;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -92,7 +92,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     }
 
     return (
-        <>
+        <Box margin="l" padBottom="l">
             <FormComponents.NumberInput
                 label={intlHelper(intl, getLabelTilNumberInput(), intlValues)}
                 data-testid={inputTestID}
@@ -112,7 +112,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 })}
                 value={arbeidsforhold.normalarbeidstid ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
             />
-        </>
+        </Box>
     );
 };
 

@@ -1,27 +1,42 @@
-// @import '../../styles/assets.less';
+@mobileBreakPoint: 1071px;
 
 .arbeidssituasjonPanel {
     margin-top: 1rem;
-    display: flex;
 
-    &__icon {
-        width: 1.5rem;
-        flex: 1 1 auto;
-        svg * {
+    &__title {
+        display: flex;
+        align-items: center;
+        @media screen and (max-width: @mobileBreakPoint) {
+            &__icon {
+                display: none;
+            }
+        }
+        &__icon {
             width: 1.5rem;
+            flex: 1 1 auto;
+            svg * {
+                width: 1.5rem;
+            }
+        }
+        &__text {
+            @media screen and (max-width: @mobileBreakPoint) {
+                margin-left: 0rem;
+            }
+            margin-left: 1rem;
+            flex: 2 1 100%;
+        }
+        &__button {
+            margin-top: -1rem;
+            flex: 1 1 auto;
         }
     }
 
     &__content {
-        margin-left: 1rem;
-        margin-right: 1rem;
-        flex: 2 1 100%;
-        &__child {
-            margin-top: 1.5rem;
+        @media screen and (max-width: @mobileBreakPoint) {
+            margin-left: 0rem;
         }
-    }
-
-    &__button {
-        flex: 1 1 auto;
+        margin-left: 2.4rem;
+        margin-right: 1rem;
+        margin-top: 1.5rem;
     }
 }

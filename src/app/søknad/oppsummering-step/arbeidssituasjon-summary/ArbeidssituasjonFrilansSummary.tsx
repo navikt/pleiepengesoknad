@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 // import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { FrilanserApiData, FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/SøknadApiData';
+import { FrilanserApiData, FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 import { apiStringDateToDate, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
@@ -32,7 +32,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilansere = [] }: Props) => {
                 const { navn, harOppdragIPerioden, oppdragType, manuellOppføring, ansattFom, ansattTom } = frilans;
                 const avsluttet =
                     (manuellOppføring === true && ansattTom !== undefined) ||
-                    harOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN;
+                    harOppdragIPerioden === FrilansoppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN;
 
                 return (
                     <SummaryBlock

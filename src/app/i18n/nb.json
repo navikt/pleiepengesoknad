@@ -306,7 +306,7 @@
 
     "steg.arbeidssituasjon.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
     "steg.arbeidssituasjon.info.tittel": "Mangler det et arbeidsforhold her?",
-    "steg.arbeidssituasjon.frilanser.tittel": "Frilanser, oppdragstaker og honorarer",
+
     "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
 
     "steg.arbeidssituasjon.opptjeningUtland.tittel": "Jobbet i et annet EØS-land",
@@ -541,7 +541,9 @@
     "arbeidsforhold.part.jobbet": "jobbet",
     "arbeidsforhold.part.hosArbeidsgiver": "hos {navn}",
     "arbeidsforhold.part.som.ANSATT": "hos {navn}",
-    "arbeidsforhold.part.som.FRILANSER": "som frilanser",
+    "arbeidsforhold.part.som.FRILANSER": "som frilanser hos {navn}",
+    "arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser": "som frilanser hos {arbeidsstedNavn}",
+    "arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser.nytt": "frilansoppdrag {index}",
     "arbeidsforhold.part.som.SELVSTENDIG": "som selvstendig næringsdrivende",
 
     "arbeidsforhold.erAnsatt.spm": "Stemmer det at du er ansatt hos {navn} i perioden du søker for?",
@@ -740,22 +742,12 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
-    "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
-    "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
-    "frilanser.erFortsattFrilanser.spm": "Jobber du fortsatt som frilanser?",
-    "frilanser.nårSluttet.spm": "Når sluttet du som frilanser?",
-
     "snF.ArbeidsforholdDetaljer.hvaBetyr.spm": "Hva betyr dette?",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
 
-    "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
-    "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
-    "frilanser.hjelpetekst.skatteetatenLenke": "skatteetaten sine nettsider.",
-
     "frilanser.summary.header": "Frilans",
-    "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
+    "frilanser.summary.harDuHattInntekt.header": "Er du frilanser, oppdragstaker eller mottar honorar for frilansoppdrag i perioden du søker for?",
     "frilanser.summary.nårStartet.header": "Når startet du å jobbe som frilanser?",
     "frilanser.summary.jobberFortsatt.header": "Jobber du fortsatt som frilanser?",
     "frilanser.summary.nårSluttet.header": "Når sluttet du som frilanser?",
@@ -841,19 +833,18 @@
     "validation.arbeidsforhold.fastDag.tid.minutesAreNegative": "Antall timer og minutter {dag} {hvor} kan ikke være mindre enn 0 timer og 0 minutter.",
 
     "validation.frilans.harHattInntektSomFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er frilanser i perioden du søker for.",
-    "validation.frilans.startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.frilans.startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.frilans.startdato.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
-    "validation.frilans.startdato.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
-    "validation.frilans.sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
-    "validation.frilans.sluttdato.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.frilans.sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.frilans.sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
-    "validation.frilans.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
-    "validation.frilans.erFortsattFrilanser.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du fortsatt jobber som frilanser.",
+    "validation.frilans.startdato.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser hos {navn} frilansoppdrag. Skriv inn eller velg dato fra kalenderen.",
+    "validation.frilans.startdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser hos {navn} frilansoppdrag i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.frilans.startdato.dateIsAfterMax": "Datoen for når du startet som frilanser hos {navn} frilansoppdrag kan ikke være etter dagens dato.",
+    "validation.frilans.startdato.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser hos {navn} frilansoppdrag etter perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.frilans.sluttdato.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser hos {navn} frilansoppdrag før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.frilans.sluttdato.dateHasNoValue": "Oppgi når du sluttet som frilanser hos {navn} frilansoppdrag. Skriv inn eller velg dato fra kalenderen.",
+    "validation.frilans.sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser hos {navn} frilansoppdrag i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.frilans.sluttdato.dateIsAfterMax": "Datoen for når du sluttet som frilanser hos {navn} frilansoppdrag kan ikke være etter dagens dato.",
+    "validation.frilans.sluttdato.dateIsBeforeMin": "Datoen for når du sluttet som frilanser  hos {navn} frilansoppdrag kan ikke være før datoen du startet.",
 
-    "validation.frilansoppdrag.frilansOppdragIPerioden.noValue": "Du må svare på om at du har {navn} frilansoppdraget i perioden du søker for.",
-    "validation.frilansoppdrag.frilansOppdragKategori.noValue": "Du må velge frilansoppdrag type hos {navn}.",
+    "validation.frilansoppdrag.frilansoppdragIPerioden.noValue": "Du må svare på om at du har {navn} frilansoppdraget i perioden du søker for.",
+    "validation.frilansoppdrag.frilansoppdragKategori.noValue": "Du må velge frilansoppdrag type hos {navn}.",
 
     "validation.frilansoppdrag.sluttdato.dateHasNoValue": "Du må svare når sluttet du som frilanser i {navn}.",
     "validation.frilansoppdrag.sluttdato.dateHasInvalidFormat": "Du må oppgi datoen for når du startet hos {navn} i et gyldig format. Gyldig format er dd.mm.åååå.",
@@ -863,20 +854,21 @@
 
     "validation.frilansoppdrag.styremedlemHeleInntekt.noValue": "Du må svare \"Ja\" eller \"Nei\" på om du beholder hele inntekten fra {navn} vervet i perioden du søker for.",
 
-    "validation.nyfrilansoppdrag.arbeidsgiver.navn.noValue": "Du må skrive inn navn på nyregistrerte frilansoppdrag.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.navn.noValue": "Du må skrive inn navn på frilansoppdrag {navn}.",
 
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.dateIsAfterMax": "Datoen for når du startet som frilanser kan ikke være etter dagens dato.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser etter perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattFom.dateHasNoValue": "Du må oppgi hvilken dato du startet som frilanser hos {navn} frilansoppdrag. Skriv inn eller velg dato fra kalenderen.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattFom.dateHasInvalidFormat": "Du må oppgi datoen for når du startet som frilanser hos {navn} frilansoppdrag i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattFom.dateIsAfterMax": "Datoen for når du startet som frilanser hos {navn} frilansoppdrag kan ikke være etter dagens dato.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattFom.startetEtterSøknadsperiode": "Du har oppgitt at du startet som frilanser hos {navn} frilansoppdrag etter perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
 
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateHasNoValue": "Oppgi når du sluttet som frilanser. Skriv inn eller velg dato fra kalenderen.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser i et gyldig format. Gyldig format er dd.mm.åååå.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateIsAfterMax": "Datoen for når du sluttet som frilanser kan ikke være etter dagens dato.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.dateIsBeforeMin": "Datoen for når du sluttet som frilanser kan ikke være før datoen du startet.",
-    "validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.dateHasNoValue": "Oppgi når du sluttet som frilanser hos {navn} frilansoppdrag. Skriv inn eller velg dato fra kalenderen.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.dateHasInvalidFormat": "Du må oppgi datoen for når du sluttet som frilanser hos {navn} frilansoppdrag i et gyldig format. Gyldig format er dd.mm.åååå.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.dateIsAfterMax": "Datoen for når du sluttet som frilanser hos {navn} frilansoppdrag kan ikke være etter dagens dato.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.dateIsBeforeMin": "Datoen for når du sluttet som frilanser hos {navn} frilansoppdrag kan ikke være før datoen du startet.",
+    "validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.sluttetFørSøknadsperiode": "Du har oppgitt at du sluttet som frilanser hos {navn} frilansoppdrag før perioden du søker for. Dersom dette stemmer, kan du svare \"Nei\" på spørsmålet om du var frilanser i perioden du søker for.",
 
-    "validation.nyfrilansoppdrag.frilansOppdragKategori.noValue": "Du må velge frilansoppdrag type hos på nyregistrerte frilansoppdrag.",
+    "validation.nyttFrilansoppdrag.frilansoppdragKategori.noValue": "Du må velge frilansoppdrag type hos {navn} frilansoppdrag .",
+    "validation.nyttFrilansoppdrag.styremedlemHeleInntekt.noValue": "Du må svare \"Ja\" eller \"Nei\" på om du beholder hele inntekten fra {navn} vervet i perioden du søker for.",
 
     "validation.selvstendig.harHattInntektSomSN.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du er selvstendig næringsdrivende i perioden du søker for.",
     "validation.selvstendig.harFlereVirksomheter.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du har flere enn én virksomhet som er aktiv.",
@@ -966,41 +958,47 @@
     "infoForFarVedNyttBarn.info.1.1": "Hvis du og moren til barnet er gift blir du automatisk registrert som far til barnet. Hvis dere ikke er gift må du erklære farskap for at du skal bli registrert som far til barnet i folkeregisteret.",
     "infoForFarVedNyttBarn.info.1.2": "Her kan du erklære farskap digitalt",
     "infoForFarVedNyttBarn.info.1.3": ".",
+    "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn.",
 
-    "arbeidssituasjonFrilanser.frilanserPart.tittel": "Om deg som frilanser",
+    "steg.arbeidssituasjon.frilans.tittel": "Frilanser, oppdragstaker og honorarer",
+    "steg.arbeidssituasjon.frilans.leggTilOppdrag.btn": "Legg til frilansoppdrag",
 
-    "frilansoppdragListe.oppdrag.info": "Du har frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Merk at hvis du mottar fosterhjemsgodtgjørelse eller omsorgsstønad fra kommunen er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm": "Er du frilanser, oppdragstaker eller mottar honorar for frilansoppdrag i perioden du søker for?",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description.tittel": "Hva betyr det å være frilanser?",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description.skatteetatenLenke": "skatteetaten sine nettsider.",
+
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.slett.btn": "Slett frilansoppdrag {index}",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.tittel": "Registrer frilansoppdrag {index}",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.navn": "Navn på oppdragsgiver",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.nårStartet.spm": "Når startet du å jobbe som frilanser?",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.sluttet": "Sluttet i søknadsperiode",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.nårSluttet.spm": "Når sluttet du som frilanser?",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.frilansoppdragKategori.spm": "Hvilken type frilansoppdrag er dette?",
+    "steg.arbeidssituasjon.frilans.nyttOppdrag.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
+
+    "steg.arbeidssituasjon.frilans.registerteOppdrag.info": "Du har frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Merk at hvis du mottar fosterhjemsgodtgjørelse eller omsorgsstønad fra kommunen er dette frilansinntekt, og du regnes for å være frilanser når du mottar dette.",
+
+    "steg.arbeidssituasjon.frilans.registerteOppdrag.frilansoppdragIPerioden.spm": "Stemmer det at du har dette frilansoppdraget i perioden du søker for?",
+    "steg.arbeidssituasjon.frilans.registerteOppdrag.frilansoppdragKategori.spm": "Hvilken type frilansoppdrag er {oppdargsNavn}?",
+    "steg.arbeidssituasjon.frilans.registerteOppdrag.styremedlemHeleInntekt.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
+    "steg.arbeidssituasjon.frilans.registerteOppdrag.sluttdato.spm": "Når sluttet du som frilanser?",
+
+    "steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.JA": "Ja",
+    "steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.JA_MEN_AVSLUTTES_I_PERIODEN": "Ja, men det avsluttes i perioden",
+    "steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.NEI": "Nei, det er avsluttet før perioden",
+
+    "steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.velgKategori": "Velg kategori",
+    "steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.OMSORGSSTØNAD": "Omsorgsstønad",
+    "steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.FRILANSER": "Frilanser",
+    "steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.STYREMEDLEM_ELLER_VERV": "Styremedlem Eller Verv",
+    "steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.FOSTERFORELDER": "Fosterforelder",
+
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
-    "frilansoppdragListe.oppdrag.spm": "Stemmer det at du har dette frilansoppdraget i perioden du søker for?",
-    "frilansoppdragListe.oppdrag.JA": "Ja",
-    "frilansoppdragListe.oppdrag.JA_MEN_AVSLUTTES_I_PERIODEN": "Ja, men det avsluttes i perioden",
-    "frilansoppdragListe.oppdrag.NEI": "Nei, det er avsluttet før perioden",
 
-    "frilansoppdragListe.oppdrag.kategori.spm": "Hvilken type frilansoppdrag er {oppdargsNavn}?",
-    "frilansoppdragListe.oppdrag.OMSORGSSTØNAD": "Omsorgsstønad",
-    "frilansoppdragListe.oppdrag.FRILANSER": "Frilanser",
-    "frilansoppdragListe.oppdrag.STYREMEDLEM_ELLER_VERV": "Styremedlem Eller Verv",
-    "frilansoppdragListe.oppdrag.FOSTERFORELDER": "Fosterforelder",
-
-    "frilansoppdragListe.oppdrag.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
     "yes": "Ja",
     "no": "Nei",
 
-    "nyfrilansoppdrag.arbeidsgiver.title": "Registrer frilansoppdrag",
-    "nyfrilansoppdrag.arbeidsgiver.navn": "Navn på oppdragsgiver",
-    "nyfrilansoppdrag.arbeidsgiver.nårStartet.spm": "Når startet du å jobbe som frilanser?",
-    "nyfrilansoppdrag.arbeidsgiver.sluttet": "Sluttet i søknadsperiode",
-    "nyfrilansoppdrag.arbeidsgiver.nårSluttet.spm": "Når sluttet du som frilanser?",
-    "nyfrilansoppdrag.arbeidsgiver.frilansOppdragKategori.spm": "Hvilken type frilansoppdrag er dette?",
-    "nyfrilansoppdrag.arbeidsgiver.styremedlem.spm": "Beholder du hele inntekten fra dette vervet i perioden du søker for?",
-    "nyfrilansoppdrag.arbeidsgiver.slettBtn": "Slett frilansoppdrag",
-
-    "frilanser.leggTilOppdrag.btn": "Legg til frilansoppdrag",
-
     "frilansoppdragListe.tidsrom.avsluttet": "fra {fra} til {til}",
-    "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående",
-    "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i perioden:",
-    "frilansoppdragInfo.tekst": "Dette er frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Dersom informasjonen ikke stemmer, må du ta kontakt med oppdragsgiver og be de oppdatere informasjonen i AA-registeret.",
-
-    "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn."
+    "frilansoppdragListe.tidsrom.pågående": "fra {fra} - pågående"
 }

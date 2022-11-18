@@ -3,9 +3,9 @@ import { visVernepliktSpørsmål } from '../visVernepliktSpørsmål';
 import { ArbeidsgiverType } from '../../../../types/Arbeidsgiver';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
-import { FrilanserOppdragIPeriodenApi } from 'app/types/søknad-api-data/frilansOppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiData';
 
 const defaultAnsattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {
@@ -16,7 +16,7 @@ const defaultAnsattArbeidsforhold: ArbeidsforholdFormValues = {
     normalarbeidstid: {},
 };
 
-const defaultFrilansArbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues = {
+const defaultFrilansArbeidsforhold: ArbeidsforholdFrilansoppdragFormValues = {
     arbeidsgiver: {
         id: '12345',
         navn: 'abc',
@@ -35,12 +35,12 @@ describe('visVernepliktSpørsmål', () => {
                 },
             ];
             const frilansoppdrag = [defaultFrilansArbeidsforhold];
-            const nyfrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[] = [];
+            const nyttFrilansoppdrag: ArbeidsforholdFrilansoppdragFormValues[] = [];
             const selvstendig__harHattInntektSomSN = YesOrNo.UNANSWERED;
             const result = visVernepliktSpørsmål({
                 ansatt_arbeidsforhold,
                 frilansoppdrag,
-                nyfrilansoppdrag,
+                nyttFrilansoppdrag,
                 selvstendig: {
                     harHattInntektSomSN: selvstendig__harHattInntektSomSN,
                 },
@@ -52,7 +52,7 @@ describe('visVernepliktSpørsmål', () => {
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [{ ...defaultAnsattArbeidsforhold, erAnsatt: YesOrNo.YES }],
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -69,7 +69,7 @@ describe('visVernepliktSpørsmål', () => {
                         },
                     ],
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -87,7 +87,7 @@ describe('visVernepliktSpørsmål', () => {
                         },
                     ],
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -105,7 +105,7 @@ describe('visVernepliktSpørsmål', () => {
                         },
                     ],
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -117,9 +117,9 @@ describe('visVernepliktSpørsmål', () => {
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
                     frilansoppdrag: [
-                        { ...defaultFrilansArbeidsforhold, frilansOppdragIPerioden: FrilanserOppdragIPeriodenApi.JA },
+                        { ...defaultFrilansArbeidsforhold, frilansoppdragIPerioden: FrilansoppdragIPeriodenApi.JA },
                     ],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
@@ -131,9 +131,9 @@ describe('visVernepliktSpørsmål', () => {
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
                     frilansoppdrag: [
-                        { ...defaultFrilansArbeidsforhold, frilansOppdragIPerioden: FrilanserOppdragIPeriodenApi.JA },
+                        { ...defaultFrilansArbeidsforhold, frilansoppdragIPerioden: FrilansoppdragIPeriodenApi.JA },
                     ],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.UNANSWERED,
                     },
@@ -145,7 +145,7 @@ describe('visVernepliktSpørsmål', () => {
                 visVernepliktSpørsmål({
                     ansatt_arbeidsforhold: [],
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                     selvstendig: {
                         harHattInntektSomSN: YesOrNo.YES,
                     },
@@ -162,7 +162,7 @@ describe('visVernepliktSpørsmål', () => {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                 })
             ).toBeTruthy();
         });
@@ -180,7 +180,7 @@ describe('visVernepliktSpørsmål', () => {
                         harHattInntektSomSN: YesOrNo.NO,
                     },
                     frilansoppdrag: [],
-                    nyfrilansoppdrag: [],
+                    nyttFrilansoppdrag: [],
                 })
             ).toBeTruthy();
         });

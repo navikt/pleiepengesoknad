@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { FrilansNyFormField, FrilanserOppdragType, FrilansOppdragFormField } from '../../../../types/FrilansFormData';
+import { NyttFrilansoppdragFormField, FrilansoppdragType } from '../../../../types/FrilansoppdragFormData';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPanel';
@@ -10,12 +10,12 @@ import FrilansIcon from '../../../../components/frilans-icon/FrilansIconSvg';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import NormalarbeidstidSpørsmål from '../normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
+import { ArbeidsforholdFrilansoppdragFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import {
     getYesOrNoRadios,
     getSelectFrilansKategoriOptions,
-    visFrilansOppdragNormalarbeidstid,
-} from '../../utils/FrilansOppdragUtils';
+    visFrilansoppdragNormalarbeidstid,
+} from '../../utils/frilansOppdragUtils';
 import { useFormikContext } from 'formik';
 import { SøknadFormField, SøknadFormValues } from '../../../../types/SøknadFormValues';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
@@ -25,50 +25,52 @@ import { getNyFrilanserStartdatoValidator } from '../../validation/frilansStartd
 import { validateNavn } from '../../../../validation/fieldValidations';
 import DeleteIcon from '../../../../components/delete-icon/DeleteIconSvg';
 
-const FrilansOppdragFormComponents = getTypedFormComponents<
-    FrilansOppdragFormField,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+const NyttFrilansoppdragFormComponents = getTypedFormComponents<
+    NyttFrilansoppdragFormField,
+    ArbeidsforholdFrilansoppdragFormValues,
     ValidationError
 >();
 
 interface Props {
-    oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues;
+    oppdrag: ArbeidsforholdFrilansoppdragFormValues;
     parentFieldName: string;
     søknadsperiode: DateRange;
     søknadsdato: Date;
+    index: number;
 }
 
-const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiode, søknadsdato }) => {
+const NyttFrilansoppdragForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiode, søknadsdato, index }) => {
     const intl = useIntl();
     const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
-    const getFieldName = (field: FrilansNyFormField): FrilansOppdragFormField => `${parentFieldName}.${field}` as any;
+    const getFieldName = (field: NyttFrilansoppdragFormField): NyttFrilansoppdragFormField =>
+        `${parentFieldName}.${field}` as any;
 
     const deleteFrilans = () => {
-        setFieldValue(SøknadFormField.nyfrilansoppdrag, removeElementFromArray(oppdrag, values.nyfrilansoppdrag));
+        setFieldValue(SøknadFormField.nyttFrilansoppdrag, removeElementFromArray(oppdrag, values.nyttFrilansoppdrag));
     };
 
     const deleteButton = (
         <Flatknapp htmlType={'button'} onClick={deleteFrilans} kompakt>
             <DeleteIcon />
-            <span className="sr-only">{intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.slettBtn')}</span>
+            <span>{intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.slett.btn', { index: index })}</span>
         </Flatknapp>
     );
 
     return (
         <ArbeidssituasjonPanel
-            title={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.title')}
+            title={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.tittel', { index: index })}
             titleIcon={<FrilansIcon />}
             deleteButton={deleteButton}>
-            <FrilansOppdragFormComponents.Input
-                label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.navn')}
-                name={getFieldName(FrilansNyFormField.arbeidsgiver_navn)}
+            <NyttFrilansoppdragFormComponents.Input
+                label={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.navn')}
+                name={getFieldName(NyttFrilansoppdragFormField.arbeidsgiver_navn)}
                 validate={(value) => {
                     const error = validateNavn(value);
                     return error
                         ? {
-                              key: 'validation.nyfrilansoppdrag.arbeidsgiver.navn.noValue',
+                              key: 'validation.nyttFrilansoppdrag.arbeidsgiver.navn.noValue',
                               values: {
-                                  navn: oppdrag.arbeidsgiver.navn,
+                                  navn: index,
                               },
                               keepKeyUnaltered: true,
                           }
@@ -78,18 +80,18 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
             />
 
             <Box margin="xl">
-                <FrilansOppdragFormComponents.DatePicker
-                    name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattFom)}
-                    label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.nårStartet.spm')}
+                <NyttFrilansoppdragFormComponents.DatePicker
+                    name={getFieldName(NyttFrilansoppdragFormField.arbeidsgiver_ansattFom)}
+                    label={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.nårStartet.spm')}
                     showYearSelector={true}
                     maxDate={søknadsdato}
                     validate={(value) => {
                         const error = getNyFrilanserStartdatoValidator(oppdrag, søknadsperiode, søknadsdato)(value);
                         return error
                             ? {
-                                  key: `validation.nyfrilansoppdrag.arbeidsgiver.ansattFom.${error}`,
+                                  key: `validation.nyttFrilansoppdrag.arbeidsgiver.ansattFom.${error}`,
                                   values: {
-                                      navn: oppdrag.arbeidsgiver.navn,
+                                      navn: index,
                                   },
                                   keepKeyUnaltered: true,
                               }
@@ -98,17 +100,17 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 />
             </Box>
             <Box margin="xl">
-                <FrilansOppdragFormComponents.Checkbox
-                    label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.sluttet')}
-                    name={getFieldName(FrilansNyFormField.sluttet)}
+                <NyttFrilansoppdragFormComponents.Checkbox
+                    label={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.sluttet')}
+                    name={getFieldName(NyttFrilansoppdragFormField.sluttet)}
                 />
             </Box>
 
             {oppdrag.sluttet === true && (
                 <Box margin="xl">
-                    <FrilansOppdragFormComponents.DatePicker
-                        name={getFieldName(FrilansNyFormField.arbeidsgiver_ansattTom)}
-                        label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.nårSluttet.spm')}
+                    <NyttFrilansoppdragFormComponents.DatePicker
+                        name={getFieldName(NyttFrilansoppdragFormField.arbeidsgiver_ansattTom)}
+                        label={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.nårSluttet.spm')}
                         showYearSelector={true}
                         minDate={oppdrag.arbeidsgiver.ansattFom}
                         maxDate={søknadsdato}
@@ -116,9 +118,9 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                             const error = getNyFrilanserSluttdatoValidator(oppdrag, søknadsperiode, søknadsdato)(value);
                             return error
                                 ? {
-                                      key: `validation.nyfrilansoppdrag.arbeidsgiver.ansattTom.${error}`,
+                                      key: `validation.nyttFrilansoppdrag.arbeidsgiver.ansattTom.${error}`,
                                       values: {
-                                          navn: oppdrag.arbeidsgiver.navn,
+                                          navn: index,
                                       },
                                       keepKeyUnaltered: true,
                                   }
@@ -128,43 +130,62 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
                 </Box>
             )}
 
-            <Box margin="xl">
-                <FrilansOppdragFormComponents.Select
-                    name={getFieldName(FrilansNyFormField.frilansOppdragKategori)}
-                    label={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.frilansOppdragKategori.spm')}
+            <Box margin="xl" padBottom="l">
+                <NyttFrilansoppdragFormComponents.Select
+                    name={getFieldName(NyttFrilansoppdragFormField.frilansoppdragKategori)}
+                    label={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.frilansoppdragKategori.spm')}
                     bredde={'l'}
                     validate={(value) => {
                         const error = getRequiredFieldValidator()(value);
                         return error
                             ? {
-                                  key: 'validation.nyfrilansoppdrag.frilansOppdragKategori.noValue',
+                                  key: 'validation.nyttFrilansoppdrag.frilansoppdragKategori.noValue',
                                   keepKeyUnaltered: true,
+                                  values: {
+                                      navn: index,
+                                  },
                               }
                             : undefined;
                     }}>
                     {getSelectFrilansKategoriOptions(intl)}
-                </FrilansOppdragFormComponents.Select>
+                </NyttFrilansoppdragFormComponents.Select>
             </Box>
 
-            {oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV && (
+            {oppdrag.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV && (
                 <Box margin="xl">
-                    <FrilansOppdragFormComponents.RadioGroup
-                        legend={intlHelper(intl, 'nyfrilansoppdrag.arbeidsgiver.styremedlem.spm')}
-                        name={getFieldName(FrilansNyFormField.styremedlemHeleInntekt)}
+                    <NyttFrilansoppdragFormComponents.RadioGroup
+                        legend={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.styremedlem.spm')}
+                        name={getFieldName(NyttFrilansoppdragFormField.styremedlemHeleInntekt)}
                         radios={getYesOrNoRadios(intl, 'er-styremedlem')}
-                        validate={getRequiredFieldValidator()}></FrilansOppdragFormComponents.RadioGroup>
+                        validate={(value) => {
+                            const error = getRequiredFieldValidator()(value);
+                            return error
+                                ? {
+                                      key: 'validation.nyttFrilansoppdrag.styremedlemHeleInntekt.noValue',
+                                      values: {
+                                          navn: index,
+                                      },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}></NyttFrilansoppdragFormComponents.RadioGroup>
                 </Box>
             )}
 
-            {visFrilansOppdragNormalarbeidstid(oppdrag) && (
+            {visFrilansoppdragNormalarbeidstid(oppdrag) && (
                 <Box>
                     <NormalarbeidstidSpørsmål
                         arbeidsforholdFieldName={parentFieldName}
                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                         arbeidsforhold={oppdrag}
                         erAktivtArbeidsforhold={true}
-                        brukKunSnittPerUke={true}
-                        frilanserOppdragType={oppdrag.frilansOppdragKategori}
+                        brukKunSnittPerUke={false}
+                        frilanserOppdragType={oppdrag.frilansoppdragKategori}
+                        arbeidsstedNavn={intlHelper(
+                            intl,
+                            'arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser.nytt',
+                            { index: index }
+                        )}
                     />
                 </Box>
             )}
@@ -172,4 +193,4 @@ const FrilansForm: React.FC<Props> = ({ oppdrag, parentFieldName, søknadsperiod
     );
 };
 
-export default FrilansForm;
+export default NyttFrilansoppdragForm;

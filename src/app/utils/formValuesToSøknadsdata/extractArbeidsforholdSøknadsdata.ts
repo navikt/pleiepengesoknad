@@ -1,7 +1,7 @@
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
     ArbeidsforholdSelvstendigFormValues,
 } from '../../types/ArbeidsforholdFormValues';
 import { ArbeidsforholdSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
@@ -11,7 +11,7 @@ import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 export const extractArbeidsforholdSøknadsdata = (
     arbeidsforhold:
         | ArbeidsforholdFormValues
-        | ArbeidsforholdFrilanserMedOppdragFormValues
+        | ArbeidsforholdFrilansoppdragFormValues
         | ArbeidsforholdSelvstendigFormValues,
     arbeidsforholdType: ArbeidsforholdType
 ): ArbeidsforholdSøknadsdata | undefined => {

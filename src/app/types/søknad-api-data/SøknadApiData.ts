@@ -7,14 +7,14 @@ import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
-import { FrilanserOppdragApi } from './frilansOppdragApiData';
+import { FrilanserOppdragApiData } from './frilansoppdragApiData';
 
 export * from './arbeidIPeriodeApiData';
 export * from './arbeidsgiverApiData';
 export * from './normalarbeidstidApiData';
 export * from './arbeidsforholdApiData';
 export * from './selvstendigApiData';
-export * from './frilansOppdragApiData';
+export * from './frilansoppdragApiData';
 
 export const SøknadApiDataVersjon = 'Søknad-1.0.0';
 
@@ -151,7 +151,7 @@ export interface SøknadApiData {
     nattevåk?: NattevåkApiData;
     beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
-    frilanserOppdrag: FrilanserOppdragApi;
+    frilanserOppdrag: FrilanserOppdragApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     opptjeningIUtlandet: OpptjeningIUtlandetApiData[];

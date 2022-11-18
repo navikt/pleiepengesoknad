@@ -1,35 +1,35 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../Arbeidsgiver';
-import { FrilanserOppdragType } from '../FrilansFormData';
+import { FrilansoppdragType } from '../FrilansoppdragFormData';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
 export type FrilansereSøknadsdata = Map<string, ArbeidNyFrilansSøknadsdata>;
 
-export interface ArbeidNyFrilansSøknadsdataUtenArbeidsforhold {
+export interface ArbeidNyttFrilansoppdragSøknadsdataUtenArbeidsforhold {
     type: 'utenArbeidsforhold';
     arbeidsgiver: Arbeidsgiver;
-    frilansOppdragKategori: FrilanserOppdragType;
+    frilansOppdragKategori: FrilansoppdragType;
     styremedlemHeleInntekt?: true;
 }
 
-export interface ArbeidNyFrilansSøknadsdataSluttetISøknadsperiode {
+export interface ArbeidNyttFrilansoppdragSøknadsdataSluttetISøknadsperiode {
     type: 'sluttetISøknadsperiode';
     arbeidsgiver: Arbeidsgiver;
-    frilansOppdragKategori: FrilanserOppdragType;
+    frilansOppdragKategori: FrilansoppdragType;
     styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 
-export interface ArbeidNyFrilansSøknadsdataPågående {
+export interface ArbeidNyttFrilansoppdragSøknadsdataPågående {
     type: 'pågående';
     arbeidsgiver: Arbeidsgiver;
-    frilansOppdragKategori: FrilanserOppdragType;
+    frilansOppdragKategori: FrilansoppdragType;
     styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 export type ArbeidNyFrilansSøknadsdata =
-    | ArbeidNyFrilansSøknadsdataUtenArbeidsforhold
-    | ArbeidNyFrilansSøknadsdataSluttetISøknadsperiode
-    | ArbeidNyFrilansSøknadsdataPågående;
+    | ArbeidNyttFrilansoppdragSøknadsdataUtenArbeidsforhold
+    | ArbeidNyttFrilansoppdragSøknadsdataSluttetISøknadsperiode
+    | ArbeidNyttFrilansoppdragSøknadsdataPågående;

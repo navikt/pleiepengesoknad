@@ -59,10 +59,10 @@ export const setInputTime = (key, hours = '', minutes = '') => {
     setInputValue(`${key}_minutes`, minutes);
 };
 
-export const selectRadio = (key) => {
+export const selectRadioPanel = (key) => {
     getTestElement(key).parent().click();
 };
-export const selectNyRadio = (key) => {
+export const selectRadio = (key) => {
     getTestElement(key).click({ force: true });
 };
 

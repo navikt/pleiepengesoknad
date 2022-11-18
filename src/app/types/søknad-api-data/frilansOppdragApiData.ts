@@ -1,29 +1,35 @@
 import { ISODate } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType } from '../Arbeidsgiver';
-import { FrilanserOppdragType } from '../FrilansFormData';
+import { FrilansoppdragType } from '../FrilansoppdragFormData';
 import { ArbeidsforholdApiData } from './arbeidsforholdApiData';
 
-export enum FrilanserOppdragIPeriodenApi {
+export enum FrilansoppdragIPeriodenApi {
     JA = 'JA',
     JA_MEN_AVSLUTTES_I_PERIODEN = 'JA_MEN_AVSLUTTES_I_PERIODEN',
     NEI = 'NEI',
 }
-
 export interface FrilanserApiData {
     type: ArbeidsgiverType;
     navn: string;
     organisasjonsnummer?: string;
     offentligIdent?: string;
-    oppdragType?: FrilanserOppdragType;
-    manuellOppføring?: boolean;
     ansattFom?: ISODate;
     ansattTom?: ISODate;
+    oppdragType?: FrilansoppdragType;
+    manuellOppføring?: boolean;
     styremedlemHeleInntekt?: boolean;
-    harOppdragIPerioden?: FrilanserOppdragIPeriodenApi;
+    harOppdragIPerioden?: FrilansoppdragIPeriodenApi;
     arbeidsforhold?: ArbeidsforholdApiData;
 }
 
-export interface FrilanserOppdragApi {
-    harInntektSomFrilanser: boolean;
+export interface IngenFrilanserOppdragApi {
+    harInntektSomFrilanser: false;
+    oppdrag: [];
+}
+
+export interface HarFrilanserOppdragApi {
+    harInntektSomFrilanser: true;
     oppdrag: FrilanserApiData[];
 }
+
+export type FrilanserOppdragApiData = IngenFrilanserOppdragApi | HarFrilanserOppdragApi;

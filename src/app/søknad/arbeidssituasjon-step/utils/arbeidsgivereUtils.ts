@@ -2,7 +2,7 @@ import { FormikProps } from 'formik';
 import { Arbeidsgiver, ArbeidsgiverType } from '../../../types';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormValues, SøknadFormField } from '../../../types/SøknadFormValues';
 import appSentryLogger from '../../../utils/appSentryLogger';
@@ -45,9 +45,9 @@ export const syncAnsattArbeidsforhold = (
 
 export const syncFrilansoppdragArbeidsforhold = (
     arbeidsgivere: Arbeidsgiver[],
-    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[] = []
-): Array<ArbeidsforholdFrilanserMedOppdragFormValues> => {
-    const syncedArbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[] = [];
+    arbeidsforhold: ArbeidsforholdFrilansoppdragFormValues[] = []
+): Array<ArbeidsforholdFrilansoppdragFormValues> => {
+    const syncedArbeidsforhold: ArbeidsforholdFrilansoppdragFormValues[] = [];
 
     arbeidsgivere.forEach((arbeidsgiver) => {
         const forhold = arbeidsforhold.find((f) => f.arbeidsgiver.id === arbeidsgiver.id);

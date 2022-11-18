@@ -1,13 +1,13 @@
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { FrilanserOppdragType } from '../../types/FrilansFormData';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../types/ArbeidsforholdFormValues';
+import { FrilansoppdragType } from '../../types/FrilansoppdragFormData';
+import { ArbeidsforholdFrilansoppdragFormValues } from '../../types/ArbeidsforholdFormValues';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
 import { ArbeidNyFrilansSøknadsdata } from '../../types/søknadsdata/arbeidNyFrilansSøknadsdata';
 
 export const extractArbeidNyFrilansSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues,
+    arbeidsforhold: ArbeidsforholdFrilansoppdragFormValues,
     erFrilanserIPeriode: YesOrNo,
     søknadsperiode: DateRange
 ): ArbeidNyFrilansSøknadsdata | undefined => {
@@ -16,25 +16,23 @@ export const extractArbeidNyFrilansSøknadsdata = (
     }
 
     /** Bruker har ikke besvart denne informasjonen enda */
-    if (arbeidsforhold.frilansOppdragKategori === undefined) {
+    if (arbeidsforhold.frilansoppdragKategori === undefined) {
         return undefined;
     }
 
     const startdato = arbeidsforhold.arbeidsgiver.ansattFom;
     const sluttdato = arbeidsforhold.arbeidsgiver.ansattTom;
     const utenArbeidsforhold =
-        arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.FOSTERFORELDER ||
-        (arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+        arbeidsforhold.frilansoppdragKategori === FrilansoppdragType.FOSTERFORELDER ||
+        (arbeidsforhold.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV &&
             arbeidsforhold.styremedlemHeleInntekt === YesOrNo.YES);
     if (utenArbeidsforhold && startdato) {
         return {
             type: 'utenArbeidsforhold',
             arbeidsgiver: arbeidsforhold.arbeidsgiver,
-            frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
+            frilansOppdragKategori: arbeidsforhold.frilansoppdragKategori,
             styremedlemHeleInntekt:
-                arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
-                    ? true
-                    : undefined,
+                arbeidsforhold.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV ? true : undefined,
         };
     }
     const aktivPeriode = startdato
@@ -47,11 +45,11 @@ export const extractArbeidNyFrilansSøknadsdata = (
             return {
                 type: 'sluttetISøknadsperiode',
                 arbeidsgiver: arbeidsforhold.arbeidsgiver,
-                frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
+                frilansOppdragKategori: arbeidsforhold.frilansoppdragKategori,
                 aktivPeriode,
                 arbeidsforhold: arbeidsforholdSøknadsdata,
                 styremedlemHeleInntekt:
-                    arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
+                    arbeidsforhold.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV
                         ? false
                         : undefined,
             };
@@ -60,11 +58,11 @@ export const extractArbeidNyFrilansSøknadsdata = (
             return {
                 type: 'pågående',
                 arbeidsgiver: arbeidsforhold.arbeidsgiver,
-                frilansOppdragKategori: arbeidsforhold.frilansOppdragKategori,
+                frilansOppdragKategori: arbeidsforhold.frilansoppdragKategori,
                 aktivPeriode,
                 arbeidsforhold: arbeidsforholdSøknadsdata,
                 styremedlemHeleInntekt:
-                    arbeidsforhold.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV
+                    arbeidsforhold.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV
                         ? false
                         : undefined,
             };

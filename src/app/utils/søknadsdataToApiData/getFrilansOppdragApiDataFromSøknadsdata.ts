@@ -1,5 +1,5 @@
 import { dateToISODate, ISODate } from '@navikt/sif-common-utils/lib';
-import { FrilanserApiData, FrilanserOppdragIPeriodenApi } from '../../types/søknad-api-data/frilansOppdragApiData';
+import { FrilanserApiData, FrilansoppdragIPeriodenApi } from '../../types/søknad-api-data/frilansoppdragApiData';
 import { ArbeidFrilansOppdragSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './getArbeidsforholdApiDataFromSøknadsdata';
 
@@ -19,7 +19,7 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 offentligIdent: arbeidsgiver.offentligIdent,
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
-                harOppdragIPerioden: FrilanserOppdragIPeriodenApi.NEI,
+                harOppdragIPerioden: FrilansoppdragIPeriodenApi.NEI,
                 manuellOppføring: false,
             };
         case 'utenArbeidsforhold':
@@ -31,7 +31,7 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
                 harOppdragIPerioden: frilansOppdragSøknadsdata.harOppdragIPerioden,
-                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
+                oppdragType: frilansOppdragSøknadsdata.frilansoppdragKategori,
                 styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,
                 manuellOppføring: false,
             };
@@ -44,7 +44,7 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(frilansOppdragSøknadsdata.aktivPeriode.to),
                 harOppdragIPerioden: frilansOppdragSøknadsdata.harOppdragIPerioden,
-                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
+                oppdragType: frilansOppdragSøknadsdata.frilansoppdragKategori,
                 styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(frilansOppdragSøknadsdata.arbeidsforhold),
                 manuellOppføring: false,
@@ -58,7 +58,7 @@ export const getFrilansOppdragApiDataFromSøknadsdata = (
                 ansattFom: dateToISODateOrUndefined(arbeidsgiver.ansattFom),
                 ansattTom: dateToISODateOrUndefined(arbeidsgiver.ansattTom),
                 harOppdragIPerioden: frilansOppdragSøknadsdata.harOppdragIPerioden,
-                oppdragType: frilansOppdragSøknadsdata.frilansOppdragKategori,
+                oppdragType: frilansOppdragSøknadsdata.frilansoppdragKategori,
                 styremedlemHeleInntekt: frilansOppdragSøknadsdata.styremedlemHeleInntekt,
                 arbeidsforhold: getArbeidsforholdApiDataFromSøknadsdata(frilansOppdragSøknadsdata.arbeidsforhold),
                 manuellOppføring: false,

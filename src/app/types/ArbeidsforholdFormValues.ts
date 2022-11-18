@@ -2,8 +2,8 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODate } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeFormValues } from './ArbeidIPeriodeFormValues';
 import { Arbeidsgiver } from './Arbeidsgiver';
-import { FrilanserOppdragType } from './FrilansFormData';
-import { FrilanserOppdragIPeriodenApi } from './søknad-api-data/frilansOppdragApiData';
+import { FrilansoppdragType } from './FrilansoppdragFormData';
+import { FrilansoppdragIPeriodenApi } from './søknad-api-data/frilansoppdragApiData';
 
 export enum ArbeidsforholdFormField {
     erAnsatt = 'erAnsatt',
@@ -27,12 +27,12 @@ export interface ArbeidsforholdFormValues {
     arbeidIPeriode?: ArbeidIPeriodeFormValues;
 }
 
-export type ArbeidsforholdFrilanserMedOppdragFormValues = Omit<
+export type ArbeidsforholdFrilansoppdragFormValues = Omit<
     ArbeidsforholdFormValues,
     'erAnsatt' | 'sluttetFørSøknadsperiode'
 > & {
-    frilansOppdragIPerioden?: FrilanserOppdragIPeriodenApi;
-    frilansOppdragKategori?: FrilanserOppdragType;
+    frilansoppdragIPerioden?: FrilansoppdragIPeriodenApi;
+    frilansoppdragKategori?: FrilansoppdragType;
     styremedlemHeleInntekt?: YesOrNo;
     sluttdato?: ISODate;
     sluttet?: boolean;
@@ -40,5 +40,5 @@ export type ArbeidsforholdFrilanserMedOppdragFormValues = Omit<
 
 export type ArbeidsforholdSelvstendigFormValues = Omit<
     ArbeidsforholdFormValues,
-    'arbeidsgiver' | 'erAnsatt' | 'sluttetFørSøknadsperiode' | 'frilansOppdragIPerioden'
+    'arbeidsgiver' | 'erAnsatt' | 'sluttetFørSøknadsperiode'
 >;

@@ -37,7 +37,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     }
 
     const {
-        values: { ansatt_arbeidsforhold, selvstendig, frilansoppdrag, nyfrilansoppdrag },
+        values: { ansatt_arbeidsforhold, selvstendig, frilansoppdrag, nyttFrilansoppdrag },
     } = formikProps;
 
     const periodeSomSelvstendigISøknadsperiode =
@@ -127,9 +127,9 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                     })}
                 </FormBlock>
             )}
-            {nyfrilansoppdrag.length > 0 && (
+            {nyttFrilansoppdrag.length > 0 && (
                 <FormBlock>
-                    {nyfrilansoppdrag.map((oppdrag, index) => {
+                    {nyttFrilansoppdrag.map((oppdrag, index) => {
                         const frilansoppdrag = arbeid.nyFrilans?.get(oppdrag.arbeidsgiver.id);
 
                         /** Må loope gjennom alle arbeidsforhold for å få riktig index inn til formik */
@@ -147,7 +147,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                                         arbeidsforhold={oppdrag}
                                         arbeidsperiode={periode}
                                         søknadsperiode={søknadsperiode}
-                                        parentFieldName={`${SøknadFormField.nyfrilansoppdrag}.${index}`}
+                                        parentFieldName={`${SøknadFormField.nyttFrilansoppdrag}.${index}`}
                                         onArbeidstidVariertChange={handleArbeidstidChanged}
                                     />
                                 </div>

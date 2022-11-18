@@ -13,7 +13,7 @@ import {
     welcomingPageIsValid,
 } from '../validation/stepValidations';
 import { erAnsattISøknadsperiode } from './ansattUtils';
-import { frlilansOppdragISøknadsperiode, nyFrlilansOppdragISøknadsperiode } from './frilanserUtils';
+import { frlilansoppdragISøknadsperiode, nyttFrlilansoppdragISøknadsperiode } from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
 import { isAvailable } from './routeUtils';
 
@@ -94,14 +94,14 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
         return false;
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
-    const harFrilansOppdrag = frlilansOppdragISøknadsperiode(formValues.frilansoppdrag, søknadsperiode);
-    const harNyFrilansOppdrag = nyFrlilansOppdragISøknadsperiode(
-        formValues.nyfrilansoppdrag,
+    const harFrilansOppdrag = frlilansoppdragISøknadsperiode(formValues.frilansoppdrag, søknadsperiode);
+    const harNyttFrilansoppdrag = nyttFrlilansoppdragISøknadsperiode(
+        formValues.nyttFrilansoppdrag,
         søknadsperiode,
         formValues.erFrilanserIPeriode
     );
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
-    return erAnsatt || harFrilansOppdrag || harNyFrilansOppdrag || erSelvstendig;
+    return erAnsatt || harFrilansOppdrag || harNyttFrilansoppdrag || erSelvstendig;
 };
 
 export const getGyldigRedirectStepForMellomlagretSøknad = (lastStepID: StepID, values: SøknadFormValues): StepID => {

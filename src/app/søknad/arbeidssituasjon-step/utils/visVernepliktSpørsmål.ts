@@ -2,20 +2,20 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import {
     ArbeidsforholdFormValues,
-    ArbeidsforholdFrilanserMedOppdragFormValues,
+    ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
 
 export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold,
     frilansoppdrag,
-    nyfrilansoppdrag,
+    nyttFrilansoppdrag,
     selvstendig,
 }: {
     ansatt_arbeidsforhold: ArbeidsforholdFormValues[];
-    frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
-    nyfrilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
+    frilansoppdrag: ArbeidsforholdFrilansoppdragFormValues[];
+    nyttFrilansoppdrag: ArbeidsforholdFrilansoppdragFormValues[];
     selvstendig: SelvstendigFormData;
 }): boolean => {
     /** Selvstendig næringsdrivende */
@@ -27,21 +27,21 @@ export const visVernepliktSpørsmål = ({
     }
 
     /** Frilanser lagt til */
-    if (nyfrilansoppdrag.length > 0) {
+    if (nyttFrilansoppdrag.length > 0) {
         return false;
     }
 
     /** Frilanser Registrerte */
     if (frilansoppdrag.length > 0) {
-        if (frilansoppdrag.some((oppdrag) => oppdrag.frilansOppdragIPerioden === undefined)) {
+        if (frilansoppdrag.some((oppdrag) => oppdrag.frilansoppdragIPerioden === undefined)) {
             return false;
         }
 
         if (
             frilansoppdrag.some(
                 (oppdrag) =>
-                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA ||
-                    oppdrag.frilansOppdragIPerioden === FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN
+                    oppdrag.frilansoppdragIPerioden === FrilansoppdragIPeriodenApi.JA ||
+                    oppdrag.frilansoppdragIPerioden === FrilansoppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN
             )
         ) {
             return false;

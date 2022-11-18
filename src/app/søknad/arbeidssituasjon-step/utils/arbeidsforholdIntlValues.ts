@@ -16,7 +16,11 @@ export const getArbeidsforholdIntlValues = (
                   arbeidsstedNavn?: string;
               }
             | {
-                  type: ArbeidsforholdType.FRILANSER | ArbeidsforholdType.SELVSTENDIG;
+                  type: ArbeidsforholdType.FRILANSER;
+                  arbeidsstedNavn?: string;
+              }
+            | {
+                  type: ArbeidsforholdType.SELVSTENDIG;
               };
     }
 ): ArbeidsforholdIntlValues => {
@@ -27,7 +31,9 @@ export const getArbeidsforholdIntlValues = (
                     arbeidsstedNavn: info.arbeidsforhold.arbeidsstedNavn || 'som ansatt',
                 });
             case ArbeidsforholdType.FRILANSER:
-                return intlHelper(intl, 'arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser');
+                return intlHelper(intl, 'arbeidstidPeriode.arbeidIPeriodeIntlValues.somFrilanser', {
+                    arbeidsstedNavn: info.arbeidsforhold.arbeidsstedNavn,
+                });
             case ArbeidsforholdType.SELVSTENDIG:
                 return intlHelper(intl, 'arbeidstidPeriode.arbeidIPeriodeIntlValues.somSN');
         }

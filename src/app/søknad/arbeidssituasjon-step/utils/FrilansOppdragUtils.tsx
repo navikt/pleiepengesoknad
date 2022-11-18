@@ -2,10 +2,10 @@ import React from 'react';
 import { prettifyDateExtended } from '@navikt/sif-common-utils/lib';
 import { FormattedMessage, IntlShape } from 'react-intl';
 import { Arbeidsgiver } from '../../../types';
-import { FrilanserOppdragType } from '../../../types/FrilansFormData';
+import { FrilansoppdragType } from '../../../types/FrilansoppdragFormData';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilanserOppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansOppdragApiData';
+import { ArbeidsforholdFrilansoppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 export const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
@@ -28,36 +28,42 @@ export const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     return undefined;
 };
 
-export const getFrilansOppdragIPeriodenRadios = (intl: IntlShape) => [
+export const getFrilansoppdragIPeriodenRadios = (intl: IntlShape) => [
     {
-        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA}`),
-        value: FrilanserOppdragIPeriodenApi.JA,
-        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.JA}`,
+        label: intlHelper(
+            intl,
+            `steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.${FrilansoppdragIPeriodenApi.JA}`
+        ),
+        value: FrilansoppdragIPeriodenApi.JA,
+        'data-testid': `frilans-i-perioden_${FrilansoppdragIPeriodenApi.JA}`,
     },
     {
         label: intlHelper(
             intl,
-            `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`
+            `steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.${FrilansoppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`
         ),
-        value: FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN,
-        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`,
+        value: FrilansoppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN,
+        'data-testid': `frilans-i-perioden_${FrilansoppdragIPeriodenApi.JA_MEN_AVSLUTTES_I_PERIODEN}`,
     },
     {
-        label: intlHelper(intl, `frilansoppdragListe.oppdrag.${FrilanserOppdragIPeriodenApi.NEI}`),
-        value: FrilanserOppdragIPeriodenApi.NEI,
-        'data-testid': `frilans-i-perioden_${FrilanserOppdragIPeriodenApi.NEI}`,
+        label: intlHelper(
+            intl,
+            `steg.arbeidssituasjon.frilans.frilansoppdragIPeriodenRadios.${FrilansoppdragIPeriodenApi.NEI}`
+        ),
+        value: FrilansoppdragIPeriodenApi.NEI,
+        'data-testid': `frilans-i-perioden_${FrilansoppdragIPeriodenApi.NEI}`,
     },
 ];
 
 export const getSelectFrilansKategoriOptions = (intl: IntlShape) => {
     const førstOption = [
         <option key={0} value="">
-            Velg kategori
+            {intlHelper(intl, 'steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.velgKategori')}
         </option>,
     ];
-    const options = Object.keys(FrilanserOppdragType).map((type, index) => (
+    const options = Object.keys(FrilansoppdragType).map((type, index) => (
         <option key={index + 1} value={type}>
-            {intlHelper(intl, `frilansoppdragListe.oppdrag.${type}`)}
+            {intlHelper(intl, `steg.arbeidssituasjon.frilans.frilansoppdragTypeOptions.${type}`)}
         </option>
     ));
     return [...førstOption, ...options];
@@ -76,9 +82,9 @@ export const getYesOrNoRadios = (intl: IntlShape, testId: string) => [
     },
 ];
 
-export const visFrilansOppdragNormalarbeidstid = (oppdrag: ArbeidsforholdFrilanserMedOppdragFormValues) =>
-    oppdrag.frilansOppdragKategori &&
-    (oppdrag.frilansOppdragKategori === FrilanserOppdragType.FRILANSER ||
-        oppdrag.frilansOppdragKategori === FrilanserOppdragType.OMSORGSSTØNAD ||
-        (oppdrag.frilansOppdragKategori === FrilanserOppdragType.STYREMEDLEM_ELLER_VERV &&
+export const visFrilansoppdragNormalarbeidstid = (oppdrag: ArbeidsforholdFrilansoppdragFormValues) =>
+    oppdrag.frilansoppdragKategori &&
+    (oppdrag.frilansoppdragKategori === FrilansoppdragType.FRILANSER ||
+        oppdrag.frilansoppdragKategori === FrilansoppdragType.OMSORGSSTØNAD ||
+        (oppdrag.frilansoppdragKategori === FrilansoppdragType.STYREMEDLEM_ELLER_VERV &&
             oppdrag.styremedlemHeleInntekt === YesOrNo.NO));

@@ -26,7 +26,7 @@ dayjs.extend(isSameOrAfter);
 type ArbeidFormValues = Pick<
     SøknadFormValues,
     | SøknadFormField.frilansoppdrag
-    | SøknadFormField.nyfrilansoppdrag
+    | SøknadFormField.nyttFrilansoppdrag
     | SøknadFormField.ansatt_arbeidsforhold
     | SøknadFormField.opptjeningUtland
     | SøknadFormField.selvstendig
@@ -109,7 +109,7 @@ export const extractArbeidFormValues = (
 
     const formValues = {
         ansatt_arbeidsforhold: ansatt_arbeidsforhold,
-        nyfrilansoppdrag: [],
+        nyttFrilansoppdrag: [],
         frilansoppdrag: [],
         selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
         harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),

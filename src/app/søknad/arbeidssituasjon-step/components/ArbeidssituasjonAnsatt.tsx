@@ -11,12 +11,11 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-// import { AnsattNormalarbeidstidSnitt, ImportertSøknadMetadata } from '../../../types/ImportertSøknad';
-// import { Arbeidsgiver } from '../../../types';
 import OfficeIcon from '../../../components/office-icon/OfficeIconSvg';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
-import { getYesOrNoRadios, renderTidsrom } from '../utils/FrilansOppdragUtils';
+import { getYesOrNoRadios, renderTidsrom } from '../utils/frilansOppdragUtils';
 
+// TODO Sjekk etter merge
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,
     ArbeidsforholdFormValues,
@@ -42,35 +41,34 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                 title={arbeidsforhold.arbeidsgiver.navn}
                 description={renderTidsrom(arbeidsforhold.arbeidsgiver)}
                 titleIcon={<OfficeIcon />}>
-                <FormBlock margin="xl">
-                    <Box>
-                        <AnsattFormComponents.RadioGroup
-                            legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
-                                navn: arbeidsforhold.arbeidsgiver.navn,
-                            })}
-                            data-testid="er-ansatt"
-                            name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
-                            radios={getYesOrNoRadios(intl, 'er-ansatt')}
-                            validate={(value) => {
-                                return getYesOrNoValidator()(value)
-                                    ? {
-                                          key: 'validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered',
-                                          values: { navn: arbeidsforhold.arbeidsgiver.navn },
-                                          keepKeyUnaltered: true,
-                                      }
-                                    : undefined;
-                            }}
-                        />
-                    </Box>
-                </FormBlock>
+                <Box margin="xl">
+                    <AnsattFormComponents.RadioGroup
+                        legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
+                            navn: arbeidsforhold.arbeidsgiver.navn,
+                        })}
+                        data-testid="er-ansatt"
+                        name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
+                        radios={getYesOrNoRadios(intl, 'er-ansatt')}
+                        validate={(value) => {
+                            return getYesOrNoValidator()(value)
+                                ? {
+                                      key: 'validation.arbeidsforhold.erAnsatt.yesOrNoIsUnanswered',
+                                      values: { navn: arbeidsforhold.arbeidsgiver.navn },
+                                      keepKeyUnaltered: true,
+                                  }
+                                : undefined;
+                        }}
+                    />
+                </Box>
+
                 {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
                     <FormBlock margin="l">
                         {erAvsluttet && (
-                            <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
+                            <Box>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
-                                <FormBlock>
+                                <Box margin="xl">
                                     <AnsattFormComponents.RadioGroup
                                         legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
                                             navn: arbeidsforhold.arbeidsgiver.navn,
@@ -93,7 +91,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                                 : undefined;
                                         }}
                                     />
-                                </FormBlock>
+                                </Box>
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (

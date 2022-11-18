@@ -7,11 +7,11 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import Lenke from 'nav-frontend-lenker';
-import { harFrilansoppdrag } from '../../../utils/frilanserUtils';
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { harRegistrerteFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { ArbeidsforholdFrilansoppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
-import ArbeidssituasjonFrilansOppdrag from './frilans/ArbeidssituasjonFrilansOppdrag';
-import FrilansForm from './frilans/FrilansForm';
+import RegistrerteFrilansoppdragForm from './frilans/RegistrerteFrilansoppdragForm';
+import NyttFrilansoppdragForm from './frilans/NyttFrilansoppdragForm';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
 import SøknadFormComponents from '../../../søknad/SøknadFormComponents';
@@ -20,7 +20,7 @@ import { ArbeidsgiverType } from '../../../types';
 import AddIcon from '../../../components/add-icon/AddIconSvg';
 
 interface Props {
-    frilansoppdrag: ArbeidsforholdFrilanserMedOppdragFormValues[];
+    frilansoppdrag: ArbeidsforholdFrilansoppdragFormValues[];
     søknadsperiode: DateRange;
     søknadsdato: Date;
     urlSkatteetaten: string;
@@ -29,10 +29,10 @@ interface Props {
 const ArbeidssituasjonFrilans = ({ frilansoppdrag, søknadsperiode, søknadsdato, urlSkatteetaten }: Props) => {
     const intl = useIntl();
     const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
-    const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
+    const søkerHarFrilansoppdrag = harRegistrerteFrilansoppdrag(frilansoppdrag);
 
     const leggTillFrilans = () => {
-        const nyFrilansOppdrag = [
+        const nyttFrilansoppdrag = [
             {
                 arbeidsgiver: {
                     id: guid(),
@@ -41,30 +41,32 @@ const ArbeidssituasjonFrilans = ({ frilansoppdrag, søknadsperiode, søknadsdato
             },
         ];
 
-        setFieldValue(SøknadFormField.nyfrilansoppdrag, [...values.nyfrilansoppdrag, ...nyFrilansOppdrag]);
+        setFieldValue(SøknadFormField.nyttFrilansoppdrag, [...values.nyttFrilansoppdrag, ...nyttFrilansoppdrag]);
     };
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
-            <Box>
-                <p>
-                    <FormattedMessage id={'frilansoppdragListe.oppdrag.info'} />
-                </p>
-            </Box>
             {søkerHarFrilansoppdrag === false && (
                 <Box margin="l">
                     <SøknadFormComponents.YesOrNoQuestion
                         name={SøknadFormField.erFrilanserIPeriode}
                         data-testid="er-frilanser"
-                        legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                        legend={intlHelper(intl, 'steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm')}
                         validate={getYesOrNoValidator()}
                         description={
                             søkerHarFrilansoppdrag ? undefined : (
-                                <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
+                                <ExpandableInfo
+                                    title={intlHelper(
+                                        intl,
+                                        'steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description.tittel'
+                                    )}>
                                     <>
-                                        {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
+                                        {intlHelper(
+                                            intl,
+                                            'steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description'
+                                        )}{' '}
                                         <Lenke href={urlSkatteetaten} target="_blank">
-                                            <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
+                                            <FormattedMessage id="steg.arbeidssituasjon.frilans.nyttOppdrag.erFrilanserIPeriode.spm.description.skatteetatenLenke" />
                                         </Lenke>
                                     </>
                                 </ExpandableInfo>
@@ -73,33 +75,44 @@ const ArbeidssituasjonFrilans = ({ frilansoppdrag, søknadsperiode, søknadsdato
                     />
                 </Box>
             )}
-            {søkerHarFrilansoppdrag &&
-                frilansoppdrag.map((oppdrag, index) => (
-                    <ArbeidssituasjonFrilansOppdrag
-                        oppdrag={oppdrag}
-                        parentFieldName={`${SøknadFormField.frilansoppdrag}.${index}`}
-                        søknadsdato={søknadsdato}
-                        søknadsperiode={søknadsperiode}
-                        key={index}
-                    />
-                ))}
+
+            {søkerHarFrilansoppdrag && (
+                <>
+                    <Box>
+                        <p>
+                            <FormattedMessage id={'steg.arbeidssituasjon.frilans.registerteOppdrag.info'} />
+                        </p>
+                    </Box>
+
+                    {frilansoppdrag.map((oppdrag, index) => (
+                        <RegistrerteFrilansoppdragForm
+                            oppdrag={oppdrag}
+                            parentFieldName={`${SøknadFormField.frilansoppdrag}.${index}`}
+                            søknadsdato={søknadsdato}
+                            søknadsperiode={søknadsperiode}
+                            key={index}
+                        />
+                    ))}
+                </>
+            )}
 
             {(søkerHarFrilansoppdrag || values.erFrilanserIPeriode === YesOrNo.YES) &&
-                values.nyfrilansoppdrag &&
-                values.nyfrilansoppdrag.map((oppdrag, index) => (
-                    <FrilansForm
+                values.nyttFrilansoppdrag &&
+                values.nyttFrilansoppdrag.map((oppdrag, index) => (
+                    <NyttFrilansoppdragForm
                         oppdrag={oppdrag}
-                        parentFieldName={`${SøknadFormField.nyfrilansoppdrag}.${index}`}
+                        parentFieldName={`${SøknadFormField.nyttFrilansoppdrag}.${index}`}
                         søknadsdato={søknadsdato}
                         søknadsperiode={søknadsperiode}
                         key={index}
+                        index={index + 1}
                     />
                 ))}
             {(søkerHarFrilansoppdrag || values.erFrilanserIPeriode === YesOrNo.YES) && (
                 <Box margin="l">
                     <Knapp htmlType={'button'} onClick={leggTillFrilans} kompakt>
                         <AddIcon />
-                        <span>{intlHelper(intl, 'frilanser.leggTilOppdrag.btn')}</span>
+                        <span>{intlHelper(intl, 'steg.arbeidssituasjon.frilans.leggTilOppdrag.btn')}</span>
                     </Knapp>
                 </Box>
             )}

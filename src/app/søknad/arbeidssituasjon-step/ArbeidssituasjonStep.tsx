@@ -84,7 +84,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                         />
                     </FormSection>
 
-                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.frilanser.tittel')}>
+                    <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.frilans.tittel')}>
                         <ArbeidssituasjonFrilans
                             frilansoppdrag={values.frilansoppdrag || []}
                             søknadsperiode={søknadsperiode}

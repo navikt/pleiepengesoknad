@@ -1,7 +1,7 @@
-export enum FrilansOppdragFormField {
-    frilansOppdragIPerioden = 'frilansOppdragIPerioden',
+export enum RegistrerteFrilansoppdragFormField {
+    frilansoppdragIPerioden = 'frilansoppdragIPerioden',
     sluttdato = 'sluttdato',
-    frilansOppdragKategori = 'frilansOppdragKategori',
+    frilansoppdragKategori = 'frilansoppdragKategori',
     styremedlemHeleInntekt = 'styremedlemHeleInntekt',
     normalarbeidstid = 'normalarbeidstid',
     normalarbeidstid_erLiktSomForrigeSøknad = 'normalarbeidstid.erLiktSomForrigeSøknad',
@@ -9,14 +9,14 @@ export enum FrilansOppdragFormField {
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
-export enum FrilansNyFormField {
+export enum NyttFrilansoppdragFormField {
     arbeidsgiver_id = 'arbeidsgiver.id',
     arbeidsgiver_navn = 'arbeidsgiver.navn',
     arbeidsgiver_type = 'arbeidsgiver.type',
     arbeidsgiver_ansattFom = 'arbeidsgiver.ansattFom',
     arbeidsgiver_ansattTom = 'arbeidsgiver.ansattTom',
     sluttet = 'sluttet',
-    frilansOppdragKategori = 'frilansOppdragKategori',
+    frilansoppdragKategori = 'frilansoppdragKategori',
     styremedlemHeleInntekt = 'styremedlemHeleInntekt',
     normalarbeidstid = 'normalarbeidstid',
     normalarbeidstid_erLiktSomForrigeSøknad = 'normalarbeidstid.erLiktSomForrigeSøknad',
@@ -24,7 +24,7 @@ export enum FrilansNyFormField {
     arbeidIPeriode = 'arbeidIPeriode',
 }
 
-export enum FrilanserOppdragType {
+export enum FrilansoppdragType {
     OMSORGSSTØNAD = 'OMSORGSSTØNAD',
     FRILANSER = 'FRILANSER',
     STYREMEDLEM_ELLER_VERV = 'STYREMEDLEM_ELLER_VERV',

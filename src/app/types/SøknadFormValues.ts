@@ -4,7 +4,7 @@ import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
-import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserMedOppdragFormValues } from './ArbeidsforholdFormValues';
+import { ArbeidsforholdFormValues, ArbeidsforholdFrilansoppdragFormValues } from './ArbeidsforholdFormValues';
 import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
@@ -55,7 +55,7 @@ export enum SøknadFormField {
     frilans = 'frilans',
     selvstendig = 'selvstendig',
     frilansoppdrag = 'frilansoppdrag',
-    nyfrilansoppdrag = 'nyfrilansoppdrag',
+    nyttFrilansoppdrag = 'nyttFrilansoppdrag',
     erFrilanserIPeriode = 'erFrilanserIPeriode',
     harOpptjeningUtland = 'harOpptjeningUtland',
     opptjeningUtland = 'opptjeningUtland',
@@ -107,8 +107,8 @@ export interface SøknadFormValues {
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
     [SøknadFormField.selvstendig]: SelvstendigFormData;
-    [SøknadFormField.frilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
-    [SøknadFormField.nyfrilansoppdrag]: ArbeidsforholdFrilanserMedOppdragFormValues[];
+    [SøknadFormField.frilansoppdrag]: ArbeidsforholdFrilansoppdragFormValues[];
+    [SøknadFormField.nyttFrilansoppdrag]: ArbeidsforholdFrilansoppdragFormValues[];
     [SøknadFormField.erFrilanserIPeriode]: YesOrNo;
     [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormValues[];
     [SøknadFormField.harOpptjeningUtland]: YesOrNo;
@@ -150,7 +150,7 @@ export const initialValues: SøknadFormValues = {
         harHattInntektSomSN: YesOrNo.UNANSWERED,
     },
     [SøknadFormField.frilansoppdrag]: [],
-    [SøknadFormField.nyfrilansoppdrag]: [],
+    [SøknadFormField.nyttFrilansoppdrag]: [],
     [SøknadFormField.erFrilanserIPeriode]: YesOrNo.UNANSWERED,
     [SøknadFormField.harOpptjeningUtland]: YesOrNo.UNANSWERED,
     [SøknadFormField.opptjeningUtland]: [],

@@ -4,7 +4,7 @@ import { mellomlagring } from '../../mocks/mellomlagring';
 import {
     getTestElement,
     gåTilOppsummeringFraArbeidssituasjon,
-    selectNyRadio,
+    selectRadio,
     selectRadioNo,
     // selectRadioYes,
     selectValueInSelect,
@@ -14,7 +14,7 @@ import {
 export const fyllUtArbeidssituasjonFrilanser = () => {
     getTestElement('arbeidssituasjonFrilansOppdrag').within(($body) => {
         if ($body.find('[data-testid=frilans-i-perioden_JA]').length) {
-            selectNyRadio('frilans-i-perioden_JA');
+            selectRadio('frilans-i-perioden_JA');
         }
         selectValueInSelect('arbeidssituasjonFrilansOppdrag-type', 'FRILANSER');
 

@@ -13,9 +13,12 @@ export const extractArbeidSøknadsdata = (
     søknadsperiode: DateRange
 ): ArbeidSøknadsdata | undefined => {
     const arbeidsgivere = extractArbeidsgivereArbeidsforholdSøknadsdata(values.ansatt_arbeidsforhold);
-    const frilansOppdrag = extractFrilansOppdragArbeidsforholdSøknadsdata(values.frilansoppdrag, søknadsperiode);
-    const nyFrilans = extractNyFrilansArbeidsforholdSøknadsdata(
-        values.nyfrilansoppdrag,
+    const registrerteFrilansoppdrag = extractFrilansOppdragArbeidsforholdSøknadsdata(
+        values.frilansoppdrag,
+        søknadsperiode
+    );
+    const nyttFrilansoppdrag = extractNyFrilansArbeidsforholdSøknadsdata(
+        values.nyttFrilansoppdrag,
         values.erFrilanserIPeriode,
         søknadsperiode
     );
@@ -23,13 +26,13 @@ export const extractArbeidSøknadsdata = (
     const opptjeningUtland = extractOpptjeningUtlandSøknadsdata(values);
     const utenlandskNæring = extractUtenlandskNæringSøknadsdata(values);
 
-    if (!arbeidsgivere && !selvstendig && !nyFrilans && !frilansOppdrag) {
+    if (!arbeidsgivere && !selvstendig && !nyttFrilansoppdrag && !registrerteFrilansoppdrag) {
         return undefined;
     }
     return {
         arbeidsgivere,
-        frilansOppdrag,
-        nyFrilans,
+        frilansOppdrag: registrerteFrilansoppdrag,
+        nyFrilans: nyttFrilansoppdrag,
         selvstendig,
         opptjeningUtland,
         utenlandskNæring,

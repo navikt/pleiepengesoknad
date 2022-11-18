@@ -3,11 +3,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-import { FrilanserOppdragType } from '../../../../types/FrilansFormData';
+import { FrilansoppdragType } from '../../../../types/FrilansoppdragFormData';
 
 interface Props {
     arbeidsforholdType: ArbeidsforholdType;
-    frilanserOppdragType?: FrilanserOppdragType;
+    frilanserOppdragType?: FrilansoppdragType;
 }
 
 const InfoArbeiderNormaltTimerIUken: React.FunctionComponent<Props> = ({
@@ -18,7 +18,7 @@ const InfoArbeiderNormaltTimerIUken: React.FunctionComponent<Props> = ({
         case ArbeidsforholdType.ANSATT:
             return <InfoArbeiderNormaltTimerAnsatt />;
         case ArbeidsforholdType.FRILANSER:
-            return frilanserOppdragType === FrilanserOppdragType.OMSORGSSTØNAD ? (
+            return frilanserOppdragType === FrilansoppdragType.OMSORGSSTØNAD ? (
                 <InfoArbeiderNormaltTimerFrilanserOmsorgsstønad />
             ) : (
                 <InfoArbeiderNormaltTimerFrilanser />

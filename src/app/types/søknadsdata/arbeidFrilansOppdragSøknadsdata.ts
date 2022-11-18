@@ -1,45 +1,47 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../Arbeidsgiver';
-import { FrilanserOppdragType } from '../FrilansFormData';
-import { FrilanserOppdragIPeriodenApi } from '../søknad-api-data/frilansOppdragApiData';
+import { FrilansoppdragType } from '../FrilansoppdragFormData';
+import { FrilansoppdragIPeriodenApi } from '../søknad-api-data/frilansoppdragApiData';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
-export type OppdragsgivereSøknadsdata = Map<string, ArbeidFrilansOppdragSøknadsdata>;
-
-export interface FrilansOppdragSluttetFørSøknadsperiode {
+export type FrilansoppdragsgivereSøknadsdata = Map<string, ArbeidFrilansOppdragSøknadsdata>;
+// TODO: Slå sammen oppdrag og nytt lage felles type
+// Basetype
+// Vurdere enum på søknadsdato type
+export interface FrilansoppdragSøknadsdataSluttetFørSøknadsperiode {
     type: 'sluttetFørSøknadsperiode';
     arbeidsgiver: Arbeidsgiver;
 }
 
-export interface FrilansUtenArbeidsforhold {
+export interface FrilansoppdragSøknadsdataUtenArbeidsforhold {
     type: 'utenArbeidsforhold';
-    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
-    frilansOppdragKategori: FrilanserOppdragType.FOSTERFORELDER | FrilanserOppdragType.STYREMEDLEM_ELLER_VERV;
+    harOppdragIPerioden: FrilansoppdragIPeriodenApi;
+    frilansoppdragKategori: FrilansoppdragType.FOSTERFORELDER | FrilansoppdragType.STYREMEDLEM_ELLER_VERV;
     styremedlemHeleInntekt?: true;
     arbeidsgiver: Arbeidsgiver;
 }
 
-export interface FrilansOppdragSøknadsdataSluttetISøknadsperiode {
+export interface FrilansoppdragSøknadsdataSluttetISøknadsperiode {
     type: 'sluttetISøknadsperiode';
-    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
-    frilansOppdragKategori: FrilanserOppdragType;
+    harOppdragIPerioden: FrilansoppdragIPeriodenApi;
+    frilansoppdragKategori: FrilansoppdragType;
     arbeidsgiver: Arbeidsgiver;
     styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 
-export interface ArbeidFrilansOppdragSøknadsdataPågående {
+export interface FrilansoppdragSøknadsdataPågående {
     type: 'pågående';
-    harOppdragIPerioden: FrilanserOppdragIPeriodenApi;
-    frilansOppdragKategori: FrilanserOppdragType;
+    harOppdragIPerioden: FrilansoppdragIPeriodenApi;
+    frilansoppdragKategori: FrilansoppdragType;
     arbeidsgiver: Arbeidsgiver;
     styremedlemHeleInntekt?: false;
     arbeidsforhold: ArbeidsforholdSøknadsdata;
     aktivPeriode: DateRange;
 }
 export type ArbeidFrilansOppdragSøknadsdata =
-    | FrilansOppdragSluttetFørSøknadsperiode
-    | FrilansOppdragSøknadsdataSluttetISøknadsperiode
-    | ArbeidFrilansOppdragSøknadsdataPågående
-    | FrilansUtenArbeidsforhold;
+    | FrilansoppdragSøknadsdataSluttetFørSøknadsperiode
+    | FrilansoppdragSøknadsdataSluttetISøknadsperiode
+    | FrilansoppdragSøknadsdataPågående
+    | FrilansoppdragSøknadsdataUtenArbeidsforhold;

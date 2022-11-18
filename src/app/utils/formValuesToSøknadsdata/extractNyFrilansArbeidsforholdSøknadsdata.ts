@@ -1,10 +1,10 @@
-import { ArbeidsforholdFrilanserMedOppdragFormValues } from '../../types/ArbeidsforholdFormValues';
+import { ArbeidsforholdFrilansoppdragFormValues } from '../../types/ArbeidsforholdFormValues';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { extractArbeidNyFrilansSøknadsdata } from './extractArbeidNyFrilansSøknadsdata';
 import { FrilansereSøknadsdata } from '../../types/søknadsdata/arbeidNyFrilansSøknadsdata';
 
 export const extractNyFrilansArbeidsforholdSøknadsdata = (
-    frilansere: ArbeidsforholdFrilanserMedOppdragFormValues[] = [],
+    frilansere: ArbeidsforholdFrilansoppdragFormValues[] = [],
     erFrilanserIPeriode: YesOrNo,
     søknadsperiode: DateRange
 ): FrilansereSøknadsdata | undefined => {
