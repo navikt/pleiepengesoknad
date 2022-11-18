@@ -21,11 +21,10 @@ const ArbeidssituasjonPanel = ({ title, description, tag = 'h3', titleIcon, chil
             {titleIcon && <div className={bemItem.element('icon')}>{titleIcon}</div>}
             <div className={bemItem.element('text')}>
                 <Undertittel tag={tag}>{title}</Undertittel>
-                {description !== undefined && description}
             </div>
-
-            {deleteButton !== undefined && <div className={bem.element('button')}>{deleteButton}</div>}
+            {deleteButton !== undefined && <div className={bemItem.element('button')}>{deleteButton}</div>}
         </div>
+        {description !== undefined && <div className={bem.element('description')}>{description}</div>}
         <div className={bem.element('content')}>{children}</div>
     </ResponsivePanel>
 );

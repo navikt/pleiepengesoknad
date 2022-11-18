@@ -13,7 +13,6 @@
         }
         &__icon {
             width: 1.5rem;
-            flex: 1 1 auto;
             svg * {
                 width: 1.5rem;
             }
@@ -26,14 +25,20 @@
             flex: 2 1 100%;
         }
         &__button {
-            margin-top: -1rem;
-            flex: 1 1 auto;
+            margin-left: 0rem;
         }
     }
 
+    &__description {
+        @media screen and (max-width: @mobileBreakPoint) {
+            margin-left: 0rem;
+        }
+        margin-left: 2.4rem;
+    }
     &__content {
         @media screen and (max-width: @mobileBreakPoint) {
             margin-left: 0rem;
+            margin-right: 0rem;
         }
         margin-left: 2.4rem;
         margin-right: 1rem;
