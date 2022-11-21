@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
 import InfoDialog from '@navikt/sif-common-core/lib/components/dialogs/info-dialog/InfoDialog';
@@ -16,7 +15,6 @@ import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { StepConfigProps } from '../../søknad/søknadStepsConfig';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import BehandlingAvPersonopplysningerContent from './behandling-av-personopplysninger-content/BehandlingAvPersonopplysningerContent';
-import DinePlikterContent from './dine-plikter-content/DinePlikterContent';
 import SamtykkeForm from './SamtykkeForm';
 import './welcomingPage.less';
 
@@ -26,13 +24,12 @@ type Props = Omit<StepConfigProps, 'formValues'> & {
     forrigeSøknad?: ImportertSøknad;
 };
 interface DialogState {
-    dinePlikterModalOpen?: boolean;
     behandlingAvPersonopplysningerModalOpen?: boolean;
 }
 
 const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeSøknad }) => {
     const [dialogState, setDialogState] = useState<DialogState>({});
-    const { dinePlikterModalOpen, behandlingAvPersonopplysningerModalOpen } = dialogState;
+    const { behandlingAvPersonopplysningerModalOpen } = dialogState;
     const søkerdata = useContext(SøkerdataContext);
     const { søker } = søkerdata || {};
     const intl = useIntl();
@@ -69,10 +66,18 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                     <Box margin="xxl">
                         <CounsellorPanel kompakt={true}>
                             <Undertittel>Hei{søker ? ` ${søker.fornavn}` : ''}!</Undertittel>
-                            <p>Jeg er her for å veilede deg gjennom søknaden om pleiepenger for sykt barn.</p>
                             <p>
-                                Svarene dine tar vi vare på underveis, så dersom du ønsker å ta en pause, eller blir
-                                avbrutt, fortsetter du der du var når du kommer tilbake til søknaden.
+                                Velkommen til søknad om pleiepenger for sykt barn. Du får veiledning underveis om hva du
+                                skal fylle ut og hvordan
+                            </p>
+                            <p>
+                                Vi tar vare på svarene dine i 72 timer. Så, hvis du innenfor den tiden for eksempel vil
+                                ta en pause eller blir automatisk logget ut, fortsetter du der du var når du kommer
+                                tilbake.
+                            </p>
+                            <p>
+                                Du må svare på alle spørsmålene for å kunne gå videre. Hvis du mangler etterspurt
+                                dokumentasjon, kan du ettersende det så snart du kan.
                             </p>
                         </CounsellorPanel>
                     </Box>
@@ -80,25 +85,8 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
 
                 <OmSøknaden />
 
-                <SamtykkeForm
-                    onConfirm={onValidSubmit}
-                    forrigeSøknad={forrigeSøknad}
-                    onOpenDinePlikterModal={() => setDialogState({ dinePlikterModalOpen: true })}
-                />
-
-                <Box margin="xl" className={bem.element('personopplysningModalLenke')}>
-                    <ActionLink onClick={() => setDialogState({ behandlingAvPersonopplysningerModalOpen: true })}>
-                        <FormattedMessage id="welcomingPage.personopplysninger.lenketekst" />
-                    </ActionLink>
-                </Box>
+                <SamtykkeForm onConfirm={onValidSubmit} forrigeSøknad={forrigeSøknad} />
             </Page>
-
-            <InfoDialog
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
-                isOpen={dinePlikterModalOpen === true}
-                onRequestClose={(): void => setDialogState({ dinePlikterModalOpen: false })}>
-                <DinePlikterContent />
-            </InfoDialog>
 
             <InfoDialog
                 isOpen={behandlingAvPersonopplysningerModalOpen === true}
@@ -106,18 +94,6 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                 contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}>
                 <BehandlingAvPersonopplysningerContent />
             </InfoDialog>
-
-            {/* <DinePlikterModal
-                isOpen={dinePlikterModalOpen}
-                onRequestClose={() => setDinePlikterModalOpen(false)}
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.omDinePlikter.tittel')}
-            />
-
-            <BehandlingAvPersonopplysningerModal
-                isOpen={behandlingAvPersonopplysningerModalOpen}
-                onRequestClose={() => setBehandlingAvPersonopplysningerModalOpen(false)}
-                contentLabel={intlHelper(intl, 'welcomingPage.modal.behandlingAvPersonalia.tittel')}
-            /> */}
         </div>
     );
 };

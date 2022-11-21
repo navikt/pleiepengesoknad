@@ -2,23 +2,20 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Lenke from 'nav-frontend-lenker';
-import { Ingress, Systemtittel } from 'nav-frontend-typografi';
+import { Element } from 'nav-frontend-typografi';
 import getLenker from '../../../lenker';
 
 const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
     const intl = useIntl();
     return (
         <>
-            <Systemtittel tag="h1">
-                <FormattedMessage id="modal.personopplysninger.1" />
-            </Systemtittel>
-            <Box margin="xl">
+            <p>
                 <FormattedMessage id="modal.personopplysninger.2" />
-            </Box>
-            <Box margin="xl">
-                <Ingress tag="h2">
+            </p>
+            <Box margin="l">
+                <Element tag="h3">
                     <FormattedMessage id="modal.personopplysninger.3" />
-                </Ingress>
+                </Element>
                 <p>
                     <FormattedMessage id="modal.personopplysninger.4" />
                 </p>
@@ -47,10 +44,10 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
                 </p>
             </Box>
 
-            <Box margin="xl">
-                <Ingress tag="h2">
+            <Box margin="l">
+                <Element tag="h3">
                     <FormattedMessage id="modal.personopplysninger.6" />
-                </Ingress>
+                </Element>
                 <p>
                     <FormattedMessage id="modal.personopplysninger.7" />
                 </p>
@@ -66,7 +63,7 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
                     </li>
                 </ul>
             </Box>
-            <Box margin="xl">
+            <Box margin="l">
                 <p>
                     <FormattedMessage id="modal.personopplysninger.8.1" />
                     {` `}

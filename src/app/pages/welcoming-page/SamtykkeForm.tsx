@@ -5,22 +5,23 @@ import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-co
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { dateFormatter } from '@navikt/sif-common-utils/lib';
 import { Hovedknapp } from 'nav-frontend-knapper';
+import Lenke from 'nav-frontend-lenker';
 import { Element, Undertittel } from 'nav-frontend-typografi';
+import getLenker from '../../lenker';
+import { RegistrerteBarn } from '../../types';
 import { ImportertSøknad } from '../../types/ImportertSøknad';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { RegistrerteBarn } from '../../types';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { dateFormatter } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     forrigeSøknad?: ImportertSøknad;
     onConfirm: () => void;
-    onOpenDinePlikterModal: () => void;
 }
 
 const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormValues, ValidationError>();
@@ -86,16 +87,25 @@ const SamtykkeForm = ({ forrigeSøknad, onConfirm }: Props) => {
             <FormBlock>
                 <div data-testid={'welcomingPage-harForståttRettigheterOgPlikter'}>
                     <AppForm.ConfirmationCheckbox
-                        // label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
-                        label="Jeg vil svare så godt jeg kan på spørsmålene i søknaden."
+                        label="Jeg bekrefter at jeg har lest og forstått"
                         name={SøknadFormField.harForståttRettigheterOgPlikter}
                         data-cy={'harForståttRettigheterOgPlikter'}
                         validate={getCheckedValidator()}>
-                        <strong>Vi stoler på deg</strong>
-                        {/* <p>
-                            Vi stoler på at du svarer så godt du kan på spørsmålene, og at du har lest og forstått
-                            dine plikter.
-                        </p> */}
+                        <Element tag="h3">
+                            <strong>Ditt ansvar som søker</strong>
+                        </Element>
+                        <ul>
+                            <li>
+                                Jeg forstår at hvis jeg gir uriktige opplysninger, kan det få konsekvenser for retten
+                                min til det jeg søker om
+                            </li>
+                            <li>
+                                Jeg har lest og forstått det som står på{' '}
+                                <Lenke href={getLenker(intl.locale).rettOgPlikt} target="_blank">
+                                    nav.no/rett og plikt
+                                </Lenke>
+                            </li>
+                        </ul>
                     </AppForm.ConfirmationCheckbox>
                 </div>
             </FormBlock>
