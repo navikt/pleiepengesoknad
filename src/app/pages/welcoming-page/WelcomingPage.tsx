@@ -68,13 +68,13 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                             <Systemtittel>Hei{søker ? ` ${søker.fornavn}` : ''}!</Systemtittel>
                             <p>Velkommen til søknad om pleiepenger for sykt barn.</p>
                             <p>
-                                Denne søknaden er for deg som må være borte fra jobb for å ta vare på et barn som på
-                                grunn av sykdom trenger pleie og omsorg hele tiden. Barnet må ha vært til
-                                behandling/utredning i sykehus, eller annen spesialisthelsetjeneste.
+                                Denne søknaden er for deg som må være borte fra jobb for å ta vare på et barn, eller en
+                                person over 18 år, som på grunn av sykdom trenger pleie og omsorg hele tiden.
                             </p>
                             <p>
-                                Søknaden er også for deg som skal ta vare på en utviklingshemmet og svært alvorlig syk
-                                person over 18 år.
+                                Når søknaden gjelder et barn, må barnet ha vært til behandling/utredning i sykehus,
+                                eller annen spesialisthelsetjeneste. Gjelder søknaden en person over 18 år, må personen
+                                være utviklingshemmet og svært alvorlig syk.
                             </p>
                         </CounsellorPanel>
                     </Box>
