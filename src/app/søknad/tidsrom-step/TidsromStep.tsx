@@ -123,6 +123,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
                 disableWeekend={false}
+                fullScreenOnMobile={true}
             />
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <Box padBottom="xl">

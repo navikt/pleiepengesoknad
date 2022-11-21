@@ -7,7 +7,6 @@ import { Arbeidsgiver } from '../../../../types';
 
 interface Props {
     frilansoppdrag: Arbeidsgiver[];
-    kompakt?: boolean;
 }
 
 const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
@@ -27,27 +26,17 @@ const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     return null;
 };
 
-const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag, kompakt }) =>
-    kompakt ? (
-        <ul style={{ margin: 0, padding: '0 0 0 1rem' }}>
-            {frilansoppdrag.map((oppdrag) => (
-                <li key={oppdrag.id}>{oppdrag.navn}</li>
-            ))}
-        </ul>
-    ) : (
-        <ul style={{ margin: 0, padding: '1rem 0 0 1rem' }}>
-            {frilansoppdrag.map((oppdrag) => (
-                <li key={oppdrag.id}>
-                    <Element tag="h4">{oppdrag.navn}</Element>
-                    <Box padBottom="l">
-                        <FormattedMessage
-                            id="frilansoppdragListe.oppdrag"
-                            values={{ tidsrom: renderTidsrom(oppdrag) }}
-                        />
-                    </Box>
-                </li>
-            ))}
-        </ul>
-    );
+const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag }) => (
+    <ul style={{ margin: 0, padding: '1rem 0 0 1rem' }}>
+        {frilansoppdrag.map((oppdrag) => (
+            <li key={oppdrag.id}>
+                <Element tag="h4">{oppdrag.navn}</Element>
+                <Box padBottom="l">
+                    <FormattedMessage id="frilansoppdragListe.oppdrag" values={{ tidsrom: renderTidsrom(oppdrag) }} />
+                </Box>
+            </li>
+        ))}
+    </ul>
+);
 
 export default FrilansoppdragListe;
