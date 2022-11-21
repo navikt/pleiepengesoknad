@@ -1,7 +1,7 @@
 import { SanityConfig } from '@navikt/appstatus-react/lib/types';
 import React from 'react';
 import { render } from 'react-dom';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
@@ -9,14 +9,12 @@ import dayjs from 'dayjs';
 import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import RouteConfig from './config/routeConfig';
-import IntroPage from './pages/intro-page/IntroPage';
 import UnavailablePage from './pages/unavailable-page/UnavailablePage';
 import Søknad from './søknad/Søknad';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
-
 import './app.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
@@ -42,7 +40,7 @@ const App = () => {
     const content = (
         <Switch>
             <Route path="/" exact={true}>
-                <IntroPage />
+                <Redirect to={RouteConfig.SØKNAD_ROUTE_PREFIX} />
             </Route>
             <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX}>
                 <Søknad />

@@ -9,7 +9,7 @@ import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { Sidetittel, Undertittel } from 'nav-frontend-typografi';
+import { Sidetittel, Systemtittel } from 'nav-frontend-typografi';
 import OmSøknaden from '../../components/om-søknaden/OmSøknaden';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { StepConfigProps } from '../../søknad/søknadStepsConfig';
@@ -65,19 +65,16 @@ const WelcomingPage: React.FunctionComponent<Props> = ({ onValidSubmit, forrigeS
                 {utenIllustrasjon === true && (
                     <Box margin="xxl">
                         <CounsellorPanel kompakt={true}>
-                            <Undertittel>Hei{søker ? ` ${søker.fornavn}` : ''}!</Undertittel>
+                            <Systemtittel>Hei{søker ? ` ${søker.fornavn}` : ''}!</Systemtittel>
+                            <p>Velkommen til søknad om pleiepenger for sykt barn.</p>
                             <p>
-                                Velkommen til søknad om pleiepenger for sykt barn. Du får veiledning underveis om hva du
-                                skal fylle ut og hvordan
+                                Denne søknaden er for deg som må være borte fra jobb for å ta vare på et barn som på
+                                grunn av sykdom trenger pleie og omsorg hele tiden. Barnet må ha vært til
+                                behandling/utredning i sykehus, eller annen spesialisthelsetjeneste.
                             </p>
                             <p>
-                                Vi tar vare på svarene dine i 72 timer. Så, hvis du innenfor den tiden for eksempel vil
-                                ta en pause eller blir automatisk logget ut, fortsetter du der du var når du kommer
-                                tilbake.
-                            </p>
-                            <p>
-                                Du må svare på alle spørsmålene for å kunne gå videre. Hvis du mangler etterspurt
-                                dokumentasjon, kan du ettersende det så snart du kan.
+                                Søknaden er også for deg som skal ta vare på en utviklingshemmet og svært alvorlig syk
+                                person over 18 år.
                             </p>
                         </CounsellorPanel>
                     </Box>
