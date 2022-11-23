@@ -5,7 +5,7 @@ import {
     ArbeidsforholdFormValues,
     ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
-import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiDat';
 
 const defaultAnsattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {

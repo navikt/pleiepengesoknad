@@ -19,7 +19,7 @@ import {
     visFrilansoppdragNormalarbeidstid,
 } from '../../utils/foUtils';
 import { getFrilansOppdragSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
-import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiDat';
 
 const RegistrerteFrilansoppdragFormComponents = getTypedFormComponents<
     RegistrerteFrilansoppdragFormField,

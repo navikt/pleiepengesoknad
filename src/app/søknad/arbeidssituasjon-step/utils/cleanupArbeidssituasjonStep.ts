@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiDat';
 import {
     ArbeidsforholdFormValues,
     ArbeidsforholdFrilansoppdragFormValues,

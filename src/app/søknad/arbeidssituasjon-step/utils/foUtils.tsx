@@ -5,7 +5,7 @@ import { Arbeidsgiver } from '../../../types';
 import { FrilansoppdragType } from '../../../types/FrilansoppdragFormData';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdFrilansoppdragFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiDat';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 export const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {

@@ -4,7 +4,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { ArbeidsforholdFrilansoppdragFormValues } from '../types/ArbeidsforholdFormValues';
 import dayjs from 'dayjs';
 import { FrilansoppdragType } from '../types/FrilansoppdragFormData';
-import { FrilansoppdragIPeriodenApi } from '../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../types/søknad-api-data/frilansoppdragApiDat';
 
 export const harRegistrerteFrilansoppdrag = (frilansoppdrag: ArbeidsforholdFrilansoppdragFormValues[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;

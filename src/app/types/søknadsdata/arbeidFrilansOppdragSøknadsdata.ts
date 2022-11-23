@@ -1,7 +1,7 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { Arbeidsgiver } from '../Arbeidsgiver';
 import { FrilansoppdragType } from '../FrilansoppdragFormData';
-import { FrilansoppdragIPeriodenApi } from '../søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../søknad-api-data/frilansoppdragApiDat';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
 export type FrilansoppdragsgivereSøknadsdata = Map<string, ArbeidFrilansOppdragSøknadsdata>;

@@ -7,14 +7,14 @@ import { ISODate, ISODuration } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
-import { FrilanserOppdragApiData } from './frilansoppdragApiData';
+import { FrilanserOppdragApiData } from './frilansoppdragApiDat';
 
 export * from './arbeidIPeriodeApiData';
 export * from './arbeidsgiverApiData';
 export * from './normalarbeidstidApiData';
 export * from './arbeidsforholdApiData';
 export * from './selvstendigApiData';
-export * from './frilansoppdragApiData';
+export * from './frilansoppdragApiDat';
 
 export const SøknadApiDataVersjon = 'Søknad-1.0.0';
 

@@ -3,7 +3,7 @@ import { ISODate } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeFormValues } from './ArbeidIPeriodeFormValues';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansoppdragType } from './FrilansoppdragFormData';
-import { FrilansoppdragIPeriodenApi } from './søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from './søknad-api-data/frilansoppdragApiDat';
 
 export enum ArbeidsforholdFormField {
     erAnsatt = 'erAnsatt',

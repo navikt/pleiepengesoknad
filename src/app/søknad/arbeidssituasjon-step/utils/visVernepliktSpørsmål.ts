@@ -5,7 +5,7 @@ import {
     ArbeidsforholdFrilansoppdragFormValues,
 } from '../../../types/ArbeidsforholdFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
-import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../../types/søknad-api-data/frilansoppdragApiDat';
 
 export const visVernepliktSpørsmål = ({
     ansatt_arbeidsforhold,

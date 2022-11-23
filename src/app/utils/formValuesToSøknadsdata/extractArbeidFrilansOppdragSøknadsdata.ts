@@ -6,7 +6,7 @@ import { ArbeidFrilansOppdragSøknadsdata } from '../../types/søknadsdata/arbei
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
-import { FrilansoppdragIPeriodenApi } from '../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilansoppdragIPeriodenApi } from '../../types/søknad-api-data/frilansoppdragApiDat';
 
 export const extractArbeidFrilansoppdragSøknadsdata = (
     arbeidsforhold: ArbeidsforholdFrilansoppdragFormValues,

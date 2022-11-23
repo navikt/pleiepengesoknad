@@ -1,6 +1,6 @@
 import { dateToISODate, ISODate } from '@navikt/sif-common-utils/lib';
 import { ArbeidNyFrilansSøknadsdata } from '../../types/søknadsdata/arbeidNyFrilansSøknadsdata';
-import { FrilanserApiData } from '../../types/søknad-api-data/frilansoppdragApiData';
+import { FrilanserApiData } from '../../types/søknad-api-data/frilansoppdragApiDat';
 import { getArbeidsforholdApiDataFromSøknadsdata } from './getArbeidsforholdApiDataFromSøknadsdata';
 import { ArbeidsgiverType } from '../../types';
 
