@@ -15,7 +15,7 @@ import {
     getYesOrNoRadios,
     getSelectFrilansKategoriOptions,
     visFrilansoppdragNormalarbeidstid,
-} from '../../utils/frilansoppdragUtils';
+} from '../../utils/foUtils';
 import { useFormikContext } from 'formik';
 import { SøknadFormField, SøknadFormValues } from '../../../../types/SøknadFormValues';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
