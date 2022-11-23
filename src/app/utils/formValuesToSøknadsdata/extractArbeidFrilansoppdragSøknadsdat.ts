@@ -8,7 +8,7 @@ import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode } from '../frilanserUtils';
 import { FrilansoppdragIPeriodenApi } from '../../types/søknad-api-data/frilansoppdragApiDat';
 
-export const extractArbeidFrilansoppdragSøknadsdata = (
+export const extractArbeidFrilansoppdragSøknadsdataa = (
     arbeidsforhold: ArbeidsforholdFrilansoppdragFormValues,
     søknadsperiode: DateRange
 ): ArbeidFrilansOppdragSøknadsdata | undefined => {

@@ -1,6 +1,6 @@
 import { FrilansoppdragsgivereSøknadsdata } from '../../types/søknadsdata/arbeidFrilansOppdragSøknadsdata';
 import { ArbeidsforholdFrilansoppdragFormValues } from '../../types/ArbeidsforholdFormValues';
-import { extractArbeidFrilansoppdragSøknadsdata } from './extractArbeidFrilansoppdragSøknadsdata';
+import { extractArbeidFrilansoppdragSøknadsdataa } from './extractArbeidFrilansoppdragSøknadsdat';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const extractFrilansOppdragArbeidsforholdSøknadsdata = (
@@ -9,7 +9,7 @@ export const extractFrilansOppdragArbeidsforholdSøknadsdata = (
 ): FrilansoppdragsgivereSøknadsdata | undefined => {
     const oppdragsgivereSøknadsdataMap: FrilansoppdragsgivereSøknadsdata = new Map();
     oppdragsgivere.forEach((oppdrag) => {
-        const oppdragArbeidsforhold = extractArbeidFrilansoppdragSøknadsdata(oppdrag, søknadsperiode);
+        const oppdragArbeidsforhold = extractArbeidFrilansoppdragSøknadsdataa(oppdrag, søknadsperiode);
         if (oppdragArbeidsforhold) {
             oppdragsgivereSøknadsdataMap.set(oppdrag.arbeidsgiver.id, oppdragArbeidsforhold);
         }
