@@ -5,7 +5,7 @@ import { extractArbeidsgivereArbeidsforholdSøknadsdata } from './extractArbeids
 import { extractArbeidSelvstendigSøknadsdata } from './extractArbeidSelvstendigSøknadsdata';
 import { extractOpptjeningUtlandSøknadsdata } from './extractOpptjeningUtlandSøknadsdata';
 import { extractUtenlandskNæringSøknadsdata } from './extractUtenlandskNæringSøknadsdata';
-import { extractFrilansOppdragArbeidsforholdSøknadsdata } from './extractFrilansOppdragArbeidsforholdSøknadsdata';
+import { extractFrilansOppdragArbeidsforholdSøknadsdata } from './extractFrilansOppdragArbeidsforholdSøknadsdat';
 import { extractNyFrilansArbeidsforholdSøknadsdata } from './extractNyFrilansArbeidsforholdSøknadsdata';
 
 export const extractArbeidSøknadsdata = (
