@@ -28,6 +28,7 @@ export const mellomlagring = {
                 },
             },
         ],
+        erFrilanserIPeriode: 'unanswered',
         nyttFrilansoppdrag: [],
         frilansoppdrag: [
             {

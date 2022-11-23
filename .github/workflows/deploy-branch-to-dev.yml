@@ -1,11 +1,11 @@
 name: Deploy branch to dev
 
 on:
-  workflow_dispatch:
-    secrets:
-        NAIS_DEPLOY_APIKEY:
-            description: Nais deploy APIKEY
-            required: false
+    workflow_dispatch:
+        secrets:
+            NAIS_DEPLOY_APIKEY:
+                description: Nais deploy APIKEY
+                required: false
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/pleiepengesoknad-gcp:${{ github.sha }}
@@ -13,40 +13,9 @@ env:
     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
-    test:
-        name: Test Code with Jest
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16.x]
-
-        steps:
-            - uses: actions/checkout@v3
-            - name: Use Node.js ${{ matrix.node-version }}
-              uses: actions/setup-node@v3
-              with:
-                  node-version: ${{ matrix.node-version }}
-            - name: Test code
-              run: |
-                  CYPRESS_INSTALL_BINARY=0
-                  npm ci
-                  npm run test
-    e2e:
-        name: End to End testing with Cypress
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                node-version: [16.x]
-        steps:
-            - uses: actions/checkout@v3
-            - name: Setup kernel for react + node, increase watchers
-              run: echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
-            - name: Run E2E with
-              run: npm run e2e-docker-compose
-
     build-code-and-push-docker-gcp:
         name: Build code and push docker image gcp
-        needs: [test, e2e]
+        # needs: [test, e2e]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
