@@ -13,7 +13,7 @@ import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../type
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import OfficeIcon from '../../../components/office-icon/OfficeIconSvg';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
-import { getYesOrNoRadios, renderTidsrom } from '../utils/frilansOppdragUtils';
+import { getYesOrNoRadios, renderTidsrom } from '../utils/frilansoppdragUtils';
 
 // TODO Sjekk etter merge
 const AnsattFormComponents = getTypedFormComponents<

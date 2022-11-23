@@ -17,7 +17,7 @@ import {
     getSelectFrilansKategoriOptions,
     renderTidsrom,
     visFrilansoppdragNormalarbeidstid,
-} from '../../utils/frilansOppdragUtils';
+} from '../../utils/frilansoppdragUtils';
 import { getFrilansOppdragSluttdatoValidator } from '../../validation/frilansSluttdatoValidator';
 import { FrilansoppdragIPeriodenApi } from '../../../../types/søknad-api-data/frilansoppdragApiData';
 
