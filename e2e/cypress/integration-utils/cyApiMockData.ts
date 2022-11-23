@@ -24,7 +24,7 @@ export const frilansoppdrag = {
     organisasjonsnummer: '991012133',
     navn: 'Hurdal frilanssenter',
     ansattFom: '2022-01-01',
-    ansattTom: '2022-01-15',
+    ansattTom: '2022-12-15',
 };
 
 const arbeidsgivereMock = {

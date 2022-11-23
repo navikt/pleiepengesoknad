@@ -36,7 +36,7 @@ export const extractArbeidNyFrilansSøknadsdata = (
         };
     }
     const aktivPeriode = startdato
-        ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
+        ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, { from: startdato, to: sluttdato })
         : undefined;
 
     const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(arbeidsforhold, ArbeidsforholdType.FRILANSER);

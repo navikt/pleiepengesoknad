@@ -13,24 +13,22 @@ const frilansTidsromSpy = jest.spyOn(erFrilanserITidsromMock, 'erFrilanserITidsr
 describe('getPeriodeSomFrilanserInnenforSøknadsperiode', () => {
     it('returnerer undefined dersom en ikke er frilanser i søknadsperiode', () => {
         frilansTidsromSpy.mockReturnValue(false);
-        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(
-            søknadsperiode,
-            datoFørSøknadsperiode,
-            datoFørSøknadsperiode
-        );
+        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, {
+            from: datoFørSøknadsperiode,
+            to: datoFørSøknadsperiode,
+        });
         expect(result).toBeFalsy();
     });
     it('returnerer defined dersom en er frilanser i søknadsperiode', () => {
         frilansTidsromSpy.mockReturnValue(true);
-        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(
-            søknadsperiode,
-            datoFørSøknadsperiode,
-            datoEtterSøknadsperiode
-        );
+        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, {
+            from: datoFørSøknadsperiode,
+            to: datoEtterSøknadsperiode,
+        });
         expect(result).toBeDefined();
     });
     it('returnerer søknadsperioden dersom bruker startet som frilanser før søknadsperiode og er fortsatt frilanser', () => {
-        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, datoFørSøknadsperiode);
+        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, { from: datoFørSøknadsperiode });
         expect(result).toBeDefined();
         if (result) {
             expect(dateToISODate(result?.from)).toEqual(dateToISODate(søknadsperiode.from));
@@ -38,7 +36,7 @@ describe('getPeriodeSomFrilanserInnenforSøknadsperiode', () => {
         }
     });
     it('returnerer avkortet periode dersom bruker startet som frilanser i søknadsperiode og er fortsatt frilanser', () => {
-        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, datoISøknadsperiode);
+        const result = getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, { from: datoISøknadsperiode });
         expect(result).toBeDefined();
         if (result) {
             expect(dateToISODate(result.from)).toEqual(dateToISODate(datoISøknadsperiode));

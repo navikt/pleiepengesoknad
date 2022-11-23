@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, OpenDateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { ArbeidsforholdFrilansoppdragFormValues } from '../types/ArbeidsforholdFormValues';
 import dayjs from 'dayjs';
@@ -141,16 +141,13 @@ export const getPeriodeSomFrilanserInnenforPeriode = (
 */
 export const getPeriodeSomFrilanserInnenforSøknadsperiode = (
     søknadsperiode: DateRange,
-    startdato: Date,
-    sluttdato?: Date
+    { from, to }: OpenDateRange
 ): DateRange | undefined => {
-    if (erFrilanserITidsrom(søknadsperiode, startdato, sluttdato) === false) {
+    if (erFrilanserITidsrom(søknadsperiode, from, to) === false) {
         return undefined;
     }
-    const fromDate: Date = dayjs.max([dayjs(søknadsperiode.from), dayjs(startdato)]).toDate();
-    const toDate: Date = sluttdato
-        ? dayjs.min([dayjs(søknadsperiode.to), dayjs(sluttdato)]).toDate()
-        : søknadsperiode.to;
+    const fromDate: Date = dayjs.max([dayjs(søknadsperiode.from), dayjs(from)]).toDate();
+    const toDate: Date = to ? dayjs.min([dayjs(søknadsperiode.to), dayjs(to)]).toDate() : søknadsperiode.to;
 
     return {
         from: fromDate,

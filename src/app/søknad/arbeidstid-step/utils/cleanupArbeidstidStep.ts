@@ -2,6 +2,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+// import { getPeriodeSomFrilanserInnenforSøknadsperiode } from 'app/utils/frilanserUtils';
 import { TimerEllerProsent } from '../../../types';
 import {
     ArbeidIPeriodeFormField,
@@ -10,6 +11,7 @@ import {
 } from '../../../types/ArbeidIPeriodeFormValues';
 import {
     ArbeidsforholdFormValues,
+    // ArbeidsforholdFrilansoppdragFormValues,
     // ArbeidsforholdFrilanserMedOppdragFormValues,
     ///ArbeidsforholdFrilanserFormValues,
     ArbeidsforholdSelvstendigFormValues,
@@ -19,6 +21,8 @@ import {
     ArbeidSelvstendigSøknadsdata,
     ArbeidsgivereSøknadsdata,
     ArbeidSøknadsdata,
+    // FrilansoppdragsgivereSøknadsdata,
+    // FrilansoppdragSøknadsdataType,
     // FrilansereSøknadsdata,
     NormalarbeidstidSøknadsdata,
     //OppdragsgivereSøknadsdata,
@@ -120,24 +124,32 @@ export const cleanupArbeidstidAnsatt = (
 };
 /*
 export const cleanupArbeidstidFrilans = (
-    frilansArbeidsforhold: ArbeidsforholdFrilanserMedOppdragFormValues[],
-    frilansereSøknadsdata: OppdragsgivereSøknadsdata | FrilansereSøknadsdata | undefined,
+    frilansArbeidsforhold: ArbeidsforholdFrilansoppdragFormValues[],
+    frilansereSøknadsdata: FrilansoppdragsgivereSøknadsdata | undefined,
     søknadsperiode: DateRange
-): ArbeidsforholdFrilanserMedOppdragFormValues[] | undefined => {
+): ArbeidsforholdFrilansoppdragFormValues[] | undefined => {
     if (!frilansereSøknadsdata) {
         throw 'cleanupArbeidstidFrilansere: oppdragsgivere er undefined';
     }
     return frilansArbeidsforhold.map((arbeidsforhold) => {
         const arbeidsgiver = frilansereSøknadsdata.get(arbeidsforhold.arbeidsgiver.id);
-        if (!arbeidsgiver || arbeidsgiver?.erAnsattISøknadsperiode === false) {
+        if (
+            !arbeidsgiver ||
+            arbeidsgiver.type === FrilansoppdragSøknadsdataType.SLUTTET_FØR_SØKNADSPERIODE ||
+            arbeidsgiver.type === FrilansoppdragSøknadsdataType.UTEN_ARBEIDSFORHOLD
+        ) {
             return arbeidsforhold;
         }
+        const periodeSomFrilanser = getPeriodeSomFrilanserInnenforSøknadsperiode(
+            søknadsperiode,
+            arbeidsgiver.aktivPeriode
+        );
         return {
             ...arbeidsforhold,
             arbeidIPeriode:
-                arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
+                periodeSomFrilanser && arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
                     ? cleanupArbeidIPeriode(
-                          søknadsperiode,
+                          periodeSomFrilanser,
                           arbeidsforhold.arbeidIPeriode,
                           arbeidsgiver.arbeidsforhold.normalarbeidstid
                       )
