@@ -104,10 +104,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
 
     const getProsentSuffix = () => {
         if (arbeidsuke && arbeidsuke.dateRangeWorkingDays) {
-            if (arbeidsuke?.isFullWorkWeek === false) {
-                return `prosent av normalt (${getArbeidsdagerIUkeTekst(arbeidsuke.dateRangeWorkingDays)})`;
-            }
-            return `prosent av normalt for hele uken`;
+            return `prosent av normalt (${getArbeidsdagerIUkeTekst(arbeidsuke.dateRangeWorkingDays)})`;
         }
         return `prosent av normalt`;
     };
