@@ -50,7 +50,7 @@ jobs:
     build-code-and-push-docker-gcp:
         name: Build code and push docker image gcp
         if: startsWith(github.ref, 'refs/heads/dev-') || startsWith(github.ref, 'refs/heads/master') || github.event.deployment.payload.triggered # Build and push docker if branch is either master or dev-*
-        needs: test
+        needs: [test, e2e]
         runs-on: ubuntu-latest
         steps:
             - name: Checkout code
