@@ -176,7 +176,7 @@ const SøknadContent = ({
             <Switch>
                 <Route
                     path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                    render={() => <WelcomingPage onValidSubmit={startSoknad} forrigeSøknad={forrigeSøknad} />}
+                    render={() => <WelcomingPage onValidSubmit={startSoknad} />}
                 />
 
                 {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
