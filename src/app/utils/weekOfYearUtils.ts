@@ -16,7 +16,7 @@ export const getNumberOfDaysInWeek = (dateRange: DateRange): number => {
     return dayjs(dateRange.to).isoWeekday() - dayjs(dateRange.from).isoWeekday() + 1;
 };
 
-export const getArbeidsukeIUke = ({ from, to }: DateRange): DateRange | undefined => {
+export const getDateRangeWorkingDays = ({ from, to }: DateRange): DateRange | undefined => {
     const startIsoWeekday = dayjs(from).isoWeekday();
     if (startIsoWeekday > 5) {
         return undefined;
@@ -32,13 +32,13 @@ export const getArbeidsukeIUke = ({ from, to }: DateRange): DateRange | undefine
 };
 
 export const getWorkWeekInfoFromDateRange = (dateRange: DateRange): WorkWeekInfo => {
-    const workdaysDateRange = getArbeidsukeIUke(dateRange);
+    const dateRangeWorkingDays = getDateRangeWorkingDays(dateRange);
     const numberOfWorkdays = dateRangeUtils.getNumberOfDaysInDateRange(dateRange, true);
     return {
         year: dateRange.from.getFullYear(),
         dateRange: dateRange,
         weekNumber: dayjs(dateRange.from).week(),
-        dateRangeWorkingDays: workdaysDateRange,
+        dateRangeWorkingDays,
         isFullWorkWeek: numberOfWorkdays === 5,
     };
 };
