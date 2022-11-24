@@ -10,15 +10,16 @@ import { Normaltekst } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { WeekOfYearInfo } from '../../../types/WeekOfYear';
+import { WorkWeekInfo } from '../../../types/WorkWeekInfo';
 import SøknadFormComponents from '../../SøknadFormComponents';
+import { getArbeidsdagerIUkeTekst } from '../utils/arbeidstidUtils';
 import {
     getArbeidIPeriodeProsentAvNormaltValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
 
 interface Props {
-    arbeidsuke?: WeekOfYearInfo;
+    arbeidsuke?: WorkWeekInfo;
     parentFieldName: string;
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     timerEllerProsent: TimerEllerProsent;
@@ -95,25 +96,16 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     };
 
     const getTimerSuffix = () => {
-        if (arbeidsuke) {
-            const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
-            const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
-            const gjelderKunEnDag = fraDag === tilDag;
-            return `timer ${
-                arbeidsuke.isFullWeek ? 'hele uken' : gjelderKunEnDag ? `(kun ${fraDag})` : `(${fraDag} til ${tilDag})`
-            }`;
+        if (arbeidsuke && arbeidsuke.dateRangeWorkingDays) {
+            return `timer (${getArbeidsdagerIUkeTekst(arbeidsuke.dateRangeWorkingDays)})`;
         }
         return 'timer';
     };
 
     const getProsentSuffix = () => {
-        if (arbeidsuke) {
-            if (arbeidsuke?.isFullWeek === false) {
-                const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
-                const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
-                return fraDag === tilDag
-                    ? `prosent av normalt (${fraDag})`
-                    : `prosent av normalt (${fraDag} til  ${tilDag})`;
+        if (arbeidsuke && arbeidsuke.dateRangeWorkingDays) {
+            if (arbeidsuke?.isFullWorkWeek === false) {
+                return `prosent av normalt (${getArbeidsdagerIUkeTekst(arbeidsuke.dateRangeWorkingDays)})`;
             }
             return `prosent av normalt for hele uken`;
         }

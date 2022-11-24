@@ -9,7 +9,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { WeekOfYearInfo } from '../../../types/WeekOfYear';
+import { WorkWeekInfo } from '../../../types/WorkWeekInfo';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
 import {
@@ -21,11 +21,11 @@ import ArbeidstidInput from './ArbeidstidInput';
 
 dayjs.extend(weekOfYear);
 
-export const getArbeidsukeKey = (week: WeekOfYearInfo): string => {
+export const getArbeidsukeKey = (week: WorkWeekInfo): string => {
     return `${dateRangeToISODateRange(week.dateRange)}`;
 };
 
-const getArbeidsukeFieldName = (parentFieldName: string, week: WeekOfYearInfo): ArbeidsukeFieldName =>
+const getArbeidsukeFieldName = (parentFieldName: string, week: WorkWeekInfo): ArbeidsukeFieldName =>
     `${parentFieldName}.${ArbeidIPeriodeFormField.arbeidsuker}.${getArbeidsukeKey(week)}`;
 
 interface Props {

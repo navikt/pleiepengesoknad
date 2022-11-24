@@ -16,7 +16,7 @@ import {
     ArbeidsukeTimerApiData,
     NormalarbeidstidApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
-import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
+import { getWorkWeekInfoFromDateRange } from '../../../utils/weekOfYearUtils';
 
 interface Props {
     periode: DateRange;
@@ -62,7 +62,7 @@ const ArbeidIPeriodeSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforh
                         from: ISODateToDate(uke.periode.fraOgMed),
                         to: ISODateToDate(uke.periode.tilOgMed),
                     };
-                    const week = getWeekOfYearInfoFromDateRange(dateRange);
+                    const week = getWorkWeekInfoFromDateRange(dateRange);
                     return (
                         <li key={week.weekNumber}>
                             <FormattedMessage

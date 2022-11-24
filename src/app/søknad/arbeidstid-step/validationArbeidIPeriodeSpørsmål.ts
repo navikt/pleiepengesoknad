@@ -9,12 +9,13 @@ import {
     formatTimerOgMinutter,
     getArbeidstidFastProsentValidator,
 } from '@navikt/sif-common-pleiepenger';
-import { dateFormatter, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
-import { WeekOfYearInfo } from '../../types/WeekOfYear';
+import { dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { WorkWeekInfo } from '../../types/WorkWeekInfo';
 import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
+import { getArbeidsdagerIUkeTekst } from './utils/arbeidstidUtils';
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
-    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: WeekOfYearInfo) => (value: string) => {
+    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: WorkWeekInfo) => (value: string) => {
         const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber}` : undefined;
         const { min, max } = arbeidsuke ? { min: 0, max: 100 } : { min: 1, max: 99 };
         const error = getArbeidstidFastProsentValidator({ min, max })(value);
@@ -45,13 +46,14 @@ export const getArbeidstidTimerSnittPerUkeValidator =
     };
 
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: WeekOfYearInfo) =>
+    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: WorkWeekInfo) =>
     (value: string) => {
         const min = arbeidsuke ? 0 : 1;
         const ukeinfo = arbeidsuke ? `${arbeidsuke.weekNumber}` : undefined;
 
-        if (arbeidsuke && arbeidsuke.numberOfDaysInWeek !== undefined) {
-            const maksTimerIPeriode = arbeidsuke.numberOfDaysInWeek * 24;
+        if (arbeidsuke && arbeidsuke.dateRangeWorkingDays !== undefined) {
+            const numberOfWorkdays = dateRangeUtils.getNumberOfDaysInDateRange(arbeidsuke?.dateRange);
+            const maksTimerIPeriode = numberOfWorkdays * 24;
             const forMangeTimerUtFraDagerError = getArbeidstidTimerSnittPerUkeValidator({
                 min,
                 max: maksTimerIPeriode,
@@ -60,11 +62,6 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                 forMangeTimerUtFraDagerError &&
                 forMangeTimerUtFraDagerError.key === ValidateNumberError.numberIsTooLarge
             ) {
-                const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
-                const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
-
-                const dagInfo = arbeidsuke.numberOfDaysInWeek === 1 ? `${fraDag}` : `${fraDag} - ${tilDag}`;
-
                 return {
                     key: `validation.arbeidIPeriode.fast.timerPerUke.${
                         arbeidsuke ? 'uke.' : ''
@@ -74,7 +71,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                         ukeinfo,
                         min,
                         max: formatTimerOgMinutter(intl, decimalDurationToDuration(maksTimerIPeriode)),
-                        dagInfo,
+                        dagInfo: getArbeidsdagerIUkeTekst(arbeidsuke.dateRangeWorkingDays),
                     },
                     keepKeyUnaltered: true,
                 };

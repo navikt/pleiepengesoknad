@@ -80,7 +80,7 @@ export const mapSelvstendigToFormValues = (selvstendig: SelvstendigApiData): Sel
     if (selvstendig.harInntektSomSelvstendig) {
         return {
             harHattInntektSomSN: YesOrNo.YES,
-            harFlereVirksomheter: YesOrNo.NO /** ToDo: må diskuteres */,
+            harFlereVirksomheter: YesOrNo.NO,
             virksomhet: mapVirksomhetApiDataToVirksomhet(selvstendig.virksomhet),
             arbeidsforhold: {
                 arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(selvstendig.arbeidsforhold.arbeidIPeriode),

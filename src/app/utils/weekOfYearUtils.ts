@@ -1,8 +1,8 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { dateRangeToISODateRange, ISODateRange } from '@navikt/sif-common-utils/lib';
+import { dateRangeToISODateRange, dateRangeUtils, ISODateRange } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
-import { WeekOfYearInfo } from '../types/WeekOfYear';
+import { WorkWeekInfo } from '../types/WorkWeekInfo';
 
 dayjs.extend(weekOfYear);
 
@@ -12,23 +12,33 @@ export const getWeekOfYearKey = (dateRange: DateRange): WeekOfYearMapKey => {
     return dateRangeToISODateRange(dateRange);
 };
 
-export const getNumberOfWorkdaysInWeek = (dateRange: DateRange): number => {
-    return Math.min(5, dayjs(dateRange.to).isoWeekday()) - dayjs(dateRange.from).isoWeekday() + 1;
-};
-
 export const getNumberOfDaysInWeek = (dateRange: DateRange): number => {
     return dayjs(dateRange.to).isoWeekday() - dayjs(dateRange.from).isoWeekday() + 1;
 };
 
-export const getWeekOfYearInfoFromDateRange = (dateRange: DateRange): WeekOfYearInfo => {
-    const numberOfWorkdays = getNumberOfWorkdaysInWeek(dateRange);
-    const numberOfDaysInWeek = getNumberOfDaysInWeek(dateRange);
+export const getArbeidsukeIUke = ({ from, to }: DateRange): DateRange | undefined => {
+    const startIsoWeekday = dayjs(from).isoWeekday();
+    if (startIsoWeekday > 5) {
+        return undefined;
+    }
+    const endIsoWeekday = dayjs(to).isoWeekday();
+    if (endIsoWeekday <= 5) {
+        return {
+            from,
+            to,
+        };
+    }
+    return { from, to: dayjs(from).startOf('isoWeek').add(4, 'days').toDate() };
+};
+
+export const getWorkWeekInfoFromDateRange = (dateRange: DateRange): WorkWeekInfo => {
+    const workdaysDateRange = getArbeidsukeIUke(dateRange);
+    const numberOfWorkdays = dateRangeUtils.getNumberOfDaysInDateRange(dateRange, true);
     return {
-        dateRange,
         year: dateRange.from.getFullYear(),
+        dateRange: dateRange,
         weekNumber: dayjs(dateRange.from).week(),
-        isFullWeek: numberOfWorkdays === 5,
-        numberOfWorkdays,
-        numberOfDaysInWeek,
+        dateRangeWorkingDays: workdaysDateRange,
+        isFullWorkWeek: numberOfWorkdays === 5,
     };
 };
