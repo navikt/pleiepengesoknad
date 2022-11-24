@@ -858,6 +858,7 @@
     "validation.arbeidIPeriode.fast.timerPerUke.uke.numberHasInvalidFormat": "Antall timer du jobber i uke {ukeinfo} {hvor} kan kun bestå av tall.",
     "validation.arbeidIPeriode.fast.timerPerUke.uke.numberIsTooSmall": "Antall timer du jobber i uke {ukeinfo} {hvor} kan ikke være mindre enn {min}.",
     "validation.arbeidIPeriode.fast.timerPerUke.uke.numberIsTooLarge": "Antall timer du jobber i uke {ukeinfo} {hvor} kan ikke være mer enn {max}.",
+    "validation.arbeidIPeriode.fast.timerPerUke.uke.flereTimerEnnTilgjengeligIUke": "Antall timer du har oppgitt i uke {ukeinfo} {hvor} kan ikke være mer enn det er timer i døgnet ({dagInfo}).",
     "validation.arbeidIPeriode.fast.timerPerUke.ingenTidRegistrert": "Du må oppgi hvor mange timer du jobber  i uke {ukeinfo} {hvor} i perioden.",
     "validation.arbeidIPeriode.fast.tid.timeHasNoValue": "Du må fylle ut timer og minutter for {dag} {hvor}.",
     "validation.arbeidIPeriode.fast.tid.hoursAreInvalid": "Antall timer på {dag} {hvor} er ikke et gyldig tall.",

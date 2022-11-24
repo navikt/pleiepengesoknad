@@ -95,16 +95,13 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     };
 
     const getTimerSuffix = () => {
-        if (1 + 1 === 3) {
-            return `timer av normalt ${formatTimerOgMinutter(
-                intl,
-                decimalDurationToDuration(normalarbeidstid.timerPerUkeISnitt)
-            )} i uken.`;
-        }
         if (arbeidsuke) {
             const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
             const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
-            return `timer ${arbeidsuke.isFullWeek ? 'hele uken' : `(${fraDag} til ${tilDag})`}`;
+            const gjelderKunEnDag = fraDag === tilDag;
+            return `timer ${
+                arbeidsuke.isFullWeek ? 'hele uken' : gjelderKunEnDag ? `(kun ${fraDag})` : `(${fraDag} til ${tilDag})`
+            }`;
         }
         return 'timer';
     };
@@ -115,12 +112,12 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                 const fraDag = dateFormatter.day(arbeidsuke.dateRange.from);
                 const tilDag = dateFormatter.day(arbeidsuke.dateRange.to);
                 return fraDag === tilDag
-                    ? `prosent av normalt (${fraDag})` // av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
-                    : `prosent av normalt (${fraDag} til  ${tilDag})`; // av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
+                    ? `prosent av normalt (${fraDag})`
+                    : `prosent av normalt (${fraDag} til  ${tilDag})`;
             }
-            return `prosent av normalt for hele uken`; // av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
+            return `prosent av normalt for hele uken`;
         }
-        return `prosent av normalt`; // av normalt ${normalttimer} i uken${nyTid ? ` (tilsvarer ${nyTid} i uken)` : ''}`;
+        return `prosent av normalt`;
     };
 
     return (
