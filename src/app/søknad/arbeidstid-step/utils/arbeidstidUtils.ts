@@ -17,8 +17,8 @@ import { ArbeidsukerTimerSøknadsdata } from '../../../types/søknadsdata/arbeid
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { WorkWeekInfo } from '../../../types/WorkWeekInfo';
-import { getWorkWeekInfoFromDateRange } from '../../../utils/weekOfYearUtils';
+import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
+import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -66,8 +66,8 @@ export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøk
 };
 
 export const periodeInneholderToHeleArbeidsuker = (periode: DateRange): boolean => {
-    const uker = getWeeksInDateRange(periode).map(getWorkWeekInfoFromDateRange);
-    return uker.filter((uke) => uke.isFullWorkWeek === true).length >= 2;
+    const uker = getWeeksInDateRange(periode).map(getArbeidsukeInfoIPeriode);
+    return uker.filter((uke) => uke.erFullArbeidsuke === true).length >= 2;
 };
 
 export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
@@ -126,10 +126,10 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
     return [...arbeidsgivere, ...frilans, ...selvstendig];
 };
 
-export const getArbeidsukerIPerioden = (periode: DateRange): WorkWeekInfo[] => {
+export const getArbeidsukerIPerioden = (periode: DateRange): ArbeidsukeInfo[] => {
     return getWeeksInDateRange(periode)
         .filter((uke) => dayjs(uke.from).isoWeekday() <= 5) // Ikke ta med uker som starter lørdag eller søndag
-        .map(getWorkWeekInfoFromDateRange);
+        .map(getArbeidsukeInfoIPeriode);
 };
 
 export const getArbeidsdagerIUkeTekst = ({ from, to }: DateRange): string => {
