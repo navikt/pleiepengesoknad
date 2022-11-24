@@ -15,19 +15,19 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { persist } from '../../api/api';
-import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
+import LegeerklæringFileList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
+import usePersistSoknad from '../../hooks/usePersistSoknad';
+import getLenker from '../../lenker';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../validation/fieldValidations';
-import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import SøknadFormStep from '../SøknadFormStep';
-import LegeerklæringFileList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
-import getLenker from '../../lenker';
+import { StepConfigProps, StepID } from '../søknadStepsConfig';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
     const intl = useIntl();
     const attachments: Attachment[] = React.useMemo(() => {
         return values ? values[SøknadFormField.legeerklæring] : [];
@@ -35,6 +35,7 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const hasPendingUploads: boolean = attachments.find((a) => a.pending === true) !== undefined;
     const totalSize = getTotalSizeOfAttachments(attachments);
     const attachmentsSizeOver24Mb = totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES;
+    const { persistSoknad } = usePersistSoknad();
 
     const ref = React.useRef({ attachments });
 
@@ -76,14 +77,14 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                     file: persistedFile,
                 };
             });
-            const valuesToPersist = { ...values, legeerklæring: newValues };
+            const formValues = { ...values, legeerklæring: newValues };
             setFieldValue(SøknadFormField.legeerklæring, newValues);
-            persist(valuesToPersist, StepID.LEGEERKLÆRING);
+            persistSoknad({ formValues, stepID: StepID.LEGEERKLÆRING });
         }
         ref.current = {
             attachments,
         };
-    }, [attachments, setFieldValue, values]);
+    }, [persistSoknad, attachments, setFieldValue, values]);
 
     return (
         <SøknadFormStep

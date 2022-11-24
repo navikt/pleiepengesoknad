@@ -1,11 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
+// import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
+import { dateFormatter, ISODateToDate } from '@navikt/sif-common-utils/lib';
 
 interface Props {
     frilans: FrilansApiData;
@@ -17,7 +18,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     if (frilans.harInntektSomFrilanser === false) {
         return (
             <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-                <ul>
+                <ul data-testid="arbeidssituasjon-frilanser">
                     <li>
                         <FormattedMessage id={'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'} tagName="p" />
                     </li>
@@ -28,18 +29,18 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
 
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
-            <ul>
+            <ul data-testid="arbeidssituasjon-frilanser">
                 <li>
                     <FormattedMessage
                         id="oppsummering.arbeidssituasjon.frilans.startet"
-                        values={{ dato: prettifyApiDate(frilans.startdato) }}
+                        values={{ dato: dateFormatter.full(ISODateToDate(frilans.startdato)) }}
                     />
                 </li>
                 {frilans.sluttdato && (
                     <li>
                         <FormattedMessage
                             id="oppsummering.arbeidssituasjon.frilans.sluttet"
-                            values={{ dato: prettifyApiDate(frilans.sluttdato) }}
+                            values={{ dato: dateFormatter.full(ISODateToDate(frilans.sluttdato)) }}
                         />
                     </li>
                 )}

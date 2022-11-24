@@ -1,6 +1,5 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import { connect, useFormikContext } from 'formik';
 import AttachmentListWithDeletion from '@navikt/sif-common-core/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
 import AttachmentList from '@navikt/sif-common-core/lib/components/attachment-list/AttachmentList';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
@@ -10,8 +9,9 @@ import {
     fileExtensionIsValid,
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
+import { connect, useFormikContext } from 'formik';
 import { deleteFile } from '../../api/api';
-import { SøknadFormField, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 
 interface LegeerklæringAttachmentListProps {
     includeDeletionFunctionality: boolean;
@@ -21,7 +21,7 @@ interface LegeerklæringAttachmentListProps {
 type Props = LegeerklæringAttachmentListProps;
 
 const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionFunctionality }: Props) => {
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
     const legeerklæring: Attachment[] = values[SøknadFormField.legeerklæring].filter(({ file }: Attachment) =>
         fileExtensionIsValid(file.name)
     );

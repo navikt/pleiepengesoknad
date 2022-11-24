@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { extractBeredskapSøknadsdata } from '../extractBeredskapSøknadsdata';
 
-// Beredskap
 describe('extractBeredskapSøknadsdata', () => {
     it('returnerer type harBeredskap og harBeredskap === true', () => {
         const result = extractBeredskapSøknadsdata({

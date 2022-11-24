@@ -2,10 +2,10 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../../types';
-import { ArbeidsforholdFormData } from '../../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../../../types/ArbeidsforholdFormValues';
 import { cleanupAnsattArbeidsforhold } from '../cleanupArbeidssituasjonStep';
 
-const ansattArbeidsforhold: ArbeidsforholdFormData = {
+const ansattArbeidsforhold: ArbeidsforholdFormValues = {
     arbeidsgiver: {
         type: ArbeidsgiverType.ORGANISASJON,
         organisasjonsnummer: '123456789',
@@ -16,16 +16,11 @@ const ansattArbeidsforhold: ArbeidsforholdFormData = {
     arbeidIPeriode: {
         arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert,
         timerEllerProsent: TimerEllerProsent.PROSENT,
-        timerPerUke: '20',
-        erLiktHverUke: YesOrNo.YES,
+        snittTimerPerUke: '20',
     },
     erAnsatt: YesOrNo.YES,
     normalarbeidstid: {
-        erLikeMangeTimerHverUke: YesOrNo.YES,
         timerPerUke: '10',
-        timerFasteUkedager: {
-            friday: { hours: '2', minutes: '2' },
-        },
     },
     sluttetFørSøknadsperiode: YesOrNo.NO,
 };

@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { MedlemskapFormData } from '../../types/SøknadFormData';
+import { MedlemskapFormData } from '../../types/SøknadFormValues';
 import { MedlemskapSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractMedlemskapSøknadsdata = ({

@@ -1,15 +1,17 @@
 import { StepID } from '../søknad/søknadStepsConfig';
-import { SøknadFormData } from './SøknadFormData';
+import { ImportertSøknadMetadata } from './ImportertSøknad';
+import { SøknadFormValues } from './SøknadFormValues';
 
-export const MELLOMLAGRING_VERSION = '12.0.1';
+export const MELLOMLAGRING_VERSION = '13.0.0';
 
-interface StorageMetadata {
+export interface MellomlagringMetadata {
     version: string;
     lastStepID?: StepID;
     updatedTimestemp: string;
+    importertSøknadMetadata?: ImportertSøknadMetadata;
 }
 
 export interface SøknadTempStorageData {
-    metadata: StorageMetadata;
-    formData: SøknadFormData;
+    metadata: MellomlagringMetadata;
+    formValues: SøknadFormValues;
 }

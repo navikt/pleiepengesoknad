@@ -1,4 +1,4 @@
-import { OpptjeningIUtlandetApi } from '../../types/søknad-api-data/SøknadApiData';
+import { OpptjeningIUtlandetApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OpptjeningUtlandSøknadsdata } from 'app/types/søknadsdata/opptjeningUtlandSøknadsdata';
 import { getCountryName } from '@navikt/sif-common-formik/lib';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
@@ -6,9 +6,9 @@ import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUti
 export const getOpptjeningIUtlandetSøknadsdata = (
     locale: string,
     opptjeningUtland?: OpptjeningUtlandSøknadsdata
-): OpptjeningIUtlandetApi[] => {
+): OpptjeningIUtlandetApiData[] => {
     if (opptjeningUtland?.type === 'harOpptjeningUtland') {
-        const apiData: OpptjeningIUtlandetApi[] = opptjeningUtland.opptjeningUtland.map((opptjening) => ({
+        const apiData: OpptjeningIUtlandetApiData[] = opptjeningUtland.opptjeningUtland.map((opptjening) => ({
             navn: opptjening.navn,
             opptjeningType: opptjening.opptjeningType,
             land: {

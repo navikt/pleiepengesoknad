@@ -1,6 +1,6 @@
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
-import { SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormField } from '../../types/SøknadFormValues';
 import { getSøknadRoute, isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
 

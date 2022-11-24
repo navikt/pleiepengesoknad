@@ -16,8 +16,9 @@ import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
 import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
+import { søkerKunFortid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
 import {
     validateFerieuttakIPerioden,
     validateFradato,
@@ -28,18 +29,18 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import { søkerFortid, søkerFremtid } from '../omsorgstilbud-step/omsorgstilbudStepUtils';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 dayjs.extend(minMax);
 
-const cleanupTidsromStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+const cleanupTidsromStep = (values: SøknadFormValues, søknadsperiode: DateRange): SøknadFormValues => {
     const cleanedValues = { ...values };
 
-    if (cleanedValues.omsorgstilbud && søkerFortid(søknadsperiode)) {
+    if (cleanedValues.omsorgstilbud && søkerKunFortid(søknadsperiode)) {
         cleanedValues.omsorgstilbud.erIOmsorgstilbudFremtid = undefined;
         cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
     }
-    if (cleanedValues.omsorgstilbud && søkerFremtid(søknadsperiode)) {
+    if (cleanedValues.omsorgstilbud && søkerKunFremtid(søknadsperiode)) {
         cleanedValues.omsorgstilbud.erIOmsorgstilbudFortid = undefined;
         cleanedValues.omsorgstilbud.erLiktHverUke = undefined;
     }
@@ -47,12 +48,11 @@ const cleanupTidsromStep = (values: SøknadFormData, søknadsperiode: DateRange)
 };
 
 const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
-    const { values } = useFormikContext<SøknadFormData>();
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const søkerdata = React.useContext(SøkerdataContext)!;
+    const { values } = useFormikContext<SøknadFormValues>();
+    const søkerdata = React.useContext(SøkerdataContext);
 
     const barnetSøknadenGjelder = values.barnetSøknadenGjelder
-        ? søkerdata.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
+        ? søkerdata?.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
         : undefined;
 
     const harMedsøker = values[SøknadFormField.harMedsøker];
@@ -87,6 +87,20 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             showSubmitButton={!søkerKunHelgedager(values.periodeFra, values.periodeTil)}>
             <SøknadFormComponents.DateRangePicker
                 legend={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.spm')}
+                description={
+                    <ExpandableInfo title={intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.info.tittel')}>
+                        <p>
+                            <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.1" />
+                        </p>
+                        <p>
+                            <strong>
+                                <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.2" />
+                            </strong>
+                            <br />
+                            <FormattedMessage id="steg.tidsrom.hvilketTidsrom.info.3" />
+                        </p>
+                    </ExpandableInfo>
+                }
                 minDate={
                     barnetSøknadenGjelder?.fødselsdato
                         ? dayjs
@@ -109,6 +123,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
                 disableWeekend={false}
+                fullScreenOnMobile={true}
             />
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <Box padBottom="xl">

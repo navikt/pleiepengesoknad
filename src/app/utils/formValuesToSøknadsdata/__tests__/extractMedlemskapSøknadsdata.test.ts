@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { MedlemskapFormData } from '../../../types/SøknadFormData';
+import { MedlemskapFormData } from '../../../types/SøknadFormValues';
 import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
 import { extractMedlemskapSøknadsdata } from '../extractMedlemskapSøknadsdata';
 

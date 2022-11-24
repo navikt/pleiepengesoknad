@@ -4,8 +4,9 @@ import { ResourceType } from '../../types/ResourceType';
 import { getApiUrlByResourceType, multipartConfig, sendMultipartPostRequest } from '../utils/apiUtils';
 
 const mockedApiUrl = 'mockedApiUrl';
+
 jest.mock('../../utils/envUtils.ts', () => {
-    return { getEnvironmentVariable: () => mockedApiUrl };
+    return { getEnvironmentVariable: () => 'mockedApiUrl', getEnvVariableOrDefault: () => 'mockedApiUrl' };
 });
 
 jest.mock('axios');

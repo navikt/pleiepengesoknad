@@ -11,12 +11,12 @@ import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-form
 import { useFormikContext } from 'formik';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import usePersistOnChange from '../../hooks/usePersistOnChange';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 
-const cleanupStep = (values: SøknadFormData): SøknadFormData => {
+const cleanupStep = (values: SøknadFormValues): SøknadFormValues => {
     const cleanedValues = { ...values };
     if (values.harNattevåk === YesOrNo.NO) {
         cleanedValues.harNattevåk_ekstrainfo = undefined;
@@ -31,7 +31,7 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
     const intl = useIntl();
     const [loaded, setLoaded] = useState<boolean>(false);
 
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values } = useFormikContext<SøknadFormValues>();
     const { harNattevåk, harNattevåk_ekstrainfo, harBeredskap, harBeredskap_ekstrainfo } = values;
 
     usePersistOnChange(harNattevåk_ekstrainfo, loaded, StepID.NATTEVÅK_OG_BEREDSKAP);

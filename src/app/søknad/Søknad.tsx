@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
-import { initialValues, SøknadFormData } from '../types/SøknadFormData';
+import { initialValues, SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { navigateToErrorPage } from '../utils/navigationUtils';
 import SøknadContent from './SøknadContent';
 import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import SøknadsdataWrapper from './SøknadsdataWrapper';
-import { StepID } from './søknadStepsConfig';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 
 const Søknad = () => {
     const history = useHistory();
@@ -18,13 +17,14 @@ const Søknad = () => {
     return (
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
-            onError={() => navigateToErrorPage(history)}
-            contentLoadedRenderer={(formdata: SøknadFormData, harMellomlagring, lastStepID: StepID | undefined) => {
-                const initialFormValues = formdata || initialValues;
+            onError={() => {
+                navigateToErrorPage(history);
+            }}
+            contentLoadedRenderer={({ formValues, mellomlagringMetadata, forrigeSøknad }) => {
                 return (
-                    <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(initialFormValues)}>
-                        <TypedFormikWrapper<SøknadFormData>
-                            initialValues={initialFormValues}
+                    <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(formValues)}>
+                        <TypedFormikWrapper<SøknadFormValues>
+                            initialValues={formValues}
                             onSubmit={() => {
                                 null;
                             }}
@@ -37,8 +37,8 @@ const Søknad = () => {
                                 }
                                 return (
                                     <SøknadContent
-                                        lastStepID={lastStepID}
-                                        harMellomlagring={søknadSent ? false : harMellomlagring}
+                                        mellomlagringMetadata={mellomlagringMetadata}
+                                        forrigeSøknad={forrigeSøknad}
                                         onSøknadSent={() => {
                                             setSøknadSent(true);
                                         }}

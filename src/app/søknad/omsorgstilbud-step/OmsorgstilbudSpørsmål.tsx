@@ -10,34 +10,32 @@ import { DateRange } from '@navikt/sif-common-formik/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { getOmsorgstilbudFastDagValidator, TidFasteUkedagerInput } from '@navikt/sif-common-pleiepenger';
 import AlertStripe from 'nav-frontend-alertstriper';
-import { OmsorgstilbudFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { Systemtittel } from 'nav-frontend-typografi';
+import { OmsorgstilbudFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { søkerKunFortid, søkerFortidOgFremtid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';
 import OmsorgstilbudVariert from './omsorgstilbud-variert/OmsorgstilbudVariert';
 import {
     getPeriode,
-    skalViseSpørsmålOmProsentEllerLiktHverUke,
-    søkerFortid,
-    søkerFortidFremtid,
-    søkerFremtid,
-    visLiktHverUke,
     getSpmTeksterLiktHverUke,
+    skalViseSpørsmålOmProsentEllerLiktHverUke,
+    visLiktHverUke,
 } from './omsorgstilbudStepUtils';
-import { Systemtittel } from 'nav-frontend-typografi';
 
 interface Props {
     periode: DateRange;
-    omsorgstilbud?: OmsorgstilbudFormData;
+    omsorgstilbud?: OmsorgstilbudFormValues;
     onOmsorgstilbudChanged: () => void;
 }
 
 const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChanged }: Props) => {
     const intl = useIntl();
 
-    const periodeFortid = søkerFortid(periode);
-    const periodeFremtid = søkerFremtid(periode);
-    const periodeFortidFremtid = søkerFortidFremtid(periode);
+    const periodeFortid = søkerKunFortid(periode);
+    const periodeFremtid = søkerKunFremtid(periode);
+    const periodeFortidFremtid = søkerFortidOgFremtid(periode);
     const riktigSøknadsperiode = getPeriode(periode, omsorgstilbud);
     const skalViseLiktHverUke = visLiktHverUke(periodeFortidFremtid, periodeFortid, periodeFremtid, omsorgstilbud);
     const tekstLiktHverUke = getSpmTeksterLiktHverUke(omsorgstilbud);

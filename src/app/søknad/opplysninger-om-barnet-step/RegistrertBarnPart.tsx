@@ -7,7 +7,7 @@ import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
-import { SøknadFormField, initialValues, SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormField, initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
@@ -22,7 +22,7 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     const {
         values: { søknadenGjelderEtAnnetBarn },
         setFieldValue,
-    } = useFormikContext<SøknadFormData>();
+    } = useFormikContext<SøknadFormValues>();
 
     return (
         <SkjemagruppeQuestion>

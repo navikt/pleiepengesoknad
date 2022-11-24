@@ -1,6 +1,6 @@
 import RouteConfig from '../config/routeConfig';
 import { getSøknadStepConfig, StepID } from '../søknad/søknadStepsConfig';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import {
     arbeidssituasjonStepAvailable,
     legeerklæringStepAvailable,
@@ -13,21 +13,19 @@ import {
     arbeidIPeriodeStepIsAvailable,
 } from './stepUtils';
 
-export const getSøknadRoute = (stepId: StepID | undefined) => {
-    if (stepId !== undefined) {
-        return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
-    }
-    return undefined;
+export const getSøknadRoute = (stepId: StepID) => {
+    return `${RouteConfig.SØKNAD_ROUTE_PREFIX}/${stepId}`;
 };
 
-export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormData): string | undefined => {
+export const getNextStepRoute = (stepId: StepID, formData?: SøknadFormValues): string | undefined => {
     const stepConfig = getSøknadStepConfig(formData);
-    return stepConfig[stepId] && stepConfig[stepId].included === true
-        ? getSøknadRoute(stepConfig[stepId].nextStep)
-        : undefined;
+    const nextStep =
+        stepConfig[stepId] && stepConfig[stepId].included === true ? stepConfig[stepId].nextStep : undefined;
+
+    return nextStep ? getSøknadRoute(nextStep) : undefined;
 };
 
-export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData, søknadHasBeenSent?: boolean) => {
+export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormValues, søknadHasBeenSent?: boolean) => {
     switch (path) {
         case StepID.OPPLYSNINGER_OM_BARNET:
             return opplysningerOmBarnetStepAvailable(values);
@@ -50,5 +48,7 @@ export const isAvailable = (path: StepID | RouteConfig, values: SøknadFormData,
         case RouteConfig.SØKNAD_SENDT_ROUTE:
             return søknadHasBeenSent === true;
     }
+    console.log('not available', path);
+
     return false;
 };

@@ -10,7 +10,7 @@ const søknadsperiode = ISODateRangeToDateRange('2021-01-02/2022-01-01');
 const frilanserSluttetIPeriodeValues: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
     arbeidsforhold: {
-        normalarbeidstid: { timerPerUke: '10', erLikeMangeTimerHverUke: YesOrNo.NO },
+        normalarbeidstid: { timerPerUke: '10' },
         arbeidIPeriode: {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
         },

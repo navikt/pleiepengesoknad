@@ -1,28 +1,48 @@
 import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
 import axios, { AxiosResponse } from 'axios';
-import axiosConfig from '../config/axiosConfig';
+import { axiosConfigPsb, axiosConfigInnsyn } from '../config/axiosConfig';
 import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';
 import { StepID } from '../søknad/søknadStepsConfig';
-import { ResourceType } from '../types/ResourceType';
+import { ResourceType, ResourceTypeInnsyn } from '../types/ResourceType';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
+import {
+    axiosJsonConfig,
+    getApiUrlByResourceType,
+    getInnsynApiUrlByResourceType,
+    sendMultipartPostRequest,
+} from './utils/apiUtils';
+import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
+import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
+
+export enum ApiEndpointInnsyn {
+    'forrigeSøknad' = 'soknad/psb/siste',
+}
 
 export const getPersistUrl = (stepID?: StepID) =>
     stepID
         ? `${getApiUrlByResourceType(ResourceType.MELLOMLAGRING)}?lastStepID=${encodeURI(stepID)}`
         : getApiUrlByResourceType(ResourceType.MELLOMLAGRING);
 
-export const persist = (formData: SøknadFormData | undefined, lastStepID?: StepID) => {
+export const persist = ({
+    formValues,
+    lastStepID,
+    importertSøknadMetadata,
+}: {
+    formValues?: SøknadFormValues;
+    lastStepID?: StepID;
+    importertSøknadMetadata?: ImportertSøknadMetadata;
+}) => {
     const url = getPersistUrl(lastStepID);
-    if (formData) {
+    if (formValues) {
         const body: SøknadTempStorageData = {
-            formData,
+            formValues,
             metadata: {
                 lastStepID,
                 version: MELLOMLAGRING_VERSION,
                 updatedTimestemp: new Date().toISOString(),
+                importertSøknadMetadata,
             },
         };
         return axios.put(url, { ...body }, axiosJsonConfig);
@@ -36,8 +56,20 @@ export const rehydrate = () =>
         transformResponse: storageParser,
     });
 export const purge = () =>
-    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfig, data: {} });
+    axios.delete(getApiUrlByResourceType(ResourceType.MELLOMLAGRING), { ...axiosConfigPsb, data: {} });
 
+export const getForrigeSoknad = () => {
+    if (isFeatureEnabled(Feature.PREUTFYLLING) == false) {
+        return Promise.resolve(undefined);
+    }
+    return axios
+        .get(getInnsynApiUrlByResourceType(ResourceTypeInnsyn.FORRIGE_SOKNAD), {
+            ...axiosConfigInnsyn,
+            transformResponse: storageParser,
+        })
+        .then((result) => Promise.resolve(result))
+        .catch(() => Promise.resolve(undefined));
+};
 export const getBarn = () => axios.get(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
 export const getSøker = () => axios.get(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
 export const getArbeidsgiver = (fom: string, tom: string): Promise<AxiosResponse<AAregArbeidsgiverRemoteData>> => {
@@ -55,4 +87,4 @@ export const uploadFile = (file: File) => {
     formData.append('vedlegg', file);
     return sendMultipartPostRequest(getApiUrlByResourceType(ResourceType.VEDLEGG), formData);
 };
-export const deleteFile = (url: string) => axios.delete(url, axiosConfig);
+export const deleteFile = (url: string) => axios.delete(url, axiosConfigPsb);

@@ -5,14 +5,15 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
 import { useFormikContext } from 'formik';
 import { Knapp } from 'nav-frontend-knapper';
-import { persist, purge } from '../api/api';
+import { purge } from '../api/api';
 import { getSøknadStepConfig } from './søknadStepsConfig';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { relocateToDinePleiepenger, relocateToSoknad } from '../utils/navigationUtils';
 import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
 import Step, { StepProps } from '../components/step/Step';
+import usePersistSoknad from '../hooks/usePersistSoknad';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -22,14 +23,14 @@ export interface FormikStepProps {
     skipValidation?: boolean;
     onValidFormSubmit?: () => void;
     customErrorSummary?: () => React.ReactNode;
-    onStepCleanup?: (values: SøknadFormData) => SøknadFormData;
+    onStepCleanup?: (values: SøknadFormValues) => SøknadFormValues;
 }
 
 type Props = FormikStepProps & Omit<StepProps, 'onAvbryt' | 'onFortsettSenere'>;
 
 const SøknadFormStep = (props: Props) => {
-    const formik = useFormikContext<SøknadFormData>();
-
+    const formik = useFormikContext<SøknadFormValues>();
+    const { persistSoknad } = usePersistSoknad();
     const intl = useIntl();
     const {
         children,
@@ -53,7 +54,7 @@ const SøknadFormStep = (props: Props) => {
     const handleAvsluttOgFortsettSenere = async () => {
         /** Mellomlagring lagrer forrige steg, derfor må dette hentes ut her **/
         const prevStep = stepConfig[id].prevStep;
-        await persist(formik.values, prevStep);
+        await persistSoknad({ stepID: prevStep });
         await logHendelse(ApplikasjonHendelse.fortsettSenere);
         relocateToDinePleiepenger();
     };

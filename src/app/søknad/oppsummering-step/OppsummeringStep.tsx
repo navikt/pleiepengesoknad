@@ -25,12 +25,12 @@ import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
 import { Søkerdata } from '../../types/Søkerdata';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { navigateTo, relocateToLoginPage } from '../../utils/navigationUtils';
 import { getApiDataFromSøknadsdata } from '../../utils/søknadsdataToApiData/getApiDataFromSøknadsdata';
 import { validateApiValues } from '../../validation/apiValuesValidation';
-import { getArbeidsforhold, harArbeidIPerioden, harFraværIPerioden } from '../arbeidstid-step/utils/arbeidstidUtils';
+import { getArbeidsforhold, harArbeidIPerioden, harFraværFraJobb } from '../arbeidstid-step/utils/arbeidstidUtils';
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { useSøknadsdataContext } from '../SøknadsdataContext';
@@ -48,7 +48,7 @@ import {
 import './oppsummeringStep.less';
 
 interface Props {
-    values: SøknadFormData;
+    values: SøknadFormValues;
     søknadsdato: Date;
     onApplicationSent: (apiValues: SøknadApiData, søkerdata: Søkerdata) => void;
 }
@@ -108,8 +108,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 }
 
                 const harArbeidMenIngenFravær: boolean =
-                    harArbeidIPerioden(søknadsdata.arbeid) &&
-                    harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false;
+                    harArbeidIPerioden(søknadsdata.arbeid) && harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid));
 
                 const {
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },

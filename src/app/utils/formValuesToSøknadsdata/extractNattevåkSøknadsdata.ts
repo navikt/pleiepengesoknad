@@ -1,12 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { NattevåkSøknadsdata } from '../../types/søknadsdata/nattevåkSøknadsdata';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 
 export const extractNattevåkSøknadsdata = ({
     harNattevåk,
     harNattevåk_ekstrainfo,
     omsorgstilbud,
-}: Partial<SøknadFormData>): NattevåkSøknadsdata | undefined => {
+}: Partial<SøknadFormValues>): NattevåkSøknadsdata | undefined => {
     if (
         omsorgstilbud !== undefined &&
         (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES || omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)

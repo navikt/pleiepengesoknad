@@ -1,5 +1,5 @@
 import { extractBarnSøknadsdata } from '../extractBarnSøknadsdata';
-import { OmBarnetFormData } from '../../../types/SøknadFormData';
+import { OmBarnetFormData } from '../../../types/SøknadFormValues';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../../types';
 
 const formData: OmBarnetFormData = {

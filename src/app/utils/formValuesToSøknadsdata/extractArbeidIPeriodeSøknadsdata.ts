@@ -1,28 +1,37 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { dateUtils, getDurationsInDateRange } from '@navikt/sif-common-utils/lib';
+import { dateUtils, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormData } from '../../types/ArbeidIPeriodeFormData';
-import { ArbeidIPeriodeSøknadsdata, ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
+import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
+import { ArbeidIPeriodeSøknadsdata, ArbeidsukerTimerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
-const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): DateRange => ({
+export const getMinDateRangeFromDateRanges = (dr1: DateRange, dr2: DateRange): DateRange => ({
     from: dateUtils.getLastOfTwoDates(dr1.from, dr2.from),
     to: dateUtils.getFirstOfTwoDates(dr1.to, dr2.to),
 });
 
-export const extractArbeidIPeriodeSøknadsdata = (
-    {
-        arbeiderIPerioden,
-        enkeltdager,
-        erLiktHverUke,
-        fasteDager,
-        prosentAvNormalt,
-        timerPerUke,
-        timerEllerProsent,
-    }: ArbeidIPeriodeFormData,
-    søknadsperiode: DateRange,
-    maksperiode?: DateRange
-): ArbeidIPeriodeSøknadsdata | undefined => {
+export const extractArbeidsukerTimerSøknadsdata = (arbeidsuker: ArbeidsukerFormValues): ArbeidsukerTimerSøknadsdata => {
+    const arbeidsukerSøknadsdata: ArbeidsukerTimerSøknadsdata = [];
+    Object.keys(arbeidsuker).forEach((isoDateRange) => {
+        const arbeidsuke = arbeidsuker[isoDateRange];
+        const periode = ISODateRangeToDateRange(isoDateRange);
+        const timerISnittPerUke = getNumberFromNumberInputValue(arbeidsuke.snittTimerPerUke);
+        if (timerISnittPerUke !== undefined) {
+            arbeidsukerSøknadsdata.push({ periode, timer: timerISnittPerUke });
+        }
+    });
+    return arbeidsukerSøknadsdata;
+};
+
+export const extractArbeidIPeriodeSøknadsdata = ({
+    arbeiderIPerioden,
+    prosentAvNormalt,
+    snittTimerPerUke,
+    timerEllerProsent,
+    erLiktHverUke,
+    arbeidsuker,
+}: ArbeidIPeriodeFormValues): ArbeidIPeriodeSøknadsdata | undefined => {
     if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
         return {
             type: ArbeidIPeriodeType.arbeiderIkke,
@@ -37,58 +46,16 @@ export const extractArbeidIPeriodeSøknadsdata = (
         };
     }
 
-    const arbeiderProsent =
-        timerEllerProsent === TimerEllerProsent.PROSENT ? getNumberFromNumberInputValue(prosentAvNormalt) : undefined;
-    const timerISnittPerUke =
-        timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(timerPerUke) : undefined;
-
     if (erLiktHverUke === YesOrNo.YES) {
-        if (fasteDager === undefined && arbeiderProsent !== undefined) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
-                arbeiderIPerioden: true,
-                arbeiderRedusert: true,
-                prosentAvNormalt: arbeiderProsent,
-            };
-        }
-        if (fasteDager === undefined && timerISnittPerUke !== undefined) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
-                arbeiderIPerioden: true,
-                arbeiderRedusert: true,
-                timerISnittPerUke: timerISnittPerUke,
-            };
-        }
-        if (fasteDager !== undefined && arbeiderProsent === undefined) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderFasteUkedager,
-                arbeiderIPerioden: true,
-                arbeiderRedusert: true,
-                fasteDager,
-            };
-        }
-        if (fasteDager !== undefined && arbeiderProsent === undefined) {
-            return {
-                type: ArbeidIPeriodeType.arbeiderFasteUkedager,
-                arbeiderIPerioden: true,
-                arbeiderRedusert: true,
-                fasteDager,
-            };
-        }
-    } else {
-        if (enkeltdager) {
-            const dateRangeToUse: DateRange = maksperiode
-                ? getMinDateRangeFromDateRanges(søknadsperiode, maksperiode)
-                : søknadsperiode;
+        const arbeiderProsent =
+            timerEllerProsent === TimerEllerProsent.PROSENT
+                ? getNumberFromNumberInputValue(prosentAvNormalt)
+                : undefined;
 
-            return {
-                type: ArbeidIPeriodeType.arbeiderEnkeltdager,
-                arbeiderIPerioden: true,
-                arbeiderRedusert: true,
-                enkeltdager: getDurationsInDateRange(enkeltdager, dateRangeToUse),
-            };
-        }
-        if (timerPerUke && timerISnittPerUke) {
+        const timerISnittPerUke =
+            timerEllerProsent === TimerEllerProsent.TIMER ? getNumberFromNumberInputValue(snittTimerPerUke) : undefined;
+
+        if (snittTimerPerUke && timerISnittPerUke) {
             return {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: true,
@@ -105,5 +72,14 @@ export const extractArbeidIPeriodeSøknadsdata = (
             };
         }
     }
+    if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
+        return {
+            type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
+            arbeiderRedusert: true,
+            arbeiderIPerioden: true,
+            arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
+        };
+    }
+
     return undefined;
 };

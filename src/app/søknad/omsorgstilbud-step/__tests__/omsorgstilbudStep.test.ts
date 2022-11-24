@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap, ISODateToDate } from '@navikt/sif-common-utils';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { cleanupOmsorgstilbudStep } from '../omsorgstilbudStepUtils';
 
 const søknadsperiode: DateRange = {
@@ -17,7 +17,7 @@ const enkeldagerFormData: DateDurationMap = {
     '2021-06-05': { hours: '2', minutes: '30' }, // Outside range
 };
 
-const formValuesTemplate: Partial<SøknadFormData> = {
+const formValuesTemplate: Partial<SøknadFormValues> = {
     omsorgstilbud: {
         erIOmsorgstilbudFortid: YesOrNo.YES,
         erLiktHverUke: YesOrNo.NO,
@@ -25,7 +25,7 @@ const formValuesTemplate: Partial<SøknadFormData> = {
     },
 };
 
-const formValues = formValuesTemplate as SøknadFormData;
+const formValues = formValuesTemplate as SøknadFormValues;
 
 describe('cleanupOmsorgstilbudStep', () => {
     it('removes days outside søknadsperiode', () => {

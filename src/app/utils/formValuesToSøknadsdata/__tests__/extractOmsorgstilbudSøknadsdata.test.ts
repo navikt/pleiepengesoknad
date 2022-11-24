@@ -1,8 +1,8 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudFormData } from '../../../types/SøknadFormData';
+import { OmsorgstilbudFormValues } from '../../../types/SøknadFormValues';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
 
-const omsorgstilbud: OmsorgstilbudFormData = {
+const omsorgstilbud: OmsorgstilbudFormValues = {
     erIOmsorgstilbudFortid: YesOrNo.YES,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,

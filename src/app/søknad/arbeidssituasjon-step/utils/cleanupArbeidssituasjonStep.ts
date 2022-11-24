@@ -1,73 +1,30 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils/lib';
 import { Arbeidsgiver } from '../../../types';
-import { ArbeidsforholdFormData, NormalarbeidstidFormData } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues, NormalarbeidstidFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
-const cleanupNormalarbeidstid = (
-    {
-        erLikeMangeTimerHverUke,
-        timerFasteUkedager,
-        erFasteUkedager,
-        timerPerUke,
-        arbeiderFastHelg,
-        arbeiderHeltid,
-    }: NormalarbeidstidFormData,
-    erFrilanserEllerSN: boolean /** Skal kun oppgi informasjon om timer i uken */
-): NormalarbeidstidFormData => {
-    if (erFrilanserEllerSN) {
+const cleanupNormalarbeidstid = ({
+    erLiktSomForrigeSøknad,
+    timerPerUke,
+}: NormalarbeidstidFormValues): NormalarbeidstidFormValues => {
+    if (erLiktSomForrigeSøknad === YesOrNo.YES) {
         return {
-            erLikeMangeTimerHverUke: YesOrNo.YES,
+            erLiktSomForrigeSøknad,
             timerPerUke,
         };
     }
-    if (arbeiderHeltid === YesOrNo.NO) {
-        return {
-            arbeiderHeltid,
-            timerPerUke,
-        };
-    }
-    if (arbeiderFastHelg === YesOrNo.YES) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            timerPerUke,
-        };
-    }
-    if (erLikeMangeTimerHverUke === YesOrNo.NO) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            timerPerUke,
-        };
-    }
-    if (erFasteUkedager === YesOrNo.YES) {
-        return {
-            arbeiderHeltid,
-            arbeiderFastHelg,
-            erLikeMangeTimerHverUke,
-            erFasteUkedager,
-            timerFasteUkedager: timerFasteUkedager
-                ? removeDurationWeekdaysWithNoDuration(timerFasteUkedager)
-                : undefined,
-        };
-    }
+
     return {
-        arbeiderHeltid,
-        arbeiderFastHelg,
-        erLikeMangeTimerHverUke,
-        erFasteUkedager,
         timerPerUke,
     };
 };
 
-export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormData): ArbeidsforholdFormData => {
+export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormValues): ArbeidsforholdFormValues => {
     const cleanedArbeidsforhold = { ...arbeidsforhold };
 
     if (cleanedArbeidsforhold.erAnsatt === YesOrNo.YES) {
@@ -82,7 +39,7 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormDa
         cleanedArbeidsforhold.arbeidIPeriode = undefined;
     }
     if (cleanedArbeidsforhold.normalarbeidstid) {
-        cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid, false);
+        cleanedArbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(cleanedArbeidsforhold.normalarbeidstid);
     }
     return cleanedArbeidsforhold;
 };
@@ -118,10 +75,7 @@ export const cleanupFrilansArbeidssituasjon = (
         }
     }
     if (frilans.arbeidsforhold && frilans.arbeidsforhold.normalarbeidstid) {
-        frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(
-            frilans.arbeidsforhold.normalarbeidstid,
-            true
-        );
+        frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(frilans.arbeidsforhold.normalarbeidstid);
     }
 
     return frilans;
@@ -136,8 +90,7 @@ const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): Selvst
     }
     if (selvstendig.arbeidsforhold && selvstendig.arbeidsforhold.normalarbeidstid) {
         selvstendig.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(
-            selvstendig.arbeidsforhold.normalarbeidstid,
-            true
+            selvstendig.arbeidsforhold.normalarbeidstid
         );
     }
 
@@ -145,11 +98,11 @@ const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): Selvst
 };
 
 export const cleanupArbeidssituasjonStep = (
-    formValues: SøknadFormData,
+    formValues: SøknadFormValues,
     søknadsperiode: DateRange,
     frilansoppdrag: Arbeidsgiver[] | undefined
-): SøknadFormData => {
-    const values: SøknadFormData = { ...formValues };
+): SøknadFormValues => {
+    const values: SøknadFormValues = { ...formValues };
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(cleanupAnsattArbeidsforhold);
     values.frilans = cleanupFrilansArbeidssituasjon(søknadsperiode, values.frilans, frilansoppdrag);

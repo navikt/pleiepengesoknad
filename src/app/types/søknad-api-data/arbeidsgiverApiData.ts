@@ -13,3 +13,8 @@ export interface ArbeidsgiverApiData {
     sluttetFørSøknadsperiode?: boolean;
     arbeidsforhold?: ArbeidsforholdApiData;
 }
+
+export type OrganisasjonArbeidsgiverApiData = Omit<ArbeidsgiverApiData, 'offentligIdent' | 'organisasjonsnummer'> & {
+    type: ArbeidsgiverType.ORGANISASJON;
+    organisasjonsnummer: string;
+};

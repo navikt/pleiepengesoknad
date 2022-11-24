@@ -1,17 +1,14 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils/lib';
-import { ArbeidIPeriodeType } from '../søknadsdata/arbeidIPeriodeSøknadsdata';
-import { TimerFasteDagerApiData } from './SøknadApiData';
+import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
-export interface ArbeidstimerApiData {
-    normalTimer: ISODuration;
-    faktiskTimer: ISODuration;
-}
-
-export interface ArbeidstidEnkeltdagApiData {
-    dato: ISODate;
-    arbeidstimer: ArbeidstimerApiData;
-}
+export type ArbeidsukeTimerApiData = {
+    periode: {
+        fraOgMed: ISODate;
+        tilOgMed: ISODate;
+    };
+    timer: ISODuration;
+};
 
 export interface ArbeidIPeriodeApiDataJobberIkke {
     type: ArbeidIPeriodeType.arbeiderIkke;
@@ -21,13 +18,6 @@ export interface ArbeidIPeriodeApiDataJobberIkke {
 export interface ArbeidIPeriodeApiDataJobberVanlig {
     type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig;
-}
-
-export interface ArbeidIPeriodeApiDataFasteDager {
-    type: ArbeidIPeriodeType.arbeiderFasteUkedager;
-    arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
-    erLiktHverUke: true;
-    fasteDager: TimerFasteDagerApiData;
 }
 
 export interface ArbeidIPeriodeApiDataProsent {
@@ -42,16 +32,15 @@ export interface ArbeidIPeriodeApiDataTimerPerUke {
     timerPerUke: ISODuration;
 }
 
-export interface ArbeidIPeriodeApiDataVariert {
-    type: ArbeidIPeriodeType.arbeiderEnkeltdager;
+export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
+    type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     arbeiderIPerioden: ArbeiderIPeriodenSvar.redusert;
-    enkeltdager: ArbeidstidEnkeltdagApiData[];
+    arbeidsuker: ArbeidsukeTimerApiData[];
 }
 
 export type ArbeidIPeriodeApiData =
     | ArbeidIPeriodeApiDataJobberIkke
     | ArbeidIPeriodeApiDataJobberVanlig
-    | ArbeidIPeriodeApiDataFasteDager
     | ArbeidIPeriodeApiDataProsent
     | ArbeidIPeriodeApiDataTimerPerUke
-    | ArbeidIPeriodeApiDataVariert;
+    | ArbeidIPeriodeApiDataUlikeUkerTimer;

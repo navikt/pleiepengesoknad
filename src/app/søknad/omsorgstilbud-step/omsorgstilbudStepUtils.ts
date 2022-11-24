@@ -1,12 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import dayjs from 'dayjs';
-import isBetween from 'dayjs/plugin/isBetween';
-import { OmsorgstilbudFormData, SøknadFormData } from '../../types/SøknadFormData';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
+import dayjs from 'dayjs';
+import { OmsorgstilbudFormValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
-
-dayjs.extend(isBetween);
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD = 6;
 
@@ -18,7 +15,7 @@ export const skalViseSpørsmålOmProsentEllerLiktHverUke = (periode: DateRange):
     return true;
 };
 
-export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiode: DateRange): SøknadFormData => {
+export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperiode: DateRange): SøknadFormValues => {
     const cleanedValues = { ...values };
     const inkluderLiktHverUke = skalViseSpørsmålOmProsentEllerLiktHverUke(søknadsperiode);
 
@@ -56,31 +53,7 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormData, søknadsperiod
     return cleanedValues;
 };
 
-export const søkerFremtid = (periode: DateRange): boolean => {
-    if (dayjs(periode.from).isSame(dayjs(), 'day') || dayjs(periode.from).isAfter(dayjs(), 'day')) {
-        return true;
-    }
-    return false;
-};
-
-export const søkerFortid = (periode: DateRange): boolean => {
-    if (dayjs(periode.to).isBefore(dayjs(), 'day')) {
-        return true;
-    }
-    return false;
-};
-
-export const søkerFortidFremtid = (periode: DateRange): boolean => {
-    if (
-        dayjs(periode.from).isBefore(dayjs(), 'day') &&
-        (dayjs(periode.to).isAfter(dayjs(), 'day') || dayjs(periode.to).isSame(dayjs(), 'day'))
-    ) {
-        return true;
-    }
-    return false;
-};
-
-export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormData): DateRange => {
+export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormValues): DateRange => {
     if (
         omsorgstilbud &&
         omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
@@ -111,7 +84,7 @@ export const visLiktHverUke = (
     periodeFortidFremtid: boolean,
     periodeFortid: boolean,
     periodeFremtid: boolean,
-    omsorgstilbud?: OmsorgstilbudFormData
+    omsorgstilbud?: OmsorgstilbudFormValues
 ): boolean => {
     if (!omsorgstilbud) {
         return false;
@@ -152,7 +125,7 @@ export const visLiktHverUke = (
     return true;
 };
 
-export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormData): string => {
+export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormValues): string => {
     if (
         omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
         (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.NO || omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)

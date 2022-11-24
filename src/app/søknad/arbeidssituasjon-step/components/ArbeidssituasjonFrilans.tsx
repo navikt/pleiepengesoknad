@@ -92,7 +92,7 @@ const ArbeidssituasjonFrilans = ({
                 <Box margin="l">
                     {søkerHarFrilansoppdrag && (
                         <Box padBottom="l">
-                            <Ingress>
+                            <Ingress tag="h3">
                                 <FormattedMessage id="arbeidssituasjonFrilanser.frilanserPart.tittel" />
                             </Ingress>
                         </Box>
@@ -110,9 +110,9 @@ const ArbeidssituasjonFrilans = ({
                         <FormBlock>
                             <ArbFriFormComponents.YesOrNoQuestion
                                 name={FrilansFormField.erFortsattFrilanser}
+                                data-testid="erFortsattFrilanser"
                                 legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
                                 validate={getYesOrNoValidator()}
-                                data-testid="er-frilanser-erFortsattFrilanser"
                             />
                         </FormBlock>
                         {erFortsattFrilanser === YesOrNo.NO && (

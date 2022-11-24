@@ -1,11 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { UtenlandsoppholdIPeriodenSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractUtenlandsoppholdIPeriodenSøknadsdata = ({
     skalOppholdeSegIUtlandetIPerioden,
     utenlandsoppholdIPerioden,
-}: Partial<SøknadFormData>): UtenlandsoppholdIPeriodenSøknadsdata | undefined => {
+}: Partial<SøknadFormValues>): UtenlandsoppholdIPeriodenSøknadsdata | undefined => {
     if (
         skalOppholdeSegIUtlandetIPerioden &&
         skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES &&

@@ -1,17 +1,20 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { getDurationsInDateRange, removeDurationWeekdaysWithNoDuration } from '@navikt/sif-common-utils';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormData } from '../../../types/ArbeidIPeriodeFormData';
 import {
-    ArbeidsforholdFormData,
-    ArbeidsforholdFrilanserFormData,
-    ArbeidsforholdSelvstendigFormData,
-} from '../../../types/ArbeidsforholdFormData';
+    ArbeidIPeriodeFormField,
+    ArbeidIPeriodeFormValues,
+    ArbeidsukerFormValues,
+} from '../../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserFormValues,
+    ArbeidsforholdSelvstendigFormValues,
+} from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import {
     ArbeidFrilansSøknadsdata,
     ArbeidSelvstendigSøknadsdata,
@@ -21,55 +24,77 @@ import {
 } from '../../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforPeriode } from '../../../utils/frilanserUtils';
 import { getPeriodeSomSelvstendigInnenforPeriode } from '../../../utils/selvstendigUtils';
+import { getArbeidsukeKey } from '../components/ArbeidstidUkerSpørsmål';
+import { arbeidIPeriodeSpørsmålConfig } from './arbeidIPeriodeSpørsmålConfig';
+import { getArbeidsukerIPerioden, skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
+
+export const cleanupArbeidsuker = (
+    periode: DateRange,
+    arbeidsuker: ArbeidsukerFormValues,
+    timerEllerProsent: TimerEllerProsent
+): ArbeidsukerFormValues => {
+    const cleanedArbeidsuker: ArbeidsukerFormValues = {};
+    const arbeidsukerIPerioden = getArbeidsukerIPerioden(periode);
+    arbeidsukerIPerioden.forEach((periode) => {
+        const key = getArbeidsukeKey(periode);
+        if (arbeidsuker[key]) {
+            const { prosentAvNormalt, snittTimerPerUke } = arbeidsuker[key];
+            cleanedArbeidsuker[key] = {
+                prosentAvNormalt: timerEllerProsent === TimerEllerProsent.PROSENT ? prosentAvNormalt : undefined,
+                snittTimerPerUke: timerEllerProsent === TimerEllerProsent.TIMER ? snittTimerPerUke : undefined,
+            };
+        }
+    });
+    return cleanedArbeidsuker;
+};
 
 export const cleanupArbeidIPeriode = (
-    arbeidIPerioden: ArbeidIPeriodeFormData,
-    normalarbeidstid: NormalarbeidstidSøknadsdata | undefined,
-    periode: DateRange
-): ArbeidIPeriodeFormData => {
-    const arbeid: ArbeidIPeriodeFormData = {
+    arbeidsperiode: DateRange,
+    arbeidIPerioden: ArbeidIPeriodeFormValues,
+    normalarbeidstid: NormalarbeidstidSøknadsdata | undefined
+): ArbeidIPeriodeFormValues => {
+    const config = arbeidIPeriodeSpørsmålConfig.getVisbility({
+        formValues: arbeidIPerioden,
+        arbeidsperiode,
+    });
+
+    const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
     };
-
+    if (arbeid.arbeiderIPerioden !== ArbeiderIPeriodenSvar.redusert) {
+        return arbeid;
+    }
     if (!normalarbeidstid) {
         throw 'cleanupArbeidIPeriode: normalarbeidstid er undefined';
     }
 
-    if (arbeid.arbeiderIPerioden !== ArbeiderIPeriodenSvar.redusert) {
-        return arbeid;
+    if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {
+        arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
     }
-
-    const { erLiktHverUke, enkeltdager, timerEllerProsent, fasteDager, prosentAvNormalt, timerPerUke } =
-        arbeidIPerioden;
-
-    if (normalarbeidstid.erFasteUkedager) {
-        if (erLiktHverUke === YesOrNo.YES) {
-            arbeid.erLiktHverUke = erLiktHverUke;
-            arbeid.fasteDager =
-                normalarbeidstid.timerFasteUkedager && fasteDager
-                    ? removeDurationWeekdaysWithNoDuration(fasteDager)
-                    : undefined;
-            return arbeid;
-        }
+    if (config.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent)) {
+        arbeid.timerEllerProsent = arbeidIPerioden.timerEllerProsent;
+    }
+    if (arbeid.erLiktHverUke === YesOrNo.YES) {
+        return arbeid.timerEllerProsent === TimerEllerProsent.PROSENT
+            ? { ...arbeid, prosentAvNormalt: arbeidIPerioden.prosentAvNormalt, arbeidsuker: undefined }
+            : { ...arbeid, snittTimerPerUke: arbeidIPerioden.snittTimerPerUke, arbeidsuker: undefined };
+    } else {
         return {
             ...arbeid,
-            erLiktHverUke,
-            enkeltdager: enkeltdager ? getDurationsInDateRange(enkeltdager, periode) : undefined,
+            prosentAvNormalt: undefined,
+            snittTimerPerUke: undefined,
+            arbeidsuker: arbeidIPerioden.arbeidsuker
+                ? cleanupArbeidsuker(arbeidsperiode, arbeidIPerioden.arbeidsuker, TimerEllerProsent.TIMER)
+                : undefined,
         };
-    } else {
-        arbeid.erLiktHverUke = erLiktHverUke;
-        arbeid.timerEllerProsent = timerEllerProsent;
-        return timerEllerProsent === TimerEllerProsent.PROSENT
-            ? { ...arbeid, timerEllerProsent, prosentAvNormalt }
-            : { ...arbeid, timerEllerProsent, timerPerUke };
     }
 };
 
 export const cleanupArbeidstidAnsatt = (
-    ansatt_arbeidsforhold: ArbeidsforholdFormData[],
-    arbeidsgivere: ArbeidsgivereSøknadsdata | undefined,
-    søknadsperiode: DateRange
-): ArbeidsforholdFormData[] => {
+    søknadsperiode: DateRange,
+    ansatt_arbeidsforhold: ArbeidsforholdFormValues[],
+    arbeidsgivere: ArbeidsgivereSøknadsdata | undefined
+): ArbeidsforholdFormValues[] => {
     if (!arbeidsgivere) {
         throw 'cleanupArbeidstidAnsatt: arbeidsgivere er undefined';
     }
@@ -83,9 +108,9 @@ export const cleanupArbeidstidAnsatt = (
             arbeidIPeriode:
                 arbeidsforhold.arbeidIPeriode && arbeidsforhold.normalarbeidstid
                     ? cleanupArbeidIPeriode(
+                          søknadsperiode,
                           arbeidsforhold.arbeidIPeriode,
-                          arbeidsgiver.arbeidsforhold.normalarbeidstid,
-                          søknadsperiode
+                          arbeidsgiver.arbeidsforhold.normalarbeidstid
                       )
                     : undefined,
         };
@@ -96,14 +121,19 @@ export const cleanupArbeidstidFrilans = (
     frilans: FrilansFormData,
     frilansSøknadsdata: ArbeidFrilansSøknadsdata | undefined,
     søknadsperiode: DateRange
-): ArbeidsforholdFrilanserFormData | undefined => {
+): ArbeidsforholdFrilanserFormValues | undefined => {
     if (frilans.arbeidsforhold === undefined || !frilansSøknadsdata) {
         return undefined;
     }
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
+    const erLiktHverUke = skalSvarePåOmEnJobberLiktIPerioden(periodeSomFrilanser)
+        ? frilans.arbeidsforhold.arbeidIPeriode?.erLiktHverUke
+        : YesOrNo.NO;
+
     const normalarbeidstid = frilansSøknadsdata.erFrilanser
         ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
         : undefined;
+
     return {
         ...frilans.arbeidsforhold,
         arbeidIPeriode:
@@ -111,7 +141,11 @@ export const cleanupArbeidstidFrilans = (
             normalarbeidstid &&
             frilans.arbeidsforhold.arbeidIPeriode &&
             frilans.arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(frilans.arbeidsforhold.arbeidIPeriode, normalarbeidstid, periodeSomFrilanser)
+                ? cleanupArbeidIPeriode(
+                      periodeSomFrilanser,
+                      { ...frilans.arbeidsforhold.arbeidIPeriode, erLiktHverUke },
+                      normalarbeidstid
+                  )
                 : undefined,
     };
 };
@@ -120,8 +154,8 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
     søknadsperiode: DateRange,
     selvstendigSøknadsdata: ArbeidSelvstendigSøknadsdata | undefined,
     selvstendig_virksomhet: Virksomhet | undefined,
-    selvstendig_arbeidsforhold: ArbeidsforholdSelvstendigFormData | undefined
-): ArbeidsforholdSelvstendigFormData | undefined => {
+    selvstendig_arbeidsforhold: ArbeidsforholdSelvstendigFormValues | undefined
+): ArbeidsforholdSelvstendigFormValues | undefined => {
     if (!selvstendig_arbeidsforhold || !selvstendigSøknadsdata) {
         return undefined;
     }
@@ -138,24 +172,20 @@ export const cleanupArbeidstidSelvstendigNæringdrivende = (
             selvstendig_arbeidsforhold?.arbeidIPeriode &&
             periodeSomSelvstendigNæringsdrivende &&
             selvstendig_arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(
-                      selvstendig_arbeidsforhold?.arbeidIPeriode,
-                      normalarbeidstid,
-                      periodeSomSelvstendigNæringsdrivende
-                  )
+                ? cleanupArbeidIPeriode(søknadsperiode, selvstendig_arbeidsforhold?.arbeidIPeriode, normalarbeidstid)
                 : undefined,
     };
 };
 
 export const cleanupArbeidstidStep = (
-    formData: SøknadFormData,
+    formData: SøknadFormValues,
     arbeidSøknadsdata: ArbeidSøknadsdata,
     søknadsperiode: DateRange
-): SøknadFormData => {
-    const values: SøknadFormData = { ...formData };
+): SøknadFormValues => {
+    const values: SøknadFormValues = { ...formData };
 
     values.ansatt_arbeidsforhold = arbeidSøknadsdata.arbeidsgivere
-        ? cleanupArbeidstidAnsatt(values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere, søknadsperiode)
+        ? cleanupArbeidstidAnsatt(søknadsperiode, values.ansatt_arbeidsforhold, arbeidSøknadsdata.arbeidsgivere)
         : values.ansatt_arbeidsforhold;
     values.frilans.arbeidsforhold = cleanupArbeidstidFrilans(values.frilans, arbeidSøknadsdata.frilans, søknadsperiode);
     values.selvstendig.arbeidsforhold = cleanupArbeidstidSelvstendigNæringdrivende(

@@ -1,13 +1,10 @@
-import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
+import { DateRange } from '@navikt/sif-common-formik/lib';
+import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
-export enum ArbeidIPeriodeType {
-    'arbeiderIkke' = 'ARBEIDER_IKKE',
-    'arbeiderVanlig' = 'ARBEIDER_VANLIG',
-    'arbeiderEnkeltdager' = 'ARBEIDER_ENKELTDAGER',
-    'arbeiderFasteUkedager' = 'ARBEIDER_FASTE_UKEDAGER',
-    'arbeiderProsentAvNormalt' = 'ARBEIDER_PROSENT_AV_NORMALT',
-    'arbeiderTimerISnittPerUke' = 'ARBEIDER_TIMER_I_SNITT_PER_UKE',
-}
+export type ArbeidsukerTimerSøknadsdata = {
+    periode: DateRange;
+    timer: number;
+}[];
 
 interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderIkke;
@@ -17,18 +14,6 @@ interface ArbeidISøknadsperiodeJobberVanligSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden: true;
     arbeiderRedusert: false;
-}
-interface ArbeidISøknadsperiodeEnkeltdagerSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderEnkeltdager;
-    arbeiderIPerioden: true;
-    arbeiderRedusert: true;
-    enkeltdager: DateDurationMap;
-}
-interface ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderFasteUkedager;
-    arbeiderIPerioden: true;
-    arbeiderRedusert: true;
-    fasteDager: DurationWeekdays;
 }
 interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
@@ -43,10 +28,16 @@ interface ArbeidISøknadsperiodeProsentSøknadsdata {
     prosentAvNormalt: number;
 }
 
+interface ArbeidISøknadsperiodeUlikeUkerTimer {
+    type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
+    arbeiderIPerioden: true;
+    arbeiderRedusert: true;
+    arbeidsuker: ArbeidsukerTimerSøknadsdata;
+}
+
 export type ArbeidIPeriodeSøknadsdata =
     | ArbeidISøknadsperiodeJobberVanligSøknadsdata
     | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
-    | ArbeidISøknadsperiodeEnkeltdagerSøknadsdata
-    | ArbeidISøknadsperiodeTimerFasteUkedagerSøknadsdata
     | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
-    | ArbeidISøknadsperiodeProsentSøknadsdata;
+    | ArbeidISøknadsperiodeProsentSøknadsdata
+    | ArbeidISøknadsperiodeUlikeUkerTimer;

@@ -1,84 +1,32 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { NormalarbeidstidFormData } from '../../types/ArbeidsforholdFormData';
-import { NormalarbeidstidSøknadsdata, NormalarbeidstidType } from '../../types/søknadsdata/Søknadsdata';
-import { isYesOrNoAnswered } from '../../validation/fieldValidations';
+import { NormalarbeidstidFormValues } from '../../types/ArbeidsforholdFormValues';
+import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const ExtractNormalarbeidstidFailed = 'ExtractNormalarbeidstid failed';
 
 export const extractNormalarbeidstid = (
-    normalarbeidstid: NormalarbeidstidFormData | undefined,
+    normalarbeidstid: NormalarbeidstidFormValues | undefined,
     arbeidsforholdType: ArbeidsforholdType
 ): NormalarbeidstidSøknadsdata | undefined => {
-    if (
-        !normalarbeidstid ||
-        (arbeidsforholdType === ArbeidsforholdType.ANSATT &&
-            isYesOrNoAnswered(normalarbeidstid.arbeiderHeltid) === false)
-    ) {
+    if (!normalarbeidstid) {
         return undefined;
     }
-    if (arbeidsforholdType === ArbeidsforholdType.FRILANSER || arbeidsforholdType === ArbeidsforholdType.SELVSTENDIG) {
+    if (arbeidsforholdType === ArbeidsforholdType.ANSATT && normalarbeidstid.erLiktSomForrigeSøknad === YesOrNo.YES) {
         const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        return timerPerUkeISnitt !== undefined
-            ? {
-                  type: NormalarbeidstidType.ulikeUker,
-                  erLiktHverUke: false,
-                  erFasteUkedager: false,
-                  timerPerUkeISnitt: timerPerUkeISnitt,
-              }
-            : undefined;
-    }
-    if (normalarbeidstid.arbeiderHeltid === YesOrNo.NO) {
-        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        return timerPerUkeISnitt !== undefined
-            ? {
-                  type: NormalarbeidstidType.arbeiderDeltid,
-                  erLiktHverUke: false,
-                  erFasteUkedager: false,
-                  timerPerUkeISnitt: timerPerUkeISnitt,
-              }
-            : undefined;
-    }
-    if (normalarbeidstid.arbeiderFastHelg === YesOrNo.YES) {
-        const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        return timerPerUkeISnitt !== undefined
-            ? {
-                  type: NormalarbeidstidType.arbeiderHelg,
-                  erLiktHverUke: false,
-                  erFasteUkedager: false,
-                  timerPerUkeISnitt: timerPerUkeISnitt,
-              }
-            : undefined;
-    }
-    if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.YES) {
-        const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        if (normalarbeidstid.erFasteUkedager === YesOrNo.YES && normalarbeidstid.timerFasteUkedager) {
-            return {
-                type: NormalarbeidstidType.likeUkerOgDager,
-                erLiktHverUke: true,
-                erFasteUkedager: true,
-                timerFasteUkedager: normalarbeidstid.timerFasteUkedager,
-            };
+        if (timerPerUkeISnitt === undefined) {
+            return undefined;
         }
-        if (normalarbeidstid.erFasteUkedager === YesOrNo.NO && timerPerUke) {
-            return {
-                type: NormalarbeidstidType.likeUkerVarierendeDager,
-                erLiktHverUke: true,
-                erFasteUkedager: false,
-                timerPerUkeISnitt: timerPerUke,
-            };
-        }
+
+        return {
+            timerPerUkeISnitt,
+        };
     }
-    if (normalarbeidstid.erLikeMangeTimerHverUke === YesOrNo.NO) {
-        const timerPerUke = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
-        if (timerPerUke !== undefined) {
-            return {
-                type: NormalarbeidstidType.ulikeUker,
-                erLiktHverUke: false,
-                erFasteUkedager: false,
-                timerPerUkeISnitt: timerPerUke,
-            };
-        }
-    }
-    return undefined;
+
+    const timerPerUkeISnitt = getNumberFromNumberInputValue(normalarbeidstid.timerPerUke);
+    return timerPerUkeISnitt !== undefined
+        ? {
+              timerPerUkeISnitt,
+          }
+        : undefined;
 };

@@ -12,6 +12,7 @@
     "env": {
         "DEKORATOR_URL": "https://dekoratoren.dev.nav.no/?simple=true&chatbot=false&urlLookupTable=false",
         "API_URL": "https://pleiepengesoknad-api.dev.nav.no",
+        "API_URL_INNSYN": "https://sif-innsyn-api.dev.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger",
         "LOGIN_URL": "https://loginservice.dev.nav.no/login?redirect=https://pleiepengesoknad.dev.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/soknad",
         "INNSYN_URL": "https://sif-innsyn.dev.nav.no/familie/sykdom-i-familien/soknad/innsyn/",
@@ -22,6 +23,7 @@
         "APPSTATUS_DATASET": "staging",
         "USE_AMPLITUDE": "true",
         "FORENKLET_ARBEID": "off",
-        "NPM_CONFIG_CACHE": "/tmp"
+        "NPM_CONFIG_CACHE": "/tmp",
+        "PREUTFYLLING": "false"
     }
 }

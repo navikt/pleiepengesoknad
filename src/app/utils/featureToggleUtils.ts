@@ -3,6 +3,7 @@ export enum Feature {
     'NYNORSK' = 'NYNORSK',
     'INNSYN' = 'INNSYN',
     'FORENKLET_ARBEID' = 'FORENKLET_ARBEID',
+    'PREUTFYLLING' = 'PREUTFYLLING',
 }
 
 export const isFeatureEnabled = (feature: Feature) => {

@@ -9,13 +9,13 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
 import { BarnRelasjon, RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../../types';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../../../types/SøknadFormData';
+import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import UploadedDocumentsList from '../../../components/fødselsattest-file-list/UploadedDocumentsList';
 import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
 
 interface Props {
     barn: RegistrerteBarn[];
-    formValues: SøknadFormData;
+    formValues: SøknadFormValues;
     apiValues: SøknadApiData;
 }
 

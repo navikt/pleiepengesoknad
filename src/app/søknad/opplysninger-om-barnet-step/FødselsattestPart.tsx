@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { useFormikContext } from 'formik';
 import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
@@ -29,7 +29,7 @@ interface Props {
 
 const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
     const intl = useIntl();
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
     const totalSize = getTotalSizeOfAttachments(attachments);
     const ref = React.useRef({ attachments });
@@ -74,7 +74,7 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
             });
             const valuesToPersist = { ...values, fødselsattest: newValues };
             setFieldValue(SøknadFormField.fødselsattest, newValues);
-            persist(valuesToPersist, StepID.OPPLYSNINGER_OM_BARNET);
+            persist({ formValues: valuesToPersist, lastStepID: StepID.OPPLYSNINGER_OM_BARNET });
         }
         ref.current = {
             attachments,

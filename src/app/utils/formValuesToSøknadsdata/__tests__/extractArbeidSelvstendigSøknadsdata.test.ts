@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { Virksomhet } from '@navikt/sif-common-forms/lib';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { ArbeidsforholdSelvstendigFormData } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdSelvstendigFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { extractArbeidSelvstendigSøknadsdata } from '../extractArbeidSelvstendigSøknadsdata';
 import * as mock from '../extractArbeidsforholdSøknadsdata';
@@ -14,7 +14,7 @@ const mockVirksomhet: Virksomhet = {
     fom: ISODateToDate('2000-01-01'),
 } as any;
 
-const mockArbeidsforhold: ArbeidsforholdSelvstendigFormData = {} as any;
+const mockArbeidsforhold: ArbeidsforholdSelvstendigFormValues = {} as any;
 
 const formData: SelvstendigFormData = {
     harHattInntektSomSN: YesOrNo.YES,

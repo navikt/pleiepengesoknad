@@ -17,7 +17,7 @@ export const extractArbeidSelvstendigSøknadsdata = (
     }
 
     const arbeidsforhold = selvstendig.arbeidsforhold
-        ? extractArbeidsforholdSøknadsdata(selvstendig.arbeidsforhold, søknadsperiode, ArbeidsforholdType.SELVSTENDIG)
+        ? extractArbeidsforholdSøknadsdata(selvstendig.arbeidsforhold, ArbeidsforholdType.SELVSTENDIG)
         : undefined;
 
     const virksomhet = selvstendig.virksomhet;

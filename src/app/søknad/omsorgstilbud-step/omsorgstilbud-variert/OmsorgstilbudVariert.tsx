@@ -5,7 +5,7 @@ import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/comm
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
-import { SøknadFormData, SøknadFormField } from '../../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../../types/SøknadFormValues';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../omsorgstilbudStepUtils';
@@ -32,7 +32,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
 }) => {
     const kanLeggeTilPeriode = skalViseSpørsmålOmProsentEllerLiktHverUke(periode);
 
-    const { setFieldValue } = useFormikContext<SøknadFormData>() || {};
+    const { setFieldValue } = useFormikContext<SøknadFormValues>() || {};
     const antallMåneder = getMonthsInDateRange(periode).length;
 
     const handleOnPeriodeChange = (data: DateDurationMap) => {

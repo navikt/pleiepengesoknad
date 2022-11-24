@@ -2,29 +2,34 @@ import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect, Route, Switch, useHistory, useLocation } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
+import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { useFormikContext } from 'formik';
-import { persist, purge } from '../api/api';
+import { purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
 import RouteConfig from '../config/routeConfig';
 import useLogSøknadInfo from '../hooks/useLogSøknadInfo';
+import usePersistSoknad from '../hooks/usePersistSoknad';
 import ConfirmationPage from '../pages/confirmation-page/ConfirmationPage';
 import GeneralErrorPage from '../pages/general-error-page/GeneralErrorPage';
 import WelcomingPage from '../pages/welcoming-page/WelcomingPage';
 import { ConfirmationDialog } from '../types/ConfirmationDialog';
+import { ImportertSøknad } from '../types/ImportertSøknad';
 import { KvitteringInfo } from '../types/KvitteringInfo';
 import { Søkerdata } from '../types/Søkerdata';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
+import { MellomlagringMetadata } from '../types/SøknadTempStorageData';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { getKvitteringInfoFromApiData } from '../utils/kvitteringUtils';
 import { navigateTo, navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
 import { getNextStepRoute, getSøknadRoute, isAvailable } from '../utils/routeUtils';
+import { getGyldigRedirectStepForMellomlagretSøknad } from '../utils/stepUtils';
 import ArbeidssituasjonStep from './arbeidssituasjon-step/ArbeidssituasjonStep';
-import ArbeidstidStep from './arbeidstid-step/ArbeidstidStep';
-import { getArbeidsforhold, harFraværIPerioden } from './arbeidstid-step/utils/arbeidstidUtils';
+import ArbeidstidStep from './arbeidstid-step/components/ArbeidstidStep';
+import { getArbeidsforhold, harFraværFraJobb } from './arbeidstid-step/utils/arbeidstidUtils';
 import { getIngenFraværConfirmationDialog } from './confirmation-dialogs/ingenFraværConfirmation';
 import LegeerklæringStep from './legeerklæring-step/LegeerklæringStep';
 import MedlemsskapStep from './medlemskap-step/MedlemsskapStep';
@@ -37,53 +42,80 @@ import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
 
 interface PleiepengesøknadContentProps {
-    lastStepID?: StepID;
-    harMellomlagring: boolean;
+    /** Sist steg som bruker submittet skjema */
+    mellomlagringMetadata?: MellomlagringMetadata;
+    /** Forrige søknad sendt inn av bruker */
+    forrigeSøknad: ImportertSøknad | undefined;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
 
-const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknadStart }: PleiepengesøknadContentProps) => {
+const SøknadContent = ({
+    mellomlagringMetadata,
+    forrigeSøknad,
+    onSøknadSent,
+    onSøknadStart,
+}: PleiepengesøknadContentProps) => {
     const location = useLocation();
     const [søknadHasBeenSent, setSøknadHasBeenSent] = React.useState(false);
     const [kvitteringInfo, setKvitteringInfo] = React.useState<KvitteringInfo | undefined>(undefined);
     const [confirmationDialog, setConfirmationDialog] = useState<ConfirmationDialog | undefined>(undefined);
-    const { values } = useFormikContext<SøknadFormData>();
+    const { values, setValues } = useFormikContext<SøknadFormValues>();
     const history = useHistory();
     const { logHendelse, logUserLoggedOut, logSoknadStartet, logApiError } = useAmplitudeInstance();
-    const { setSøknadsdata } = useSøknadsdataContext();
+    const { setSøknadsdata, setImportertSøknadMetadata } = useSøknadsdataContext();
     const { logBekreftIngenFraværFraJobb } = useLogSøknadInfo();
+    const { persistSoknad } = usePersistSoknad();
 
     const sendUserToStep = useCallback(
-        async (route: string) => {
-            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step: route });
-            navigateTo(route, history);
+        async (step: StepID) => {
+            await logHendelse(ApplikasjonHendelse.starterMedMellomlagring, { step });
+            navigateTo(step, history);
         },
         [logHendelse, history]
     );
 
     const isOnWelcomPage = location.pathname === RouteConfig.WELCOMING_PAGE_ROUTE;
-    const nextStepRoute = søknadHasBeenSent ? undefined : lastStepID ? getNextStepRoute(lastStepID, values) : undefined;
 
+    const nextStepRoute = søknadHasBeenSent
+        ? undefined
+        : mellomlagringMetadata?.lastStepID
+        ? getNextStepRoute(mellomlagringMetadata.lastStepID, values)
+        : undefined;
+
+    /** Redirect til riktig side */
     useEffect(() => {
-        if (isOnWelcomPage && nextStepRoute !== undefined) {
-            sendUserToStep(nextStepRoute);
+        if (mellomlagringMetadata !== undefined) {
+            if (mellomlagringMetadata.importertSøknadMetadata !== undefined) {
+                setImportertSøknadMetadata(mellomlagringMetadata?.importertSøknadMetadata);
+            }
+            if (isOnWelcomPage && nextStepRoute !== undefined && mellomlagringMetadata.lastStepID) {
+                sendUserToStep(getGyldigRedirectStepForMellomlagretSøknad(mellomlagringMetadata.lastStepID, values));
+            }
+            if (isOnWelcomPage && nextStepRoute === undefined && !søknadHasBeenSent) {
+                sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
+            }
         }
-        if (isOnWelcomPage && nextStepRoute === undefined && harMellomlagring && !søknadHasBeenSent) {
-            sendUserToStep(StepID.OPPLYSNINGER_OM_BARNET);
-        }
-    }, [isOnWelcomPage, nextStepRoute, harMellomlagring, søknadHasBeenSent, sendUserToStep]);
+    }, [
+        mellomlagringMetadata,
+        isOnWelcomPage,
+        nextStepRoute,
+        sendUserToStep,
+        setImportertSøknadMetadata,
+        values,
+        søknadHasBeenSent,
+    ]);
 
     const userNotLoggedIn = async () => {
         await logUserLoggedOut('Mellomlagring ved navigasjon');
         relocateToLoginPage();
     };
 
-    const navigateToNextStepFrom = async (stepId: StepID) => {
+    const navigateToNextStepFrom = async (stepID: StepID) => {
         setTimeout(() => {
-            const nextStepRoute = getNextStepRoute(stepId, values);
+            const nextStepRoute = getNextStepRoute(stepID, values);
             if (nextStepRoute) {
-                persist(values, stepId)
+                persistSoknad({ formValues: values, stepID })
                     .then(() => {
                         navigateTo(nextStepRoute, history);
                     })
@@ -91,7 +123,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
                         if (apiUtils.isUnauthorized(error)) {
                             userNotLoggedIn();
                         } else {
-                            logApiError(ApiError.mellomlagring, { stepId });
+                            logApiError(ApiError.mellomlagring, { stepId: stepID });
                             return navigateToErrorPage(history);
                         }
                     });
@@ -103,17 +135,23 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
         onSøknadStart();
         await logSoknadStartet(SKJEMANAVN);
         await purge();
-        await persist(undefined, StepID.OPPLYSNINGER_OM_BARNET).catch((error) => {
-            if (apiUtils.isUnauthorized(error)) {
-                userNotLoggedIn();
-            } else {
-                logApiError(ApiError.mellomlagring, { step: 'velkommen' });
-                return navigateToErrorPage(history);
-            }
-        });
+
+        const initialFormValues =
+            forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES
+                ? { ...forrigeSøknad?.formValues, brukForrigeSøknad: YesOrNo.YES }
+                : undefined;
+
+        if (forrigeSøknad && values.brukForrigeSøknad === YesOrNo.YES) {
+            setImportertSøknadMetadata(forrigeSøknad?.metaData);
+        }
+
+        if (initialFormValues) {
+            setValues(initialFormValues);
+        }
+        await persistSoknad({ formValues: initialFormValues, stepID: StepID.OPPLYSNINGER_OM_BARNET });
 
         setTimeout(() => {
-            setSøknadsdata(getSøknadsdataFromFormValues(values));
+            setSøknadsdata(getSøknadsdataFromFormValues(initialFormValues || values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, history);
         });
     };
@@ -138,7 +176,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
             <Switch>
                 <Route
                     path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                    render={() => <WelcomingPage onValidSubmit={startSoknad} />}
+                    render={() => <WelcomingPage onValidSubmit={startSoknad} forrigeSøknad={forrigeSøknad} />}
                 />
 
                 {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (
@@ -203,7 +241,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
                                         setSøknadsdata(søknadsdata);
                                         if (
                                             søknadsdata.arbeid &&
-                                            harFraværIPerioden(getArbeidsforhold(søknadsdata.arbeid)) === false
+                                            harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid)) === false
                                         ) {
                                             setConfirmationDialog(
                                                 getIngenFraværConfirmationDialog({
@@ -324,6 +362,7 @@ const SøknadContent = ({ lastStepID, harMellomlagring, onSøknadSent, onSøknad
                 )}
 
                 <Route path={RouteConfig.ERROR_PAGE_ROUTE} component={GeneralErrorPage} />
+
                 <Redirect to={RouteConfig.WELCOMING_PAGE_ROUTE} />
             </Switch>
         </>

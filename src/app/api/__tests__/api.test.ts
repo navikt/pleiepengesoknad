@@ -1,5 +1,5 @@
 import axios from 'axios';
-import axiosConfig from '../../config/axiosConfig';
+import { axiosConfigPsb } from '../../config/axiosConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
 import { ResourceType } from '../../types/ResourceType';
 import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
@@ -14,10 +14,16 @@ import {
     uploadFile,
 } from '../api';
 
+jest.mock('../../utils/envUtils.ts', () => {
+    return { getEnvironmentVariable: () => 'mockedApiUrl', getEnvVariableOrDefault: () => 'mockedApiUrl' };
+});
+
 const mockedApiUrl = 'nav.no/api';
+
 jest.mock('../utils/apiUtils', () => {
     return {
         getApiUrlByResourceType: jest.fn(() => mockedApiUrl),
+        getInnsynApiUrlByResourceType: jest.fn(() => mockedApiUrl),
         sendMultipartPostRequest: jest.fn(),
     };
 });
@@ -81,15 +87,15 @@ describe('api', () => {
     describe('deleteFile', () => {
         it('should call axios.delete on the specified url', () => {
             deleteFile(mockedApiUrl);
-            expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfig);
+            expect(axios.delete).toHaveBeenCalledWith(mockedApiUrl, axiosConfigPsb);
         });
     });
 
     describe('mellomlagring', () => {
-        const stepId: StepID = 'fakeStepID' as any;
-        const persistApiUrl = getPersistUrl(stepId);
+        const stepID: StepID = 'fakeStepID' as any;
+        const persistApiUrl = getPersistUrl(stepID);
         it('should call axios.post when no formData', () => {
-            persist(undefined, stepId);
+            persist({ lastStepID: stepID });
             expect(axios.post).toHaveBeenCalledWith(persistApiUrl, {}, axiosJsonConfig);
         });
     });

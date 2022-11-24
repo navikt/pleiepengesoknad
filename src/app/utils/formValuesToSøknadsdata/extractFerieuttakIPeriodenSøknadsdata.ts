@@ -1,11 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { SøknadFormData } from '../../types/SøknadFormData';
+import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { FerieuttakIPeriodenSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
 export const extractFerieuttakIPeriodenSøknadsdata = ({
     skalTaUtFerieIPerioden,
     ferieuttakIPerioden,
-}: Partial<SøknadFormData>): FerieuttakIPeriodenSøknadsdata | undefined => {
+}: Partial<SøknadFormValues>): FerieuttakIPeriodenSøknadsdata | undefined => {
     if (skalTaUtFerieIPerioden && skalTaUtFerieIPerioden === YesOrNo.YES && ferieuttakIPerioden) {
         return {
             type: 'skalTaUtFerieSøknadsdata',

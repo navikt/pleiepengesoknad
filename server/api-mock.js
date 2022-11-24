@@ -1,9 +1,9 @@
+const _ = require('lodash');
+const busboyCons = require('busboy');
+const express = require('express');
+const fs = require('fs');
 const os = require('os');
 const process = require('process');
-const fs = require('fs');
-const express = require('express');
-const busboyCons = require('busboy');
-const _ = require('lodash');
 
 const platformNIC = () => {
     const interfaces = os.networkInterfaces();
@@ -58,7 +58,14 @@ const søkerMock = {
 
 const barnMock = {
     barn: [
-        { fødselsdato: '2021-01-01', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '1' },
+        {
+            fornavn: 'ALFABETISK',
+            etternavn: 'FAGGOTT',
+            aktørId: '2811762539343',
+            fødselsdato: '2019-06-08',
+            fødselsnummer: '08861999573',
+        },
+        { fødselsdato: '2020-04-20', fornavn: 'Barn', mellomnavn: 'Barne', etternavn: 'Barnesen', aktørId: '123' },
         { fødselsdato: '2015-01-02', fornavn: 'Mock', etternavn: 'Mocknes', aktørId: '2' },
     ],
 };
@@ -85,13 +92,12 @@ const frilansoppdrag2 = {
 };
 
 const arbeidsgivereMock = {
-    organisasjoner: [
-        // { navn: 'Karls godteributikk', organisasjonsnummer: '123451234' },
-        { navn: 'Karis gullfisker', organisasjonsnummer: '112233445' },
-    ],
-    frilansoppdrag: [],
+    organisasjoner: [{ navn: 'SJOKKERENDE ELEKTRIKER', organisasjonsnummer: '947064649' }],
+    frilansoppdrag: [frilansoppdrag],
     privatarbeidsgiver: [],
 };
+
+const FORRIGE_SØKNAD = './server/mockdata/depr_søknad.json';
 
 const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
 
@@ -153,6 +159,14 @@ const startExpressServer = () => {
         res.sendStatus(200);
     });
 
+    server.get('/soknad/psb/siste', (req, res) => {
+        if (existsSync(FORRIGE_SØKNAD)) {
+            const body = readFileSync(FORRIGE_SØKNAD);
+            res.send(JSON.parse(body));
+        } else {
+            res.send({});
+        }
+    });
     server.get('/mellomlagring', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
             const body = readFileSync(MELLOMLAGRING_JSON);

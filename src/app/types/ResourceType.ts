@@ -7,3 +7,7 @@ export enum ResourceType {
     MELLOMLAGRING = 'mellomlagring',
     BEKREFT_OMSORG = 'skalBekrefteOmsorg',
 }
+
+export enum ResourceTypeInnsyn {
+    FORRIGE_SOKNAD = 'soknad/psb/siste',
+}

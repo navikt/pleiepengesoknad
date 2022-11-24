@@ -1,9 +1,9 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
-import { SøknadFormData } from '../types/SøknadFormData';
+import { SøknadFormValues } from '../types/SøknadFormValues';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
-export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormData) =>
+export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormValues) =>
     harForståttRettigheterOgPlikter === true;
 
 export const opplysningerOmBarnetStepIsValid = ({
@@ -13,7 +13,8 @@ export const opplysningerOmBarnetStepIsValid = ({
     barnetHarIkkeFnr,
     årsakManglerIdentitetsnummer,
     barnetSøknadenGjelder,
-}: SøknadFormData) => {
+    søknadenGjelderEtAnnetBarn,
+}: SøknadFormValues) => {
     const fødselsnummerValidation = () => {
         if (barnetHarIkkeFnr && barnetsFødselsdato !== undefined && årsakManglerIdentitetsnummer !== undefined) {
             return true;
@@ -25,10 +26,14 @@ export const opplysningerOmBarnetStepIsValid = ({
         return getStringValidator({ required: true })(barnetSøknadenGjelder) === undefined;
     }
 
+    if (barnetSøknadenGjelder === undefined && søknadenGjelderEtAnnetBarn === false) {
+        return false;
+    }
+
     return formIsValid;
 };
 
-export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormData>) => {
+export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormValues>) => {
     return periodeFra !== undefined && periodeTil !== undefined;
 };
 
@@ -37,7 +42,7 @@ export const arbeidssituasjonStepIsValid = () => true;
 export const medlemskapStepIsValid = ({
     harBoddUtenforNorgeSiste12Mnd,
     skalBoUtenforNorgeNeste12Mnd,
-}: SøknadFormData) =>
+}: SøknadFormValues) =>
     (harBoddUtenforNorgeSiste12Mnd === YesOrNo.YES || harBoddUtenforNorgeSiste12Mnd === YesOrNo.NO) &&
     (skalBoUtenforNorgeNeste12Mnd === YesOrNo.YES || skalBoUtenforNorgeNeste12Mnd === YesOrNo.NO);
 

@@ -1,12 +1,11 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFormData } from '../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
 import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsforholdSøknadsdata } from './extractArbeidsforholdSøknadsdata';
 
 export const extractArbeidAnsattSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdFormData,
-    søknadsperiode: DateRange
+    arbeidsforhold: ArbeidsforholdFormValues
 ): ArbeidAnsattSøknadsdata | undefined => {
     /** Bruker har ikke besvart denne informasjonen enda */
     if (arbeidsforhold.erAnsatt === undefined) {
@@ -22,11 +21,7 @@ export const extractArbeidAnsattSøknadsdata = (
             arbeidsgiver: arbeidsforhold.arbeidsgiver,
         };
     }
-    const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(
-        arbeidsforhold,
-        søknadsperiode,
-        ArbeidsforholdType.ANSATT
-    );
+    const arbeidsforholdSøknadsdata = extractArbeidsforholdSøknadsdata(arbeidsforhold, ArbeidsforholdType.ANSATT);
     if (arbeidsforholdSøknadsdata) {
         if (erAnsatt === false && sluttetFørSøknadsperiode === false) {
             return {
@@ -43,5 +38,6 @@ export const extractArbeidAnsattSøknadsdata = (
             arbeidsforhold: arbeidsforholdSøknadsdata,
         };
     }
+    console.log('undefined arbeidsforhold', arbeidsforhold);
     return undefined;
 };

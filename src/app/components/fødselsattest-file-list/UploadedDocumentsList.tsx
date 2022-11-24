@@ -9,7 +9,7 @@ import {
 } from '@navikt/sif-common-core/lib/utils/attachmentUtils';
 import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
 import { deleteFile } from '../../api/api';
-import { SøknadFormData, SøknadFormField } from '../../types/SøknadFormData';
+import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 
 interface Props {
     includeDeletionFunctionality: boolean;
@@ -17,7 +17,7 @@ interface Props {
 }
 
 const UploadedDocumentsList: React.FC<Props> = ({ includeDeletionFunctionality }) => {
-    const { values, setFieldValue } = useFormikContext<SøknadFormData>();
+    const { values, setFieldValue } = useFormikContext<SøknadFormValues>();
 
     const dokumenter: Attachment[] = values.fødselsattest.filter(({ file }: Attachment) => {
         return file && file.name ? fileExtensionIsValid(file.name) : false;

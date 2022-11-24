@@ -1,9 +1,9 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { decimalDurationToISODuration } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidsgiverType } from '../../types/Arbeidsgiver';
 import { Søkerdata } from '../../types/Søkerdata';
 import { ArbeidsgiverApiData } from '../../types/søknad-api-data/SøknadApiData';
-import { ArbeidIPeriodeType } from '../../types/søknadsdata/Søknadsdata';
 import { getKvitteringInfoFromApiData, KvitteringApiData } from '../kvitteringUtils';
 
 const arbeidsgiverApiData: ArbeidsgiverApiData = {
@@ -17,9 +17,7 @@ const arbeidsgiverApiData: ArbeidsgiverApiData = {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
         },
         normalarbeidstid: {
-            erLiktHverUke: false,
             timerPerUkeISnitt: decimalDurationToISODuration(2),
-            _arbeiderHelg: false,
         },
     },
     sluttetFørSøknadsperiode: false,
@@ -67,9 +65,7 @@ describe('kvitteringUtils', () => {
                 sluttetFørSøknadsperiode: false,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        erLiktHverUke: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
-                        _arbeiderHelg: false,
                     },
                     arbeidIPeriode: {
                         type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,
@@ -84,9 +80,7 @@ describe('kvitteringUtils', () => {
                 erAnsatt: true,
                 arbeidsforhold: {
                     normalarbeidstid: {
-                        erLiktHverUke: false,
                         timerPerUkeISnitt: decimalDurationToISODuration(20),
-                        _arbeiderHelg: false,
                     },
                     arbeidIPeriode: {
                         type: ArbeidIPeriodeType.arbeiderProsentAvNormalt,

@@ -16,6 +16,8 @@ export * from './arbeidsforholdApiData';
 export * from './selvstendigApiData';
 export * from './frilansApiData';
 
+export const SøknadApiDataVersjon = 'Søknad-1.0.0';
+
 export interface PeriodeApiData {
     fraOgMed: ISODate;
     tilOgMed: ISODate;
@@ -96,7 +98,7 @@ export interface LandApi {
     landnavn: string;
 }
 
-export interface OpptjeningIUtlandetApi {
+export interface OpptjeningIUtlandetApiData {
     navn: string;
     opptjeningType: OpptjeningAktivitet;
     land: LandApi;
@@ -104,7 +106,7 @@ export interface OpptjeningIUtlandetApi {
     tilOgMed: ApiStringDate;
 }
 
-export interface UtenlandskNæringApi {
+export interface UtenlandskNæringApiData {
     næringstype: UtenlandskNæringstype;
     navnPåVirksomheten: string;
     land: LandApi;
@@ -113,8 +115,23 @@ export interface UtenlandskNæringApi {
     tilOgMed?: ApiStringDate;
 }
 
+export type UtenlandsoppholdIPeriodenSøknadApiData = {
+    skalOppholdeSegIUtlandetIPerioden: boolean;
+    opphold: UtenlandsoppholdIPeriodenApiData[];
+};
+
+export interface NattevåkApiData {
+    harNattevåk: boolean;
+    tilleggsinformasjon?: string;
+}
+
+export interface BeredskapApiData {
+    beredskap: boolean;
+    tilleggsinformasjon?: string;
+}
+
 export interface SøknadApiData {
-    versjon: string;
+    apiDataVersjon: string;
     språk: Locale;
     harForståttRettigheterOgPlikter: boolean;
     harBekreftetOpplysninger: boolean;
@@ -128,26 +145,17 @@ export interface SøknadApiData {
     vedlegg: string[];
     fødselsattestVedleggUrls: string[];
     medlemskap: MedlemskapApiData;
-    utenlandsoppholdIPerioden?: {
-        skalOppholdeSegIUtlandetIPerioden: boolean;
-        opphold: UtenlandsoppholdIPeriodenApiData[];
-    };
+    utenlandsoppholdIPerioden?: UtenlandsoppholdIPeriodenSøknadApiData;
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData;
     omsorgstilbud?: OmsorgstilbudApiData;
-    nattevåk?: {
-        harNattevåk: boolean;
-        tilleggsinformasjon?: string;
-    };
-    beredskap?: {
-        beredskap: boolean;
-        tilleggsinformasjon?: string;
-    };
+    nattevåk?: NattevåkApiData;
+    beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
     frilans: FrilansApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
-    opptjeningIUtlandet: OpptjeningIUtlandetApi[];
-    utenlandskNæring: UtenlandskNæringApi[];
+    opptjeningIUtlandet: OpptjeningIUtlandetApiData[];
+    utenlandskNæring: UtenlandskNæringApiData[];
     /** Alle felter med _ brukes ikke i mottak, kun for å vise i oppsummering */
     _barnetHarIkkeFnr?: boolean;
 }

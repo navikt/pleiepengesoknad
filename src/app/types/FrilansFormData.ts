@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ISODate } from '@navikt/sif-common-utils/lib';
-import { ArbeidsforholdFrilanserFormData } from './ArbeidsforholdFormData';
+import { ArbeidsforholdFrilanserFormValues } from './ArbeidsforholdFormValues';
 
 export enum FrilansFormField {
     harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
@@ -15,5 +15,5 @@ export interface FrilansFormData {
     erFortsattFrilanser?: YesOrNo;
     startdato?: ISODate;
     sluttdato?: ISODate;
-    arbeidsforhold?: ArbeidsforholdFrilanserFormData;
+    arbeidsforhold?: ArbeidsforholdFrilanserFormValues;
 }

@@ -8,16 +8,20 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
-import { ArbeidsforholdFormData, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormData';
+import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 
-const AnsattFormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormData, ValidationError>();
+const AnsattFormComponents = getTypedFormComponents<
+    ArbeidsforholdFormField,
+    ArbeidsforholdFormValues,
+    ValidationError
+>();
 
 interface Props {
-    arbeidsforhold: ArbeidsforholdFormData;
+    arbeidsforhold: ArbeidsforholdFormValues;
     parentFieldName: string;
     søknadsperiode: DateRange;
 }
@@ -71,6 +75,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                             navn: arbeidsforhold.arbeidsgiver.navn,
                                             fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
+                                        data-testid="sluttet-før-søknadsperiode"
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
                                             return error
@@ -84,22 +89,19 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                                   }
                                                 : undefined;
                                         }}
-                                        data-testid="sluttet-før-søknadsperiode"
                                     />
                                 </FormBlock>
                             </Box>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
-                            <>
-                                <NormalarbeidstidSpørsmål
-                                    arbeidsforhold={arbeidsforhold}
-                                    arbeidsforholdType={ArbeidsforholdType.ANSATT}
-                                    arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
-                                    erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
-                                    arbeidsforholdFieldName={parentFieldName}
-                                    brukKunSnittPerUke={false}
-                                />
-                            </>
+                            <NormalarbeidstidSpørsmål
+                                arbeidsforhold={arbeidsforhold}
+                                arbeidsforholdType={ArbeidsforholdType.ANSATT}
+                                arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
+                                erAktivtArbeidsforhold={arbeidsforhold.erAnsatt === YesOrNo.YES}
+                                arbeidsforholdFieldName={parentFieldName}
+                                brukKunSnittPerUke={false}
+                            />
                         )}
                     </ResponsivePanel>
                 </FormBlock>

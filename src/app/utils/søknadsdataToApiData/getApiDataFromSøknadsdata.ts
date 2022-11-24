@@ -1,25 +1,24 @@
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../types';
-import { MELLOMLAGRING_VERSION } from '../../types/SøknadTempStorageData';
-import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
+import { SøknadApiData, SøknadApiDataVersjon } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import appSentryLogger from '../appSentryLogger';
 import { getValidSpråk } from '../sprakUtils';
 import { getArbeidsgivereApiDataFromSøknadsdata } from './getArbeidsgivereApiDataFromSøknadsdata';
+import { getAttachmentsApiDataFromSøknadsdata } from './getAttachmentsApiDataFromSøknadsdata';
 import { getBarnApiDataFromSøknadsdata } from './getBarnApiDataFromSøknadsdata';
+import { getBeredskapApiDataFromSøknadsdata } from './getBeredskapApiDataFromSøknadsdata';
+import { getFerieuttakIPeriodenApiDataFromSøknadsdata } from './getFerieuttakIPeriodenApiDataFromSøknadsdata';
 import { getFrilansApiDataFromSøknadsdata } from './getFrilansApiDataFromSøknadsdata';
 import { getMedlemskapApiDataFromSøknadsdata } from './getMedlemskapApiDataFromSøknadsdata';
-import { getSelvstendigApiDataFromSøknadsdata } from './getSelvstendigApiDataFromSøknadsdata';
 import { getMedsøkerApiDataFromSøknadsdata } from './getMedsøkerApiDataFromSøknadsdata';
-import { getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata } from './getUtenlandsoppholdIPeriodenFromSøknadsdata';
-import { getFerieuttakIPeriodenApiDataFromSøknadsdata } from './getFerieuttakIPeriodenApiDataFromSøknadsdata';
 import { getNattevåkApiDataFromSøknadsdata } from './getNattevåkApiDataFromSøknadsdata';
-import { getBeredskapApiDataFromSøknadsdata } from './getBeredskapApiDataFromSøknadsdata';
 import { getOmsorgstilbudApiDataFromSøknadsdata } from './getOmsorgstibudApiDataFromSøknadsdata';
-import { getAttachmentsApiDataFromSøknadsdata } from './getAttachmentsApiDataFromSøknadsdata';
 import { getOpptjeningIUtlandetSøknadsdata } from './getOpptjeningIUtlandetSøknadsdata';
+import { getSelvstendigApiDataFromSøknadsdata } from './getSelvstendigApiDataFromSøknadsdata';
 import { getUtenlandskNæringSøknadsdata } from './getUtenlandskNæringSøknadsdata';
+import { getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata } from './getUtenlandsoppholdIPeriodenFromSøknadsdata';
 
 export const getApiDataFromSøknadsdata = (
     barn: RegistrerteBarn[],
@@ -33,8 +32,8 @@ export const getApiDataFromSøknadsdata = (
         try {
             const sprak = getValidSpråk(locale);
             const apiData: SøknadApiData = {
-                versjon: MELLOMLAGRING_VERSION,
                 språk: sprak,
+                apiDataVersjon: SøknadApiDataVersjon,
                 harForståttRettigheterOgPlikter:
                     harForståttRettigheterOgPlikter !== undefined ? harForståttRettigheterOgPlikter : false,
                 harBekreftetOpplysninger: harBekreftetOpplysninger !== undefined ? harBekreftetOpplysninger : false,
@@ -52,11 +51,8 @@ export const getApiDataFromSøknadsdata = (
                 ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
-                arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(
-                    søknadsdata.arbeid?.arbeidsgivere,
-                    søknadsperiode
-                ),
-                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans, søknadsperiode),
+                arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
+                frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
                     søknadsdata.arbeid?.selvstendig,
                     søknadsperiode,
