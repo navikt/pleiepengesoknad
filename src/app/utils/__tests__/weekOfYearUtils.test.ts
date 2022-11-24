@@ -1,42 +1,8 @@
-import { dateRangeUtils, dateToISODate, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { dateToISODate, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { periodeInneholderToHeleArbeidsuker } from '../../søknad/arbeidstid-step/utils/arbeidstidUtils';
-import { getArbeidsukeIUke } from '../weekOfYearUtils';
+import { getArbeidsdagerPeriode } from '../arbeidsukeInfoUtils';
 
-describe('weekOfYearUtils', () => {
-    describe('dateRangeUtils.getNumberOfDaysInDateRange', () => {
-        // const dateRange: DateRange = ISODateRangeToDateRange('2022-01-03/2022-01-09');
-        const mandag: Date = ISODateToDate('2022-01-03');
-        const tirsdag: Date = ISODateToDate('2022-01-04');
-        const torsdag: Date = ISODateToDate('2022-01-06');
-        const fredag: Date = ISODateToDate('2022-01-07');
-        const lørdag: Date = ISODateToDate('2022-01-08');
-        const søndag: Date = ISODateToDate('2022-01-09');
-        it('returnerer riktig for en hel uke (mandag til søndag)', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: mandag, to: søndag }, true);
-            expect(result).toEqual(5);
-        });
-        it('returnerer riktig for en uke som er fra mandag til fredag', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: mandag, to: fredag }, true);
-            expect(result).toEqual(5);
-        });
-        it('returnerer riktig for en uke som er fra tirsdag til søndag', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: tirsdag, to: søndag }, true);
-            expect(result).toEqual(4);
-        });
-        it('returnerer riktig for en uke som er fra tirsdag til torsdag', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: tirsdag, to: torsdag }, true);
-            expect(result).toEqual(3);
-        });
-        it('returnerer riktig for en uke som er fra mandag til mandag', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: tirsdag, to: torsdag }, true);
-            expect(result).toEqual(3);
-        });
-        it('returnerer riktig for en uke som er fra lørdag til søndag', () => {
-            const result = dateRangeUtils.getNumberOfDaysInDateRange({ from: lørdag, to: søndag }, true);
-            expect(result).toEqual(0);
-        });
-    });
-
+describe('arbeidsukeInfoUtils', () => {
     describe('periodeInneholderToHeleUker', () => {
         const uke1 = {
             mandag: ISODateToDate('2022-01-03'),
@@ -67,7 +33,7 @@ describe('weekOfYearUtils', () => {
         });
     });
 
-    describe('getWorkWeekForWeek', () => {
+    describe('getArbeidsdagerPeriode', () => {
         const mandag: Date = ISODateToDate('2022-01-03');
         const tirsdag: Date = ISODateToDate('2022-01-04');
         const torsdag: Date = ISODateToDate('2022-01-06');
@@ -75,7 +41,7 @@ describe('weekOfYearUtils', () => {
         const søndag: Date = ISODateToDate('2022-01-09');
 
         it('returnerer mandag til fredag dersom uken går fra mandag til søndag', () => {
-            const result = getArbeidsukeIUke({ from: mandag, to: søndag });
+            const result = getArbeidsdagerPeriode({ from: mandag, to: søndag });
             expect(result).toBeDefined();
             if (result) {
                 expect(dateToISODate(result.from)).toEqual('2022-01-03');
@@ -83,7 +49,7 @@ describe('weekOfYearUtils', () => {
             }
         });
         it('returnerer mandag til fredag dersom uken går fra mandag til lørdag', () => {
-            const result = getArbeidsukeIUke({ from: mandag, to: lørdag });
+            const result = getArbeidsdagerPeriode({ from: mandag, to: lørdag });
             expect(result).toBeDefined();
             if (result) {
                 expect(dateToISODate(result.from)).toEqual('2022-01-03');
@@ -91,7 +57,7 @@ describe('weekOfYearUtils', () => {
             }
         });
         it('returnerer tirsdag til fredag dersom uken går fra tirsdag til lørdag', () => {
-            const result = getArbeidsukeIUke({ from: tirsdag, to: lørdag });
+            const result = getArbeidsdagerPeriode({ from: tirsdag, to: lørdag });
             expect(result).toBeDefined();
             if (result) {
                 expect(dateToISODate(result.from)).toEqual('2022-01-04');
@@ -99,7 +65,7 @@ describe('weekOfYearUtils', () => {
             }
         });
         it('returnerer tirsdag til onsdag dersom uken går fra tirsdag til onsdag', () => {
-            const result = getArbeidsukeIUke({ from: tirsdag, to: torsdag });
+            const result = getArbeidsdagerPeriode({ from: tirsdag, to: torsdag });
             expect(result).toBeDefined();
             if (result) {
                 expect(dateToISODate(result.from)).toEqual('2022-01-04');

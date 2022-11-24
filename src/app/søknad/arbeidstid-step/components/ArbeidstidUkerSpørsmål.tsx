@@ -9,7 +9,7 @@ import weekOfYear from 'dayjs/plugin/weekOfYear';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { WorkWeekInfo } from '../../../types/WorkWeekInfo';
+import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { ArbeidsukeFieldName } from '../types/Arbeidsuke';
 import {
@@ -21,11 +21,11 @@ import ArbeidstidInput from './ArbeidstidInput';
 
 dayjs.extend(weekOfYear);
 
-export const getArbeidsukeKey = (week: WorkWeekInfo): string => {
-    return `${dateRangeToISODateRange(week.dateRange)}`;
+export const getArbeidsukeKey = (week: ArbeidsukeInfo): string => {
+    return `${dateRangeToISODateRange(week.periode)}`;
 };
 
-const getArbeidsukeFieldName = (parentFieldName: string, week: WorkWeekInfo): ArbeidsukeFieldName =>
+const getArbeidsukeFieldName = (parentFieldName: string, week: ArbeidsukeInfo): ArbeidsukeFieldName =>
     `${parentFieldName}.${ArbeidIPeriodeFormField.arbeidsuker}.${getArbeidsukeKey(week)}`;
 
 interface Props {
@@ -93,7 +93,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
             )}>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
-                    <div key={dateRangeToISODateRange(arbeidsuke.dateRange)}>
+                    <div key={dateRangeToISODateRange(arbeidsuke.periode)}>
                         <ArbeidstidInput
                             arbeidsuke={arbeidsuke}
                             parentFieldName={getArbeidsukeFieldName(parentFieldName, arbeidsuke)}
