@@ -13,6 +13,7 @@ import { dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-ut
 import { ArbeidsukeInfo } from '../../types/ArbeidsukeInfo';
 import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
 import { getArbeidsdagerIUkeTekst } from './utils/arbeidstidUtils';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
     (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: ArbeidsukeInfo) => (value: string) => {
@@ -45,6 +46,11 @@ export const getArbeidstidTimerSnittPerUkeValidator =
             : undefined;
     };
 
+const getMaksArbeidstimerIPeriode = (periode: DateRange): number => {
+    const arbeidsdagerIPeriode = dateRangeUtils.getNumberOfDaysInDateRange(periode);
+    return arbeidsdagerIPeriode * 24;
+};
+
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
     (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: ArbeidsukeInfo) =>
     (value: string) => {
@@ -52,8 +58,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
         const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
 
         if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode !== undefined) {
-            const numberOfWorkdays = dateRangeUtils.getNumberOfDaysInDateRange(arbeidsuke?.periode);
-            const maksTimerIPeriode = numberOfWorkdays * 24;
+            const maksTimerIPeriode = getMaksArbeidstimerIPeriode(arbeidsuke.arbeidsdagerPeriode);
             const forMangeTimerUtFraDagerError = getArbeidstidTimerSnittPerUkeValidator({
                 min,
                 max: maksTimerIPeriode,
