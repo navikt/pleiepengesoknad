@@ -57,6 +57,21 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
         const min = arbeidsuke ? 0 : 1;
         const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
 
+        const error = getArbeidstidTimerSnittPerUkeValidator({ min, max: timerNormalt })(value);
+
+        if (error) {
+            return {
+                key: `validation.arbeidIPeriode.fast.timerPerUke.${arbeidsuke ? 'uke.' : ''}${error.key}`,
+                values: {
+                    ...intlValues,
+                    ukeinfo,
+                    min,
+                    max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
+                },
+                keepKeyUnaltered: true,
+            };
+        }
+
         if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode !== undefined) {
             const maksTimerIPeriode = getMaksArbeidstimerIPeriode(arbeidsuke.arbeidsdagerPeriode);
             const forMangeTimerUtFraDagerError = getArbeidstidTimerSnittPerUkeValidator({
@@ -82,21 +97,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                 };
             }
         }
-
-        const error = getArbeidstidTimerSnittPerUkeValidator({ min, max: timerNormalt })(value);
-
-        return error
-            ? {
-                  key: `validation.arbeidIPeriode.fast.timerPerUke.${arbeidsuke ? 'uke.' : ''}${error.key}`,
-                  values: {
-                      ...intlValues,
-                      ukeinfo,
-                      min,
-                      max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
-                  },
-                  keepKeyUnaltered: true,
-              }
-            : undefined;
+        return undefined;
     };
 
 export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
