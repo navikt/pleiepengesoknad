@@ -143,7 +143,7 @@ export const getArbeidsdagerIUkeTekst = ({ from, to }: DateRange): string => {
         case 2:
             return `${fraDag} og ${tilDag}`;
         case 1:
-            return `kun ${fraDag})`;
+            return `kun ${fraDag}`;
         default:
             return `${fraDag} til ${tilDag}`;
     }
