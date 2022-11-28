@@ -9,7 +9,7 @@ export const forrigeSøknadErGyldig = (søknad: InnsendtSøknadInnhold): boolean
     if (dayjs(søknad.mottatt).isBefore(ISODateToDate('2022-06-01'), 'day')) {
         return false;
     }
-    const maxAlderDato = dayjs().subtract(10, 'weeks'); /** TODO - grense må vurderes */
+    const maxAlderDato = dayjs().subtract(10, 'weeks');
     if (dayjs(søknad.mottatt).isBefore(maxAlderDato, 'day')) {
         return false;
     }

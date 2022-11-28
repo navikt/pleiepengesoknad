@@ -1,9 +1,9 @@
-import { WeekOfYearInfo, WeekOfYearMap } from '../../../types/WeekOfYear';
+import { ArbeidsukeInfo, ArbeidsukeInfoÅrMap } from '../../../types/ArbeidsukeInfo';
 
 export type ArbeidsukeFieldName = string; // YYYY_WW
 
-export interface Arbeidsuke extends WeekOfYearInfo {
+export interface Arbeidsuke extends ArbeidsukeInfo {
     fieldname: ArbeidsukeFieldName;
 }
 
-export type Arbeidsuker = WeekOfYearMap<Arbeidsuke>;
+export type Arbeidsuker = ArbeidsukeInfoÅrMap<Arbeidsuke>;

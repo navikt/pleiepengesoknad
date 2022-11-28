@@ -1,6 +1,7 @@
 import { OpenDateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import {
+    dateFormatter,
     dateRangeUtils,
     durationToDecimalDuration,
     DurationWeekdays,
@@ -16,8 +17,8 @@ import { ArbeidsukerTimerSøknadsdata } from '../../../types/søknadsdata/arbeid
 import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsforholdSøknadsdata';
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
-import { WeekOfYearInfo } from '../../../types/WeekOfYear';
-import { getWeekOfYearInfoFromDateRange } from '../../../utils/weekOfYearUtils';
+import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
+import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -65,8 +66,8 @@ export const summerArbeidstimerIArbeidsuker = (arbeidsuker: ArbeidsukerTimerSøk
 };
 
 export const periodeInneholderToHeleArbeidsuker = (periode: DateRange): boolean => {
-    const uker = getWeeksInDateRange(periode).map(getWeekOfYearInfoFromDateRange);
-    return uker.filter((uke) => uke.isFullWeek === true).length >= 2;
+    const uker = getWeeksInDateRange(periode).map(getArbeidsukeInfoIPeriode);
+    return uker.filter((uke) => uke.erFullArbeidsuke === true).length >= 2;
 };
 
 export const skalSvarePåOmEnJobberLiktIPerioden = (periode?: DateRange) =>
@@ -125,8 +126,25 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
     return [...arbeidsgivere, ...frilans, ...selvstendig];
 };
 
-export const getArbeidsukerIPerioden = (periode: DateRange): WeekOfYearInfo[] => {
+export const getArbeidsukerIPerioden = (periode: DateRange): ArbeidsukeInfo[] => {
     return getWeeksInDateRange(periode)
         .filter((uke) => dayjs(uke.from).isoWeekday() <= 5) // Ikke ta med uker som starter lørdag eller søndag
-        .map(getWeekOfYearInfoFromDateRange);
+        .map(getArbeidsukeInfoIPeriode);
+};
+
+export const getArbeidsdagerIUkeTekst = ({ from, to }: DateRange): string => {
+    const fraDag = dateFormatter.day(from);
+    const tilDag = dateFormatter.day(to);
+    const antallArbeidsdager = dateRangeUtils.getNumberOfDaysInDateRange({ from, to }, true);
+
+    switch (antallArbeidsdager) {
+        case 5:
+            return 'hele uken';
+        case 2:
+            return `${fraDag} og ${tilDag}`;
+        case 1:
+            return `kun ${fraDag}`;
+        default:
+            return `${fraDag} til ${tilDag}`;
+    }
 };
