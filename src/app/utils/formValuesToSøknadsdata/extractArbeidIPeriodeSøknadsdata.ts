@@ -98,16 +98,11 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     omsorgsstønadSvar,
     vervSvar,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
-    console.log('omsorgsstønadSvar: ', omsorgsstønadSvar);
-    console.log('vervSvar: ', vervSvar);
-    console.log('arbeiderIPerioden: ', arbeiderIPerioden);
-
     if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
         omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
         vervSvar === VervSvar.misterDelerAvHonorarer
     ) {
-        console.log();
         if (erLiktHverUke === YesOrNo.YES) {
             const timerISnittPerUke = getNumberFromNumberInputValue(snittTimerPerUke);
 

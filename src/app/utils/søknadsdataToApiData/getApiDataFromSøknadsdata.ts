@@ -27,7 +27,7 @@ export const getApiDataFromSøknadsdata = (
     locale: Locale = 'nb'
 ): SøknadApiData | undefined => {
     const { søknadsperiode, harForståttRettigheterOgPlikter } = søknadsdata;
-    console.log('frilanssøknaddata: ', søknadsdata.arbeid?.frilans);
+
     if (søknadsperiode) {
         try {
             const sprak = getValidSpråk(locale);

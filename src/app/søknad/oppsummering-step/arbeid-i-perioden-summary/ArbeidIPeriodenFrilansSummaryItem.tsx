@@ -23,7 +23,7 @@ interface Props {
 
 const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
     const intl = useIntl();
-    console.log('arbeidsforhold: ', arbeidsforhold);
+
     const timerNormaltNumber = ISODurationToDecimalDuration(arbeidsforhold.normalarbeidstid.timerPerUkeISnitt);
 
     if (arbeidsforhold.arbeidIPeriode === undefined || timerNormaltNumber === undefined) {

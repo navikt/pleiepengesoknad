@@ -111,7 +111,7 @@ export const cleanupArbeidIPeriodeFrilans = (
     if (!normalarbeidstid) {
         throw 'cleanupArbeidIPeriode: normalarbeidstid er undefined';
     }
-    console.log('arbeid: ', arbeid);
+
     if (
         arbeid.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
         arbeid.omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
@@ -172,8 +172,7 @@ export const cleanupArbeidstidFrilans = (
     if (frilans.arbeidsforhold === undefined || !frilansSøknadsdata) {
         return undefined;
     }
-    console.log('frilans: ', frilans);
-    console.log('frilansSøknadsdata: ', frilansSøknadsdata);
+
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
     const erLiktHverUke = skalSvarePåOmEnJobberLiktIPerioden(periodeSomFrilanser)
         ? frilans.arbeidsforhold.arbeidIPeriode?.erLiktHverUke

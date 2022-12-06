@@ -77,7 +77,7 @@ const ArbeidssituasjonFrilans = ({
         harBesvartSpørsmålOmFortsattFrilanser &&
         sluttetFørSøknadsperiode === false &&
         erAktivFrilanserIPerioden;*/
-    console.log('frilansType: ', frilansType);
+
     return (
         <div data-testid="arbeidssituasjonFrilanser">
             {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} intl={intl} />}
