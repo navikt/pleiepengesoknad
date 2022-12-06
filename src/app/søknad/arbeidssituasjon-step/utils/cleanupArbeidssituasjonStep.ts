@@ -53,12 +53,12 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
         /** Er ikke frilanser i perioden */
         frilans.erFortsattFrilanser = undefined;
         frilans.frilansTyper = undefined;
-        frilans.misterHonorar = undefined;
+        frilans.misterHonorarStyreverv = undefined;
         frilans.startdato = undefined;
         frilans.arbeidsforhold = undefined;
     }
     if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
-        if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorar)) {
+        if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorarStyreverv)) {
             frilans.startdato = undefined;
             frilans.arbeidsforhold = undefined;
         }

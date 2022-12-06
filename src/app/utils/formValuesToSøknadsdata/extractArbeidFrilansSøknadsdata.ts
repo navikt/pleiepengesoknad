@@ -27,7 +27,7 @@ export const extractArbeidFrilansSøknadsdata = (
         return undefined;
     }
 
-    if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorar)) {
+    if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorarStyreverv)) {
         return {
             type: 'pågåendeKunStyreverv',
             erFrilanser: true,
@@ -79,7 +79,7 @@ export const extractArbeidFrilansSøknadsdata = (
             erFrilanser: true,
             frilansType: frilans.frilansTyper,
             misterHonorar: frilans.frilansTyper.some((type) => type === FrilansTyper.STYREVERV)
-                ? frilans.misterHonorar
+                ? frilans.misterHonorarStyreverv
                 : undefined,
             startdato,
             aktivPeriode,

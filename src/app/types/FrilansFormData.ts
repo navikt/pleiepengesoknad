@@ -11,7 +11,7 @@ export enum FrilansTyper {
 export enum FrilansFormField {
     harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
     frilansTyper = 'frilans.frilansTyper',
-    misterHonorar = 'frilans.misterHonorar',
+    misterHonorarStyreverv = 'frilans.misterHonorarStyreverv',
     startdato = 'frilans.startdato',
     sluttdato = 'frilans.sluttdato',
     erFortsattFrilanser = 'frilans.erFortsattFrilanser',
@@ -21,7 +21,7 @@ export enum FrilansFormField {
 export interface FrilansFormData {
     harHattInntektSomFrilanser?: YesOrNo;
     frilansTyper?: FrilansTyper[];
-    misterHonorar?: YesOrNo;
+    misterHonorarStyreverv?: YesOrNo;
     erFortsattFrilanser?: YesOrNo;
     startdato?: ISODate;
     sluttdato?: ISODate;

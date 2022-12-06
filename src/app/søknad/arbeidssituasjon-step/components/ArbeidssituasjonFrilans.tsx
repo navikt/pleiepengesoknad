@@ -49,7 +49,7 @@ const ArbeidssituasjonFrilans = ({
         erFortsattFrilanser,
         harHattInntektSomFrilanser,
         arbeidsforhold,
-        misterHonorar,
+        misterHonorarStyreverv: misterHonorar,
         frilansTyper: frilansType,
     } = formValues;
     const intl = useIntl();
@@ -144,7 +144,7 @@ const ArbeidssituasjonFrilans = ({
                             <>
                                 <FormBlock>
                                     <ArbFriFormComponents.YesOrNoQuestion
-                                        name={FrilansFormField.misterHonorar}
+                                        name={FrilansFormField.misterHonorarStyreverv}
                                         data-testid="misterHonorar"
                                         legend={intlHelper(intl, 'frilanser.misterHonorar.tittle')}
                                         validate={getYesOrNoValidator()}
