@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdFormValues, NormalarbeidstidFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilansType } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode, kunStyrevervUtenNormalArbeidstid } from '../../../utils/frilanserUtils';
@@ -61,6 +61,25 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
         if (kunStyrevervUtenNormalArbeidstid(frilans.frilansType, frilans.misterHonorar)) {
             frilans.startdato = undefined;
             frilans.arbeidsforhold = undefined;
+        }
+
+        if (
+            !frilans.frilansType?.some((type) => type === FrilansType.FRILANS) &&
+            frilans.arbeidsforhold?.arbeidIPeriode?.arbeiderIPerioden
+        ) {
+            frilans.arbeidsforhold.arbeidIPeriode.arbeiderIPerioden = undefined;
+        }
+        if (
+            !frilans.frilansType?.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
+            frilans.arbeidsforhold?.arbeidIPeriode?.omsorgsstønadSvar
+        ) {
+            frilans.arbeidsforhold.arbeidIPeriode.omsorgsstønadSvar = undefined;
+        }
+        if (
+            !frilans.frilansType?.some((type) => type === FrilansType.STYREVERV) &&
+            frilans.arbeidsforhold?.arbeidIPeriode?.vervSvar
+        ) {
+            frilans.arbeidsforhold.arbeidIPeriode.vervSvar = undefined;
         }
     }
 
