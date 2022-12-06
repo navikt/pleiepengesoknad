@@ -1,5 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
+import AriaText from '@navikt/sif-common-core/lib/components/aria/AriaText';
 import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
@@ -32,18 +33,12 @@ type Props = OwnProps & StepProps;
 
 const bem = bemHelper('step');
 
-const Step = ({
-    id,
-    useValidationErrorSummary,
-    stepConfig,
-    onAvbryt,
-    onFortsettSenere,
-    children,
-    stepSubTitle,
-}: Props) => {
+const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettSenere, children }: Props) => {
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
+
+    const ariaStepInfo = `Steg ${conf.stepNumber + 1} av ${Object.keys(stepConfig).length}`;
 
     return (
         <Page
@@ -65,18 +60,16 @@ const Step = ({
                     }}
                 />
             )}
-            <Box margin={conf.backLinkHref ? 'none' : 'xl'}>
-                <StepIndicator stepConfig={stepConfig} activeStep={conf.stepNumber} />
-            </Box>
+            <div role="presentation" aria-hidden="true">
+                <Box margin={conf.backLinkHref ? 'none' : 'xl'}>
+                    <StepIndicator stepConfig={stepConfig} activeStep={conf.stepNumber} />
+                </Box>
+            </div>
+
             <Box margin="xxl">
                 <Innholdstittel tag="h1" className={bem.element('title')}>
+                    <AriaText>{ariaStepInfo}</AriaText>
                     {stepTexts.stepTitle}
-                    {stepSubTitle && (
-                        <>
-                            {' '}
-                            <span className={bem.element('subTitle')}>{stepSubTitle}</span>
-                        </>
-                    )}
                 </Innholdstittel>
             </Box>
             <Box margin="xl">{children}</Box>
