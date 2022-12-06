@@ -79,7 +79,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
             case ArbeidIPeriodeType.arbeiderIkkeEllerVanlig:
                 return (
                     <ul>
-                        {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
+                        {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
                         {arbeidIPeriode.omsorgsstønadIPerioden &&
                             getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                         {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
@@ -91,7 +91,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <>
                         <ul>
-                            {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
+                            {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
@@ -116,7 +116,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <div>
                         <ul>
-                            {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
+                            {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
