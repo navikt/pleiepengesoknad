@@ -60,6 +60,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                 utilgjengeligeDatoer={getDatesInMonthOutsideDateRange(måned.from, periode)}
                 åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
+                månedTittelHeadingLevel={3}
             />
         );
     };
@@ -67,7 +68,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
     return (
         <>
             <Box padBottom="m">
-                <Element tag="h3">{tittel}</Element>
+                <Element tag="h2">{tittel}</Element>
             </Box>
             <SøknadFormComponents.InputGroup
                 name={formFieldName}
