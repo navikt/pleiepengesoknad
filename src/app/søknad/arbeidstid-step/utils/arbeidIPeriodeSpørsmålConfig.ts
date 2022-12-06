@@ -26,7 +26,8 @@ const ArbeidIPeriodeFormConfig: QuestionConfig<ArbeidIPeriodePayload, ArbeidIPer
                 skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode) &&
                 (formValues.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
                     formValues.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
-                    formValues.vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer)
+                    formValues.misterHonorarerFraVervIPerioden ===
+                        MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer)
             );
         },
         isAnswered: ({ formValues }) => isYesOrNoAnswered(formValues.erLiktHverUke),

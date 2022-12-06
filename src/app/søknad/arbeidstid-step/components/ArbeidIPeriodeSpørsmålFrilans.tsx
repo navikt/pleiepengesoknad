@@ -79,7 +79,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, omsorgsstønadIPerioden, vervSvar } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, omsorgsstønadIPerioden, misterHonorarerFraVervIPerioden } = arbeidIPeriode || {};
 
     const visibility = arbeidIPeriodeSpørsmålConfig.getVisbility({
         formValues: arbeidIPeriode || {},
@@ -97,13 +97,8 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     const vervRedusert =
         frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
         misterHonorarer === YesOrNo.YES &&
-        vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
 
-    console.log('frilansRedusert: ', frilansRedusert);
-    console.log('omsorgsstønadRedusert: ', omsorgsstønadRedusert);
-    console.log('vervRedusert: ', vervRedusert);
-
-    console.log('frilansType: ', frilansType);
     return (
         <ResponsivePanel>
             <Element>Hva er din situasjon i perioden</Element>
@@ -171,7 +166,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
             {frilansType.some((type) => type === FrilansTyper.STYREVERV && misterHonorarer === YesOrNo.YES) && (
                 <FormBlock>
                     <SøknadFormComponents.RadioPanelGroup
-                        name={getFieldName(ArbeidIPeriodeFormField.vervSvar)}
+                        name={getFieldName(ArbeidIPeriodeFormField.misterHonorarerFraVervIPerioden)}
                         // legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
                         legend={'Honorar for verv'}
                         // validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}

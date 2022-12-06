@@ -82,7 +82,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                         {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
                         {arbeidIPeriode.omsorgsstønadIPerioden &&
                             getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
-                        {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
+                        {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
+                            getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                     </ul>
                 );
 
@@ -93,7 +94,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                             {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
-                            {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
+                            {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
+                                getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                         </ul>
                         <ul>
                             <li>
@@ -117,7 +119,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                             {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
-                            {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
+                            {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
+                                getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                         </ul>
                         <p>
                             <FormattedMessage

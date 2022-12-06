@@ -105,7 +105,7 @@ export const cleanupArbeidIPeriodeFrilans = (
     const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
         omsorgsstønadIPerioden: arbeidIPerioden.omsorgsstønadIPerioden,
-        vervSvar: arbeidIPerioden.vervSvar,
+        misterHonorarerFraVervIPerioden: arbeidIPerioden.misterHonorarerFraVervIPerioden,
     };
 
     if (!normalarbeidstid) {
@@ -115,7 +115,7 @@ export const cleanupArbeidIPeriodeFrilans = (
     if (
         arbeid.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
         arbeid.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
-        arbeid.vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
+        arbeid.misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
     ) {
         if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {
             arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
