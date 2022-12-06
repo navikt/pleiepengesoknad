@@ -3,7 +3,7 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
-import { FrilansFormData, FrilansType } from '../types/FrilansFormData';
+import { FrilansFormData, FrilansTyper } from '../types/FrilansFormData';
 
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
@@ -101,8 +101,8 @@ export const getPeriodeSomFrilanserInnenforSøknadsperiode = (
     };
 };
 
-export const kunStyrevervUtenNormalArbeidstid = (frilansType?: FrilansType[], misterHonorar?: YesOrNo) =>
+export const kunStyrevervUtenNormalArbeidstid = (frilansType?: FrilansTyper[], misterHonorar?: YesOrNo) =>
     frilansType &&
     frilansType.length === 1 &&
-    frilansType.some((type) => type === FrilansType.STYREVERV) &&
+    frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
     misterHonorar === YesOrNo.NO;

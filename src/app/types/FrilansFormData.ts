@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ISODate } from '@navikt/sif-common-utils/lib';
 import { ArbeidsforholdFrilanserFormValues } from './ArbeidsforholdFormValues';
 
-export enum FrilansType {
+export enum FrilansTyper {
     FRILANS = 'FRILANS',
     OMSORGSSTØNAD = 'OMSORGSSTØNAD',
     STYREVERV = 'STYREVERV',
@@ -10,7 +10,7 @@ export enum FrilansType {
 
 export enum FrilansFormField {
     harHattInntektSomFrilanser = 'frilans.harHattInntektSomFrilanser',
-    frilansType = 'frilans.frilansType',
+    frilansTyper = 'frilans.frilansTyper',
     misterHonorar = 'frilans.misterHonorar',
     startdato = 'frilans.startdato',
     sluttdato = 'frilans.sluttdato',
@@ -20,7 +20,7 @@ export enum FrilansFormField {
 
 export interface FrilansFormData {
     harHattInntektSomFrilanser?: YesOrNo;
-    frilansType?: FrilansType[];
+    frilansTyper?: FrilansTyper[];
     misterHonorar?: YesOrNo;
     erFortsattFrilanser?: YesOrNo;
     startdato?: ISODate;

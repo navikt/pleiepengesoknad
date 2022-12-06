@@ -3,7 +3,7 @@ import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
 //import dayjs from 'dayjs';
 // import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData, FrilansType } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilansTyper } from '../../../types/FrilansFormData';
 import { extractArbeidFrilansSøknadsdata } from '../extractArbeidFrilansSøknadsdata';
 //import * as arbeidsforholdMock from '../extractArbeidsforholdSøknadsdata';
 
@@ -18,7 +18,7 @@ const mockArbeidsforhold: ArbeidsforholdFrilanserFormValues = {} as any;
 
 const formData: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,
-    frilansType: [FrilansType.FRILANS],
+    frilansTyper: [FrilansTyper.FRILANS],
     startdato: '2020-01-01',
     arbeidsforhold: mockArbeidsforhold,
 };

@@ -17,7 +17,7 @@ import Lenke from 'nav-frontend-lenker';
 import { Element } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
-import { FrilansFormData, FrilansFormField, FrilansType } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
 // import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { harFrilansoppdrag } from '../../../utils/frilanserUtils';
 // import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
@@ -45,15 +45,21 @@ const ArbeidssituasjonFrilans = ({
     urlSkatteetaten,
 }: Props) => {
     // const { erFortsattFrilanser, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
-    const { erFortsattFrilanser, harHattInntektSomFrilanser, arbeidsforhold, misterHonorar, frilansType } = formValues;
+    const {
+        erFortsattFrilanser,
+        harHattInntektSomFrilanser,
+        arbeidsforhold,
+        misterHonorar,
+        frilansTyper: frilansType,
+    } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
-    const frilansStyreverv = frilansType?.some((type) => type === FrilansType.STYREVERV);
+    const frilansStyreverv = frilansType?.some((type) => type === FrilansTyper.STYREVERV);
     const ikkeVisNormalarbeidstidFrilansStyreverv =
         frilansType &&
         frilansType.length === 1 &&
-        frilansType.some((type) => type === FrilansType.STYREVERV) &&
+        frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
         misterHonorar !== YesOrNo.YES;
     const visNormalarbeidstidSpørsmål = () => {
         if (ikkeVisNormalarbeidstidFrilansStyreverv) {
@@ -112,24 +118,24 @@ const ArbeidssituasjonFrilans = ({
                         <FormBlock>
                             <ArbFriFormComponents.CheckboxGroup
                                 legend={intlHelper(intl, 'frilanser.type.tittel')}
-                                name={FrilansFormField.frilansType}
+                                name={FrilansFormField.frilansTyper}
                                 data-testid="frilansType"
                                 defaultChecked={true}
                                 checkboxes={[
                                     {
                                         label: intlHelper(intl, 'frilanser.type.FRILANS'),
-                                        value: FrilansType.FRILANS,
-                                        checked: frilansType?.some((type) => type === FrilansType.FRILANS),
+                                        value: FrilansTyper.FRILANS,
+                                        checked: frilansType?.some((type) => type === FrilansTyper.FRILANS),
                                     },
                                     {
                                         label: intlHelper(intl, 'frilanser.type.OMSORGSSTØNAD'),
-                                        value: FrilansType.OMSORGSSTØNAD,
-                                        checked: frilansType?.some((type) => type === FrilansType.OMSORGSSTØNAD),
+                                        value: FrilansTyper.OMSORGSSTØNAD,
+                                        checked: frilansType?.some((type) => type === FrilansTyper.OMSORGSSTØNAD),
                                     },
                                     {
                                         label: intlHelper(intl, 'frilanser.type.STYREVERV'),
-                                        value: FrilansType.STYREVERV,
-                                        checked: frilansType?.some((type) => type === FrilansType.STYREVERV),
+                                        value: FrilansTyper.STYREVERV,
+                                        checked: frilansType?.some((type) => type === FrilansTyper.STYREVERV),
                                     },
                                 ]}
                             />

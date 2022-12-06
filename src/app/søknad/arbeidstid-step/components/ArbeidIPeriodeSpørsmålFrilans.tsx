@@ -22,7 +22,7 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
-import { FrilansType } from '../../../types/FrilansFormData';
+import { FrilansTyper } from '../../../types/FrilansFormData';
 import { Element } from 'nav-frontend-typografi';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
@@ -33,7 +33,7 @@ interface Props {
     arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
-    frilansType: FrilansType[];
+    frilansType: FrilansTyper[];
     misterHonorarer?: YesOrNo;
     arbeidsperiode: DateRange;
     søknadsperiode: DateRange;
@@ -83,15 +83,15 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     });
 
     const frilansRedusert =
-        frilansType.some((type) => type === FrilansType.FRILANS) &&
+        frilansType.some((type) => type === FrilansTyper.FRILANS) &&
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert;
 
     const omsorgsstønadRedusert =
-        frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
+        frilansType.some((type) => type === FrilansTyper.OMSORGSSTØNAD) &&
         omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert;
 
     const vervRedusert =
-        frilansType.some((type) => type === FrilansType.STYREVERV) &&
+        frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
         misterHonorarer === YesOrNo.YES &&
         vervSvar === VervSvar.misterDelerAvHonorarer;
 
@@ -103,7 +103,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     return (
         <ResponsivePanel>
             <Element>Hva er din situasjon i perioden</Element>
-            {frilansType.some((type) => type === FrilansType.FRILANS) && (
+            {frilansType.some((type) => type === FrilansTyper.FRILANS) && (
                 <FormBlock>
                     <SøknadFormComponents.RadioPanelGroup
                         name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
@@ -137,7 +137,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                     />
                 </FormBlock>
             )}
-            {frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) && (
+            {frilansType.some((type) => type === FrilansTyper.OMSORGSSTØNAD) && (
                 <FormBlock>
                     <SøknadFormComponents.RadioPanelGroup
                         name={getFieldName(ArbeidIPeriodeFormField.omsorgsstønadIPerioden)}
@@ -164,7 +164,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                     />
                 </FormBlock>
             )}
-            {frilansType.some((type) => type === FrilansType.STYREVERV && misterHonorarer === YesOrNo.YES) && (
+            {frilansType.some((type) => type === FrilansTyper.STYREVERV && misterHonorarer === YesOrNo.YES) && (
                 <FormBlock>
                     <SøknadFormComponents.RadioPanelGroup
                         name={getFieldName(ArbeidIPeriodeFormField.vervSvar)}

@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidsforholdFormValues, NormalarbeidstidFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData, FrilansType } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilansTyper } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
 import { erFrilanserISøknadsperiode, kunStyrevervUtenNormalArbeidstid } from '../../../utils/frilanserUtils';
@@ -52,31 +52,31 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
     if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
         /** Er ikke frilanser i perioden */
         frilans.erFortsattFrilanser = undefined;
-        frilans.frilansType = undefined;
+        frilans.frilansTyper = undefined;
         frilans.misterHonorar = undefined;
         frilans.startdato = undefined;
         frilans.arbeidsforhold = undefined;
     }
     if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
-        if (kunStyrevervUtenNormalArbeidstid(frilans.frilansType, frilans.misterHonorar)) {
+        if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorar)) {
             frilans.startdato = undefined;
             frilans.arbeidsforhold = undefined;
         }
 
         if (
-            !frilans.frilansType?.some((type) => type === FrilansType.FRILANS) &&
+            !frilans.frilansTyper?.some((type) => type === FrilansTyper.FRILANS) &&
             frilans.arbeidsforhold?.arbeidIPeriode?.arbeiderIPerioden
         ) {
             frilans.arbeidsforhold.arbeidIPeriode.arbeiderIPerioden = undefined;
         }
         if (
-            !frilans.frilansType?.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
+            !frilans.frilansTyper?.some((type) => type === FrilansTyper.OMSORGSSTØNAD) &&
             frilans.arbeidsforhold?.arbeidIPeriode?.omsorgsstønadIPerioden
         ) {
             frilans.arbeidsforhold.arbeidIPeriode.omsorgsstønadIPerioden = undefined;
         }
         if (
-            !frilans.frilansType?.some((type) => type === FrilansType.STYREVERV) &&
+            !frilans.frilansTyper?.some((type) => type === FrilansTyper.STYREVERV) &&
             frilans.arbeidsforhold?.arbeidIPeriode?.vervSvar
         ) {
             frilans.arbeidsforhold.arbeidIPeriode.vervSvar = undefined;

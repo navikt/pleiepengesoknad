@@ -1,5 +1,5 @@
 import { ISODate } from '@navikt/sif-common-utils/lib';
-import { FrilansType } from '../FrilansFormData';
+import { FrilansTyper } from '../FrilansFormData';
 import { ArbeidsforholdFrilansApiData } from './arbeidsforholdFrilansApiData';
 
 export interface FrilansApiDataIngenInntekt {
@@ -10,7 +10,7 @@ export interface FrilansApiDataIngenInntekt {
 export interface FrilansApiDataVervIkkeMisterHonorar {
     type: 'harIkkeArbeidsforhold';
     harInntektSomFrilanser: true;
-    frilansTyper: [FrilansType.STYREVERV];
+    frilansTyper: [FrilansTyper.STYREVERV];
     misterHonorar: false;
 }
 
@@ -18,7 +18,7 @@ export interface FrilansApiDataHarInntekt {
     type: 'harArbeidsforhold';
     harInntektSomFrilanser: true;
     startdato: ISODate;
-    frilansTyper: FrilansType[];
+    frilansTyper: FrilansTyper[];
     misterHonorar?: boolean;
     arbeidsforhold: ArbeidsforholdFrilansApiData;
 }

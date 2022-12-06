@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { DateRange } from '@navikt/sif-common-utils/lib';
-import { FrilansType } from '../FrilansFormData';
+import { FrilansTyper } from '../FrilansFormData';
 import { ArbeidsforholdSøknadsdata } from './arbeidsforholdSøknadsdata';
 
 export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
@@ -10,7 +10,7 @@ export interface ArbeidFrilansSøknadsdataErIkkeFrilanser {
 export interface ArbeidFrilansSøknadsdataPågående {
     type: 'pågående';
     erFrilanser: true;
-    frilansType: FrilansType[];
+    frilansType: FrilansTyper[];
     misterHonorar?: YesOrNo;
     startdato: Date;
     aktivPeriode: DateRange;
@@ -20,7 +20,7 @@ export interface ArbeidFrilansSøknadsdataPågående {
 export interface ArbeidFrilansKunStyrevervSøknadsdataPågående {
     type: 'pågåendeKunStyreverv';
     erFrilanser: true;
-    frilansType: [FrilansType.STYREVERV];
+    frilansType: [FrilansTyper.STYREVERV];
     misterHonorar: YesOrNo.NO;
 }
 

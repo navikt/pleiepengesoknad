@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
-import { FrilansType } from '../../types/FrilansFormData';
+import { FrilansTyper } from '../../types/FrilansFormData';
 import { FrilansApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getArbeidsforholdFrilansApiDataFromSøknadsdata } from './getArbeidsforholdApiDataFromSøknadsdata';
@@ -33,7 +33,7 @@ export const getFrilansApiDataFromSøknadsdata = (
             return {
                 type: 'harIkkeArbeidsforhold',
                 harInntektSomFrilanser: true,
-                frilansTyper: [FrilansType.STYREVERV],
+                frilansTyper: [FrilansTyper.STYREVERV],
                 misterHonorar: false,
             };
     }
