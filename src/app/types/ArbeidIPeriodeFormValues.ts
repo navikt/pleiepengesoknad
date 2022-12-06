@@ -15,7 +15,7 @@ export enum VervSvar {
 
 export enum ArbeidIPeriodeFormField {
     arbeiderIPerioden = 'arbeiderIPerioden',
-    omsorgsstønadSvar = 'omsorgsstønadSvar',
+    omsorgsstønadIPerioden = 'omsorgsstønadIPerioden',
     vervSvar = 'vervSvar',
     erLiktHverUke = 'erLiktHverUke',
     timerEllerProsent = 'timerEllerProsent',
@@ -33,7 +33,7 @@ export type ArbeidsukerFormValues = {
 
 export interface ArbeidIPeriodeFormValues {
     [ArbeidIPeriodeFormField.arbeiderIPerioden]?: ArbeiderIPeriodenSvar;
-    [ArbeidIPeriodeFormField.omsorgsstønadSvar]?: OmsorgsstønadIPerioden;
+    [ArbeidIPeriodeFormField.omsorgsstønadIPerioden]?: OmsorgsstønadIPerioden;
     [ArbeidIPeriodeFormField.vervSvar]?: VervSvar;
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;

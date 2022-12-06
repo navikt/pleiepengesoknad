@@ -95,12 +95,12 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     snittTimerPerUke,
     erLiktHverUke,
     arbeidsuker,
-    omsorgsstønadSvar,
+    omsorgsstønadIPerioden,
     vervSvar,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
     if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-        omsorgsstønadSvar === OmsorgsstønadIPerioden.mottarRedusert ||
+        omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
         vervSvar === VervSvar.misterDelerAvHonorarer
     ) {
         if (erLiktHverUke === YesOrNo.YES) {
@@ -110,7 +110,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                     frilansIPeriode: arbeiderIPerioden,
-                    omsorgsstønad: omsorgsstønadSvar,
+                    omsorgsstønadIPerioden,
                     verv: vervSvar,
                     timerISnittPerUke,
                 };
@@ -121,7 +121,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 frilansIPeriode: arbeiderIPerioden,
-                omsorgsstønad: omsorgsstønadSvar,
+                omsorgsstønadIPerioden,
                 verv: vervSvar,
                 arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
             };
@@ -131,7 +131,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     return {
         type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
         frilansIPeriode: arbeiderIPerioden,
-        omsorgsstønad: omsorgsstønadSvar,
+        omsorgsstønadIPerioden,
         verv: vervSvar,
     };
 

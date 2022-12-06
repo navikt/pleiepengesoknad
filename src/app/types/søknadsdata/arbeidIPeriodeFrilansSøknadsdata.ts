@@ -11,13 +11,13 @@ export type ArbeidsukerTimerSøknadsdata = {
 interface ArbeidISøknadsperiodeJobberIkkeEllerVanligSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadIPerioden;
+    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
 }
 interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadIPerioden;
+    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
     timerISnittPerUke: number;
 }
@@ -25,7 +25,7 @@ interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
 interface ArbeidISøknadsperiodeUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadIPerioden;
+    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
     arbeidsuker: ArbeidsukerTimerSøknadsdata;
 }

@@ -82,7 +82,7 @@ export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
             return {
                 type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
                 frilansIPeriode: arbeid.frilansIPeriode,
-                omsorgsstønad: arbeid.omsorgsstønad,
+                omsorgsstønadIPerioden: arbeid.omsorgsstønadIPerioden,
                 verv: arbeid.verv,
             };
 
@@ -90,7 +90,7 @@ export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
             return {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 frilansIPeriode: arbeid.frilansIPeriode,
-                omsorgsstønad: arbeid.omsorgsstønad,
+                omsorgsstønadIPerioden: arbeid.omsorgsstønadIPerioden,
                 verv: arbeid.verv,
                 timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
             };
@@ -98,7 +98,7 @@ export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 frilansIPeriode: arbeid.frilansIPeriode,
-                omsorgsstønad: arbeid.omsorgsstønad,
+                omsorgsstønadIPerioden: arbeid.omsorgsstønadIPerioden,
                 verv: arbeid.verv,
                 arbeidsuker: getArbeidsukerTimerApiData(arbeid.arbeidsuker),
             };

@@ -80,7 +80,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <ul>
                         {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
-                        {arbeidIPeriode.omsorgsstønad && getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønad)}
+                        {arbeidIPeriode.omsorgsstønadIPerioden &&
+                            getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                         {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
                     </ul>
                 );
@@ -90,7 +91,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <>
                         <ul>
                             {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
-                            {arbeidIPeriode.omsorgsstønad && getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønad)}
+                            {arbeidIPeriode.omsorgsstønadIPerioden &&
+                                getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
                         </ul>
                         <ul>
@@ -113,7 +115,8 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <div>
                         <ul>
                             {arbeidIPeriode.frilansIPeriode && getFrilanserTekst(arbeidIPeriode.frilansIPeriode)}
-                            {arbeidIPeriode.omsorgsstønad && getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønad)}
+                            {arbeidIPeriode.omsorgsstønadIPerioden &&
+                                getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.verv && getVervTekst(arbeidIPeriode.verv)}
                         </ul>
                         <p>

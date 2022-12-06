@@ -75,7 +75,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, omsorgsstønadSvar, vervSvar } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, omsorgsstønadIPerioden, vervSvar } = arbeidIPeriode || {};
 
     const visibility = arbeidIPeriodeSpørsmålConfig.getVisbility({
         formValues: arbeidIPeriode || {},
@@ -88,7 +88,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
 
     const omsorgsstønadRedusert =
         frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
-        omsorgsstønadSvar === OmsorgsstønadIPerioden.mottarRedusert;
+        omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert;
 
     const vervRedusert =
         frilansType.some((type) => type === FrilansType.STYREVERV) &&
@@ -140,7 +140,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
             {frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) && (
                 <FormBlock>
                     <SøknadFormComponents.RadioPanelGroup
-                        name={getFieldName(ArbeidIPeriodeFormField.omsorgsstønadSvar)}
+                        name={getFieldName(ArbeidIPeriodeFormField.omsorgsstønadIPerioden)}
                         // legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
                         legend={'Omsorgsstønad'}
                         // validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
