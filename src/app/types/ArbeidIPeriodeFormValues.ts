@@ -8,7 +8,7 @@ export enum OmsorgsstønadIPerioden {
     'beholderHeleOmsorgsstønad' = 'BEHOLDER_HELE__OMSORGSTØNAD',
 }
 
-export enum VervSvar {
+export enum MisterHonorarerFraVervIPerioden {
     'misterAlleHonorarer' = 'MISTER_ALLE_HONORARER',
     'misterDelerAvHonorarer' = 'MISTER_DELER_AV_HONORARER',
 }
@@ -34,7 +34,7 @@ export type ArbeidsukerFormValues = {
 export interface ArbeidIPeriodeFormValues {
     [ArbeidIPeriodeFormField.arbeiderIPerioden]?: ArbeiderIPeriodenSvar;
     [ArbeidIPeriodeFormField.omsorgsstønadIPerioden]?: OmsorgsstønadIPerioden;
-    [ArbeidIPeriodeFormField.vervSvar]?: VervSvar;
+    [ArbeidIPeriodeFormField.vervSvar]?: MisterHonorarerFraVervIPerioden;
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;
     [ArbeidIPeriodeFormField.prosentAvNormalt]?: string;

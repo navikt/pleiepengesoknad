@@ -9,7 +9,11 @@ import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormField, OmsorgsstønadIPerioden, VervSvar } from '../../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidIPeriodeFormField,
+    OmsorgsstønadIPerioden,
+    MisterHonorarerFraVervIPerioden,
+} from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
@@ -93,7 +97,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     const vervRedusert =
         frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
         misterHonorarer === YesOrNo.YES &&
-        vervSvar === VervSvar.misterDelerAvHonorarer;
+        vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
 
     console.log('frilansRedusert: ', frilansRedusert);
     console.log('omsorgsstønadRedusert: ', omsorgsstønadRedusert);
@@ -174,13 +178,13 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                         radios={[
                             {
                                 label: 'Jeg mister alle honorar',
-                                value: VervSvar.misterAlleHonorarer,
-                                'data-testid': VervSvar.misterAlleHonorarer,
+                                value: MisterHonorarerFraVervIPerioden.misterAlleHonorarer,
+                                'data-testid': MisterHonorarerFraVervIPerioden.misterAlleHonorarer,
                             },
                             {
                                 label: 'Jeg mister deler av honorar',
-                                value: VervSvar.misterDelerAvHonorarer,
-                                'data-testid': VervSvar.misterDelerAvHonorarer,
+                                value: MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer,
+                                'data-testid': MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer,
                             },
                         ]}
                     />

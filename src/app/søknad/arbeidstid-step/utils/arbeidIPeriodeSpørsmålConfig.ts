@@ -5,7 +5,7 @@ import {
     ArbeidIPeriodeFormField,
     ArbeidIPeriodeFormValues,
     OmsorgsstønadIPerioden,
-    VervSvar,
+    MisterHonorarerFraVervIPerioden,
 } from '../../../types/ArbeidIPeriodeFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
@@ -26,7 +26,7 @@ const ArbeidIPeriodeFormConfig: QuestionConfig<ArbeidIPeriodePayload, ArbeidIPer
                 skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode) &&
                 (formValues.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
                     formValues.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
-                    formValues.vervSvar === VervSvar.misterDelerAvHonorarer)
+                    formValues.vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer)
             );
         },
         isAnswered: ({ formValues }) => isYesOrNoAnswered(formValues.erLiktHverUke),

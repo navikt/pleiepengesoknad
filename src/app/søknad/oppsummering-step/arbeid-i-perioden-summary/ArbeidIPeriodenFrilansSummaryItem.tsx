@@ -14,7 +14,7 @@ import { ArbeidsukeTimerApiData } from '../../../types/søknad-api-data/SøknadA
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeidIPeriodenFrilansSummaryItemType } from './ArbeidIPeriodenSummary';
 import { ArbeidIPeriodeFrilansApiData } from '../../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
-import { OmsorgsstønadIPerioden, VervSvar } from '../../../types/ArbeidIPeriodeFormValues';
+import { OmsorgsstønadIPerioden, MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 
 interface Props {
     periode: DateRange;
@@ -68,7 +68,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
         </li>
     );
 
-    const getVervTekst = (verv: VervSvar) => (
+    const getVervTekst = (verv: MisterHonorarerFraVervIPerioden) => (
         <li>
             <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.verv.${verv}`} />
         </li>

@@ -7,7 +7,7 @@ import {
     ArbeidIPeriodeFormValues,
     ArbeidsukerFormValues,
     OmsorgsstønadIPerioden,
-    VervSvar,
+    MisterHonorarerFraVervIPerioden,
 } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata, ArbeidsukerTimerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
@@ -101,7 +101,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
         omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
-        vervSvar === VervSvar.misterDelerAvHonorarer
+        vervSvar === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
     ) {
         if (erLiktHverUke === YesOrNo.YES) {
             const timerISnittPerUke = getNumberFromNumberInputValue(snittTimerPerUke);
