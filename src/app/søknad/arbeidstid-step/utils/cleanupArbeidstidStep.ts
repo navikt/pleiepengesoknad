@@ -7,6 +7,8 @@ import {
     ArbeidIPeriodeFormField,
     ArbeidIPeriodeFormValues,
     ArbeidsukerFormValues,
+    OmsorgsstønadSvar,
+    VervSvar,
 } from '../../../types/ArbeidIPeriodeFormValues';
 import {
     ArbeidsforholdFormValues,
@@ -90,6 +92,51 @@ export const cleanupArbeidIPeriode = (
     }
 };
 
+export const cleanupArbeidIPeriodeFrilans = (
+    arbeidsperiode: DateRange,
+    arbeidIPerioden: ArbeidIPeriodeFormValues,
+    normalarbeidstid: NormalarbeidstidSøknadsdata | undefined
+): ArbeidIPeriodeFormValues => {
+    const config = arbeidIPeriodeSpørsmålConfig.getVisbility({
+        formValues: arbeidIPerioden,
+        arbeidsperiode,
+    });
+
+    const arbeid: ArbeidIPeriodeFormValues = {
+        arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
+        omsorgsstønadSvar: arbeidIPerioden.omsorgsstønadSvar,
+        vervSvar: arbeidIPerioden.vervSvar,
+    };
+
+    if (!normalarbeidstid) {
+        throw 'cleanupArbeidIPeriode: normalarbeidstid er undefined';
+    }
+    console.log('arbeid: ', arbeid);
+    if (
+        arbeid.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
+        arbeid.omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
+        arbeid.vervSvar === VervSvar.misterDelerAvHonorarer
+    ) {
+        if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {
+            arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
+        }
+
+        if (arbeid.erLiktHverUke === YesOrNo.YES) {
+            return { ...arbeid, snittTimerPerUke: arbeidIPerioden.snittTimerPerUke, arbeidsuker: undefined };
+        } else {
+            return {
+                ...arbeid,
+                prosentAvNormalt: undefined,
+                snittTimerPerUke: undefined,
+                arbeidsuker: arbeidIPerioden.arbeidsuker
+                    ? cleanupArbeidsuker(arbeidsperiode, arbeidIPerioden.arbeidsuker, TimerEllerProsent.TIMER)
+                    : undefined,
+            };
+        }
+    }
+    return arbeid;
+};
+
 export const cleanupArbeidstidAnsatt = (
     søknadsperiode: DateRange,
     ansatt_arbeidsforhold: ArbeidsforholdFormValues[],
@@ -125,14 +172,17 @@ export const cleanupArbeidstidFrilans = (
     if (frilans.arbeidsforhold === undefined || !frilansSøknadsdata) {
         return undefined;
     }
+    console.log('frilans: ', frilans);
+    console.log('frilansSøknadsdata: ', frilansSøknadsdata);
     const periodeSomFrilanser = getPeriodeSomFrilanserInnenforPeriode(søknadsperiode, frilans);
     const erLiktHverUke = skalSvarePåOmEnJobberLiktIPerioden(periodeSomFrilanser)
         ? frilans.arbeidsforhold.arbeidIPeriode?.erLiktHverUke
         : YesOrNo.NO;
 
-    const normalarbeidstid = frilansSøknadsdata.erFrilanser
-        ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
-        : undefined;
+    const normalarbeidstid =
+        frilansSøknadsdata.erFrilanser && frilansSøknadsdata.type === 'pågående'
+            ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
+            : undefined;
 
     return {
         ...frilans.arbeidsforhold,
@@ -141,7 +191,7 @@ export const cleanupArbeidstidFrilans = (
             normalarbeidstid &&
             frilans.arbeidsforhold.arbeidIPeriode &&
             frilans.arbeidsforhold.normalarbeidstid
-                ? cleanupArbeidIPeriode(
+                ? cleanupArbeidIPeriodeFrilans(
                       periodeSomFrilanser,
                       { ...frilans.arbeidsforhold.arbeidIPeriode, erLiktHverUke },
                       normalarbeidstid

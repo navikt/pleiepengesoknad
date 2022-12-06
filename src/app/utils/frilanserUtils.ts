@@ -3,16 +3,13 @@ import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
-import { FrilansFormData } from '../types/FrilansFormData';
+import { FrilansFormData, FrilansType } from '../types/FrilansFormData';
 
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
 
-export const harSvartErFrilanserEllerHarFrilansoppdrag = (
-    harHattInntektSomFrilanser: YesOrNo | undefined,
-    frilansoppdrag: Arbeidsgiver[] | undefined
-): boolean => {
-    return harFrilansoppdrag(frilansoppdrag) || harHattInntektSomFrilanser === YesOrNo.YES;
+export const harSvartErFrilanserEllerHarFrilansoppdrag = (harHattInntektSomFrilanser: YesOrNo | undefined): boolean => {
+    return harHattInntektSomFrilanser === YesOrNo.YES;
 };
 
 export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, frilansSluttdato?: Date): boolean => {
@@ -27,16 +24,12 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
 
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[] | undefined
+    { harHattInntektSomFrilanser, sluttdato, startdato }: FrilansFormData
 ): boolean => {
-    if (erFortsattFrilanser === YesOrNo.YES) {
-        return true;
-    }
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
 
-    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser, frilansoppdrag)) {
+    if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser)) {
         return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
     return false;
@@ -107,3 +100,9 @@ export const getPeriodeSomFrilanserInnenforSøknadsperiode = (
         to: toDate,
     };
 };
+
+export const kunStyrevervUtenNormalArbeidstid = (frilansType?: FrilansType[], misterHonorar?: YesOrNo) =>
+    frilansType &&
+    frilansType.length === 1 &&
+    frilansType.some((type) => type === FrilansType.STYREVERV) &&
+    misterHonorar === YesOrNo.NO;

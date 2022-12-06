@@ -1,8 +1,14 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { dateUtils, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeFrilansSøknadsdata } from '../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidIPeriodeFormValues,
+    ArbeidsukerFormValues,
+    OmsorgsstønadSvar,
+    VervSvar,
+} from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata, ArbeidsukerTimerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
@@ -80,6 +86,59 @@ export const extractArbeidIPeriodeSøknadsdata = ({
             arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
         };
     }
+
+    return undefined;
+};
+
+export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
+    arbeiderIPerioden,
+    snittTimerPerUke,
+    erLiktHverUke,
+    arbeidsuker,
+    omsorgsstønadSvar,
+    vervSvar,
+}: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
+    console.log('omsorgsstønadSvar: ', omsorgsstønadSvar);
+    console.log('vervSvar: ', vervSvar);
+    console.log('arbeiderIPerioden: ', arbeiderIPerioden);
+
+    if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
+        omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
+        vervSvar === VervSvar.misterDelerAvHonorarer
+    ) {
+        console.log();
+        if (erLiktHverUke === YesOrNo.YES) {
+            const timerISnittPerUke = getNumberFromNumberInputValue(snittTimerPerUke);
+
+            if (snittTimerPerUke && timerISnittPerUke) {
+                return {
+                    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
+                    frilansIPeriode: arbeiderIPerioden,
+                    omsorgsstønad: omsorgsstønadSvar,
+                    verv: vervSvar,
+                    timerISnittPerUke,
+                };
+            }
+        }
+
+        if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
+            return {
+                type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
+                frilansIPeriode: arbeiderIPerioden,
+                omsorgsstønad: omsorgsstønadSvar,
+                verv: vervSvar,
+                arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
+            };
+        }
+    }
+
+    return {
+        type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
+        frilansIPeriode: arbeiderIPerioden,
+        omsorgsstønad: omsorgsstønadSvar,
+        verv: vervSvar,
+    };
 
     return undefined;
 };

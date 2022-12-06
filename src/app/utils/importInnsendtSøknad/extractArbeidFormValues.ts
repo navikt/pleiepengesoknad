@@ -6,12 +6,12 @@ import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';
 import { ArbeidsgiverType } from '../../types';
 import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../types/FrilansFormData';
+// import { FrilansFormData } from '../../types/FrilansFormData';
 import { SøknadsimportEndring, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { OrganisasjonArbeidsgiverApiData } from '../../types/søknad-api-data/arbeidsgiverApiData';
-import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
+// import { FrilansApiData } from '../../types/søknad-api-data/frilansApiData';
 import { SelvstendigApiData } from '../../types/søknad-api-data/selvstendigApiData';
 import { OpptjeningIUtlandetApiData, UtenlandskNæringApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
@@ -27,7 +27,7 @@ dayjs.extend(isSameOrAfter);
 
 type ArbeidFormValues = Pick<
     SøknadFormValues,
-    | SøknadFormField.frilans
+    //  | SøknadFormField.frilans
     | SøknadFormField.frilansoppdrag
     | SøknadFormField.ansatt_arbeidsforhold
     | SøknadFormField.opptjeningUtland
@@ -56,14 +56,12 @@ export const mapArbeidsgiverToFormValues = (
     return formValues;
 };
 
-export const mapFrilanserToFormValues = (frilanser: FrilansApiData): FrilansFormData => {
+//TODO
+/*export const mapFrilanserToFormValues = (frilanser: FrilansApiData): FrilansFormData => {
     if (frilanser.harInntektSomFrilanser) {
-        const erFortsattFrilanser = booleanToYesOrNo(frilanser.jobberFortsattSomFrilans);
         return {
             harHattInntektSomFrilanser: YesOrNo.YES,
-            erFortsattFrilanser: booleanToYesOrNo(frilanser.jobberFortsattSomFrilans),
             startdato: frilanser.startdato,
-            sluttdato: erFortsattFrilanser ? frilanser.sluttdato : '',
             arbeidsforhold: {
                 arbeidIPeriode: mapArbeidIPeriodeApiDataToFormValues(frilanser.arbeidsforhold.arbeidIPeriode),
                 normalarbeidstid: mapNormalarbeidstidApiDataToFormValues(frilanser.arbeidsforhold.normalarbeidstid),
@@ -74,7 +72,7 @@ export const mapFrilanserToFormValues = (frilanser: FrilansApiData): FrilansForm
     return {
         harHattInntektSomFrilanser: YesOrNo.NO,
     };
-};
+};*/
 
 export const mapSelvstendigToFormValues = (selvstendig: SelvstendigApiData): SelvstendigFormData => {
     if (selvstendig.harInntektSomSelvstendig) {
@@ -131,7 +129,7 @@ export const extractArbeidFormValues = (
 
     const formValues = {
         ansatt_arbeidsforhold: ansatt_arbeidsforhold,
-        frilans: mapFrilanserToFormValues(søknad.frilans),
+        // frilans: mapFrilanserToFormValues(søknad.frilans),
         frilansoppdrag: [],
         selvstendig: mapSelvstendigToFormValues(søknad.selvstendigNæringsdrivende),
         harOpptjeningUtland: booleanToYesOrNo(søknad.opptjeningIUtlandet.length > 0),

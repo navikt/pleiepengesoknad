@@ -20,6 +20,7 @@ import { useSøknadsdataContext } from '../../SøknadsdataContext';
 import { StepConfigProps, StepID } from '../../søknadStepsConfig';
 import { cleanupArbeidstidStep } from '../utils/cleanupArbeidstidStep';
 import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
+import ArbeidIPeriodeSpørsmålFrilans from './ArbeidIPeriodeSpørsmålFrilans';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -98,21 +99,30 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
 
             {frilans.arbeidsforhold &&
                 arbeid.frilans?.erFrilanser === true &&
-                arbeid.frilans?.harInntektISøknadsperiode === true && (
+                arbeid.frilans?.frilansType.length > 0 &&
+                arbeid.frilans?.type !== 'pågåendeKunStyreverv' && (
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
-                            <div data-testid="arbeidIPerioden_frilanser">
-                                <ArbeidIPeriodeSpørsmål
-                                    normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
-                                    arbeidsstedNavn="Frilansoppdrag"
-                                    arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                    arbeidsforhold={frilans.arbeidsforhold}
-                                    arbeidsperiode={arbeid.frilans.aktivPeriode}
-                                    søknadsperiode={søknadsperiode}
-                                    parentFieldName={FrilansFormField.arbeidsforhold}
-                                    onArbeidstidVariertChange={handleArbeidstidChanged}
-                                />
-                            </div>
+                            <>
+                                <Box padBottom="l">
+                                    <FormattedMessage id={'arbeidIPeriode.FrilansLabel.info'} />
+                                </Box>
+
+                                <div data-testid="arbeidIPerioden_frilanser">
+                                    <ArbeidIPeriodeSpørsmålFrilans
+                                        normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
+                                        arbeidsstedNavn="Frilansoppdrag"
+                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                        arbeidsforhold={frilans.arbeidsforhold}
+                                        arbeidsperiode={arbeid.frilans.aktivPeriode}
+                                        søknadsperiode={søknadsperiode}
+                                        parentFieldName={FrilansFormField.arbeidsforhold}
+                                        frilansType={arbeid.frilans.frilansType}
+                                        misterHonorarer={arbeid.frilans.misterHonorar}
+                                        onArbeidstidVariertChange={handleArbeidstidChanged}
+                                    />
+                                </div>
+                            </>
                         </FormSection>
                     </FormBlock>
                 )}

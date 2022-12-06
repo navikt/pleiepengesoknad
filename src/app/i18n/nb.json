@@ -306,7 +306,7 @@
 
     "steg.arbeidssituasjon.intro": "Vi har funnet disse arbeidsforholdene registrert på deg.",
     "steg.arbeidssituasjon.info.tittel": "Mangler det et arbeidsforhold her?",
-    "steg.arbeidssituasjon.frilanser.tittel": "Frilans",
+    "steg.arbeidssituasjon.frilanser.tittel": "Frilanser, oppdragstaker og honorarer",
     "steg.arbeidssituasjon.sn.tittel": "Selvstendig næringsdrivende",
 
     "steg.arbeidssituasjon.opptjeningUtland.tittel": "Jobbet i et annet EØS-land",
@@ -604,13 +604,16 @@
 
     "arbeidIPeriode.StepInfo.1": "Her skal du svare på om du jobber noe i perioden du søker om. Altså om du kombinerer pleiepenger med delvis jobb.",
     "arbeidIPeriode.StepInfo.2": "Hvis du for eksempel i søknadsperioden jobber 30 prosent, kan du ha rett til 70 prosent pleiepenger. Du får ikke pleiepenger for tiden du jobber, og derfor graderes pleiepengene mot den tiden du jobber.",
-    "arbeidIPeriode.FrilansLabel": "Frilans",
+    "arbeidIPeriode.FrilansLabel": "Frilanser, oppdragstaker og honorarer",
+    "arbeidIPeriode.FrilansLabel.info": "Vi trenger å vite om du mister noe på grunn av xxx",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.arbeiderIPerioden.spm": "I perioden du søker for, hvilken situasjon gjelder for deg {hvor}?",
+    "arbeidIPeriode.arbeiderIPerioden.frilans.spm": "Som frilanser",
     "arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke": "Jeg jobber ikke",
     "arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert": "Jeg kombinerer delvis jobb med pleiepenger",
     "arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig": "Jeg jobber som normalt, og har ikke fravær",
     "arbeidIPeriode.erLiktHverUke.spm": "Jobber du like mye hver uke {hvor} i perioden?",
+    "arbeidIPeriode.erLiktHverUke.frilans.spm": "Er antall timer likt hver uke, eller varierer det fra uke til uke?",
     "arbeidIPeriode.erLiktHverUke.prosent.spm": "Jobber du like mye hver uke {hvor} i perioden?",
     "arbeidIPeriode.erLiktHverUke.timer.spm": "Jobber du like mange timer hver uke {hvor} i perioden?",
     "arbeidIPeriode.erLiktHverUke.ja": "Ja",
@@ -626,6 +629,7 @@
     "arbeidIPeriode.timerAvNormalt.delvisUker.spm": "Hvor mange timer jobber du hver hele uke {hvor} i søknadsperioden?",
     "arbeidIPeriode.prosentAvNormalt.spm": "Hvor mange prosent jobber du {hvor} i søknadsperioden?",
     "arbeidIPeriode.timerAvNormalt.spm": "Hvor mange timer jobber du hver uke {hvor} i søknadsperioden?",
+    "arbeidIPeriode.timerAvNormalt.frilanser.spm": "Oppgi antall timer",
     "arbeidIPeriode.arbeidsperiode.starterIPerioden": " (fra og med {fra})",
     "arbeidIPeriode.arbeidsperiode.slutterIPerioden": " (frem til og med {til})",
     "arbeidIPeriode.arbeidsperiode.starterOgSlutterIPerioden": " ({fra} - {til})",
@@ -636,6 +640,15 @@
     "arbeidIPeriode.uke.ukedatoer": "{ukedatoer}",
 
     "arbeidIPeriode.redusert.info.tittel": "Hvor mye jobber du i søknadsperioden?",
+    "arbeidIPeriode.redusert.info.frilans.tittel": "Antall timer i søknadsperioden",
+    "arbeidIPeriode.redusert.info.frilans.info.tittel": "Vi trenger å vite hvor mange timer ... Legg sammen for å få _antall_timer:",
+    "arbeidIPeriode.redusert.info.frilans.info.frilans.tittel": "mer om tid du jobber som frilanser",
+    "arbeidIPeriode.redusert.info.frilans.info.frilans.info": "FRILANS TID TODO",
+    "arbeidIPeriode.redusert.info.frilans.info.omsorgsstønad.tittel": "mer om avtalt tid for omsorgsstønad fra kommunen",
+    "arbeidIPeriode.redusert.info.frilans.info.omsorgsstønad.info": "omsorgsstønad TID TODO",
+    "arbeidIPeriode.redusert.info.frilans.info.verv.tittel": "mer om tid du bruker på verv",
+    "arbeidIPeriode.redusert.info.frilans.info.verv.info": "verv TID TODO",
+
     "arbeidIPeriode.redusert.info.tekst": "Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir du oss beskjed i slutten av den aktuelle måneden.",
 
     "tidKalenderForm.ok.label": "Lagre",
@@ -656,10 +669,14 @@
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header": "Arbeidsgivere",
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for",
 
-    "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser",
-    "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser i perioden det søkes for",
-    "oppsummering.arbeidssituasjon.frilans.startet": "Startet som frilanser {dato}",
+    "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser, mottar omsorgsstønad, eller mottar honorar for styreverv/andre små verv",
+    "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser, mottar ikke omsorgsstønad, eller mottar ikke honorar for styreverv/andre små verv i perioden det søkes for",
+    "oppsummering.arbeidssituasjon.frilans.startet": "Startet {dato}",
     "oppsummering.arbeidssituasjon.frilans.fortsattFrilanser": "Er fortsatt frilanser",
+    "oppsummering.arbeidssituasjon.frilans.FRILANS": "Jeg jobber som frilanser",
+    "oppsummering.arbeidssituasjon.frilans.OMSORGSSTØNAD": "Jeg mottar omsorgsstønad fra kommunen",
+    "oppsummering.arbeidssituasjon.frilans.STYREVERV": "Jeg mottar honorar for  styreverv eller andre verv",
+    "oppsummering.arbeidssituasjon.frilans.STYREVERV.misterIkkeHonorar": "Jeg mister ikke honorar for verv i søknadsperioden",
     "oppsummering.arbeidssituasjon.frilans.sluttet": "Sluttet som frilanser {dato}",
     "oppsummering.arbeidssituasjon.frilans.frilansoppdrag": "Frilansoppdrag registrert i perioden:",
 
@@ -681,6 +698,18 @@
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.ja": "jobber",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.nei": "Jobber ikke i søknadsperioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.somVanlig": "Jobber som normalt, har ikke fravær på grunn av pleiepenger.",
+
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.frilanser.REDUSERT": "Frilanser: jobber",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.frilanser.HELT_FRAVÆR": "Frilanser: Jobber ikke i søknadsperioden",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.frilanser.SOM_VANLIG": "Frilanser: Jobber som normalt, har ikke fravær på grunn av pleiepenger.",
+
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.omsorgsstønad.MISTER_OMSORGSTØNAD": "Omsorgsstønad: Jeg mister hele omsorgsstønaden.",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.omsorgsstønad.MOTTAR_REDUSERT_OMSORGSTØNAD": "Omsorgsstønad: Jeg mottar redusert omsorgsstønad.",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.omsorgsstønad.BEHOLDER_HELE__OMSORGSTØNAD": "Omsorgsstønad: Jeg beholder hele omsorgsstønaden.",
+
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.verv.MISTER_ALLE_HONORARER": "Honorar for verv: Jeg mister alle honorar.",
+    "oppsummering.arbeidIPeriode.arbeiderIPerioden.verv.MISTER_DELER_AV_HONORARER": "Honorar for verv: Jeg mister deler av honorar.",
+
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.liktHverUke": "Jobber likt hver uke i søknadsperioden",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent": "Jobber {prosent} prosent av normalt",
     "oppsummering.arbeidIPeriode.arbeiderIPerioden.prosent_full": "Jobber {prosent} prosent av normalt {timerNormalt} timer i hele uken (tilsvarer {timerIPeriode} i uken)",
@@ -721,7 +750,7 @@
     "selvstendig.list.leggTilLabel": "Legg til næringsvirksomhet",
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
-    "frilanser.harDuHattInntekt.spm": "Er du frilanser i perioden du søker for?",
+    "frilanser.harDuHattInntekt.spm": "Jobber du som frilanser, mottar omsorgsstønad, eller mottar honorar for styreverv/andre små verv?",
     "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
     "frilanser.nårStartet.spm": "Når startet du å jobbe som frilanser?",
     "frilanser.erFortsattFrilanser.spm": "Jobber du fortsatt som frilanser?",
@@ -731,6 +760,15 @@
     "snF.ArbeidsforholdDetaljer.hvaBetyr.frilanser.info": "Hvis du jobber som frilanser flere steder skal du her svare samlet for alle oppdragene. Hvis du f.eks. skal jobbe i en av to frilansforhold skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
     "snF.ArbeidsforholdDetaljer.hvaBetyr.SN.info": "Hvis du jobber som selvstendig i flere virksomheter skal du her svare samlet for alle virksomhetene dine. Hvis du f.eks. skal jobbe i en av to virksomheter skal du her svare \"Ja, men jeg skal jobbe mindre enn normalt\".",
 
+    "frilanser.info": "De neste spørsmålene stiller vi for å sikre at du får kompensasjon hvis du mister noe av inntekten din fordi du har pleiepenger",
+    "frilanser.type.tittel": "Kryss av for hva som gjelderfor deg?",
+    "frilanser.type.FRILANS": "Jeg jobber som frilanser",
+    "frilanser.type.OMSORGSSTØNAD": "Jeg mottar omsoergstønad fra kommunen",
+    "frilanser.type.STYREVERV": "Jeg mottar honorar for styreverv eller andre verv",
+    "frilanser.misterHonorar.tittle": "Mister du honorar for verv i perioden du søker for?",
+    "frilanser.misterHonorar.description.tittel": "Hva betyr dette?",
+    "frilanser.misterHonorar.description": "TODO...",
+    "frilanser.misterHonorar.nei.info": "Når du ikke mister så skal du heller ikke at med fordi....TODO",
     "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
     "frilanser.hjelpetekst": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på",
     "frilanser.hjelpetekst.skatteetatenLenke": "skatteetaten sine nettsider.",
@@ -928,7 +966,8 @@
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
     "frilansoppdragListe.tidsrom.avsluttet": "{fra} - {til}",
     "frilansoppdragListe.tidsrom.pågående": "{fra} - pågående",
-    "frilansoppdragInfo.tittel": "Registrerte frilansoppdrag i pleiepengeperioden:",
+    "frilansoppdragInfo.tittel": "Vi har funnet {antall}  \"frilansoppdrag\" på deg i AA-registeret",
+    "frilansoppdragInfo.expandableInfo.tittel": "Se hva vi har funnnet",
     "frilansoppdragInfo.tekst": "Dette er frilansoppdrag registrert i AA-registeret i perioden du søker om pleiepenger. Dersom informasjonen ikke stemmer, må du ta kontakt med oppdragsgiver og be de oppdatere informasjonen i AA-registeret.",
 
     "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn."

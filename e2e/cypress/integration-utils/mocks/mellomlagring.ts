@@ -44,17 +44,7 @@ export const mellomlagring = {
         harNattevåk: 'unanswered',
         harBeredskap: 'unanswered',
         frilans: {
-            harHattInntektSomFrilanser: 'yes',
-            startdato: '2010-10-01',
-            erFortsattFrilanser: 'yes',
-            arbeidsforhold: {
-                normalarbeidstid: {
-                    timerPerUke: '20',
-                },
-                arbeidIPeriode: {
-                    arbeiderIPerioden: 'HELT_FRAVÆR',
-                },
-            },
+            harHattInntektSomFrilanser: 'no',
         },
         selvstendig: {
             harHattInntektSomSN: 'no',

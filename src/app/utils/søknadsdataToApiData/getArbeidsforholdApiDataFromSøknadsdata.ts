@@ -1,5 +1,7 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { dateToISODate, decimalDurationToISODuration } from '@navikt/sif-common-utils';
+import { ArbeidIPeriodeFrilansApiData } from '../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
+import { ArbeidIPeriodeFrilansSøknadsdata } from '../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import {
     ArbeidIPeriodeApiData,
@@ -12,6 +14,7 @@ import {
     ArbeidsukerTimerSøknadsdata,
 } from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
+import { ArbeidsforholdFrilansApiData } from '../../types/søknad-api-data/arbeidsforholdFrilansApiData';
 
 export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknadsdata): ArbeidsukeTimerApiData[] => {
     return arbeidsuker.map(({ periode: { from, to }, timer }) => {
@@ -66,7 +69,50 @@ export const getArbeidsforholdApiDataFromSøknadsdata = (
     return {
         normalarbeidstid: getNormalarbeidstidApiDataFromSøknadsdata(normalarbeidstid),
         arbeidIPeriode: arbeidISøknadsperiode
-            ? getArbeidIPeriodeApiDataFromSøknadsdata(arbeidISøknadsperiode)
+            ? getArbeidIPeriodeApiDataFromSøknadsdata(arbeidISøknadsperiode as ArbeidIPeriodeSøknadsdata)
+            : undefined,
+    };
+};
+
+export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
+    arbeid: ArbeidIPeriodeFrilansSøknadsdata
+): ArbeidIPeriodeFrilansApiData => {
+    switch (arbeid.type) {
+        case ArbeidIPeriodeType.arbeiderIkkeEllerVanlig:
+            return {
+                type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
+                frilansIPeriode: arbeid.frilansIPeriode,
+                omsorgsstønad: arbeid.omsorgsstønad,
+                verv: arbeid.verv,
+            };
+
+        case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
+            return {
+                type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
+                frilansIPeriode: arbeid.frilansIPeriode,
+                omsorgsstønad: arbeid.omsorgsstønad,
+                verv: arbeid.verv,
+                timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
+            };
+        case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
+            return {
+                type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
+                frilansIPeriode: arbeid.frilansIPeriode,
+                omsorgsstønad: arbeid.omsorgsstønad,
+                verv: arbeid.verv,
+                arbeidsuker: getArbeidsukerTimerApiData(arbeid.arbeidsuker),
+            };
+    }
+};
+
+export const getArbeidsforholdFrilansApiDataFromSøknadsdata = (
+    arbeidsforhold: ArbeidsforholdSøknadsdata
+): ArbeidsforholdFrilansApiData => {
+    const { normalarbeidstid, arbeidISøknadsperiode } = arbeidsforhold;
+    return {
+        normalarbeidstid: getNormalarbeidstidApiDataFromSøknadsdata(normalarbeidstid),
+        arbeidIPeriode: arbeidISøknadsperiode
+            ? getArbeidIPeriodeFrilansApiDataFromSøknadsdata(arbeidISøknadsperiode as ArbeidIPeriodeFrilansSøknadsdata)
             : undefined,
     };
 };
