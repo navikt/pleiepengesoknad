@@ -4,7 +4,7 @@ import { QuestionConfig, Questions } from '@navikt/sif-common-question-config/li
 import {
     ArbeidIPeriodeFormField,
     ArbeidIPeriodeFormValues,
-    OmsorgsstønadSvar,
+    OmsorgsstønadIPerioden,
     VervSvar,
 } from '../../../types/ArbeidIPeriodeFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
@@ -25,7 +25,7 @@ const ArbeidIPeriodeFormConfig: QuestionConfig<ArbeidIPeriodePayload, ArbeidIPer
             return (
                 skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode) &&
                 (formValues.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-                    formValues.omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
+                    formValues.omsorgsstønadSvar === OmsorgsstønadIPerioden.mottarRedusert ||
                     formValues.vervSvar === VervSvar.misterDelerAvHonorarer)
             );
         },

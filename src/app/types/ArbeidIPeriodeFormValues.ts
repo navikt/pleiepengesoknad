@@ -2,7 +2,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
-export enum OmsorgsstønadSvar {
+export enum OmsorgsstønadIPerioden {
     'misterOmsorgsstønad' = 'MISTER_OMSORGSTØNAD',
     'mottarRedusert' = 'MOTTAR_REDUSERT_OMSORGSTØNAD',
     'beholderHeleOmsorgsstønad' = 'BEHOLDER_HELE__OMSORGSTØNAD',
@@ -33,7 +33,7 @@ export type ArbeidsukerFormValues = {
 
 export interface ArbeidIPeriodeFormValues {
     [ArbeidIPeriodeFormField.arbeiderIPerioden]?: ArbeiderIPeriodenSvar;
-    [ArbeidIPeriodeFormField.omsorgsstønadSvar]?: OmsorgsstønadSvar;
+    [ArbeidIPeriodeFormField.omsorgsstønadSvar]?: OmsorgsstønadIPerioden;
     [ArbeidIPeriodeFormField.vervSvar]?: VervSvar;
     [ArbeidIPeriodeFormField.erLiktHverUke]?: YesOrNo;
     [ArbeidIPeriodeFormField.timerEllerProsent]?: TimerEllerProsent;

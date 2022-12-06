@@ -9,7 +9,7 @@ import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormField, OmsorgsstønadSvar, VervSvar } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeFormField, OmsorgsstønadIPerioden, VervSvar } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
@@ -88,7 +88,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
 
     const omsorgsstønadRedusert =
         frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
-        omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert;
+        omsorgsstønadSvar === OmsorgsstønadIPerioden.mottarRedusert;
 
     const vervRedusert =
         frilansType.some((type) => type === FrilansType.STYREVERV) &&
@@ -147,18 +147,18 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                         radios={[
                             {
                                 label: 'Jeg mister hele omsorgsstønaden',
-                                value: OmsorgsstønadSvar.misterOmsorgsstønad,
-                                'data-testid': OmsorgsstønadSvar.misterOmsorgsstønad,
+                                value: OmsorgsstønadIPerioden.misterOmsorgsstønad,
+                                'data-testid': OmsorgsstønadIPerioden.misterOmsorgsstønad,
                             },
                             {
                                 label: 'Jeg mottar redusert omsorgsstønad',
-                                value: OmsorgsstønadSvar.mottarRedusert,
-                                'data-testid': OmsorgsstønadSvar.mottarRedusert,
+                                value: OmsorgsstønadIPerioden.mottarRedusert,
+                                'data-testid': OmsorgsstønadIPerioden.mottarRedusert,
                             },
                             {
                                 label: 'Jeg beholder hele omsorgsstønaden',
-                                value: OmsorgsstønadSvar.beholderHeleOmsorgsstønad,
-                                'data-testid': OmsorgsstønadSvar.beholderHeleOmsorgsstønad,
+                                value: OmsorgsstønadIPerioden.beholderHeleOmsorgsstønad,
+                                'data-testid': OmsorgsstønadIPerioden.beholderHeleOmsorgsstønad,
                             },
                         ]}
                     />

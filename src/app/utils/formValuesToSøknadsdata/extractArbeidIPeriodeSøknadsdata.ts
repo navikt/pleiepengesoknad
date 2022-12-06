@@ -6,7 +6,7 @@ import { TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeFormValues,
     ArbeidsukerFormValues,
-    OmsorgsstønadSvar,
+    OmsorgsstønadIPerioden,
     VervSvar,
 } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
@@ -100,7 +100,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
     if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-        omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert ||
+        omsorgsstønadSvar === OmsorgsstønadIPerioden.mottarRedusert ||
         vervSvar === VervSvar.misterDelerAvHonorarer
     ) {
         if (erLiktHverUke === YesOrNo.YES) {

@@ -1,6 +1,6 @@
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils/lib';
-import { OmsorgsstønadSvar, VervSvar } from '../ArbeidIPeriodeFormValues';
+import { OmsorgsstønadIPerioden, VervSvar } from '../ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukeTimerApiData = {
@@ -14,14 +14,14 @@ export type ArbeidsukeTimerApiData = {
 export interface ArbeidIPeriodeApiDataJobberIkkeEllerSomVanlig {
     type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadSvar;
+    omsorgsstønad?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
 }
 
 export interface ArbeidIPeriodeApiDataTimerPerUke {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadSvar;
+    omsorgsstønad?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
     timerPerUke: ISODuration;
 }
@@ -29,7 +29,7 @@ export interface ArbeidIPeriodeApiDataTimerPerUke {
 export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     frilansIPeriode?: ArbeiderIPeriodenSvar;
-    omsorgsstønad?: OmsorgsstønadSvar;
+    omsorgsstønad?: OmsorgsstønadIPerioden;
     verv?: VervSvar;
     arbeidsuker: ArbeidsukeTimerApiData[];
 }
