@@ -82,10 +82,24 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
         arbeidsperiode,
     });
 
-    const frilansRedusert = arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert;
-    const omsorgsstønadRedusert = omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert;
-    const vervRedusert = vervSvar === VervSvar.misterDelerAvHonorarer;
+    const frilansRedusert =
+        frilansType.some((type) => type === FrilansType.FRILANS) &&
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert;
 
+    const omsorgsstønadRedusert =
+        frilansType.some((type) => type === FrilansType.OMSORGSSTØNAD) &&
+        omsorgsstønadSvar === OmsorgsstønadSvar.mottarRedusert;
+
+    const vervRedusert =
+        frilansType.some((type) => type === FrilansType.STYREVERV) &&
+        misterHonorarer === YesOrNo.YES &&
+        vervSvar === VervSvar.misterDelerAvHonorarer;
+
+    console.log('frilansRedusert: ', frilansRedusert);
+    console.log('omsorgsstønadRedusert: ', omsorgsstønadRedusert);
+    console.log('vervRedusert: ', vervRedusert);
+
+    console.log('frilansType: ', frilansType);
     return (
         <ResponsivePanel>
             <Element>Hva er din situasjon i perioden</Element>

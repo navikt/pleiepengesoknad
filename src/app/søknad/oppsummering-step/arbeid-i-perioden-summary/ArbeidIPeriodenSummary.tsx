@@ -82,6 +82,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
     });
 
     if (frilans.type === 'harArbeidsforhold' && frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
+        console.log('frilans.arbeidsforhold: ', frilans.arbeidsforhold);
         arbeidsforholdIPeriodenFrilans = {
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
