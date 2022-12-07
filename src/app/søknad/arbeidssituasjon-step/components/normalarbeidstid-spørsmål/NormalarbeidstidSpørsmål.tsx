@@ -14,6 +14,7 @@ import {
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
+import { FrilansTyper } from '../../../../types/FrilansFormData';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -22,6 +23,7 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
+    frilansTyper?: FrilansTyper[];
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -33,6 +35,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     erAktivtArbeidsforhold,
     arbeidsstedNavn,
     brukKunSnittPerUke,
+    frilansTyper,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -42,6 +45,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             type: arbeidsforholdType,
         },
     });
+    console.log(frilansTyper);
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 

@@ -39,29 +39,37 @@ const ArbeidssituasjonFrilans = ({
     frilansoppdrag,
     urlSkatteetaten,
 }: Props) => {
-    const {
-        harHattInntektSomFrilanser,
-        arbeidsforhold,
-        misterHonorarStyreverv,
-        frilansTyper: frilansType,
-    } = formValues;
+    const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
-    const mottarHonorarForStyreverv = frilansType?.some((type) => type === FrilansTyper.STYREVERV);
+    const mottarHonorarForStyreverv = frilansTyper?.some((type) => type === FrilansTyper.STYREVERV);
 
     const ikkeVisNormalarbeidstidStyreverv =
-        frilansType &&
-        frilansType.length === 1 &&
-        frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
+        frilansTyper &&
+        frilansTyper.length === 1 &&
+        frilansTyper.some((type) => type === FrilansTyper.STYREVERV) &&
         misterHonorarStyreverv !== YesOrNo.YES;
 
     const visNormalarbeidstidSpørsmål = () => {
         if (ikkeVisNormalarbeidstidStyreverv) {
             return false;
         }
-        return frilansType && frilansType.length > 0;
+        return frilansTyper && frilansTyper.length > 0;
     };
+
+    /*
+    const getTekstNårStartet = () => {
+        const frilansTekst = 'som frilanser';
+        const eller = 'eller';
+        const omsorgstønad = 'å motta omsorgsstønad';
+        const mottarHonorarer = 'å motta honorarer for styreverv';
+        const dot = '.';
+
+        if (frilansTyper) {
+
+        }
+    };*/
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
@@ -105,17 +113,17 @@ const ArbeidssituasjonFrilans = ({
                                     {
                                         label: intlHelper(intl, 'frilanser.type.FRILANS'),
                                         value: FrilansTyper.FRILANS,
-                                        checked: frilansType?.some((type) => type === FrilansTyper.FRILANS),
+                                        checked: frilansTyper?.some((type) => type === FrilansTyper.FRILANS),
                                     },
                                     {
                                         label: intlHelper(intl, 'frilanser.type.OMSORGSSTØNAD'),
                                         value: FrilansTyper.OMSORGSSTØNAD,
-                                        checked: frilansType?.some((type) => type === FrilansTyper.OMSORGSSTØNAD),
+                                        checked: frilansTyper?.some((type) => type === FrilansTyper.OMSORGSSTØNAD),
                                     },
                                     {
                                         label: intlHelper(intl, 'frilanser.type.STYREVERV'),
                                         value: FrilansTyper.STYREVERV,
-                                        checked: frilansType?.some((type) => type === FrilansTyper.STYREVERV),
+                                        checked: frilansTyper?.some((type) => type === FrilansTyper.STYREVERV),
                                     },
                                 ]}
                             />
@@ -157,6 +165,7 @@ const ArbeidssituasjonFrilans = ({
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
                                         erAktivtArbeidsforhold={true}
                                         brukKunSnittPerUke={true}
+                                        frilansTyper={frilansTyper}
                                     />
                                 </FormBlock>
                                 <FormBlock>

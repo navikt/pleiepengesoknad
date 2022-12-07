@@ -100,15 +100,11 @@ export const getArbeidsperiodeIForholdTilSøknadsperiode = (
 };
 
 export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
-    console.log('Arbeidsforhold: ', arbeidsforhold);
     return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
         if (!arbeidISøknadsperiode) {
             return false;
         }
-        //TODO
-        //frilanserIPerioden?: ArbeiderIPeriodenSvar;
-        // omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
-        // misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
+
         const frilansArbeiderVanlig = () => {
             if (arbeidISøknadsperiode.type === ArbeidIPeriodeType.arbeiderIkkeEllerVanlig) {
                 if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
@@ -141,11 +137,9 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
-    console.log('arbeidsgivere: ', arbeidsgivere);
+
     const frilans: ArbeidsforholdSøknadsdata[] =
         arbeid.frilans?.erFrilanser && arbeid.frilans?.type === 'pågående' ? [arbeid.frilans.arbeidsforhold] : [];
-
-    console.log('arbeid.frilans: ', arbeid.frilans);
 
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
