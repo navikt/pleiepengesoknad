@@ -548,6 +548,7 @@
     "arbeidsforhold.sluttetFørSøknadsperiode.spm": "Sluttet du hos {navn} før {fraDato}?",
     "arbeidsforhold.avsluttet.info": "Sluttdato var innenfor perioden du søker om pleiepenger. Vi trenger derfor å vite hvordan normalarbeidstiden din var hos {navn}",
     "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm": "Hvor mange timer jobber du normalt per uke {hvor}?",
+    "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanser.spm": "Oppgi samlet tid du jobber per uke som frilanser og tid for omsorgsstønad. Oppgi tiden i snitt per uke:",
     "arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm": "Hvor mange timer jobbet du normalt per uke {hvor}?",
     "arbeidsforhold.utledet": "timer i uka",
 

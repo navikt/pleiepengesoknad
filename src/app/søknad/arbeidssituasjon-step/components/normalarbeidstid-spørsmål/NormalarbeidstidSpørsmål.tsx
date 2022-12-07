@@ -45,7 +45,6 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             type: arbeidsforholdType,
         },
     });
-    console.log(frilansTyper);
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 
@@ -54,14 +53,21 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,
-                    erAktivtArbeidsforhold === false
+                    arbeidsforholdType === ArbeidsforholdType.FRILANSER
+                        ? 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanser.spm'
+                        : erAktivtArbeidsforhold === false
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
                     intlValues
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilansTyper={frilansTyper}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
@@ -90,7 +96,12 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilansTyper={frilansTyper}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
