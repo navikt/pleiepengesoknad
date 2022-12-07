@@ -109,9 +109,9 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             if (snittTimerPerUke && timerISnittPerUke) {
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
-                    frilansIPeriode: arbeiderIPerioden,
+                    frilanserIPerioden: arbeiderIPerioden,
                     omsorgsstønadIPerioden,
-                    verv: misterHonorarerFraVervIPerioden,
+                    misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                     timerISnittPerUke,
                 };
             }
@@ -122,7 +122,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 frilansIPeriode: arbeiderIPerioden,
                 omsorgsstønadIPerioden,
-                verv: misterHonorarerFraVervIPerioden,
+                misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                 arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
             };
         }
@@ -130,9 +130,9 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
 
     return {
         type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
-        frilansIPeriode: arbeiderIPerioden,
+        frilanserIPerioden: arbeiderIPerioden,
         omsorgsstønadIPerioden,
-        verv: misterHonorarerFraVervIPerioden,
+        misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
     };
 
     return undefined;

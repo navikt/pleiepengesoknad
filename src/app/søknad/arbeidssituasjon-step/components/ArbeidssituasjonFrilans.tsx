@@ -7,20 +7,15 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-// import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getCheckedValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-// import { ISODateToDate } from '@navikt/sif-common-utils/lib';
-// import dayjs from 'dayjs';
 import Lenke from 'nav-frontend-lenker';
 import { Element } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
-// import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { harFrilansoppdrag } from '../../../utils/frilanserUtils';
-// import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
@@ -44,45 +39,29 @@ const ArbeidssituasjonFrilans = ({
     frilansoppdrag,
     urlSkatteetaten,
 }: Props) => {
-    // const { erFortsattFrilanser, harHattInntektSomFrilanser, startdato, sluttdato, arbeidsforhold } = formValues;
     const {
-        erFortsattFrilanser,
         harHattInntektSomFrilanser,
         arbeidsforhold,
-        misterHonorarStyreverv: misterHonorar,
+        misterHonorarStyreverv,
         frilansTyper: frilansType,
     } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
-    const frilansStyreverv = frilansType?.some((type) => type === FrilansTyper.STYREVERV);
-    const ikkeVisNormalarbeidstidFrilansStyreverv =
+    const mottarHonorarForStyreverv = frilansType?.some((type) => type === FrilansTyper.STYREVERV);
+
+    const ikkeVisNormalarbeidstidStyreverv =
         frilansType &&
         frilansType.length === 1 &&
         frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
-        misterHonorar !== YesOrNo.YES;
+        misterHonorarStyreverv !== YesOrNo.YES;
+
     const visNormalarbeidstidSpørsmål = () => {
-        if (ikkeVisNormalarbeidstidFrilansStyreverv) {
+        if (ikkeVisNormalarbeidstidStyreverv) {
             return false;
         }
         return frilansType && frilansType.length > 0;
     };
-    // const erAktivFrilanserIPerioden = erFrilanserISøknadsperiode(søknadsperiode, formValues, frilansoppdrag);
-    // const harGyldigStartdato = startdato ? ISODateToDate(startdato) : undefined;
-    //const harGyldigSluttdato = sluttdato ? ISODateToDate(sluttdato) : undefined;
-    /*const harBesvartSpørsmålOmFortsattFrilanser =
-        erFortsattFrilanser === YesOrNo.YES || erFortsattFrilanser === YesOrNo.NO;
-
-    const sluttetFørSøknadsperiode =
-        erFortsattFrilanser === YesOrNo.NO &&
-        harGyldigSluttdato &&
-        dayjs(sluttdato).isBefore(søknadsperiode.from, 'day');
-
-    /*const visSpørsmålOmArbeidsforhold =
-        harGyldigStartdato &&
-        harBesvartSpørsmålOmFortsattFrilanser &&
-        sluttetFørSøknadsperiode === false &&
-        erAktivFrilanserIPerioden;*/
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
@@ -121,6 +100,7 @@ const ArbeidssituasjonFrilans = ({
                                 name={FrilansFormField.frilansTyper}
                                 data-testid="frilansType"
                                 defaultChecked={true}
+                                validate={getCheckedValidator()}
                                 checkboxes={[
                                     {
                                         label: intlHelper(intl, 'frilanser.type.FRILANS'),
@@ -140,26 +120,29 @@ const ArbeidssituasjonFrilans = ({
                                 ]}
                             />
                         </FormBlock>
-                        {frilansStyreverv && (
+                        {mottarHonorarForStyreverv && (
                             <>
                                 <FormBlock>
                                     <ArbFriFormComponents.YesOrNoQuestion
                                         name={FrilansFormField.misterHonorarStyreverv}
-                                        data-testid="misterHonorar"
-                                        legend={intlHelper(intl, 'frilanser.misterHonorar.tittle')}
+                                        data-testid="misterHonorarStyreverv"
+                                        legend={intlHelper(intl, 'frilanser.misterHonorarStyreverv.tittle')}
                                         validate={getYesOrNoValidator()}
                                         description={
                                             <ExpandableInfo
-                                                title={intlHelper(intl, 'frilanser.misterHonorar.description.tittel')}>
-                                                <FormattedMessage id={'frilanser.misterHonorar.description'} />
+                                                title={intlHelper(
+                                                    intl,
+                                                    'frilanser.misterHonorarStyreverv.description.tittel'
+                                                )}>
+                                                <FormattedMessage id={'frilanser.misterHonorarStyreverv.description'} />
                                             </ExpandableInfo>
                                         }
                                     />
                                 </FormBlock>
-                                {misterHonorar === YesOrNo.NO && (
+                                {misterHonorarStyreverv === YesOrNo.NO && (
                                     <Box margin="l">
                                         <AlertStripeInfo>
-                                            <FormattedMessage id={'frilanser.misterHonorar.nei.info'} />
+                                            <FormattedMessage id={'frilanser.misterHonorarStyreverv.nei.info'} />
                                         </AlertStripeInfo>
                                     </Box>
                                 )}
@@ -172,7 +155,7 @@ const ArbeidssituasjonFrilans = ({
                                         arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
                                         arbeidsforhold={arbeidsforhold || {}}
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                        erAktivtArbeidsforhold={erFortsattFrilanser === YesOrNo.YES}
+                                        erAktivtArbeidsforhold={true}
                                         brukKunSnittPerUke={true}
                                     />
                                 </FormBlock>

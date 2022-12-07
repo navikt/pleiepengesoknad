@@ -19,6 +19,8 @@ import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsda
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
+import { OmsorgsstønadIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -98,11 +100,31 @@ export const getArbeidsperiodeIForholdTilSøknadsperiode = (
 };
 
 export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
+    console.log('Arbeidsforhold: ', arbeidsforhold);
     return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
         if (!arbeidISøknadsperiode) {
             return false;
         }
-        return arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig;
+        //TODO
+        //frilanserIPerioden?: ArbeiderIPeriodenSvar;
+        // omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
+        // misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
+        const frilansArbeiderVanlig = () => {
+            if (arbeidISøknadsperiode.type === ArbeidIPeriodeType.arbeiderIkkeEllerVanlig) {
+                if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
+                    return false;
+                }
+                if (
+                    arbeidISøknadsperiode.frilanserIPerioden === ArbeiderIPeriodenSvar.somVanlig ||
+                    arbeidISøknadsperiode.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.beholderHeleOmsorgsstønad
+                ) {
+                    return true;
+                }
+            }
+            return false;
+        };
+
+        return arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig && !frilansArbeiderVanlig();
     });
 };
 
@@ -119,8 +141,12 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
+    console.log('arbeidsgivere: ', arbeidsgivere);
     const frilans: ArbeidsforholdSøknadsdata[] =
         arbeid.frilans?.erFrilanser && arbeid.frilans?.type === 'pågående' ? [arbeid.frilans.arbeidsforhold] : [];
+
+    console.log('arbeid.frilans: ', arbeid.frilans);
+
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];

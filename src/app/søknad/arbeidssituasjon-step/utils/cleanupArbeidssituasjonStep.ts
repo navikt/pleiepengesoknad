@@ -51,7 +51,6 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
 
     if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
         /** Er ikke frilanser i perioden */
-        frilans.erFortsattFrilanser = undefined;
         frilans.frilansTyper = undefined;
         frilans.misterHonorarStyreverv = undefined;
         frilans.startdato = undefined;

@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
-//import { Arbeidsgiver, ArbeidsgiverType } from '../../../../types';
 import { FrilansFormData } from '../../../../types/FrilansFormData';
 import { cleanupFrilansArbeidssituasjon } from '../cleanupArbeidssituasjonStep';
 
@@ -15,9 +14,7 @@ const frilanserSluttetIPeriodeValues: FrilansFormData = {
             arbeiderIPerioden: ArbeiderIPeriodenSvar.somVanlig,
         },
     },
-    erFortsattFrilanser: YesOrNo.NO,
     startdato: '2021-02-02',
-    sluttdato: '2021-10-02',
 };
 
 /*const frilansoppdrag: Arbeidsgiver[] = [
@@ -92,15 +89,12 @@ describe('cleanupFrilansArbeidssituasjon', () => {
             const result = cleanupFrilansArbeidssituasjon(søknadsperiode, {
                 ...frilanserSluttetIPeriodeValues,
                 harHattInntektSomFrilanser: YesOrNo.YES,
-                erFortsattFrilanser: YesOrNo.YES,
             });
             expect(result.harHattInntektSomFrilanser).toBeDefined();
-            expect(result.erFortsattFrilanser).toBeDefined();
             expect(result.arbeidsforhold).toBeDefined();
             expect(result.arbeidsforhold?.arbeidIPeriode).toBeDefined();
             expect(result.arbeidsforhold?.normalarbeidstid?.timerPerUke).toBeDefined();
             expect(result.startdato).toBeDefined();
-            //expect(result.sluttdato).toBeUndefined();
         });
         /*
         it('beholder riktig informasjon når bruker slutter som frilanser i søknadsperiode', () => {
