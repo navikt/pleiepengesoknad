@@ -93,27 +93,24 @@ const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper }: PropsFrilans) => {
     }
     return (
         <>
-            <p>
-                <FormattedMessage id={`arbeidsforhold.frilanser.normalTimer.info.tittel`} />
-            </p>
-
             <Box margin="l">
                 {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.FRILANS) && (
                     <ExpandableInfo
-                        title={intlHelper(intl, 'arbeidIPeriode.redusert.info.frilans.info.frilans.tittel')}>
-                        <FormattedMessage id={'arbeidIPeriode.redusert.info.frilans.info.frilans.info'} />
+                        title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.frilans.info.tittel')}>
+                        <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.frilans.info'} />
                     </ExpandableInfo>
                 )}
 
                 {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.OMSORGSSTØNAD) && (
                     <ExpandableInfo
-                        title={intlHelper(intl, 'arbeidIPeriode.redusert.info.frilans.info.omsorgsstønad.tittel')}>
-                        <FormattedMessage id={'arbeidIPeriode.redusert.info.frilans.info.omsorgsstønad.info'} />
+                        title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info.tittel')}>
+                        <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info'} />
                     </ExpandableInfo>
                 )}
                 {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && (
-                    <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.redusert.info.frilans.info.verv.tittel')}>
-                        <FormattedMessage id={'arbeidIPeriode.redusert.info.frilans.info.verv.info'} />
+                    <ExpandableInfo
+                        title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.styreverv.info.tittel')}>
+                        <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info'} />
                     </ExpandableInfo>
                 )}
             </Box>

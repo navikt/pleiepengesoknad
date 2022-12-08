@@ -553,8 +553,15 @@
     "arbeidsforhold.utledet": "timer i uka",
 
     "arbeidsforhold.ansatt.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
-    "arbeidsforhold.frilanser.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
-    "arbeidsforhold.selvstendig.normalTimer.info.tittel": "Hva om jeg jobber turnus eller varierende?",
+
+    "arbeidsforhold.frilanser.normalTimer.frilans.info.tittel": "mer om tid du jobber som frilanser",
+    "arbeidsforhold.frilanser.normalTimer.frilans.info": "TEKST TODO...",
+
+    "arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info.tittel": "mer om avtalt tid for omsorgsstønad fra kommunen",
+    "arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info": "TEKST TODO...",
+
+    "arbeidsforhold.frilanser.normalTimer.styreverv.info.tittel": "mer om tid du bruker på verv",
+    "arbeidsforhold.frilanser.normalTimer.styreverv.info": "TEKST TODO...",
 
     "arbeidsforhold.normalTimer.info.turnus": "Når du jobber turnus, eller har annen varierende arbeidstid, oppgir du et snitt per uke.",
     "arbeidsforhold.normalTimer.info.turnus.tittel": "Slik regner du ut et snitt når du jobber turnus",
