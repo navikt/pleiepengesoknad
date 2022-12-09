@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import {
@@ -24,6 +24,7 @@ interface Props {
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
     frilansTyper?: FrilansTyper[];
+    misterHonorarStyreverv?: YesOrNo;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -36,6 +37,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     arbeidsstedNavn,
     brukKunSnittPerUke,
     frilansTyper,
+    misterHonorarStyreverv,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -66,6 +68,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                     <InfoArbeiderNormaltTimerIUken
                         arbeidsforholdType={arbeidsforholdType}
                         frilansTyper={frilansTyper}
+                        misterHonorarStyreverv={misterHonorarStyreverv}
                     />
                 }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}

@@ -759,6 +759,11 @@
     "selvstendig.dialog.tittel": "Næringsvirksomhet",
 
     "frilanser.harDuHattInntekt.spm": "Jobber du som frilanser, mottar omsorgsstønad, eller mottar honorar for styreverv/andre små verv?",
+    "frilanser.tekst": "Oppgi den tidligste datoen for når du",
+    "frilanser.tekst.FRILANS": "startet som frilanser",
+    "frilanser.tekst.OMSORGSSTØNAD": "startet å motta omsorgsstønad",
+    "frilanser.tekst.STYREVERV": "startet å motta honorarer for styreverv eller andre verv",
+
     "frilanser.harDuAndreFrilansoppdrag.spm": "Har du andre frilansoppdrag du har fravær fra i perioden du søker for?",
     "frilanser.nårStartet.spm": "Oppgi den tidligste datoen for når du startet som frilanser eller startet å motta omsorgsstønad.",
     "frilanser.erFortsattFrilanser.spm": "Jobber du fortsatt som frilanser?",

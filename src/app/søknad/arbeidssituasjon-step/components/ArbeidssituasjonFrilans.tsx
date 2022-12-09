@@ -45,31 +45,21 @@ const ArbeidssituasjonFrilans = ({
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
     const mottarHonorarForStyreverv = frilansTyper?.some((type) => type === FrilansTyper.STYREVERV);
 
-    const ikkeVisNormalarbeidstidStyreverv =
-        frilansTyper &&
-        frilansTyper.length === 1 &&
-        frilansTyper.some((type) => type === FrilansTyper.STYREVERV) &&
-        misterHonorarStyreverv !== YesOrNo.YES;
-
     const visNormalarbeidstidSpørsmål = () => {
-        if (ikkeVisNormalarbeidstidStyreverv) {
+        if (!frilansTyper || frilansTyper.length === 0) {
             return false;
         }
-        return frilansTyper && frilansTyper.length > 0;
-    };
-
-    /*
-    const getTekstNårStartet = () => {
-        const frilansTekst = 'som frilanser';
-        const eller = 'eller';
-        const omsorgstønad = 'å motta omsorgsstønad';
-        const mottarHonorarer = 'å motta honorarer for styreverv';
-        const dot = '.';
-
-        if (frilansTyper) {
-
+        if (frilansTyper.length === 1 && mottarHonorarForStyreverv && misterHonorarStyreverv === YesOrNo.YES) {
+            return true;
         }
-    };*/
+        if (!mottarHonorarForStyreverv) {
+            return true;
+        } else if (mottarHonorarForStyreverv && frilansTyper.length > 1 && misterHonorarStyreverv !== undefined) {
+            return true;
+        }
+
+        return false;
+    };
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
@@ -166,6 +156,7 @@ const ArbeidssituasjonFrilans = ({
                                         erAktivtArbeidsforhold={true}
                                         brukKunSnittPerUke={true}
                                         frilansTyper={frilansTyper}
+                                        misterHonorarStyreverv={misterHonorarStyreverv}
                                     />
                                 </FormBlock>
                                 <FormBlock>

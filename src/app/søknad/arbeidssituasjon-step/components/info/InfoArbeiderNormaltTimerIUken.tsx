@@ -5,18 +5,29 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { FrilansTyper } from '../../../../types/FrilansFormData';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import { YesOrNo } from '@navikt/sif-common-formik/lib';
 
 interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     frilansTyper?: FrilansTyper[];
+    misterHonorarStyreverv?: YesOrNo;
 }
 
-const InfoArbeiderNormaltTimerIUken: React.FunctionComponent<Props> = ({ arbeidsforholdType, frilansTyper }) => {
+const InfoArbeiderNormaltTimerIUken: React.FunctionComponent<Props> = ({
+    arbeidsforholdType,
+    frilansTyper,
+    misterHonorarStyreverv,
+}) => {
     switch (arbeidsforholdType) {
         case ArbeidsforholdType.ANSATT:
             return <InfoArbeiderNormaltTimerAnsatt />;
         case ArbeidsforholdType.FRILANSER:
-            return <InfoArbeiderNormaltTimerFrilanser frilansTyper={frilansTyper} />;
+            return (
+                <InfoArbeiderNormaltTimerFrilanser
+                    frilansTyper={frilansTyper}
+                    misterHonorarStyreverv={misterHonorarStyreverv}
+                />
+            );
         case ArbeidsforholdType.SELVSTENDIG:
             return <InfoArbeiderNormaltTimerSN />;
     }
@@ -84,9 +95,10 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
 
 interface PropsFrilans {
     frilansTyper?: FrilansTyper[];
+    misterHonorarStyreverv?: YesOrNo;
 }
 
-const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper }: PropsFrilans) => {
+const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper, misterHonorarStyreverv }: PropsFrilans) => {
     const intl = useIntl();
     if (frilansTyper === undefined) {
         <></>;
@@ -107,12 +119,14 @@ const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper }: PropsFrilans) => {
                         <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info'} />
                     </ExpandableInfo>
                 )}
-                {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && (
-                    <ExpandableInfo
-                        title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.styreverv.info.tittel')}>
-                        <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info'} />
-                    </ExpandableInfo>
-                )}
+                {frilansTyper &&
+                    frilansTyper.some((type) => type === FrilansTyper.STYREVERV) &&
+                    misterHonorarStyreverv === YesOrNo.YES && (
+                        <ExpandableInfo
+                            title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.styreverv.info.tittel')}>
+                            <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info'} />
+                        </ExpandableInfo>
+                    )}
             </Box>
         </>
     );

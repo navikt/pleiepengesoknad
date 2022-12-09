@@ -61,6 +61,9 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
             frilans.startdato = undefined;
             frilans.arbeidsforhold = undefined;
         }
+        if (!frilans.frilansTyper?.some((type) => type === FrilansTyper.STYREVERV)) {
+            frilans.misterHonorarStyreverv = undefined;
+        }
 
         if (
             !frilans.frilansTyper?.some((type) => type === FrilansTyper.FRILANS) &&
