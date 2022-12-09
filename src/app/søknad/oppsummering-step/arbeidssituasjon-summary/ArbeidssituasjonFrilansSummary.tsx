@@ -7,6 +7,7 @@ import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
 // import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 import { dateFormatter, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { FrilansTyper } from '../../../types/FrilansFormData';
 
 interface Props {
     frilans: FrilansApiData;
@@ -34,7 +35,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                     return (
                         <li key={type}>
                             <FormattedMessage id={`oppsummering.arbeidssituasjon.frilans.${type}`} />
-                            {frilans.misterHonorar === false && (
+                            {type === FrilansTyper.STYREVERV && frilans.misterHonorar === false && (
                                 <div>
                                     <FormattedMessage
                                         id={'oppsummering.arbeidssituasjon.frilans.STYREVERV.misterIkkeHonorar'}

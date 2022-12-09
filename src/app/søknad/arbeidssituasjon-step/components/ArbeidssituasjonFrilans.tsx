@@ -39,7 +39,7 @@ const ArbeidssituasjonFrilans = ({
     frilansoppdrag,
     urlSkatteetaten,
 }: Props) => {
-    const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper } = formValues;
+    const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper = [] } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
