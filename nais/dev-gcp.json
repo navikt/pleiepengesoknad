@@ -14,6 +14,7 @@
         "API_URL": "https://k9-brukerdialog-api.dev.nav.no",
         "FRONTEND_VEDLEGG_URL": "https://pleiepengesoknad.dev.nav.no/api",
         "FRONTEND_API_PATH": "/api",
+        "FRONTEND_INNSYN_API_PATH": "/innsynapi",
         "API_URL_INNSYN": "https://sif-innsyn-api.dev.nav.no",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger",
         "LOGIN_URL": "https://pleiepengesoknad.dev.nav.no/oauth2/login?redirect=/familie/sykdom-i-familien/soknad/pleiepenger/soknad",

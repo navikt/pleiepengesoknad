@@ -15,6 +15,7 @@ import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValu
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { getAttachmentURLFrontend } from '../../utils/attachmentUtilsAuthToken';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
 export type FieldArrayPushFn = (obj: any) => void;
@@ -89,7 +90,7 @@ const FormikFileUploader = ({
             try {
                 const response = await uploadFile(file);
                 attachment = setAttachmentPendingToFalse(attachment);
-                attachment.url = response.headers.location;
+                attachment.url = getAttachmentURLFrontend(response.headers.location);
                 attachment.uploaded = true;
             } catch (error: any) {
                 if (apiUtils.isUnauthorized(error)) {
