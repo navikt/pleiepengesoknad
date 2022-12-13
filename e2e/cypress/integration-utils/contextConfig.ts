@@ -15,10 +15,10 @@ interface ConfigProps {
 export const contextConfig = (props?: ConfigProps) => {
     const { mellomlagring, step, arbeidsgivere } = props || {};
     beforeEach('intercept mellomlagring og levere tomt objekt', () => {
-        cy.intercept(`GET`, `/mellomlagring*`, mellomlagring || {});
-        cy.intercept('GET', `/arbeidsgiver*`, arbeidsgivere || cyApiMockData.arbeidsgivereMock);
-        cy.intercept('GET', `/soker*`, cyApiMockData.søkerMock);
-        cy.intercept('GET', `/barn*`, cyApiMockData.barnMock);
+        cy.intercept(`GET`, `/mellomlagring/PLEIEPENGER_SYKT_BARN*`, mellomlagring || {});
+        cy.intercept('GET', `/oppslag/arbeidsgiver*`, arbeidsgivere || cyApiMockData.arbeidsgivereMock);
+        cy.intercept('GET', `/oppslag/soker*`, cyApiMockData.søkerMock);
+        cy.intercept('GET', `/oppslag/barn*`, cyApiMockData.barnMock);
         cy.intercept(`https://ryujtq87.api.sanity.io*`, {});
     });
 
