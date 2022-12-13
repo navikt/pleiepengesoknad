@@ -16,7 +16,7 @@
         "FRONTEND_VEDLEGG_URL": "https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/api",
         "FRONTEND_INNSYN_API_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger/innsynapi",
         "PUBLIC_PATH": "/familie/sykdom-i-familien/soknad/pleiepenger",
-        "LOGIN_URL": "https://loginservice.nav.no/login?redirect=https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/soknad",
+        "LOGIN_URL": "https://www.nav.no/familie/sykdom-i-familien/soknad/pleiepenger/oauth2/login?redirect=/familie/sykdom-i-familien/soknad/pleiepenger/soknad",
         "INNSYN_URL": "https://www.nav.no/familie/sykdom-i-familien/soknad/innsyn/",
         "NYNORSK": "off",
         "INNSYN": "on",
