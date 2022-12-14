@@ -7,7 +7,7 @@ import { ResourceType, ResourceTypeInnsyn } from '../types/ResourceType';
 import { SøknadApiData } from '../types/søknad-api-data/SøknadApiData';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { MELLOMLAGRING_VERSION, SøknadTempStorageData } from '../types/SøknadTempStorageData';
-import { axiosJsonConfig, getInnsynApiUrlByResourceType, sendMultipartPostRequest } from './utils/apiUtils';
+import { axiosJsonConfig, sendMultipartPostRequest } from './utils/apiUtils';
 import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
 import { Feature, isFeatureEnabled } from '../utils/featureToggleUtils';
 
@@ -55,7 +55,7 @@ export const getForrigeSoknad = () => {
         return Promise.resolve(undefined);
     }
     return axios
-        .get(getInnsynApiUrlByResourceType(ResourceTypeInnsyn.FORRIGE_SOKNAD), {
+        .get(ResourceTypeInnsyn.FORRIGE_SOKNAD, {
             ...axiosConfigInnsyn,
             transformResponse: storageParser,
         })
