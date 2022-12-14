@@ -28,6 +28,6 @@
         "FORENKLET_ARBEID": "off",
         "API_TOKENX_AUDIENCE": "dev-gcp:dusseldorf:k9-brukerdialog-api",
         "NPM_CONFIG_CACHE": "/tmp",
-        "PREUTFYLLING": "false"
+        "PREUTFYLLING": "true"
     }
 }
