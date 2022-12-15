@@ -157,6 +157,9 @@ const startExpressServer = () => {
 
     server.get('/oppslag/barn', (req, res) => res.send(barnMock));
 
+    //Test uten barn
+    // server.get('/oppslag/barn', (req, res) => res.send({ barn: [] }));
+
     server.post('/pleiepenger-sykt-barn/innsending', (req, res) => {
         res.sendStatus(200);
     });
