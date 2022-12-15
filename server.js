@@ -64,14 +64,14 @@ const isExpiredOrNotAuthorized = (token) => {
     return true;
 };
 
-const getRouterConfig = async (req) => {
+const getRouterConfig = async (req, audienceInnsyn) => {
     {
         if (req.headers['authorization'] !== undefined) {
             const token = req.headers['authorization'].replace('Bearer ', '');
             if (isExpiredOrNotAuthorized(token)) {
                 return undefined;
             }
-            const exchangedToken = await exchangeToken(token);
+            const exchangedToken = await exchangeToken(token, audienceInnsyn);
             if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
                 req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
             }
@@ -81,7 +81,7 @@ const getRouterConfig = async (req) => {
                 return undefined;
             }
 
-            const exchangedToken = await exchangeToken(selvbetjeningIdtoken);
+            const exchangedToken = await exchangeToken(selvbetjeningIdtoken, audienceInnsyn);
             if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
                 req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
             }
@@ -118,7 +118,7 @@ const startServer = async (html) => {
             pathRewrite: (path) => {
                 return path.replace(process.env.FRONTEND_API_PATH, '');
             },
-            router: async (req) => getRouterConfig(req),
+            router: async (req) => getRouterConfig(req, false),
             secure: true,
             xfwd: true,
             logLevel: 'info',
@@ -133,7 +133,7 @@ const startServer = async (html) => {
             pathRewrite: (path) => {
                 return path.replace(process.env.FRONTEND_INNSYN_API_PATH, '');
             },
-            router: async (req) => getRouterConfig(req),
+            router: async (req) => getRouterConfig(req, true),
             secure: true,
             xfwd: true,
             logLevel: 'info',

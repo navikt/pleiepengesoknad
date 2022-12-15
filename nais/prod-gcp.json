@@ -26,6 +26,7 @@
         "USE_AMPLITUDE": "true",
         "FORENKLET_ARBEID": "off",
         "API_TOKENX_AUDIENCE": "prod-gcp:dusseldorf:k9-brukerdialog-api",
+        "INNSYN_API_TOKENX_AUDIENCE": "prod-gcp:dusseldorf:sif-innsyn-api",
         "NPM_CONFIG_CACHE": "/tmp",
         "PREUTFYLLING": "false"
     }
