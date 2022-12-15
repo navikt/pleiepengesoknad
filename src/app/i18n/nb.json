@@ -259,9 +259,6 @@
     "steg.tidsrom.hvorMye.spm": "Hvor mye søker du om?",
     "steg.tidsrom.hvorMye.hjelp.part1": "Kan du jobbe noe? Da reduserer du prosenten tilsvarende.",
     "steg.tidsrom.hvorMye.hjelp.part2": "Jobber du deltid i utgangspunktet? Du kan likevel søke om 100 % pleiepenger hvis du mister hele inntekten fordi du pleier barnet.",
-    "steg.tidsrom.annenSamtidig.spm": "Er det en annen person som søker om pleiepenger i samme periode som deg?",
-    "steg.tidsrom.samtidigHjemme.spm": "Skal dere være hjemme/på sykehus samtidig for å pleie barnet?",
-    "steg.tidsrom.dagerPerUkeBorteFraJobb.spm": "Hvor mange dager per uke skal du være borte fra jobb for å ta hånd om barnet? Rund av til nærmeste halve dag.",
 
     "steg.tidsrom.skalPassePåBarnetIHelePerioden.spm": "Skal du passe på barnet i hele tidsrommet du skal ha pleiepenger?",
     "steg.tidsrom.bekreftOmsorgEkstrainfo.spm": "Beskriv omsorgsrollen du har for barnet i tidsrommet du skal ha pleiepenger:",
@@ -299,7 +296,7 @@
     "steg.arbeidssituasjon.verneplikt.info.tittel": "Hva betyr dette?",
     "steg.arbeidssituasjon.verneplikt.info.tekst": "Du skal svare ja på dette spørsmålet om du har utøvd verneplikt i minst 28 dager på starttidspunktet for perioden du søker for, eller om perioden med verneplikt var ment å vare i minst 28 dager.",
 
-    "steg.omsorgstilbud.veileder.1": "Her skal du svare på om barnet oppholder segfast og regelmessig i et omsorgstilbud, som",
+    "steg.omsorgstilbud.veileder.1": "Her skal du svare på om barnet oppholder seg fast og regelmessig i et omsorgstilbud, som",
     "steg.omsorgstilbud.veileder.1.1": "barnehage",
     "steg.omsorgstilbud.veileder.1.2": "skole",
     "steg.omsorgstilbud.veileder.1.3": "skolefritidsordning",
@@ -434,11 +431,6 @@
     "steg.oppsummering.utenlandsoppholdIPerioden.innlagtBarn.spm": "Skal barnet være innlagt på sykehus i utlandet?",
     "steg.oppsummering.ferieuttakIPerioden.header": "Skal du ta ut ferie i perioden?",
     "steg.oppsummering.ferieuttakIPerioden.listetittel": "Ferieuttak i perioden",
-
-    "steg.oppsummering.dagerPerUkeBorteFraJobb.header": "Antall dager i uken du skal være borte fra jobb for å ta hånd om barnet",
-    "steg.oppsummering.samtidigHjemme.header": "Skal dere være hjemme/på sykehus samtidig?",
-    "steg.oppsummering.annenSøkerSammePeriode.header": "Er det en annen person som søker om pleiepenger i samme periode?",
-    "steg.oppsummering.nattevåk.borteFraJobb.header": "Må være borte fra jobb",
 
     "steg.oppsummering.omsorgstilbud.header": "Omsorgstilbud i søknadsperioden",
     "steg.oppsummering.omsorgstilbud.fortid.spm": "Har barnet vært fast og regelmessig på skolen, i barnehagen eller i andre omsorgstilbud?",
@@ -768,8 +760,6 @@
     "validation.periodeTil.dateIsNotWeekday": "Periodens til-dato må være en ukedag, det kan ikke være en lørdag eller søndag. Skriv inn eller velg dato fra kalenderen.",
     "validation.periodeTil.dateIsAfterMax": "Du kan kun søke pleiepenger for opptil ett år av gangen.",
     "validation.periodeTil.toDateIsBeforeFromDate": "Til-datoen kan ikke være før fra-datoen. Skriv inn eller velg dato fra kalenderen.",
-    "validation.harMedsøker.yesOrNoIsUnanswered": "Du må svare ja eller nei på om det er annen person som søker om pleiepenger i samme periode som deg.",
-    "validation.samtidigHjemme.yesOrNoIsUnanswered": "Du må svare ja eller nei på om dere skal være hjemme/på sykehus samtidig for å pleie barnet.",
     "validation.skalOppholdeSegIUtlandetIPerioden.yesOrNoIsUnanswered": "Du må svare ja eller nei på om du skal reise til utlandet i perioden du søker for.",
     "validation.utenlandsoppholdIPerioden.utenlandsopphold_ikke_registrert": "Du har svart ja til at du skal til utlandet i perioden med pleiepenger. Legg til minst ett utenlandsopphold.",
     "validation.utenlandsoppholdIPerioden.utenlandsopphold_overlapper": "Du har lagt inn utenlandsopphold med datoer som overlapper hverandre.",

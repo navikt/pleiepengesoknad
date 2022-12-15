@@ -59,7 +59,6 @@
                 { "fraOgMed": "2022-06-13", "landkode": "ALB", "landnavn": "Albania", "tilOgMed": "2022-09-01" }
             ]
         },
-        "harMedsøker": true,
         "arbeidsgivere": [
             {
                 "navn": "SJOKKERENDE ELEKTRIKER",
@@ -86,7 +85,6 @@
             },
             "erLiktHverUke": true
         },
-        "samtidigHjemme": true,
         "utenlandskNæring": [
             {
                 "land": { "landkode": "IRL", "landnavn": "Irland" },

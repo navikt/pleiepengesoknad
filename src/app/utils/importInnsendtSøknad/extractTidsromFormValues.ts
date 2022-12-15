@@ -11,9 +11,8 @@ import {
     UtenlandsoppholdIPeriodenSøknadApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { booleanToYesOrNo, booleanToYesOrNoOrUnanswered } from '../booleanToYesOrNo';
+import { booleanToYesOrNo } from '../booleanToYesOrNo';
 
-type MedsøkerFormValues = Pick<SøknadFormValues, SøknadFormField.samtidigHjemme | SøknadFormField.harMedsøker>;
 type FerieIPeriodenFormValues = Pick<
     SøknadFormValues,
     SøknadFormField.skalTaUtFerieIPerioden | SøknadFormField.ferieuttakIPerioden
@@ -22,20 +21,13 @@ type UtenlandsoppholdIPeriodenFormValues = Pick<
     SøknadFormValues,
     SøknadFormField.skalOppholdeSegIUtlandetIPerioden | SøknadFormField.utenlandsoppholdIPerioden
 >;
-type TidsromFormValues = MedsøkerFormValues & UtenlandsoppholdIPeriodenFormValues & FerieIPeriodenFormValues;
+type TidsromFormValues = UtenlandsoppholdIPeriodenFormValues & FerieIPeriodenFormValues;
 
 const mapPeriodeApiDataToFerieuttak = (ferieuttak: PeriodeApiData): Ferieuttak => ({
     id: guid(),
     fom: ISODateToDate(ferieuttak.fraOgMed),
     tom: ISODateToDate(ferieuttak.tilOgMed),
 });
-
-export const extractMedsøkerFormValues = (søknad: SøknadApiData): MedsøkerFormValues => {
-    return {
-        [SøknadFormField.harMedsøker]: booleanToYesOrNo(søknad.harMedsøker),
-        [SøknadFormField.samtidigHjemme]: booleanToYesOrNoOrUnanswered(søknad.samtidigHjemme),
-    };
-};
 
 export const extractFerieIPeriodenFormValues = (
     ferieuttakIPerioden?: FerieuttakIPeriodenApiData
@@ -99,7 +91,6 @@ export const extractUtenlandsoppholdIPeriodenFormValues = (
 
 export const extractTidsromFormValues = (søknad: SøknadApiData): Partial<TidsromFormValues> | undefined => {
     return {
-        ...extractMedsøkerFormValues(søknad),
         ...extractFerieIPeriodenFormValues(søknad.ferieuttakIPerioden),
         ...extractUtenlandsoppholdIPeriodenFormValues(søknad.utenlandsoppholdIPerioden),
     };

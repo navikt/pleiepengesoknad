@@ -35,8 +35,6 @@ export const mellomlagring = {
         utenlandsoppholdIPerioden: [],
         skalTaUtFerieIPerioden: 'no',
         ferieuttakIPerioden: [],
-        harMedsøker: 'no',
-        samtidigHjemme: 'unanswered',
         omsorgstilbud: {
             erIOmsorgstilbudFremtid: 'no',
             erIOmsorgstilbudFortid: 'no',

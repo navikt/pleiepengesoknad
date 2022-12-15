@@ -55,8 +55,6 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
         ? søkerdata?.barn.find((barn) => barn.aktørId === values.barnetSøknadenGjelder)
         : undefined;
 
-    const harMedsøker = values[SøknadFormField.harMedsøker];
-
     const periodeFra = datepickerUtils.getDateFromDateString(values.periodeFra);
 
     const periodeTil = datepickerUtils.getDateFromDateString(values.periodeTil);
@@ -135,26 +133,6 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
 
             {!søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <>
-                    <Box margin="xl">
-                        <SøknadFormComponents.YesOrNoQuestion
-                            legend={intlHelper(intl, 'steg.tidsrom.annenSamtidig.spm')}
-                            name={SøknadFormField.harMedsøker}
-                            validate={getYesOrNoValidator()}
-                            data-testid="er-annenSamtidig"
-                        />
-                    </Box>
-
-                    {harMedsøker === YesOrNo.YES && (
-                        <Box margin="xl">
-                            <SøknadFormComponents.YesOrNoQuestion
-                                legend={intlHelper(intl, 'steg.tidsrom.samtidigHjemme.spm')}
-                                name={SøknadFormField.samtidigHjemme}
-                                validate={getYesOrNoValidator()}
-                                data-testid="er-samtidigHjemme"
-                            />
-                        </Box>
-                    )}
-
                     <Box margin="xl">
                         <SøknadFormComponents.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
