@@ -5,11 +5,13 @@ const fsExtra = require('fs-extra');
 
 function createEnvSettingsFileForHeroku() {
     const settingsFile = path.resolve(__dirname, './../../../heroku/dist/js/settings.js');
-    fsExtra.ensureFile(settingsFile).then((f) => {
+    fsExtra.ensureFile(settingsFile).then(() => {
         fsExtra.writeFileSync(
             settingsFile,
             `window.appSettings = {
                 API_URL: 'https://pleiepenger.herokuapp.com/',
+                FRONTEND_API_PATH: 'https://pleiepenger.herokuapp.com',
+                FRONTEND_VEDLEGG_URL: 'https://pleiepenger.herokuapp.com/api',
                 LOGIN_URL: 'https://pleiepenger.herokuapp.com/',
                 APPSTATUS_PROJECT_ID: 'ryujtq87',
                 APPSTATUS_DATASET: 'staging',

@@ -12,7 +12,6 @@ import { getBeredskapApiDataFromSøknadsdata } from './getBeredskapApiDataFromS�
 import { getFerieuttakIPeriodenApiDataFromSøknadsdata } from './getFerieuttakIPeriodenApiDataFromSøknadsdata';
 import { getFrilansApiDataFromSøknadsdata } from './getFrilansApiDataFromSøknadsdata';
 import { getMedlemskapApiDataFromSøknadsdata } from './getMedlemskapApiDataFromSøknadsdata';
-import { getMedsøkerApiDataFromSøknadsdata } from './getMedsøkerApiDataFromSøknadsdata';
 import { getNattevåkApiDataFromSøknadsdata } from './getNattevåkApiDataFromSøknadsdata';
 import { getOmsorgstilbudApiDataFromSøknadsdata } from './getOmsorgstibudApiDataFromSøknadsdata';
 import { getOpptjeningIUtlandetSøknadsdata } from './getOpptjeningIUtlandetSøknadsdata';
@@ -48,7 +47,6 @@ export const getApiDataFromSøknadsdata = (
                         : [],
                 fraOgMed: formatDateToApiFormat(søknadsperiode.from),
                 tilOgMed: formatDateToApiFormat(søknadsperiode.to),
-                ...getMedsøkerApiDataFromSøknadsdata(søknadsdata.medsøker),
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),

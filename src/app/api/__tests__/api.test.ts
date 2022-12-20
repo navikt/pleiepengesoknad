@@ -2,7 +2,7 @@ import axios from 'axios';
 import { axiosConfigPsb } from '../../config/axiosConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
 import { ResourceType } from '../../types/ResourceType';
-import { axiosJsonConfig, getApiUrlByResourceType, sendMultipartPostRequest } from '../utils/apiUtils';
+import { axiosJsonConfig, sendMultipartPostRequest } from '../utils/apiUtils';
 import {
     deleteFile,
     getArbeidsgiver,
@@ -41,14 +41,14 @@ describe('api', () => {
     describe('getBarn', () => {
         it('should call axios.get with correct URL and axios config', () => {
             getBarn();
-            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.BARN), axiosJsonConfig);
+            expect(axios.get).toHaveBeenCalledWith(ResourceType.BARN, axiosJsonConfig);
         });
     });
 
     describe('getSøker', () => {
         it('should call axios.get with correct URL and axios config', () => {
             getSøker();
-            expect(axios.get).toHaveBeenCalledWith(getApiUrlByResourceType(ResourceType.SØKER), axiosJsonConfig);
+            expect(axios.get).toHaveBeenCalledWith(ResourceType.SØKER, axiosJsonConfig);
         });
     });
 
@@ -57,9 +57,7 @@ describe('api', () => {
             const date1 = 'some date';
             const date2 = 'some other date';
             getArbeidsgiver(date1, date2);
-            const url = `${getApiUrlByResourceType(
-                ResourceType.SØKER
-            )}?fra_og_med=${date1}&til_og_med=${date2}&frilansoppdrag=true`;
+            const url = `${ResourceType.ARBEIDSGIVER}?fra_og_med=${date1}&til_og_med=${date2}&frilansoppdrag=true`;
             expect(axios.get).toHaveBeenCalledWith(url, axiosJsonConfig);
         });
     });
@@ -68,11 +66,7 @@ describe('api', () => {
         it('should call axios.post with correct URL, specified api data and axios config', () => {
             const data = {} as any;
             sendApplication(data);
-            expect(axios.post).toHaveBeenCalledWith(
-                getApiUrlByResourceType(ResourceType.SEND_SØKNAD),
-                data,
-                axiosJsonConfig
-            );
+            expect(axios.post).toHaveBeenCalledWith(ResourceType.SEND_SØKNAD, data, axiosJsonConfig);
         });
     });
 

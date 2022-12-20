@@ -11,11 +11,11 @@ export const sendMultipartPostRequest = (url: string, formData: FormData) => {
 };
 
 export const getApiUrlByResourceType = (resourceType: ResourceType) => {
-    return `${getEnvironmentVariable('API_URL')}/${resourceType}`;
+    return `${getEnvironmentVariable('FRONTEND_API_PATH')}/${resourceType}`;
 };
 
 export const getInnsynApiUrlByResourceType = (resourceType: ResourceTypeInnsyn) => {
-    return `${getEnvironmentVariable('API_URL_INNSYN')}/${resourceType}`;
+    return `${getEnvironmentVariable('FRONTEND_INNSYN_API_PATH')}/${resourceType}`;
 };
 
 export const apiUtils = {

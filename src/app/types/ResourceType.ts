@@ -1,11 +1,10 @@
 export enum ResourceType {
-    ARBEIDSGIVER = 'arbeidsgiver',
-    BARN = 'barn',
-    SEND_SØKNAD = 'soknad',
-    SØKER = 'soker',
+    SØKER = 'oppslag/soker',
+    BARN = 'oppslag/barn',
+    ARBEIDSGIVER = 'oppslag/arbeidsgiver',
+    SEND_SØKNAD = 'pleiepenger-sykt-barn/innsending',
     VEDLEGG = 'vedlegg',
-    MELLOMLAGRING = 'mellomlagring',
-    BEKREFT_OMSORG = 'skalBekrefteOmsorg',
+    MELLOMLAGRING = 'mellomlagring/PLEIEPENGER_SYKT_BARN',
 }
 
 export enum ResourceTypeInnsyn {

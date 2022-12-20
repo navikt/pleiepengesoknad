@@ -1,31 +1,35 @@
 const express = require('express');
-const path = require('path');
 const mustacheExpress = require('mustache-express');
-const Promise = require('promise');
 const compression = require('compression');
-const helmet = require('helmet');
 const getDecorator = require('./src/build/scripts/decorator');
 const envSettings = require('./envSettings');
-
-require('dotenv').config();
+const cookieParser = require('cookie-parser');
+const { initTokenX, exchangeToken } = require('./tokenx');
+const { createProxyMiddleware } = require('http-proxy-middleware');
+const Promise = require('promise');
+const helmet = require('helmet');
+const path = require('path');
+const jose = require('jose');
 
 const server = express();
+
 server.use(
     helmet({
         contentSecurityPolicy: false,
         crossOriginEmbedderPolicy: false,
     })
 );
-server.use(compression());
-server.set('views', path.resolve(`${__dirname}/dist`));
-server.set('view engine', 'mustache');
-server.engine('html', mustacheExpress());
-
 server.use((req, res, next) => {
     res.set('X-XSS-Protection', '1; mode=block');
     res.set('Feature-Policy', "geolocation 'none'; microphone 'none'; camera 'none'");
     next();
 });
+server.use(compression());
+server.use(cookieParser());
+
+server.set('views', path.resolve(`${__dirname}/dist`));
+server.set('view engine', 'mustache');
+server.engine('html', mustacheExpress());
 
 const verifyLoginUrl = () =>
     new Promise((resolve, reject) => {
@@ -47,8 +51,49 @@ const renderApp = (decoratorFragments) =>
         });
     });
 
-const startServer = (html) => {
-    console.log('server.js: Using PUBLIC_PATH', process.env.PUBLIC_PATH);
+const isExpiredOrNotAuthorized = (token) => {
+    if (token) {
+        try {
+            const exp = jose.decodeJwt(token).exp;
+            return Date.now() >= exp * 1000;
+        } catch (err) {
+            console.error('Feilet med dekoding av token: ', err);
+            return true;
+        }
+    }
+    return true;
+};
+
+const getRouterConfig = async (req, audienceInnsyn) => {
+    {
+        if (req.headers['authorization'] !== undefined) {
+            const token = req.headers['authorization'].replace('Bearer ', '');
+            if (isExpiredOrNotAuthorized(token)) {
+                return undefined;
+            }
+            const exchangedToken = await exchangeToken(token, audienceInnsyn);
+            if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
+            }
+        } else if (req.cookies['selvbetjening-idtoken'] !== undefined) {
+            const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
+            if (isExpiredOrNotAuthorized(selvbetjeningIdtoken)) {
+                return undefined;
+            }
+
+            const exchangedToken = await exchangeToken(selvbetjeningIdtoken, audienceInnsyn);
+            if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
+                req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
+            }
+        } else return undefined;
+
+        return undefined;
+    }
+};
+
+const startServer = async (html) => {
+    await Promise.all([initTokenX()]);
+
     server.use(`${process.env.PUBLIC_PATH}/dist/js`, express.static(path.resolve(__dirname, 'dist/js')));
     server.use(`${process.env.PUBLIC_PATH}/dist/css`, (req, res, next) => {
         const requestReferer = req.headers.referer;
@@ -65,17 +110,42 @@ const startServer = (html) => {
         res.send(`${envSettings()}`);
     });
 
-    server.get(/^\/(?!.*dist).*$/, (req, res) => {
-        if (process.env.REDIRECT_TO !== undefined) {
-            res.set('location', process.env.REDIRECT_TO);
-            res.set('Cache-control', 'public, max-age=300');
-            res.status(301).send();
-        } else {
-            res.send(html);
-        }
+    server.use(
+        process.env.FRONTEND_API_PATH,
+        createProxyMiddleware({
+            target: process.env.API_URL,
+            changeOrigin: true,
+            pathRewrite: (path) => {
+                return path.replace(process.env.FRONTEND_API_PATH, '');
+            },
+            router: async (req) => getRouterConfig(req, false),
+            secure: true,
+            xfwd: true,
+            logLevel: 'info',
+        })
+    );
+
+    server.use(
+        process.env.FRONTEND_INNSYN_API_PATH,
+        createProxyMiddleware({
+            target: process.env.API_URL_INNSYN,
+            changeOrigin: true,
+            pathRewrite: (path) => {
+                return path.replace(process.env.FRONTEND_INNSYN_API_PATH, '');
+            },
+            router: async (req) => getRouterConfig(req, true),
+            secure: true,
+            xfwd: true,
+            logLevel: 'info',
+        })
+    );
+
+    server.get(/^\/(?!.*api)(?!.*innsynapi)(?!.*dist).*$/, (req, res) => {
+        res.send(html);
     });
 
     const port = process.env.PORT || 8080;
+
     server.listen(port, () => {
         console.log(`App listening on port: ${port}`);
     });
