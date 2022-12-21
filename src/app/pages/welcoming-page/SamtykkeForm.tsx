@@ -10,17 +10,19 @@ import { Hovedknapp } from 'nav-frontend-knapper';
 import Lenke from 'nav-frontend-lenker';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
+import { Undertittel } from 'nav-frontend-typografi';
+import InfoList from './components/info-list/InfoList';
+import getLenker from '../../lenker';
 
 interface Props {
     onConfirm: () => void;
-    onOpenDinePlikterModal: () => void;
 }
 
 const AppForm = getTypedFormComponents<SøknadFormField, SøknadFormValues, ValidationError>();
 
 const bem = bemHelper('welcomingPage');
 
-const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
+const SamtykkeForm = ({ onConfirm }: Props) => {
     const intl = useIntl();
     return (
         <AppForm.Form
@@ -30,20 +32,25 @@ const SamtykkeForm = ({ onConfirm, onOpenDinePlikterModal }: Props) => {
             <FormBlock>
                 <div data-testid={'welcomingPage-harForståttRettigheterOgPlikter'}>
                     <AppForm.ConfirmationCheckbox
-                        label={intlHelper(intl, 'welcomingPage.samtykke.tekst')}
+                        label={intlHelper(intl, 'page.velkommen.form.bekreftLabel')}
                         name={SøknadFormField.harForståttRettigheterOgPlikter}
-                        data-cy={'harForståttRettigheterOgPlikter'}
                         validate={getCheckedValidator()}>
-                        <FormattedMessage
-                            id="welcomingPage.samtykke.harForståttLabel"
-                            values={{
-                                plikterLink: (
-                                    <Lenke href="#" onClick={onOpenDinePlikterModal}>
-                                        {intlHelper(intl, 'welcomingPage.samtykke.harForståttLabel.lenketekst')}
-                                    </Lenke>
-                                ),
-                            }}
-                        />
+                        <Undertittel tag="h2">
+                            <strong>
+                                <FormattedMessage id="page.velkommen.form.ansvar.tittel" />
+                            </strong>
+                        </Undertittel>
+                        <InfoList>
+                            <li>
+                                <FormattedMessage id="page.velkommen.form.ansvar.list.1" />
+                            </li>
+                            <li>
+                                <FormattedMessage id="page.velkommen.form.ansvar.list.2.1" />{' '}
+                                <Lenke href={getLenker(intl.locale).rettOgPlikt} target="_blank">
+                                    <FormattedMessage id="page.velkommen.form.ansvar.list.2.2" />
+                                </Lenke>
+                            </li>
+                        </InfoList>
                     </AppForm.ConfirmationCheckbox>
                 </div>
             </FormBlock>

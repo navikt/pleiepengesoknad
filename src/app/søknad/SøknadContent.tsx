@@ -40,12 +40,14 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import { Søker } from '../types';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */
     mellomlagringMetadata?: MellomlagringMetadata;
     /** Forrige søknad sendt inn av bruker */
     forrigeSøknad: ImportertSøknad | undefined;
+    søker: Søker;
     onSøknadSent: () => void;
     onSøknadStart: () => void;
 }
@@ -53,6 +55,7 @@ interface PleiepengesøknadContentProps {
 const SøknadContent = ({
     mellomlagringMetadata,
     forrigeSøknad,
+    søker,
     onSøknadSent,
     onSøknadStart,
 }: PleiepengesøknadContentProps) => {
@@ -176,7 +179,7 @@ const SøknadContent = ({
             <Switch>
                 <Route
                     path={RouteConfig.WELCOMING_PAGE_ROUTE}
-                    render={() => <WelcomingPage onValidSubmit={startSoknad} />}
+                    render={() => <WelcomingPage onValidSubmit={startSoknad} søker={søker} />}
                 />
 
                 {isAvailable(StepID.OPPLYSNINGER_OM_BARNET, values) && (

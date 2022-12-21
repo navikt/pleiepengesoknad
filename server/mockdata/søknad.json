@@ -56,7 +56,6 @@
             ],
             "utenlandsoppholdSiste12Mnd": []
         },
-        "harMedsøker": false,
         "arbeidsgivere": [
             {
                 "navn": "SJOKKERENDE ELEKTRIKER",
@@ -128,7 +127,6 @@
                 "trekkKravPerioder": [],
                 "opptjeningAktivitet": { "frilanser": { "startdato": "2016-11-08" } },
                 "dataBruktTilUtledning": {
-                    "harMedsøker": false,
                     "harBekreftetOpplysninger": true,
                     "harForståttRettigheterOgPlikter": true
                 }

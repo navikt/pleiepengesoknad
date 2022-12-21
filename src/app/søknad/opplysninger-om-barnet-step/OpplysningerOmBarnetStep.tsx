@@ -43,6 +43,7 @@ const OpplysningerOmBarnetStep = ({ onValidSubmit }: StepConfigProps) => {
                             formValues={values}
                             søkersFødselsnummer={søkerdata.søker.fødselsnummer}
                             attachments={attachments}
+                            harRegistrerteBarn={harRegistrerteBarn(søkerdata)}
                         />
                     )}
                 </div>

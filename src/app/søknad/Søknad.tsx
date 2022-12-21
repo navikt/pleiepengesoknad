@@ -20,7 +20,11 @@ const Søknad = () => {
             onError={() => {
                 navigateToErrorPage(history);
             }}
-            contentLoadedRenderer={({ formValues, mellomlagringMetadata, forrigeSøknad }) => {
+            contentLoadedRenderer={({ formValues, mellomlagringMetadata, søkerdata, forrigeSøknad }) => {
+                if (!søkerdata) {
+                    navigateToErrorPage(history);
+                    return;
+                }
                 return (
                     <SøknadsdataWrapper initialSøknadsdata={getSøknadsdataFromFormValues(formValues)}>
                         <TypedFormikWrapper<SøknadFormValues>
@@ -39,6 +43,7 @@ const Søknad = () => {
                                     <SøknadContent
                                         mellomlagringMetadata={mellomlagringMetadata}
                                         forrigeSøknad={forrigeSøknad}
+                                        søker={søkerdata.søker}
                                         onSøknadSent={() => {
                                             setSøknadSent(true);
                                         }}

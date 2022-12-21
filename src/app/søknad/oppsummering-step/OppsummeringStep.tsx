@@ -201,22 +201,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                         </div>
                                     </SummaryBlock>
 
-                                    <SummaryBlock
-                                        header={intlHelper(intl, 'steg.oppsummering.annenSøkerSammePeriode.header')}>
-                                        <div data-testid="oppsummering-annenSøkerSammePeriode">
-                                            <FormattedMessage id={apiValues.harMedsøker ? 'Ja' : 'Nei'} />
-                                        </div>
-                                    </SummaryBlock>
-
-                                    {apiValues.harMedsøker && (
-                                        <SummaryBlock
-                                            header={intlHelper(intl, 'steg.oppsummering.samtidigHjemme.header')}>
-                                            <div data-testid="oppsummering-samtidigHjemme">
-                                                <FormattedMessage id={apiValues.samtidigHjemme ? 'Ja' : 'Nei'} />
-                                            </div>
-                                        </SummaryBlock>
-                                    )}
-
                                     {/* Utenlandsopphold i perioden */}
                                     {utenlandsoppholdIPerioden && (
                                         <>

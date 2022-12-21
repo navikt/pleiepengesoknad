@@ -99,7 +99,7 @@ const arbeidsgivereMock = {
 
 const FORRIGE_SØKNAD = './server/mockdata/depr_søknad.json';
 
-const MELLOMLAGRING_JSON = `${os.tmpdir()}/mellomlagring.json`;
+const MELLOMLAGRING_JSON = `${os.tmpdir()}/pleiepenger-sykt-barn-mellomlagring.json`;
 
 const isJSON = (str) => {
     try {
@@ -128,17 +128,17 @@ const startExpressServer = () => {
     server.get('/health/isAlive', (req, res) => res.sendStatus(200));
     server.get('/health/isReady', (req, res) => res.sendStatus(200));
 
-    server.get('/arbeidsgiver', (req, res) => {
+    server.get('/oppslag/arbeidsgiver', (req, res) => {
         // setTimeout(() => {
         res.send(arbeidsgivereMock);
         // }, 800);
     });
 
-    server.get('/soker', (req, res) => {
+    server.get('/oppslag/soker', (req, res) => {
         res.send(søkerMock);
     });
 
-    server.get('/soker-umyndig', (req, res) => {
+    server.get('/oppslag/soker-umyndig', (req, res) => {
         res.sendStatus(451);
     });
 
@@ -147,15 +147,20 @@ const startExpressServer = () => {
         res.set('Location', 'nav.no');
         const busboy = busboyCons({ headers: req.headers });
         busboy.on('finish', () => {
-            res.writeHead(200, { Location: '/vedlegg' });
+            res.writeHead(200, {
+                Location: 'http://localhost:8083/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdG',
+            });
             res.end();
         });
         req.pipe(busboy);
     });
 
-    server.get('/barn', (req, res) => res.send(barnMock));
+    server.get('/oppslag/barn', (req, res) => res.send(barnMock));
 
-    server.post('/soknad', (req, res) => {
+    //Test uten barn
+    // server.get('/oppslag/barn', (req, res) => res.send({ barn: [] }));
+
+    server.post('/pleiepenger-sykt-barn/innsending', (req, res) => {
         res.sendStatus(200);
     });
 
@@ -167,7 +172,7 @@ const startExpressServer = () => {
             res.send({});
         }
     });
-    server.get('/mellomlagring', (req, res) => {
+    server.get('/mellomlagring/PLEIEPENGER_SYKT_BARN', (req, res) => {
         if (existsSync(MELLOMLAGRING_JSON)) {
             const body = readFileSync(MELLOMLAGRING_JSON);
             res.send(JSON.parse(body));
@@ -175,19 +180,19 @@ const startExpressServer = () => {
             res.send({});
         }
     });
-    server.post('/mellomlagring', (req, res) => {
+    server.post('/mellomlagring/PLEIEPENGER_SYKT_BARN', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
         res.sendStatus(200);
     });
-    server.put('/mellomlagring', (req, res) => {
+    server.put('/mellomlagring/PLEIEPENGER_SYKT_BARN', (req, res) => {
         const body = req.body;
         const jsBody = isJSON(body) ? JSON.parse(body) : body;
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify(jsBody, null, 2));
         res.sendStatus(200);
     });
-    server.delete('/mellomlagring', (req, res) => {
+    server.delete('/mellomlagring/PLEIEPENGER_SYKT_BARN', (req, res) => {
         writeFileAsync(MELLOMLAGRING_JSON, JSON.stringify({}, null, 2));
         res.sendStatus(200);
     });

@@ -29,13 +29,14 @@ interface Props {
     formValues: SøknadFormValues;
     søkersFødselsnummer: string;
     attachments: Attachment[];
+    harRegistrerteBarn: boolean;
 }
 
 const nYearsAgo = (years: number): Date => {
     return dayjs(dateToday).subtract(years, 'y').startOf('year').toDate();
 };
 
-const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, attachments }) => {
+const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, attachments, harRegistrerteBarn }) => {
     const intl = useIntl();
     const {
         values: { barnetHarIkkeFnr, årsakManglerIdentitetsnummer },
@@ -46,9 +47,11 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
         <Box margin="xl">
             <SkjemagruppeQuestion
                 legend={
-                    <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
-                        {intlHelper(intl, 'steg.omBarnet.annetBarn.tittel')}
-                    </Undertittel>
+                    harRegistrerteBarn ? (
+                        <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
+                            {intlHelper(intl, 'steg.omBarnet.annetBarn.tittel')}
+                        </Undertittel>
+                    ) : undefined
                 }>
                 <SøknadFormComponents.Input
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}

@@ -26,8 +26,6 @@ const expectedLand = 'Albania'; // Land #2 i listen
 export const fyllUtPeriode = () => {
     getInputByName('periodeFra').click().type(fraDato).blur();
     getInputByName('periodeTil').click().type(tilDato).blur();
-    selectRadioYes('er-annenSamtidig');
-    selectRadioYes('er-samtidigHjemme');
     selectRadioYes('er-iUtlandetIPerioden');
 
     selectRadioYes('er-iUtlandetIPerioden');
@@ -66,7 +64,6 @@ export const oppsummeringTestPeriodeEnkelt = () => {
     getTestElement('oppsummering-tidsrom-fomtom').should((element) =>
         expect(expectedFomTomPeriode).equal(element.text())
     );
-    getTestElement('oppsummering-annenSøkerSammePeriode').should((element) => expect('Nei').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden').should((element) => expect('Nei').equal(element.text()));
     getTestElement('oppsummering-ferieuttakIPerioden').should((element) => expect('Nei').equal(element.text()));
 };
@@ -75,8 +72,6 @@ export const oppsummeringTestPeriode = () => {
     getTestElement('oppsummering-tidsrom-fomtom').should((element) =>
         expect(expectedFomTomPeriode).equal(element.text())
     );
-    getTestElement('oppsummering-annenSøkerSammePeriode').should((element) => expect('Ja').equal(element.text()));
-    getTestElement('oppsummering-samtidigHjemme').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden').should((element) => expect('Ja').equal(element.text()));
     getTestElement('oppsummering-utenlandsoppholdIPerioden-list').within(() => {
         getElement('li')

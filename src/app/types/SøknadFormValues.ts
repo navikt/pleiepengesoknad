@@ -39,8 +39,6 @@ export enum SøknadFormField {
     skalTaUtFerieIPerioden = 'skalTaUtFerieIPerioden',
     ferieuttakIPerioden = 'ferieuttakIPerioden',
     utenlandsoppholdIPerioden = 'utenlandsoppholdIPerioden',
-    harMedsøker = 'harMedsøker',
-    samtidigHjemme = 'samtidigHjemme',
     harNattevåk = 'harNattevåk',
     harNattevåk_ekstrainfo = 'harNattevåk_ekstrainfo',
     harBeredskap = 'harBeredskap',
@@ -98,8 +96,6 @@ export interface SøknadFormValues {
     [SøknadFormField.utenlandsoppholdIPerioden]?: Utenlandsopphold[];
     [SøknadFormField.skalTaUtFerieIPerioden]?: YesOrNo;
     [SøknadFormField.ferieuttakIPerioden]?: Ferieuttak[];
-    [SøknadFormField.harMedsøker]: YesOrNo;
-    [SøknadFormField.samtidigHjemme]: YesOrNo;
     [SøknadFormField.omsorgstilbud]?: OmsorgstilbudFormValues;
     [SøknadFormField.harNattevåk]: YesOrNo;
     [SøknadFormField.harNattevåk_ekstrainfo]?: string;
@@ -140,8 +136,6 @@ export const initialValues: SøknadFormValues = {
     [SøknadFormField.utenlandsoppholdIPerioden]: [],
     [SøknadFormField.skalTaUtFerieIPerioden]: YesOrNo.UNANSWERED,
     [SøknadFormField.ferieuttakIPerioden]: [],
-    [SøknadFormField.harMedsøker]: YesOrNo.UNANSWERED,
-    [SøknadFormField.samtidigHjemme]: YesOrNo.UNANSWERED,
     [SøknadFormField.omsorgstilbud]: undefined,
     [SøknadFormField.harNattevåk]: YesOrNo.UNANSWERED,
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
