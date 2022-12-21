@@ -20,7 +20,9 @@ import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
 import SøknadFormComponents from '../../SøknadFormComponents';
 import { arbeidIPeriodeSpørsmålConfig } from '../utils/arbeidIPeriodeSpørsmålConfig';
 import {
-    getArbeidIPeriodeArbeiderIPeriodenValidator,
+    getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator,
+    getArbeidIPeriodeArbeiderIPeriodenOmsorgsstønadValidator,
+    getArbeidIPeriodeArbeiderIPeriodenVervValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
     //  getArbeidIPeriodeTimerEllerProsentValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
@@ -107,7 +109,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                     <SøknadFormComponents.RadioPanelGroup
                         name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
                         legend={intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.frilans.spm')}
-                        validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
+                        validate={getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator()}
                         radios={[
                             {
                                 label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
@@ -142,7 +144,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                         name={getFieldName(ArbeidIPeriodeFormField.omsorgsstønadIPerioden)}
                         // legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
                         legend={'Omsorgsstønad'}
-                        // validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
+                        validate={getArbeidIPeriodeArbeiderIPeriodenOmsorgsstønadValidator()}
                         radios={[
                             {
                                 label: 'Jeg mister hele omsorgsstønaden',
@@ -169,7 +171,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                         name={getFieldName(ArbeidIPeriodeFormField.misterHonorarerFraVervIPerioden)}
                         // legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
                         legend={'Honorar for verv'}
-                        // validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
+                        validate={getArbeidIPeriodeArbeiderIPeriodenVervValidator()}
                         radios={[
                             {
                                 label: 'Jeg mister alle honorar',

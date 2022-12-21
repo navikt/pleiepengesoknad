@@ -123,6 +123,35 @@ export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIP
         : error;
 };
 
+export const getArbeidIPeriodeArbeiderIPeriodenOmsorgsstønadValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.omsorgsstønad',
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
+export const getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.frilanser',
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
+
+export const getArbeidIPeriodeArbeiderIPeriodenVervValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.verv',
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
+
 export const getArbeidIPeriodeErLiktHverUkeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
