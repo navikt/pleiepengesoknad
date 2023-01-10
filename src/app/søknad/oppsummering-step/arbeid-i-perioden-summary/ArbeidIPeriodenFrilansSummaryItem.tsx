@@ -55,9 +55,9 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
             </ul>
         );
     };
-    const getFrilanserTekst = (frilansIPeriode: ArbeiderIPeriodenSvar) => (
+    const getFrilanserTekst = (arbeiderIPerioden: ArbeiderIPeriodenSvar) => (
         <li>
-            <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.frilanser.${frilansIPeriode}`} />
+            <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.frilanser.${arbeiderIPerioden}`} />
         </li>
     );
 
@@ -78,7 +78,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
             case ArbeidIPeriodeType.arbeiderIkkeEllerVanlig:
                 return (
                     <ul>
-                        {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
+                        {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
                         {arbeidIPeriode.omsorgsstønadIPerioden &&
                             getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                         {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
@@ -90,7 +90,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <>
                         <ul>
-                            {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
+                            {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
@@ -115,7 +115,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <div>
                         <ul>
-                            {arbeidIPeriode.frilanserIPerioden && getFrilanserTekst(arbeidIPeriode.frilanserIPerioden)}
+                            {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
                             {arbeidIPeriode.omsorgsstønadIPerioden &&
                                 getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&

@@ -111,7 +111,7 @@ export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]):
                     return false;
                 }
                 if (
-                    arbeidISøknadsperiode.frilanserIPerioden === ArbeiderIPeriodenSvar.somVanlig ||
+                    arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig ||
                     arbeidISøknadsperiode.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.beholderHeleOmsorgsstønad
                 ) {
                     return true;

@@ -109,7 +109,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             if (snittTimerPerUke && timerISnittPerUke) {
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
-                    frilanserIPerioden: arbeiderIPerioden,
+                    arbeiderIPerioden: arbeiderIPerioden,
                     omsorgsstønadIPerioden,
                     misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                     timerISnittPerUke,
@@ -120,7 +120,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
-                frilansIPeriode: arbeiderIPerioden,
+                arbeiderIPerioden: arbeiderIPerioden,
                 omsorgsstønadIPerioden,
                 misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                 arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
@@ -130,7 +130,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
 
     return {
         type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
-        frilanserIPerioden: arbeiderIPerioden,
+        arbeiderIPerioden: arbeiderIPerioden,
         omsorgsstønadIPerioden,
         misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
     };

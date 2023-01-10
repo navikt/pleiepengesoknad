@@ -6,14 +6,14 @@ import { ArbeidsukeTimerApiData } from './arbeidIPeriodeApiData';
 
 export interface ArbeidIPeriodeApiDataJobberIkkeEllerSomVanlig {
     type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
-    frilanserIPerioden?: ArbeiderIPeriodenSvar;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
     omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
 }
 
 export interface ArbeidIPeriodeApiDataTimerPerUke {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
-    frilanserIPerioden?: ArbeiderIPeriodenSvar;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
     omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
     timerPerUke: ISODuration;
@@ -21,7 +21,7 @@ export interface ArbeidIPeriodeApiDataTimerPerUke {
 
 export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
-    frilanserIPerioden?: ArbeiderIPeriodenSvar;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
     omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
     arbeidsuker: ArbeidsukeTimerApiData[];
