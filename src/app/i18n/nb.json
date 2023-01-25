@@ -581,7 +581,7 @@
 
     "arbeidIPeriode.StepInfo.1": "Her skal du svare på om du jobber noe i perioden du søker om. Altså om du kombinerer pleiepenger med delvis jobb.",
     "arbeidIPeriode.StepInfo.2": "Pleiepengene graderes mot den tiden du jobber. Det vil si at hvis du for eksempel i søknadsperioden jobber 30 prosent, kan du ha rett til opptil 70 prosent pleiepenger.",
-    "arbeidIPeriode.FrilansLabel": "Frilans",
+    "arbeidIPeriode.FrilansLabel": "Frilanser, oppdragstaker og honorarer",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.arbeiderIPerioden.spm": "I perioden du søker for, hvilken situasjon gjelder for deg {hvor}?",
     "arbeidIPeriode.arbeiderIPerioden.frilans.spm": "Hva er din situasjon som frilanser i perioden du søker for?",
