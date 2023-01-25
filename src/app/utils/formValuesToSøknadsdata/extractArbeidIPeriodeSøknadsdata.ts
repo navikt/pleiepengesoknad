@@ -6,7 +6,6 @@ import { TimerEllerProsent } from '../../types';
 import {
     ArbeidIPeriodeFormValues,
     ArbeidsukerFormValues,
-    OmsorgsstønadIPerioden,
     MisterHonorarerFraVervIPerioden,
 } from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
@@ -95,12 +94,10 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     snittTimerPerUke,
     erLiktHverUke,
     arbeidsuker,
-    omsorgsstønadIPerioden,
     misterHonorarerFraVervIPerioden,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
     if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-        omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
         misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
     ) {
         if (erLiktHverUke === YesOrNo.YES) {
@@ -110,7 +107,6 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
                 return {
                     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                     arbeiderIPerioden: arbeiderIPerioden,
-                    omsorgsstønadIPerioden,
                     misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                     timerISnittPerUke,
                 };
@@ -121,7 +117,6 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 arbeiderIPerioden: arbeiderIPerioden,
-                omsorgsstønadIPerioden,
                 misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
                 arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
             };
@@ -131,9 +126,6 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     return {
         type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
         arbeiderIPerioden: arbeiderIPerioden,
-        omsorgsstønadIPerioden,
         misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
     };
-
-    return undefined;
 };

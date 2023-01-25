@@ -4,7 +4,6 @@ import { ArbeidsforholdFrilanserFormValues } from './ArbeidsforholdFormValues';
 
 export enum FrilansTyper {
     FRILANS = 'FRILANS',
-    OMSORGSSTØNAD = 'OMSORGSSTØNAD',
     STYREVERV = 'STYREVERV',
 }
 

@@ -12,7 +12,7 @@ import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeidIPeriodenFrilansSummaryItemType } from './ArbeidIPeriodenSummary';
 import { ArbeidIPeriodeFrilansApiData } from '../../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
-import { OmsorgsstønadIPerioden, MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
+import { MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsukeTimerApiData } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';
 
 interface Props {
@@ -61,12 +61,6 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
         </li>
     );
 
-    const getOmsorgsstønadTekst = (omsorgsstønad: OmsorgsstønadIPerioden) => (
-        <li>
-            <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.omsorgsstønad.${omsorgsstønad}`} />
-        </li>
-    );
-
     const getVervTekst = (verv: MisterHonorarerFraVervIPerioden) => (
         <li>
             <FormattedMessage id={`oppsummering.arbeidIPeriode.arbeiderIPerioden.verv.${verv}`} />
@@ -79,8 +73,6 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <ul>
                         {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                        {arbeidIPeriode.omsorgsstønadIPerioden &&
-                            getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                         {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
                             getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                     </ul>
@@ -91,8 +83,6 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <>
                         <ul>
                             {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                            {arbeidIPeriode.omsorgsstønadIPerioden &&
-                                getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
                                 getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                         </ul>
@@ -116,8 +106,6 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <div>
                         <ul>
                             {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                            {arbeidIPeriode.omsorgsstønadIPerioden &&
-                                getOmsorgsstønadTekst(arbeidIPeriode.omsorgsstønadIPerioden)}
                             {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
                                 getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
                         </ul>

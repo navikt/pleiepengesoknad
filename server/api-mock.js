@@ -85,7 +85,7 @@ const frilansoppdrag = {
 };
 const frilansoppdrag2 = {
     type: 'type oppdrag',
-    organisasjonsnummer: '991012133',
+    organisasjonsnummer: '991012134',
     navn: 'Svandalen frilanssenter',
     ansattFom: '2022-01-01',
     ansattTom: '2022-01-15',
@@ -93,7 +93,8 @@ const frilansoppdrag2 = {
 
 const arbeidsgivereMock = {
     organisasjoner: [{ navn: 'SJOKKERENDE ELEKTRIKER', organisasjonsnummer: '947064649' }],
-    frilansoppdrag: [frilansoppdrag],
+    frilansoppdrag: [frilansoppdrag, frilansoppdrag2],
+    // frilansoppdrag: [],
     privatarbeidsgiver: [],
 };
 

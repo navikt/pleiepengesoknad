@@ -113,18 +113,17 @@ const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper, misterHonorarStyrever
                     </ExpandableInfo>
                 )}
 
-                {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.OMSORGSSTØNAD) && (
-                    <ExpandableInfo
-                        title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info.tittel')}>
-                        <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.omsorgsstønad.info'} />
-                    </ExpandableInfo>
-                )}
                 {frilansTyper &&
                     frilansTyper.some((type) => type === FrilansTyper.STYREVERV) &&
                     misterHonorarStyreverv === YesOrNo.YES && (
                         <ExpandableInfo
                             title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.styreverv.info.tittel')}>
-                            <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info'} />
+                            <p>
+                                <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info.1'} />
+                            </p>
+                            <p>
+                                <FormattedMessage id={'arbeidsforhold.frilanser.normalTimer.styreverv.info.2'} />
+                            </p>
                         </ExpandableInfo>
                     )}
             </Box>

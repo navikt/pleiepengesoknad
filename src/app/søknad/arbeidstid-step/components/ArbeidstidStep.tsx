@@ -104,10 +104,6 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                     <FormBlock>
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                             <>
-                                <Box padBottom="l">
-                                    <FormattedMessage id={'arbeidIPeriode.FrilansLabel.info'} />
-                                </Box>
-
                                 <div data-testid="arbeidIPerioden_frilanser">
                                     <ArbeidIPeriodeSpørsmålFrilans
                                         normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}

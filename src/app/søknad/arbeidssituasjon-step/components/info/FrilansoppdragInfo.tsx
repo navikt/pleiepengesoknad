@@ -21,8 +21,10 @@ const FrilansoppdragInfo: React.FunctionComponent<Props> = ({ frilansoppdrag, in
                 <>
                     <FrilansoppdragListe frilansoppdrag={frilansoppdrag} />
                     <p style={{ marginTop: 0 }}>
-                        <FormattedMessage id="frilansoppdragInfo.tekst" />
+                        <FormattedMessage id="frilansoppdragInfo.tekst.1" />
                     </p>
+
+                    <FormattedMessage id="frilansoppdragInfo.tekst.2" />
                 </>
             </ExpandableInfo>
         </Box>

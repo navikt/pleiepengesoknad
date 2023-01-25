@@ -7,7 +7,6 @@ import {
     ArbeidIPeriodeFormField,
     ArbeidIPeriodeFormValues,
     ArbeidsukerFormValues,
-    OmsorgsstønadIPerioden,
     MisterHonorarerFraVervIPerioden,
 } from '../../../types/ArbeidIPeriodeFormValues';
 import {
@@ -104,7 +103,6 @@ export const cleanupArbeidIPeriodeFrilans = (
 
     const arbeid: ArbeidIPeriodeFormValues = {
         arbeiderIPerioden: arbeidIPerioden.arbeiderIPerioden,
-        omsorgsstønadIPerioden: arbeidIPerioden.omsorgsstønadIPerioden,
         misterHonorarerFraVervIPerioden: arbeidIPerioden.misterHonorarerFraVervIPerioden,
     };
 
@@ -114,7 +112,6 @@ export const cleanupArbeidIPeriodeFrilans = (
 
     if (
         arbeid.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-        arbeid.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.mottarRedusert ||
         arbeid.misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
     ) {
         if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {

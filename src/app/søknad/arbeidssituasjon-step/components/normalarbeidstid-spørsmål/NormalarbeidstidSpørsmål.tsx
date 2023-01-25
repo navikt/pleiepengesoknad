@@ -50,13 +50,33 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 
+    const getFrilansTekst = () => {
+        if (frilansTyper === undefined || frilansTyper.length === 0) {
+            return '';
+        }
+        const erFrilanser = frilansTyper.some((type) => type === FrilansTyper.FRILANS);
+        const erVerv =
+            frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && misterHonorarStyreverv === YesOrNo.YES;
+
+        if (erFrilanser && !erVerv) {
+            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanser.spm';
+        }
+        if (erVerv && !erFrilanser) {
+            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.verv.spm';
+        }
+        if (erVerv && erFrilanser) {
+            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanserVerv.spm';
+        }
+        return '';
+    };
+
     const renderTimerPerUkeSpørsmål = () => {
         return (
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,
                     arbeidsforholdType === ArbeidsforholdType.FRILANSER
-                        ? 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanser.spm'
+                        ? getFrilansTekst()
                         : erAktivtArbeidsforhold === false
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,

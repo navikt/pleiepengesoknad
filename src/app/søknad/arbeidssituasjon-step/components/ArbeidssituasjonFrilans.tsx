@@ -10,8 +10,6 @@ import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
 import { getCheckedValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-import Lenke from 'nav-frontend-lenker';
-import { Element } from 'nav-frontend-typografi';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
@@ -29,16 +27,9 @@ interface Props {
     formValues: FrilansFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
-    urlSkatteetaten: string;
 }
 
-const ArbeidssituasjonFrilans = ({
-    formValues,
-    søknadsperiode,
-    søknadsdato,
-    frilansoppdrag,
-    urlSkatteetaten,
-}: Props) => {
+const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, frilansoppdrag }: Props) => {
     const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper = [] } = formValues;
     const intl = useIntl();
 
@@ -61,6 +52,26 @@ const ArbeidssituasjonFrilans = ({
         return false;
     };
 
+    const getFrilansStartDatoTekst = () => {
+        if (frilansTyper === undefined || frilansTyper.length === 0) {
+            return '';
+        }
+        const erFrilanser = frilansTyper.some((type) => type === FrilansTyper.FRILANS);
+        const erVerv =
+            frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && misterHonorarStyreverv === YesOrNo.YES;
+
+        if (erFrilanser && !erVerv) {
+            return 'frilanser.nårStartet.frilans.spm';
+        }
+        if (erVerv && !erFrilanser) {
+            return 'frilanser.nårStartet.verv.spm';
+        }
+        if (erVerv && erFrilanser) {
+            return 'frilanser.nårStartet.frilansVerv.spm';
+        }
+        return '';
+    };
+
     return (
         <div data-testid="arbeidssituasjonFrilanser">
             {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} intl={intl} />}
@@ -72,16 +83,37 @@ const ArbeidssituasjonFrilans = ({
                     legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
                     validate={getYesOrNoValidator()}
                     description={
-                        søkerHarFrilansoppdrag ? undefined : (
-                            <ExpandableInfo title={intlHelper(intl, 'frilanser.hjelpetekst.spm')}>
-                                <>
-                                    {intlHelper(intl, 'frilanser.hjelpetekst')}{' '}
-                                    <Lenke href={urlSkatteetaten} target="_blank">
-                                        <FormattedMessage id="frilanser.hjelpetekst.skatteetatenLenke" />
-                                    </Lenke>
-                                </>
-                            </ExpandableInfo>
-                        )
+                        <ExpandableInfo
+                            title={
+                                søkerHarFrilansoppdrag
+                                    ? intlHelper(intl, 'frilanser.harDuHattInntekt.hvaBetyr.spm')
+                                    : intlHelper(intl, 'frilanser.hjelpetekst.spm')
+                            }>
+                            <>
+                                {søkerHarFrilansoppdrag && (
+                                    <>
+                                        <p>
+                                            <FormattedMessage id="frilanser.harDuHattInntekt.hvaBetyr.info.1" />
+                                        </p>
+
+                                        <p>
+                                            <FormattedMessage id="frilanser.harDuHattInntekt.hvaBetyr.info.2" />
+                                        </p>
+                                    </>
+                                )}
+                                {!søkerHarFrilansoppdrag && (
+                                    <>
+                                        <p>
+                                            <FormattedMessage id="frilanser.hjelpetekst.1" />
+                                        </p>
+
+                                        <p>
+                                            <FormattedMessage id="frilanser.hjelpetekst.2" />
+                                        </p>
+                                    </>
+                                )}
+                            </>
+                        </ExpandableInfo>
                     }
                 />
             </Box>
@@ -89,35 +121,27 @@ const ArbeidssituasjonFrilans = ({
             {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <Box margin="l">
                     <ConditionalResponsivePanel usePanelLayout={harHattInntektSomFrilanser === YesOrNo.YES}>
-                        <Element tag="h2">
-                            <FormattedMessage id="frilanser.info" />
-                        </Element>
-                        <FormBlock>
-                            <ArbFriFormComponents.CheckboxGroup
-                                legend={intlHelper(intl, 'frilanser.type.tittel')}
-                                name={FrilansFormField.frilansTyper}
-                                data-testid="frilansType"
-                                defaultChecked={true}
-                                validate={getCheckedValidator()}
-                                checkboxes={[
-                                    {
-                                        label: intlHelper(intl, 'frilanser.type.FRILANS'),
-                                        value: FrilansTyper.FRILANS,
-                                        checked: frilansTyper?.some((type) => type === FrilansTyper.FRILANS),
-                                    },
-                                    {
-                                        label: intlHelper(intl, 'frilanser.type.OMSORGSSTØNAD'),
-                                        value: FrilansTyper.OMSORGSSTØNAD,
-                                        checked: frilansTyper?.some((type) => type === FrilansTyper.OMSORGSSTØNAD),
-                                    },
-                                    {
-                                        label: intlHelper(intl, 'frilanser.type.STYREVERV'),
-                                        value: FrilansTyper.STYREVERV,
-                                        checked: frilansTyper?.some((type) => type === FrilansTyper.STYREVERV),
-                                    },
-                                ]}
-                            />
-                        </FormBlock>
+                        <ArbFriFormComponents.CheckboxGroup
+                            legend={intlHelper(intl, 'frilanser.type.tittel')}
+                            name={FrilansFormField.frilansTyper}
+                            data-testid="frilansType"
+                            defaultChecked={true}
+                            validate={getCheckedValidator()}
+                            checkboxes={[
+                                {
+                                    label: intlHelper(intl, 'frilanser.type.FRILANS'),
+                                    value: FrilansTyper.FRILANS,
+                                    checked: frilansTyper?.some((type) => type === FrilansTyper.FRILANS),
+                                },
+
+                                {
+                                    label: intlHelper(intl, 'frilanser.type.STYREVERV'),
+                                    value: FrilansTyper.STYREVERV,
+                                    checked: frilansTyper?.some((type) => type === FrilansTyper.STYREVERV),
+                                },
+                            ]}
+                        />
+
                         {mottarHonorarForStyreverv && (
                             <>
                                 <FormBlock>
@@ -162,7 +186,7 @@ const ArbeidssituasjonFrilans = ({
                                 <FormBlock>
                                     <ArbFriFormComponents.DatePicker
                                         name={FrilansFormField.startdato}
-                                        label={intlHelper(intl, 'frilanser.nårStartet.spm')}
+                                        label={intlHelper(intl, getFrilansStartDatoTekst())}
                                         showYearSelector={true}
                                         maxDate={søknadsdato}
                                         validate={getFrilanserStartdatoValidator(

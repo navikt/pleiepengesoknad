@@ -93,7 +93,6 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values.frilans}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
-                            urlSkatteetaten={getLenker(intl.locale).skatteetaten}
                         />
                     </FormSection>
 

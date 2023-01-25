@@ -1,6 +1,6 @@
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { OmsorgsstønadIPerioden, MisterHonorarerFraVervIPerioden } from '../ArbeidIPeriodeFormValues';
+import { MisterHonorarerFraVervIPerioden } from '../ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukerTimerSøknadsdata = {
@@ -11,13 +11,11 @@ export type ArbeidsukerTimerSøknadsdata = {
 interface ArbeidISøknadsperiodeJobberIkkeEllerVanligSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
     arbeiderIPerioden?: ArbeiderIPeriodenSvar;
-    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
 }
 interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
     type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke;
     arbeiderIPerioden?: ArbeiderIPeriodenSvar;
-    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
     timerISnittPerUke: number;
 }
@@ -25,7 +23,6 @@ interface ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata {
 interface ArbeidISøknadsperiodeUlikeUkerTimer {
     type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer;
     arbeiderIPerioden?: ArbeiderIPeriodenSvar;
-    omsorgsstønadIPerioden?: OmsorgsstønadIPerioden;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
     arbeidsuker: ArbeidsukerTimerSøknadsdata;
 }

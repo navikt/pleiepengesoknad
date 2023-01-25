@@ -123,15 +123,6 @@ export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIP
         : error;
 };
 
-export const getArbeidIPeriodeArbeiderIPeriodenOmsorgsstønadValidator = () => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.omsorgsstønad',
-              keepKeyUnaltered: true,
-          }
-        : error;
-};
 export const getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator = () => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error

@@ -19,7 +19,6 @@ import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsda
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
-import { OmsorgsstønadIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 
 dayjs.extend(isSameOrBefore);
@@ -110,10 +109,7 @@ export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]):
                 if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
                     return false;
                 }
-                if (
-                    arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig ||
-                    arbeidISøknadsperiode.omsorgsstønadIPerioden === OmsorgsstønadIPerioden.beholderHeleOmsorgsstønad
-                ) {
+                if (arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig) {
                     return true;
                 }
             }

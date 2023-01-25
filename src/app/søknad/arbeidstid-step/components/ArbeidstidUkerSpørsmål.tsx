@@ -36,6 +36,7 @@ interface Props {
     timerEllerProsent: TimerEllerProsent;
     arbeidIPeriode: ArbeidIPeriodeFormValues;
     intlValues: ArbeidIPeriodeIntlValues;
+    erFrilanser?: boolean;
 }
 
 const getPeriodeISøknadsperiodeInfo = (intl: IntlShape, periode: DateRange, søknadsperiode: DateRange) => {
@@ -67,6 +68,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     timerEllerProsent,
     arbeidIPeriode,
     intlValues,
+    erFrilanser,
 }) => {
     const arbeidsuker = getArbeidsukerIPerioden(periode);
     const intl = useIntl();
@@ -80,17 +82,21 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
         <SøknadFormComponents.InputGroup
             name={`${parentFieldName}_ukerGroup` as any}
             data-testid="arbeidsuker"
-            legend={intlHelper(
-                intl,
-                `arbeidIPeriode.ulikeUkerGruppe.${
-                    timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
-                }.spm`,
-                {
-                    ...intlValues,
-                    timerNormaltString,
-                    periode: getPeriodeISøknadsperiodeInfo(intl, periode, søknadsperiode),
-                }
-            )}>
+            legend={
+                erFrilanser === true
+                    ? intlHelper(intl, 'arbeidIPeriode.frilanser.timer.spm')
+                    : intlHelper(
+                          intl,
+                          `arbeidIPeriode.ulikeUkerGruppe.${
+                              timerEllerProsent === TimerEllerProsent.PROSENT ? 'prosent' : 'timer'
+                          }.spm`,
+                          {
+                              ...intlValues,
+                              timerNormaltString,
+                              periode: getPeriodeISøknadsperiodeInfo(intl, periode, søknadsperiode),
+                          }
+                      )
+            }>
             {arbeidsuker.map((arbeidsuke) => {
                 return (
                     <div key={dateRangeToISODateRange(arbeidsuke.periode)}>
