@@ -580,8 +580,8 @@
     "arbeidsforhold.varierende.info.tekst.1": "Du regner ut et snitt ved å legge sammen antall timer du totalt har jobbet de siste 12 ukene og deler det med 12. Hvis du ikke har jobbet i 12 uker, regner du ut snittet på samme måte ved å bruke de ukene du har jobbet.",
 
     "arbeidIPeriode.StepInfo.1": "Her skal du svare på om du jobber noe i perioden du søker om. Altså om du kombinerer pleiepenger med delvis jobb.",
-    "arbeidIPeriode.StepInfo.2": "Hvis du for eksempel i søknadsperioden jobber 30 prosent, kan du ha rett til 70 prosent pleiepenger. Du får ikke pleiepenger for tiden du jobber, og derfor graderes pleiepengene mot den tiden du jobber.",
-    "arbeidIPeriode.FrilansLabel": "Frilanser, oppdragstaker og honorarer",
+    "arbeidIPeriode.StepInfo.2": "Pleiepengene graderes mot den tiden du jobber. Det vil si at hvis du for eksempel i søknadsperioden jobber 30 prosent, kan du ha rett til opptil 70 prosent pleiepenger.",
+    "arbeidIPeriode.FrilansLabel": "Frilans",
     "arbeidIPeriode.SNLabel": "Selvstendig næringsdrivende",
     "arbeidIPeriode.arbeiderIPerioden.spm": "I perioden du søker for, hvilken situasjon gjelder for deg {hvor}?",
     "arbeidIPeriode.arbeiderIPerioden.frilans.spm": "Hva er din situasjon som frilanser i perioden du søker for?",
