@@ -35,7 +35,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                     return (
                         <li key={type}>
                             <FormattedMessage id={`oppsummering.arbeidssituasjon.frilans.${type}`} />
-                            {type === FrilansTyper.STYREVERV && frilans.misterHonorar === false && (
+                            {type === FrilansTyper.STYREVERV && frilans.misterHonorarer === false && (
                                 <div>
                                     <FormattedMessage
                                         id={'oppsummering.arbeidssituasjon.frilans.STYREVERV.misterIkkeHonorar'}

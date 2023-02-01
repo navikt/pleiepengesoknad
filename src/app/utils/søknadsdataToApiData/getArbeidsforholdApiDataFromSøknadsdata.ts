@@ -82,21 +82,18 @@ export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
             return {
                 type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
                 arbeiderIPerioden: arbeid.arbeiderIPerioden,
-                misterHonorarerFraVervIPerioden: arbeid.misterHonorarerFraVervIPerioden,
             };
 
         case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
             return {
                 type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
                 arbeiderIPerioden: arbeid.arbeiderIPerioden,
-                misterHonorarerFraVervIPerioden: arbeid.misterHonorarerFraVervIPerioden,
                 timerPerUke: decimalDurationToISODuration(arbeid.timerISnittPerUke),
             };
         case ArbeidIPeriodeType.arbeiderUlikeUkerTimer:
             return {
                 type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
                 arbeiderIPerioden: arbeid.arbeiderIPerioden,
-                misterHonorarerFraVervIPerioden: arbeid.misterHonorarerFraVervIPerioden,
                 arbeidsuker: getArbeidsukerTimerApiData(arbeid.arbeidsuker),
             };
     }

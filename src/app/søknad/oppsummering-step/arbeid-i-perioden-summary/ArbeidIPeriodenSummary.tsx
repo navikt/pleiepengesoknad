@@ -12,7 +12,7 @@ import {
     SøknadApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
-import { ArbeidsforholdFrilansApiData } from 'app/types/søknad-api-data/arbeidsforholdFrilansApiData';
+import { ArbeidsforholdFrilansApiData } from '../../../types/søknad-api-data/arbeidsforholdFrilansApiData';
 import ArbeidIPeriodeFrilansSummaryItem from './ArbeidIPeriodenFrilansSummaryItem';
 
 interface Props {
@@ -109,8 +109,10 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                             header={arbeidsforholdIPeriodenFrilans.tittel}
                             key={arbeidsforholdIPeriodenFrilans.tittel}>
                             <ArbeidIPeriodeFrilansSummaryItem
-                                periode={søknadsperiode}
                                 arbeidsforhold={arbeidsforholdIPeriodenFrilans}
+                                misterHonorarerIPerioden={
+                                    frilans.type === 'harArbeidsforhold' ? frilans.misterHonorarerIPerioden : undefined
+                                }
                             />
                         </SummaryBlock>
                     )}

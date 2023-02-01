@@ -16,11 +16,14 @@ import { MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFo
 import { ArbeidsukeTimerApiData } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';
 
 interface Props {
-    periode: DateRange;
     arbeidsforhold: ArbeidIPeriodenFrilansSummaryItemType;
+    misterHonorarerIPerioden?: MisterHonorarerFraVervIPerioden;
 }
 
-const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbeidsforhold }) => {
+const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({
+    arbeidsforhold,
+    misterHonorarerIPerioden,
+}) => {
     const intl = useIntl();
 
     const timerNormaltNumber = ISODurationToDecimalDuration(arbeidsforhold.normalarbeidstid.timerPerUkeISnitt);
@@ -73,8 +76,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                 return (
                     <ul>
                         {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                        {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
-                            getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
+                        {misterHonorarerIPerioden && getVervTekst(misterHonorarerIPerioden)}
                     </ul>
                 );
 
@@ -83,8 +85,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <>
                         <ul>
                             {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                            {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
-                                getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
+                            {misterHonorarerIPerioden && getVervTekst(misterHonorarerIPerioden)}
                         </ul>
                         <ul>
                             <li>
@@ -106,8 +107,7 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({ arbe
                     <div>
                         <ul>
                             {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
-                            {arbeidIPeriode.misterHonorarerFraVervIPerioden &&
-                                getVervTekst(arbeidIPeriode.misterHonorarerFraVervIPerioden)}
+                            {misterHonorarerIPerioden && getVervTekst(misterHonorarerIPerioden)}
                         </ul>
                         <p>
                             <FormattedMessage
