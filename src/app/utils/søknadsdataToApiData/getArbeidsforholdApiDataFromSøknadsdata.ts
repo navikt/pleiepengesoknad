@@ -78,9 +78,14 @@ export const getArbeidIPeriodeFrilansApiDataFromSøknadsdata = (
     arbeid: ArbeidIPeriodeFrilansSøknadsdata
 ): ArbeidIPeriodeFrilansApiData => {
     switch (arbeid.type) {
-        case ArbeidIPeriodeType.arbeiderIkkeEllerVanlig:
+        case ArbeidIPeriodeType.arbeiderIkke:
             return {
-                type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
+                type: ArbeidIPeriodeType.arbeiderIkke,
+                arbeiderIPerioden: arbeid.arbeiderIPerioden,
+            };
+        case ArbeidIPeriodeType.arbeiderVanlig:
+            return {
+                type: ArbeidIPeriodeType.arbeiderVanlig,
                 arbeiderIPerioden: arbeid.arbeiderIPerioden,
             };
 

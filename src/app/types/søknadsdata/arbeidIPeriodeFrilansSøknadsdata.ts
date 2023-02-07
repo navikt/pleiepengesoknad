@@ -8,8 +8,13 @@ export type ArbeidsukerTimerSøknadsdata = {
     timer: number;
 }[];
 
-interface ArbeidISøknadsperiodeJobberIkkeEllerVanligSøknadsdata {
-    type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
+interface ArbeidISøknadsperiodeJobberIkkeSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderIkke;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
+    misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
+}
+interface ArbeidISøknadsperiodeJobberVanligSøknadsdata {
+    type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden?: ArbeiderIPeriodenSvar;
     misterHonorarerFraVervIPerioden?: MisterHonorarerFraVervIPerioden;
 }
@@ -28,6 +33,7 @@ interface ArbeidISøknadsperiodeUlikeUkerTimer {
 }
 
 export type ArbeidIPeriodeFrilansSøknadsdata =
-    | ArbeidISøknadsperiodeJobberIkkeEllerVanligSøknadsdata
+    | ArbeidISøknadsperiodeJobberIkkeSøknadsdata
+    | ArbeidISøknadsperiodeJobberVanligSøknadsdata
     | ArbeidISøknadsperiodeTimerISnittPerUkeSøknadsdata
     | ArbeidISøknadsperiodeUlikeUkerTimer;

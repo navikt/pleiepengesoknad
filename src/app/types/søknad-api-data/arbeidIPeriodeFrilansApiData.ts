@@ -3,8 +3,13 @@ import { ISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 import { ArbeidsukeTimerApiData } from './arbeidIPeriodeApiData';
 
-export interface ArbeidIPeriodeApiDataJobberIkkeEllerSomVanlig {
-    type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig;
+export interface ArbeidIPeriodeApiDataJobberIkke {
+    type: ArbeidIPeriodeType.arbeiderIkke;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
+}
+
+export interface ArbeidIPeriodeApiDataJobberSomVanlig {
+    type: ArbeidIPeriodeType.arbeiderVanlig;
     arbeiderIPerioden?: ArbeiderIPeriodenSvar;
 }
 
@@ -21,6 +26,7 @@ export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
 }
 
 export type ArbeidIPeriodeFrilansApiData =
-    | ArbeidIPeriodeApiDataJobberIkkeEllerSomVanlig
+    | ArbeidIPeriodeApiDataJobberIkke
+    | ArbeidIPeriodeApiDataJobberSomVanlig
     | ArbeidIPeriodeApiDataTimerPerUke
     | ArbeidIPeriodeApiDataUlikeUkerTimer;

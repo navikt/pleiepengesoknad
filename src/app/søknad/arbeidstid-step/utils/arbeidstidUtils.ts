@@ -20,6 +20,7 @@ import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normal
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidIPeriodeFrilansSøknadsdata } from 'app/types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -98,25 +99,28 @@ export const getArbeidsperiodeIForholdTilSøknadsperiode = (
     return ArbeidsperiodeIForholdTilSøknadsperiode.gjelderHelePerioden;
 };
 
+const frilansArbeiderVanlig = (arbeidISøknadsperiode: ArbeidIPeriodeFrilansSøknadsdata) => {
+    if (arbeidISøknadsperiode.type === ArbeidIPeriodeType.arbeiderVanlig || ArbeidIPeriodeType.arbeiderIkke) {
+        if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
+            return false;
+        }
+        if (arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig) {
+            return true;
+        }
+    }
+    return false;
+};
+
 export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
     return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
         if (!arbeidISøknadsperiode) {
             return false;
         }
 
-        const frilansArbeiderVanlig = () => {
-            if (arbeidISøknadsperiode.type === ArbeidIPeriodeType.arbeiderIkkeEllerVanlig) {
-                if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
-                    return false;
-                }
-                if (arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig) {
-                    return true;
-                }
-            }
-            return false;
-        };
-
-        return arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig && !frilansArbeiderVanlig();
+        return (
+            arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig &&
+            !frilansArbeiderVanlig(arbeidISøknadsperiode as ArbeidIPeriodeFrilansSøknadsdata)
+        );
     });
 };
 

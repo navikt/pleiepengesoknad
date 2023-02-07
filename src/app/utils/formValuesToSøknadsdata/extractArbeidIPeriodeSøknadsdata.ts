@@ -123,8 +123,15 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         }
     }
 
+    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
+        return {
+            type: ArbeidIPeriodeType.arbeiderIkke,
+            arbeiderIPerioden: arbeiderIPerioden,
+            misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
+        };
+    }
     return {
-        type: ArbeidIPeriodeType.arbeiderIkkeEllerVanlig,
+        type: ArbeidIPeriodeType.arbeiderVanlig,
         arbeiderIPerioden: arbeiderIPerioden,
         misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
     };

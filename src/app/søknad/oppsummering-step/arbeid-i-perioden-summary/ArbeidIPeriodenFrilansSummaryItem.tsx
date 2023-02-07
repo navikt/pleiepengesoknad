@@ -72,14 +72,20 @@ const ArbeidIPeriodeFrilansSummaryItem: React.FunctionComponent<Props> = ({
 
     const getArbeidIPeriodenDetaljer = (arbeidIPeriode: ArbeidIPeriodeFrilansApiData) => {
         switch (arbeidIPeriode.type) {
-            case ArbeidIPeriodeType.arbeiderIkkeEllerVanlig:
+            case ArbeidIPeriodeType.arbeiderIkke:
                 return (
                     <ul>
                         {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
                         {misterHonorarerIPerioden && getVervTekst(misterHonorarerIPerioden)}
                     </ul>
                 );
-
+            case ArbeidIPeriodeType.arbeiderVanlig:
+                return (
+                    <ul>
+                        {arbeidIPeriode.arbeiderIPerioden && getFrilanserTekst(arbeidIPeriode.arbeiderIPerioden)}
+                        {misterHonorarerIPerioden && getVervTekst(misterHonorarerIPerioden)}
+                    </ul>
+                );
             case ArbeidIPeriodeType.arbeiderTimerISnittPerUke:
                 return (
                     <>
