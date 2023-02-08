@@ -75,7 +75,8 @@
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
         "react-router": "^5.3.3",
-        "ts-loader": "^9.4.1"
+        "ts-loader": "^9.4.1",
+        "uuid": "^9.0.0"
     },
     "devDependencies": {
         "@babel/plugin-proposal-object-rest-spread": "^7.18.9",
