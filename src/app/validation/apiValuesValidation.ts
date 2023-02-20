@@ -9,14 +9,14 @@ import { durationToDecimalDuration, ISODurationToDuration, summarizeDurations } 
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
 import { getAttachmentsApiDataFromSøknadsdata } from '../utils/søknadsdataToApiData/getAttachmentsApiDataFromSøknadsdata';
-import _ from 'lodash';
+import { isEqual } from 'lodash';
 
 export const apiVedleggIsInvalid = (apiVedlegg: string[], vedleggFormData: Attachment[]) => {
     apiVedlegg.find((v) => {
         return v === undefined;
     });
     const apiVedleggFromFormdata = vedleggFormData ? getAttachmentsApiDataFromSøknadsdata(vedleggFormData) : [];
-    return !_.isEqual(apiVedleggFromFormdata.sort(), apiVedlegg.sort());
+    return !isEqual(apiVedleggFromFormdata.sort(), apiVedlegg.sort());
 };
 export interface ApiValidationError extends FeiloppsummeringFeil {
     stepId: StepID;
