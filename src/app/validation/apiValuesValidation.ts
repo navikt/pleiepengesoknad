@@ -15,7 +15,7 @@ export const apiVedleggIsInvalid = (apiVedlegg: string[], vedleggFormData: Attac
     apiVedlegg.find((v) => {
         return v === undefined;
     });
-    const apiVedleggFromFormdata = getAttachmentsApiDataFromSøknadsdata(vedleggFormData);
+    const apiVedleggFromFormdata = vedleggFormData ? getAttachmentsApiDataFromSøknadsdata(vedleggFormData) : [];
     return !_.isEqual(apiVedleggFromFormdata.sort(), apiVedlegg.sort());
 };
 export interface ApiValidationError extends FeiloppsummeringFeil {
