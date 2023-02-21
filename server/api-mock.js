@@ -4,6 +4,7 @@ const express = require('express');
 const fs = require('fs');
 const os = require('os');
 const process = require('process');
+const { v4: uuidv4 } = require('uuid');
 
 const platformNIC = () => {
     const interfaces = os.networkInterfaces();
@@ -148,7 +149,7 @@ const startExpressServer = () => {
         const busboy = busboyCons({ headers: req.headers });
         busboy.on('finish', () => {
             res.writeHead(200, {
-                Location: 'http://localhost:8083/vedlegg/eyJraWQiOiIxIiwidHlwIjoiSldUIiwiYWxnIjoibm9uZSJ9.eyJqdG',
+                Location: `http://localhost:8083/vedlegg/${uuidv4()}`,
             });
             res.end();
         });

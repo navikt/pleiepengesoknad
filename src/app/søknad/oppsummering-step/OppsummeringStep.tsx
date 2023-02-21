@@ -131,7 +131,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                     to: apiStringDateToDate(apiValues.tilOgMed),
                 };
 
-                const apiValuesValidationErrors = validateApiValues(apiValues, intl);
+                const apiValuesValidationErrors = validateApiValues(apiValues, values, intl);
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
 
