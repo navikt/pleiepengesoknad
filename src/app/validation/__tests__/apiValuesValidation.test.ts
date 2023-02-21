@@ -26,7 +26,6 @@ const files: Attachment[] = [
 describe('apiVedleggIsInvalid', () => {
     it('should return error if vedlegg[] contains nulls', () => {
         const nullString: any = null;
-        console.log(apiVedleggIsInvalid([nullString], []));
         expect(apiVedleggIsInvalid([nullString], [])).toBeTruthy();
     });
     it('should return error if vedlegg[] contains empty strings', () => {

@@ -12,9 +12,6 @@ import { getAttachmentsApiDataFromSøknadsdata } from '../utils/søknadsdataToAp
 import { isEqual } from 'lodash';
 
 export const apiVedleggIsInvalid = (apiVedlegg: string[], vedleggFormData: Attachment[]) => {
-    apiVedlegg.find((v) => {
-        return v === undefined;
-    });
     const apiVedleggFromFormdata = vedleggFormData ? getAttachmentsApiDataFromSøknadsdata(vedleggFormData) : [];
     return !isEqual(apiVedleggFromFormdata.sort(), apiVedlegg.sort());
 };
