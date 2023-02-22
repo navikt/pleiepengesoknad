@@ -66,34 +66,19 @@ const isExpiredOrNotAuthorized = (token) => {
 };
 
 const getRouterConfig = async (req, audienceInnsyn) => {
-    req.headers['X-Correlation-ID'] = uuidv4();
+    const token = req.headers['authorization']?.replace('Bearer ', '');
+    const cookie = req.cookies['selvbetjening-idtoken'];
 
-    if (process.env.NAIS_CLIENT_ID !== undefined) {
-        req.headers['X-K9-Brukerdialog'] = process.env.NAIS_CLIENT_ID;
+    if (isExpiredOrNotAuthorized(token ? token : cookie)) {
+        return undefined;
+    }
+    const exchangedToken = (await exchangeToken(token || cookie, audienceInnsyn)) || {};
+
+    if (exchangedToken.expired() || !exchangedToken.access_token) {
+        return undefined;
     }
 
-    if (req.headers['authorization'] !== undefined) {
-        const token = req.headers['authorization'].replace('Bearer ', '');
-        if (isExpiredOrNotAuthorized(token)) {
-            return undefined;
-        }
-        const exchangedToken = await exchangeToken(token, audienceInnsyn);
-        if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
-            req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
-        }
-    } else if (req.cookies['selvbetjening-idtoken'] !== undefined) {
-        const selvbetjeningIdtoken = req.cookies['selvbetjening-idtoken'];
-        if (isExpiredOrNotAuthorized(selvbetjeningIdtoken)) {
-            return undefined;
-        }
-
-        const exchangedToken = await exchangeToken(selvbetjeningIdtoken, audienceInnsyn);
-        if (exchangedToken != null && !exchangedToken.expired() && exchangedToken.access_token) {
-            req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
-        }
-    } else return undefined;
-
-    return undefined;
+    req.headers['authorization'] = `Bearer ${exchangedToken.access_token}`;
 };
 
 const startServer = async (html) => {
