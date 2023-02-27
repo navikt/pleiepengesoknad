@@ -11,15 +11,17 @@ import {
 
 export const fyllUtArbeidssituasjonFrilanser = () => {
     getTestElement('arbeidssituasjonFrilanser').within(($body) => {
+        if ($body.find('[data-testid=mottar-stønadGodtgjørelse_no]').length) {
+            selectRadioNo('mottar-stønadGodtgjørelse');
+        }
+
         if ($body.find('[data-testid=er-frilanser_yes]').length) {
             selectRadioYes('er-frilanser');
         }
-        if ($body.find('[data-testid=fosterhjemsgodtgjørelse_mottar]').length) {
-            selectRadioYes('fosterhjemsgodtgjørelse_mottar');
-        }
-        const startDato = mellomlagring.formValues.frilans.startdato;
 
-        cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
+        // const startDato = mellomlagring.formValues.frilans.;
+
+        //cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
         selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');
     });
@@ -27,6 +29,9 @@ export const fyllUtArbeidssituasjonFrilanser = () => {
 
 export const fyllUtArbeidssituasjonErIkkeFrilanser = () => {
     getTestElement('arbeidssituasjonFrilanser').within(($body) => {
+        if ($body.find('[data-testid=mottar-stønadGodtgjørelse_no]').length) {
+            selectRadioNo('mottar-stønadGodtgjørelse');
+        }
         if ($body.find('[data-testid=er-frilanser_no]').length) {
             selectRadioNo('er-frilanser');
         }

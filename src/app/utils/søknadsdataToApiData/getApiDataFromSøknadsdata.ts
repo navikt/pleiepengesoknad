@@ -16,6 +16,7 @@ import { getNattevåkApiDataFromSøknadsdata } from './getNattevåkApiDataFromS�
 import { getOmsorgstilbudApiDataFromSøknadsdata } from './getOmsorgstibudApiDataFromSøknadsdata';
 import { getOpptjeningIUtlandetSøknadsdata } from './getOpptjeningIUtlandetSøknadsdata';
 import { getSelvstendigApiDataFromSøknadsdata } from './getSelvstendigApiDataFromSøknadsdata';
+import { getStønadGodtgjørelseApiDataFromSøknadsdata } from './getStønadGodtgjørelseApiDataFromSøknadsdata';
 import { getUtenlandskNæringSøknadsdata } from './getUtenlandskNæringSøknadsdata';
 import { getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata } from './getUtenlandsoppholdIPeriodenFromSøknadsdata';
 
@@ -51,6 +52,7 @@ export const getApiDataFromSøknadsdata = (
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),
                 frilans: getFrilansApiDataFromSøknadsdata(søknadsdata.arbeid?.frilans),
+                ...getStønadGodtgjørelseApiDataFromSøknadsdata(søknadsdata.stønadGodtgjørelse),
                 selvstendigNæringsdrivende: getSelvstendigApiDataFromSøknadsdata(
                     søknadsdata.arbeid?.selvstendig,
                     søknadsperiode,

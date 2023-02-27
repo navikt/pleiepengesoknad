@@ -11,6 +11,7 @@ import { SelvstendigFormData } from './SelvstendigFormData';
 import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
 import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
 import { BostedUtland } from '@navikt/sif-common-forms/lib';
+import { StønadGodtgjørelseFormData } from '../types/StønadGodtgjørelseFormData';
 
 export enum SøknadFormField {
     brukForrigeSøknad = 'brukForrigeSøknad',
@@ -53,6 +54,7 @@ export enum SøknadFormField {
     ansatt_arbeidsforhold = 'ansatt_arbeidsforhold',
     harVærtEllerErVernepliktig = 'harVærtEllerErVernepliktig',
     frilans = 'frilans',
+    stønadGodtgjørelse = 'stønadGodtgjørelse',
     selvstendig = 'selvstendig',
     frilansoppdrag = 'frilansoppdrag',
     harOpptjeningUtland = 'harOpptjeningUtland',
@@ -103,6 +105,8 @@ export interface SøknadFormValues {
     [SøknadFormField.harBeredskap_ekstrainfo]?: string;
     [SøknadFormField.harVærtEllerErVernepliktig]?: YesOrNo;
     [SøknadFormField.frilans]: FrilansFormData;
+    [SøknadFormField.stønadGodtgjørelse]: StønadGodtgjørelseFormData;
+
     [SøknadFormField.selvstendig]: SelvstendigFormData;
     [SøknadFormField.frilansoppdrag]: Arbeidsgiver[];
     [SøknadFormField.ansatt_arbeidsforhold]: ArbeidsforholdFormValues[];
@@ -141,6 +145,9 @@ export const initialValues: SøknadFormValues = {
     [SøknadFormField.harBeredskap]: YesOrNo.UNANSWERED,
     [SøknadFormField.frilans]: {
         harHattInntektSomFrilanser: YesOrNo.UNANSWERED,
+    },
+    [SøknadFormField.stønadGodtgjørelse]: {
+        mottarStønadGodtgjørelse: YesOrNo.UNANSWERED,
     },
     [SøknadFormField.selvstendig]: {
         harHattInntektSomSN: YesOrNo.UNANSWERED,

@@ -43,7 +43,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const intl = useIntl();
     const {
         values,
-        values: { ansatt_arbeidsforhold, harOpptjeningUtland, harUtenlandskNæring },
+        values: { ansatt_arbeidsforhold, harOpptjeningUtland, harUtenlandskNæring, stønadGodtgjørelse },
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
@@ -93,6 +93,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values.frilans}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
+                            stønadGodtgjørelse={stønadGodtgjørelse}
                         />
                     </FormSection>
 

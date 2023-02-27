@@ -41,6 +41,9 @@ export const mellomlagring = {
         },
         harNattevåk: 'unanswered',
         harBeredskap: 'unanswered',
+        stønadGodtgjørelse: {
+            mottarStønadGodtgjørelse: 'no',
+        },
         frilans: {
             harHattInntektSomFrilanser: 'no',
         },

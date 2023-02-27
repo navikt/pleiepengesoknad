@@ -937,6 +937,26 @@
     "validation.utenlandsoppholdNeste12Mnd.utenlandsopphold_utenfor_periode": "Ett eller flere av utenlandsoppholdene du har lagt inn for de neste 12 månedene, har datoer som ikke er innenfor neste 12 måneder.",
     "validation.harBekreftetOpplysninger.notChecked": "Du må bekrefte at opplysningene du har gitt er riktige.",
 
+    "validation.stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden.noValue": "Du må svare ja eller nei på om du mottar stønad/godtgjørelse i hele perioden du søker for.",
+
+    "validation.stønadGodtgjørelse.starterUndeveis.noValue": "Du må svare Ja eller Nei på om du starter å motta stønad/godtgjørelse underveis i perioden du søker for.",
+    "validation.stønadGodtgjørelse.starterUndeveis.starter_slutter_undeveis_nei": "Du kan ikke svare Nei samtidig på om du starter og slutter  å motta stønad/godtgjørelse underveis.",
+
+    "validation.stønadGodtgjørelse.slutterUnderveis.noValue": "Du må svare Ja eller Nei på om du slutter å motta stønad/godtgjørelse underveis i perioden du søker for.",
+    "validation.stønadGodtgjørelse.slutterUnderveis.starter_slutter_undeveis_nei": "Du kan ikke svare Nei samtidig på om du starter og slutter å motta stønad/godtgjørelse underveis.",
+
+    "validation.stønadGodtgjørelse.startDato.dateHasNoValue": "Du må fylle ut dato når du startet å motta omsorgsstønad eller fosterhjemsgodtgjørelse.",
+    "validation.stønadGodtgjørelse.startDato.dateIsAfterMax": "Start datoen kan ikke være etter søknadsperioden. Skriv inn eller velg dato fra kalenderen.",
+    "validation.stønadGodtgjørelse.startDato.dateIsBeforeMin": "Start datoen kan ikke være før søknadsperioden. Skriv inn eller velg dato fra kalenderen.",
+    "validation.stønadGodtgjørelse.startDato.dateHasInvalidFormat": "Du må oppgi start datoen i et gyldig datoformat. Gyldig format er dd.mm.åååå.",
+    "validation.stønadGodtgjørelse.startDato.startetEtterSluttDato": "Start-datoen kan ikke være etter slutt-datoen. Skriv inn eller velg dato fra kalenderen.",
+
+    "validation.stønadGodtgjørelse.sluttDato.dateHasNoValue": "Du må fylle ut dato når du sluttet å motta omsorgsstønad eller fosterhjemsgodtgjørelse.",
+    "validation.stønadGodtgjørelse.sluttDato.dateIsAfterMax": "Slutt datoen kan ikke være etter søknadsperioden. Skriv inn eller velg dato fra kalenderen.",
+    "validation.stønadGodtgjørelse.sluttDato.dateIsBeforeMin": "Slutt datoen kan ikke være før søknadsperioden. Skriv inn eller velg dato fra kalenderen.",
+    "validation.stønadGodtgjørelse.sluttDato.dateHasInvalidFormat": "Du må oppgi slutt datoen i et gyldig datoformat. Gyldig format er dd.mm.åååå.",
+    "validation.stønadGodtgjørelse.sluttDato.sluttetFørStartDato": "Slutt-datoen kan ikke være før start-datoen. Skriv inn eller velg dato fra kalenderen.",
+
     "virksomhetForm.næringstype.noValue": "Du må velge hvilken type virksomhet du har.",
 
     "infoForFarVedNyttBarn.tittel": "Er du registrert som far i folkeregisteret?",
@@ -949,10 +969,8 @@
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
     "frilansoppdragListe.tidsrom.avsluttet": "{fra} - {til}",
     "frilansoppdragListe.tidsrom.pågående": "{fra} - pågående",
-    "frilansoppdragInfo.tittel": "Det er registrert {antall,  plural, one {oppdrag} other {oppdragene}} på deg i AA-registeret",
-    "frilansoppdragInfo.expandableInfo.tittel": "Se hva som er registrert",
+    "frilansoppdragInfo.tittel": "Du har {antall,  plural, one {frilansoppdrag} other {frilansoppdragene}} registrert på deg i AA-registeret. Mottar du omsorgsstønad, fosterhjemsgodtgjørelse eller har verv du mottar honorarer for, vil dette også være registrert her.",
     "frilansoppdragInfo.tekst.1": "Dette er hva som er registrert på deg under kategorien \"Frilanser, oppdragstaker og honorarer\" i AA-registeret i perioden du søker om pleiepenger. Hvis du mottar fosterhjemsgodtgjørelse, omsorgsstønad eller har verv som du mottar honorar for, vil det være registrert her.",
-    "frilansoppdragInfo.tekst.2": "Hvis informasjonen ikke stemmer, må du kontakte de som har gjort registreringen, og be de oppdatere informasjonen i AA-registeret.",
 
     "infoForFarVedNyttBarn.info.2": "Uavhengig av hva som er situasjonen din, kan du fortsette å fylle ut søknaden og sende den inn."
 }

@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
-import { MisterHonorarerFraVervIPerioden } from 'app/types/ArbeidIPeriodeFormValues';
+import { MisterHonorarerFraVervIPerioden } from '../../types/ArbeidIPeriodeFormValues';
 import { FrilansTyper } from '../../types/FrilansFormData';
 import { FrilansApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';

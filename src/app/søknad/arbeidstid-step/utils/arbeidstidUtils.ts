@@ -20,7 +20,7 @@ import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normal
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidIPeriodeFrilansSøknadsdata } from 'app/types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
+import { ArbeidIPeriodeFrilansSøknadsdata } from '../../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);

@@ -7,7 +7,11 @@ import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { getCheckedValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import {
+    getCheckedValidator,
+    getRequiredFieldValidator,
+    getYesOrNoValidator,
+} from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
@@ -18,8 +22,19 @@ import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoVa
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
+import { StønadGodtgjørelseFormData, StønadGodtgjørelseFormField } from '../../../types/StønadGodtgjørelseFormData';
+import {
+    AppFieldValidationErrors,
+    getstønadGodtgjørelseSluttdatoValidator,
+    getstønadGodtgjørelseStartdatoValidator,
+} from '../../../validation/fieldValidations';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
+const StønadGodtgjørelseFormComponents = getTypedFormComponents<
+    StønadGodtgjørelseFormField,
+    StønadGodtgjørelseFormData,
+    ValidationError
+>();
 
 interface Props {
     frilansoppdrag: Arbeidsgiver[];
@@ -27,9 +42,16 @@ interface Props {
     formValues: FrilansFormData;
     søknadsperiode: DateRange;
     søknadsdato: Date;
+    stønadGodtgjørelse: StønadGodtgjørelseFormData;
 }
 
-const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, frilansoppdrag }: Props) => {
+const ArbeidssituasjonFrilans = ({
+    formValues,
+    søknadsperiode,
+    søknadsdato,
+    frilansoppdrag,
+    stønadGodtgjørelse,
+}: Props) => {
     const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper = [] } = formValues;
     const intl = useIntl();
 
@@ -74,9 +96,139 @@ const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, fr
 
     return (
         <div data-testid="arbeidssituasjonFrilanser">
-            {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} intl={intl} />}
+            {søkerHarFrilansoppdrag && <FrilansoppdragInfo frilansoppdrag={frilansoppdrag} />}
+            <FormBlock>
+                <StønadGodtgjørelseFormComponents.YesOrNoQuestion
+                    name={StønadGodtgjørelseFormField.mottarStønadGodtgjørelse}
+                    data-testid="mottar-stønadGodtgjørelse"
+                    // legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
+                    legend={'Mottar du omsorgsstønad eller fosterhjemsgodtgjørelse?'}
+                    validate={getYesOrNoValidator()}
+                    description={
+                        <ExpandableInfo title={'Hva har dette å si for mine pleiepenger?'}>
+                            TODO: tekst her
+                        </ExpandableInfo>
+                    }
+                />
+                {stønadGodtgjørelse && stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.YES && (
+                    <Box margin="l">
+                        <ConditionalResponsivePanel usePanelLayout={true}>
+                            <Box>
+                                <StønadGodtgjørelseFormComponents.RadioGroup
+                                    name={StønadGodtgjørelseFormField.mottarStønadGodtgjørelseIHelePeroden}
+                                    legend={'Mottar du stønad/godtgjørelse i hele perioden du søker for?'}
+                                    radios={[
+                                        {
+                                            label: 'Ja',
+                                            value: YesOrNo.YES,
+                                        },
+                                        {
+                                            label: 'Nei',
+                                            value: YesOrNo.NO,
+                                        },
+                                    ]}
+                                    validate={getRequiredFieldValidator()}
+                                    checked={stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden}
+                                />
+                            </Box>
+                            {stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden === YesOrNo.NO && (
+                                <>
+                                    <Box margin="l">
+                                        <StønadGodtgjørelseFormComponents.RadioGroup
+                                            name={StønadGodtgjørelseFormField.starterUndeveis}
+                                            legend={
+                                                'Starter du å motta stønad/godtgjørelse underveis i perioden du søker for?'
+                                            }
+                                            radios={[
+                                                {
+                                                    label: 'Ja',
+                                                    value: YesOrNo.YES,
+                                                },
+                                                {
+                                                    label: 'Nei',
+                                                    value: YesOrNo.NO,
+                                                },
+                                            ]}
+                                            validate={(value) => {
+                                                if (
+                                                    value === YesOrNo.NO &&
+                                                    stønadGodtgjørelse.slutterUnderveis === YesOrNo.NO
+                                                ) {
+                                                    return AppFieldValidationErrors.starter_slutter_undeveis_nei;
+                                                }
 
-            <Box margin="l">
+                                                return getRequiredFieldValidator()(value);
+                                            }}
+                                            checked={stønadGodtgjørelse.starterUndeveis}
+                                        />
+                                        {stønadGodtgjørelse.starterUndeveis === YesOrNo.YES && (
+                                            <Box margin="m">
+                                                <StønadGodtgjørelseFormComponents.DatePicker
+                                                    name={StønadGodtgjørelseFormField.startDato}
+                                                    label={'Startdato:'}
+                                                    showYearSelector={true}
+                                                    minDate={søknadsperiode.from}
+                                                    maxDate={søknadsperiode.to}
+                                                    validate={getstønadGodtgjørelseStartdatoValidator(
+                                                        stønadGodtgjørelse,
+                                                        søknadsperiode
+                                                    )}
+                                                />
+                                            </Box>
+                                        )}
+                                    </Box>
+                                    <Box margin="l">
+                                        <StønadGodtgjørelseFormComponents.RadioGroup
+                                            name={StønadGodtgjørelseFormField.slutterUnderveis}
+                                            legend={
+                                                'Slutter du å motta stønad/godtgjørelse underveis i perioden du søker for?'
+                                            }
+                                            radios={[
+                                                {
+                                                    label: 'Ja',
+                                                    value: YesOrNo.YES,
+                                                },
+                                                {
+                                                    label: 'Nei',
+                                                    value: YesOrNo.NO,
+                                                },
+                                            ]}
+                                            validate={(value) => {
+                                                if (
+                                                    value === YesOrNo.NO &&
+                                                    stønadGodtgjørelse.starterUndeveis === YesOrNo.NO
+                                                ) {
+                                                    return AppFieldValidationErrors.starter_slutter_undeveis_nei;
+                                                }
+
+                                                return getRequiredFieldValidator()(value);
+                                            }}
+                                            checked={stønadGodtgjørelse.slutterUnderveis}
+                                        />
+                                        {stønadGodtgjørelse.slutterUnderveis === YesOrNo.YES && (
+                                            <Box margin="m">
+                                                <StønadGodtgjørelseFormComponents.DatePicker
+                                                    name={StønadGodtgjørelseFormField.sluttDato}
+                                                    label={'Sluttdato:'}
+                                                    showYearSelector={true}
+                                                    minDate={søknadsperiode.from}
+                                                    maxDate={søknadsperiode.to}
+                                                    validate={getstønadGodtgjørelseSluttdatoValidator(
+                                                        stønadGodtgjørelse,
+                                                        søknadsperiode
+                                                    )}
+                                                />
+                                            </Box>
+                                        )}
+                                    </Box>
+                                </>
+                            )}
+                        </ConditionalResponsivePanel>
+                    </Box>
+                )}
+            </FormBlock>
+
+            <FormBlock>
                 <ArbFriFormComponents.YesOrNoQuestion
                     name={FrilansFormField.harHattInntektSomFrilanser}
                     data-testid="er-frilanser"
@@ -116,7 +268,7 @@ const ArbeidssituasjonFrilans = ({ formValues, søknadsperiode, søknadsdato, fr
                         </ExpandableInfo>
                     }
                 />
-            </Box>
+            </FormBlock>
 
             {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <Box margin="l">

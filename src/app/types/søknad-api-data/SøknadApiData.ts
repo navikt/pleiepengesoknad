@@ -8,6 +8,7 @@ import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
 import { FrilansApiData } from './frilansApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
+import { StønadGodtgjørelseApiData } from './stønadGodtgjørelseApiData';
 
 export * from './arbeidIPeriodeApiData';
 export * from './arbeidsgiverApiData';
@@ -150,6 +151,7 @@ export interface SøknadApiData {
     beredskap?: BeredskapApiData;
     arbeidsgivere: ArbeidsgiverApiData[];
     frilans: FrilansApiData;
+    stønadGodtgjørelse: StønadGodtgjørelseApiData;
     selvstendigNæringsdrivende: SelvstendigApiData;
     harVærtEllerErVernepliktig?: boolean;
     opptjeningIUtlandet: OpptjeningIUtlandetApiData[];
