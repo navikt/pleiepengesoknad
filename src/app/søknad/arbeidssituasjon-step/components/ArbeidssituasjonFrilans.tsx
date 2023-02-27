@@ -227,7 +227,6 @@ const ArbeidssituasjonFrilans = ({
                     </Box>
                 )}
             </FormBlock>
-
             <FormBlock>
                 <ArbFriFormComponents.YesOrNoQuestion
                     name={FrilansFormField.harHattInntektSomFrilanser}
@@ -269,7 +268,6 @@ const ArbeidssituasjonFrilans = ({
                     }
                 />
             </FormBlock>
-
             {harHattInntektSomFrilanser === YesOrNo.YES && (
                 <Box margin="l">
                     <ConditionalResponsivePanel usePanelLayout={harHattInntektSomFrilanser === YesOrNo.YES}>
@@ -354,6 +352,18 @@ const ArbeidssituasjonFrilans = ({
                     </ConditionalResponsivePanel>
                 </Box>
             )}
+
+            {frilansoppdrag.length > 0 &&
+                harHattInntektSomFrilanser === YesOrNo.NO &&
+                stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.NO && (
+                    <Box margin="l">
+                        <AlertStripeInfo>
+                            Jobber du ikke lenger i frilansoppdrag registrert på deg og ønsker å få dette fjernet? Be de
+                            som har gjort registreringen, om å oppdatere informasjonen i AA-registeret. Du kan fortsette
+                            på søknaden uavhengig .
+                        </AlertStripeInfo>
+                    </Box>
+                )}
         </div>
     );
 };
