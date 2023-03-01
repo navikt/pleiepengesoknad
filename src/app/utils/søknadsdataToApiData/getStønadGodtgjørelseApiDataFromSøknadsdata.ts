@@ -1,15 +1,19 @@
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { StønadGodtgjørelseSøknadsdata } from '../../types/søknadsdata/stønadGodtgjørelseSøknadsdata';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
 
 type StønadGodtgjørelseApiData = Pick<SøknadApiData, 'stønadGodtgjørelse'>;
 
 export const getStønadGodtgjørelseApiDataFromSøknadsdata = (
+    søknadsperiode: DateRange,
     stønadGodtgjørelse?: StønadGodtgjørelseSøknadsdata
 ): StønadGodtgjørelseApiData => {
     if (stønadGodtgjørelse === undefined) {
         throw Error('stønadGodtgjørelse undefined');
     }
+    const fraOgMed = formatDateToApiFormat(søknadsperiode.from);
+    const tilOgMed = formatDateToApiFormat(søknadsperiode.to);
 
     switch (stønadGodtgjørelse?.type) {
         case 'mottarIkke':
@@ -23,7 +27,9 @@ export const getStønadGodtgjørelseApiDataFromSøknadsdata = (
             return {
                 stønadGodtgjørelse: {
                     mottarStønadGodtgjørelse: true,
-                    mottarStønadGodtgjørelseIHelePeroden: true,
+                    _mottarStønadGodtgjørelseIHelePeroden: true,
+                    startDato: fraOgMed,
+                    sluttDato: tilOgMed,
                 },
             };
 
@@ -32,11 +38,13 @@ export const getStønadGodtgjørelseApiDataFromSøknadsdata = (
             return {
                 stønadGodtgjørelse: {
                     mottarStønadGodtgjørelse: true,
-                    mottarStønadGodtgjørelseIHelePeroden: false,
-                    starterUndeveis: starterUndeveis === YesOrNo.YES ? true : false,
-                    startDato: stønadGodtgjørelse.starterUndeveis === YesOrNo.YES ? startDato : undefined,
-                    slutterUnderveis: stønadGodtgjørelse.slutterUnderveis === YesOrNo.YES ? true : false,
-                    sluttDato: slutterUnderveis === YesOrNo.YES ? sluttDato : undefined,
+                    _mottarStønadGodtgjørelseIHelePeroden: false,
+
+                    _starterUndeveis: starterUndeveis === YesOrNo.YES ? true : false,
+                    startDato: starterUndeveis === YesOrNo.YES ? startDato : fraOgMed,
+
+                    _slutterUnderveis: slutterUnderveis === YesOrNo.YES ? true : false,
+                    sluttDato: slutterUnderveis === YesOrNo.YES ? sluttDato : tilOgMed,
                 },
             };
     }
