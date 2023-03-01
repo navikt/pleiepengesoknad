@@ -25,6 +25,7 @@ interface Props {
     brukKunSnittPerUke: boolean;
     frilansTyper?: FrilansTyper[];
     misterHonorarStyreverv?: YesOrNo;
+    mottarStønadGodtgjørelse?: boolean;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -38,6 +39,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     brukKunSnittPerUke,
     frilansTyper,
     misterHonorarStyreverv,
+    mottarStønadGodtgjørelse,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -71,6 +73,10 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     };
 
     const renderTimerPerUkeSpørsmål = () => {
+        const tekstStønadGodtgjørelse = intlHelper(
+            intl,
+            'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.infoStønadGodtgjørelse'
+        );
         return (
             <FormComponents.NumberInput
                 label={intlHelper(
@@ -80,7 +86,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         : erAktivtArbeidsforhold === false
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
-                    intlValues
+                    arbeidsforholdType === ArbeidsforholdType.FRILANSER
+                        ? { infoStønadGodtgjørelse: mottarStønadGodtgjørelse ? tekstStønadGodtgjørelse : '' }
+                        : intlValues
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}

@@ -331,6 +331,9 @@ const ArbeidssituasjonFrilans = ({
                                         brukKunSnittPerUke={true}
                                         frilansTyper={frilansTyper}
                                         misterHonorarStyreverv={misterHonorarStyreverv}
+                                        mottarStønadGodtgjørelse={
+                                            stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.YES
+                                        }
                                     />
                                 </FormBlock>
                                 <FormBlock>
