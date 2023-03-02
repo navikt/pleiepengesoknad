@@ -49,6 +49,7 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './oppsummeringStep.less';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     values: SøknadFormValues;
@@ -60,20 +61,26 @@ export const isBadRequest = (error: AxiosError): error is AxiosError =>
     error !== undefined && error.response !== undefined && error.response.status === HttpStatus.BAD_REQUEST;
 
 interface SIFBadRequestErrorResponse {
-    type: string;
-    title: string;
-    status: number;
-    detail: string;
-    invalid_parameters: Array<{
-        reason: string;
-    }>;
+    response: {
+        data: {
+            type: string;
+            title: string;
+            status: number;
+            detail: string;
+            invalid_parameters: Array<{
+                reason: string;
+            }>;
+        };
+    };
 }
 
 export const isSifBadRequestErrorResponse = (error: any): error is SIFBadRequestErrorResponse => {
     return (
         isBadRequest(error) &&
-        (error as any).response.invalid_parameters &&
-        (error as any).response.invalid_parameters.length > 0
+        (error as any).response &&
+        (error as any).response.data &&
+        (error as any).response.data.invalid_parameters &&
+        (error as any).response.data.invalid_parameters.length > 0
     );
 };
 
@@ -108,9 +115,9 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
             setSoknadSent(true);
             onApplicationSent(apiValues, søkerdata);
         } catch (error: any) {
-            if (isSifBadRequestErrorResponse(error) || 1 + 1 === 2) {
+            if (isSifBadRequestErrorResponse(error)) {
                 setSendingInProgress(false);
-                setInnsendingFeiletInfo(error.response.invalid_parameters[0].reason);
+                setInnsendingFeiletInfo(error.response.data.invalid_parameters[0].reason);
                 appSentryLogger.logApiError(error as any);
             } else if (isUnauthorized(error)) {
                 logUserLoggedOut('Ved innsending av søknad');
@@ -193,14 +200,6 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                     errors={apiValuesValidationErrors}
                                     søknadStepConfig={søknadStepConfig}
                                 />
-                            </FormBlock>
-                        )}
-                        {innsendingFeiletInfo && (
-                            <FormBlock>
-                                <AlertStripeFeil>
-                                    Oops, der oppstod det en feil under innsending.
-                                    {}
-                                </AlertStripeFeil>
                             </FormBlock>
                         )}
 
@@ -383,6 +382,24 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                 validate={getCheckedValidator()}
                             />
                         </Box>
+
+                        {innsendingFeiletInfo && (
+                            <FormBlock>
+                                <AlertStripeFeil>
+                                    <p>Oops, der oppstod det en feil.</p>
+                                    <p>
+                                        Du kan se om du får opp en feilmelding dersom du klikker gjennom søknaden fra
+                                        første til siste steg, bare pass på å bruke Fortsett knappen i siden, ikke frem
+                                        og tilbake i nettleseren.
+                                    </p>
+                                    <Box>
+                                        <ExpandableInfo title="Vis mer informasjon om feilen">
+                                            <p>{innsendingFeiletInfo}</p>
+                                        </ExpandableInfo>
+                                    </Box>
+                                </AlertStripeFeil>
+                            </FormBlock>
+                        )}
                     </SøknadFormStep>
                 );
             }}
