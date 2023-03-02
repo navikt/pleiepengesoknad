@@ -162,21 +162,7 @@ const startExpressServer = () => {
     // server.get('/oppslag/barn', (req, res) => res.send({ barn: [] }));
 
     server.post('/pleiepenger-sykt-barn/innsending', (req, res) => {
-        res.status(400).send({
-            type: '/problem-details/invalid-request-parameters',
-            title: 'invalid-request-parameters',
-            status: 400,
-            detail: 'Requesten inneholder ugyldige paramtere.',
-            instance: 'about:blank',
-            invalid_parameters: [
-                {
-                    type: 'entity',
-                    name: "ytelse.opptjeningAktivitet.selvstendigNæringsdrivende[0].perioder['2014-03-12/..'].bruttoInntekt",
-                    reason: 'bruttoInntekt [123123123] må være <= 10000000.00',
-                    invalid_value: 'K9-format feilkode: ugyldigVerdi',
-                },
-            ],
-        });
+        res.sendStatus(200);
     });
 
     server.get('/soknad/psb/siste', (req, res) => {
