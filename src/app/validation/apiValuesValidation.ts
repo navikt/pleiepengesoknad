@@ -84,5 +84,25 @@ export const validateApiValues = (values: SøknadApiData, intl: IntlShape): ApiV
         });
     }
 
+    if (values.nattevåk && values.nattevåk.tilleggsinformasjon && values.nattevåk.tilleggsinformasjon.length > 1000) {
+        errors.push({
+            skjemaelementId: 'omsorgstilbud',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.nattevåkBeskrivelseForLang'),
+            stepId: StepID.OMSORGSTILBUD,
+        });
+    }
+
+    if (
+        values.beredskap &&
+        values.beredskap.tilleggsinformasjon &&
+        values.beredskap.tilleggsinformasjon.length > 1000
+    ) {
+        errors.push({
+            skjemaelementId: 'omsorgstilbud',
+            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.beredskapBeskrivelseForLang'),
+            stepId: StepID.OMSORGSTILBUD,
+        });
+    }
+
     return errors.length > 0 ? errors : undefined;
 };
