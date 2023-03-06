@@ -1,5 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
+import dayjs from 'dayjs';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
 
@@ -34,7 +35,7 @@ export const opplysningerOmBarnetStepIsValid = ({
 };
 
 export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormValues>) => {
-    return periodeFra !== undefined && periodeTil !== undefined;
+    return periodeFra !== undefined && periodeTil !== undefined && dayjs(periodeFra).isSameOrBefore(periodeTil, 'day');
 };
 
 export const arbeidssituasjonStepIsValid = () => true;
