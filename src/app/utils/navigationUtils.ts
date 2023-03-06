@@ -2,6 +2,7 @@ import { History } from 'history';
 import RouteConfig from '../config/routeConfig';
 import routeConfig, { getRouteUrl } from '../config/routeConfig';
 import { StepID } from '../søknad/søknadStepsConfig';
+import appSentryLogger from './appSentryLogger';
 import { getEnvironmentVariable } from './envUtils';
 
 export const userIsCurrentlyOnErrorPage = () => {
@@ -15,7 +16,11 @@ const relocateTo = (url: string): void => {
 
 /** Simple route change, no page reload */
 export const navigateTo = (route: string, history: History): void => {
-    history.push(route);
+    if (history.push) {
+        history.push(route);
+    } else {
+        appSentryLogger.logError('history.push undefined', JSON.stringify({ history }));
+    }
 };
 export const navigateToSoknadStep = (step: StepID, history: History): void => history.push(`${step}`);
 
@@ -28,7 +33,4 @@ export const navigateToSoknadFrontpage = (history: History): void =>
     navigateTo(RouteConfig.SØKNAD_ROUTE_PREFIX, history);
 export const navigateToErrorPage = (history: History): void => {
     navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
-};
-export const navigateToKvitteringPage = (history: History): void => {
-    navigateTo(RouteConfig.SØKNAD_SENDT_ROUTE, history);
 };
