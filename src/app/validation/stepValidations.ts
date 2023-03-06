@@ -1,7 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
+import dayjs from 'dayjs';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { validateFødselsnummer, validateNavn } from './fieldValidations';
+
+dayjs.extend(isSameOrBefore);
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormValues) =>
     harForståttRettigheterOgPlikter === true;
@@ -34,7 +38,7 @@ export const opplysningerOmBarnetStepIsValid = ({
 };
 
 export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormValues>) => {
-    return periodeFra !== undefined && periodeTil !== undefined;
+    return periodeFra !== undefined && periodeTil !== undefined && dayjs(periodeFra).isSameOrBefore(periodeTil, 'day');
 };
 
 export const arbeidssituasjonStepIsValid = () => true;
