@@ -72,6 +72,7 @@ export async function getArbeidsgivereRemoteData(fromDate: Date, toDate: Date): 
     } catch (error: any) {
         if (apiUtils.isUnauthorized(error)) {
             relocateToLoginPage();
+            return [];
         } else {
             appSentryLogger.logApiError(error);
         }
