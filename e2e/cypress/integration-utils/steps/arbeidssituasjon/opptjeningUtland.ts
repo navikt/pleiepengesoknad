@@ -61,7 +61,7 @@ export const testArbeidssituasjonOpptjeningUtland = () => {
         const el = getTestElement('oppsummering-opptjeningUtland-nei');
         el.should('contain', 'Nei');
     });
-    it.only('har utenlandsk opptjening', () => {
+    it('har utenlandsk opptjening', () => {
         gotoStep('arbeidssituasjon');
         fyllUtArbeidssituasjonMedOpptjeningUtland();
         gåTilOppsummeringFraArbeidssituasjon();
