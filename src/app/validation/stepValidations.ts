@@ -1,7 +1,7 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { getStringValidator } from '@navikt/sif-common-formik/lib/validation';
 import { SøknadFormValues } from '../types/SøknadFormValues';
-import { validateFødselsnummer, validateNavn } from './fieldValidations';
+import { validateFødselsnummer, validateNavn, validateFradato, validateTildato } from './fieldValidations';
 
 export const welcomingPageIsValid = ({ harForståttRettigheterOgPlikter }: SøknadFormValues) =>
     harForståttRettigheterOgPlikter === true;
@@ -34,7 +34,12 @@ export const opplysningerOmBarnetStepIsValid = ({
 };
 
 export const opplysningerOmTidsromStepIsValid = ({ periodeFra, periodeTil }: Partial<SøknadFormValues>) => {
-    return periodeFra !== undefined && periodeTil !== undefined;
+    return (
+        periodeFra !== undefined &&
+        periodeTil !== undefined &&
+        validateFradato(periodeFra, periodeTil) === undefined &&
+        validateTildato(periodeTil, periodeFra) === undefined
+    );
 };
 
 export const arbeidssituasjonStepIsValid = () => true;
