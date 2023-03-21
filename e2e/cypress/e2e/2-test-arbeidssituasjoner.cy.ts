@@ -6,7 +6,7 @@ import { testArbeidssituasjonSN } from '../integration-utils/steps/arbeidssituas
 import { testArbeidssituasjonUtenlandskNæring } from '../integration-utils/steps/arbeidssituasjon/utenlandskNæring';
 import { testArbeidssituasjonOpptjeningUtland } from '../integration-utils/steps/arbeidssituasjon/opptjeningUtland';
 
-describe('Arbeidssituasjoner', { testIsolation: false }, () => {
+describe('Arbeidssituasjoner', () => {
     contextConfig({ mellomlagring });
     testArbeidssituasjonAnsatt();
     testArbeidssituasjonFrilanser();

@@ -12,7 +12,7 @@ import { TestType } from '../integration-utils/types/TestTyper';
 
 const TEST_TYPE = TestType.KOMPLETT;
 
-describe('Kan jeg klikke meg komplett gjennom en hele søknad ', { testIsolation: false }, () => {
+describe('Kan jeg klikke meg komplett gjennom en hele søknad ', () => {
     context('med utmocket, tom mellomlagring', () => {
         contextConfig();
         fyllUtKomplettSøknad();
