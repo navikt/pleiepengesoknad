@@ -7,10 +7,12 @@ import { testArbeidssituasjonUtenlandskNæring } from '../integration-utils/step
 import { testArbeidssituasjonOpptjeningUtland } from '../integration-utils/steps/arbeidssituasjon/opptjeningUtland';
 
 describe('Arbeidssituasjoner', () => {
-    contextConfig({ mellomlagring });
-    testArbeidssituasjonAnsatt();
-    testArbeidssituasjonFrilanser();
-    testArbeidssituasjonSN();
-    testArbeidssituasjonUtenlandskNæring();
-    testArbeidssituasjonOpptjeningUtland();
+    context('Starter med mellomlagring og fyller ut arbeidssituasjon', () => {
+        contextConfig({ mellomlagring });
+        testArbeidssituasjonAnsatt();
+        testArbeidssituasjonFrilanser();
+        testArbeidssituasjonSN();
+        testArbeidssituasjonUtenlandskNæring();
+        testArbeidssituasjonOpptjeningUtland();
+    });
 });
