@@ -14,7 +14,7 @@ interface ConfigProps {
 
 export const contextConfig = (props?: ConfigProps) => {
     const { mellomlagring, step, arbeidsgivere } = props || {};
-    beforeEach('intercept mellomlagring og levere tomt objekt', () => {
+    beforeEach('intercept api-kall', () => {
         cy.intercept(`GET`, `/mellomlagring/PLEIEPENGER_SYKT_BARN*`, mellomlagring || {});
         cy.intercept('GET', `/oppslag/arbeidsgiver*`, arbeidsgivere || cyApiMockData.arbeidsgivereMock);
         cy.intercept('GET', `/oppslag/soker*`, cyApiMockData.søkerMock);
