@@ -28,7 +28,7 @@ function usePersistSoknad() {
     const { importertSøknadMetadata: stateImportertSøknadMetadata } = useSøknadsdataContext();
 
     async function doPersist({ stepID, formValues, importertSøknadMetadata }: PersistSoknadProps) {
-        persist({
+        return persist({
             formValues: formValues || stateFormValues,
             lastStepID: stepID,
             importertSøknadMetadata: importertSøknadMetadata || stateImportertSøknadMetadata,

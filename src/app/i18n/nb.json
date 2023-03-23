@@ -469,6 +469,8 @@
     "steg.oppsummering.validering.ugyldigArbeidsforhold": "Oops, noe gikk galt med arbeidsforholdet som du har registrert.",
     "steg.oppsummering.validering.ugyldigRegnskapsførerTelefonnummer": "Telefonnummeret til regnskapsfører inneholder ugyldig tegn. Vennligst gå tilbake til skjemaet og kontroller verdien.",
     "steg.oppsummering.validering.omsorgstilbud.ugyldig": "Oops, noe gikk galt med omsorgstilbudet som er registrert.",
+    "steg.oppsummering.validering.omsorgstilbud.nattevåkBeskrivelseForLang": "Oops, nå ser vi at teksten du har skrevet om nattevåk er for lang.",
+    "steg.oppsummering.validering.omsorgstilbud.beredskapBeskrivelseForLang": "Oops, nå ser vi at teksten du har skrevet om beredskap er for lang.",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel.1": "Takk!",
