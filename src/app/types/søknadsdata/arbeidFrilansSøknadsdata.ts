@@ -17,6 +17,17 @@ export interface ArbeidFrilansSøknadsdataPågående {
     arbeidsforhold: ArbeidsforholdSøknadsdata;
 }
 
+export interface ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode {
+    type: 'avsluttetISøknadsperiode';
+    erFrilanser: true;
+    frilansType: FrilansTyper[];
+    misterHonorar?: YesOrNo;
+    startdato: Date;
+    sluttdato: Date;
+    aktivPeriode: DateRange;
+    arbeidsforhold: ArbeidsforholdSøknadsdata;
+}
+
 export interface ArbeidFrilansKunStyrevervSøknadsdataPågående {
     type: 'pågåendeKunStyreverv';
     erFrilanser: true;
@@ -27,4 +38,5 @@ export interface ArbeidFrilansKunStyrevervSøknadsdataPågående {
 export type ArbeidFrilansSøknadsdata =
     | ArbeidFrilansSøknadsdataErIkkeFrilanser
     | ArbeidFrilansSøknadsdataPågående
+    | ArbeidFrilansSøknadsdataAvsluttetISøknadsperiode
     | ArbeidFrilansKunStyrevervSøknadsdataPågående;

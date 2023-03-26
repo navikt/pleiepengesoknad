@@ -19,6 +19,8 @@ export interface FrilansApiDataHarInntekt {
     type: 'harArbeidsforhold';
     harInntektSomFrilanser: true;
     startdato: ISODate;
+    jobberFortsattSomFrilans: boolean;
+    sluttdato?: ISODate;
     frilansTyper: FrilansTyper[];
     misterHonorarer?: boolean;
     misterHonorarerIPerioden?: MisterHonorarerFraVervIPerioden;

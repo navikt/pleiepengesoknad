@@ -28,6 +28,8 @@ import {
     getstønadGodtgjørelseSluttdatoValidator,
     getstønadGodtgjørelseStartdatoValidator,
 } from '../../../validation/fieldValidations';
+import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 const StønadGodtgjørelseFormComponents = getTypedFormComponents<
@@ -52,7 +54,14 @@ const ArbeidssituasjonFrilans = ({
     frilansoppdrag,
     stønadGodtgjørelse,
 }: Props) => {
-    const { harHattInntektSomFrilanser, arbeidsforhold, misterHonorarStyreverv, frilansTyper = [] } = formValues;
+    const {
+        harHattInntektSomFrilanser,
+        arbeidsforhold,
+        misterHonorarStyreverv,
+        frilansTyper = [],
+        erFortsattFrilanser,
+        startdato,
+    } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
@@ -350,6 +359,31 @@ const ArbeidssituasjonFrilans = ({
                                         data-testid="er-frilanser-startdato"
                                     />
                                 </FormBlock>
+                                <FormBlock>
+                                    <ArbFriFormComponents.YesOrNoQuestion
+                                        name={FrilansFormField.erFortsattFrilanser}
+                                        data-testid="erFortsattFrilanser"
+                                        legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
+                                        validate={getYesOrNoValidator()}
+                                    />
+                                </FormBlock>
+                                {erFortsattFrilanser === YesOrNo.NO && (
+                                    <FormBlock>
+                                        <ArbFriFormComponents.DatePicker
+                                            name={FrilansFormField.sluttdato}
+                                            label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                            showYearSelector={true}
+                                            minDate={datepickerUtils.getDateFromDateString(startdato)}
+                                            maxDate={søknadsdato}
+                                            validate={getFrilanserSluttdatoValidator(
+                                                formValues,
+                                                søknadsperiode,
+                                                søknadsdato,
+                                                søkerHarFrilansoppdrag
+                                            )}
+                                        />
+                                    </FormBlock>
+                                )}
                             </>
                         )}
                     </ConditionalResponsivePanel>
