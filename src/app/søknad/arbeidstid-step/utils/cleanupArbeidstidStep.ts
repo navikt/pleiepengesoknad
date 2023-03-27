@@ -176,7 +176,8 @@ export const cleanupArbeidstidFrilans = (
         : YesOrNo.NO;
 
     const normalarbeidstid =
-        frilansSøknadsdata.erFrilanser && frilansSøknadsdata.type === 'pågående'
+        frilansSøknadsdata.erFrilanser &&
+        (frilansSøknadsdata.type === 'pågående' || frilansSøknadsdata.type === 'sluttetISøknadsperiode')
             ? frilansSøknadsdata.arbeidsforhold.normalarbeidstid
             : undefined;
 

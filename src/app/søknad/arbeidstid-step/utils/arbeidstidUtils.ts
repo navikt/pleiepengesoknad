@@ -139,7 +139,10 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
     });
 
     const frilans: ArbeidsforholdSøknadsdata[] =
-        arbeid.frilans?.erFrilanser && arbeid.frilans?.type === 'pågående' ? [arbeid.frilans.arbeidsforhold] : [];
+        arbeid.frilans?.erFrilanser &&
+        (arbeid.frilans?.type === 'pågående' || arbeid.frilans?.type === 'sluttetISøknadsperiode')
+            ? [arbeid.frilans.arbeidsforhold]
+            : [];
 
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]

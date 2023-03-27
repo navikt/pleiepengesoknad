@@ -26,6 +26,7 @@ export const getFrilansApiDataFromSøknadsdata = (
                 type: 'harArbeidsforhold',
                 harInntektSomFrilanser: true,
                 startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
+                jobberFortsattSomFrilans: true,
                 frilansTyper: arbeidFrilansSøknadsdata.frilansType,
                 misterHonorarer: arbeidFrilansSøknadsdata.misterHonorar
                     ? arbeidFrilansSøknadsdata.misterHonorar === YesOrNo.YES
@@ -37,6 +38,25 @@ export const getFrilansApiDataFromSøknadsdata = (
                 ),
                 arbeidsforhold: getArbeidsforholdFrilansApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
             };
+        case 'sluttetISøknadsperiode':
+            return {
+                type: 'harArbeidsforholdSluttetISøknadsperiode',
+                harInntektSomFrilanser: true,
+                startdato: dateToISODate(arbeidFrilansSøknadsdata.startdato),
+                jobberFortsattSomFrilans: false,
+                sluttdato: dateToISODate(arbeidFrilansSøknadsdata.sluttdato),
+                frilansTyper: arbeidFrilansSøknadsdata.frilansType,
+                misterHonorarer: arbeidFrilansSøknadsdata.misterHonorar
+                    ? arbeidFrilansSøknadsdata.misterHonorar === YesOrNo.YES
+                        ? true
+                        : false
+                    : undefined,
+                misterHonorarerIPerioden: getMisterHonorarerIPerioden(
+                    arbeidFrilansSøknadsdata.arbeidsforhold.arbeidISøknadsperiode as ArbeidIPeriodeFrilansSøknadsdata
+                ),
+                arbeidsforhold: getArbeidsforholdFrilansApiDataFromSøknadsdata(arbeidFrilansSøknadsdata.arbeidsforhold),
+            };
+
         case 'pågåendeKunStyreverv':
             return {
                 type: 'harIkkeArbeidsforhold',

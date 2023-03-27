@@ -45,16 +45,25 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         </li>
                     );
                 })}
-                {frilans.type === 'harArbeidsforhold' && frilans.startdato && (
+                {(frilans.type === 'harArbeidsforhold' || frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') &&
+                    frilans.startdato && (
+                        <li>
+                            <FormattedMessage
+                                id="oppsummering.arbeidssituasjon.frilans.startet"
+                                values={{ dato: dateFormatter.full(ISODateToDate(frilans.startdato)) }}
+                            />
+                        </li>
+                    )}
+                {frilans.type === 'harArbeidsforholdSluttetISøknadsperiode' && frilans.sluttdato && (
                     <li>
                         <FormattedMessage
-                            id="oppsummering.arbeidssituasjon.frilans.startet"
-                            values={{ dato: dateFormatter.full(ISODateToDate(frilans.startdato)) }}
+                            id="oppsummering.arbeidssituasjon.frilans.sluttet"
+                            values={{ dato: dateFormatter.full(ISODateToDate(frilans.sluttdato)) }}
                         />
                     </li>
                 )}
                 {/* Dersom bruker fortsatt er frilanser i perioden (arbeidsforhold finnes), og har frilansoppdrag */}
-                {frilans.type === 'harArbeidsforhold' &&
+                {(frilans.type === 'harArbeidsforhold' || frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') &&
                     frilans.arbeidsforhold &&
                     frilansoppdrag &&
                     frilansoppdrag.length > 0 && (

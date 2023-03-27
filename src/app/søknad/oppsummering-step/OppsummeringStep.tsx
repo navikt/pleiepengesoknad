@@ -172,7 +172,8 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 const apiValuesValidationErrors = validateApiValues(apiValues, values, intl);
 
                 const { medlemskap, utenlandsoppholdIPerioden, ferieuttakIPerioden } = apiValues;
-
+                console.log('apiValues.frilans: ', apiValues.frilans);
+                console.log('apiValues.oms: ', apiValues.stønadGodtgjørelse);
                 return (
                     <SøknadFormStep
                         id={StepID.SUMMARY}

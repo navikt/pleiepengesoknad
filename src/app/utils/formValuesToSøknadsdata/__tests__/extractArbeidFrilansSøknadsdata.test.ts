@@ -54,7 +54,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
             arbeidsforholdSpy.mockReturnValue({} as any);
         });
         
-        it('returnerer avsluttetISøknadsperiode og arbeidsforhod dersom bruker har oppdrag men er ikke frilanser lenger', () => {
+        it('returnerer sluttetISøknadsperiode og arbeidsforhod dersom bruker har oppdrag men er ikke frilanser lenger', () => {
             const result = extractArbeidFrilansSøknadsdata(
                 {
                     ...formData,
@@ -65,7 +65,7 @@ describe('extractArbeidFrilansSøknadsdata', () => {
                 søknadsperiode
             );
             expect(result).toBeDefined();
-            expect(result?.type).toEqual('avsluttetISøknadsperiode');
+            expect(result?.type).toEqual('sluttetISøknadsperiode');
         });
 
         it('returnerer pågående dersom bruker fortsatt er frilanser', () => {

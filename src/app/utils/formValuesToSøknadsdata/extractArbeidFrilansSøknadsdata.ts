@@ -37,42 +37,34 @@ export const extractArbeidFrilansSøknadsdata = (
     }
 
     const startdato = datepickerUtils.getDateFromDateString(frilans.startdato);
-    // const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
+    const sluttdato = datepickerUtils.getDateFromDateString(frilans.sluttdato);
     const aktivPeriode = startdato
-        ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato)
+        ? getPeriodeSomFrilanserInnenforSøknadsperiode(søknadsperiode, startdato, sluttdato)
         : undefined;
-    // const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
+    const erFortsattFrilanser = frilans.erFortsattFrilanser === YesOrNo.YES;
     const arbeidsforhold = frilans.arbeidsforhold
         ? extractArbeidsforholdFrilansSøknadsdata(frilans.arbeidsforhold, ArbeidsforholdType.FRILANSER)
         : undefined;
 
     /** Er ikke lenger frilanser */
-    /* if (startdato && sluttdato) {
-        /** Sluttet før søknadsperiode
-        if (!arbeidsforhold || !aktivPeriode) {
-            return {
-                type: 'avsluttetFørSøknadsperiode',
-                erFrilanser: false,
-                harInntektISøknadsperiode: false,
-                erFortsattFrilanser: false,
-                startdato,
-                sluttdato,
-            };
-        }
-         Sluttet i søknadsperiode
+    if (startdato && sluttdato && arbeidsforhold && aktivPeriode) {
+        /** Sluttet i søknadsperiode */
         return {
-            type: 'avsluttetISøknadsperiode',
+            type: 'sluttetISøknadsperiode',
             erFrilanser: true,
+            frilansType: frilans.frilansTyper,
             aktivPeriode,
-            harInntektISøknadsperiode: true,
+            misterHonorar: frilans.frilansTyper.some((type) => type === FrilansTyper.STYREVERV)
+                ? frilans.misterHonorarStyreverv
+                : undefined,
             erFortsattFrilanser: false,
             startdato,
             sluttdato,
             arbeidsforhold,
         };
-    }*/
+    }
 
-    if (arbeidsforhold && startdato && aktivPeriode) {
+    if (erFortsattFrilanser && arbeidsforhold && startdato && aktivPeriode) {
         /** Er fortsatt frilanser */
         return {
             type: 'pågående',

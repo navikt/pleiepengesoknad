@@ -24,12 +24,16 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
 
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, startdato }: FrilansFormData
+    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData
 ): boolean => {
+    if (erFortsattFrilanser === YesOrNo.YES) {
+        return true;
+    }
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
 
     if (frilansStartdato && harSvartErFrilanserEllerHarFrilansoppdrag(harHattInntektSomFrilanser)) {
-        return erFrilanserITidsrom(søknadsperiode, frilansStartdato);
+        return erFrilanserITidsrom(søknadsperiode, frilansStartdato, frilansSluttdato);
     }
     return false;
 };
@@ -48,21 +52,32 @@ export const erFrilanserISøknadsperiode = (
 
 export const getPeriodeSomFrilanserInnenforPeriode = (
     periode: DateRange,
-    { startdato }: FrilansFormData
+    { startdato, sluttdato, erFortsattFrilanser }: FrilansFormData
 ): DateRange | undefined => {
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
+    const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
 
     if (frilansStartdato === undefined) {
         console.error('getPeriodeSomFrilanserInneforPeriode - Startdato ikke satt');
         return undefined;
     }
+    if (erFortsattFrilanser === YesOrNo.YES && sluttdato !== undefined) {
+        console.error('getPeriodeSomFrilanserInneforPeriode - Jobber fortsatt som frilanser, men sluttdato er satt');
+        return undefined;
+    }
+    if (erFortsattFrilanser === YesOrNo.NO && !frilansSluttdato) {
+        console.error('getPeriodeSomFrilanserInneforPeriode - Er ikke frilanser, men sluttdato er ikke satt');
+        return undefined;
+    }
 
-    if (erFrilanserITidsrom(periode, frilansStartdato) === false) {
+    if (erFrilanserITidsrom(periode, frilansStartdato, frilansSluttdato) === false) {
         return undefined;
     }
 
     const fromDate: Date = dayjs.max([dayjs(periode.from), dayjs(frilansStartdato)]).toDate();
-    const toDate: Date = periode.to;
+    const toDate: Date = frilansSluttdato
+        ? dayjs.min([dayjs(periode.to), dayjs(frilansSluttdato)]).toDate()
+        : periode.to;
 
     return {
         from: fromDate,

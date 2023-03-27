@@ -19,8 +19,19 @@ export interface FrilansApiDataHarInntekt {
     type: 'harArbeidsforhold';
     harInntektSomFrilanser: true;
     startdato: ISODate;
-    jobberFortsattSomFrilans: boolean;
-    sluttdato?: ISODate;
+    jobberFortsattSomFrilans: true;
+    frilansTyper: FrilansTyper[];
+    misterHonorarer?: boolean;
+    misterHonorarerIPerioden?: MisterHonorarerFraVervIPerioden;
+    arbeidsforhold: ArbeidsforholdFrilansApiData;
+}
+
+export interface FrilansApiDataHarInntektSluttetISøknadsperiode {
+    type: 'harArbeidsforholdSluttetISøknadsperiode';
+    harInntektSomFrilanser: true;
+    startdato: ISODate;
+    jobberFortsattSomFrilans: false;
+    sluttdato: ISODate;
     frilansTyper: FrilansTyper[];
     misterHonorarer?: boolean;
     misterHonorarerIPerioden?: MisterHonorarerFraVervIPerioden;
@@ -29,4 +40,5 @@ export interface FrilansApiDataHarInntekt {
 export type FrilansApiData =
     | FrilansApiDataIngenInntekt
     | FrilansApiDataHarInntekt
+    | FrilansApiDataHarInntektSluttetISøknadsperiode
     | FrilansApiDataVervIkkeMisterHonorar;

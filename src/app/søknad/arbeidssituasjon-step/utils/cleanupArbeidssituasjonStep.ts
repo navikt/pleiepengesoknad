@@ -55,6 +55,8 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
         frilans.frilansTyper = undefined;
         frilans.misterHonorarStyreverv = undefined;
         frilans.startdato = undefined;
+        frilans.sluttdato = undefined;
+        frilans.erFortsattFrilanser = undefined;
         frilans.arbeidsforhold = undefined;
     }
     if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
@@ -78,6 +80,10 @@ export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, value
             frilans.arbeidsforhold?.arbeidIPeriode?.misterHonorarerFraVervIPerioden
         ) {
             frilans.arbeidsforhold.arbeidIPeriode.misterHonorarerFraVervIPerioden = undefined;
+        }
+
+        if (frilans.erFortsattFrilanser === YesOrNo.YES) {
+            frilans.sluttdato = undefined;
         }
     }
 

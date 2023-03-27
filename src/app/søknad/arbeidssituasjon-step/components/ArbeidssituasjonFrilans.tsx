@@ -17,7 +17,7 @@ import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
-import { harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
@@ -30,6 +30,8 @@ import {
 } from '../../../validation/fieldValidations';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
+import { ISODateToDate } from '@navikt/sif-common-utils/lib';
+import dayjs from 'dayjs';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 const StønadGodtgjørelseFormComponents = getTypedFormComponents<
@@ -61,11 +63,29 @@ const ArbeidssituasjonFrilans = ({
         frilansTyper = [],
         erFortsattFrilanser,
         startdato,
+        sluttdato,
     } = formValues;
     const intl = useIntl();
 
     const søkerHarFrilansoppdrag = harFrilansoppdrag(frilansoppdrag);
     const mottarHonorarForStyreverv = frilansTyper?.some((type) => type === FrilansTyper.STYREVERV);
+
+    const erAktivFrilanserIPerioden = erFrilanserISøknadsperiode(søknadsperiode, formValues);
+    const harGyldigStartdato = startdato ? ISODateToDate(startdato) : undefined;
+    const harGyldigSluttdato = sluttdato ? ISODateToDate(sluttdato) : undefined;
+    const harBesvartSpørsmålOmFortsattFrilanser =
+        erFortsattFrilanser === YesOrNo.YES || erFortsattFrilanser === YesOrNo.NO;
+
+    const sluttetFørSøknadsperiode =
+        erFortsattFrilanser === YesOrNo.NO &&
+        harGyldigSluttdato &&
+        dayjs(sluttdato).isBefore(søknadsperiode.from, 'day');
+
+    const visSpørsmålOmArbeidsforhold =
+        harGyldigStartdato &&
+        harBesvartSpørsmålOmFortsattFrilanser &&
+        sluttetFørSøknadsperiode === false &&
+        erAktivFrilanserIPerioden;
 
     const visNormalarbeidstidSpørsmål = () => {
         if (!frilansTyper || frilansTyper.length === 0) {
@@ -83,7 +103,7 @@ const ArbeidssituasjonFrilans = ({
         return false;
     };
 
-    const getFrilansStartDatoTekst = () => {
+    const getFrilansTypeTekst = () => {
         if (frilansTyper === undefined || frilansTyper.length === 0) {
             return '';
         }
@@ -92,13 +112,13 @@ const ArbeidssituasjonFrilans = ({
             frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && misterHonorarStyreverv === YesOrNo.YES;
 
         if (erFrilanser && !erVerv) {
-            return 'frilanser.nårStartet.frilans.spm';
+            return 'frilans';
         }
         if (erVerv && !erFrilanser) {
-            return 'frilanser.nårStartet.verv.spm';
+            return 'verv';
         }
         if (erVerv && erFrilanser) {
-            return 'frilanser.nårStartet.frilansVerv.spm';
+            return 'frilansVerv';
         }
         return '';
     };
@@ -332,23 +352,9 @@ const ArbeidssituasjonFrilans = ({
                         {visNormalarbeidstidSpørsmål() && (
                             <>
                                 <FormBlock>
-                                    <NormalarbeidstidSpørsmål
-                                        arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
-                                        arbeidsforhold={arbeidsforhold || {}}
-                                        arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                        erAktivtArbeidsforhold={true}
-                                        brukKunSnittPerUke={true}
-                                        frilansTyper={frilansTyper}
-                                        misterHonorarStyreverv={misterHonorarStyreverv}
-                                        mottarStønadGodtgjørelse={
-                                            stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.YES
-                                        }
-                                    />
-                                </FormBlock>
-                                <FormBlock>
                                     <ArbFriFormComponents.DatePicker
                                         name={FrilansFormField.startdato}
-                                        label={intlHelper(intl, getFrilansStartDatoTekst())}
+                                        label={intlHelper(intl, `frilanser.nårStartet.${getFrilansTypeTekst()}.spm`)}
                                         showYearSelector={true}
                                         maxDate={søknadsdato}
                                         validate={getFrilanserStartdatoValidator(
@@ -363,7 +369,10 @@ const ArbeidssituasjonFrilans = ({
                                     <ArbFriFormComponents.YesOrNoQuestion
                                         name={FrilansFormField.erFortsattFrilanser}
                                         data-testid="erFortsattFrilanser"
-                                        legend={intlHelper(intl, 'frilanser.erFortsattFrilanser.spm')}
+                                        legend={intlHelper(
+                                            intl,
+                                            `frilanser.erFortsattFrilanser.${getFrilansTypeTekst()}.spm`
+                                        )}
                                         validate={getYesOrNoValidator()}
                                     />
                                 </FormBlock>
@@ -371,16 +380,34 @@ const ArbeidssituasjonFrilans = ({
                                     <FormBlock>
                                         <ArbFriFormComponents.DatePicker
                                             name={FrilansFormField.sluttdato}
-                                            label={intlHelper(intl, 'frilanser.nårSluttet.spm')}
+                                            label={intlHelper(
+                                                intl,
+                                                `frilanser.nårSluttet.${getFrilansTypeTekst()}.spm`
+                                            )}
                                             showYearSelector={true}
                                             minDate={datepickerUtils.getDateFromDateString(startdato)}
                                             maxDate={søknadsdato}
                                             validate={getFrilanserSluttdatoValidator(
                                                 formValues,
                                                 søknadsperiode,
-                                                søknadsdato,
-                                                søkerHarFrilansoppdrag
+                                                søknadsdato
                                             )}
+                                        />
+                                    </FormBlock>
+                                )}
+                                {visSpørsmålOmArbeidsforhold && (
+                                    <FormBlock>
+                                        <NormalarbeidstidSpørsmål
+                                            arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
+                                            arbeidsforhold={arbeidsforhold || {}}
+                                            arbeidsforholdType={ArbeidsforholdType.FRILANSER}
+                                            erAktivtArbeidsforhold={true}
+                                            brukKunSnittPerUke={true}
+                                            frilansTyper={frilansTyper}
+                                            misterHonorarStyreverv={misterHonorarStyreverv}
+                                            mottarStønadGodtgjørelse={
+                                                stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.YES
+                                            }
                                         />
                                     </FormBlock>
                                 )}
