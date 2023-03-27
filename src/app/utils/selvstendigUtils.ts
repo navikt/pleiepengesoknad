@@ -7,9 +7,7 @@ import { YesOrNo } from '@navikt/sif-common-formik/lib';
 /**
  *
  * @param periode
- * @param frilans_startdato
- * @param frilans_sluttdato
- * @param frilans_jobberFortsattSomFrilans
+ * @param virksomhet
  * @returns DateRange
  *
  * Avkort periode med startdato for virksomhet
