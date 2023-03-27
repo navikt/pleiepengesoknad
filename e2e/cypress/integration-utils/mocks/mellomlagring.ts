@@ -58,7 +58,7 @@ export const mellomlagring = {
     },
     metadata: {
         lastStepID: 'legeerklaering',
-        version: '13.1.0',
+        version: '13.2.0',
         updatedTimestemp: '2022-10-19T13:14:12.851Z',
     },
 };
