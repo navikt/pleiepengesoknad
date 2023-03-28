@@ -176,9 +176,9 @@ export const getstønadGodtgjørelseStartdatoValidator =
         if (dateError) {
             return dateError;
         }
-        const startdato = datepickerUtils.getDateFromDateString(formData.startDato);
+        const startdato = datepickerUtils.getDateFromDateString(formData.startdato);
 
-        if (startdato && formData.sluttDato && dayjs(startdato).isAfter(formData.sluttDato, 'day')) {
+        if (startdato && formData.sluttdato && dayjs(startdato).isAfter(formData.sluttdato, 'day')) {
             return 'startetEtterSluttDato';
         }
         return undefined;
@@ -191,9 +191,9 @@ export const getstønadGodtgjørelseSluttdatoValidator =
         if (dateError) {
             return dateError;
         }
-        const sluttDato = datepickerUtils.getDateFromDateString(formData.sluttDato);
+        const sluttdato = datepickerUtils.getDateFromDateString(formData.sluttdato);
 
-        if (sluttDato && formData.startDato && dayjs(sluttDato).isBefore(formData.startDato, 'day')) {
+        if (sluttdato && formData.startdato && dayjs(sluttdato).isBefore(formData.startdato, 'day')) {
             return 'sluttetFørStartDato';
         }
         return undefined;

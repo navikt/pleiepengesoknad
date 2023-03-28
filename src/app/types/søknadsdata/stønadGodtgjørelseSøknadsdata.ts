@@ -17,9 +17,9 @@ export interface MottarStønadGodtgjørelseIDelerAvPeroden {
     mottarStønadGodtgjørelse: YesOrNo.YES;
     mottarStønadGodtgjørelseIHelePeroden: YesOrNo.NO;
     starterUndeveis: YesOrNo;
-    startDato?: ISODate;
+    startdato?: ISODate;
     slutterUnderveis: YesOrNo;
-    sluttDato?: ISODate;
+    sluttdato?: ISODate;
 }
 
 export type StønadGodtgjørelseSøknadsdata =

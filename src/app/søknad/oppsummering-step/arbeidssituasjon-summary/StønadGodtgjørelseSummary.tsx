@@ -13,9 +13,9 @@ const StønadGodtgjørelseSummary = ({ stønadGodtgjørelse }: Props) => {
         mottarStønadGodtgjørelse,
         _mottarStønadGodtgjørelseIHelePeroden: mottarStønadGodtgjørelseIHelePeroden,
         _starterUndeveis,
-        startDato,
+        startdato,
         _slutterUnderveis,
-        sluttDato,
+        sluttdato,
     } = stønadGodtgjørelse;
 
     if (mottarStønadGodtgjørelse === false) {
@@ -36,11 +36,11 @@ const StønadGodtgjørelseSummary = ({ stønadGodtgjørelse }: Props) => {
                 ) : (
                     <li>{'Jeg mottar stønad/godtgjørelse i deler av perioden jeg søker for'}</li>
                 )}
-                {mottarStønadGodtgjørelseIHelePeroden === false && _starterUndeveis && startDato && (
-                    <li>{`Startet ${dateFormatter.full(ISODateToDate(startDato))}`}</li>
+                {mottarStønadGodtgjørelseIHelePeroden === false && _starterUndeveis && startdato && (
+                    <li>{`Startet ${dateFormatter.full(ISODateToDate(startdato))}`}</li>
                 )}
-                {mottarStønadGodtgjørelseIHelePeroden === false && _slutterUnderveis && sluttDato && (
-                    <li>{`Sluttet ${dateFormatter.full(ISODateToDate(sluttDato))}`}</li>
+                {mottarStønadGodtgjørelseIHelePeroden === false && _slutterUnderveis && sluttdato && (
+                    <li>{`Sluttet ${dateFormatter.full(ISODateToDate(sluttdato))}`}</li>
                 )}
             </ul>
         </SummaryBlock>

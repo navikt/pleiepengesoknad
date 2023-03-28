@@ -28,23 +28,23 @@ export const getStønadGodtgjørelseApiDataFromSøknadsdata = (
                 stønadGodtgjørelse: {
                     mottarStønadGodtgjørelse: true,
                     _mottarStønadGodtgjørelseIHelePeroden: true,
-                    startDato: fraOgMed,
-                    sluttDato: tilOgMed,
+                    startdato: fraOgMed,
+                    sluttdato: tilOgMed,
                 },
             };
 
         case 'mottarIDelerAvPeroden':
-            const { starterUndeveis, startDato, slutterUnderveis, sluttDato } = stønadGodtgjørelse;
+            const { starterUndeveis, startdato, slutterUnderveis, sluttdato } = stønadGodtgjørelse;
             return {
                 stønadGodtgjørelse: {
                     mottarStønadGodtgjørelse: true,
                     _mottarStønadGodtgjørelseIHelePeroden: false,
 
                     _starterUndeveis: starterUndeveis === YesOrNo.YES ? true : false,
-                    startDato: starterUndeveis === YesOrNo.YES ? startDato : fraOgMed,
+                    startdato: starterUndeveis === YesOrNo.YES ? startdato : fraOgMed,
 
                     _slutterUnderveis: slutterUnderveis === YesOrNo.YES ? true : false,
-                    sluttDato: slutterUnderveis === YesOrNo.YES ? sluttDato : tilOgMed,
+                    sluttdato: slutterUnderveis === YesOrNo.YES ? sluttdato : tilOgMed,
                 },
             };
     }

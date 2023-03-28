@@ -19,9 +19,9 @@ export const fyllUtArbeidssituasjonFrilanser = () => {
             selectRadioYes('er-frilanser');
         }
 
-        // const startDato = mellomlagring.formValues.frilans.;
+        // const startdato = mellomlagring.formValues.frilans.;
 
-        //cy.get('[name="frilans.startdato"]').click().type(startDato).blur();
+        //cy.get('[name="frilans.startdato"]').click().type(startdato).blur();
         selectRadioYes('erFortsattFrilanser');
         setInputValue('normalarbeidstid.timerPerUke', '5');
     });

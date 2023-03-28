@@ -5,16 +5,16 @@ export interface StønadGodtgjørelseFormData {
     mottarStønadGodtgjørelse: YesOrNo;
     mottarStønadGodtgjørelseIHelePeroden?: YesOrNo;
     starterUndeveis?: YesOrNo;
-    startDato?: ISODate;
+    startdato?: ISODate;
     slutterUnderveis?: YesOrNo;
-    sluttDato?: ISODate;
+    sluttdato?: ISODate;
 }
 
 export enum StønadGodtgjørelseFormField {
     mottarStønadGodtgjørelse = 'stønadGodtgjørelse.mottarStønadGodtgjørelse',
     mottarStønadGodtgjørelseIHelePeroden = 'stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden',
     starterUndeveis = 'stønadGodtgjørelse.starterUndeveis',
-    startDato = 'stønadGodtgjørelse.startDato',
+    startdato = 'stønadGodtgjørelse.startdato',
     slutterUnderveis = 'stønadGodtgjørelse.slutterUnderveis',
-    sluttDato = 'stønadGodtgjørelse.sluttDato',
+    sluttdato = 'stønadGodtgjørelse.sluttdato',
 }

@@ -9,9 +9,9 @@ export const extractStønadGodtgjørelseSøknadsdata = (
         mottarStønadGodtgjørelse,
         mottarStønadGodtgjørelseIHelePeroden,
         starterUndeveis,
-        startDato,
+        startdato,
         slutterUnderveis,
-        sluttDato,
+        sluttdato,
     } = stønadGodtgjørelse;
     if (mottarStønadGodtgjørelse === YesOrNo.NO) {
         return {
@@ -34,9 +34,9 @@ export const extractStønadGodtgjørelseSøknadsdata = (
                 mottarStønadGodtgjørelse: YesOrNo.YES,
                 mottarStønadGodtgjørelseIHelePeroden: YesOrNo.NO,
                 starterUndeveis,
-                startDato: starterUndeveis === YesOrNo.YES ? startDato : undefined,
+                startdato: starterUndeveis === YesOrNo.YES ? startdato : undefined,
                 slutterUnderveis,
-                sluttDato: slutterUnderveis === YesOrNo.YES ? sluttDato : undefined,
+                sluttdato: slutterUnderveis === YesOrNo.YES ? sluttdato : undefined,
             };
         }
     }

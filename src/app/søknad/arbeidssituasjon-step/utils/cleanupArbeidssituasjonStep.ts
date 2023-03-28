@@ -115,24 +115,24 @@ const cleanupStønadGodtgjørelse = (values: StønadGodtgjørelseFormData): Stø
     if (stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.NO) {
         stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden = undefined;
         stønadGodtgjørelse.starterUndeveis = undefined;
-        stønadGodtgjørelse.startDato = undefined;
+        stønadGodtgjørelse.startdato = undefined;
         stønadGodtgjørelse.slutterUnderveis = undefined;
-        stønadGodtgjørelse.sluttDato = undefined;
+        stønadGodtgjørelse.sluttdato = undefined;
     }
 
     if (stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden === YesOrNo.YES) {
         stønadGodtgjørelse.starterUndeveis = undefined;
-        stønadGodtgjørelse.startDato = undefined;
+        stønadGodtgjørelse.startdato = undefined;
         stønadGodtgjørelse.slutterUnderveis = undefined;
-        stønadGodtgjørelse.sluttDato = undefined;
+        stønadGodtgjørelse.sluttdato = undefined;
     }
 
     if (stønadGodtgjørelse.starterUndeveis === YesOrNo.NO) {
-        stønadGodtgjørelse.startDato = undefined;
+        stønadGodtgjørelse.startdato = undefined;
     }
 
     if (stønadGodtgjørelse.slutterUnderveis === YesOrNo.NO) {
-        stønadGodtgjørelse.sluttDato = undefined;
+        stønadGodtgjørelse.sluttdato = undefined;
     }
 
     return stønadGodtgjørelse;

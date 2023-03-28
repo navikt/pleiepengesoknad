@@ -193,7 +193,7 @@ const ArbeidssituasjonFrilans = ({
                                         {stønadGodtgjørelse.starterUndeveis === YesOrNo.YES && (
                                             <Box margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
-                                                    name={StønadGodtgjørelseFormField.startDato}
+                                                    name={StønadGodtgjørelseFormField.startdato}
                                                     label={'Startdato:'}
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
@@ -237,7 +237,7 @@ const ArbeidssituasjonFrilans = ({
                                         {stønadGodtgjørelse.slutterUnderveis === YesOrNo.YES && (
                                             <Box margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
-                                                    name={StønadGodtgjørelseFormField.sluttDato}
+                                                    name={StønadGodtgjørelseFormField.sluttdato}
                                                     label={'Sluttdato:'}
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
