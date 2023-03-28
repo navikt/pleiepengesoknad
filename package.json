@@ -81,7 +81,7 @@
         "@babel/plugin-transform-modules-commonjs": "^7.21.2",
         "@babel/preset-env": "^7.20.2",
         "@babel/preset-react": "^7.18.6",
-        "@snyk/protect": "^1.1118.0",
+        "@snyk/protect": "^1.1129.0",
         "@testing-library/jest-dom": "^5.16.5",
         "@testing-library/react": "^12.1.5",
         "@testing-library/react-hooks": "^8.0.1",
