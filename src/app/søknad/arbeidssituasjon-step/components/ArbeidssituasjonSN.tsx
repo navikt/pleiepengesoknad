@@ -53,11 +53,22 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
             {harHattInntektSomSN === YesOrNo.YES && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <ArbSNFormComponents.YesOrNoQuestion
+                        <ArbSNFormComponents.RadioGroup
                             name={SelvstendigFormField.harFlereVirksomheter}
                             data-testid="har-flere-virksomheter"
                             legend={intlHelper(intl, 'selvstendig.harFlereVirksomheter.spm')}
                             validate={getYesOrNoValidator()}
+                            radios={[
+                                {
+                                    label: 'Ja',
+                                    value: YesOrNo.YES,
+                                },
+                                {
+                                    label: 'Nei',
+                                    value: YesOrNo.NO,
+                                },
+                            ]}
+                            checked={harFlereVirksomheter}
                         />
 
                         {søkerHarFlereVirksomheter && (

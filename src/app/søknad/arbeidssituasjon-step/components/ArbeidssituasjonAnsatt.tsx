@@ -9,7 +9,6 @@ import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-comm
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { Undertittel } from 'nav-frontend-typografi';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
@@ -41,11 +40,6 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                 title={arbeidsforhold.arbeidsgiver.navn}
                 titleIcon={<OfficeIconSvg />}
                 description={renderTidsrom(arbeidsforhold.arbeidsgiver)}>
-                <Box padBottom="m">
-                    <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
-                        {arbeidsforhold.arbeidsgiver.navn}
-                    </Undertittel>
-                </Box>
                 <Box>
                     <AnsattFormComponents.RadioGroup
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {

@@ -977,8 +977,8 @@
     "arbeidssituasjonFrilanser.frilanserPart.tittel": "Om deg som frilanser",
 
     "frilansoppdragListe.oppdrag": "Periode: {tidsrom}",
-    "frilansoppdragListe.tidsrom.avsluttet": "{fra} - {til}",
-    "frilansoppdragListe.tidsrom.pågående": "{fra} - pågående",
+    "frilansoppdragListe.tidsrom.avsluttet": "Periode: {fra} - {til}",
+    "frilansoppdragListe.tidsrom.pågående": "Periode: {fra} - pågående",
     "frilansoppdragInfo.tittel": "Du har {antall,  plural, one {frilansoppdrag} other {frilansoppdragene}} registrert på deg i AA-registeret. Mottar du omsorgsstønad, fosterhjemsgodtgjørelse eller har verv du mottar honorarer for, vil dette også være registrert her.",
     "frilansoppdragInfo.tekst.1": "Dette er hva som er registrert på deg under kategorien \"Frilanser, oppdragstaker og honorarer\" i AA-registeret i perioden du søker om pleiepenger. Hvis du mottar fosterhjemsgodtgjørelse, omsorgsstønad eller har verv som du mottar honorar for, vil det være registrert her.",
 
