@@ -83,6 +83,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             parentFieldName={SøknadFormField.ansatt_arbeidsforhold}
                             ansatt_arbeidsforhold={ansatt_arbeidsforhold}
                             søknadsperiode={søknadsperiode}
+                            intl={intl}
                         />
                     </FormSection>
 

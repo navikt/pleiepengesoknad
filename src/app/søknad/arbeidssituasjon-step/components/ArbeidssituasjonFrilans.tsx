@@ -324,11 +324,22 @@ const ArbeidssituasjonFrilans = ({
                         {mottarHonorarForStyreverv && (
                             <>
                                 <FormBlock>
-                                    <ArbFriFormComponents.YesOrNoQuestion
+                                    <ArbFriFormComponents.RadioGroup
                                         name={FrilansFormField.misterHonorarStyreverv}
                                         data-testid="misterHonorarStyreverv"
                                         legend={intlHelper(intl, 'frilanser.misterHonorarStyreverv.tittle')}
                                         validate={getYesOrNoValidator()}
+                                        radios={[
+                                            {
+                                                label: 'Ja',
+                                                value: YesOrNo.YES,
+                                            },
+                                            {
+                                                label: 'Nei',
+                                                value: YesOrNo.NO,
+                                            },
+                                        ]}
+                                        checked={misterHonorarStyreverv}
                                         description={
                                             <ExpandableInfo
                                                 title={intlHelper(
@@ -366,7 +377,7 @@ const ArbeidssituasjonFrilans = ({
                                     />
                                 </FormBlock>
                                 <FormBlock>
-                                    <ArbFriFormComponents.YesOrNoQuestion
+                                    <ArbFriFormComponents.RadioGroup
                                         name={FrilansFormField.erFortsattFrilanser}
                                         data-testid="erFortsattFrilanser"
                                         legend={intlHelper(
@@ -374,6 +385,17 @@ const ArbeidssituasjonFrilans = ({
                                             `frilanser.erFortsattFrilanser.${getFrilansTypeTekst()}.spm`
                                         )}
                                         validate={getYesOrNoValidator()}
+                                        radios={[
+                                            {
+                                                label: 'Ja',
+                                                value: YesOrNo.YES,
+                                            },
+                                            {
+                                                label: 'Nei',
+                                                value: YesOrNo.NO,
+                                            },
+                                        ]}
+                                        checked={erFortsattFrilanser}
                                     />
                                 </FormBlock>
                                 {erFortsattFrilanser === YesOrNo.NO && (

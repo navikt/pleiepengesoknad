@@ -35,19 +35,30 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
 
     return (
         <div data-testid="arbeidssituasjonAnsatt">
-            <FormBlock margin="xl">
+            <ResponsivePanel>
                 <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
                         {arbeidsforhold.arbeidsgiver.navn}
                     </Undertittel>
                 </Box>
                 <Box>
-                    <AnsattFormComponents.YesOrNoQuestion
+                    <AnsattFormComponents.RadioGroup
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
                             navn: arbeidsforhold.arbeidsgiver.navn,
                         })}
                         data-testid="er-ansatt"
                         name={getFieldName(ArbeidsforholdFormField.erAnsatt)}
+                        radios={[
+                            {
+                                label: 'Ja',
+                                value: YesOrNo.YES,
+                            },
+                            {
+                                label: 'Nei',
+                                value: YesOrNo.NO,
+                            },
+                        ]}
+                        checked={arbeidsforhold.erAnsatt}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
@@ -59,22 +70,32 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         }}
                     />
                 </Box>
-            </FormBlock>
-            {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
-                <FormBlock margin="l">
-                    <ResponsivePanel>
+
+                {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
+                    <FormBlock margin="l">
                         {erAvsluttet && (
                             <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
                                 <FormBlock>
-                                    <AnsattFormComponents.YesOrNoQuestion
+                                    <AnsattFormComponents.RadioGroup
                                         name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}
                                         legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
                                             navn: arbeidsforhold.arbeidsgiver.navn,
                                             fraDato: prettifyDateFull(søknadsperiode.from),
                                         })}
+                                        radios={[
+                                            {
+                                                label: 'Ja',
+                                                value: YesOrNo.YES,
+                                            },
+                                            {
+                                                label: 'Nei',
+                                                value: YesOrNo.NO,
+                                            },
+                                        ]}
+                                        checked={arbeidsforhold.sluttetFørSøknadsperiode}
                                         data-testid="sluttet-før-søknadsperiode"
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
@@ -103,9 +124,9 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                 brukKunSnittPerUke={false}
                             />
                         )}
-                    </ResponsivePanel>
-                </FormBlock>
-            )}
+                    </FormBlock>
+                )}
+            </ResponsivePanel>
         </div>
     );
 };
