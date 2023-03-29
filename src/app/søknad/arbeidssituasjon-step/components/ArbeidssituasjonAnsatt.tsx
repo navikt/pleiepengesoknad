@@ -2,7 +2,6 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
@@ -13,6 +12,8 @@ import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { Undertittel } from 'nav-frontend-typografi';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
+import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import OfficeIconSvg from '../../../components/office-icon/OfficeIconSvg';
 
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,
@@ -35,7 +36,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
 
     return (
         <div data-testid="arbeidssituasjonAnsatt">
-            <ResponsivePanel>
+            <ArbeidssituasjonPanel title={arbeidsforhold.arbeidsgiver.navn} titleIcon={<OfficeIconSvg />}>
                 <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
                         {arbeidsforhold.arbeidsgiver.navn}
@@ -126,7 +127,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                         )}
                     </FormBlock>
                 )}
-            </ResponsivePanel>
+            </ArbeidssituasjonPanel>
         </div>
     );
 };
