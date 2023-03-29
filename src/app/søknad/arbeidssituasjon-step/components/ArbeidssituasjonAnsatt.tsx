@@ -14,6 +14,7 @@ import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../type
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
 import OfficeIconSvg from '../../../components/office-icon/OfficeIconSvg';
+import { renderTidsrom } from './frilansoppdrag-liste/FrilansoppdragListe';
 
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,
@@ -36,7 +37,10 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
 
     return (
         <div data-testid="arbeidssituasjonAnsatt">
-            <ArbeidssituasjonPanel title={arbeidsforhold.arbeidsgiver.navn} titleIcon={<OfficeIconSvg />}>
+            <ArbeidssituasjonPanel
+                title={arbeidsforhold.arbeidsgiver.navn}
+                titleIcon={<OfficeIconSvg />}
+                description={renderTidsrom(arbeidsforhold.arbeidsgiver)}>
                 <Box padBottom="m">
                     <Undertittel tag="h3" style={{ fontWeight: 'normal' }}>
                         {arbeidsforhold.arbeidsgiver.navn}

@@ -10,7 +10,7 @@ interface Props {
     frilansoppdrag: Arbeidsgiver[];
 }
 
-const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
+export const renderTidsrom = ({ ansattFom, ansattTom }: Arbeidsgiver) => {
     if (ansattFom && ansattTom) {
         return (
             <FormattedMessage
