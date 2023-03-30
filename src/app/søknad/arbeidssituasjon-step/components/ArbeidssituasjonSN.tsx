@@ -62,10 +62,12 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
                                 {
                                     label: 'Ja',
                                     value: YesOrNo.YES,
+                                    'data-testid': 'har-flere-virksomheter_yes',
                                 },
                                 {
                                     label: 'Nei',
                                     value: YesOrNo.NO,
+                                    'data-testid': 'har-flere-virksomheter_no',
                                 },
                             ]}
                             checked={harFlereVirksomheter}
