@@ -1,7 +1,13 @@
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { contextConfig, gotoStep } from '../../contextConfig';
 import { mellomlagring } from '../../mocks/mellomlagring';
-import { getTestElement, gåTilOppsummeringFraArbeidssituasjon, selectRadioYesOrNo, setInputValue } from '../../utils';
+import {
+    getTestElement,
+    gåTilOppsummeringFraArbeidssituasjon,
+    selectRadioNyYesOrNo,
+    selectRadioYesOrNo,
+    setInputValue,
+} from '../../utils';
 
 import dayjs = require('dayjs');
 
@@ -22,7 +28,7 @@ export const fyllUtArbeidssituasjonAnsatt = (
 ) => {
     const { erAnsatt, sluttetFørSøknadsperiode, timerPerUke } = values;
     getTestElement('arbeidssituasjonAnsatt').within(() => {
-        selectRadioYesOrNo('er-ansatt', erAnsatt);
+        selectRadioNyYesOrNo('er-ansatt', erAnsatt);
         if (!erAnsatt) {
             selectRadioYesOrNo('sluttet-før-søknadsperiode', sluttetFørSøknadsperiode);
         }

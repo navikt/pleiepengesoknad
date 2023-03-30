@@ -51,10 +51,12 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                             {
                                 label: 'Ja',
                                 value: YesOrNo.YES,
+                                'data-testid': 'er-ansatt_yes',
                             },
                             {
                                 label: 'Nei',
                                 value: YesOrNo.NO,
+                                'data-testid': 'er-ansatt_no',
                             },
                         ]}
                         checked={arbeidsforhold.erAnsatt}
