@@ -166,7 +166,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                                 <li>
                                     <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.2" />
                                 </li>
-                                <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.3" />
+
                                 <li>
                                     <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.4" />
                                 </li>

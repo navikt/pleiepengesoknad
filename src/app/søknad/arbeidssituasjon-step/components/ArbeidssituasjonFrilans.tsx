@@ -130,12 +130,15 @@ const ArbeidssituasjonFrilans = ({
                 <StønadGodtgjørelseFormComponents.YesOrNoQuestion
                     name={StønadGodtgjørelseFormField.mottarStønadGodtgjørelse}
                     data-testid="mottar-stønadGodtgjørelse"
-                    // legend={intlHelper(intl, 'frilanser.harDuHattInntekt.spm')}
-                    legend={'Mottar du omsorgsstønad eller fosterhjemsgodtgjørelse?'}
+                    legend={intlHelper(intl, 'steg.arbeidssituasjon.stønadGodtgjørelse.mottarStønadGodtgjørelse.spm')}
                     validate={getYesOrNoValidator()}
                     description={
-                        <ExpandableInfo title={'Hva har dette å si for mine pleiepenger?'}>
-                            TODO: tekst her
+                        <ExpandableInfo
+                            title={intlHelper(
+                                intl,
+                                'steg.arbeidssituasjon.stønadGodtgjørelse.mottarStønadGodtgjørelse.spm.description.tittel'
+                            )}>
+                            <FormattedMessage id="steg.arbeidssituasjon.stønadGodtgjørelse.mottarStønadGodtgjørelse.spm.description" />
                         </ExpandableInfo>
                     }
                 />
@@ -145,7 +148,10 @@ const ArbeidssituasjonFrilans = ({
                             <Box>
                                 <StønadGodtgjørelseFormComponents.RadioGroup
                                     name={StønadGodtgjørelseFormField.mottarStønadGodtgjørelseIHelePeroden}
-                                    legend={'Mottar du stønad/godtgjørelse i hele perioden du søker for?'}
+                                    legend={intlHelper(
+                                        intl,
+                                        'steg.arbeidssituasjon.stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden.spm'
+                                    )}
                                     radios={[
                                         {
                                             label: 'Ja',
@@ -165,9 +171,10 @@ const ArbeidssituasjonFrilans = ({
                                     <Box margin="l">
                                         <StønadGodtgjørelseFormComponents.RadioGroup
                                             name={StønadGodtgjørelseFormField.starterUndeveis}
-                                            legend={
-                                                'Starter du å motta stønad/godtgjørelse underveis i perioden du søker for?'
-                                            }
+                                            legend={intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.stønadGodtgjørelse.starterUndeveis.spm'
+                                            )}
                                             radios={[
                                                 {
                                                     label: 'Ja',
@@ -178,23 +185,17 @@ const ArbeidssituasjonFrilans = ({
                                                     value: YesOrNo.NO,
                                                 },
                                             ]}
-                                            validate={(value) => {
-                                                if (
-                                                    value === YesOrNo.NO &&
-                                                    stønadGodtgjørelse.slutterUnderveis === YesOrNo.NO
-                                                ) {
-                                                    return AppFieldValidationErrors.starter_slutter_undeveis_nei;
-                                                }
-
-                                                return getRequiredFieldValidator()(value);
-                                            }}
+                                            validate={getRequiredFieldValidator()}
                                             checked={stønadGodtgjørelse.starterUndeveis}
                                         />
                                         {stønadGodtgjørelse.starterUndeveis === YesOrNo.YES && (
                                             <Box margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
                                                     name={StønadGodtgjørelseFormField.startdato}
-                                                    label={'Startdato:'}
+                                                    label={intlHelper(
+                                                        intl,
+                                                        'steg.arbeidssituasjon.stønadGodtgjørelse.starterUndeveis.startdato'
+                                                    )}
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
                                                     maxDate={søknadsperiode.to}
@@ -209,9 +210,10 @@ const ArbeidssituasjonFrilans = ({
                                     <Box margin="l">
                                         <StønadGodtgjørelseFormComponents.RadioGroup
                                             name={StønadGodtgjørelseFormField.slutterUnderveis}
-                                            legend={
-                                                'Slutter du å motta stønad/godtgjørelse underveis i perioden du søker for?'
-                                            }
+                                            legend={intlHelper(
+                                                intl,
+                                                'steg.arbeidssituasjon.stønadGodtgjørelse.slutterUndeveis.spm'
+                                            )}
                                             radios={[
                                                 {
                                                     label: 'Ja',
@@ -234,11 +236,15 @@ const ArbeidssituasjonFrilans = ({
                                             }}
                                             checked={stønadGodtgjørelse.slutterUnderveis}
                                         />
+
                                         {stønadGodtgjørelse.slutterUnderveis === YesOrNo.YES && (
                                             <Box margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
                                                     name={StønadGodtgjørelseFormField.sluttdato}
-                                                    label={'Sluttdato:'}
+                                                    label={intlHelper(
+                                                        intl,
+                                                        'steg.arbeidssituasjon.stønadGodtgjørelse.starterUndeveis.sluttdato'
+                                                    )}
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
                                                     maxDate={søknadsperiode.to}
@@ -274,10 +280,6 @@ const ArbeidssituasjonFrilans = ({
                                     <>
                                         <p>
                                             <FormattedMessage id="frilanser.harDuHattInntekt.hvaBetyr.info.1" />
-                                        </p>
-
-                                        <p>
-                                            <FormattedMessage id="frilanser.harDuHattInntekt.hvaBetyr.info.2" />
                                         </p>
                                     </>
                                 )}

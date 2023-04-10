@@ -11,6 +11,9 @@ interface Props {
 const FrilansoppdragInfo: React.FunctionComponent<Props> = ({ frilansoppdrag }) => (
     <Box padBottom="m">
         <FormattedMessage id="frilansoppdragInfo.tittel" values={{ antall: frilansoppdrag.length }} />
+        <Box margin="l">
+            <FormattedMessage id="frilansoppdragInfo.tittel.1" />
+        </Box>
 
         <FrilansoppdragListe frilansoppdrag={frilansoppdrag} />
     </Box>
