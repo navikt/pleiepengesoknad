@@ -87,7 +87,11 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
                     arbeidsforholdType === ArbeidsforholdType.FRILANSER
-                        ? { infoStønadGodtgjørelse: mottarStønadGodtgjørelse ? tekstStønadGodtgjørelse : '' }
+                        ? {
+                              infoStønadGodtgjørelse: mottarStønadGodtgjørelse ? tekstStønadGodtgjørelse : '',
+                              jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                              bruker: erAktivtArbeidsforhold ? 'bruker' : 'brukte',
+                          }
                         : intlValues
                 )}
                 data-testid={inputTestID}
