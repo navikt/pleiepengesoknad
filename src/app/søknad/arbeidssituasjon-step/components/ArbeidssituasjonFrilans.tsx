@@ -467,7 +467,7 @@ const ArbeidssituasjonFrilans = ({
                                             arbeidsforholdFieldName={FrilansFormField.arbeidsforhold}
                                             arbeidsforhold={arbeidsforhold || {}}
                                             arbeidsforholdType={ArbeidsforholdType.FRILANSER}
-                                            erAktivtArbeidsforhold={true}
+                                            erAktivtArbeidsforhold={erFortsattFrilanser === YesOrNo.YES}
                                             brukKunSnittPerUke={true}
                                             frilansTyper={frilansTyper}
                                             misterHonorarStyreverv={misterHonorarStyreverv}
