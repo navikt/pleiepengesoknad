@@ -370,11 +370,25 @@ const ArbeidssituasjonFrilans = ({
                                         label={intlHelper(intl, `frilanser.nårStartet.${getFrilansTypeTekst()}.spm`)}
                                         showYearSelector={true}
                                         maxDate={søknadsdato}
-                                        validate={getFrilanserStartdatoValidator(
-                                            formValues,
-                                            søknadsperiode,
-                                            søknadsdato
-                                        )}
+                                        validate={(value) => {
+                                            const error = getFrilanserStartdatoValidator(
+                                                formValues,
+                                                søknadsperiode,
+                                                søknadsdato
+                                            )(value);
+
+                                            return error
+                                                ? {
+                                                      key: `${error}`,
+                                                      values: {
+                                                          frilansTyper: intlHelper(
+                                                              intl,
+                                                              `validation.frilans.startdato.${getFrilansTypeTekst()}`
+                                                          ),
+                                                      },
+                                                  }
+                                                : undefined;
+                                        }}
                                         data-testid="er-frilanser-startdato"
                                     />
                                 </FormBlock>
@@ -386,7 +400,21 @@ const ArbeidssituasjonFrilans = ({
                                             intl,
                                             `frilanser.erFortsattFrilanser.${getFrilansTypeTekst()}.spm`
                                         )}
-                                        validate={getYesOrNoValidator()}
+                                        validate={(value) => {
+                                            const error = getYesOrNoValidator()(value);
+
+                                            return error
+                                                ? {
+                                                      key: `${error}`,
+                                                      values: {
+                                                          frilansTyper: intlHelper(
+                                                              intl,
+                                                              `validation.frilans.erFortsattFrilanser.${getFrilansTypeTekst()}`
+                                                          ),
+                                                      },
+                                                  }
+                                                : undefined;
+                                        }}
                                         radios={[
                                             {
                                                 label: 'Ja',
@@ -411,11 +439,25 @@ const ArbeidssituasjonFrilans = ({
                                             showYearSelector={true}
                                             minDate={datepickerUtils.getDateFromDateString(startdato)}
                                             maxDate={søknadsdato}
-                                            validate={getFrilanserSluttdatoValidator(
-                                                formValues,
-                                                søknadsperiode,
-                                                søknadsdato
-                                            )}
+                                            validate={(value) => {
+                                                const error = getFrilanserSluttdatoValidator(
+                                                    formValues,
+                                                    søknadsperiode,
+                                                    søknadsdato
+                                                )(value);
+
+                                                return error
+                                                    ? {
+                                                          key: `${error}`,
+                                                          values: {
+                                                              frilansTyper: intlHelper(
+                                                                  intl,
+                                                                  `validation.frilans.sluttdato.${getFrilansTypeTekst()}`
+                                                              ),
+                                                          },
+                                                      }
+                                                    : undefined;
+                                            }}
                                         />
                                     </FormBlock>
                                 )}
