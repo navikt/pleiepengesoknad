@@ -670,7 +670,7 @@
     "oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.tekst": "Er ikke ansatt i perioden det søkes for",
 
     "oppsummering.arbeidssituasjon.frilanser.header": "Frilanser eller mottar honorar for styreverv/andre små verv",
-    "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser eller mottar ikke honorar for styreverv/andre små verv i perioden det søkes for",
+    "oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser": "Er ikke frilanser eller får ikke honorar for styreverv/andre små verv i perioden det søkes for",
     "oppsummering.arbeidssituasjon.frilans.startet": "Startet {dato}",
     "oppsummering.arbeidssituasjon.frilans.fortsattFrilanser": "Er fortsatt frilanser",
     "oppsummering.arbeidssituasjon.frilans.FRILANS": "Jeg jobber som frilanser",

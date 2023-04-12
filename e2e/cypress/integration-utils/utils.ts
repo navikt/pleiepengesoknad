@@ -72,6 +72,10 @@ export const getElement = (type) => {
     return cy.get(`${type}`);
 };
 
+export const containsElement = (key) => {
+    return cy.contains(`[data-testid="${key}"]`);
+};
+
 export const gåTilOppsummeringFraArbeidssituasjon = () => {
     /** cy.visit reloads, og da må en blir mellomlagring feil - fake click fortsett */
     clickFortsett();

@@ -156,10 +156,12 @@ const ArbeidssituasjonFrilans = ({
                                         {
                                             label: 'Ja',
                                             value: YesOrNo.YES,
+                                            'data-testid': 'mottar-stønadGodtgjørelse-i-hele-peroden_yes',
                                         },
                                         {
                                             label: 'Nei',
                                             value: YesOrNo.NO,
+                                            'data-testid': 'mottar-stønadGodtgjørelse-i-hele-peroden_no',
                                         },
                                     ]}
                                     validate={getRequiredFieldValidator()}
@@ -179,10 +181,12 @@ const ArbeidssituasjonFrilans = ({
                                                 {
                                                     label: 'Ja',
                                                     value: YesOrNo.YES,
+                                                    'data-testid': 'stønadGodtgjørelse-starter-undeveis_yes',
                                                 },
                                                 {
                                                     label: 'Nei',
                                                     value: YesOrNo.NO,
+                                                    'data-testid': 'stønadGodtgjørelse-starter-undeveis_no',
                                                 },
                                             ]}
                                             validate={getRequiredFieldValidator()}
@@ -199,6 +203,7 @@ const ArbeidssituasjonFrilans = ({
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
                                                     maxDate={søknadsperiode.to}
+                                                    data-testid="stønadGodtgjørelse-startdato"
                                                     validate={getstønadGodtgjørelseStartdatoValidator(
                                                         stønadGodtgjørelse,
                                                         søknadsperiode
@@ -218,10 +223,12 @@ const ArbeidssituasjonFrilans = ({
                                                 {
                                                     label: 'Ja',
                                                     value: YesOrNo.YES,
+                                                    'data-testid': 'stønadGodtgjørelse-slutter-undeveis_yes',
                                                 },
                                                 {
                                                     label: 'Nei',
                                                     value: YesOrNo.NO,
+                                                    'data-testid': 'stønadGodtgjørelse-slutter-undeveis_no',
                                                 },
                                             ]}
                                             validate={(value) => {
@@ -248,6 +255,7 @@ const ArbeidssituasjonFrilans = ({
                                                     showYearSelector={true}
                                                     minDate={søknadsperiode.from}
                                                     maxDate={søknadsperiode.to}
+                                                    data-testid="stønadGodtgjørelse-sluttdato"
                                                     validate={getstønadGodtgjørelseSluttdatoValidator(
                                                         stønadGodtgjørelse,
                                                         søknadsperiode
@@ -305,7 +313,7 @@ const ArbeidssituasjonFrilans = ({
                         <ArbFriFormComponents.CheckboxGroup
                             legend={intlHelper(intl, 'frilanser.type.tittel')}
                             name={FrilansFormField.frilansTyper}
-                            data-testid="frilansType"
+                            data-testid="frilans-typer"
                             defaultChecked={true}
                             validate={getCheckedValidator()}
                             checkboxes={[
@@ -313,12 +321,14 @@ const ArbeidssituasjonFrilans = ({
                                     label: intlHelper(intl, 'frilanser.type.FRILANS'),
                                     value: FrilansTyper.FRILANS,
                                     checked: frilansTyper?.some((type) => type === FrilansTyper.FRILANS),
+                                    'data-testid': 'frilans-typer_frilans',
                                 },
 
                                 {
                                     label: intlHelper(intl, 'frilanser.type.STYREVERV'),
                                     value: FrilansTyper.STYREVERV,
                                     checked: frilansTyper?.some((type) => type === FrilansTyper.STYREVERV),
+                                    'data-testid': 'frilans-typer_styreverv',
                                 },
                             ]}
                         />
@@ -335,10 +345,12 @@ const ArbeidssituasjonFrilans = ({
                                             {
                                                 label: 'Ja',
                                                 value: YesOrNo.YES,
+                                                'data-testid': 'mister-honorarStyreverv_yes',
                                             },
                                             {
                                                 label: 'Nei',
                                                 value: YesOrNo.NO,
+                                                'data-testid': 'mister-honorarStyreverv_no',
                                             },
                                         ]}
                                         checked={misterHonorarStyreverv}
@@ -419,10 +431,12 @@ const ArbeidssituasjonFrilans = ({
                                             {
                                                 label: 'Ja',
                                                 value: YesOrNo.YES,
+                                                'data-testid': 'er-fortsatt-frilanser_yes',
                                             },
                                             {
                                                 label: 'Nei',
                                                 value: YesOrNo.NO,
+                                                'data-testid': 'er-fortsatt-frilanser_no',
                                             },
                                         ]}
                                         checked={erFortsattFrilanser}
@@ -458,6 +472,7 @@ const ArbeidssituasjonFrilans = ({
                                                       }
                                                     : undefined;
                                             }}
+                                            data-testid="er-frilanser-sluttdato"
                                         />
                                     </FormBlock>
                                 )}

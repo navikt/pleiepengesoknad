@@ -45,7 +45,18 @@ export const mellomlagring = {
             mottarStønadGodtgjørelse: 'no',
         },
         frilans: {
-            harHattInntektSomFrilanser: 'no',
+            harHattInntektSomFrilanser: 'yes',
+            frilansTyper: ['FRILANS'],
+            startdato: '2022-10-01',
+            erFortsattFrilanser: 'yes',
+            arbeidsforhold: {
+                normalarbeidstid: {
+                    timerPerUke: '20',
+                },
+                arbeidIPeriode: {
+                    arbeiderIPerioden: 'HELT_FRAVÆR',
+                },
+            },
         },
         selvstendig: {
             harHattInntektSomSN: 'no',

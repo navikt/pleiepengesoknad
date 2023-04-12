@@ -5,7 +5,7 @@ import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/S
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
-// import NormalarbeidstidSummary from './NormalarbeidstidSummary';
+import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 import { dateFormatter, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { FrilansTyper } from '../../../types/FrilansFormData';
 
@@ -59,6 +59,15 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         <FormattedMessage
                             id="oppsummering.arbeidssituasjon.frilans.sluttet"
                             values={{ dato: dateFormatter.full(ISODateToDate(frilans.sluttdato)) }}
+                        />
+                    </li>
+                )}
+                {(frilans.type === 'harArbeidsforhold' ||
+                    frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') && (
+                    <li>
+                        <NormalarbeidstidSummary
+                            normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
+                            erAnsatt={true}
                         />
                     </li>
                 )}
