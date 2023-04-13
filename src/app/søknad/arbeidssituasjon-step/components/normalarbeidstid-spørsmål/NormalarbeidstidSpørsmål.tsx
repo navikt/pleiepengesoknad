@@ -61,13 +61,13 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
             frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && misterHonorarStyreverv === YesOrNo.YES;
 
         if (erFrilanser && !erVerv) {
-            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanser.spm';
+            return 'frilanser';
         }
         if (erVerv && !erFrilanser) {
-            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.verv.spm';
+            return 'verv';
         }
         if (erVerv && erFrilanser) {
-            return 'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.frilanserVerv.spm';
+            return 'frilanserVerv';
         }
         return '';
     };
@@ -82,7 +82,7 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 label={intlHelper(
                     intl,
                     arbeidsforholdType === ArbeidsforholdType.FRILANSER
-                        ? getFrilansTekst()
+                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.${getFrilansTekst()}.spm`
                         : erAktivtArbeidsforhold === false
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
@@ -109,6 +109,16 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 validate={getArbeiderNormaltTimerIUkenValidator({
                     ...intlValues,
                     jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                    frilansVervString: getFrilansTekst()
+                        ? intlHelper(
+                              intl,
+                              `validation.arbeidsforhold.arbeiderNormaltTimerPerUke.string.${getFrilansTekst()}`,
+                              {
+                                  jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                                  bruker: erAktivtArbeidsforhold ? 'bruker' : 'brukte',
+                              }
+                          )
+                        : undefined,
                 })}
                 value={arbeidsforhold.normalarbeidstid ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
             />
