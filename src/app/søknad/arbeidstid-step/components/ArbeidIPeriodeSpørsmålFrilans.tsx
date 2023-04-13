@@ -87,6 +87,18 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
         misterHonorarer === YesOrNo.YES &&
         misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
 
+    const getFrilansVerv = (): string => {
+        if (frilansRedusert && !vervRedusert) {
+            return 'frilans';
+        }
+        if (vervRedusert && !frilansRedusert) {
+            return 'verv';
+        }
+        if (frilansRedusert && vervRedusert) {
+            return 'frilansVerv';
+        }
+        return '';
+    };
     return (
         <ResponsivePanel>
             {frilansType.some((type) => type === FrilansTyper.FRILANS) && (
@@ -206,6 +218,10 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                                 arbeidIPeriode={arbeidIPeriode}
                                 intlValues={intlValues}
                                 erFrilanser={frilansRedusert || vervRedusert}
+                                frilansVervString={intlHelper(
+                                    intl,
+                                    `arbeidIPeriode.timerAvNormalt.frilanser.spm.${getFrilansVerv()}`
+                                )}
                             />
                         </FormBlock>
                     )}
@@ -221,6 +237,10 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                                 normalarbeidstid={normalarbeidstid}
                                 timerEllerProsent={TimerEllerProsent.TIMER}
                                 frilans={true}
+                                frilansVervString={intlHelper(
+                                    intl,
+                                    `arbeidIPeriode.timerAvNormalt.frilanser.spm.${getFrilansVerv()}`
+                                )}
                             />
                         )}
                 </FormBlock>

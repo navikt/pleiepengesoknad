@@ -37,6 +37,7 @@ interface Props {
     arbeidIPeriode: ArbeidIPeriodeFormValues;
     intlValues: ArbeidIPeriodeIntlValues;
     erFrilanser?: boolean;
+    frilansVervString?: string;
 }
 
 const getPeriodeISøknadsperiodeInfo = (intl: IntlShape, periode: DateRange, søknadsperiode: DateRange) => {
@@ -69,6 +70,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     arbeidIPeriode,
     intlValues,
     erFrilanser,
+    frilansVervString,
 }) => {
     const arbeidsuker = getArbeidsukerIPerioden(periode);
     const intl = useIntl();
@@ -84,7 +86,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
             data-testid="arbeidsuker"
             legend={
                 erFrilanser === true
-                    ? intlHelper(intl, 'arbeidIPeriode.frilanser.timer.spm')
+                    ? intlHelper(intl, 'arbeidIPeriode.ulikeUkerGruppe.frilanser.timer.spm', { frilansVervString })
                     : intlHelper(
                           intl,
                           `arbeidIPeriode.ulikeUkerGruppe.${
@@ -107,6 +109,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                             intlValues={intlValues}
                             normalarbeidstid={normalarbeidstid}
                             timerEllerProsent={timerEllerProsent}
+                            frilansVervString={frilansVervString}
                         />
                     </div>
                 );
