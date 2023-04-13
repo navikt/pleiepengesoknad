@@ -16,7 +16,7 @@ import { arbeidIPeriodeSpørsmålConfig } from '../utils/arbeidIPeriodeSpørsmå
 import {
     getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator,
     getArbeidIPeriodeArbeiderIPeriodenVervValidator,
-    getArbeidIPeriodeErLiktHverUkeValidator,
+    getArbeidIPeriodeErLiktHverUkeFrilansVervValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
@@ -184,7 +184,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                             <SøknadFormComponents.YesOrNoQuestion
                                 name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                                 legend={intlHelper(intl, 'arbeidIPeriode.erLiktHverUke.frilans.spm')}
-                                validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                validate={getArbeidIPeriodeErLiktHverUkeFrilansVervValidator()}
                                 useTwoColumns={true}
                                 data-testid="er-likt-hver-uke"
                                 labels={{
@@ -212,7 +212,8 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
 
                     {visibility.isVisible(ArbeidIPeriodeFormField.erLiktHverUke) &&
                         !visibility.isVisible(ArbeidIPeriodeFormField.arbeidsuker) &&
-                        arbeidIPeriode && (
+                        arbeidIPeriode &&
+                        arbeidIPeriode.erLiktHverUke && (
                             <ArbeidstidInput
                                 arbeidIPeriode={arbeidIPeriode}
                                 parentFieldName={arbeidIPeriodeParentFieldName}

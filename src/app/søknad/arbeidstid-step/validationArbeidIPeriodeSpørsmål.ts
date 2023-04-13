@@ -153,3 +153,13 @@ export const getArbeidIPeriodeErLiktHverUkeValidator = (intlValues: ArbeidIPerio
           }
         : undefined;
 };
+
+export const getArbeidIPeriodeErLiktHverUkeFrilansVervValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.erLiktHverUke.frilansVerv',
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};

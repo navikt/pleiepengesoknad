@@ -935,6 +935,7 @@
     "validation.arbeidIPeriode.frilanser": "Du må svare på hva som er din situasjon som frilanser i perioden du søker for.",
     "validation.arbeidIPeriode.verv": "Du må svare på hva som er din situasjon med honorar i perioden du søker for.",
     "validation.arbeidIPeriode.erLiktHverUke": "Du må svare på om du jobber likt {hvor} hver uke i hele søknadsperioden.",
+    "validation.arbeidIPeriode.erLiktHverUke.frilansVerv": "Du må svare på om antall timer er likt hver uke, eller varierer det fra uke til uke.",
     "validation.arbeidIPeriode.timerEllerProsent.noValue": "Du må svare på hvordan du ønsker å oppgi hvor mye du jobber {hvor} i søknadsperioden.",
     "validation.arbeidIPeriode_prosentUgyldig": "Prosenten du kan oppgi er fra 1 til 100 prosent  for hvor mange timer du jobber {hvor} i søknadsperioden.",
     "validation.arbeidIPeriode.erFasteUkedager.ingenTidRegistrert": "Du må fylle ut hvor mange timer du jobber i uken {hvor} i søknadsperioden.",
