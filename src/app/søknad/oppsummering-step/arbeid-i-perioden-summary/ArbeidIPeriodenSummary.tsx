@@ -115,7 +115,10 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
                             <ArbeidIPeriodeFrilansSummaryItem
                                 arbeidsforhold={arbeidsforholdIPeriodenFrilans}
                                 misterHonorarerIPerioden={
-                                    frilans.type === 'harArbeidsforhold' ? frilans.misterHonorarerIPerioden : undefined
+                                    frilans.type === 'harArbeidsforhold' ||
+                                    frilans.type === 'harArbeidsforholdSluttetISøknadsperiode'
+                                        ? frilans.misterHonorarerIPerioden
+                                        : undefined
                                 }
                             />
                         </SummaryBlock>
