@@ -66,58 +66,82 @@ export const validateApiValues = (
     intl: IntlShape
 ): ApiValidationError[] | undefined => {
     const errors: ApiValidationError[] = [];
+    try {
+        if (apiVedleggIsInvalid(values.vedlegg, formValues.legeerklæring)) {
+            errors.push({
+                skjemaelementId: 'vedlegg',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
+                stepId: StepID.LEGEERKLÆRING,
+            });
+        }
 
-    if (apiVedleggIsInvalid(values.vedlegg, formValues.legeerklæring)) {
-        errors.push({
-            skjemaelementId: 'vedlegg',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.manglerVedlegg'),
-            stepId: StepID.LEGEERKLÆRING,
-        });
-    }
+        if (apiVedleggIsInvalid(values.fødselsattestVedleggUrls, formValues.fødselsattest)) {
+            errors.push({
+                skjemaelementId: 'fødselsattest',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.fødselsattest'),
+                stepId: StepID.OPPLYSNINGER_OM_BARNET,
+            });
+        }
 
-    if (apiVedleggIsInvalid(values.fødselsattestVedleggUrls, formValues.fødselsattest)) {
-        errors.push({
-            skjemaelementId: 'fødselsattest',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.fødselsattest'),
-            stepId: StepID.OPPLYSNINGER_OM_BARNET,
-        });
-    }
+        if (søkerKunHelgedager(values.fraOgMed, values.tilOgMed)) {
+            errors.push({
+                skjemaelementId: 'tidsrom',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.tidsromKunHelg'),
+                stepId: StepID.TIDSROM,
+            });
+        }
 
-    if (søkerKunHelgedager(values.fraOgMed, values.tilOgMed)) {
-        errors.push({
-            skjemaelementId: 'tidsrom',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.tidsromKunHelg'),
-            stepId: StepID.TIDSROM,
-        });
-    }
+        if (values.omsorgstilbud && isOmsorgstilbudApiDataValid(values.omsorgstilbud) === false) {
+            errors.push({
+                skjemaelementId: 'omsorgstilbud',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.ugyldig'),
+                stepId: StepID.OMSORGSTILBUD,
+            });
+        }
 
-    if (values.omsorgstilbud && isOmsorgstilbudApiDataValid(values.omsorgstilbud) === false) {
-        errors.push({
-            skjemaelementId: 'omsorgstilbud',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.ugyldig'),
-            stepId: StepID.OMSORGSTILBUD,
-        });
-    }
+        if (
+            values.nattevåk &&
+            values.nattevåk.tilleggsinformasjon &&
+            values.nattevåk.tilleggsinformasjon.length > 1000
+        ) {
+            errors.push({
+                skjemaelementId: 'omsorgstilbud',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.nattevåkBeskrivelseForLang'),
+                stepId: StepID.OMSORGSTILBUD,
+            });
+        }
 
-    if (values.nattevåk && values.nattevåk.tilleggsinformasjon && values.nattevåk.tilleggsinformasjon.length > 1000) {
-        errors.push({
-            skjemaelementId: 'omsorgstilbud',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.nattevåkBeskrivelseForLang'),
-            stepId: StepID.OMSORGSTILBUD,
-        });
-    }
+        if (
+            values.beredskap &&
+            values.beredskap.tilleggsinformasjon &&
+            values.beredskap.tilleggsinformasjon.length > 1000
+        ) {
+            errors.push({
+                skjemaelementId: 'omsorgstilbud',
+                feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.beredskapBeskrivelseForLang'),
+                stepId: StepID.OMSORGSTILBUD,
+            });
+        }
 
-    if (
-        values.beredskap &&
-        values.beredskap.tilleggsinformasjon &&
-        values.beredskap.tilleggsinformasjon.length > 1000
-    ) {
-        errors.push({
-            skjemaelementId: 'omsorgstilbud',
-            feilmelding: intlHelper(intl, 'steg.oppsummering.validering.omsorgstilbud.beredskapBeskrivelseForLang'),
-            stepId: StepID.OMSORGSTILBUD,
-        });
-    }
+        if (values.selvstendigNæringsdrivende.harInntektSomSelvstendig === true) {
+            const inntekt = values.selvstendigNæringsdrivende.virksomhet.næringsinntekt;
+            if (inntekt !== undefined && inntekt > 10000000) {
+                errors.push({
+                    skjemaelementId: 'arbeidssituasjon',
+                    feilmelding: intlHelper(intl, 'steg.oppsummering.validering.arbeidssituasjon.sn.forHøyInntekt'),
+                    stepId: StepID.ARBEIDSSITUASJON,
+                });
+            }
+            const varigEndringInntekt = values.selvstendigNæringsdrivende.virksomhet.varigEndring?.inntektEtterEndring;
+            if (varigEndringInntekt !== undefined && varigEndringInntekt > 10000000) {
+                errors.push({
+                    skjemaelementId: 'arbeidssituasjon',
+                    feilmelding: intlHelper(intl, 'steg.oppsummering.validering.arbeidssituasjon.sn.forHøyInntekt'),
+                    stepId: StepID.ARBEIDSSITUASJON,
+                });
+            }
+        }
+    } catch (e) {}
 
     return errors.length > 0 ? errors : undefined;
 };
