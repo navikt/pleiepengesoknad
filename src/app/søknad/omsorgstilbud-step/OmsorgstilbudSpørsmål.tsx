@@ -12,7 +12,7 @@ import { getOmsorgstilbudFastDagValidator, TidFasteUkedagerInput } from '@navikt
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { OmsorgstilbudFormValues, SøknadFormField } from '../../types/SøknadFormValues';
-import { søkerKunFortid, søkerFortidOgFremtid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
+import { søkerFortidOgFremtid, søkerKunFortid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
 import omsorgstilbudInfo from './info/OmsorgstilbudInfo';

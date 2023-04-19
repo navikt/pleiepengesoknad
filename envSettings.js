@@ -3,6 +3,7 @@ require('dotenv').config();
 
 const envSettings = () => {
     const API_URL = process.env.API_URL;
+    const VEDLEGG_API_URL = process.env.VEDLEGG_API_URL;
     const API_URL_INNSYN = process.env.API_URL_INNSYN;
     const FRONTEND_INNSYN_API_PATH = process.env.FRONTEND_INNSYN_API_PATH;
     const FRONTEND_API_PATH = process.env.FRONTEND_API_PATH;
@@ -23,6 +24,7 @@ const envSettings = () => {
     const appSettings = `
     window.appSettings = {
         API_URL: '${API_URL}',
+        VEDLEGG_API_URL: '${VEDLEGG_API_URL}',
         API_URL_INNSYN: '${API_URL_INNSYN}',
         FRONTEND_INNSYN_API_PATH: '${FRONTEND_INNSYN_API_PATH}',
         FRONTEND_API_PATH: '${FRONTEND_API_PATH}',
