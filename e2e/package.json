@@ -11,7 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "cypress-file-upload": "^5.0.8",
-        "@navikt/sif-common-pleiepenger": "^4.1.1",
-        "dayjs": "^1.11.3"
+        "@navikt/sif-common-pleiepenger": "^5.1.1",
+        "dayjs": "^1.11.7"
     }
 }
