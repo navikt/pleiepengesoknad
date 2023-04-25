@@ -141,6 +141,19 @@ export const validateApiValues = (
                 });
             }
         }
+
+        if (values.frilans.harInntektSomFrilanser === true) {
+            if (values.frilans.frilansTyper === undefined || values.frilans.frilansTyper.length === 0) {
+                errors.push({
+                    skjemaelementId: 'arbeidssituasjon',
+                    feilmelding: intlHelper(
+                        intl,
+                        'steg.oppsummering.validering.arbeidssituasjon.frylans.frilansTyperTomt'
+                    ),
+                    stepId: StepID.ARBEIDSSITUASJON,
+                });
+            }
+        }
     } catch (e) {}
 
     return errors.length > 0 ? errors : undefined;

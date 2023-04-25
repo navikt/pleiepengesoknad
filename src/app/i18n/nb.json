@@ -490,6 +490,7 @@
     "steg.oppsummering.validering.omsorgstilbud.nattevåkBeskrivelseForLang": "Oops, nå ser vi at teksten du har skrevet om nattevåk er for lang.",
     "steg.oppsummering.validering.omsorgstilbud.beredskapBeskrivelseForLang": "Oops, nå ser vi at teksten du har skrevet om beredskap er for lang.",
     "steg.oppsummering.validering.arbeidssituasjon.sn.forHøyInntekt": "Oops, nå ser vi at inntekten du har oppgitt for virksomheten din er for høy.",
+    "steg.oppsummering.validering.arbeidssituasjon.frylans.frilansTyperTomt": "Oops, noe gikk galt med frilans.",
 
     "page.confirmation.sidetittel": "Vi har mottatt søknaden din",
     "page.confirmation.tittel.1": "Takk!",
