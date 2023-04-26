@@ -8,7 +8,7 @@ import { oppsummeringTestOmsorgstilbudSteg } from '../integration-utils/steps/om
 import { oppsummeringTestOmBarn } from '../integration-utils/steps/opplysningerOmBarnet';
 import { oppsummeringTestPeriodeSteg } from '../integration-utils/steps/periode';
 
-describe('Kan jeg klikke meg enkelt gjennom en hele søknad ', () => {
+describe('Kan jeg klikke meg enkelt gjennom en hele søknad', () => {
     context('med utmocket, tom mellomlagring', () => {
         contextConfig();
 

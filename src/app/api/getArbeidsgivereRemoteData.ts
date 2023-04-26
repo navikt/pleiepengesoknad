@@ -37,6 +37,8 @@ const mapAAregArbeidsgiverRemoteDataToArbeidsgiver = (data: AAregArbeidsgiverRem
             id: a.organisasjonsnummer,
             organisasjonsnummer: a.organisasjonsnummer,
             navn: a.navn || a.organisasjonsnummer,
+            ansattFom: a.ansattFom ? ISODateToDate(a.ansattFom) : undefined,
+            ansattTom: a.ansattTom ? ISODateToDate(a.ansattTom) : undefined,
         });
     });
     // Privat arbeidsgiver er ikke tatt i bruk, og returnerers ikke fra backend enda

@@ -1,11 +1,11 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { Arbeidsgiver } from '../../../types';
+import { StønadGodtgjørelseFormData } from 'app/types/StønadGodtgjørelseFormData';
 import { ArbeidsforholdFormValues, NormalarbeidstidFormValues } from '../../../types/ArbeidsforholdFormValues';
-import { FrilansFormData } from '../../../types/FrilansFormData';
+import { FrilansFormData, FrilansTyper } from '../../../types/FrilansFormData';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { SøknadFormValues } from '../../../types/SøknadFormValues';
-import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/frilanserUtils';
+import { erFrilanserISøknadsperiode, kunStyrevervUtenNormalArbeidstid } from '../../../utils/frilanserUtils';
 import { visVernepliktSpørsmål } from './visVernepliktSpørsmål';
 
 const cleanupNormalarbeidstid = ({
@@ -44,36 +44,49 @@ export const cleanupAnsattArbeidsforhold = (arbeidsforhold: ArbeidsforholdFormVa
     return cleanedArbeidsforhold;
 };
 
-export const cleanupFrilansArbeidssituasjon = (
-    søknadsperiode: DateRange,
-    values: FrilansFormData,
-    frilansoppdrag: Arbeidsgiver[] | undefined
-): FrilansFormData => {
+export const cleanupFrilansArbeidssituasjon = (søknadsperiode: DateRange, values: FrilansFormData): FrilansFormData => {
     const frilans: FrilansFormData = { ...values };
-    if (erFrilanserISøknadsperiode(søknadsperiode, values, frilansoppdrag) === false) {
+    if (erFrilanserISøknadsperiode(søknadsperiode, values) === false) {
         frilans.arbeidsforhold = undefined;
     }
 
-    if (harFrilansoppdrag(frilansoppdrag)) {
-        frilans.harHattInntektSomFrilanser = undefined;
+    if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
+        /** Er ikke frilanser i perioden */
+        frilans.frilansTyper = undefined;
+        frilans.misterHonorarStyreverv = undefined;
+        frilans.startdato = undefined;
+        frilans.sluttdato = undefined;
+        frilans.erFortsattFrilanser = undefined;
+        frilans.arbeidsforhold = undefined;
+    }
+    if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
+        if (kunStyrevervUtenNormalArbeidstid(frilans.frilansTyper, frilans.misterHonorarStyreverv)) {
+            frilans.startdato = undefined;
+            frilans.arbeidsforhold = undefined;
+        }
+        if (!frilans.frilansTyper?.some((type) => type === FrilansTyper.STYREVERV)) {
+            frilans.misterHonorarStyreverv = undefined;
+        }
+
+        if (
+            !frilans.frilansTyper?.some((type) => type === FrilansTyper.FRILANS) &&
+            frilans.arbeidsforhold?.arbeidIPeriode?.arbeiderIPerioden
+        ) {
+            frilans.arbeidsforhold.arbeidIPeriode.arbeiderIPerioden = undefined;
+        }
+
+        if (
+            !frilans.frilansTyper?.some((type) => type === FrilansTyper.STYREVERV) &&
+            frilans.arbeidsforhold?.arbeidIPeriode?.misterHonorarerFraVervIPerioden
+        ) {
+            frilans.arbeidsforhold.arbeidIPeriode.misterHonorarerFraVervIPerioden = undefined;
+        }
+
         if (frilans.erFortsattFrilanser === YesOrNo.YES) {
             frilans.sluttdato = undefined;
         }
-    } else {
-        if (frilans.harHattInntektSomFrilanser === YesOrNo.NO) {
-            /** Er ikke frilanser i perioden */
-            frilans.erFortsattFrilanser = undefined;
-            frilans.startdato = undefined;
-            frilans.sluttdato = undefined;
-            frilans.arbeidsforhold = undefined;
-        }
-        if (frilans.harHattInntektSomFrilanser === YesOrNo.YES) {
-            /** Er frilanser i perioden */
-            if (frilans.erFortsattFrilanser === YesOrNo.YES) {
-                frilans.sluttdato = undefined;
-            }
-        }
     }
+
     if (frilans.arbeidsforhold && frilans.arbeidsforhold.normalarbeidstid) {
         frilans.arbeidsforhold.normalarbeidstid = cleanupNormalarbeidstid(frilans.arbeidsforhold.normalarbeidstid);
     }
@@ -97,16 +110,44 @@ const cleanupSelvstendigArbeidssituasjon = (values: SelvstendigFormData): Selvst
     return selvstendig;
 };
 
+const cleanupStønadGodtgjørelse = (values: StønadGodtgjørelseFormData): StønadGodtgjørelseFormData => {
+    const stønadGodtgjørelse: StønadGodtgjørelseFormData = { ...values };
+    if (stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.NO) {
+        stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden = undefined;
+        stønadGodtgjørelse.starterUndeveis = undefined;
+        stønadGodtgjørelse.startdato = undefined;
+        stønadGodtgjørelse.slutterUnderveis = undefined;
+        stønadGodtgjørelse.sluttdato = undefined;
+    }
+
+    if (stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden === YesOrNo.YES) {
+        stønadGodtgjørelse.starterUndeveis = undefined;
+        stønadGodtgjørelse.startdato = undefined;
+        stønadGodtgjørelse.slutterUnderveis = undefined;
+        stønadGodtgjørelse.sluttdato = undefined;
+    }
+
+    if (stønadGodtgjørelse.starterUndeveis === YesOrNo.NO) {
+        stønadGodtgjørelse.startdato = undefined;
+    }
+
+    if (stønadGodtgjørelse.slutterUnderveis === YesOrNo.NO) {
+        stønadGodtgjørelse.sluttdato = undefined;
+    }
+
+    return stønadGodtgjørelse;
+};
+
 export const cleanupArbeidssituasjonStep = (
     formValues: SøknadFormValues,
-    søknadsperiode: DateRange,
-    frilansoppdrag: Arbeidsgiver[] | undefined
+    søknadsperiode: DateRange
 ): SøknadFormValues => {
     const values: SøknadFormValues = { ...formValues };
 
     values.ansatt_arbeidsforhold = values.ansatt_arbeidsforhold.map(cleanupAnsattArbeidsforhold);
-    values.frilans = cleanupFrilansArbeidssituasjon(søknadsperiode, values.frilans, frilansoppdrag);
+    values.frilans = cleanupFrilansArbeidssituasjon(søknadsperiode, values.frilans);
     values.selvstendig = cleanupSelvstendigArbeidssituasjon(values.selvstendig);
+    values.stønadGodtgjørelse = cleanupStønadGodtgjørelse(values.stønadGodtgjørelse);
 
     if (!visVernepliktSpørsmål(values)) {
         values.harVærtEllerErVernepliktig = undefined;

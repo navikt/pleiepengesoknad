@@ -94,7 +94,7 @@ export const skalBrukerSvareArbeidstid = (søknadsperiode: DateRange, formValues
         return false;
     }
     const erAnsatt = erAnsattISøknadsperiode(formValues.ansatt_arbeidsforhold);
-    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans, formValues.frilansoppdrag);
+    const erFrilanser = erFrilanserISøknadsperiode(søknadsperiode, formValues.frilans);
     const erSelvstendig = erSNISøknadsperiode(søknadsperiode, formValues.selvstendig);
 
     return erAnsatt || erFrilanser || erSelvstendig;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { Ingress } from 'nav-frontend-typografi';
 import FrilansoppdragListe from '../frilansoppdrag-liste/FrilansoppdragListe';
 import { Arbeidsgiver } from '../../../../types';
 
@@ -11,13 +10,12 @@ interface Props {
 
 const FrilansoppdragInfo: React.FunctionComponent<Props> = ({ frilansoppdrag }) => (
     <Box padBottom="m">
-        <Ingress tag="h3">
-            <FormattedMessage id="frilansoppdragInfo.tittel" />
-        </Ingress>
+        <FormattedMessage id="frilansoppdragInfo.tittel" values={{ antall: frilansoppdrag.length }} />
+        <Box margin="l">
+            <FormattedMessage id="frilansoppdragInfo.tittel.1" />
+        </Box>
+
         <FrilansoppdragListe frilansoppdrag={frilansoppdrag} />
-        <p style={{ marginTop: 0 }}>
-            <FormattedMessage id="frilansoppdragInfo.tekst" />
-        </p>
     </Box>
 );
 

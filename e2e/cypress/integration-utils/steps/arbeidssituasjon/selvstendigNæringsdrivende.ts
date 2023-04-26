@@ -9,6 +9,7 @@ import {
     gåTilOppsummeringFraArbeidssituasjon,
     selectRadioByNameAndValue,
     selectRadioNo,
+    selectRadioNyYesOrNo,
     selectRadioYes,
 } from '../../utils';
 import { fyllUtArbeidstidJobberIkke } from '../arbeid-i-periode/arbeidIPeriode';
@@ -66,7 +67,7 @@ const fyllUtVirksomhetDialog = () => {
 export const fyllUtArbeidssituasjonErSelvstendig = () => {
     getTestElement('arbeidssituasjonSelvstendig').within(() => {
         selectRadioYes('er-selvstendig');
-        selectRadioYes('har-flere-virksomheter');
+        selectRadioNyYesOrNo('har-flere-virksomheter', true);
         getElement('button').contains('Registrer virksomhet').click();
     });
     fyllUtVirksomhetDialog();

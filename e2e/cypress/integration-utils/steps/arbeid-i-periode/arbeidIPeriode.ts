@@ -32,8 +32,10 @@ export const fyllUtArbeidIPeriodeSteg = () => {
         getTestElement('arbeidIPerioden_ansatt').within(() => {
             fyllUtArbeidstidRedusertVarierendeTimer();
         });
+
         getTestElement('arbeidIPerioden_frilanser').within(() => {
-            fyllUtArbeidstidJobberIkke();
+            selectRadio('MISTER_DELER_AV_HONORARER');
+            fyllUtArbeidstidRedusertVarierendeTimer();
         });
         clickFortsett();
     });

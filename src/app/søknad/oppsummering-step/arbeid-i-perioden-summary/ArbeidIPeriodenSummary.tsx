@@ -12,6 +12,8 @@ import {
     SøknadApiData,
 } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidIPeriodeSummaryItem from './ArbeidIPeriodenSummaryItem';
+import { ArbeidsforholdFrilansApiData } from '../../../types/søknad-api-data/arbeidsforholdFrilansApiData';
+import ArbeidIPeriodeFrilansSummaryItem from './ArbeidIPeriodenFrilansSummaryItem';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -20,6 +22,10 @@ interface Props {
 }
 
 export interface ArbeidIPeriodenSummaryItemType extends ArbeidsforholdApiData {
+    tittel: string;
+}
+
+export interface ArbeidIPeriodenFrilansSummaryItemType extends ArbeidsforholdFrilansApiData {
     tittel: string;
 }
 
@@ -65,7 +71,7 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
 }) => {
     const intl = useIntl();
     const arbeidsforholdIPerioden: ArbeidIPeriodenSummaryItemType[] = [];
-
+    let arbeidsforholdIPeriodenFrilans: ArbeidIPeriodenFrilansSummaryItemType | undefined = undefined;
     arbeidsgivere.forEach((arbeidsgiverApiData) => {
         if (arbeidsgiverApiData.arbeidsforhold) {
             arbeidsforholdIPerioden.push({
@@ -75,11 +81,15 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
         }
     });
 
-    if (frilans.harInntektSomFrilanser && frilans.arbeidsforhold) {
-        arbeidsforholdIPerioden.push({
+    if (
+        (frilans.type === 'harArbeidsforhold' || frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') &&
+        frilans.harInntektSomFrilanser &&
+        frilans.arbeidsforhold
+    ) {
+        arbeidsforholdIPeriodenFrilans = {
             ...frilans.arbeidsforhold,
             tittel: 'Frilanser',
-        });
+        };
     }
 
     if (selvstendigNæringsdrivende.harInntektSomSelvstendig && selvstendigNæringsdrivende.arbeidsforhold) {
@@ -91,13 +101,28 @@ const ArbeidIPeriodenSummary: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            {arbeidsforholdIPerioden.length > 0 && (
+            {(arbeidsforholdIPerioden.length > 0 || arbeidsforholdIPeriodenFrilans !== undefined) && (
                 <SummarySection header={intlHelper(intl, 'oppsummering.arbeidIPeriode.jobbIPerioden.header')}>
                     {arbeidsforholdIPerioden.map((arbeidsforhold) => (
                         <SummaryBlock header={arbeidsforhold.tittel} key={arbeidsforhold.tittel}>
                             <ArbeidIPeriodeSummaryItem periode={søknadsperiode} arbeidsforhold={arbeidsforhold} />
                         </SummaryBlock>
                     ))}
+                    {arbeidsforholdIPeriodenFrilans !== undefined && (
+                        <SummaryBlock
+                            header={arbeidsforholdIPeriodenFrilans.tittel}
+                            key={arbeidsforholdIPeriodenFrilans.tittel}>
+                            <ArbeidIPeriodeFrilansSummaryItem
+                                arbeidsforhold={arbeidsforholdIPeriodenFrilans}
+                                misterHonorarerIPerioden={
+                                    frilans.type === 'harArbeidsforhold' ||
+                                    frilans.type === 'harArbeidsforholdSluttetISøknadsperiode'
+                                        ? frilans.misterHonorarerIPerioden
+                                        : undefined
+                                }
+                            />
+                        </SummaryBlock>
+                    )}
                 </SummarySection>
             )}
         </>

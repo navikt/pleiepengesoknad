@@ -8,6 +8,7 @@ import { NattevåkSøknadsdata } from './nattevåkSøknadsdata';
 import { OmBarnetSøknadsdata } from './omBarnetSøknadsdata';
 import { OmsorgstilbudSøknadsdata } from './omsorgstilbudSøknadsdata';
 import { UtenlandsoppholdIPeriodenSøknadsdata } from './utenlandsoppholdIPeriodenSøknadsdata';
+import { StønadGodtgjørelseSøknadsdata } from './stønadGodtgjørelseSøknadsdata';
 
 export * from './omBarnetSøknadsdata';
 export * from './arbeidIPeriodeSøknadsdata';
@@ -25,6 +26,7 @@ export * from './ferieuttakIPeriodenSøknadsdata';
 export * from './nattevåkSøknadsdata';
 export * from './beredskapSøknadsdata';
 export * from './omsorgstilbudSøknadsdata';
+export * from './stønadGodtgjørelseSøknadsdata';
 
 export interface Søknadsdata {
     harForståttRettigheterOgPlikter?: boolean;
@@ -39,4 +41,5 @@ export interface Søknadsdata {
     beredskap?: BeredskapSøknadsdata;
     medlemskap?: MedlemskapSøknadsdata;
     legeerklæring?: Attachment[];
+    stønadGodtgjørelse?: StønadGodtgjørelseSøknadsdata;
 }

@@ -19,6 +19,8 @@ import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsda
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidIPeriodeFrilansSøknadsdata } from '../../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -97,12 +99,28 @@ export const getArbeidsperiodeIForholdTilSøknadsperiode = (
     return ArbeidsperiodeIForholdTilSøknadsperiode.gjelderHelePerioden;
 };
 
+const frilansArbeiderVanlig = (arbeidISøknadsperiode: ArbeidIPeriodeFrilansSøknadsdata) => {
+    if (arbeidISøknadsperiode.type === ArbeidIPeriodeType.arbeiderVanlig || ArbeidIPeriodeType.arbeiderIkke) {
+        if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden) {
+            return false;
+        }
+        if (arbeidISøknadsperiode.arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig) {
+            return true;
+        }
+    }
+    return false;
+};
+
 export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]): boolean => {
     return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
         if (!arbeidISøknadsperiode) {
             return false;
         }
-        return arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig;
+
+        return (
+            arbeidISøknadsperiode.type !== ArbeidIPeriodeType.arbeiderVanlig &&
+            !frilansArbeiderVanlig(arbeidISøknadsperiode as ArbeidIPeriodeFrilansSøknadsdata)
+        );
     });
 };
 
@@ -119,7 +137,13 @@ export const getArbeidsforhold = (arbeid?: ArbeidSøknadsdata): ArbeidsforholdS�
             arbeidsgivere.push(a.arbeidsforhold);
         }
     });
-    const frilans: ArbeidsforholdSøknadsdata[] = arbeid.frilans?.erFrilanser ? [arbeid.frilans.arbeidsforhold] : [];
+
+    const frilans: ArbeidsforholdSøknadsdata[] =
+        arbeid.frilans?.erFrilanser &&
+        (arbeid.frilans?.type === 'pågående' || arbeid.frilans?.type === 'sluttetISøknadsperiode')
+            ? [arbeid.frilans.arbeidsforhold]
+            : [];
+
     const selvstendig: ArbeidsforholdSøknadsdata[] = arbeid.selvstendig?.erSN
         ? [arbeid.selvstendig.arbeidsforhold]
         : [];

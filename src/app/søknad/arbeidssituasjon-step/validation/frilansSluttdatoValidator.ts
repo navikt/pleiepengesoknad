@@ -6,7 +6,7 @@ import dayjs from 'dayjs';
 import { FrilansFormData } from '../../../types/FrilansFormData';
 
 export const getFrilanserSluttdatoValidator =
-    (formData: FrilansFormData, søknadsperiode: DateRange, søknadsdato: Date, harFrilansoppdrag: boolean) =>
+    (formData: FrilansFormData, søknadsperiode: DateRange, søknadsdato: Date) =>
     (value: string): ValidationResult<ValidationError> => {
         const dateError = getDateValidator({
             required: true,
@@ -16,12 +16,11 @@ export const getFrilanserSluttdatoValidator =
         if (dateError) {
             return dateError;
         }
-        /** Sjekk kun på om sluttdato er før søknadsperiode dersom bruker ikke har frilansoppdrag. */
-        if (harFrilansoppdrag === false) {
-            const frilansSluttdato = datepickerUtils.getDateFromDateString(formData.sluttdato);
-            if (frilansSluttdato && dayjs(frilansSluttdato).isBefore(søknadsperiode.from, 'day')) {
-                return 'sluttetFørSøknadsperiode';
-            }
+
+        const frilansSluttdato = datepickerUtils.getDateFromDateString(formData.sluttdato);
+        if (frilansSluttdato && dayjs(frilansSluttdato).isBefore(søknadsperiode.from, 'day')) {
+            return 'sluttetFørSøknadsperiode';
         }
+
         return undefined;
     };

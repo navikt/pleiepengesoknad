@@ -1,8 +1,13 @@
 import { DateRange, getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { dateUtils, ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeFrilansSøknadsdata } from '../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 import { TimerEllerProsent } from '../../types';
-import { ArbeidIPeriodeFormValues, ArbeidsukerFormValues } from '../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidIPeriodeFormValues,
+    ArbeidsukerFormValues,
+    MisterHonorarerFraVervIPerioden,
+} from '../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata, ArbeidsukerTimerSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
@@ -82,4 +87,52 @@ export const extractArbeidIPeriodeSøknadsdata = ({
     }
 
     return undefined;
+};
+
+export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
+    arbeiderIPerioden,
+    snittTimerPerUke,
+    erLiktHverUke,
+    arbeidsuker,
+    misterHonorarerFraVervIPerioden,
+}: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
+    if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
+    ) {
+        if (erLiktHverUke === YesOrNo.YES) {
+            const timerISnittPerUke = getNumberFromNumberInputValue(snittTimerPerUke);
+
+            if (snittTimerPerUke && timerISnittPerUke) {
+                return {
+                    type: ArbeidIPeriodeType.arbeiderTimerISnittPerUke,
+                    arbeiderIPerioden: arbeiderIPerioden,
+                    misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
+                    timerISnittPerUke,
+                };
+            }
+        }
+
+        if ((erLiktHverUke === YesOrNo.NO || erLiktHverUke === undefined) && arbeidsuker) {
+            return {
+                type: ArbeidIPeriodeType.arbeiderUlikeUkerTimer,
+                arbeiderIPerioden: arbeiderIPerioden,
+                misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
+                arbeidsuker: extractArbeidsukerTimerSøknadsdata(arbeidsuker),
+            };
+        }
+    }
+
+    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
+        return {
+            type: ArbeidIPeriodeType.arbeiderIkke,
+            arbeiderIPerioden: arbeiderIPerioden,
+            misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
+        };
+    }
+    return {
+        type: ArbeidIPeriodeType.arbeiderVanlig,
+        arbeiderIPerioden: arbeiderIPerioden,
+        misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
+    };
 };

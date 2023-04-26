@@ -11,6 +11,7 @@ import ArbeidssituasjonSelvstendigSummary from './ArbeidssituasjonSelvstendigSum
 import { Arbeidsgiver } from '../../../types';
 import OpptjeningIUtlandetSummary from './OpptjeningIUtlandetSummary';
 import UtenlandskNæringSummary from './ArbeidssituasjonUtenlandskNæringSummary';
+import StønadGodtgjørelseSummary from './StønadGodtgjørelseSummary';
 
 interface Props {
     apiValues: SøknadApiData;
@@ -26,6 +27,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         harVærtEllerErVernepliktig,
         opptjeningIUtlandet,
         utenlandskNæring,
+        stønadGodtgjørelse,
     },
     søknadsperiode,
     frilansoppdrag,
@@ -36,6 +38,8 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
         <div data-testid="oppsummering-arbeidssituasjon">
             <SummarySection header={intlHelper(intl, 'steg.oppsummering.arbeidssituasjon.header')}>
                 <ArbeidsgivereSummary arbeidsgivere={arbeidsgivere} søknadsperiode={søknadsperiode} />
+
+                <StønadGodtgjørelseSummary stønadGodtgjørelse={stønadGodtgjørelse} />
 
                 <ArbeidssituasjonFrilansSummary frilans={frilans} frilansoppdrag={frilansoppdrag} />
 

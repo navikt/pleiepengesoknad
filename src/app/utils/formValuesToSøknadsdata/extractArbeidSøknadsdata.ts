@@ -12,7 +12,7 @@ export const extractArbeidSøknadsdata = (
     søknadsperiode: DateRange
 ): ArbeidSøknadsdata | undefined => {
     const arbeidsgivere = extractArbeidsgivereArbeidsforholdSøknadsdata(values.ansatt_arbeidsforhold);
-    const frilans = extractArbeidFrilansSøknadsdata(values.frilans, values.frilansoppdrag, søknadsperiode);
+    const frilans = extractArbeidFrilansSøknadsdata(values.frilans, søknadsperiode);
     const selvstendig = extractArbeidSelvstendigSøknadsdata(values.selvstendig, søknadsperiode);
     const opptjeningUtland = extractOpptjeningUtlandSøknadsdata(values);
     const utenlandskNæring = extractUtenlandskNæringSøknadsdata(values);

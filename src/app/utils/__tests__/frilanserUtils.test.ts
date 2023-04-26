@@ -1,6 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
-import { Arbeidsgiver, ArbeidsgiverType } from '../../types';
+//import { Arbeidsgiver, ArbeidsgiverType } from '../../types';
 import {
     harSvartErFrilanserEllerHarFrilansoppdrag,
     erFrilanserITidsrom,
@@ -9,25 +9,26 @@ import {
 
 const periode = ISODateRangeToDateRange('2021-01-05/2021-01-10');
 
-const frilansoppdragIPeriode: Arbeidsgiver = {
+/*const frilansoppdragIPeriode: Arbeidsgiver = {
     id: '123',
     navn: 'Frilansoppdrag',
     type: ArbeidsgiverType.FRILANSOPPDRAG,
     ansattFom: ISODateToDate('2021-01-01'),
-};
+};*/
 
 describe('frilanserUtils', () => {
     describe('harSvartErFrilanserEllerHarFrilansoppdrag', () => {
         it('returnerer true når bruker har svart at en er frilanser i perioden', () => {
-            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.YES, []);
+            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.YES);
             expect(result).toBeTruthy();
         });
+        /*
         it('returnerer true dersom bruker har registrert frilansoppdrag', () => {
             const result = harSvartErFrilanserEllerHarFrilansoppdrag(undefined, [frilansoppdragIPeriode]);
             expect(result).toBeTruthy();
-        });
+        });*/
         it('returnerer false fersom bruker har har svart nei på om en er frilanser', () => {
-            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.NO, []);
+            const result = harSvartErFrilanserEllerHarFrilansoppdrag(YesOrNo.NO);
             expect(result).toBeFalsy();
         });
     });
@@ -56,13 +57,10 @@ describe('frilanserUtils', () => {
     describe('erFrilanserISøknadsperiode', () => {
         it('returnerer false dersom en ikke har frilansoppdrag og ikke har hatt inntekt som frilanser', () => {
             expect(
-                erFrilanserISøknadsperiode(
-                    periode,
-                    { startdato: '2021-01-01', harHattInntektSomFrilanser: YesOrNo.NO },
-                    []
-                )
+                erFrilanserISøknadsperiode(periode, { startdato: '2021-01-01', harHattInntektSomFrilanser: YesOrNo.NO })
             ).toBeFalsy();
         });
+        /*
         it('returnerer true dersom en har frilansoppdrag og har svart på startdato', () => {
             expect(
                 erFrilanserISøknadsperiode(
@@ -71,6 +69,6 @@ describe('frilanserUtils', () => {
                     [frilansoppdragIPeriode]
                 )
             ).toBeTruthy();
-        });
+        });*/
     });
 });

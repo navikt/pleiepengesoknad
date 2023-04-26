@@ -15,6 +15,7 @@ import {
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
+    getDateValidator,
     getFødselsnummerValidator,
     getStringValidator,
 } from '@navikt/sif-common-formik/lib/validation';
@@ -26,6 +27,7 @@ import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { getDurationsInDateRange, getValidDurations, summarizeDateDurationMap } from '@navikt/sif-common-utils';
+import { StønadGodtgjørelseFormData } from 'app/types/StønadGodtgjørelseFormData';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -50,6 +52,7 @@ export enum AppFieldValidationErrors {
     'ferieuttak_ikke_registrert' = 'ferieuttak_ikke_registrert',
     'ferieuttak_overlapper' = 'ferieuttak_overlapper',
     'ferieuttak_utenfor_periode' = 'ferieuttak_utenfor_periode',
+    'starter_slutter_undeveis_nei' = 'starter_slutter_undeveis_nei',
 }
 
 export const isYesOrNoAnswered = (answer?: YesOrNo) => {
@@ -165,3 +168,33 @@ export const validateOmsorgstilbudEnkeltdagerIPeriode = (tidIOmsorgstilbud: Date
     }
     return undefined;
 };
+
+export const getstønadGodtgjørelseStartdatoValidator =
+    (formData: StønadGodtgjørelseFormData, søknadsperiode: DateRange) =>
+    (value: string): ValidationResult<ValidationError> => {
+        const dateError = getDateValidator({ required: true, min: søknadsperiode.from, max: søknadsperiode.to })(value);
+        if (dateError) {
+            return dateError;
+        }
+        const startdato = datepickerUtils.getDateFromDateString(formData.startdato);
+
+        if (startdato && formData.sluttdato && dayjs(startdato).isAfter(formData.sluttdato, 'day')) {
+            return 'startetEtterSluttDato';
+        }
+        return undefined;
+    };
+
+export const getstønadGodtgjørelseSluttdatoValidator =
+    (formData: StønadGodtgjørelseFormData, søknadsperiode: DateRange) =>
+    (value: string): ValidationResult<ValidationError> => {
+        const dateError = getDateValidator({ required: true, min: søknadsperiode.from, max: søknadsperiode.to })(value);
+        if (dateError) {
+            return dateError;
+        }
+        const sluttdato = datepickerUtils.getDateFromDateString(formData.sluttdato);
+
+        if (sluttdato && formData.startdato && dayjs(sluttdato).isBefore(formData.startdato, 'day')) {
+            return 'sluttetFørStartDato';
+        }
+        return undefined;
+    };

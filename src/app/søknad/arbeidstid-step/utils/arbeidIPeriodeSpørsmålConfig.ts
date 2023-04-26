@@ -1,7 +1,11 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
 import { QuestionConfig, Questions } from '@navikt/sif-common-question-config/lib';
-import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
+import {
+    ArbeidIPeriodeFormField,
+    ArbeidIPeriodeFormValues,
+    MisterHonorarerFraVervIPerioden,
+} from '../../../types/ArbeidIPeriodeFormValues';
 import { isYesOrNoAnswered } from '../../../validation/fieldValidations';
 import { skalSvarePåOmEnJobberLiktIPerioden } from './arbeidstidUtils';
 
@@ -19,7 +23,9 @@ const ArbeidIPeriodeFormConfig: QuestionConfig<ArbeidIPeriodePayload, ArbeidIPer
         isIncluded: ({ arbeidsperiode, formValues }) => {
             return (
                 skalSvarePåOmEnJobberLiktIPerioden(arbeidsperiode) &&
-                formValues.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert
+                (formValues.arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
+                    formValues.misterHonorarerFraVervIPerioden ===
+                        MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer)
             );
         },
         isAnswered: ({ formValues }) => isYesOrNoAnswered(formValues.erLiktHverUke),

@@ -41,9 +41,13 @@ export const mellomlagring = {
         },
         harNattevåk: 'unanswered',
         harBeredskap: 'unanswered',
+        stønadGodtgjørelse: {
+            mottarStønadGodtgjørelse: 'no',
+        },
         frilans: {
             harHattInntektSomFrilanser: 'yes',
-            startdato: '2010-10-01',
+            frilansTyper: ['FRILANS'],
+            startdato: '2022-10-01',
             erFortsattFrilanser: 'yes',
             arbeidsforhold: {
                 normalarbeidstid: {
@@ -65,7 +69,7 @@ export const mellomlagring = {
     },
     metadata: {
         lastStepID: 'legeerklaering',
-        version: '13.1.0',
+        version: '13.3.0',
         updatedTimestemp: '2022-10-19T13:14:12.851Z',
     },
 };

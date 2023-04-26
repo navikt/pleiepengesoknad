@@ -43,7 +43,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
     const intl = useIntl();
     const {
         values,
-        values: { ansatt_arbeidsforhold, harOpptjeningUtland, harUtenlandskNæring },
+        values: { ansatt_arbeidsforhold, harOpptjeningUtland, harUtenlandskNæring, stønadGodtgjørelse },
     } = formikProps;
     const [loadState, setLoadState] = useState<LoadState>({ isLoading: false, isLoaded: false });
     const søkerdata = useContext(SøkerdataContext);
@@ -69,9 +69,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
             onValidFormSubmit={onValidSubmit}
             buttonDisabled={isLoading}
             onStepCleanup={
-                søknadsperiode
-                    ? (values) => cleanupArbeidssituasjonStep(values, søknadsperiode, values.frilansoppdrag)
-                    : undefined
+                søknadsperiode ? (values) => cleanupArbeidssituasjonStep(values, søknadsperiode) : undefined
             }>
             {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
@@ -85,6 +83,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             parentFieldName={SøknadFormField.ansatt_arbeidsforhold}
                             ansatt_arbeidsforhold={ansatt_arbeidsforhold}
                             søknadsperiode={søknadsperiode}
+                            intl={intl}
                         />
                     </FormSection>
 
@@ -95,7 +94,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                             formValues={values.frilans}
                             søknadsperiode={søknadsperiode}
                             søknadsdato={søknadsdato}
-                            urlSkatteetaten={getLenker(intl.locale).skatteetaten}
+                            stønadGodtgjørelse={stønadGodtgjørelse}
                         />
                     </FormSection>
 

@@ -25,6 +25,8 @@ interface Props {
     timerEllerProsent: TimerEllerProsent;
     intlValues: ArbeidIPeriodeIntlValues;
     arbeidIPeriode: ArbeidIPeriodeFormValues;
+    frilans?: boolean;
+    frilansVervString?: string;
 }
 
 export const søkerKunHeleUker = (periode: DateRange): boolean => {
@@ -41,6 +43,8 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     timerEllerProsent,
     intlValues,
     normalarbeidstid,
+    frilans,
+    frilansVervString,
 }) => {
     const intl = useIntl();
 
@@ -87,6 +91,8 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                     <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
                 </Normaltekst>
             </>
+        ) : frilans ? (
+            intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.frilanser.spm', { frilansVervString })
         ) : (
             intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
                 ...intlValues,
@@ -133,7 +139,8 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                         intl,
                         intlValues,
                         normalarbeidstid.timerPerUkeISnitt,
-                        arbeidsuke
+                        arbeidsuke,
+                        frilansVervString
                     )}
                     data-testid="timer-verdi"
                     bredde="XS"

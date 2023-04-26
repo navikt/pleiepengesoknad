@@ -52,7 +52,13 @@ const getMaksArbeidstimerIPeriode = (periode: DateRange): number => {
 };
 
 export const getArbeidIPeriodeTimerPerUkeISnittValidator =
-    (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues, timerNormalt: number, arbeidsuke?: ArbeidsukeInfo) =>
+    (
+        intl: IntlShape,
+        intlValues: ArbeidIPeriodeIntlValues,
+        timerNormalt: number,
+        arbeidsuke?: ArbeidsukeInfo,
+        frilansVervString?: string
+    ) =>
     (value: string) => {
         const min = arbeidsuke ? 0 : 1;
         const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
@@ -61,12 +67,15 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
 
         if (error) {
             return {
-                key: `validation.arbeidIPeriode.fast.timerPerUke.${arbeidsuke ? 'uke.' : ''}${error.key}`,
+                key: `validation.arbeidIPeriode.fast.${frilansVervString ? 'frilansVerv.' : ''}timerPerUke.${
+                    arbeidsuke ? 'uke.' : ''
+                }${error.key}`,
                 values: {
                     ...intlValues,
                     ukeinfo,
                     min,
                     max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
+                    frilansVervString,
                 },
                 keepKeyUnaltered: true,
             };
@@ -83,7 +92,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                 forMangeTimerUtFraDagerError.key === ValidateNumberError.numberIsTooLarge
             ) {
                 return {
-                    key: `validation.arbeidIPeriode.fast.timerPerUke.${
+                    key: `validation.arbeidIPeriode.fast.${frilansVervString ? 'frilansVerv.' : ''}timerPerUke.${
                         arbeidsuke ? 'uke.' : ''
                     }${'flereTimerEnnTilgjengeligIUke'}`,
                     values: {
@@ -123,12 +132,42 @@ export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIP
         : error;
 };
 
+export const getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.frilanser',
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
+
+export const getArbeidIPeriodeArbeiderIPeriodenVervValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.verv',
+              keepKeyUnaltered: true,
+          }
+        : error;
+};
+
 export const getArbeidIPeriodeErLiktHverUkeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
     return error
         ? {
               key: 'validation.arbeidIPeriode.erLiktHverUke',
               values: intlValues,
+              keepKeyUnaltered: true,
+          }
+        : undefined;
+};
+
+export const getArbeidIPeriodeErLiktHverUkeFrilansVervValidator = () => (value: any) => {
+    const error = getRequiredFieldValidator()(value);
+    return error
+        ? {
+              key: 'validation.arbeidIPeriode.erLiktHverUke.frilansVerv',
               keepKeyUnaltered: true,
           }
         : undefined;

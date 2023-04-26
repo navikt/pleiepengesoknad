@@ -23,6 +23,10 @@ export const selectRadioYesOrNo = (key, selectYes) => {
         .click();
 };
 
+export const selectRadioNyYesOrNo = (key, selectYes) => {
+    getTestElement(`${key}_${selectYes ? 'yes' : 'no'}`).click({ force: true });
+};
+
 export const selectRadioByNameAndValue = (name, value) => {
     cy.get(`[name="${name}"][value="${value}"]`).parent().click();
 };
@@ -66,6 +70,10 @@ export const getTestElementByType = (type) => {
 
 export const getElement = (type) => {
     return cy.get(`${type}`);
+};
+
+export const containsElement = (key) => {
+    return cy.contains(`[data-testid="${key}"]`);
 };
 
 export const gåTilOppsummeringFraArbeidssituasjon = () => {

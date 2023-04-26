@@ -7,6 +7,7 @@ import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 import { dateFormatter, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { FrilansTyper } from '../../../types/FrilansFormData';
 
 interface Props {
     frilans: FrilansApiData;
@@ -30,13 +31,30 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     return (
         <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
             <ul data-testid="arbeidssituasjon-frilanser">
-                <li>
-                    <FormattedMessage
-                        id="oppsummering.arbeidssituasjon.frilans.startet"
-                        values={{ dato: dateFormatter.full(ISODateToDate(frilans.startdato)) }}
-                    />
-                </li>
-                {frilans.sluttdato && (
+                {frilans.frilansTyper.map((type) => {
+                    return (
+                        <li key={type}>
+                            <FormattedMessage id={`oppsummering.arbeidssituasjon.frilans.${type}`} />
+                            {type === FrilansTyper.STYREVERV && frilans.misterHonorarer === false && (
+                                <div>
+                                    <FormattedMessage
+                                        id={'oppsummering.arbeidssituasjon.frilans.STYREVERV.misterIkkeHonorar'}
+                                    />
+                                </div>
+                            )}
+                        </li>
+                    );
+                })}
+                {(frilans.type === 'harArbeidsforhold' || frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') &&
+                    frilans.startdato && (
+                        <li>
+                            <FormattedMessage
+                                id="oppsummering.arbeidssituasjon.frilans.startet"
+                                values={{ dato: dateFormatter.full(ISODateToDate(frilans.startdato)) }}
+                            />
+                        </li>
+                    )}
+                {frilans.type === 'harArbeidsforholdSluttetISøknadsperiode' && frilans.sluttdato && (
                     <li>
                         <FormattedMessage
                             id="oppsummering.arbeidssituasjon.frilans.sluttet"
@@ -44,30 +62,30 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
                         />
                     </li>
                 )}
-                {frilans.jobberFortsattSomFrilans && (
+                {(frilans.type === 'harArbeidsforhold' ||
+                    frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') && (
                     <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.fortsattFrilanser" />
+                        <NormalarbeidstidSummary
+                            normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
+                            erAnsatt={true}
+                        />
                     </li>
                 )}
-                {/* {frilans.arbeidsforhold?.normalarbeidstid.erLiktHverUke === false && ( */}
-                <li>
-                    <NormalarbeidstidSummary
-                        erAnsatt={frilans.jobberFortsattSomFrilans}
-                        normalarbeidstidApiData={frilans.arbeidsforhold.normalarbeidstid}
-                    />
-                </li>
                 {/* Dersom bruker fortsatt er frilanser i perioden (arbeidsforhold finnes), og har frilansoppdrag */}
-                {frilans.arbeidsforhold && frilansoppdrag && frilansoppdrag.length > 0 && (
-                    <li>
-                        <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.frilansoppdrag" />
-                        <br />
-                        <ul style={{ margin: 0, padding: '0 0 0 1rem' }}>
-                            {frilansoppdrag.map((oppdrag) => (
-                                <li key={oppdrag.id}>{oppdrag.navn}</li>
-                            ))}
-                        </ul>
-                    </li>
-                )}
+                {(frilans.type === 'harArbeidsforhold' || frilans.type === 'harArbeidsforholdSluttetISøknadsperiode') &&
+                    frilans.arbeidsforhold &&
+                    frilansoppdrag &&
+                    frilansoppdrag.length > 0 && (
+                        <li>
+                            <FormattedMessage id="oppsummering.arbeidssituasjon.frilans.frilansoppdrag" />
+                            <br />
+                            <ul style={{ margin: 0, padding: '0 0 0 1rem' }}>
+                                {frilansoppdrag.map((oppdrag) => (
+                                    <li key={oppdrag.id}>{oppdrag.navn}</li>
+                                ))}
+                            </ul>
+                        </li>
+                    )}
             </ul>
         </SummaryBlock>
     );

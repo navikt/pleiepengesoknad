@@ -2,7 +2,7 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import {
@@ -14,6 +14,7 @@ import {
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
+import { FrilansTyper } from '../../../../types/FrilansFormData';
 
 interface Props {
     arbeidsforholdFieldName: string;
@@ -22,6 +23,9 @@ interface Props {
     arbeidsforholdType: ArbeidsforholdType;
     erAktivtArbeidsforhold: boolean;
     brukKunSnittPerUke: boolean;
+    frilansTyper?: FrilansTyper[];
+    misterHonorarStyreverv?: YesOrNo;
+    mottarStønadGodtgjørelse?: boolean;
 }
 
 const FormComponents = getTypedFormComponents<ArbeidsforholdFormField, ArbeidsforholdFormValues, ValidationError>();
@@ -33,6 +37,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
     erAktivtArbeidsforhold,
     arbeidsstedNavn,
     brukKunSnittPerUke,
+    frilansTyper,
+    misterHonorarStyreverv,
+    mottarStønadGodtgjørelse,
 }) => {
     const intl = useIntl();
     const getFieldName = (fieldName: ArbeidsforholdFormField) => `${arbeidsforholdFieldName}.${fieldName}` as any;
@@ -45,25 +52,73 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
 
     const inputTestID = ArbeidsforholdFormField.normalarbeidstid_TimerPerUke;
 
+    const getFrilansTekst = () => {
+        if (frilansTyper === undefined || frilansTyper.length === 0) {
+            return '';
+        }
+        const erFrilanser = frilansTyper.some((type) => type === FrilansTyper.FRILANS);
+        const erVerv =
+            frilansTyper.some((type) => type === FrilansTyper.STYREVERV) && misterHonorarStyreverv === YesOrNo.YES;
+
+        if (erFrilanser && !erVerv) {
+            return 'frilanser';
+        }
+        if (erVerv && !erFrilanser) {
+            return 'verv';
+        }
+        if (erVerv && erFrilanser) {
+            return 'frilanserVerv';
+        }
+        return '';
+    };
+
     const renderTimerPerUkeSpørsmål = () => {
+        const tekstStønadGodtgjørelse = intlHelper(
+            intl,
+            'arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.infoStønadGodtgjørelse'
+        );
         return (
             <FormComponents.NumberInput
                 label={intlHelper(
                     intl,
-                    erAktivtArbeidsforhold === false
+                    arbeidsforholdType === ArbeidsforholdType.FRILANSER
+                        ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.${getFrilansTekst()}.spm`
+                        : erAktivtArbeidsforhold === false
                         ? `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.avsluttet.spm`
                         : `arbeidsforhold.arbeiderNormaltTimerPerUke.snitt.spm`,
-                    intlValues
+                    arbeidsforholdType === ArbeidsforholdType.FRILANSER
+                        ? {
+                              infoStønadGodtgjørelse: mottarStønadGodtgjørelse ? tekstStønadGodtgjørelse : '',
+                              jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                              bruker: erAktivtArbeidsforhold ? 'bruker' : 'brukte',
+                          }
+                        : intlValues
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilansTyper={frilansTyper}
+                        misterHonorarStyreverv={misterHonorarStyreverv}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"
                 validate={getArbeiderNormaltTimerIUkenValidator({
                     ...intlValues,
                     jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                    frilansVervString: getFrilansTekst()
+                        ? intlHelper(
+                              intl,
+                              `validation.arbeidsforhold.arbeiderNormaltTimerPerUke.string.${getFrilansTekst()}`,
+                              {
+                                  jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
+                                  bruker: erAktivtArbeidsforhold ? 'bruker' : 'brukte',
+                              }
+                          )
+                        : undefined,
                 })}
                 value={arbeidsforhold.normalarbeidstid ? arbeidsforhold.normalarbeidstid.timerPerUke || '' : ''}
             />
@@ -86,7 +141,12 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                 )}
                 data-testid={inputTestID}
                 name={getFieldName(ArbeidsforholdFormField.normalarbeidstid_TimerPerUke)}
-                description={<InfoArbeiderNormaltTimerIUken arbeidsforholdType={arbeidsforholdType} />}
+                description={
+                    <InfoArbeiderNormaltTimerIUken
+                        arbeidsforholdType={arbeidsforholdType}
+                        frilansTyper={frilansTyper}
+                    />
+                }
                 suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
                 suffixStyle="text"
                 bredde="XS"

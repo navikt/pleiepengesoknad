@@ -1,11 +1,18 @@
 import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../types/ArbeidsforholdFormValues';
+import {
+    ArbeidsforholdFormValues,
+    ArbeidsforholdFrilanserFormValues,
+    ArbeidsforholdSelvstendigFormValues,
+} from '../../types/ArbeidsforholdFormValues';
 import { ArbeidsforholdSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { extractArbeidIPeriodeSøknadsdata } from './extractArbeidIPeriodeSøknadsdata';
+import {
+    extractArbeidIPeriodeFrilanserSøknadsdata,
+    extractArbeidIPeriodeSøknadsdata,
+} from './extractArbeidIPeriodeSøknadsdata';
 import { extractNormalarbeidstid } from './extractNormalarbeidstidSøknadsdata';
 
 export const extractArbeidsforholdSøknadsdata = (
-    arbeidsforhold: ArbeidsforholdFrilanserFormValues | ArbeidsforholdFormValues,
+    arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdSelvstendigFormValues,
     arbeidsforholdType: ArbeidsforholdType
 ): ArbeidsforholdSøknadsdata | undefined => {
     const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid, arbeidsforholdType);
@@ -20,5 +27,26 @@ export const extractArbeidsforholdSøknadsdata = (
             arbeidISøknadsperiode,
         };
     }
+
+    return undefined;
+};
+
+export const extractArbeidsforholdFrilansSøknadsdata = (
+    arbeidsforhold: ArbeidsforholdFrilanserFormValues,
+    arbeidsforholdType: ArbeidsforholdType
+): ArbeidsforholdSøknadsdata | undefined => {
+    const normalarbeidstid = extractNormalarbeidstid(arbeidsforhold.normalarbeidstid, arbeidsforholdType);
+
+    if (normalarbeidstid) {
+        const arbeidISøknadsperiode = arbeidsforhold.arbeidIPeriode
+            ? extractArbeidIPeriodeFrilanserSøknadsdata(arbeidsforhold.arbeidIPeriode)
+            : undefined;
+
+        return {
+            normalarbeidstid,
+            arbeidISøknadsperiode,
+        };
+    }
+
     return undefined;
 };
