@@ -39,7 +39,7 @@
         "@navikt/sif-common-pleiepenger": "^5.1.1",
         "@navikt/sif-common-question-config": "^0.0.7",
         "@navikt/sif-common-sentry": "^0.10.0",
-        "@navikt/sif-common-utils": "^3.24.1",
+        "@navikt/sif-common-utils": "^3.29.0",
         "ajv": "^8.12.0",
         "axios": "^0.27.2",
         "compression": "^1.7.4",
