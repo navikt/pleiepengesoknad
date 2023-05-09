@@ -146,7 +146,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 }
 
                 const harArbeidMenIngenFravær: boolean =
-                    harArbeidIPerioden(søknadsdata.arbeid) && harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid));
+                    harArbeidIPerioden(søknadsdata.arbeid) && !harFraværFraJobb(getArbeidsforhold(søknadsdata.arbeid));
 
                 const {
                     søker: { fornavn, mellomnavn, etternavn, fødselsnummer },
