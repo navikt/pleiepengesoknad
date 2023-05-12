@@ -415,7 +415,7 @@
     "steg.medlemsskap.annetLandNeste12.listeTittel": "Utenlandsopphold neste 12 måneder",
 
     "steg.lege.vedlegg": "Last opp dokumentasjonen",
-    "steg.legeerklaering.counsellorpanel.1": "Her skal du laste opp legeerklæringen. Det gjør du enten ved å ta bilde av leggerklæringen, eller ved å skanne den. Vær nøye med at all tekst er med, inkludert legens signatur.",
+    "steg.legeerklaering.counsellorpanel.1": "Her skal du laste opp legeerklæringen. Det gjør du enten ved å ta bilde av leggerklæringen, eller ved å skanne den. Vennligst sjekk at bildet du laster opp er av god kvalitet slik at all tekst er leselig.",
     "steg.legeerklaering.counsellorpanel.2": "Vi kan ikke behandle søknaden din før vi mottar legeerklæringen. Hvis du ikke har legeerklæringen tilgjengelig nå, anbefaler vi at du venter med å søke til du har den tilgjengelig. Hvis du ikke kan vente med å sende søknaden, kan du fortsette uten legeerklæring, men da må du ettersende den så snart som mulig.",
 
     "steg.oppsummering.info": "Les gjennom oppsummeringen før du sender inn søknaden. Du kan gå tilbake hvis du vil gjøre endringer.",
@@ -782,7 +782,6 @@
     "frilanser.misterHonorarStyreverv.nei.info": "Det er helt i orden at du beholder verv og får honorar mens du har pleiepenger. Du skal i dette tilfellet ikke ta med noen timer for det du bruker på verv i neste spørsmål.",
     "frilanser.hjelpetekst.spm": "Hva betyr det å være frilanser?",
     "frilanser.hjelpetekst.1": "Du er frilanser når du mottar lønn for enkeltstående oppdrag uten å være fast eller midlertidig ansatt hos den du utfører oppdraget for. Hvis du er usikker på om du er frilanser må du sjekke om oppdragene dine er registrert som frilansoppdrag på skatteetaten sine nettsider.",
-    "frilanser.hjelpetekst.2": "Hvis du mottar omsorgsstønad eller fosterhjemsgodtgjørelse er dette frilansinntekt, men siden dette er inntekt man som regel beholder under pleiepenger skal du ikke svare \"ja\" på at du er frilanser her. Hvis det skulle være at du mister omsorgsstønad eller fosterhjemsgodtgjørelse på grunn av at du må pleie sykt barn må du ta kontakt med oss slik at vi får vurdert saken din riktig.",
 
     "frilanser.summary.header": "Frilans",
     "frilanser.summary.harDuHattInntekt.header": "Er du frilanser i perioden du søker for?",
