@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -9,6 +10,7 @@ import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pl
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField, MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
+import { FrilansTyper } from '../../../types/FrilansFormData';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
 import SøknadFormComponents from '../../SøknadFormComponents';
@@ -20,8 +22,7 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
-import { FrilansTyper } from '../../../types/FrilansFormData';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import InfoOmEndring from './InfoOmEndring';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -191,6 +192,10 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
                     )}
+                    <Box margin="m">
+                        <InfoOmEndring aktivitetType="frilans" />
+                    </Box>
+
                     {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (
                         <FormBlock>
                             <SøknadFormComponents.YesOrNoQuestion

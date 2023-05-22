@@ -80,6 +80,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                             <FormSection title={arbeidsforhold.arbeidsgiver.navn} key={arbeidsforhold.arbeidsgiver.id}>
                                 <div data-testid="arbeidIPerioden_ansatt">
                                     <ArbeidIPeriodeSpørsmål
+                                        aktivitetType="arbeidstaker"
                                         normalarbeidstid={arbeidsgiver.arbeidsforhold.normalarbeidstid}
                                         arbeidsstedNavn={arbeidsforhold.arbeidsgiver.navn}
                                         arbeidsforholdType={ArbeidsforholdType.ANSATT}
@@ -130,6 +131,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.SNLabel')}>
                             <div data-testid="arbeidIPerioden_selvstendig">
                                 <ArbeidIPeriodeSpørsmål
+                                    aktivitetType="sn"
                                     normalarbeidstid={arbeid.selvstendig.arbeidsforhold.normalarbeidstid}
                                     arbeidsstedNavn="Selvstendig næringsdrivende"
                                     arbeidsforholdType={ArbeidsforholdType.SELVSTENDIG}
