@@ -12,15 +12,10 @@ const InfoOmEndring: React.FunctionComponent<Props> = ({ aktivitetType }) => {
     const intl = useIntl();
     switch (aktivitetType) {
         case 'arbeidstaker':
-            return (
-                <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.redusert.endring.tittel')}>
-                    <FormattedHtmlMessage id="arbeidIPeriode.redusert.endring.arbeidstaker.tekst" />
-                </ExpandableInfo>
-            );
         case 'frilans':
             return (
                 <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.redusert.endring.tittel')}>
-                    <FormattedHtmlMessage id="arbeidIPeriode.redusert.endring.frilans.tekst" />
+                    <FormattedHtmlMessage id="arbeidIPeriode.redusert.endring.arb_frilans.tekst" />
                 </ExpandableInfo>
             );
         case 'sn':
