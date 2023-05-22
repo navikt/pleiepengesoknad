@@ -296,10 +296,6 @@ const ArbeidssituasjonFrilans = ({
                                         <p>
                                             <FormattedMessage id="frilanser.hjelpetekst.1" />
                                         </p>
-
-                                        <p>
-                                            <FormattedMessage id="frilanser.hjelpetekst.2" />
-                                        </p>
                                     </>
                                 )}
                             </>
