@@ -6,8 +6,10 @@ interface Lenker {
     rettOgPlikt: string;
     saksbehandlingstider: string;
     dittNAV: string;
+    skrivTilOss: string;
     innsynSIF: string;
     ettersend: string;
+    endringsmelding: string;
     skatteetaten: string;
     skatteetatenSN: string;
 }
@@ -24,11 +26,13 @@ const LenkerBokmål: Lenker = {
     saksbehandlingstider: 'https://www.nav.no/no/NAV+og+samfunn/Om+NAV/Saksbehandlingstider+i+NAV',
     dittNAV: `https://www.nav.no/no/Ditt+NAV`,
     innsynSIF: `https://www.nav.no/familie/sykdom-i-familien/soknad/innsyn`,
+    endringsmelding: 'https://nav.no/familie/sykdom-i-familien/soknad/endringsmelding-pleiepenger',
     ettersend:
         'https://www.nav.no/soknader/nb/person/familie/pleiepenger-og-opplaringspenger/NAV%2009-11.05/ettersendelse',
     skatteetaten: 'https://www.skatteetaten.no/skjema/mine-inntekter-og-arbeidsforhold/',
     skatteetatenSN:
         'https://www.skatteetaten.no/person/skatt/hjelp-til-riktig-skatt/arbeid-trygd-og-pensjon/hobby-ekstrainntekt-og-smajobber/lonnsarbeid-i-hjemmet/lonn-betalt-over-60-000/naringsdrivende-oppdragstakere',
+    skrivTilOss: 'https://www.nav.no/skriv-til-oss',
 };
 
 const LenkerNynorsk: Partial<Lenker> = {

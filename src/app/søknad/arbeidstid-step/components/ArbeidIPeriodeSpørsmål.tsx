@@ -22,6 +22,8 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
+import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
 
 interface Props {
     normalarbeidstid: NormalarbeidstidSøknadsdata;
@@ -110,6 +112,10 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                             </p>
                         )}
+                        <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.redusert.endring.tittel')}>
+                            <FormattedHtmlMessage id="arbeidIPeriode.redusert.endring.tekst" />
+                        </ExpandableInfo>
+
                         {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (
                             <FormBlock>
                                 <SøknadFormComponents.YesOrNoQuestion

@@ -28,6 +28,18 @@ export const velkommenPageMessages: MessageFileFormat = {
             'Du må velge at du har forstått ditt ansvar som søker',
         'personopplysninger.dialogtittel': 'Om behandling av personopplysninger',
 
+        'page.velkommen.omSøknaden.endringer.tittel': 'Om hvordan melde fra om endringer',
+        'page.velkommen.omSøknaden.endringer.tekst.1.a':
+            'Hvis du ønsker å melde fra om endringer i en periode som du allerede har søkt om pleiepenger trenger du ikke sende ny søknad. Du kan sende',
+        'page.velkommen.omSøknaden.endringer.tekst.1.b': 'endringsmelding',
+        'page.velkommen.omSøknaden.endringer.tekst.1.c':
+            ' for å melde fra om du skal jobbe mer eller mindre, om du skal ha ferie, eller endre på allerede registrert ferie.',
+        'page.velkommen.omSøknaden.endringer.tekst.2.a':
+            'Hvis du skal gjøre andre endringer sender du en melding til oss via',
+        'page.velkommen.omSøknaden.endringer.tekst.2.b': 'Skriv til oss',
+        'page.velkommen.omSøknaden.endringer.tekst.2.c':
+            '. Det samme gjelder hvis du er selvstendig næringsdrivende, eller har pleiepenger for flere barn.',
+
         'personopplysninger.1': 'Slik behandler NAV personopplysningene dine',
         'personopplysninger.2':
             'Vi innhenter og mottar opplysninger om deg for å behandle saken din. Det er nødvendig for at du skal få riktig tjeneste. Deler av saken din behandles automatisk.',
