@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
@@ -22,11 +23,10 @@ import {
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import InfoOmEndring from './InfoOmEndring';
 
 interface Props {
+    aktivitetType: 'arbeidstaker' | 'sn';
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     parentFieldName: string;
     arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
@@ -38,6 +38,7 @@ interface Props {
 }
 
 const ArbeidIPeriodeSpørsmål = ({
+    aktivitetType,
     arbeidsforhold,
     parentFieldName,
     arbeidsforholdType,
@@ -114,9 +115,7 @@ const ArbeidIPeriodeSpørsmål = ({
                             </p>
                         )}
                         <Box margin="m">
-                            <ExpandableInfo title={intlHelper(intl, 'arbeidIPeriode.redusert.endring.tittel')}>
-                                <FormattedHtmlMessage id="arbeidIPeriode.redusert.endring.tekst" />
-                            </ExpandableInfo>
+                            <InfoOmEndring aktivitetType={aktivitetType} />
                         </Box>
 
                         {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (

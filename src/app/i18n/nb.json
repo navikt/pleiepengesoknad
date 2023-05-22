@@ -654,10 +654,12 @@
     "arbeidIPeriode.redusert.info.frilansVerv.info.tittel.2": "antall timer du jobber som frilanser mens du har pleiepenger, og",
     "arbeidIPeriode.redusert.info.frilansVerv.info.tittel.4": "antall timer du bruker på det du får honorar for etter endringen",
 
-    "arbeidIPeriode.redusert.info.tekst": "Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, gir du oss beskjed i slutten av den aktuelle måneden.",
+    "arbeidIPeriode.redusert.info.tekst": "Hvis du er usikker på hvor mye du skal jobbe fremover i tid, legger du inn slik du tror du skal jobbe. Hvis det senere viser seg at du jobber mer eller mindre av hva du tror nå, melder du fra om endring i slutten av den aktuelle måneden.",
 
     "arbeidIPeriode.redusert.endring.tittel": "Hvordan melder jeg fra om endring?",
-    "arbeidIPeriode.redusert.endring.tekst": "Hvis du er arbeidstaker eller frilanser kan du sende endringsmelding for å melde fra om endring i hvor mye du jobber. Endringsmeldingen finner du under «Skjema og søknad» på nav.no, eller på «Dine pleiepenger» på innlogget side. Hvis du er selvstendig næringsdrivende og du ønsker å melde fra om endring i jobb sender du en melding via «Skriv til oss»-tjenesten på innlogget side.",
+    "arbeidIPeriode.redusert.endring.arbeidstaker.tekst": "Som arbeidstaker kan du sende endringsmelding for å melde fra om endring i hvor mye du jobber. Endringsmeldingen finner du under «Skjema og søknad» på nav.no, eller på «Dine pleiepenger» på innlogget side.",
+    "arbeidIPeriode.redusert.endring.frilans.tekst": "Som frilanser kan du sende endringsmelding for å melde fra om endring i hvor mye du jobber. Endringsmeldingen finner du under «Skjema og søknad» på nav.no, eller på «Dine pleiepenger» på innlogget side.",
+    "arbeidIPeriode.redusert.endring.sn.tekst": "Som selvstendig næringsdrivende kan du melde fra om endring i jobb ved å sende en melding via «Skriv til oss»-tjenesten på innlogget side.",
 
     "tidKalenderForm.ok.label": "Lagre",
     "tidKalenderForm.avbryt.label": "Avbryt",
