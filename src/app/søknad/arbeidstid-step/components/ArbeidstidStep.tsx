@@ -20,7 +20,6 @@ import { useSøknadsdataContext } from '../../SøknadsdataContext';
 import { StepConfigProps, StepID } from '../../søknadStepsConfig';
 import { cleanupArbeidstidStep } from '../utils/cleanupArbeidstidStep';
 import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
-import ArbeidIPeriodeSpørsmålFrilans from './ArbeidIPeriodeSpørsmålFrilans';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -106,7 +105,8 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
                         <FormSection title={intlHelper(intl, 'arbeidIPeriode.FrilansLabel')}>
                             <>
                                 <div data-testid="arbeidIPerioden_frilanser">
-                                    <ArbeidIPeriodeSpørsmålFrilans
+                                    <ArbeidIPeriodeSpørsmål
+                                        aktivitetType="frilans"
                                         normalarbeidstid={arbeid.frilans.arbeidsforhold.normalarbeidstid}
                                         arbeidsstedNavn="Frilansoppdrag"
                                         arbeidsforholdType={ArbeidsforholdType.FRILANSER}

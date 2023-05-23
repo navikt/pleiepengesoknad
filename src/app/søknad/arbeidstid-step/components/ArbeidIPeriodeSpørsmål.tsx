@@ -4,13 +4,13 @@ import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../types';
-import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues';
+import { ArbeidIPeriodeFormField, MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/Søknadsdata';
 import { søkerNoeFremtid } from '../../../utils/søknadsperiodeUtils';
@@ -18,20 +18,24 @@ import SøknadFormComponents from '../../SøknadFormComponents';
 import { arbeidIPeriodeSpørsmålConfig } from '../utils/arbeidIPeriodeSpørsmålConfig';
 import {
     getArbeidIPeriodeArbeiderIPeriodenValidator,
+    getArbeidIPeriodeArbeiderIPeriodenVervValidator,
     getArbeidIPeriodeErLiktHverUkeValidator,
     getArbeidIPeriodeTimerEllerProsentValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
 import InfoOmEndring from './InfoOmEndring';
+import { FrilansTyper } from '../../../types/FrilansFormData';
 
 interface Props {
-    aktivitetType: 'arbeidstaker' | 'sn';
+    aktivitetType: 'arbeidstaker' | 'sn' | 'frilans';
     normalarbeidstid: NormalarbeidstidSøknadsdata;
     parentFieldName: string;
     arbeidsforhold: ArbeidsforholdFormValues | ArbeidsforholdFrilanserFormValues;
     arbeidsforholdType: ArbeidsforholdType;
     arbeidsstedNavn: string;
+    frilansType?: FrilansTyper[];
+    misterHonorarer?: YesOrNo;
     arbeidsperiode: DateRange;
     søknadsperiode: DateRange;
     onArbeidstidVariertChange: () => void;
@@ -45,6 +49,8 @@ const ArbeidIPeriodeSpørsmål = ({
     arbeidsperiode,
     søknadsperiode,
     arbeidsstedNavn,
+    frilansType,
+    misterHonorarer,
     normalarbeidstid,
     onArbeidstidVariertChange,
 }: Props) => {
@@ -71,44 +77,124 @@ const ArbeidIPeriodeSpørsmål = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, timerEllerProsent } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, timerEllerProsent, misterHonorarerFraVervIPerioden } = arbeidIPeriode || {};
 
     const visibility = arbeidIPeriodeSpørsmålConfig.getVisbility({
         formValues: arbeidIPeriode || {},
         arbeidsperiode,
     });
 
+    const frilansRedusert =
+        frilansType &&
+        frilansType.some((type) => type === FrilansTyper.FRILANS) &&
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert;
+
+    const vervRedusert =
+        frilansType &&
+        frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
+        misterHonorarer === YesOrNo.YES &&
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
+
+    const getFrilansVerv = (): string => {
+        if (frilansRedusert && !vervRedusert) {
+            return 'frilans';
+        }
+        if (vervRedusert && !frilansRedusert) {
+            return 'verv';
+        }
+        if (frilansRedusert && vervRedusert) {
+            return 'frilansVerv';
+        }
+        return '';
+    };
+
     return (
         <>
-            <SøknadFormComponents.RadioPanelGroup
-                name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
-                legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
-                validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
-                radios={[
-                    {
-                        label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
-                        value: ArbeiderIPeriodenSvar.heltFravær,
-                        'data-testid': ArbeiderIPeriodenSvar.heltFravær,
-                    },
-                    {
-                        label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert', intlValues),
-                        value: ArbeiderIPeriodenSvar.redusert,
-                        'data-testid': ArbeiderIPeriodenSvar.redusert,
-                    },
-                    {
-                        label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig', intlValues),
-                        value: ArbeiderIPeriodenSvar.somVanlig,
-                        'data-testid': ArbeiderIPeriodenSvar.somVanlig,
-                    },
-                ]}
-            />
-            {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
+            {(aktivitetType === 'sn' ||
+                aktivitetType === 'arbeidstaker' ||
+                (frilansType && frilansType.some((type) => type === FrilansTyper.FRILANS))) && (
+                <SøknadFormComponents.RadioPanelGroup
+                    name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
+                    legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
+                    validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
+                    radios={[
+                        {
+                            label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberIkke', intlValues),
+                            value: ArbeiderIPeriodenSvar.heltFravær,
+                            'data-testid': ArbeiderIPeriodenSvar.heltFravær,
+                        },
+                        {
+                            label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberRedusert', intlValues),
+                            value: ArbeiderIPeriodenSvar.redusert,
+                            'data-testid': ArbeiderIPeriodenSvar.redusert,
+                        },
+                        {
+                            label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.jobberVanlig', intlValues),
+                            value: ArbeiderIPeriodenSvar.somVanlig,
+                            'data-testid': ArbeiderIPeriodenSvar.somVanlig,
+                        },
+                    ]}
+                />
+            )}
+
+            {frilansType &&
+                frilansType.some((type) => type === FrilansTyper.STYREVERV && misterHonorarer === YesOrNo.YES) && (
+                    <FormBlock>
+                        <SøknadFormComponents.RadioPanelGroup
+                            name={getFieldName(ArbeidIPeriodeFormField.misterHonorarerFraVervIPerioden)}
+                            legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.verv.spm`)}
+                            validate={getArbeidIPeriodeArbeiderIPeriodenVervValidator()}
+                            radios={[
+                                {
+                                    label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.verv.misterHonorar'),
+                                    value: MisterHonorarerFraVervIPerioden.misterAlleHonorarer,
+                                    'data-testid': MisterHonorarerFraVervIPerioden.misterAlleHonorarer,
+                                },
+                                {
+                                    label: intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.svar.verv.misterDeller'),
+                                    value: MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer,
+                                    'data-testid': MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer,
+                                },
+                            ]}
+                        />
+                    </FormBlock>
+                )}
+
+            {(arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert || vervRedusert) && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <Ingress tag="h3">
-                            <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
-                        </Ingress>
+                        {(aktivitetType === 'sn' || aktivitetType === 'arbeidstaker') && (
+                            <Ingress tag="h3">
+                                <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
+                            </Ingress>
+                        )}
 
+                        {frilansRedusert && !vervRedusert && (
+                            <Box margin="l">
+                                <FormattedMessage id="arbeidIPeriode.redusert.info.frilans.info.tittel" />
+                            </Box>
+                        )}
+
+                        {vervRedusert && !frilansRedusert && (
+                            <Box margin="l">
+                                <FormattedMessage id="arbeidIPeriode.redusert.info.verv.info.tittel" />
+                            </Box>
+                        )}
+
+                        {vervRedusert && frilansRedusert && (
+                            <Box margin="l">
+                                <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.1" />
+                                <ul>
+                                    <li>
+                                        <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.2" />
+                                    </li>
+
+                                    <li>
+                                        <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.4" />
+                                    </li>
+                                </ul>
+                            </Box>
+                        )}
                         {søkerNoeFremtid(arbeidsperiode) && (
                             <p>
                                 <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
@@ -122,7 +208,13 @@ const ArbeidIPeriodeSpørsmål = ({
                             <FormBlock>
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
-                                    legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
+                                    legend={intlHelper(
+                                        intl,
+                                        frilansRedusert || vervRedusert
+                                            ? 'arbeidIPeriode.erLiktHverUke.frilans.spm'
+                                            : `arbeidIPeriode.erLiktHverUke.spm`,
+                                        intlValues
+                                    )}
                                     validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
                                     useTwoColumns={true}
                                     data-testid="er-likt-hver-uke"
@@ -155,6 +247,11 @@ const ArbeidIPeriodeSpørsmål = ({
                                     timerEllerProsent={TimerEllerProsent.TIMER}
                                     arbeidIPeriode={arbeidIPeriode}
                                     intlValues={intlValues}
+                                    erFrilanser={frilansRedusert || vervRedusert}
+                                    frilansVervString={intlHelper(
+                                        intl,
+                                        `arbeidIPeriode.timerAvNormalt.frilanser.spm.${getFrilansVerv()}`
+                                    )}
                                 />
                             </FormBlock>
                         )}
