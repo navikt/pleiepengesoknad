@@ -50,6 +50,7 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
     const handleArbeidstidChanged = () => {
         persistSoknad({ stepID: StepID.ARBEIDSTID });
     };
+
     return (
         <SøknadFormStep
             id={StepID.ARBEIDSTID}

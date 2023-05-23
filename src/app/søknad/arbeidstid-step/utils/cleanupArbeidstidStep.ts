@@ -117,9 +117,13 @@ export const cleanupArbeidIPeriodeFrilans = (
         if (config.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke)) {
             arbeid.erLiktHverUke = arbeidIPerioden.erLiktHverUke;
         }
-
+        if (config.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent)) {
+            arbeid.timerEllerProsent = arbeidIPerioden.timerEllerProsent;
+        }
         if (arbeid.erLiktHverUke === YesOrNo.YES) {
-            return { ...arbeid, snittTimerPerUke: arbeidIPerioden.snittTimerPerUke, arbeidsuker: undefined };
+            return arbeid.timerEllerProsent === TimerEllerProsent.PROSENT
+                ? { ...arbeid, prosentAvNormalt: arbeidIPerioden.prosentAvNormalt, arbeidsuker: undefined }
+                : { ...arbeid, snittTimerPerUke: arbeidIPerioden.snittTimerPerUke, arbeidsuker: undefined };
         } else {
             return {
                 ...arbeid,

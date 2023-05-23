@@ -1,12 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'react-intl';
+import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
-import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
+import {
+    ArbeidIPeriodeIntlValues,
+    ArbeiderIPeriodenSvar,
+    ArbeidsforholdType,
+} from '@navikt/sif-common-pleiepenger/lib/types';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField, MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
@@ -19,6 +23,7 @@ import {
     getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator,
     getArbeidIPeriodeArbeiderIPeriodenVervValidator,
     getArbeidIPeriodeErLiktHverUkeFrilansVervValidator,
+    getArbeidIPeriodeTimerEllerProsentValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
@@ -72,7 +77,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
     const getFieldName = (field: ArbeidIPeriodeFormField) => `${arbeidIPeriodeParentFieldName}.${field}` as any;
 
     const { arbeidIPeriode } = arbeidsforhold;
-    const { arbeiderIPerioden, misterHonorarerFraVervIPerioden } = arbeidIPeriode || {};
+    const { arbeiderIPerioden, misterHonorarerFraVervIPerioden, timerEllerProsent } = arbeidIPeriode || {};
 
     const visibility = arbeidIPeriodeSpørsmålConfig.getVisbility({
         formValues: arbeidIPeriode || {},
@@ -100,6 +105,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
         }
         return '';
     };
+
     return (
         <ResponsivePanel>
             {frilansType.some((type) => type === FrilansTyper.FRILANS) && (
@@ -212,6 +218,18 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                         </FormBlock>
                     )}
 
+                    {visibility.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent) && (
+                        <FormBlock>
+                            <SøknadFormComponents.RadioPanelGroup
+                                name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
+                                legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
+                                radios={getTimerEllerProsentRadios(intl, intlValues)}
+                                validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
+                                useTwoColumns={true}
+                            />
+                        </FormBlock>
+                    )}
+
                     {visibility.isVisible(ArbeidIPeriodeFormField.arbeidsuker) && arbeidIPeriode !== undefined && (
                         <FormBlock>
                             <ArbeidstidUkerSpørsmål
@@ -234,13 +252,13 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                     {visibility.isVisible(ArbeidIPeriodeFormField.erLiktHverUke) &&
                         !visibility.isVisible(ArbeidIPeriodeFormField.arbeidsuker) &&
                         arbeidIPeriode &&
-                        arbeidIPeriode.erLiktHverUke && (
+                        timerEllerProsent && (
                             <ArbeidstidInput
                                 arbeidIPeriode={arbeidIPeriode}
                                 parentFieldName={arbeidIPeriodeParentFieldName}
                                 intlValues={intlValues}
                                 normalarbeidstid={normalarbeidstid}
-                                timerEllerProsent={TimerEllerProsent.TIMER}
+                                timerEllerProsent={timerEllerProsent}
                                 frilans={true}
                                 frilansVervString={intlHelper(
                                     intl,
@@ -253,5 +271,18 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
         </ResponsivePanel>
     );
 };
+
+const getTimerEllerProsentRadios = (intl: IntlShape, intlValues: ArbeidIPeriodeIntlValues) => [
+    {
+        label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.prosent`, intlValues),
+        value: TimerEllerProsent.PROSENT,
+        'data-testid': TimerEllerProsent.PROSENT,
+    },
+    {
+        label: intlHelper(intl, `arbeidIPeriode.timerEllerProsent.timer`, intlValues),
+        value: TimerEllerProsent.TIMER,
+        'data-testid': TimerEllerProsent.TIMER,
+    },
+];
 
 export default ArbeidIPeriodeSpørsmålFrilans;
