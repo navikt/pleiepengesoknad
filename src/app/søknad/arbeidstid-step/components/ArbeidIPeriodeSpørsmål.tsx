@@ -163,11 +163,9 @@ const ArbeidIPeriodeSpørsmål = ({
             {(arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert || vervRedusert) && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        {(aktivitetType === 'sn' || aktivitetType === 'arbeidstaker') && (
-                            <Ingress tag="h3">
-                                <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
-                            </Ingress>
-                        )}
+                        <Ingress tag="h3">
+                            <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
+                        </Ingress>
 
                         {frilansRedusert && !vervRedusert && (
                             <Box margin="l">
