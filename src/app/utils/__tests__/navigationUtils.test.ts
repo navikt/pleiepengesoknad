@@ -1,6 +1,7 @@
 import { History } from 'history';
 import routeConfig from '../../config/routeConfig';
 import { navigateTo, navigateToErrorPage, userIsCurrentlyOnErrorPage } from '../navigationUtils';
+import { NavigateFunction } from 'react-router';
 
 const historyMock: Partial<History> = {
     push: jest.fn(),
@@ -26,14 +27,14 @@ describe('navigationUtils', () => {
     describe('navigateTo', () => {
         it('should navigate user to the provided route', () => {
             const route = '/someRoute';
-            navigateTo(route, historyMock as History);
+            navigateTo(route, historyMock as NavigateFunction);
             expect(historyMock.push).toHaveBeenCalledWith(route);
         });
     });
 
     describe('navigateToErrorPage', () => {
         it('should navigate user to the path specified by routeConfig.ERROR_PAGE_ROUTE', () => {
-            navigateToErrorPage(historyMock as History);
+            navigateToErrorPage(historyMock as NavigateFunction);
             expect(historyMock.push).toHaveBeenCalledWith(routeConfig.ERROR_PAGE_ROUTE);
         });
     });

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
@@ -90,7 +90,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
     const [innsendingFeiletInfo, setInnsendingFeiletInfo] = useState<string | undefined>();
 
     const intl = useIntl();
-    const history = useHistory();
+    const navigate = useNavigate();
 
     const { søknadsdata } = useSøknadsdataContext();
 
@@ -125,7 +125,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
             } else {
                 await logSoknadFailed(SKJEMANAVN);
                 appSentryLogger.logApiError(error);
-                navigateTo(routeConfig.ERROR_PAGE_ROUTE, history);
+                navigateTo(routeConfig.ERROR_PAGE_ROUTE, navigate);
             }
         }
     };

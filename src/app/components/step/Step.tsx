@@ -1,7 +1,6 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
 import AriaText from '@navikt/sif-common-core/lib/components/aria/AriaText';
-import BackLink from '@navikt/sif-common-core/lib/components/back-link/BackLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import Page from '@navikt/sif-common-core/lib/components/page/Page';
 import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
@@ -9,10 +8,10 @@ import StepFooter from '@navikt/sif-common-core/lib/components/step-footer/StepF
 import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik';
-import { History } from 'history';
 import { Innholdstittel } from 'nav-frontend-typografi';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
+import BackLink from '../back-link/BackLink';
 import StepIndicator from '../step-indicator/StepIndicator';
 import './step.less';
 
@@ -37,7 +36,6 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettS
     const conf = stepConfig[id];
     const intl = useIntl();
     const stepTexts: StepConfigItemTexts = getStepTexts(intl, id, stepConfig);
-
     const ariaStepInfo = `Steg ${conf.stepNumber + 1} av ${Object.keys(stepConfig).length}`;
 
     return (
@@ -51,14 +49,7 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, onAvbryt, onFortsettS
                 </>
             )}>
             {conf.backLinkHref && (
-                <BackLink
-                    href={conf.backLinkHref}
-                    className={bem.element('backLink')}
-                    onClick={(nextHref: string, history: History, event: React.SyntheticEvent) => {
-                        event.preventDefault();
-                        history.push(nextHref);
-                    }}
-                />
+                <BackLink href={`/soknad/${conf.backLinkHref}`} className={bem.element('backLink')} />
             )}
             <div role="presentation" aria-hidden="true">
                 <Box margin={conf.backLinkHref ? 'none' : 'xl'}>

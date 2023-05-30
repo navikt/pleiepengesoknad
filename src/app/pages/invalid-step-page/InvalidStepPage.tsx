@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
@@ -18,7 +18,7 @@ interface Props {
 
 const InvalidStepPage = ({ stepId }: Props) => {
     const intl = useIntl();
-    const history = useHistory();
+    const navigate = useNavigate();
     const backLink = getBackLinkFromNotIncludedStep(stepId);
     return (
         <Page title={intlHelper(intl, 'page.invalidStepPage.sidetittel')}>
@@ -34,7 +34,7 @@ const InvalidStepPage = ({ stepId }: Props) => {
                                 <ActionLink
                                     onClick={() => {
                                         if (backLink) {
-                                            navigateTo(backLink, history);
+                                            navigateTo(backLink, navigate);
                                         } else {
                                             history.go(-1);
                                         }

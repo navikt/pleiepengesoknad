@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { TypedFormikWrapper } from '@navikt/sif-common-formik';
 import { initialValues, SøknadFormValues } from '../types/SøknadFormValues';
@@ -10,7 +10,7 @@ import SøknadEssentialsLoader from './SøknadEssentialsLoader';
 import SøknadsdataWrapper from './SøknadsdataWrapper';
 
 const Søknad = () => {
-    const history = useHistory();
+    const navigate = useNavigate();
     const { logHendelse } = useAmplitudeInstance();
     const [søknadSent, setSøknadSent] = useState<boolean>(false);
     const [søknadReset, setSøknadReset] = useState<boolean>(false);
@@ -18,11 +18,11 @@ const Søknad = () => {
         <SøknadEssentialsLoader
             onUgyldigMellomlagring={() => logHendelse(ApplikasjonHendelse.ugyldigMellomlagring)}
             onError={() => {
-                navigateToErrorPage(history);
+                navigateToErrorPage(navigate);
             }}
             contentLoadedRenderer={({ formValues, mellomlagringMetadata, søkerdata, forrigeSøknad }) => {
                 if (!søkerdata) {
-                    navigateToErrorPage(history);
+                    navigateToErrorPage(navigate);
                     return;
                 }
                 return (
