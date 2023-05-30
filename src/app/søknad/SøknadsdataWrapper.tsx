@@ -5,6 +5,7 @@ import { SøknadsdataContextProvider } from './SøknadsdataContext';
 
 interface Props {
     initialSøknadsdata: Søknadsdata;
+    children: React.ReactNode;
 }
 
 const SøknadsdataWrapper: React.FunctionComponent<Props> = ({ initialSøknadsdata, children }) => {

@@ -1,8 +1,5 @@
 import React from 'react';
 import { IntlProvider as Provider } from 'react-intl';
-import '@formatjs/intl-pluralrules/locale-data/nb';
-import '@formatjs/intl-pluralrules/locale-data/nn';
-import '@formatjs/intl-pluralrules/polyfill';
 import { allCommonMessages } from '@navikt/sif-common-core/lib/i18n/allCommonMessages';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
 import bostedMessages from '@navikt/sif-common-forms/lib/bosted-utland/bostedUtlandMessages';

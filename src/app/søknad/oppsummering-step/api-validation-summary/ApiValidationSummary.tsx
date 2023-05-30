@@ -1,13 +1,13 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { useNavigate } from 'react-router-dom';
+import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { Feiloppsummering } from 'nav-frontend-skjema';
-import { ApiValidationError } from '../../../validation/apiValuesValidation';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
 import { navigateToSoknadStep } from '../../../utils/navigationUtils';
-import { useHistory } from 'react-router';
 import { getStepTexts } from '../../../utils/stepUtils';
+import { ApiValidationError } from '../../../validation/apiValuesValidation';
 import { StepConfigInterface } from '../../søknadStepsConfig';
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
 
 const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadStepConfig }) => {
     const intl = useIntl();
-    const history = useHistory();
+    const navigate = useNavigate();
     if (errors.length === 0) {
         return null;
     }
@@ -35,7 +35,7 @@ const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadS
                             <p>
                                 <FormattedMessage id="steg.oppsummering.validering.navigasjonTilStegInfo" />
                             </p>
-                            <ActionLink onClick={() => navigateToSoknadStep(error.stepId, history)}>
+                            <ActionLink onClick={() => navigateToSoknadStep(error.stepId, navigate)}>
                                 <FormattedMessage
                                     id="steg.oppsummering.validering.navigasjonTilStegGåTil"
                                     tagName="span"

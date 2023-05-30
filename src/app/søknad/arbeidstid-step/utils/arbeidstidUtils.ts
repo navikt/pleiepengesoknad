@@ -31,8 +31,8 @@ export const getDurationWeekdaysNotInDurationWeekdays = (
 ): Weekday[] => {
     const diff: Weekday[] = [];
     Object.keys(weekdays2).forEach((weekday) => {
-        const duration = weekdays2[weekday];
-        if (duration && durationToDecimalDuration(duration) > 0 && weekdays1[weekday] === undefined) {
+        const duration = (weekdays2 as any)[weekday];
+        if (duration && durationToDecimalDuration(duration) > 0 && (weekdays1 as any)[weekday] === undefined) {
             diff.push(weekday as Weekday);
         }
     });

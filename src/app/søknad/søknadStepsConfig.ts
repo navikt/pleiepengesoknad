@@ -1,6 +1,5 @@
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsperiodeFromFormData } from '../utils/formDataUtils';
-import { getSøknadRoute } from '../utils/routeUtils';
 import { skalBrukerSvareArbeidstid, skalBrukerSvarePåBeredskapOgNattevåk } from '../utils/stepUtils';
 
 export enum StepID {
@@ -86,7 +85,7 @@ export const getSøknadStepConfig = (formValues: SøknadFormValues | undefined):
         const prevStep = getPreviousStep(stepID);
         let backLinkHref;
         try {
-            backLinkHref = prevStep ? getSøknadRoute(prevStep) : undefined;
+            backLinkHref = prevStep || undefined;
         } catch (e) {
             console.log(e);
         }
@@ -106,10 +105,10 @@ export const getSøknadStepConfig = (formValues: SøknadFormValues | undefined):
 
 export const getBackLinkFromNotIncludedStep = (stepId: StepID): string | undefined => {
     if (stepId === StepID.NATTEVÅK_OG_BEREDSKAP) {
-        return getSøknadRoute(StepID.OMSORGSTILBUD);
+        return StepID.OMSORGSTILBUD;
     }
     if (stepId === StepID.ARBEIDSTID) {
-        return getSøknadRoute(StepID.ARBEIDSSITUASJON);
+        return StepID.ARBEIDSSITUASJON;
     }
     return undefined;
 };

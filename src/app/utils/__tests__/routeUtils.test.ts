@@ -1,7 +1,7 @@
 import RouteConfig from '../../config/routeConfig';
 import { StepID } from '../../søknad/søknadStepsConfig';
 import { SøknadFormField } from '../../types/SøknadFormValues';
-import { getSøknadRoute, isAvailable } from '../routeUtils';
+import { isAvailable } from '../routeUtils';
 import * as stepUtils from '../stepUtils';
 
 jest.mock('../featureToggleUtils', () => {
@@ -27,15 +27,6 @@ jest.mock('./../stepUtils', () => {
 const formValues = {} as any;
 
 describe('routeUtils', () => {
-    describe('getSøknadRoute', () => {
-        it('should prefix provided string with a common prefix for routes', () => {
-            const s1 = StepID.ARBEIDSSITUASJON;
-            const s2 = StepID.SUMMARY;
-            expect(getSøknadRoute(s1)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s1}`);
-            expect(getSøknadRoute(s2)).toEqual(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${s2}`);
-        });
-    });
-
     describe('isAvailable', () => {
         it('should return result from calling opplysningerOmBarnetStepAvailable if route=StepID.OPPLYSNINGER_OM_BARNET', () => {
             const result = isAvailable(StepID.OPPLYSNINGER_OM_BARNET, formValues);

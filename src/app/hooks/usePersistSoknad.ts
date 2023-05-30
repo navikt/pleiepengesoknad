@@ -1,5 +1,3 @@
-// import { History } from 'history';
-import { useHistory } from 'react-router';
 import { ApiError, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
 import { AxiosError } from 'axios';
@@ -10,6 +8,7 @@ import { StepID } from '../søknad/søknadStepsConfig';
 import { ImportertSøknadMetadata } from '../types/ImportertSøknad';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { navigateToErrorPage, relocateToLoginPage } from '../utils/navigationUtils';
+import { useNavigate } from 'react-router-dom';
 
 interface PersistSoknadProps {
     stepID?: StepID;
@@ -23,9 +22,9 @@ interface PersistSoknadProps {
 
 function usePersistSoknad() {
     const { logUserLoggedOut, logApiError } = useAmplitudeInstance();
-    const { history } = useHistory();
     const { values: stateFormValues } = useFormikContext<SøknadFormValues>();
     const { importertSøknadMetadata: stateImportertSøknadMetadata } = useSøknadsdataContext();
+    const navigate = useNavigate();
 
     async function doPersist({ stepID, formValues, importertSøknadMetadata }: PersistSoknadProps) {
         return persist({
@@ -38,7 +37,7 @@ function usePersistSoknad() {
                 relocateToLoginPage();
             } else {
                 logApiError(ApiError.mellomlagring, { stepID });
-                return navigateToErrorPage(history);
+                return navigateToErrorPage(navigate);
             }
         });
     }

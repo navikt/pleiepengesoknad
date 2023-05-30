@@ -3,6 +3,7 @@ import React from 'react';
 
 interface Props {
     usePanelLayout: boolean;
+    children: React.ReactNode;
 }
 
 const ConditionalResponsivePanel: React.FunctionComponent<Props> = ({ usePanelLayout, children }) => {

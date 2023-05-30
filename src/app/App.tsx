@@ -1,7 +1,7 @@
 import { SanityConfig } from '@navikt/appstatus-react/lib/types';
 import React from 'react';
-import { render } from 'react-dom';
-import { Redirect, Route, Switch } from 'react-router-dom';
+import { createRoot } from 'react-dom/client';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
@@ -16,9 +16,19 @@ import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/sif-common-core/lib/styles/globalStyles.less';
 import './app.less';
+import GeneralErrorPage from './pages/general-error-page/GeneralErrorPage';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
+
+Modal.setAppElement('#app');
+const publicPath = getEnvironmentVariable('PUBLIC_PATH');
+
+const ensureBaseNameForReactRouter = (routerBaseUrl: string) => {
+    if (!window.location.pathname.includes(routerBaseUrl)) {
+        window.history.replaceState('', '', routerBaseUrl + window.location.pathname);
+    }
+};
 
 appSentryLogger.init();
 
@@ -38,14 +48,11 @@ const App = () => {
     const publicPath = getEnvironmentVariable('PUBLIC_PATH');
 
     const content = (
-        <Switch>
-            <Route path="/" exact={true}>
-                <Redirect to={RouteConfig.SØKNAD_ROUTE_PREFIX} />
-            </Route>
-            <Route path={RouteConfig.SØKNAD_ROUTE_PREFIX}>
-                <Søknad />
-            </Route>
-        </Switch>
+        <Routes>
+            <Route path="/" element={<Navigate to={RouteConfig.SØKNAD_ROUTE_PREFIX} replace={true} />} />
+            <Route path={`${RouteConfig.SØKNAD_ROUTE_PREFIX}/*`} element={<Søknad />} />
+            <Route path={RouteConfig.ERROR_PAGE_ROUTE} element={<GeneralErrorPage />} />
+        </Routes>
     );
 
     return (
@@ -72,6 +79,9 @@ const App = () => {
     );
 };
 
-const root = document.getElementById('app');
-Modal.setAppElement('#app');
-render(<App />, root);
+const container = document.getElementById('app');
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const root = createRoot(container!);
+ensureBaseNameForReactRouter(publicPath);
+
+root.render(<App />);

@@ -75,7 +75,10 @@ const SøknadFormStep = (props: Props) => {
                 includeButtons={false}
                 includeValidationSummary={true}
                 runDelayedFormValidation={true}
-                cleanup={props.onStepCleanup}
+                cleanup={
+                    /**TODO: Fjernet cleanup enn så lenge - den stopper at bruker kommer videre til neste steg*/
+                    1 + 1 === 3 ? props.onStepCleanup : undefined
+                }
                 formErrorHandler={getIntlFormErrorHandler(intl, 'validation')}
                 formFooter={
                     <>

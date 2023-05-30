@@ -16,7 +16,6 @@
         "strictNullChecks": true,
         "skipLibCheck": true,
         "noImplicitAny": true,
-        "suppressImplicitAnyIndexErrors": true,
         "noUnusedLocals": true,
         "baseUrl": "./src",
         "strict": true,
