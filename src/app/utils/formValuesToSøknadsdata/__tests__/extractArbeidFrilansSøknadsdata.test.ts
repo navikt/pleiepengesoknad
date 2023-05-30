@@ -1,20 +1,12 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ISODateRangeToDateRange } from '@navikt/sif-common-utils/lib';
-//import dayjs from 'dayjs';
-// import { Arbeidsgiver } from '../../../types';
 import { ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData, FrilansTyper } from '../../../types/FrilansFormData';
 import { extractArbeidFrilansSøknadsdata } from '../extractArbeidFrilansSøknadsdata';
-//import * as arbeidsforholdMock from '../extractArbeidsforholdSøknadsdata';
 
 const søknadsperiode = ISODateRangeToDateRange('2022-01-01/2022-02-01');
-//const datoFørSøknadsperiode = dayjs(søknadsperiode.from).subtract(1, 'day').toDate();
-// const datoISøknadsperiode = dayjs(søknadsperiode.from).add(2, 'day').toDate();
 
-// const arbeidsforholdSpy = jest.spyOn(arbeidsforholdMock, 'extractArbeidsforholdSøknadsdata');
 const mockArbeidsforhold: ArbeidsforholdFrilanserFormValues = {} as any;
-
-// const frilansoppdrag: Arbeidsgiver[] = [{} as any];
 
 const formData: FrilansFormData = {
     harHattInntektSomFrilanser: YesOrNo.YES,

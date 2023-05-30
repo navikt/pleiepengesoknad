@@ -8,9 +8,10 @@ import SummarySection from '@navikt/sif-common-core/lib/components/summary-secti
 import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
 import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { TidEnkeltdager, TidFasteDager } from '@navikt/sif-common-pleiepenger';
+import TidEnkeltdager from '@navikt/sif-common-pleiepenger/components/dager-med-tid/TidEnkeltdager';
+import TidFasteDager from '@navikt/sif-common-pleiepenger/components/dager-med-tid/TidFasteDager';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { søkerKunFortid, søkerFortidOgFremtid, søkerKunFremtid } from '../../../utils/søknadsperiodeUtils';
+import { søkerFortidOgFremtid, søkerKunFortid, søkerKunFremtid } from '../../../utils/søknadsperiodeUtils';
 
 interface Props {
     søknadsperiode: DateRange;

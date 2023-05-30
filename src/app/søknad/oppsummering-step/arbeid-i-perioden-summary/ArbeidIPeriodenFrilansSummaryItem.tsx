@@ -1,19 +1,20 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { ArbeiderIPeriodenSvar, formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
 import {
     decimalDurationToDuration,
     ISODateToDate,
     ISODurationToDecimalDuration,
     ISODurationToDuration,
 } from '@navikt/sif-common-utils/lib';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
+import { MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
+import { ArbeidsukeTimerApiData } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';
+import { ArbeidIPeriodeFrilansApiData } from '../../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeidIPeriodenFrilansSummaryItemType } from './ArbeidIPeriodenSummary';
-import { ArbeidIPeriodeFrilansApiData } from '../../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
-import { MisterHonorarerFraVervIPerioden } from '../../../types/ArbeidIPeriodeFormValues';
-import { ArbeidsukeTimerApiData } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';
 
 interface Props {
     arbeidsforhold: ArbeidIPeriodenFrilansSummaryItemType;

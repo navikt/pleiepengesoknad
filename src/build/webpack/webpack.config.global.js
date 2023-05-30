@@ -18,8 +18,7 @@ const webpackConfig = {
             url: 'false',
         },
         alias: {
-            '@navikt/sif-common-pleiepenger': path.resolve(__dirname, '../../sif-common-pleiepenger/src'),
-            // '@navikt/sif-common-pleiepenger/*': `${__dirname}/../../sif-common-pleiepenger/src/*`,
+            '@navikt/sif-common-pleiepenger': path.resolve(__dirname, '../../app/local-sif-common-pleiepenger'),
         },
     },
     module: {
@@ -32,10 +31,7 @@ const webpackConfig = {
             },
             {
                 test: /\.(ts|tsx)$/,
-                include: [
-                    path.resolve(__dirname, './../../app'),
-                    path.resolve(__dirname, './../../sif-common-pleiepenger/src'),
-                ],
+                include: [path.resolve(__dirname, './../../app')],
                 use: [
                     {
                         loader: 'ts-loader',

@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
 import {
     decimalDurationToDuration,
     ISODateToDate,

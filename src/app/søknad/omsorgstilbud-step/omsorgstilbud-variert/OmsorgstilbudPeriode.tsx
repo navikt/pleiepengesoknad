@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { OmsorgstilbudPeriodeDialog } from '@navikt/sif-common-pleiepenger';
-
 import {
     DateDurationMap,
     dateToISODate,
@@ -12,7 +10,8 @@ import {
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
-import { OmsorgstilbudPeriodeData } from '@navikt/sif-common-pleiepenger/omsorgstilbud/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
+import { OmsorgstilbudPeriodeData } from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
+import OmsorgstilbudPeriodeDialog from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-dialog/OmsorgstilbudPeriodeDialog';
 
 interface Props {
     periode: DateRange;

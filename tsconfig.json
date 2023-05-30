@@ -21,8 +21,8 @@
         "strict": true,
         "noEmit": false,
         "paths": {
-            "@navikt/sif-common-pleiepenger": ["sif-common-pleiepenger/src"],
-            "@navikt/sif-common-pleiepenger/*": ["sif-common-pleiepenger/src/*"]
+            "@navikt/sif-common-pleiepenger": ["app/local-sif-common-pleiepenger"],
+            "@navikt/sif-common-pleiepenger/*": ["app/local-sif-common-pleiepenger/*"]
         },
         "types": ["jest", "node", "@types/testing-library__jest-dom"]
     },

@@ -1,19 +1,17 @@
 import { IntlShape } from 'react-intl';
+import { DateRange } from '@navikt/sif-common-formik/lib';
 import {
     getNumberValidator,
     getRequiredFieldValidator,
     ValidateNumberError,
 } from '@navikt/sif-common-formik/lib/validation';
-import {
-    ArbeidIPeriodeIntlValues,
-    formatTimerOgMinutter,
-    getArbeidstidFastProsentValidator,
-} from '@navikt/sif-common-pleiepenger';
+import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
+import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
+import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
+import { getArbeidstidFastProsentValidator } from '@navikt/sif-common-pleiepenger/utils/arbeidstidValidation';
 import { dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidsukeInfo } from '../../types/ArbeidsukeInfo';
-import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
 import { getArbeidsdagerIUkeTekst } from './utils/arbeidstidUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
     (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: ArbeidsukeInfo) => (value: string) => {
