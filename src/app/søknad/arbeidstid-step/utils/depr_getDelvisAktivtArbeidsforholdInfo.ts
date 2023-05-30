@@ -1,5 +1,5 @@
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import React from 'react';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 
 type Info = {
     tittel: string;

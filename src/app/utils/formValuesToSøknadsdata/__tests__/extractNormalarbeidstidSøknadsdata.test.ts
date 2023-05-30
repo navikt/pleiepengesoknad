@@ -1,4 +1,4 @@
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 import { extractNormalarbeidstid } from '../extractNormalarbeidstidSøknadsdata';
 
 describe('extractNormalarbeidstid', () => {

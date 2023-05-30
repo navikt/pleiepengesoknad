@@ -7,9 +7,9 @@ import FormSection from '@navikt/sif-common-core/lib/components/form-section/For
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { useFormikContext } from 'formik';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 import GeneralErrorPage from '../../../pages/general-error-page/GeneralErrorPage';
 import { FrilansFormField } from '../../../types/FrilansFormData';
 import { SelvstendigFormField } from '../../../types/SelvstendigFormData';

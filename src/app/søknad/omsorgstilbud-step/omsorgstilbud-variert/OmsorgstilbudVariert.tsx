@@ -1,12 +1,12 @@
 import React from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import OmsorgstilbudMåned from '@navikt/sif-common-pleiepenger/components/omsorgstilbud-periode/OmsorgstilbudMåned';
-import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/components/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
-import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/components/tid-enkeltdag-dialog/TidEnkeltdagForm';
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
+import OmsorgstilbudMåned from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/OmsorgstilbudMåned';
+import SøknadsperioderMånedListe from '../../../local-sif-common-pleiepenger/components/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
+import { TidEnkeltdagEndring } from '../../../local-sif-common-pleiepenger/components/tid-enkeltdag-dialog/TidEnkeltdagForm';
 import { SøknadFormField, SøknadFormValues } from '../../../types/SøknadFormValues';
 import { validateOmsorgstilbudEnkeltdagerIPeriode } from '../../../validation/fieldValidations';
 import SøknadFormComponents from '../../SøknadFormComponents';

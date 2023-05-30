@@ -1,4 +1,3 @@
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
 import { dateToISODate, decimalDurationToISODuration } from '@navikt/sif-common-utils';
 import { ArbeidIPeriodeFrilansApiData } from '../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
 import { ArbeidIPeriodeFrilansSøknadsdata } from '../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
@@ -15,6 +14,7 @@ import {
 } from '../../types/søknadsdata/Søknadsdata';
 import { getNormalarbeidstidApiDataFromSøknadsdata } from './getNormalarbeidstidApiDataFromSøknadsdata';
 import { ArbeidsforholdFrilansApiData } from '../../types/søknad-api-data/arbeidsforholdFrilansApiData';
+import { ArbeiderIPeriodenSvar } from '../../local-sif-common-pleiepenger';
 
 export const getArbeidsukerTimerApiData = (arbeidsuker: ArbeidsukerTimerSøknadsdata): ArbeidsukeTimerApiData[] => {
     return arbeidsuker.map(({ periode: { from, to }, timer }) => {

@@ -17,9 +17,7 @@ const webpackConfig = {
         fallback: {
             url: 'false',
         },
-        alias: {
-            '@navikt/sif-common-pleiepenger': path.resolve(__dirname, '../../app/local-sif-common-pleiepenger'),
-        },
+        alias: {},
     },
     module: {
         rules: [

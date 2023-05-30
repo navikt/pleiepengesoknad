@@ -1,5 +1,5 @@
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
+import { ArbeiderIPeriodenSvar } from '../local-sif-common-pleiepenger';
 import { TimerEllerProsent } from './TimerEllerProsent';
 
 export enum MisterHonorarerFraVervIPerioden {

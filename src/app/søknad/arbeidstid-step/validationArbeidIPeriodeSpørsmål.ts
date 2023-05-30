@@ -6,10 +6,10 @@ import {
     ValidateNumberError,
 } from '@navikt/sif-common-formik/lib/validation';
 import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
-import { formatTimerOgMinutter } from '@navikt/sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
-import { getArbeidstidFastProsentValidator } from '@navikt/sif-common-pleiepenger/utils/arbeidstidValidation';
 import { dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
+import { ArbeidIPeriodeIntlValues } from '../../local-sif-common-pleiepenger';
+import { formatTimerOgMinutter } from '../../local-sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
+import { getArbeidstidFastProsentValidator } from '../../local-sif-common-pleiepenger/utils/arbeidstidValidation';
 import { ArbeidsukeInfo } from '../../types/ArbeidsukeInfo';
 import { getArbeidsdagerIUkeTekst } from './utils/arbeidstidUtils';
 

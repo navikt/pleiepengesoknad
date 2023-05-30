@@ -10,7 +10,7 @@ import utenlandskNæringMessages from '@navikt/sif-common-forms/lib/utenlandsk-n
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
 import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
-import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/i18n';
+import { sifCommonPleiepengerMessages } from '../../local-sif-common-pleiepenger/i18n';
 import { velkommenPageMessages } from '../../pages/welcoming-page/velkommenPageMessages';
 
 export const appBokmålstekster = require('../../i18n/nb.json');

@@ -5,9 +5,13 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
-import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
-import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { Ingress } from 'nav-frontend-typografi';
+import {
+    ArbeiderIPeriodenSvar,
+    ArbeidIPeriodeIntlValues,
+    ArbeidsforholdType,
+} from '../../../local-sif-common-pleiepenger';
+import { getArbeidstidIPeriodeIntlValues } from '../../../local-sif-common-pleiepenger/utils';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues, ArbeidsforholdFrilanserFormValues } from '../../../types/ArbeidsforholdFormValues';
@@ -23,7 +27,6 @@ import {
 import ArbeidstidInput from './ArbeidstidInput';
 import ArbeidstidUkerSpørsmål from './ArbeidstidUkerSpørsmål';
 import InfoOmEndring from './InfoOmEndring';
-import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/utils';
 
 interface Props {
     aktivitetType: 'arbeidstaker' | 'sn';

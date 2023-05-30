@@ -13,7 +13,6 @@ import {
     getYesOrNoValidator,
 } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
@@ -32,6 +31,7 @@ import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-dat
 import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 const StønadGodtgjørelseFormComponents = getTypedFormComponents<

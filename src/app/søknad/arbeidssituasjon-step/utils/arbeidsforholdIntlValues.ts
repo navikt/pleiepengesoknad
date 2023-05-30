@@ -1,6 +1,6 @@
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { IntlShape } from 'react-intl';
+import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 
 interface ArbeidsforholdIntlValues extends Record<string, string> {
     hvor: string;

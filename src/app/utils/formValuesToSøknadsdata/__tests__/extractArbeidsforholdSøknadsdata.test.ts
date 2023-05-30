@@ -1,7 +1,6 @@
 import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
-// import { ArbeidsgiverType, TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormValues } from '../../../types/ArbeidIPeriodeFormValues';
 import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { extractArbeidsforholdSøknadsdata } from '../extractArbeidsforholdSøknadsdata';

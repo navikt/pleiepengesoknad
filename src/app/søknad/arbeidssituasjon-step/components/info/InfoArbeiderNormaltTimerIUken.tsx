@@ -1,11 +1,11 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
-import { FrilansTyper } from '../../../../types/FrilansFormData';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { ArbeidsforholdType } from '../../../../local-sif-common-pleiepenger';
+import { FrilansTyper } from '../../../../types/FrilansFormData';
 
 interface Props {
     arbeidsforholdType: ArbeidsforholdType;

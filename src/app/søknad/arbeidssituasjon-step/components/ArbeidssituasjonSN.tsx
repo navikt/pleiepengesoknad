@@ -10,12 +10,12 @@ import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import { getSelvstendigIPeriodeValidator } from '../validation/selvstendigIPeriodeValidator';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 
 const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 

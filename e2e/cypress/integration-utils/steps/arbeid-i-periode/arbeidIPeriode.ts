@@ -1,5 +1,5 @@
 import { selectRadio, setInputValue, getTestElement, clickFortsett } from '../../utils';
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
+import { ArbeiderIPeriodenSvar } from '../../../../../src/app/local-sif-common-pleiepenger';
 
 export const fyllUtArbeidstidJobberIkke = () => {
     selectRadio(ArbeiderIPeriodenSvar.heltFravær);

@@ -4,17 +4,17 @@ import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlo
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
+import { ArbeidsforholdType } from '../../../../local-sif-common-pleiepenger';
 import {
     ArbeidsforholdFormField,
     ArbeidsforholdFormValues,
     ArbeidsforholdFrilanserFormValues,
     ArbeidsforholdSelvstendigFormValues,
 } from '../../../../types/ArbeidsforholdFormValues';
+import { FrilansTyper } from '../../../../types/FrilansFormData';
 import { getArbeidsforholdIntlValues } from '../../utils/arbeidsforholdIntlValues';
 import { getArbeiderNormaltTimerIUkenValidator } from '../../validation/arbeiderNormaltTimerIUkenValidator';
 import InfoArbeiderNormaltTimerIUken from '../info/InfoArbeiderNormaltTimerIUken';
-import { FrilansTyper } from '../../../../types/FrilansFormData';
 
 interface Props {
     arbeidsforholdFieldName: string;

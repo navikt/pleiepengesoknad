@@ -7,13 +7,13 @@ import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
 import OfficeIconSvg from '../../../components/office-icon/OfficeIconSvg';
 import { renderTidsrom } from './frilansoppdrag-liste/FrilansoppdragListe';
+import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,

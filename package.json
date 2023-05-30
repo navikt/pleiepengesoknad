@@ -129,12 +129,8 @@
             "node_modules/(?!(@navikt)).*\\.js$"
         ],
         "moduleNameMapper": {
-            "axios": "axios/dist/node/axios.cjs",
-            "@navikt/sif-common-pleiepenger": "../src/app/local-sif-common-pleiepenger"
+            "axios": "axios/dist/node/axios.cjs"
         },
-        "collectCoverageFrom": [
-            "./src/app/utils"
-        ],
         "resetMocks": false
     },
     "resolutions": {
