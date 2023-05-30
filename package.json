@@ -127,6 +127,9 @@
         "transformIgnorePatterns": [
             "node_modules/(?!(@navikt)).*\\.js$"
         ],
+        "moduleNameMapper": {
+            "axios": "axios/dist/node/axios.cjs"
+        },
         "collectCoverageFrom": [
             "./src/app/utils"
         ],
