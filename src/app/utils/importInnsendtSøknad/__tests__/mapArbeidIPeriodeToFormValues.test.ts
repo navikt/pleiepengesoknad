@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeType } from '../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeApiData } from '../../../types/søknad-api-data/arbeidIPeriodeApiData';

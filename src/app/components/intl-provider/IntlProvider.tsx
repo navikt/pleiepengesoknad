@@ -9,7 +9,7 @@ import tidsperiodeMessages from '@navikt/sif-common-forms/lib/tidsperiode/tidspe
 import utenlandskNæringMessages from '@navikt/sif-common-forms/lib/utenlandsk-næring/utenlandskNæringMessages';
 import utenlandsoppholdMessages from '@navikt/sif-common-forms/lib/utenlandsopphold/utenlandsoppholdMessages';
 import virksomhetMessages from '@navikt/sif-common-forms/lib/virksomhet/virksomhetMessages';
-import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/lib/i18n/index';
+import { sifCommonPleiepengerMessages } from '@navikt/sif-common-pleiepenger/i18n/index';
 import omsorgstilbudMessages from '../../i18n/omsorgstilbudMessages';
 import { velkommenPageMessages } from '../../pages/welcoming-page/velkommenPageMessages';
 

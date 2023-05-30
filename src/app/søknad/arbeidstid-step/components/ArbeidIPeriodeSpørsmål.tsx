@@ -6,8 +6,8 @@ import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-p
 import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 import { ArbeidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger';
-import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/lib/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
-import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib/types';
+import { getArbeidstidIPeriodeIntlValues } from '@navikt/sif-common-pleiepenger/arbeidstid/arbeidstid-periode-dialog/utils/arbeidstidPeriodeIntlValuesUtils';
+import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { Ingress } from 'nav-frontend-typografi';
 import { TimerEllerProsent } from '../../../types';
 import { ArbeidIPeriodeFormField } from '../../../types/ArbeidIPeriodeFormValues';

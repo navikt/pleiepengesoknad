@@ -1,7 +1,7 @@
 import React from 'react';
 import Box from '@navikt/sif-common-core/lib/components/box/Box';
 import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/lib/common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
+import SøknadsperioderMånedListe from '@navikt/sif-common-pleiepenger/common/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
@@ -11,7 +11,7 @@ import SøknadFormComponents from '../../SøknadFormComponents';
 import { skalViseSpørsmålOmProsentEllerLiktHverUke } from '../omsorgstilbudStepUtils';
 import OmsorgstilbudPeriode from './OmsorgstilbudPeriode';
 import { OmsorgstilbudMåned } from '@navikt/sif-common-pleiepenger';
-import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/lib/tid/tid-enkeltdag-dialog/TidEnkeltdagForm';
+import { TidEnkeltdagEndring } from '@navikt/sif-common-pleiepenger/tid/tid-enkeltdag-dialog/TidEnkeltdagForm';
 
 interface Props {
     tittel: string;

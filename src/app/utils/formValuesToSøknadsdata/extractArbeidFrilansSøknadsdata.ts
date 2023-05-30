@@ -1,6 +1,6 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
 import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { FrilansFormData, FrilansTyper } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { getPeriodeSomFrilanserInnenforSøknadsperiode, kunStyrevervUtenNormalArbeidstid } from '../frilanserUtils';

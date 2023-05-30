@@ -1,4 +1,4 @@
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 

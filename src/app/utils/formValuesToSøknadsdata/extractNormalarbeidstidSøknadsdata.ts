@@ -1,5 +1,5 @@
 import { getNumberFromNumberInputValue, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import { NormalarbeidstidFormValues } from '../../types/ArbeidsforholdFormValues';
 import { NormalarbeidstidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 

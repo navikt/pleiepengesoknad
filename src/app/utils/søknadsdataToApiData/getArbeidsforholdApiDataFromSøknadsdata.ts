@@ -1,4 +1,4 @@
-import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger';
 import { dateToISODate, decimalDurationToISODuration } from '@navikt/sif-common-utils';
 import { ArbeidIPeriodeFrilansApiData } from '../../types/søknad-api-data/arbeidIPeriodeFrilansApiData';
 import { ArbeidIPeriodeFrilansSøknadsdata } from '../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';

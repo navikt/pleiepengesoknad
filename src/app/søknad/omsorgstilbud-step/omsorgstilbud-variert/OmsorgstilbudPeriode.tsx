@@ -12,7 +12,7 @@ import {
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { Knapp } from 'nav-frontend-knapper';
-import { OmsorgstilbudPeriodeData } from '@navikt/sif-common-pleiepenger/lib/omsorgstilbud/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
+import { OmsorgstilbudPeriodeData } from '@navikt/sif-common-pleiepenger/omsorgstilbud/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
 
 interface Props {
     periode: DateRange;

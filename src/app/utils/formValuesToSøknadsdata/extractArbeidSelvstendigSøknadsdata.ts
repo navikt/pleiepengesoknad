@@ -1,5 +1,5 @@
 import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import dayjs from 'dayjs';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';
 import { ArbeidSelvstendigSøknadsdata } from '../../types/søknadsdata/Søknadsdata';

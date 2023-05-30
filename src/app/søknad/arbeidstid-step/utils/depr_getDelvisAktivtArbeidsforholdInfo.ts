@@ -1,4 +1,4 @@
-import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger/lib';
+import { ArbeidsforholdType } from '@navikt/sif-common-pleiepenger';
 import React from 'react';
 
 type Info = {
