@@ -1,10 +1,10 @@
+import { ErrorSummary } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import ActionLink from '@navikt/sif-common-core-ds/lib/atoms/action-link/ActionLink';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import { Feiloppsummering } from 'nav-frontend-skjema';
 import { navigateToSoknadStep } from '../../../utils/navigationUtils';
 import { getStepTexts } from '../../../utils/stepUtils';
 import { ApiValidationError } from '../../../validation/apiValuesValidation';
@@ -23,11 +23,8 @@ const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadS
     }
     return (
         <FormBlock>
-            <Feiloppsummering
-                tittel={intlHelper(intl, 'formikValidationErrorSummary.tittel')}
-                feil={errors}
-                customFeilRender={(f) => {
-                    const error = f as ApiValidationError;
+            <ErrorSummary heading={intlHelper(intl, 'formikValidationErrorSummary.tittel')}>
+                {errors.map((error) => {
                     const stepTexts = getStepTexts(intl, error.stepId, søknadStepConfig);
                     return (
                         <>
@@ -45,8 +42,10 @@ const ApiValidationSummary: React.FunctionComponent<Props> = ({ errors, søknadS
                             </ActionLink>
                         </>
                     );
-                }}
-            />
+
+                    // return <ErrorSummaryItem key={error.skjemaelementId}>{}</ErrorSummaryItem>;
+                })}
+            </ErrorSummary>
         </FormBlock>
     );
 };
