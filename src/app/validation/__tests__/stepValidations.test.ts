@@ -21,7 +21,7 @@ jest.mock('./../fieldValidations', () => {
     };
 });
 
-jest.mock('@navikt/sif-common-formik/lib/validation', () => ({
+jest.mock('@navikt/sif-common-formik-ds/lib/validation', () => ({
     getDateValidator: () => () => undefined,
     getFødselsnummerValidator: () => () => undefined,
     getStringValidator: () => () => undefined,
