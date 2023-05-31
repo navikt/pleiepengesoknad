@@ -1,11 +1,11 @@
+import { Ingress } from '@navikt/ds-react';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
-import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik-ds/lib';
-import { Ingress } from 'nav-frontend-typografi';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import {
     ArbeiderIPeriodenSvar,
     ArbeidIPeriodeIntlValues,
@@ -108,7 +108,7 @@ const ArbeidIPeriodeSpørsmål = ({
             {arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
-                        <Ingress tag="h3">
+                        <Ingress>
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tittel" />
                         </Ingress>
 

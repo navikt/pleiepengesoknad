@@ -1,10 +1,10 @@
+import { BodyShort } from '@navikt/ds-react';
 import React from 'react';
 import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import { Duration, durationsAreEqual, ensureDuration } from '@navikt/sif-common-utils';
-import { Undertekst } from 'nav-frontend-typografi';
+import DurationText from '../duration-text/DurationText';
 import { TidRenderer } from './TidsbrukKalender';
 import './tidsbrukKalenderDag.less';
-import DurationText from '../duration-text/DurationText';
 
 export type TidsbrukKalenderDagFooterRenderer = (dato: Date) => JSX.Element | undefined;
 
@@ -55,13 +55,15 @@ const TidsbrukKalenderDag: React.FunctionComponent<Props> = ({
                                 <>
                                     {tidOpprinnelig ? (
                                         <div className={bem.element('opprinneligTidWrapper')}>
-                                            <Undertekst tag="span" className={bem.element('opprinneligTid')}>
+                                            <BodyShort size="small" as="span" className={bem.element('opprinneligTid')}>
                                                 (<span className="sr-only">Endret fra: </span>
                                                 {renderOpprinneligTid(tidOpprinnelig)})
-                                            </Undertekst>
+                                            </BodyShort>
                                         </div>
                                     ) : (
-                                        <Undertekst>(lagt til)</Undertekst>
+                                        <BodyShort size="small" as="span">
+                                            (lagt til)
+                                        </BodyShort>
                                     )}
                                 </>
                             )}

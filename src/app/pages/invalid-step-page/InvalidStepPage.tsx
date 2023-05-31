@@ -1,3 +1,4 @@
+import { BodyShort, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
@@ -7,7 +8,6 @@ import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted
 import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
 import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import { Ingress, Systemtittel } from 'nav-frontend-typografi';
 import { getBackLinkFromNotIncludedStep, StepID } from '../../søknad/søknadStepsConfig';
 import { navigateTo } from '../../utils/navigationUtils';
 
@@ -23,11 +23,11 @@ const InvalidStepPage = ({ stepId }: Props) => {
         <Page title={intlHelper(intl, 'page.invalidStepPage.sidetittel')}>
             <div style={{ paddingTop: '1rem' }}>
                 <SifGuidePanel poster={true} compact={true} mood="uncertain">
-                    <Systemtittel tag="h2">
+                    <Heading level="2" size="medium">
                         <FormattedMessage id="page.invalidStepPage.tittel" />
-                    </Systemtittel>
+                    </Heading>
                     <Block margin="m" padBottom="l">
-                        <Ingress tag="div">
+                        <BodyShort as="div">
                             <FormattedHtmlMessage id="page.invalidStepPage.tekst" />
                             <p>
                                 <ActionLink
@@ -41,7 +41,7 @@ const InvalidStepPage = ({ stepId }: Props) => {
                                     <FormattedMessage id="page.invalidStepPage.tilbakeLenke" />
                                 </ActionLink>
                             </p>
-                        </Ingress>
+                        </BodyShort>
                     </Block>
                 </SifGuidePanel>
             </div>

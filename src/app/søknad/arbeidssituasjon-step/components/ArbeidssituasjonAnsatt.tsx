@@ -1,19 +1,19 @@
+import { Alert } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
-import { DateRange, dateFormatter } from '@navikt/sif-common-utils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
-import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
-import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import { dateFormatter, DateRange } from '@navikt/sif-common-utils';
 import OfficeIconSvg from '../../../components/office-icon/OfficeIconSvg';
-import { renderTidsrom } from './frilansoppdrag-liste/FrilansoppdragListe';
 import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
+import { ArbeidsforholdFormField, ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
+import ArbeidssituasjonPanel from './arbeidssituasjon-panel/ArbeidssituasjonPanel';
+import { renderTidsrom } from './frilansoppdrag-liste/FrilansoppdragListe';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 
 const AnsattFormComponents = getTypedFormComponents<
     ArbeidsforholdFormField,
@@ -76,9 +76,9 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                     <FormBlock margin="l">
                         {erAvsluttet && (
                             <Block padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
-                                <AlertStripeInfo>
+                                <Alert variant="info">
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
-                                </AlertStripeInfo>
+                                </Alert>
                                 <FormBlock>
                                     <AnsattFormComponents.RadioGroup
                                         name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}

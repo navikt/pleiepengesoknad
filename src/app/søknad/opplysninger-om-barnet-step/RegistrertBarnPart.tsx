@@ -6,12 +6,12 @@ import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { formatName } from '@navikt/sif-common-core-ds/lib/utils/personUtils';
 import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik-ds';
 import { useFormikContext } from 'formik';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { SøknadFormField, initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
 import { getRequiredFieldValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import { RegistrerteBarn } from '../../types';
+import { BodyShort } from '@navikt/ds-react';
 
 interface Props {
     søkersBarn: RegistrerteBarn[];
@@ -49,15 +49,15 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                         value: aktørId,
                         key: aktørId,
                         label: (
-                            <>
-                                <Normaltekst>{barnetsNavn}</Normaltekst>
-                                <Normaltekst>
+                            <BodyShort as="div">
+                                <div>{barnetsNavn}</div>
+                                <div>
                                     <FormattedMessage
                                         id="steg.omBarnet.hvilketBarn.født"
                                         values={{ dato: prettifyDate(fødselsdato) }}
                                     />
-                                </Normaltekst>
-                            </>
+                                </div>
+                            </BodyShort>
                         ),
                         disabled: søknadenGjelderEtAnnetBarn,
                     };

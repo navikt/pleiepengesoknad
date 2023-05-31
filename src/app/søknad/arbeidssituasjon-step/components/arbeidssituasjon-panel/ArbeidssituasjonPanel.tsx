@@ -1,25 +1,26 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
-import ResponsivePanel from '../../../../components/responsive-panel/ResponsivePanel';
 import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
-import { Undertittel } from 'nav-frontend-typografi';
+import ResponsivePanel from '../../../../components/responsive-panel/ResponsivePanel';
 import './arbeidssituasjonPanel.less';
 
 interface Props {
     title: string;
     description?: JSX.Element;
-    tag?: string;
     titleIcon?: React.ReactNode;
     children: React.ReactNode;
 }
 
 const bem = bemUtils('arbeidssituasjonPanel');
 const bemItem = bem.child('title');
-const ArbeidssituasjonPanel = ({ title, description, tag = 'h3', titleIcon, children }: Props) => (
+const ArbeidssituasjonPanel = ({ title, description, titleIcon, children }: Props) => (
     <ResponsivePanel className={bem.block} style={{ padding: '1rem', paddingBottom: '1.7rem' }}>
         <div className={bemItem.block}>
             {titleIcon && <div className={bemItem.element('icon')}>{titleIcon}</div>}
             <div className={bemItem.element('text')}>
-                <Undertittel tag={tag}>{title}</Undertittel>
+                <Heading level="3" size="small">
+                    {title}
+                </Heading>
             </div>
         </div>
         {description !== undefined && <div className={bem.element('description')}>{description}</div>}

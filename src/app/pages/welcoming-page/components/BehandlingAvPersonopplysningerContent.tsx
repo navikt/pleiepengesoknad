@@ -2,23 +2,23 @@ import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import Lenke from 'nav-frontend-lenker';
-import { Ingress, Element } from 'nav-frontend-typografi';
 import getLenker from '../../../lenker';
 import InfoList from './info-list/InfoList';
+import { Heading, Ingress } from '@navikt/ds-react';
 
 const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
     return (
         <>
-            <Ingress tag="h3">
+            <Ingress>
                 <FormattedMessage id="personopplysninger.1" />
             </Ingress>
             <p>
                 <FormattedMessage id="personopplysninger.2" />
             </p>
             <Block margin="l">
-                <Element tag="h3">
+                <Heading level="3" size="xsmall">
                     <FormattedMessage id="personopplysninger.3" />
-                </Element>
+                </Heading>
                 <p>
                     <FormattedMessage id="personopplysninger.4" />
                 </p>

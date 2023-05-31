@@ -1,21 +1,21 @@
+import { Alert } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
-import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik-ds/lib';
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms-ds/lib/forms/virksomhet/VirksomhetInfoAndDialog';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
-import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { getSelvstendigIPeriodeValidator } from '../validation/selvstendigIPeriodeValidator';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
+import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
+import { getSelvstendigIPeriodeValidator } from '../validation/selvstendigIPeriodeValidator';
+import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
 
 const ArbSNFormComponents = getTypedFormComponents<SelvstendigFormField, SelvstendigFormData, ValidationError>();
 
@@ -75,9 +75,9 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
 
                         {søkerHarFlereVirksomheter && (
                             <FormBlock>
-                                <AlertStripeInfo>
+                                <Alert variant="info">
                                     <FormattedMessage id="selvstendig.veileder.flereAktiveVirksomheter" />
-                                </AlertStripeInfo>
+                                </Alert>
                             </FormBlock>
                         )}
 

@@ -1,11 +1,11 @@
-import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
-import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
-import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
-import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import AlertStripe from 'nav-frontend-alertstriper';
+import { Alert } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 
 const OmsorgstilbudStepInfo = () => {
     const intl = useIntl();
@@ -86,7 +86,7 @@ const OmsorgstilbudStepInfo = () => {
 };
 
 const AdvarselSøkerKunHelgedager = () => (
-    <AlertStripe type="advarsel">
+    <Alert variant="warning">
         <p>
             <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.1" />
         </p>
@@ -96,7 +96,7 @@ const AdvarselSøkerKunHelgedager = () => (
         <p>
             <FormattedMessage id="step.omsorgstilbud.søkerKunHelgedager.alert.avsnitt.3" />
         </p>
-    </AlertStripe>
+    </Alert>
 );
 
 const ErLiktHverUke: React.FunctionComponent = () => {

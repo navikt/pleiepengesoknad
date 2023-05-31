@@ -1,3 +1,4 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
@@ -17,7 +18,6 @@ import {
 import { dateToday, prettifyDate } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
-import { Undertittel } from 'nav-frontend-typografi';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { initialValues, SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { validateNavn } from '../../validation/fieldValidations';
@@ -48,9 +48,9 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
             <SkjemagruppeQuestion
                 legend={
                     harRegistrerteBarn ? (
-                        <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
+                        <Heading level="2" size="small" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
                             {intlHelper(intl, 'steg.omBarnet.annetBarn.tittel')}
-                        </Undertittel>
+                        </Heading>
                     ) : undefined
                 }>
                 <SøknadFormComponents.TextField

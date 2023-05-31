@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
-import { Systemtittel, Ingress } from 'nav-frontend-typografi';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import { Heading, Ingress } from '@navikt/ds-react';
 
 interface Props {
     navn: string;
@@ -10,9 +10,9 @@ interface Props {
 
 const VelkommenGuide: React.FunctionComponent<Props> = ({ navn }) => (
     <SifGuidePanel>
-        <Systemtittel tag="h1">
+        <Heading level="1" size="medium">
             <FormattedMessage id="page.velkommen.guide.tittel" values={{ navn }} />
-        </Systemtittel>
+        </Heading>
         <Block margin="l">
             <Ingress>
                 <FormattedMessage id="page.velkommen.guide.ingress" />

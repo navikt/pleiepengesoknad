@@ -1,18 +1,17 @@
+import { Button, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
 import bemHelper from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { getTypedFormComponents } from '@navikt/sif-common-formik-ds';
+import { getCheckedValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import Lenke from 'nav-frontend-lenker';
-import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { getCheckedValidator } from '@navikt/sif-common-formik-ds/lib/validation';
-import { Undertittel } from 'nav-frontend-typografi';
-import InfoList from './components/info-list/InfoList';
 import getLenker from '../../lenker';
-import { Button } from '@navikt/ds-react';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import InfoList from './components/info-list/InfoList';
 
 interface Props {
     onConfirm: () => void;
@@ -35,11 +34,10 @@ const SamtykkeForm = ({ onConfirm }: Props) => {
                         label={intlHelper(intl, 'page.velkommen.form.bekreftLabel')}
                         name={SøknadFormField.harForståttRettigheterOgPlikter}
                         validate={getCheckedValidator()}>
-                        <Undertittel tag="h2">
-                            <strong>
-                                <FormattedMessage id="page.velkommen.form.ansvar.tittel" />
-                            </strong>
-                        </Undertittel>
+                        <Heading level="2" size="small" spacing={true}>
+                            <FormattedMessage id="page.velkommen.form.ansvar.tittel" />
+                        </Heading>
+
                         <InfoList>
                             <li>
                                 <FormattedMessage id="page.velkommen.form.ansvar.list.1" />

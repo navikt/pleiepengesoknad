@@ -1,3 +1,4 @@
+import { Alert, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
@@ -7,9 +8,7 @@ import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted
 import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
 import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
 import getLenker from '../../lenker';
 import { KvitteringInfo } from '../../types/KvitteringInfo';
 import './confirmationPage.less';
@@ -32,22 +31,22 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
             <div className={bem.element('centeredContent')}>
                 <CheckmarkIcon />
                 <Block margin="xl">
-                    <Innholdstittel>
+                    <Heading level="1" size="large">
                         <FormattedMessage id="page.confirmation.tittel.1" />
-                    </Innholdstittel>
+                    </Heading>
                     <Block margin="m">
-                        <Innholdstittel tag="h2">
+                        <Heading level="2" size="small">
                             <FormattedMessage id="page.confirmation.tittel.2" />
-                        </Innholdstittel>
-                        <Innholdstittel tag="h2">
+                        </Heading>
+                        <Heading level="2" size="small">
                             <FormattedMessage id="page.confirmation.tittel.3" />
-                        </Innholdstittel>
+                        </Heading>
                     </Block>
                 </Block>
             </div>
             {kvitteringInfo?.arbeidsgivere && (
                 <Block margin="xl">
-                    <AlertStripeAdvarsel>
+                    <Alert variant="warning">
                         {intlHelper(intl, 'page.confirmation.tittel.advarsel.list.tittel')}
                         <ul style={{ marginTop: '0rem', marginBottom: '0rem' }}>
                             <li>
@@ -57,14 +56,14 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                                 <FormattedMessage id="page.confirmation.tittel.advarsel.list.item.2" />
                             </li>
                         </ul>
-                    </AlertStripeAdvarsel>
+                    </Alert>
                 </Block>
             )}
 
             <Block margin="xxl">
-                <Undertittel>
+                <Heading level="2" size="medium">
                     <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel" />
-                </Undertittel>
+                </Heading>
                 <Block margin="m">
                     <ul>
                         {kvitteringInfo?.arbeidsgivere && (

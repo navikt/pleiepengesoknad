@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core-ds/lib/components/app-status-wrapper/AppStatusWrapper';
+import SifAppWrapper from '@navikt/sif-common-core-ds/lib/components/sif-app-wrapper/SifAppWrapper';
 import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
 import dayjs from 'dayjs';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
@@ -58,26 +59,28 @@ const App = () => {
     );
 
     return (
-        <AmplitudeProvider applicationKey={APPLICATION_KEY}>
-            <ApplicationWrapper
-                locale={locale}
-                publicPath={publicPath}
-                onChangeLocale={(activeLocale: Locale) => {
-                    setLocaleInSessionStorage(activeLocale);
-                    setLocale(activeLocale);
-                }}>
-                {appStatusSanityConfig ? (
-                    <AppStatusWrapper
-                        applicationKey={APPLICATION_KEY}
-                        unavailableContentRenderer={() => <UnavailablePage />}
-                        sanityConfig={appStatusSanityConfig}
-                        contentRenderer={() => content}
-                    />
-                ) : (
-                    content
-                )}
-            </ApplicationWrapper>
-        </AmplitudeProvider>
+        <SifAppWrapper>
+            <AmplitudeProvider applicationKey={APPLICATION_KEY}>
+                <ApplicationWrapper
+                    locale={locale}
+                    publicPath={publicPath}
+                    onChangeLocale={(activeLocale: Locale) => {
+                        setLocaleInSessionStorage(activeLocale);
+                        setLocale(activeLocale);
+                    }}>
+                    {appStatusSanityConfig ? (
+                        <AppStatusWrapper
+                            applicationKey={APPLICATION_KEY}
+                            unavailableContentRenderer={() => <UnavailablePage />}
+                            sanityConfig={appStatusSanityConfig}
+                            contentRenderer={() => content}
+                        />
+                    ) : (
+                        content
+                    )}
+                </ApplicationWrapper>
+            </AmplitudeProvider>
+        </SifAppWrapper>
     );
 };
 

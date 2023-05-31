@@ -3,18 +3,18 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import { Undertittel } from 'nav-frontend-typografi';
 import BehandlingAvPersonopplysningerContent from './BehandlingAvPersonopplysningerContent';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
+import { Heading } from '@navikt/ds-react';
 
 const OmSøknaden = () => {
     const intl = useIntl();
     return (
         <Block margin="xl">
-            <Undertittel tag="h2">
+            <Heading level="2" size="medium">
                 <FormattedMessage id="page.velkommen.omSøknaden.tittel" />
-            </Undertittel>
+            </Heading>
 
             <FormattedMessage id="page.velkommen.omSøknaden.1" tagName="p" />
             <FormattedMessage id="page.velkommen.omSøknaden.fremoverITid" tagName="p" />

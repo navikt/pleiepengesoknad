@@ -4,17 +4,17 @@ import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik
 import { DateDurationMap, durationIsZero, getDurationsInDateRange } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';
-import { Element, Normaltekst } from 'nav-frontend-typografi';
 import DurationText from '../duration-text/DurationText';
 import OmsorgstilbudEnkeltdagDialog from '../omsorgstilbud-enkeltdag/OmsorgstilbudEnkeltdagDialog';
 import TidsbrukKalender from '../tidsbruk-kalender/TidsbrukKalender';
 import { TidEnkeltdagEndring } from '../tid-enkeltdag-dialog/TidEnkeltdagForm';
+import { BodyShort, Heading } from '@navikt/ds-react';
 
 interface Props {
     måned: DateRange;
     tidOmsorgstilbud: DateDurationMap;
     utilgjengeligeDatoer?: Date[];
-    månedTittelHeadingLevel?: number;
+    månedTittelHeadingLevel?: '2' | '3';
     periode: DateRange;
     åpentEkspanderbartPanel?: boolean;
     onEnkeltdagChange?: (evt: TidEnkeltdagEndring) => void;
@@ -24,7 +24,7 @@ const OmsorgstilbudMåned: React.FunctionComponent<Props> = ({
     måned,
     tidOmsorgstilbud,
     utilgjengeligeDatoer,
-    månedTittelHeadingLevel = 2,
+    månedTittelHeadingLevel = '2',
     periode,
     åpentEkspanderbartPanel,
     onEnkeltdagChange,
@@ -43,12 +43,12 @@ const OmsorgstilbudMåned: React.FunctionComponent<Props> = ({
             apen={åpentEkspanderbartPanel}
             tittel={
                 <>
-                    <Element tag={`h${månedTittelHeadingLevel}`}>
+                    <Heading level={månedTittelHeadingLevel} size="xsmall">
                         <FormattedMessage
                             id="omsorgstilbudMåned.ukeOgÅr"
                             values={{ ukeOgÅr: dayjs(måned.from).format('MMMM YYYY') }}
                         />{' '}
-                        <Normaltekst tag="div">
+                        <BodyShort as="div">
                             {dagerMedRegistrertOmsorgstilbud.length === 0 ? (
                                 <FormattedMessage id="omsorgstilbudMåned.dagerRegistrert.ingenDager" />
                             ) : (
@@ -57,8 +57,8 @@ const OmsorgstilbudMåned: React.FunctionComponent<Props> = ({
                                     values={{ dager: dagerMedRegistrertOmsorgstilbud.length }}
                                 />
                             )}
-                        </Normaltekst>
-                    </Element>
+                        </BodyShort>
+                    </Heading>
                 </>
             }>
             <TidsbrukKalender

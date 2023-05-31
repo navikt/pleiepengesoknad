@@ -1,3 +1,4 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import AriaText from '@navikt/sif-common-core-ds/lib/atoms/aria-text/AriaText';
@@ -6,7 +7,6 @@ import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
 import bemHelper from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { FormikValidationErrorSummary } from '@navikt/sif-common-formik-ds';
-import { Innholdstittel } from 'nav-frontend-typografi';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 import BackLink from '../back-link/BackLink';
@@ -56,10 +56,10 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
             </div>
 
             <Block margin="xxl">
-                <Innholdstittel tag="h1" className={bem.element('title')}>
+                <Heading level="1" size="large" className={bem.element('title')}>
                     <AriaText>{ariaStepInfo}</AriaText>
                     {stepTexts.stepTitle}
-                </Innholdstittel>
+                </Heading>
             </Block>
             <Block margin="xl">{children}</Block>
             {/* <StepFooter onAvbrytOgFortsettSenere={onFortsettSenere} onAvbrytOgSlett={onAvbryt} /> */}

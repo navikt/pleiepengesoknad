@@ -20,7 +20,6 @@ import { erFrilanserISøknadsperiode, harFrilansoppdrag } from '../../../utils/f
 import { getFrilanserStartdatoValidator } from '../validation/frilansStartdatoValidator';
 import FrilansoppdragInfo from './info/FrilansoppdragInfo';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
-import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { StønadGodtgjørelseFormData, StønadGodtgjørelseFormField } from '../../../types/StønadGodtgjørelseFormData';
 import {
     AppFieldValidationErrors,
@@ -32,6 +31,7 @@ import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoVa
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
+import { Alert } from '@navikt/ds-react';
 
 const ArbFriFormComponents = getTypedFormComponents<FrilansFormField, FrilansFormData, ValidationError>();
 const StønadGodtgjørelseFormComponents = getTypedFormComponents<
@@ -363,9 +363,9 @@ const ArbeidssituasjonFrilans = ({
                                 </FormBlock>
                                 {misterHonorarStyreverv === YesOrNo.NO && (
                                     <Block margin="l">
-                                        <AlertStripeInfo>
+                                        <Alert variant="info">
                                             <FormattedMessage id={'frilanser.misterHonorarStyreverv.nei.info'} />
-                                        </AlertStripeInfo>
+                                        </Alert>
                                     </Block>
                                 )}
                             </>
@@ -498,11 +498,11 @@ const ArbeidssituasjonFrilans = ({
                 harHattInntektSomFrilanser === YesOrNo.NO &&
                 stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.NO && (
                     <Block margin="l">
-                        <AlertStripeInfo>
+                        <Alert variant="info">
                             Jobber du ikke lenger i frilansoppdrag registrert på deg og ønsker å få dette fjernet? Be de
                             som har gjort registreringen, om å oppdatere informasjonen i AA-registeret. Du kan fortsette
                             på søknaden uavhengig .
-                        </AlertStripeInfo>
+                        </Alert>
                     </Block>
                 )}
         </div>

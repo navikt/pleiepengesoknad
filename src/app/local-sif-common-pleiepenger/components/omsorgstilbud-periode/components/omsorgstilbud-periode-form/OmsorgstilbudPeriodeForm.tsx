@@ -1,3 +1,4 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
@@ -11,7 +12,6 @@ import {
 import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
-import { Undertittel } from 'nav-frontend-typografi';
 import TidFasteUkedagerInput from '../../../tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { getOmsorgstilbudPeriodeIntl } from '../../i18n/omsorgstilbudPeriodeMessages';
 import { getOmsorgstilbudFastDagValidator, validateOmsorgstilbudFasteDager } from './omsorgstilbudFormValidation';
@@ -66,9 +66,9 @@ const OmsorgstilbudPeriodeForm: React.FC<OmsorgstilbudPeriodeFormProps> = ({ per
 
     return (
         <div>
-            <Undertittel tag="h1" className="dialogFormTitle">
+            <Heading level="1" size="medium" className="dialogFormTitle">
                 {intlText('omsorgstilbudPeriodeForm.tittel')}
-            </Undertittel>
+            </Heading>
             <FormBlock margin="xl">
                 <FormComponents.FormikWrapper
                     initialValues={initialFormValues}

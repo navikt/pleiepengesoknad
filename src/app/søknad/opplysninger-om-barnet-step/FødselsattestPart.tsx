@@ -1,27 +1,26 @@
+import { Alert, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
-import { useFormikContext } from 'formik';
+import FileUploadErrors from '@navikt/sif-common-core-ds/lib/components/file-upload-errors/FileUploadErrors';
 import PictureScanningGuide from '@navikt/sif-common-core-ds/lib/components/picture-scanning-guide/PictureScanningGuide';
 import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
-import { Undertittel } from 'nav-frontend-typografi';
 import {
     getTotalSizeOfAttachments,
     mapFileToPersistedFile,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
 } from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
-import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
-import { relocateToLoginPage } from '../../utils/navigationUtils';
-import { StepID } from '../søknadStepsConfig';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { useFormikContext } from 'formik';
+import Lenke from 'nav-frontend-lenker';
 import { persist } from '../../api/api';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
-import Lenke from 'nav-frontend-lenker';
-import FileUploadErrors from '@navikt/sif-common-core-ds/lib/components/file-upload-errors/FileUploadErrors';
-import getLenker from '../../lenker';
 import UploadedDocumentsList from '../../components/fødselsattest-file-list/UploadedDocumentsList';
+import getLenker from '../../lenker';
+import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import { relocateToLoginPage } from '../../utils/navigationUtils';
+import { StepID } from '../søknadStepsConfig';
 
 interface Props {
     attachments: Attachment[];
@@ -83,9 +82,9 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
 
     return (
         <>
-            <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
+            <Heading level="2" size="medium" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
                 {intlHelper(intl, 'steg.omBarnet.fødselsattest.tittel')}
-            </Undertittel>
+            </Heading>
             <Block margin="m">
                 <FormattedMessage id="steg.omBarnet.fødselsattest.info" />
             </Block>
@@ -108,12 +107,12 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
             )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Block margin={'l'}>
-                    <AlertStripeAdvarsel>
+                    <Alert variant="warning">
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
                         <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
                         </Lenke>
-                    </AlertStripeAdvarsel>
+                    </Alert>
                 </Block>
             )}
             <Block margin={'l'}>

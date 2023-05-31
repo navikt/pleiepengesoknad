@@ -1,11 +1,11 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import { prettifyDateExtended } from '@navikt/sif-common-utils';
-import { Element } from 'nav-frontend-typografi';
+import FrilansIconSvg from '../../../../components/frilans-icon/FrilansIconSvg';
 import { Arbeidsgiver } from '../../../../types';
 import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPanel';
-import FrilansIconSvg from '../../../../components/frilans-icon/FrilansIconSvg';
 
 interface Props {
     frilansoppdrag: Arbeidsgiver[];
@@ -36,7 +36,9 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag })
         <ul style={{ margin: 0, padding: '0 0 0 1rem' }}>
             {frilansoppdrag.map((oppdrag) => (
                 <li key={oppdrag.id}>
-                    <Element tag="h4">{oppdrag.navn}</Element>
+                    <Heading level="4" size="xsmall">
+                        {oppdrag.navn}
+                    </Heading>
                     <Block padBottom="l">{renderTidsrom(oppdrag)}</Block>
                 </li>
             ))}

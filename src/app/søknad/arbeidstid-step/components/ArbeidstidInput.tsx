@@ -5,7 +5,6 @@ import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { dateFormatter, dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import { Normaltekst } from 'nav-frontend-typografi';
 import { ArbeidIPeriodeIntlValues } from '../../../local-sif-common-pleiepenger';
 import { formatTimerOgMinutter } from '../../../local-sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';
 import { TimerEllerProsent } from '../../../types';
@@ -18,6 +17,7 @@ import {
     getArbeidIPeriodeProsentAvNormaltValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
 } from '../validationArbeidIPeriodeSpørsmål';
+import { BodyShort } from '@navikt/ds-react';
 
 interface Props {
     arbeidsuke?: ArbeidsukeInfo;
@@ -70,9 +70,9 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
             <>
                 <FormattedMessage id="arbeidIPeriode.uke.ukenummer" values={{ ukenummer }} />
                 <br />
-                <Normaltekst>
+                <BodyShort as="div">
                     <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
-                </Normaltekst>
+                </BodyShort>
             </>
         ) : (
             intlHelper(
@@ -88,9 +88,9 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
             <>
                 <FormattedMessage id="arbeidIPeriode.uke.ukenummer" values={{ ukenummer }} />
                 <br />
-                <Normaltekst>
+                <BodyShort as="div">
                     <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
-                </Normaltekst>
+                </BodyShort>
             </>
         ) : frilans ? (
             intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.frilanser.spm', { frilansVervString })

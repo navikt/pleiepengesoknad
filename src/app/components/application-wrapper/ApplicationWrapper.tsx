@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
-import { Normaltekst } from 'nav-frontend-typografi';
 import IntlProvider from '../intl-provider/IntlProvider';
 
 interface ApplicationWrapperProps {
@@ -14,9 +13,7 @@ interface ApplicationWrapperProps {
 const ApplicationWrapper = ({ locale, publicPath, children }: ApplicationWrapperProps) => {
     return (
         <IntlProvider locale={locale}>
-            <Normaltekst tag="div">
-                <BrowserRouter basename={publicPath}>{children}</BrowserRouter>
-            </Normaltekst>
+            <BrowserRouter basename={publicPath}>{children}</BrowserRouter>
         </IntlProvider>
     );
 };

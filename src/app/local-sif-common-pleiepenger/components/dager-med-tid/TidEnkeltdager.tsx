@@ -15,10 +15,9 @@ interface ISODagMedTid {
 
 interface Props {
     dager: ISODagMedTid[];
-    ukeHeadingLevel?: number;
 }
 
-const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager, ukeHeadingLevel }) => {
+const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager }) => {
     const days: DagMedTid[] = [];
     dager.forEach((dag) => {
         const dato = ISODateToDate(dag.dato);
@@ -49,11 +48,7 @@ const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager, ukeHeadingLevel
                                     {dayjs(dagerMedTid[0].dato).format('MMMM YYYY')}
                                 </span>
                             }>
-                            <DagerMedTidListe
-                                dagerMedTid={dagerMedTid}
-                                viseUke={true}
-                                ukeHeadingLevel={ukeHeadingLevel}
-                            />
+                            <DagerMedTidListe dagerMedTid={dagerMedTid} viseUke={true} />
                         </EkspanderbartPanel>
                     </Block>
                 );

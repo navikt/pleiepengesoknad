@@ -13,7 +13,6 @@ import {
 } from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
-import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import LegeerklæringFileList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
@@ -24,6 +23,7 @@ import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../validation/fieldValidations';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { Alert } from '@navikt/ds-react';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -125,12 +125,12 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
                 <Block margin={'l'}>
-                    <AlertStripeAdvarsel>
+                    <Alert variant="warning">
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
                         <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
                         </Lenke>
-                    </AlertStripeAdvarsel>
+                    </Alert>
                 </Block>
             )}
             <Block margin={'l'}>

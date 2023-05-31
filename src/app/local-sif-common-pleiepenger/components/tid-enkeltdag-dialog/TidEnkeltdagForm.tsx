@@ -22,7 +22,6 @@ import {
 } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { Undertittel } from 'nav-frontend-typografi';
 import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import DurationText from '../duration-text/DurationText';
 // import { DurationText } from '../..';
@@ -33,6 +32,7 @@ import {
     trimDateRangeToWeekdays,
 } from './utils/tidEnkeltdagUtils';
 import { getTidEnkeltdagFormTidValidator } from './utils/tidEnkeltdagValidation';
+import { Heading } from '@navikt/ds-react';
 
 dayjs.extend(minMax);
 
@@ -156,9 +156,9 @@ const TidEnkeltdagForm: React.FunctionComponent<TidEnkeltdagFormProps> = ({
 
     return (
         <div>
-            <Undertittel tag="h1" className="dialogFormTitle">
+            <Heading level="1" size="medium" className="dialogFormTitle">
                 <span className="m-caps">{dagNavn}</span> {dateFormatter.full(dato)}
-            </Undertittel>
+            </Heading>
             <FormBlock margin="l">
                 <FormComponents.FormikWrapper
                     enableReinitialize={true}

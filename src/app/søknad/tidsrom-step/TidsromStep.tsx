@@ -13,7 +13,6 @@ import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms-ds/lib/forms
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
-import Alertstripe from 'nav-frontend-alertstriper';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../../utils/formDataUtils';
@@ -30,6 +29,7 @@ import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
 import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import { Alert } from '@navikt/ds-react';
 
 dayjs.extend(minMax);
 
@@ -125,9 +125,9 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
             />
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <Block padBottom="xl">
-                    <Alertstripe type="advarsel">
+                    <Alert variant="warning">
                         <FormattedMessage id="step.tidsrom.søkerKunHelgedager.alert" />
-                    </Alertstripe>
+                    </Alert>
                 </Block>
             )}
 

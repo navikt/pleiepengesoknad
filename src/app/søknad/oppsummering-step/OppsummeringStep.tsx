@@ -1,3 +1,4 @@
+import { Alert } from '@navikt/ds-react';
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
@@ -19,7 +20,6 @@ import { ISODateToDate } from '@navikt/sif-common-utils';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import HttpStatus from 'http-status-codes';
-import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { purge, sendApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
@@ -385,7 +385,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
 
                         {innsendingFeiletInfo && (
                             <FormBlock>
-                                <AlertStripeFeil>
+                                <Alert variant="error">
                                     <p>Oops, der oppstod det en feil.</p>
                                     <p>
                                         Du kan se om du får opp en feilmelding dersom du klikker gjennom søknaden fra
@@ -397,7 +397,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                             <p>{innsendingFeiletInfo}</p>
                                         </ExpandableInfo>
                                     </Block>
-                                </AlertStripeFeil>
+                                </Alert>
                             </FormBlock>
                         )}
                     </SøknadFormStep>

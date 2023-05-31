@@ -1,17 +1,18 @@
+import { Alert, Heading } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
-import ResponsivePanel from '../../components/responsive-panel/ResponsivePanel';
 import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
-import AlertStripe from 'nav-frontend-alertstriper';
-import { Systemtittel } from 'nav-frontend-typografi';
+import { dateFormatter } from '@navikt/sif-common-utils/lib';
+import ResponsivePanel from '../../components/responsive-panel/ResponsivePanel';
 import { getOmsorgstilbudFastDagValidator } from '../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-form/omsorgstilbudFormValidation';
 import TidFasteUkedagerInput from '../../local-sif-common-pleiepenger/components/tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { OmsorgstilbudFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 import { søkerFortidOgFremtid, søkerKunFortid, søkerKunFremtid } from '../../utils/søknadsperiodeUtils';
 import { validateOmsorgstilbud } from '../../validation/validateOmsorgstilbudFields';
 import SøknadFormComponents from '../SøknadFormComponents';
@@ -23,8 +24,6 @@ import {
     skalViseSpørsmålOmProsentEllerLiktHverUke,
     visLiktHverUke,
 } from './omsorgstilbudStepUtils';
-import { dateFormatter } from '@navikt/sif-common-utils/lib';
-import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 
 interface Props {
     periode: DateRange;
@@ -49,9 +48,9 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 <Block margin="xl">
                     {periodeFortidFremtid && (
                         <Block padBottom="l">
-                            <Systemtittel tag={'h2'}>
+                            <Heading level="2" size="medium">
                                 <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFortid" />
-                            </Systemtittel>
+                            </Heading>
                         </Block>
                     )}
 
@@ -85,9 +84,9 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 <Block margin="xl">
                     {periodeFortidFremtid && (
                         <Block padBottom="l">
-                            <Systemtittel tag={'h2'}>
+                            <Heading level="2" size="medium">
                                 <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid" />
-                            </Systemtittel>
+                            </Heading>
                         </Block>
                     )}
 
@@ -135,18 +134,18 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                 omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
                 omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW && (
                     <Block margin="l">
-                        <AlertStripe type={'info'}>
+                        <Alert variant="info">
                             <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.neiUsikker" />
-                        </AlertStripe>
+                        </Alert>
                     </Block>
                 )}
             {omsorgstilbud &&
                 periodeFremtid &&
                 omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW && (
                     <Block margin="l">
-                        <AlertStripe type={'info'}>
+                        <Alert variant="info">
                             <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.neiUsikker" />
-                        </AlertStripe>
+                        </Alert>
                     </Block>
                 )}
 
@@ -157,9 +156,9 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             {periodeFortidFremtid && (
                                 <>
                                     <Block padBottom="l">
-                                        <Systemtittel tag={'h2'}>
+                                        <Heading level="2" size="medium">
                                             <FormattedMessage id="steg.omsorgstilbud.erLiktHverUke.spm.tittel" />
-                                        </Systemtittel>
+                                        </Heading>
                                         {omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES &&
                                             omsorgstilbud.erIOmsorgstilbudFremtid ===
                                                 YesOrNoOrDoNotKnow.DO_NOT_KNOW && (

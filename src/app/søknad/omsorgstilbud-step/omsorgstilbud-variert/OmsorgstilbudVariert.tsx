@@ -1,9 +1,13 @@
+import { Heading } from '@navikt/ds-react';
 import React from 'react';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import { DateRange } from '@navikt/sif-common-utils';
-import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
+import {
+    DateDurationMap,
+    DateRange,
+    getDatesInMonthOutsideDateRange,
+    getMonthsInDateRange,
+} from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
-import { Element } from 'nav-frontend-typografi';
 import OmsorgstilbudMåned from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/OmsorgstilbudMåned';
 import SøknadsperioderMånedListe from '../../../local-sif-common-pleiepenger/components/søknadsperioder-måned-liste/SøknadsperioderMånedListe';
 import { TidEnkeltdagEndring } from '../../../local-sif-common-pleiepenger/components/tid-enkeltdag-dialog/TidEnkeltdagForm';
@@ -60,7 +64,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                 utilgjengeligeDatoer={getDatesInMonthOutsideDateRange(måned.from, periode)}
                 åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
-                månedTittelHeadingLevel={3}
+                månedTittelHeadingLevel="3"
             />
         );
     };
@@ -68,7 +72,9 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
     return (
         <>
             <Block padBottom="m">
-                <Element tag="h2">{tittel}</Element>
+                <Heading level="2" size="xsmall">
+                    {tittel}
+                </Heading>
             </Block>
             <SøknadFormComponents.InputGroup
                 name={formFieldName}
@@ -84,7 +90,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                 <Block margin="l">
                     <SøknadsperioderMånedListe
                         periode={periode}
-                        årstallHeadingLevel={3}
+                        årstallHeadingLevel="3"
                         månedContentRenderer={omsorgstilbudMånedRenderer}
                     />
                 </Block>
