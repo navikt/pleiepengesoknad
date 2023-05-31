@@ -9,9 +9,9 @@ import {
     ISODateToDate,
 } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
-import { Knapp } from 'nav-frontend-knapper';
 import { OmsorgstilbudPeriodeData } from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
 import OmsorgstilbudPeriodeDialog from '../../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-dialog/OmsorgstilbudPeriodeDialog';
+import { Button } from '@navikt/ds-react';
 
 interface Props {
     periode: DateRange;
@@ -47,9 +47,9 @@ const OmsorgstilbudPeriode: React.FC<Props> = ({ periode, onPeriodeChange }) => 
 
     return (
         <>
-            <Knapp htmlType="button" onClick={() => setVisPeriode(true)} mini={true}>
+            <Button type="button" onClick={() => setVisPeriode(true)} size={'small'}>
                 <FormattedMessage id="omsorgstilbudPeriode.leggTilTidIOmsorgstilbudLabel" />
-            </Knapp>
+            </Button>
             <OmsorgstilbudPeriodeDialog
                 formProps={{
                     periode,

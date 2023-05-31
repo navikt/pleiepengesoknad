@@ -1,11 +1,10 @@
-import { Heading, Modal, ModalProps } from '@navikt/ds-react';
+import { Button, Heading, Modal, ModalProps } from '@navikt/ds-react';
 import ModalContent from '@navikt/ds-react/esm/modal/ModalContent';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import classnames from 'classnames';
-import { Knapp } from 'nav-frontend-knapper';
 import Knapperad from '../knapperad/Knapperad';
 import './bekreftDialog.less';
 
@@ -39,15 +38,20 @@ const BekreftDialog = (props: Props) => {
                     )}
                     <div className="blokk-m">{children}</div>
                     <Knapperad>
-                        <Knapp type="hoved" onClick={() => onBekreft()} className="bekreftDialog__bekreftKnapp">
+                        <Button
+                            variant="primary"
+                            type="button"
+                            onClick={() => onBekreft()}
+                            className="bekreftDialog__bekreftKnapp">
                             {bekreftLabel || intlHelper(intl, 'komponent.bekreftDialog.bekreftLabel')}
-                        </Knapp>
-                        <Knapp
-                            type="flat"
+                        </Button>
+                        <Button
+                            variant="tertiary"
+                            type="button"
                             onClick={() => (onAvbryt ? onAvbryt() : props.onClose())}
                             className="bekreftDialog__avbrytKnapp">
                             {avbrytLabel || intlHelper(intl, 'komponent.bekreftDialog.avbrytLabel')}
-                        </Knapp>
+                        </Button>
                     </Knapperad>
                 </ModalContent>
             )}

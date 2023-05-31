@@ -1,19 +1,19 @@
+import { Button } from '@navikt/ds-react';
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { ApplikasjonHendelse, useAmplitudeInstance, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
 import { useFormikContext } from 'formik';
-import { Knapp } from 'nav-frontend-knapper';
 import { purge } from '../api/api';
-import { getSøknadStepConfig } from './søknadStepsConfig';
+import Step, { StepProps } from '../components/step/Step';
+import usePersistSoknad from '../hooks/usePersistSoknad';
+import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { relocateToDinePleiepenger, relocateToSoknad } from '../utils/navigationUtils';
 import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
-import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
-import Step, { StepProps } from '../components/step/Step';
-import usePersistSoknad from '../hooks/usePersistSoknad';
+import { getSøknadStepConfig } from './søknadStepsConfig';
 
 export interface FormikStepProps {
     children: React.ReactNode;
@@ -85,15 +85,15 @@ const SøknadFormStep = (props: Props) => {
                         {customErrorSummary && <FormBlock>{customErrorSummary()}</FormBlock>}
                         {showSubmitButton && (
                             <FormBlock>
-                                <Knapp
-                                    type="hoved"
-                                    htmlType="submit"
+                                <Button
+                                    type="submit"
+                                    variant="primary"
                                     className={'step__button'}
-                                    spinner={showButtonSpinner || false}
+                                    loading={showButtonSpinner || false}
                                     disabled={buttonDisabled || false}
                                     aria-label={texts.nextButtonAriaLabel}>
                                     {texts.nextButtonLabel}
-                                </Knapp>
+                                </Button>
                             </FormBlock>
                         )}
                     </>

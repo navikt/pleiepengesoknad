@@ -9,14 +9,15 @@ import { OmsorgstilbudApiData, SøknadApiData, TimerFasteDagerApiData } from '..
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import { søkerKunHelgedager } from '../utils/formDataUtils';
 import { getAttachmentsApiDataFromSøknadsdata } from '../utils/søknadsdataToApiData/getAttachmentsApiDataFromSøknadsdata';
-import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 export const apiVedleggIsInvalid = (apiVedlegg: string[], vedleggFormData: Attachment[]) => {
     const apiVedleggFromFormdata = vedleggFormData ? getAttachmentsApiDataFromSøknadsdata(vedleggFormData) : [];
     return !isEqual(apiVedleggFromFormdata.sort(), apiVedlegg.sort());
 };
-export interface ApiValidationError extends FeiloppsummeringFeil {
+export interface ApiValidationError {
     stepId: StepID;
+    skjemaelementId: string;
+    feilmelding: string;
 }
 export const isVirksomhetRegnskapsførerTelefonnummerValid = (virksomhet: VirksomhetApiData) => {
     const { regnskapsfører } = virksomhet;
