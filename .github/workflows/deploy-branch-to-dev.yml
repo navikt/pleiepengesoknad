@@ -1,11 +1,11 @@
 name: Deploy branch to dev
 
 on:
-  workflow_dispatch:
-    secrets:
-        NAIS_DEPLOY_APIKEY:
-            description: Nais deploy APIKEY
-            required: false
+    workflow_dispatch:
+        secrets:
+            NAIS_DEPLOY_APIKEY:
+                description: Nais deploy APIKEY
+                required: false
 
 env:
     IMAGE: ghcr.io/${{ github.repository }}/pleiepengesoknad-gcp:${{ github.sha }}
@@ -64,7 +64,7 @@ jobs:
                   node-version: 16
             - name: build code
               run: |
-                  npm i
+                  npm i --legacy-peer-deps
                   npm run build
             - name: Build and publish Docker image
               run: |

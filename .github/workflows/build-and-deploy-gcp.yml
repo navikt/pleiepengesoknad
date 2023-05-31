@@ -68,14 +68,13 @@ jobs:
                   node-version: 16
             - name: build code
               run: |
-                  npm i
+                  npm i --legacy-peer-deps
                   npm run build
             - name: Build and publish Docker image
               run: |
                   docker build --tag ${IMAGE} . -f Dockerfile
                   echo ${GITHUB_TOKEN} | docker login --username ${GITHUB_REPOSITORY} --password-stdin ghcr.io
                   docker push ${IMAGE}
-
 
     deploy-prod-gcp:
         name: Deploy-prod-gcp
