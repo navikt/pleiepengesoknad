@@ -1,5 +1,10 @@
 import { selectRadio, setInputValue, getTestElement, clickFortsett } from '../../utils';
-import { ArbeiderIPeriodenSvar } from '../../../../../src/app/local-sif-common-pleiepenger/types';
+
+export enum ArbeiderIPeriodenSvar {
+    'somVanlig' = 'SOM_VANLIG',
+    'redusert' = 'REDUSERT',
+    'heltFravær' = 'HELT_FRAVÆR',
+}
 
 export const fyllUtArbeidstidJobberIkke = () => {
     selectRadio(ArbeiderIPeriodenSvar.heltFravær);
