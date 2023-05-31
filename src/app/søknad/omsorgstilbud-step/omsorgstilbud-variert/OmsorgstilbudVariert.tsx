@@ -62,7 +62,7 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
                 måned={måned}
                 tidOmsorgstilbud={omsorgsdager}
                 utilgjengeligeDatoer={getDatesInMonthOutsideDateRange(måned.from, periode)}
-                åpentEkspanderbartPanel={antallMåneder === 1 || kanLeggeTilPeriode === false}
+                defaultOpen={antallMåneder === 1 || kanLeggeTilPeriode === false}
                 onEnkeltdagChange={handleOnEnkeltdagChange}
                 månedTittelHeadingLevel="3"
             />

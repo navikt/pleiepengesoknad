@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import { ISODate, ISODateToDate, ISODuration, ISODurationToDuration } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
-import EkspanderbartPanel from 'nav-frontend-ekspanderbartpanel';
 import { DagMedTid } from '../../types/DagMedTid';
 import DagerMedTidListe from '../dager-med-tid-liste/DagerMedTidListe';
 
@@ -42,14 +42,9 @@ const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager }) => {
                 }
                 return (
                     <Block margin="m" key={key}>
-                        <EkspanderbartPanel
-                            tittel={
-                                <span style={{ textTransform: 'capitalize', fontSize: '1rem' }}>
-                                    {dayjs(dagerMedTid[0].dato).format('MMMM YYYY')}
-                                </span>
-                            }>
+                        <ExpandableInfo title={dayjs(dagerMedTid[0].dato).format('MMMM YYYY')}>
                             <DagerMedTidListe dagerMedTid={dagerMedTid} viseUke={true} />
-                        </EkspanderbartPanel>
+                        </ExpandableInfo>
                     </Block>
                 );
             })}
