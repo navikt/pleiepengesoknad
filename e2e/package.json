@@ -11,6 +11,7 @@
     "license": "ISC",
     "dependencies": {
         "cypress-file-upload": "^5.0.8",
-        "dayjs": "^1.11.7"
+        "dayjs": "^1.11.7",
+        "@navikt/sif-common-utils": "3.34.2"
     }
 }
