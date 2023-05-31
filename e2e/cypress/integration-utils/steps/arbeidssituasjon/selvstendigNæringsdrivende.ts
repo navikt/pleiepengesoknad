@@ -35,7 +35,7 @@ const virksomhet = {
 };
 
 const fyllUtVirksomhetDialog = () => {
-    cy.get('.dialogFormWrapper').within(() => {
+    cy.get('.formikModalForm__modal').within(() => {
         selectRadioByNameAndValue('næringstype', virksomhet.næringstype);
         selectRadioByNameAndValue('registrertINorge', virksomhet.registrertINorge);
         getInputByName('navnPåVirksomheten').click().type(virksomhet.navn).blur();
@@ -59,7 +59,7 @@ const fyllUtVirksomhetDialog = () => {
             .type(virksomhet.varigEndringINæringsinntekt_forklaring)
             .blur();
         selectRadioByNameAndValue('harRegnskapsfører', virksomhet.harRegnskapsfører);
-        getElement('button').contains('Ok').click();
+        getElement('button[type="submit"]').click();
     });
     getInputByName('selvstendig.arbeidsforhold.normalarbeidstid.timerPerUke').click().type('5').blur();
 };

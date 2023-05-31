@@ -48,12 +48,12 @@ export const fyllUtArbeidssituasjonErFrilanserOgFårHonorar = () => {
 
         selectRadioNyYesOrNo('mister-honorarStyreverv', true);
         const startdato = dayjs().startOf('week').subtract(3, 'weeks').format('YYYY-MM-DD');
-        getTestElement('er-frilanser-startdato').click().type(startdato).blur();
+        cy.get('input[name="frilans.startdato"]').click().type(startdato).blur();
 
         selectRadioNyYesOrNo('er-fortsatt-frilanser', false);
 
         const sluttdato = dayjs().format('YYYY-MM-DD');
-        getTestElement('er-frilanser-sluttdato').click().type(sluttdato).blur();
+        cy.get('input[name="frilans.sluttdato"]').click().type(sluttdato).blur();
 
         setInputValue('normalarbeidstid.timerPerUke', '20');
     });

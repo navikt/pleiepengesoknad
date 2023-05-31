@@ -115,10 +115,12 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                             {
                                 label: 'Ja, i hele eller deler av perioden',
                                 value: YesOrNo.YES,
+                                'data-testid': 'erIOmsorgstilbud-fremtid_yes',
                             },
                             {
                                 label: 'Nei',
                                 value: YesOrNo.NO,
+                                'data-testid': 'erIOmsorgstilbud-fremtid_no',
                             },
                             {
                                 label: 'Usikker',

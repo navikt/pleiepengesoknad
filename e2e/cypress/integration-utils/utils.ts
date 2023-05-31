@@ -3,14 +3,15 @@ export const clickSendInnSøknad = () => cy.get('button[aria-label="Send inn sø
 export const PUBLIC_PATH = '/familie/sykdom-i-familien/soknad/pleiepenger';
 
 export const clickNeiPaAlleSporsmal = () => {
-    cy.get('label[class="inputPanel radioPanel"]').each((element) => {
+    cy.get('label[class="navds-radio__label"]').each((element) => {
         if (element.text() === 'Nei') {
             element.click();
         }
     });
 };
+
 export const clickJaPaAlleSporsmal = () => {
-    cy.get('label[class="inputPanel radioPanel"]').each((element) => {
+    cy.get('label[class="navds-radio__label"]').each((element) => {
         if (element.text() === 'Ja') {
             element.click();
         }

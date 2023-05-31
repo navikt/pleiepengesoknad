@@ -35,7 +35,7 @@ const fyllUtArbeidssituasjonMedOpptjeningUtland = () => {
         getElement('select').select(1);
         getTestElementByType('radio').eq(0).check({ force: true });
         getInputByName('navn').click().type(arbeidsgiverenAnnetEQS).blur();
-        getElement('button').contains('Ok').click();
+        getElement('button[type="submit"]').click();
     });
 };
 

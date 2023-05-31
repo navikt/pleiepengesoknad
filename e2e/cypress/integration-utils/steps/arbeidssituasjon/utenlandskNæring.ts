@@ -36,7 +36,7 @@ const fyllUtArbeidssituasjonMedUtenlandskNæring = () => {
         getInputByName('identifikasjonsnummer').click().type(virksomhetensOrganisasjonsnummer).blur();
         getInputByName('fraOgMed').click().type(fraDatoTilDato).blur();
         getTestElementByType('checkbox').check({ force: true });
-        getElement('button').contains('Ok').click();
+        getElement('button[type="submit"]').click();
     });
 };
 
