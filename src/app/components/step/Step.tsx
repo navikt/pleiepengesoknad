@@ -10,7 +10,6 @@ import { FormikValidationErrorSummary } from '@navikt/sif-common-formik-ds';
 import { StepConfigInterface, StepConfigItemTexts, StepID } from '../../søknad/søknadStepsConfig';
 import { getStepTexts } from '../../utils/stepUtils';
 import BackLink from '../back-link/BackLink';
-import StepIndicator from '../step-indicator/StepIndicator';
 import './step.less';
 
 export interface StepProps {
@@ -50,9 +49,7 @@ const Step = ({ id, useValidationErrorSummary, stepConfig, children }: Props) =>
                 <BackLink href={`/soknad/${conf.backLinkHref}`} className={bem.element('backLink')} />
             )}
             <div role="presentation" aria-hidden="true">
-                <Block margin={conf.backLinkHref ? 'none' : 'xl'}>
-                    <StepIndicator stepConfig={stepConfig} activeStep={conf.stepNumber} />
-                </Block>
+                <Block margin={conf.backLinkHref ? 'none' : 'xl'}>Stegindikator</Block>
             </div>
 
             <Block margin="xxl">

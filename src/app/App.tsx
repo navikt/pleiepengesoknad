@@ -18,8 +18,7 @@ import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
 import '@navikt/ds-css';
 import '@navikt/sif-common-core-ds/lib/styles/sif-ds-theme.css';
-import './app.less';
-import './styles/globalStyles.less';
+// import './app.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';
