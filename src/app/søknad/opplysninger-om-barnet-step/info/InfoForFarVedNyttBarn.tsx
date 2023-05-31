@@ -2,7 +2,7 @@ import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import Lenke from 'nav-frontend-lenker';
+import { Link } from '@navikt/ds-react';
 
 const InfoForFarVedNyttBarn = () => {
     const intl = useIntl();
@@ -10,9 +10,9 @@ const InfoForFarVedNyttBarn = () => {
         <ExpandableInfo title={intlHelper(intl, 'infoForFarVedNyttBarn.tittel')}>
             <p>
                 <FormattedMessage id="infoForFarVedNyttBarn.info.1.1" />{' '}
-                <Lenke href="https://farskapsportal.nav.no/nb/" target="_blank">
+                <Link href="https://farskapsportal.nav.no/nb/" target="_blank">
                     <FormattedMessage id="infoForFarVedNyttBarn.info.1.2" />
-                </Lenke>
+                </Link>
                 <FormattedMessage id="infoForFarVedNyttBarn.info.1.3" />
             </p>
             <p>

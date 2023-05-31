@@ -1,12 +1,11 @@
+import { Heading, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import BehandlingAvPersonopplysningerContent from './BehandlingAvPersonopplysningerContent';
-import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
-import { Heading } from '@navikt/ds-react';
+import BehandlingAvPersonopplysningerContent from './BehandlingAvPersonopplysningerContent';
 
 const OmSøknaden = () => {
     const intl = useIntl();
@@ -21,16 +20,16 @@ const OmSøknaden = () => {
             <ExpandableInfo title={intlHelper(intl, 'page.velkommen.omSøknaden.endringer.tittel')}>
                 <p>
                     <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.1.a" />{' '}
-                    <Lenke href={getLenker('nb').endringsmelding} target="_blank">
+                    <Link href={getLenker('nb').endringsmelding} target="_blank">
                         <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.1.b" />
-                    </Lenke>
+                    </Link>
                     <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.1.c" />
                 </p>
                 <p>
                     <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.2.a" />{' '}
-                    <Lenke href={getLenker('nb').skrivTilOss} target="_blank">
+                    <Link href={getLenker('nb').skrivTilOss} target="_blank">
                         <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.2.b" />
-                    </Lenke>
+                    </Link>
                     <FormattedMessage id="page.velkommen.omSøknaden.endringer.tekst.2.c" />
                 </p>
             </ExpandableInfo>

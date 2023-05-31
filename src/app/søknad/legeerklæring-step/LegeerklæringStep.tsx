@@ -1,10 +1,11 @@
+import { Alert, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
 import FileUploadErrors from '@navikt/sif-common-core-ds/lib/components/file-upload-errors/FileUploadErrors';
 import PictureScanningGuide from '@navikt/sif-common-core-ds/lib/components/picture-scanning-guide/PictureScanningGuide';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
 import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import {
     getTotalSizeOfAttachments,
@@ -13,7 +14,6 @@ import {
 } from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
-import Lenke from 'nav-frontend-lenker';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import LegeerklæringFileList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
@@ -23,7 +23,6 @@ import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { validateLegeerklæring } from '../../validation/fieldValidations';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
-import { Alert } from '@navikt/ds-react';
 
 const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
     const [filesThatDidntGetUploaded, setFilesThatDidntGetUploaded] = React.useState<File[]>([]);
@@ -127,9 +126,9 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                 <Block margin={'l'}>
                     <Alert variant="warning">
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
-                        <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
+                        <Link target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
-                        </Lenke>
+                        </Link>
                     </Alert>
                 </Block>
             )}

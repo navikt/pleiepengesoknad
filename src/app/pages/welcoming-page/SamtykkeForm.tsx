@@ -1,4 +1,4 @@
-import { Button, Heading } from '@navikt/ds-react';
+import { Button, Heading, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
@@ -8,7 +8,6 @@ import { getTypedFormComponents } from '@navikt/sif-common-formik-ds';
 import { getCheckedValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
-import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import InfoList from './components/info-list/InfoList';
@@ -44,9 +43,9 @@ const SamtykkeForm = ({ onConfirm }: Props) => {
                             </li>
                             <li>
                                 <FormattedMessage id="page.velkommen.form.ansvar.list.2.1" />{' '}
-                                <Lenke href={getLenker(intl.locale).rettOgPlikt} target="_blank">
+                                <Link href={getLenker(intl.locale).rettOgPlikt} target="_blank">
                                     <FormattedMessage id="page.velkommen.form.ansvar.list.2.2" />
-                                </Lenke>
+                                </Link>
                             </li>
                         </InfoList>
                     </AppForm.ConfirmationCheckbox>

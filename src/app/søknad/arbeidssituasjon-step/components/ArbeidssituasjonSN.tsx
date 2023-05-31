@@ -1,4 +1,4 @@
-import { Alert } from '@navikt/ds-react';
+import { Alert, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
@@ -10,7 +10,6 @@ import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik-ds/
 import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import VirksomhetInfoAndDialog from '@navikt/sif-common-forms-ds/lib/forms/virksomhet/VirksomhetInfoAndDialog';
-import Lenke from 'nav-frontend-lenker';
 import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
@@ -42,9 +41,9 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
                         <ExpandableInfo title={intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst.tittel')}>
                             <>
                                 {intlHelper(intl, 'selvstendig.harDuHattInntekt.hjelpetekst')}{' '}
-                                <Lenke href={urlSkatteetatenSN} target="_blank">
+                                <Link href={urlSkatteetatenSN} target="_blank">
                                     <FormattedMessage id="selvstendig.harDuHattInntekt.hjelpetekst.snSkatteetatenLenke" />
-                                </Lenke>
+                                </Link>
                             </>
                         </ExpandableInfo>
                     }

@@ -1,4 +1,4 @@
-import { Alert, Heading } from '@navikt/ds-react';
+import { Alert, Heading, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
@@ -13,7 +13,6 @@ import {
 } from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
-import Lenke from 'nav-frontend-lenker';
 import { persist } from '../../api/api';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import UploadedDocumentsList from '../../components/fødselsattest-file-list/UploadedDocumentsList';
@@ -109,9 +108,9 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
                 <Block margin={'l'}>
                     <Alert variant="warning">
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
-                        <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
+                        <Link target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
-                        </Lenke>
+                        </Link>
                     </Alert>
                 </Block>
             )}

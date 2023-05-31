@@ -1,10 +1,9 @@
+import { Heading, Ingress, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
-import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../../lenker';
 import InfoList from './info-list/InfoList';
-import { Heading, Ingress } from '@navikt/ds-react';
 
 const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
     return (
@@ -49,9 +48,9 @@ const BehandlingAvPersonopplysningerContent: React.FunctionComponent = () => {
 
             <Block>
                 <FormattedMessage id="personopplysninger.5.1" />
-                <Lenke href={getLenker().personvern} target="_blank">
+                <Link href={getLenker().personvern} target="_blank">
                     <FormattedMessage id="personopplysninger.5.2" />
-                </Lenke>
+                </Link>
                 <FormattedMessage id="personopplysninger.5.3" />
             </Block>
         </>

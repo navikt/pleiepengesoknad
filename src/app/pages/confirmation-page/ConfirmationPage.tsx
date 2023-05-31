@@ -1,4 +1,4 @@
-import { Alert, Heading } from '@navikt/ds-react';
+import { Alert, Heading, Link } from '@navikt/ds-react';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
@@ -8,7 +8,6 @@ import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted
 import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
 import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
 import { KvitteringInfo } from '../../types/KvitteringInfo';
 import './confirmationPage.less';
@@ -82,9 +81,9 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                         </li>
                     </ul>
                     <Block margin="xl">
-                        <Lenke href={lenker.innsynSIF} target="_blank" className="knapp knapp--hoved">
+                        <Link href={lenker.innsynSIF} target="_blank" className="knapp knapp--hoved">
                             <FormattedMessage id="page.confirmation.dinePP.lenke" />
-                        </Lenke>
+                        </Link>
                     </Block>
                 </Block>
             </Block>
