@@ -1,5 +1,5 @@
 import React from 'react';
-import { Attachment, PersistedFile } from '@navikt/sif-common-core/lib/types/Attachment';
+import { Attachment, PersistedFile } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import {
     attachmentShouldBeProcessed,
     attachmentShouldBeUploaded,
@@ -7,14 +7,14 @@ import {
     getPendingAttachmentFromFile,
     isFileObject,
     VALID_EXTENSIONS,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
+import { FormikFileInput, TypedFormInputValidationProps } from '@navikt/sif-common-formik-ds';
 import { ArrayHelpers, connect, useFormikContext } from 'formik';
 import { uploadFile } from '../../api/api';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
+import apiUtils from '@navikt/sif-common-core-ds/lib/utils/apiUtils';
 import appSentryLogger from '../../utils/appSentryLogger';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { getAttachmentURLFrontend } from '../../utils/attachmentUtilsAuthToken';
 
 export type FieldArrayReplaceFn = (index: number, value: any) => void;
@@ -122,7 +122,9 @@ const FormikFileUploader = ({
     return (
         <FormikFileInput<SøknadFormField, ValidationError>
             name={name}
-            acceptedExtensions={VALID_EXTENSIONS.join(', ')}
+            legend="TODO"
+            buttonLabel="TODO"
+            accept={VALID_EXTENSIONS.join(', ')}
             onFilesSelect={async (files: File[], { push, replace }: ArrayHelpers) => {
                 const attachments = files.map((file) => addPendingAttachmentToFieldArray(file, push));
                 await uploadAttachments([...(values as any)[name], ...attachments], replace);

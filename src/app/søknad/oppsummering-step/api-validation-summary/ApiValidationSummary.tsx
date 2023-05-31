@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import ActionLink from '@navikt/sif-common-core-ds/lib/atoms/action-link/ActionLink';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { Feiloppsummering } from 'nav-frontend-skjema';
 import { navigateToSoknadStep } from '../../../utils/navigationUtils';
 import { getStepTexts } from '../../../utils/stepUtils';

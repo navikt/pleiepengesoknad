@@ -1,22 +1,22 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils/lib';
+import { YesOrNoOrDoNotKnow } from '../YesOrNoOrDoNotKnow';
 
 export interface ErIOmsorgstilbudFremtidUsikkerSøknadsdata {
     type: 'erIOmsorgstilbudFremtidUsikker';
-    erIOmsorgstilbudFortid?: YesOrNo.NO;
+    erIOmsorgstilbudFortid?: YesOrNoOrDoNotKnow.NO;
 }
 
 export interface ErIOmsorgstilbudFasteDagerSøknadsdata {
     type: 'erIOmsorgstilbudFasteDager';
-    erIOmsorgstilbudFortid?: YesOrNo;
-    erIOmsorgstilbudFremtid?: YesOrNo;
+    erIOmsorgstilbudFortid?: YesOrNoOrDoNotKnow;
+    erIOmsorgstilbudFremtid?: YesOrNoOrDoNotKnow;
     fasteDager: DurationWeekdays;
 }
 
 export interface ErIOmsorgstilbudEnkeltDagerSøknadsdata {
     type: 'erIOmsorgstilbudEnkeltDager';
-    erIOmsorgstilbudFortid?: YesOrNo;
-    erIOmsorgstilbudFremtid?: YesOrNo;
+    erIOmsorgstilbudFortid?: YesOrNoOrDoNotKnow;
+    erIOmsorgstilbudFremtid?: YesOrNoOrDoNotKnow;
     enkeltdager: DateDurationMap;
 }
 

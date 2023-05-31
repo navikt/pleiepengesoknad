@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { ArbeidsforholdType } from '../../local-sif-common-pleiepenger';
 import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';
 import { ArbeidAnsattSøknadsdata } from '../../types/søknadsdata/Søknadsdata';

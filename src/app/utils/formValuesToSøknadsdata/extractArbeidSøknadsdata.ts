@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { ArbeidSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 import { extractArbeidsgivereArbeidsforholdSøknadsdata } from './extractArbeidsgivereArbeidsforholdSøknadsdata';

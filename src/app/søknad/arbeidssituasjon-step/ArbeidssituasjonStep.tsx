@@ -1,16 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
-import LoadingSpinner from '@navikt/sif-common-core/lib/components/loading-spinner/LoadingSpinner';
-import { date1YearAgo, date1YearFromNow, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms/lib/opptjening-utland/OpptjeningUtlandListAndDialog';
-import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms/lib/utenlandsk-næring/UtenlandskNæringListAndDialog';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { date1YearAgo, date1YearFromNow, DateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { getListValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import OpptjeningUtlandListAndDialog from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland/OpptjeningUtlandListAndDialog';
+import UtenlandskNæringListAndDialog from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring/UtenlandskNæringListAndDialog';
 import { useFormikContext } from 'formik';
 import { getArbeidsgivereRemoteData } from '../../api/getArbeidsgivereRemoteData';
 import { SøkerdataContext } from '../../context/SøkerdataContext';
@@ -27,6 +25,8 @@ import ArbeidssituasjonStepVeileder from './components/ArbeidssituasjonStepVeile
 import { oppdaterSøknadMedArbeidsgivere } from './utils/arbeidsgivereUtils';
 import { cleanupArbeidssituasjonStep } from './utils/cleanupArbeidssituasjonStep';
 import { visVernepliktSpørsmål } from './utils/visVernepliktSpørsmål';
+import LoadingSpinner from '@navikt/sif-common-core-ds/lib/atoms/loading-spinner/LoadingSpinner';
+import FormSection from '../../components/form-section/FormSection';
 
 interface LoadState {
     isLoading: boolean;
@@ -71,12 +71,12 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
             onStepCleanup={
                 søknadsperiode ? (values) => cleanupArbeidssituasjonStep(values, søknadsperiode) : undefined
             }>
-            {isLoading && <LoadingSpinner type="XS" blockTitle="Henter arbeidsforhold" />}
+            {isLoading && <LoadingSpinner type="XS" title="Henter arbeidsforhold" />}
             {!isLoading && søknadsperiode && (
                 <>
-                    <Box padBottom="xl">
+                    <Block padBottom="xl">
                         <ArbeidssituasjonStepVeileder />
-                    </Box>
+                    </Block>
 
                     <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.tittel')}>
                         <ArbeidssituasjonArbeidsgivere
@@ -168,7 +168,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
 
                     {visVernepliktSpørsmål(values) && (
                         <FormSection title={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.tittel')}>
-                            <Box margin="l">
+                            <Block margin="l">
                                 <SøknadFormComponents.YesOrNoQuestion
                                     name={SøknadFormField.harVærtEllerErVernepliktig}
                                     legend={intlHelper(intl, 'steg.arbeidssituasjon.verneplikt.spm')}
@@ -181,7 +181,7 @@ const ArbeidssituasjonStep = ({ onValidSubmit, søknadsdato, søknadsperiode }: 
                                     }
                                     data-testid="verneplikt"
                                 />
-                            </Box>
+                            </Block>
                         </FormSection>
                     )}
                 </>

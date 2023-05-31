@@ -1,4 +1,4 @@
-import { VirksomhetApiData } from '@navikt/sif-common-forms/lib';
+import { VirksomhetApiData } from '@navikt/sif-common-forms-ds/lib';
 import { ArbeidsforholdApiData } from './arbeidsforholdApiData';
 
 export interface SelvstendigApiDataIngenInntekt {

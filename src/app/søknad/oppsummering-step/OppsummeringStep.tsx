@@ -2,20 +2,20 @@ import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
 import { useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { isUnauthorized } from '@navikt/sif-common-core/lib/utils/apiUtils';
-import { apiStringDateToDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
+import { isUnauthorized } from '@navikt/sif-common-core-ds/lib/utils/apiUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { formatName } from '@navikt/sif-common-core-ds/lib/utils/personUtils';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
+import { getCheckedValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import SummaryList from '@navikt/sif-common-soknad-ds/lib/components/summary-list/SummaryList';
+import SummarySection from '@navikt/sif-common-soknad-ds/lib/components/summary-section/SummarySection';
+import { ISODateToDate } from '@navikt/sif-common-utils';
 import { AxiosError } from 'axios';
 import dayjs from 'dayjs';
 import HttpStatus from 'http-status-codes';
@@ -23,6 +23,7 @@ import { AlertStripeFeil } from 'nav-frontend-alertstriper';
 import { purge, sendApplication } from '../../api/api';
 import { SKJEMANAVN } from '../../App';
 import LegeerklæringAttachmentList from '../../components/legeerklæring-file-list/LegeerklæringFileList';
+import ResponsivePanel from '../../components/responsive-panel/ResponsivePanel';
 import routeConfig from '../../config/routeConfig';
 import { SøkerdataContextConsumer } from '../../context/SøkerdataContext';
 import useLogSøknadInfo from '../../hooks/useLogSøknadInfo';
@@ -49,7 +50,6 @@ import {
     renderUtenlandsoppholdSummary,
 } from './summaryItemRenderers';
 import './oppsummeringStep.less';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
 
 interface Props {
     values: SøknadFormValues;
@@ -165,8 +165,8 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                 }
 
                 const søknadsperiode: DateRange = {
-                    from: apiStringDateToDate(apiValues.fraOgMed),
-                    to: apiStringDateToDate(apiValues.tilOgMed),
+                    from: ISODateToDate(apiValues.fraOgMed),
+                    to: ISODateToDate(apiValues.tilOgMed),
                 };
 
                 const apiValuesValidationErrors = validateApiValues(apiValues, values, intl);
@@ -190,9 +190,9 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                         showSubmitButton={apiValuesValidationErrors === undefined}
                         buttonDisabled={sendingInProgress}
                         showButtonSpinner={sendingInProgress}>
-                        <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+                        <SifGuidePanel>
                             <FormattedMessage id="steg.oppsummering.info" />
-                        </CounsellorPanel>
+                        </SifGuidePanel>
 
                         {apiValuesValidationErrors && apiValuesValidationErrors.length > 0 && (
                             <FormBlock>
@@ -203,11 +203,11 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                             </FormBlock>
                         )}
 
-                        <Box margin="xl">
+                        <Block margin="xl">
                             <ResponsivePanel border={true}>
                                 {/* Om deg */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.søker.header')}>
-                                    <Box margin="m">
+                                    <Block margin="m">
                                         <div data-testid="oppsummering-søker-navn">
                                             {formatName(fornavn, etternavn, mellomnavn)}
                                         </div>
@@ -219,7 +219,7 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                                 }}
                                             />
                                         </div>
-                                    </Box>
+                                    </Block>
                                 </SummarySection>
 
                                 {/* Om barnet */}
@@ -259,14 +259,14 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                             </SummaryBlock>
 
                                             {utenlandsoppholdIPerioden.opphold.length > 0 && (
-                                                <Box>
+                                                <Block>
                                                     <div data-testid="oppsummering-utenlandsoppholdIPerioden-list">
                                                         <SummaryList
                                                             items={utenlandsoppholdIPerioden.opphold}
                                                             itemRenderer={renderUtenlandsoppholdIPeriodenSummary}
                                                         />
                                                     </div>
-                                                </Box>
+                                                </Block>
                                             )}
                                         </>
                                     )}
@@ -286,14 +286,14 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                                 </div>
                                             </SummaryBlock>
                                             {ferieuttakIPerioden.ferieuttak.length > 0 && (
-                                                <Box margin="l">
+                                                <Block margin="l">
                                                     <div data-testid="oppsummering-ferieuttakIPerioden-list">
                                                         <SummaryList
                                                             items={ferieuttakIPerioden.ferieuttak}
                                                             itemRenderer={renderFerieuttakIPeriodenSummary}
                                                         />
                                                     </div>
-                                                </Box>
+                                                </Block>
                                             )}
                                         </>
                                     )}
@@ -331,14 +331,14 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                     </SummaryBlock>
                                     {apiValues.medlemskap.harBoddIUtlandetSiste12Mnd === true &&
                                         medlemskap.utenlandsoppholdSiste12Mnd.length > 0 && (
-                                            <Box margin="l">
+                                            <Block margin="l">
                                                 <div data-testid="oppsummering-medlemskap-utlandetSiste12-list">
                                                     <SummaryList
                                                         items={medlemskap.utenlandsoppholdSiste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
                                                 </div>
-                                            </Box>
+                                            </Block>
                                         )}
                                     <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.utlandetNeste12.header')}>
                                         <div data-testid="oppsummering-medlemskap-utlandetNeste12">
@@ -353,35 +353,35 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                     </SummaryBlock>
                                     {apiValues.medlemskap.skalBoIUtlandetNeste12Mnd === true &&
                                         medlemskap.utenlandsoppholdNeste12Mnd.length > 0 && (
-                                            <Box margin="l">
+                                            <Block margin="l">
                                                 <div data-testid="oppsummering-medlemskap-utlandetNeste12-list">
                                                     <SummaryList
                                                         items={medlemskap.utenlandsoppholdNeste12Mnd}
                                                         itemRenderer={renderUtenlandsoppholdSummary}
                                                     />
                                                 </div>
-                                            </Box>
+                                            </Block>
                                         )}
                                 </SummarySection>
 
                                 {/* Vedlegg */}
                                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.vedlegg.header')}>
-                                    <Box margin="m">
+                                    <Block margin="m">
                                         <div data-testid={'oppsummering-vedleggList'}>
                                             <LegeerklæringAttachmentList includeDeletionFunctionality={false} />
                                         </div>
-                                    </Box>
+                                    </Block>
                                 </SummarySection>
                             </ResponsivePanel>
-                        </Box>
+                        </Block>
 
-                        <Box margin="l">
+                        <Block margin="l">
                             <SøknadFormComponents.ConfirmationCheckbox
                                 label={intlHelper(intl, 'steg.oppsummering.bekrefterOpplysninger')}
                                 name={SøknadFormField.harBekreftetOpplysninger}
                                 validate={getCheckedValidator()}
                             />
-                        </Box>
+                        </Block>
 
                         {innsendingFeiletInfo && (
                             <FormBlock>
@@ -392,11 +392,11 @@ const OppsummeringStep = ({ onApplicationSent, values, søknadsdato }: Props) =>
                                         første til siste steg, bare pass på å bruke Fortsett knappen i siden, ikke frem
                                         og tilbake i nettleseren.
                                     </p>
-                                    <Box>
+                                    <Block>
                                         <ExpandableInfo title="Vis mer informasjon om feilen">
                                             <p>{innsendingFeiletInfo}</p>
                                         </ExpandableInfo>
-                                    </Box>
+                                    </Block>
                                 </AlertStripeFeil>
                             </FormBlock>
                         )}

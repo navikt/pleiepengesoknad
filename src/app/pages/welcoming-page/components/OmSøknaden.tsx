@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { Undertittel } from 'nav-frontend-typografi';
 import BehandlingAvPersonopplysningerContent from './BehandlingAvPersonopplysningerContent';
 import Lenke from 'nav-frontend-lenker';
@@ -11,7 +11,7 @@ import getLenker from '../../../lenker';
 const OmSøknaden = () => {
     const intl = useIntl();
     return (
-        <Box margin="xl">
+        <Block margin="xl">
             <Undertittel tag="h2">
                 <FormattedMessage id="page.velkommen.omSøknaden.tittel" />
             </Undertittel>
@@ -40,7 +40,7 @@ const OmSøknaden = () => {
             <ExpandableInfo title={intlHelper(intl, 'page.velkommen.omSøknaden.4')}>
                 <BehandlingAvPersonopplysningerContent />
             </ExpandableInfo>
-        </Box>
+        </Block>
     );
 };
 

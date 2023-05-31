@@ -1,10 +1,11 @@
-import { DateRange, datoErInnenforTidsrom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik/lib';
+import { dateToISOString, ISOStringToDate } from '@navikt/sif-common-formik-ds/lib';
 import {
     DateDurationMap,
+    DateRange,
     durationToISODuration,
     durationUtils,
     DurationWeekdays,
+    isDateInDateRange,
     isDateWeekDay,
 } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
@@ -35,7 +36,7 @@ export const getEnkeltdagerIPeriodeApiData = (
 
     Object.keys(enkeltdager).forEach((dag) => {
         const dato = ISOStringToDate(dag);
-        if (dato && datoErInnenforTidsrom(dato, periode) && isDateWeekDay(dato)) {
+        if (dato && isDateInDateRange(dato, periode) && isDateWeekDay(dato)) {
             if (durationUtils.durationIsZero(enkeltdager[dag])) {
                 return;
             }

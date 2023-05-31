@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeType } from '../../../../types/arbeidIPeriodeType';
 import { ArbeidIPeriodeSøknadsdata } from '../../../../types/søknadsdata/arbeidIPeriodeSøknadsdata';

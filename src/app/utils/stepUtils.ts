@@ -1,7 +1,6 @@
 import { IntlShape } from 'react-intl';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { getSøknadStepConfig, StepConfigInterface, StepConfigItemTexts, StepID } from '../søknad/søknadStepsConfig';
 import { SøknadFormValues } from '../types/SøknadFormValues';
 import {
@@ -16,6 +15,7 @@ import { erAnsattISøknadsperiode } from './ansattUtils';
 import { erFrilanserISøknadsperiode } from './frilanserUtils';
 import { erSNISøknadsperiode } from './selvstendigUtils';
 import { isAvailable } from './routeUtils';
+import { YesOrNoOrDoNotKnow } from '../types/YesOrNoOrDoNotKnow';
 
 export const getStepTexts = (intl: IntlShape, stepId: StepID, stepConfig: StepConfigInterface): StepConfigItemTexts => {
     const conf = stepConfig[stepId];
@@ -84,8 +84,8 @@ export const skalBrukerSvarePåBeredskapOgNattevåk = (formValues?: SøknadFormV
     return (
         formValues !== undefined &&
         formValues.omsorgstilbud !== undefined &&
-        (formValues.omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES ||
-            formValues.omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES)
+        (formValues.omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES ||
+            formValues.omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES)
     );
 };
 

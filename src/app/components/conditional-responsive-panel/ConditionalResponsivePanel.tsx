@@ -1,5 +1,5 @@
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 import React from 'react';
+import ResponsivePanel from '../responsive-panel/ResponsivePanel';
 
 interface Props {
     usePanelLayout: boolean;

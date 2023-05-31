@@ -1,14 +1,14 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import AttachmentListWithDeletion from '@navikt/sif-common-core/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
-import AttachmentList from '@navikt/sif-common-core/lib/components/attachment-list/AttachmentList';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import AttachmentListWithDeletion from '@navikt/sif-common-core-ds/lib/components/attachment-list-with-deletion/AttachmentListWithDeletion';
+import AttachmentList from '@navikt/sif-common-core-ds/lib/components/attachment-list/AttachmentList';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import {
     containsAnyUploadedAttachments,
     fileExtensionIsValid,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import { removeElementFromArray } from '@navikt/sif-common-core/lib/utils/listUtils';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
+import { removeElementFromArray } from '@navikt/sif-common-core-ds/lib/utils/listUtils';
 import { connect, useFormikContext } from 'formik';
 import { deleteFile } from '../../api/api';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
@@ -33,7 +33,7 @@ const LegeerklæringAttachmentList = ({ wrapNoAttachmentsInBox, includeDeletionF
             </div>
         );
         if (wrapNoAttachmentsInBox) {
-            return <Box margin="m">{noAttachmentsText}</Box>;
+            return <Block margin="m">{noAttachmentsText}</Block>;
         }
         return noAttachmentsText;
     }

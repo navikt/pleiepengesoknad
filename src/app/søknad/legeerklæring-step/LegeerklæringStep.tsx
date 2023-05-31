@@ -1,17 +1,17 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
-import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import FileUploadErrors from '@navikt/sif-common-core-ds/lib/components/file-upload-errors/FileUploadErrors';
+import PictureScanningGuide from '@navikt/sif-common-core-ds/lib/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import {
     getTotalSizeOfAttachments,
     mapFileToPersistedFile,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
@@ -95,22 +95,22 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
             useValidationErrorSummary={false}
             skipValidation={true}
             buttonDisabled={hasPendingUploads || attachmentsSizeOver24Mb}>
-            <Box padBottom="xl">
-                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+            <Block padBottom="xl">
+                <SifGuidePanel compact={true}>
                     <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.1'} />
                     </p>
                     <p>
                         <FormattedMessage id={'steg.legeerklaering.counsellorpanel.2'} />{' '}
                     </p>
-                </CounsellorPanel>
-            </Box>
+                </SifGuidePanel>
+            </Block>
 
-            <Box margin={'l'}>
+            <Block margin={'l'}>
                 <PictureScanningGuide />
-            </Box>
+            </Block>
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
-                <Box margin="l">
+                <Block margin="l">
                     <FormikFileUploader
                         name={SøknadFormField.legeerklæring}
                         label={intlHelper(intl, 'steg.lege.vedlegg')}
@@ -121,21 +121,21 @@ const LegeerklæringStep = ({ onValidSubmit }: StepConfigProps) => {
                         validate={validateLegeerklæring}
                         onUnauthorizedOrForbiddenUpload={userNotLoggedIn}
                     />
-                </Box>
+                </Block>
             )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
-                <Box margin={'l'}>
+                <Block margin={'l'}>
                     <AlertStripeAdvarsel>
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
                         <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
                         </Lenke>
                     </AlertStripeAdvarsel>
-                </Box>
+                </Block>
             )}
-            <Box margin={'l'}>
+            <Block margin={'l'}>
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-            </Box>
+            </Block>
             <LegeerklæringFileList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
         </SøknadFormStep>
     );

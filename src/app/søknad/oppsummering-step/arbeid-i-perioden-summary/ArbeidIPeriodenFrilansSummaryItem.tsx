@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import {
     decimalDurationToDuration,
     ISODateToDate,

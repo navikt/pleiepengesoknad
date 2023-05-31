@@ -1,18 +1,18 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import bemHelper from '@navikt/sif-common-core/lib/utils/bemUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik';
-import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import { Hovedknapp } from 'nav-frontend-knapper';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import bemHelper from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getTypedFormComponents } from '@navikt/sif-common-formik-ds';
+import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import Lenke from 'nav-frontend-lenker';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
-import { getCheckedValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getCheckedValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import { Undertittel } from 'nav-frontend-typografi';
 import InfoList from './components/info-list/InfoList';
 import getLenker from '../../lenker';
+import { Button } from '@navikt/ds-react';
 
 interface Props {
     onConfirm: () => void;
@@ -56,9 +56,9 @@ const SamtykkeForm = ({ onConfirm }: Props) => {
             </FormBlock>
             <FormBlock>
                 <div data-testid={'welcomingPage-begynnsøknad'}>
-                    <Hovedknapp className={bem.element('startApplicationButton')}>
+                    <Button variant="primary" type="submit" className={bem.element('startApplicationButton')}>
                         {intlHelper(intl, 'welcomingPage.begynnsøknad')}
-                    </Hovedknapp>
+                    </Button>
                 </div>
             </FormBlock>
         </AppForm.Form>

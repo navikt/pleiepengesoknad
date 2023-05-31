@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { BostedUtland } from '@navikt/sif-common-forms/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { BostedUtland } from '@navikt/sif-common-forms-ds/lib';
 import {
     date1YearAgo,
     date2YearsAgo,

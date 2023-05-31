@@ -1,7 +1,7 @@
 import { UtenlandskNæringApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { UtenlandskNæringSøknadsdata } from '../../types/søknadsdata/utenlandskNæringSøknadsdata';
-import { getCountryName } from '@navikt/sif-common-formik/lib';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getCountryName } from '@navikt/sif-common-formik-ds/lib';
+import { dateToISODate } from '@navikt/sif-common-utils';
 
 export const getUtenlandskNæringSøknadsdata = (
     locale: string,
@@ -16,8 +16,8 @@ export const getUtenlandskNæringSøknadsdata = (
                 landnavn: getCountryName(næring.land, locale),
                 landkode: næring.land,
             },
-            fraOgMed: formatDateToApiFormat(næring.fraOgMed),
-            tilOgMed: næring.tilOgMed ? formatDateToApiFormat(næring.tilOgMed) : undefined,
+            fraOgMed: dateToISODate(næring.fraOgMed),
+            tilOgMed: næring.tilOgMed ? dateToISODate(næring.tilOgMed) : undefined,
         }));
 
         return apiData;

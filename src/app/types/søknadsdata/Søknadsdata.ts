@@ -1,5 +1,5 @@
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { ArbeidSøknadsdata } from './arbeidSøknadsdata';
 import { BeredskapSøknadsdata } from './beredskapSøknadsdata';
 import { FerieuttakIPeriodenSøknadsdata } from './ferieuttakIPeriodenSøknadsdata';

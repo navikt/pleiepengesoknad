@@ -1,14 +1,14 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { Virksomhet, VirksomhetApiData } from '@navikt/sif-common-forms/lib';
+import { Virksomhet, VirksomhetApiData } from '@navikt/sif-common-forms-ds/lib';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { booleanToYesOrNo, booleanToYesOrNoOrUnanswered } from '../booleanToYesOrNo';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 
 export const mapVirksomhetApiDataToVirksomhet = ({
     fraOgMed,
     tilOgMed,
     erNyoppstartet,
     navnPåVirksomheten,
-    næringstype,
+    næringstyper,
     registrertINorge,
     fiskerErPåBladB,
     næringsinntekt,
@@ -20,7 +20,7 @@ export const mapVirksomhetApiDataToVirksomhet = ({
 }: VirksomhetApiData): Virksomhet => {
     const erPågående = tilOgMed === undefined;
     const virksomhet: Virksomhet = {
-        næringstype,
+        næringstype: næringstyper[0], // TODO
         navnPåVirksomheten,
         fiskerErPåBladB: booleanToYesOrNoOrUnanswered(fiskerErPåBladB),
         registrertINorge: booleanToYesOrNo(registrertINorge),

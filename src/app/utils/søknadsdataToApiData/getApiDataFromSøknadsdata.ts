@@ -1,5 +1,5 @@
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
+import { dateToISODate } from '@navikt/sif-common-utils';
 import { RegistrerteBarn, ÅrsakManglerIdentitetsnummer } from '../../types';
 import { SøknadApiData, SøknadApiDataVersjon } from '../../types/søknad-api-data/SøknadApiData';
 import { Søknadsdata } from '../../types/søknadsdata/Søknadsdata';
@@ -46,8 +46,8 @@ export const getApiDataFromSøknadsdata = (
                     søknadsdata.barn.fødselsattest
                         ? getAttachmentsApiDataFromSøknadsdata(søknadsdata.barn.fødselsattest)
                         : [],
-                fraOgMed: formatDateToApiFormat(søknadsperiode.from),
-                tilOgMed: formatDateToApiFormat(søknadsperiode.to),
+                fraOgMed: dateToISODate(søknadsperiode.from),
+                tilOgMed: dateToISODate(søknadsperiode.to),
                 ...getUtenlandsoppholdIPeriodenApiDataFromSøknadsdata(sprak, søknadsdata.utenlandsoppholdIPerioden),
                 ferieuttakIPerioden: getFerieuttakIPeriodenApiDataFromSøknadsdata(søknadsdata.ferieuttakIPerioden),
                 arbeidsgivere: getArbeidsgivereApiDataFromSøknadsdata(søknadsdata.arbeid?.arbeidsgivere),

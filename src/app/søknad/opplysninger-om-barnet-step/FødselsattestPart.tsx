@@ -1,17 +1,17 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import { useFormikContext } from 'formik';
-import PictureScanningGuide from '@navikt/sif-common-core/lib/components/picture-scanning-guide/PictureScanningGuide';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import PictureScanningGuide from '@navikt/sif-common-core-ds/lib/components/picture-scanning-guide/PictureScanningGuide';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import { Undertittel } from 'nav-frontend-typografi';
 import {
     getTotalSizeOfAttachments,
     mapFileToPersistedFile,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
 import { relocateToLoginPage } from '../../utils/navigationUtils';
 import { StepID } from '../søknadStepsConfig';
@@ -19,7 +19,7 @@ import { persist } from '../../api/api';
 import FormikFileUploader from '../../components/formik-file-uploader/FormikFileUploader';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import FileUploadErrors from '@navikt/sif-common-core/lib/components/file-upload-errors/FileUploadErrors';
+import FileUploadErrors from '@navikt/sif-common-core-ds/lib/components/file-upload-errors/FileUploadErrors';
 import getLenker from '../../lenker';
 import UploadedDocumentsList from '../../components/fødselsattest-file-list/UploadedDocumentsList';
 
@@ -86,14 +86,14 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
             <Undertittel tag="h2" style={{ display: 'inline-block', fontSize: '1.125rem' }}>
                 {intlHelper(intl, 'steg.omBarnet.fødselsattest.tittel')}
             </Undertittel>
-            <Box margin="m">
+            <Block margin="m">
                 <FormattedMessage id="steg.omBarnet.fødselsattest.info" />
-            </Box>
-            <Box margin={'l'}>
+            </Block>
+            <Block margin={'l'}>
                 <PictureScanningGuide />
-            </Box>
+            </Block>
             {totalSize <= MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
-                <Box margin="l">
+                <Block margin="l">
                     <FormikFileUploader
                         name={SøknadFormField.fødselsattest}
                         label={intlHelper(intl, 'steg.omBarnet.fødselsattest.vedlegg')}
@@ -104,24 +104,24 @@ const FødselsattestPart: React.FC<Props> = ({ attachments }) => {
                         // validate={validateLegeerklæring}
                         onUnauthorizedOrForbiddenUpload={userNotLoggedIn}
                     />
-                </Box>
+                </Block>
             )}
             {totalSize > MAX_TOTAL_ATTACHMENT_SIZE_BYTES && (
-                <Box margin={'l'}>
+                <Block margin={'l'}>
                     <AlertStripeAdvarsel>
                         <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.1'} />
                         <Lenke target={'_blank'} rel={'noopener noreferrer'} href={getLenker(intl.locale).ettersend}>
                             <FormattedMessage id={'dokumenter.advarsel.totalstørrelse.2'} />
                         </Lenke>
                     </AlertStripeAdvarsel>
-                </Box>
+                </Block>
             )}
-            <Box margin={'l'}>
+            <Block margin={'l'}>
                 <FileUploadErrors filesThatDidntGetUploaded={filesThatDidntGetUploaded} />
-            </Box>
-            <Box margin="l">
+            </Block>
+            <Block margin="l">
                 <UploadedDocumentsList wrapNoAttachmentsInBox={true} includeDeletionFunctionality={true} />
-            </Box>
+            </Block>
         </>
     );
 };

@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { DateRange, dateFormatter } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import { ArbeidsforholdFormValues, ArbeidsforholdFormField } from '../../../types/ArbeidsforholdFormValues';
 import NormalarbeidstidSpørsmål from './normalarbeidstid-spørsmål/NormalarbeidstidSpørsmål';
@@ -40,7 +40,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                 title={arbeidsforhold.arbeidsgiver.navn}
                 titleIcon={<OfficeIconSvg />}
                 description={renderTidsrom(arbeidsforhold.arbeidsgiver)}>
-                <Box>
+                <Block>
                     <AnsattFormComponents.RadioGroup
                         legend={intlHelper(intl, 'arbeidsforhold.erAnsatt.spm', {
                             navn: arbeidsforhold.arbeidsgiver.navn,
@@ -59,7 +59,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                 'data-testid': 'er-ansatt_no',
                             },
                         ]}
-                        checked={arbeidsforhold.erAnsatt}
+                        value={arbeidsforhold.erAnsatt}
                         validate={(value) => {
                             return getYesOrNoValidator()(value)
                                 ? {
@@ -70,12 +70,12 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                 : undefined;
                         }}
                     />
-                </Box>
+                </Block>
 
                 {(arbeidsforhold.erAnsatt === YesOrNo.YES || arbeidsforhold.erAnsatt === YesOrNo.NO) && (
                     <FormBlock margin="l">
                         {erAvsluttet && (
-                            <Box padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
+                            <Block padBottom={arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO ? 'xl' : 'none'}>
                                 <AlertStripeInfo>
                                     <FormattedMessage id="arbeidsforhold.ikkeAnsatt.info" />
                                 </AlertStripeInfo>
@@ -84,7 +84,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                         name={getFieldName(ArbeidsforholdFormField.sluttetFørSøknadsperiode)}
                                         legend={intlHelper(intl, 'arbeidsforhold.sluttetFørSøknadsperiode.spm', {
                                             navn: arbeidsforhold.arbeidsgiver.navn,
-                                            fraDato: prettifyDateFull(søknadsperiode.from),
+                                            fraDato: dateFormatter.full(søknadsperiode.from),
                                         })}
                                         radios={[
                                             {
@@ -98,7 +98,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                                 'data-testid': 'sluttet-før-søknadsperiode_no',
                                             },
                                         ]}
-                                        checked={arbeidsforhold.sluttetFørSøknadsperiode}
+                                        value={arbeidsforhold.sluttetFørSøknadsperiode}
                                         data-testid="sluttet-før-søknadsperiode"
                                         validate={(value) => {
                                             const error = getRequiredFieldValidator()(value);
@@ -107,7 +107,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                                       key: 'validation.arbeidsforhold.sluttetFørSøknadsperiode.yesOrNoIsUnanswered',
                                                       values: {
                                                           navn: arbeidsforhold.arbeidsgiver.navn,
-                                                          fraDato: prettifyDateFull(søknadsperiode.from),
+                                                          fraDato: dateFormatter.full(søknadsperiode.from),
                                                       },
                                                       keepKeyUnaltered: true,
                                                   }
@@ -115,7 +115,7 @@ const ArbeidssituasjonAnsatt: React.FC<Props> = ({ arbeidsforhold, parentFieldNa
                                         }}
                                     />
                                 </FormBlock>
-                            </Box>
+                            </Block>
                         )}
                         {((erAvsluttet && arbeidsforhold.sluttetFørSøknadsperiode === YesOrNo.NO) || !erAvsluttet) && (
                             <NormalarbeidstidSpørsmål

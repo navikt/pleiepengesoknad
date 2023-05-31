@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { ArbeidsforholdType } from '../../../../local-sif-common-pleiepenger';
 import { FrilansTyper } from '../../../../types/FrilansFormData';
 
@@ -41,9 +41,7 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                 <FormattedMessage id={`arbeidsforhold.normalTimer.info.turnus`} />
             </p>
 
-            <ExpandableInfo
-                filledBackground={false}
-                title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
+            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.1'} />
                 <p>
                     <strong>
@@ -64,9 +62,7 @@ const InfoArbeiderNormaltTimerAnsatt = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.5'} />
                 </p>
             </ExpandableInfo>
-            <ExpandableInfo
-                filledBackground={false}
-                title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.varierende.tittel')}>
+            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.varierende.tittel')}>
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.1'} />
 
                 <p>
@@ -105,7 +101,7 @@ const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper, misterHonorarStyrever
     }
     return (
         <>
-            <Box margin="l">
+            <Block margin="l">
                 {frilansTyper && frilansTyper.some((type) => type === FrilansTyper.FRILANS) && (
                     <ExpandableInfo
                         title={intlHelper(intl, 'arbeidsforhold.frilanser.normalTimer.frilans.info.tittel')}>
@@ -126,7 +122,7 @@ const InfoArbeiderNormaltTimerFrilanser = ({ frilansTyper, misterHonorarStyrever
                             </p>
                         </ExpandableInfo>
                     )}
-            </Box>
+            </Block>
         </>
     );
 };
@@ -139,9 +135,7 @@ const InfoArbeiderNormaltTimerSN = () => {
                 <FormattedMessage id={`arbeidsforhold.normalTimer.info.turnus`} />
             </p>
 
-            <ExpandableInfo
-                filledBackground={false}
-                title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
+            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.turnus.tittel')}>
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.1'} />
 
                 <p>
@@ -163,9 +157,7 @@ const InfoArbeiderNormaltTimerSN = () => {
                     <FormattedMessage id={'arbeidsforhold.normalTimer.info.turnus.avsnitt.5'} />
                 </p>
             </ExpandableInfo>
-            <ExpandableInfo
-                filledBackground={false}
-                title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.varierende.tittel')}>
+            <ExpandableInfo title={intlHelper(intl, 'arbeidsforhold.normalTimer.info.varierende.tittel')}>
                 <FormattedMessage id={'arbeidsforhold.normalTimer.info.varierende.avsnitt.1'} />
 
                 <p>

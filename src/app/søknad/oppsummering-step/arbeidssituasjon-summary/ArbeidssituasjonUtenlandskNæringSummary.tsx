@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import { ISODateToDate, prettifyDate } from '@navikt/sif-common-utils/lib';
 import { UtenlandskNæringApiData } from '../../../types/søknad-api-data/SøknadApiData';
-import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
 
 interface Props {
     utenlandskNæring: UtenlandskNæringApiData[];
@@ -19,14 +19,14 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
 
         const tidsinfo = næring.tilOgMed
             ? intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.tidsinfo.avsluttet', {
-                  fraOgMed: prettifyApiDate(næring.fraOgMed),
-                  tilOgMed: prettifyApiDate(næring.tilOgMed),
+                  fraOgMed: prettifyDate(ISODateToDate(næring.fraOgMed)),
+                  tilOgMed: prettifyDate(ISODateToDate(næring.tilOgMed)),
               })
             : intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.tidsinfo.pågående', {
-                  fraOgMed: prettifyApiDate(næring.fraOgMed),
+                  fraOgMed: prettifyDate(ISODateToDate(næring.fraOgMed)),
               });
         return (
-            <Box margin="m" padBottom="l" key={næring.navnPåVirksomheten}>
+            <Block margin="m" padBottom="l" key={næring.navnPåVirksomheten}>
                 <li>
                     <div data-testid="oppsummering-utenlandskNæring-navn">
                         {`${intlHelper(intl, 'sifForms.utenlandskNæringForm.summary.navn')}: ${
@@ -52,14 +52,12 @@ function UtenlandskNæringSummary({ utenlandskNæring }: Props) {
                     </div>
                     <div data-testid="oppsummering-utenlandskNæring-tidsinfo">{tidsinfo}</div>
                 </li>
-            </Box>
+            </Block>
         );
     };
     return (
         <div data-testid="arbeidssituasjon-utenlandskNæring">
-            <SummaryBlock
-                header={intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.listetittel')}
-                headerTag="h3">
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.listetittel')}>
                 {utenlandskNæring.length === 0 && (
                     <p data-testid={'arbeidssituasjon-harUtenlandskNæringSvar'}>
                         {intlHelper(intl, 'oppsummering.arbeidssituasjon.utenlandskNæring.nei')}

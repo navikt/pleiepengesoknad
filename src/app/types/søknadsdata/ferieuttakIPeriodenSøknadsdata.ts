@@ -1,4 +1,4 @@
-import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
+import { Ferieuttak } from '@navikt/sif-common-forms-ds/lib/forms/ferieuttak/types';
 
 export interface SkalTaUtFerieSøknadsdata {
     type: 'skalTaUtFerieSøknadsdata';

@@ -1,4 +1,4 @@
-import { storageParser } from '@navikt/sif-common-core/lib/utils/persistence/persistence';
+import { storageParser } from '@navikt/sif-common-core-ds/lib/utils/persistence/storageParser';
 import axios, { AxiosResponse } from 'axios';
 import { axiosConfigPsb, axiosConfigInnsyn } from '../config/axiosConfig';
 import { AAregArbeidsgiverRemoteData } from './getArbeidsgivereRemoteData';

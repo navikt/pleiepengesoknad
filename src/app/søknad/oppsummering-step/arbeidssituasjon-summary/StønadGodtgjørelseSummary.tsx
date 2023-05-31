@@ -1,7 +1,7 @@
 import React from 'react';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { StønadGodtgjørelseApiData } from 'app/types/søknad-api-data/stønadGodtgjørelseApiData';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
 import { dateFormatter, ISODateToDate } from '@navikt/sif-common-utils/lib';
+import { StønadGodtgjørelseApiData } from 'app/types/søknad-api-data/stønadGodtgjørelseApiData';
 
 interface Props {
     stønadGodtgjørelse: StønadGodtgjørelseApiData;
@@ -29,7 +29,7 @@ const StønadGodtgjørelseSummary = ({ stønadGodtgjørelse }: Props) => {
     }
 
     return (
-        <SummaryBlock header={'Omsorgsstønad eller fosterhjemsgodtgjørelse'} headerTag="h3">
+        <SummaryBlock header={'Omsorgsstønad eller fosterhjemsgodtgjørelse'}>
             <ul>
                 {mottarStønadGodtgjørelseIHelePeroden ? (
                     <li>{'Jeg mottar stønad/godtgjørelse i hele perioden jeg søker for'}</li>

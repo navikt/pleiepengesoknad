@@ -1,7 +1,7 @@
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { StønadGodtgjørelseSøknadsdata } from '../../types/søknadsdata/stønadGodtgjørelseSøknadsdata';
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import { dateToISODate } from '@navikt/sif-common-utils';
 
 type StønadGodtgjørelseApiData = Pick<SøknadApiData, 'stønadGodtgjørelse'>;
 
@@ -12,8 +12,8 @@ export const getStønadGodtgjørelseApiDataFromSøknadsdata = (
     if (stønadGodtgjørelse === undefined) {
         throw Error('stønadGodtgjørelse undefined');
     }
-    const fraOgMed = formatDateToApiFormat(søknadsperiode.from);
-    const tilOgMed = formatDateToApiFormat(søknadsperiode.to);
+    const fraOgMed = dateToISODate(søknadsperiode.from);
+    const tilOgMed = dateToISODate(søknadsperiode.to);
 
     switch (stønadGodtgjørelse?.type) {
         case 'mottarIkke':

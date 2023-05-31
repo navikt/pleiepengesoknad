@@ -1,5 +1,5 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import datepickerUtils from '@navikt/sif-common-formik-ds/lib/components/formik-datepicker/datepickerUtils';
 import { ArbeidsforholdType } from '../../local-sif-common-pleiepenger';
 import { FrilansFormData, FrilansTyper } from '../../types/FrilansFormData';
 import { ArbeidFrilansSøknadsdata } from '../../types/søknadsdata/Søknadsdata';

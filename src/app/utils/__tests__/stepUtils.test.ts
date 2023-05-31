@@ -1,7 +1,7 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
 import * as stepValidations from '../../validation/stepValidations';
 import * as stepUtils from '../stepUtils';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 
 jest.mock('./../../validation/stepValidations', () => {
     return {
@@ -112,21 +112,24 @@ describe('stepUtils', () => {
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 2', () => {
-            formData.omsorgstilbud = { erIOmsorgstilbudFortid: YesOrNo.NO, erIOmsorgstilbudFremtid: YesOrNo.NO };
+            formData.omsorgstilbud = {
+                erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.NO,
+                erIOmsorgstilbudFremtid: YesOrNoOrDoNotKnow.NO,
+            };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormValues);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer ikke nattevåk/beredskap dersom barnet ikke har vært/skal i tilsyn - 3', () => {
             formData.omsorgstilbud = {
-                erIOmsorgstilbudFortid: YesOrNo.UNANSWERED,
-                erIOmsorgstilbudFremtid: YesOrNo.UNANSWERED,
+                erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.UNANSWERED,
+                erIOmsorgstilbudFremtid: YesOrNoOrDoNotKnow.UNANSWERED,
             };
             const returnValue = stepUtils.skalBrukerSvarePåBeredskapOgNattevåk(formData as SøknadFormValues);
             expect(returnValue).toBeFalsy();
         });
         it('inkluderer nattevåk/beredskap dersom barn er i omsorgstilbud', () => {
             formData.omsorgstilbud = {
-                erIOmsorgstilbudFortid: YesOrNo.YES,
+                erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.YES,
                 enkeltdager: {
                     '2020-01-01': { hours: '1', minutes: '0' },
                 },

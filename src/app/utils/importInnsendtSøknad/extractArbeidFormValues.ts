@@ -1,6 +1,6 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
-import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { OpptjeningUtland } from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland';
+import { UtenlandskNæring } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import isSameOrAfter from 'dayjs/plugin/isSameOrAfter';

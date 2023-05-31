@@ -1,15 +1,14 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useNavigate } from 'react-router-dom';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
-import Page from '@navikt/sif-common-core/lib/components/page/Page';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import ActionLink from '@navikt/sif-common-core-ds/lib/atoms/action-link/ActionLink';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
+import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { Ingress, Systemtittel } from 'nav-frontend-typografi';
-import Veilederpanel from 'nav-frontend-veilederpanel';
 import { getBackLinkFromNotIncludedStep, StepID } from '../../søknad/søknadStepsConfig';
-import VeilederLokal from '../../components/veileder-lokal/VeilederLokal';
 import { navigateTo } from '../../utils/navigationUtils';
 
 interface Props {
@@ -23,11 +22,11 @@ const InvalidStepPage = ({ stepId }: Props) => {
     return (
         <Page title={intlHelper(intl, 'page.invalidStepPage.sidetittel')}>
             <div style={{ paddingTop: '1rem' }}>
-                <Veilederpanel type="plakat" kompakt={true} fargetema="normal" svg={<VeilederLokal mood="uncertain" />}>
+                <SifGuidePanel poster={true} compact={true} mood="uncertain">
                     <Systemtittel tag="h2">
                         <FormattedMessage id="page.invalidStepPage.tittel" />
                     </Systemtittel>
-                    <Box margin="m" padBottom="l">
+                    <Block margin="m" padBottom="l">
                         <Ingress tag="div">
                             <FormattedHtmlMessage id="page.invalidStepPage.tekst" />
                             <p>
@@ -43,8 +42,8 @@ const InvalidStepPage = ({ stepId }: Props) => {
                                 </ActionLink>
                             </p>
                         </Ingress>
-                    </Box>
-                </Veilederpanel>
+                    </Block>
+                </SifGuidePanel>
             </div>
         </Page>
     );

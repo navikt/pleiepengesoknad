@@ -1,29 +1,29 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { dateToday, prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik';
-import { SkjemagruppeQuestion } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { resetFieldValue, resetFieldValues } from '@navikt/sif-common-formik-ds';
+import { SkjemagruppeQuestion } from '@navikt/sif-common-formik-ds/lib';
 import {
     getDateValidator,
     getFødselsnummerValidator,
     getRequiredFieldValidator,
     getStringValidator,
     ValidateDateError,
-} from '@navikt/sif-common-formik/lib/validation';
+} from '@navikt/sif-common-formik-ds/lib/validation';
+import { dateToday, prettifyDate } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import { useFormikContext } from 'formik';
 import { Undertittel } from 'nav-frontend-typografi';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../../types';
-import { initialValues, SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
+import { initialValues, SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
 import { validateNavn } from '../../validation/fieldValidations';
 import SøknadFormComponents from '../SøknadFormComponents';
-import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 import FødselsattestPart from './FødselsattestPart';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import InfoForFarVedNyttBarn from './info/InfoForFarVedNyttBarn';
 
 interface Props {
     formValues: SøknadFormValues;
@@ -44,7 +44,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
     } = useFormikContext<SøknadFormValues>();
 
     return (
-        <Box margin="xl">
+        <Block margin="xl">
             <SkjemagruppeQuestion
                 legend={
                     harRegistrerteBarn ? (
@@ -53,7 +53,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                         </Undertittel>
                     ) : undefined
                 }>
-                <SøknadFormComponents.Input
+                <SøknadFormComponents.TextField
                     label={intlHelper(intl, 'steg.omBarnet.fnr.spm')}
                     name={SøknadFormField.barnetsFødselsnummer}
                     validate={
@@ -64,7 +64,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                                   disallowedValues: [søkersFødselsnummer],
                               })
                     }
-                    bredde="XL"
+                    width="xl"
                     type="tel"
                     maxLength={11}
                     disabled={barnetHarIkkeFnr}
@@ -101,16 +101,16 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                                         : undefined,
                             }))}
                             validate={getRequiredFieldValidator()}
-                            checked={formValues.årsakManglerIdentitetsnummer}
+                            value={formValues.årsakManglerIdentitetsnummer}
                         />
                     </FormBlock>
                 )}
                 <FormBlock>
-                    <SøknadFormComponents.Input
+                    <SøknadFormComponents.TextField
                         label={intlHelper(intl, 'steg.omBarnet.navn')}
                         name={SøknadFormField.barnetsNavn}
                         validate={validateNavn}
-                        bredde="XL"
+                        width="xl"
                     />
                 </FormBlock>
                 {barnetHarIkkeFnr && (
@@ -146,12 +146,12 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                             value: relasjon,
                         }))}
                         validate={getRequiredFieldValidator()}
-                        checked={formValues.relasjonTilBarnet}></SøknadFormComponents.RadioGroup>
+                        value={formValues.relasjonTilBarnet}></SøknadFormComponents.RadioGroup>
                 </FormBlock>
                 {formValues.relasjonTilBarnet === BarnRelasjon.FAR && (
-                    <Box margin="m">
+                    <Block margin="m">
                         <InfoForFarVedNyttBarn />
-                    </Box>
+                    </Block>
                 )}
                 {formValues.relasjonTilBarnet === BarnRelasjon.ANNET && (
                     <FormBlock>
@@ -197,7 +197,7 @@ const AnnetBarnPart: React.FC<Props> = ({ formValues, søkersFødselsnummer, att
                         </FormBlock>
                     )}
             </SkjemagruppeQuestion>
-        </Box>
+        </Block>
     );
 };
 export default AnnetBarnPart;

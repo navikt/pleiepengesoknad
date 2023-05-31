@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-// import { prettifyApiDate } from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/DatoSvar';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+// import { prettifyApiDate } from '@navikt/sif-common-core-ds/lib/components/summary-enkeltsvar/DatoSvar';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
@@ -18,7 +18,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     const intl = useIntl();
     if (frilans.harInntektSomFrilanser === false) {
         return (
-            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')}>
                 <ul data-testid="arbeidssituasjon-frilanser">
                     <li>
                         <FormattedMessage id={'oppsummering.arbeidssituasjon.frilans.erIkkeFrilanser'} tagName="p" />
@@ -29,7 +29,7 @@ const ArbeidssituasjonFrilansSummary = ({ frilans, frilansoppdrag }: Props) => {
     }
 
     return (
-        <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')} headerTag="h3">
+        <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.frilanser.header')}>
             <ul data-testid="arbeidssituasjon-frilanser">
                 {frilans.frilansTyper.map((type) => {
                     return (

@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { StønadGodtgjørelseFormData } from 'app/types/StønadGodtgjørelseFormData';
 import { ArbeidsforholdFormValues, NormalarbeidstidFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData, FrilansTyper } from '../../../types/FrilansFormData';

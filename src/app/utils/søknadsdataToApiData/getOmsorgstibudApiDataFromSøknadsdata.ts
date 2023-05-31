@@ -1,6 +1,7 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { OmsorgstilbudSvarApi, SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from './tidsbrukApiUtils';
 
 export type OmsorgstilbudApiData = Pick<SøknadApiData, 'omsorgstilbud'>;
@@ -9,13 +10,13 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
     søknadsperiode: DateRange,
     omsorgstilbud?: OmsorgstilbudSøknadsdata
 ): OmsorgstilbudApiData | undefined => {
-    const getOmsorgstilbudSvarApi = (erIOmsorgstilbud?: YesOrNo): OmsorgstilbudSvarApi | undefined => {
+    const getOmsorgstilbudSvarApi = (erIOmsorgstilbud?: YesOrNoOrDoNotKnow): OmsorgstilbudSvarApi | undefined => {
         switch (erIOmsorgstilbud) {
-            case YesOrNo.YES:
+            case YesOrNoOrDoNotKnow.YES:
                 return OmsorgstilbudSvarApi.JA;
-            case YesOrNo.NO:
+            case YesOrNoOrDoNotKnow.NO:
                 return OmsorgstilbudSvarApi.NEI;
-            case YesOrNo.DO_NOT_KNOW:
+            case YesOrNoOrDoNotKnow.DO_NOT_KNOW:
                 return OmsorgstilbudSvarApi.USIKKER;
             default:
                 return undefined;
@@ -47,7 +48,10 @@ export const getOmsorgstilbudApiDataFromSøknadsdata = (
     if (omsorgstilbud?.type === 'erIOmsorgstilbudFremtidUsikker') {
         return {
             omsorgstilbud: {
-                svarFortid: omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO ? OmsorgstilbudSvarApi.NEI : undefined,
+                svarFortid:
+                    omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO
+                        ? OmsorgstilbudSvarApi.NEI
+                        : undefined,
                 svarFremtid: OmsorgstilbudSvarApi.USIKKER,
             },
         };

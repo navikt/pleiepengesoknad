@@ -1,30 +1,30 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
 import { Systemtittel, Ingress } from 'nav-frontend-typografi';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 
 interface Props {
     navn: string;
 }
 
 const VelkommenGuide: React.FunctionComponent<Props> = ({ navn }) => (
-    <CounsellorPanel>
+    <SifGuidePanel>
         <Systemtittel tag="h1">
             <FormattedMessage id="page.velkommen.guide.tittel" values={{ navn }} />
         </Systemtittel>
-        <Box margin="l">
+        <Block margin="l">
             <Ingress>
                 <FormattedMessage id="page.velkommen.guide.ingress" />
             </Ingress>
-        </Box>
+        </Block>
         <p>
             <FormattedMessage id="page.velkommen.guide.tekst.1" />
         </p>
         <p>
             <FormattedMessage id="page.velkommen.guide.tekst.2" />
         </p>
-    </CounsellorPanel>
+    </SifGuidePanel>
 );
 
 export default VelkommenGuide;

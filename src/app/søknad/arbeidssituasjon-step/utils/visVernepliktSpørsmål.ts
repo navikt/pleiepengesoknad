@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';
 import { ArbeidsforholdFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { FrilansFormData } from '../../../types/FrilansFormData';

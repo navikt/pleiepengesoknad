@@ -1,13 +1,12 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import BostedUtlandListAndDialog from '@navikt/sif-common-forms/lib/bosted-utland/BostedUtlandListAndDialog';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import BostedUtlandListAndDialog from '@navikt/sif-common-forms-ds/lib/forms/bosted-utland/BostedUtlandListAndDialog';
 import { useFormikContext } from 'formik';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
@@ -17,6 +16,7 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import { validateUtenlandsoppholdNeste12Mnd, validateUtenlandsoppholdSiste12Mnd } from './medlemskapFieldValidations';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 
 type Props = {
     søknadsdato: Date;
@@ -29,15 +29,15 @@ const MedlemsskapStep = ({ onValidSubmit, søknadsdato }: StepConfigProps & Prop
 
     return (
         <SøknadFormStep id={StepID.MEDLEMSKAP} onValidFormSubmit={onValidSubmit}>
-            <Box padBottom="xxl">
-                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+            <Block padBottom="xxl">
+                <SifGuidePanel>
                     {intlHelper(intl, 'step.medlemskap.veileder')}{' '}
                     <Lenke href={getLenker().medlemskap} target="_blank">
                         nav.no
                     </Lenke>
                     .
-                </CounsellorPanel>
-            </Box>
+                </SifGuidePanel>
+            </Block>
             <SøknadFormComponents.YesOrNoQuestion
                 legend={intlHelper(intl, 'steg.medlemsskap.annetLandSiste12.spm')}
                 name={SøknadFormField.harBoddUtenforNorgeSiste12Mnd}

@@ -1,6 +1,6 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { MedlemskapFormData } from '../../../types/SøknadFormValues';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib';
 import { extractMedlemskapSøknadsdata } from '../extractMedlemskapSøknadsdata';
 
 const mockUtenlandsopphold: Utenlandsopphold = {

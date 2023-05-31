@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
 //import { Arbeidsgiver, ArbeidsgiverType } from '../../types';
 import {
@@ -57,7 +57,10 @@ describe('frilanserUtils', () => {
     describe('erFrilanserISøknadsperiode', () => {
         it('returnerer false dersom en ikke har frilansoppdrag og ikke har hatt inntekt som frilanser', () => {
             expect(
-                erFrilanserISøknadsperiode(periode, { startdato: '2021-01-01', harHattInntektSomFrilanser: YesOrNo.NO })
+                erFrilanserISøknadsperiode(periode, {
+                    startdato: '2021-01-01',
+                    harHattInntektSomFrilanser: YesOrNo.NO,
+                })
             ).toBeFalsy();
         });
         /*

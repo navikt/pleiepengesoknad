@@ -1,13 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ResponsivePanel from '../../components/responsive-panel/ResponsivePanel';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import AlertStripe from 'nav-frontend-alertstriper';
 import { Systemtittel } from 'nav-frontend-typografi';
 import { getOmsorgstilbudFastDagValidator } from '../../local-sif-common-pleiepenger/components/omsorgstilbud-periode/components/omsorgstilbud-periode-form/omsorgstilbudFormValidation';
@@ -24,6 +23,8 @@ import {
     skalViseSpørsmålOmProsentEllerLiktHverUke,
     visLiktHverUke,
 } from './omsorgstilbudStepUtils';
+import { dateFormatter } from '@navikt/sif-common-utils/lib';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 
 interface Props {
     periode: DateRange;
@@ -45,13 +46,13 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
     return (
         <>
             {(periodeFortid || periodeFortidFremtid) && (
-                <Box margin="xl">
+                <Block margin="xl">
                     {periodeFortidFremtid && (
-                        <Box padBottom="l">
+                        <Block padBottom="l">
                             <Systemtittel tag={'h2'}>
                                 <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFortid" />
                             </Systemtittel>
-                        </Box>
+                        </Block>
                     )}
 
                     <SøknadFormComponents.YesOrNoQuestion
@@ -68,30 +69,29 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                 return {
                                     key: error,
                                     values: {
-                                        fra: prettifyDateFull(periode.from),
-                                        til: prettifyDateFull(periode.to),
+                                        fra: dateFormatter.full(periode.from),
+                                        til: dateFormatter.full(periode.to),
                                     },
                                 };
                             }
                             return undefined;
                         }}
                         labels={{ yes: 'Ja, i hele eller deler av perioden' }}
-                        useTwoColumns={false}
                         data-testid="erIOmsorgstilbud-fortid"
                     />
-                </Box>
+                </Block>
             )}
             {(periodeFremtid || periodeFortidFremtid) && (
-                <Box margin="xl">
+                <Block margin="xl">
                     {periodeFortidFremtid && (
-                        <Box padBottom="l">
+                        <Block padBottom="l">
                             <Systemtittel tag={'h2'}>
                                 <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid" />
                             </Systemtittel>
-                        </Box>
+                        </Block>
                     )}
 
-                    <SøknadFormComponents.YesOrNoQuestion
+                    <SøknadFormComponents.RadioGroup
                         name={SøknadFormField.omsorgstilbud__erIOmsorgstilbud_fremtid}
                         legend={intlHelper(
                             intl,
@@ -100,41 +100,55 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                 : 'steg.omsorgstilbud.erIOmsorgstilbudKunFremtid.spm'
                         )}
                         validate={(value) => {
-                            const error = getYesOrNoValidator()(value);
+                            const error = value === undefined ? 'yesOrNoIsUnanswered' : undefined;
                             if (error) {
                                 return {
                                     key: error,
                                     values: {
-                                        fra: prettifyDateFull(periode.from),
-                                        til: prettifyDateFull(periode.to),
+                                        fra: dateFormatter.full(periode.from),
+                                        til: dateFormatter.full(periode.to),
                                     },
                                 };
                             }
                             return undefined;
                         }}
-                        includeDoNotKnowOption={true}
-                        labels={{ yes: 'Ja, i hele eller deler av perioden', doNotKnow: 'Usikker' }}
+                        radios={[
+                            {
+                                label: 'Ja, i hele eller deler av perioden',
+                                value: YesOrNo.YES,
+                            },
+                            {
+                                label: 'Nei',
+                                value: YesOrNo.NO,
+                            },
+                            {
+                                label: 'Usikker',
+                                value: YesOrNoOrDoNotKnow.DO_NOT_KNOW,
+                            },
+                        ]}
                         data-testid="erIOmsorgstilbud-fremtid"
                     />
-                </Box>
+                </Block>
             )}
 
             {omsorgstilbud &&
-                omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
-                omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
-                    <Box margin="l">
+                omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
+                omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW && (
+                    <Block margin="l">
                         <AlertStripe type={'info'}>
                             <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.neiUsikker" />
                         </AlertStripe>
-                    </Box>
+                    </Block>
                 )}
-            {omsorgstilbud && periodeFremtid && omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
-                <Box margin="l">
-                    <AlertStripe type={'info'}>
-                        <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.neiUsikker" />
-                    </AlertStripe>
-                </Box>
-            )}
+            {omsorgstilbud &&
+                periodeFremtid &&
+                omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW && (
+                    <Block margin="l">
+                        <AlertStripe type={'info'}>
+                            <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.neiUsikker" />
+                        </AlertStripe>
+                    </Block>
+                )}
 
             {omsorgstilbud && skalViseLiktHverUke && (
                 <>
@@ -142,22 +156,22 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                         <FormBlock>
                             {periodeFortidFremtid && (
                                 <>
-                                    <Box padBottom="l">
+                                    <Block padBottom="l">
                                         <Systemtittel tag={'h2'}>
                                             <FormattedMessage id="steg.omsorgstilbud.erLiktHverUke.spm.tittel" />
                                         </Systemtittel>
-                                        {omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
-                                            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW && (
-                                                <Box margin="l">
+                                        {omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES &&
+                                            omsorgstilbud.erIOmsorgstilbudFremtid ===
+                                                YesOrNoOrDoNotKnow.DO_NOT_KNOW && (
+                                                <Block margin="l">
                                                     <FormattedMessage id="steg.omsorgstilbud.erIOmsorgstilbudFremtid.usikker" />
-                                                </Box>
+                                                </Block>
                                             )}
-                                    </Box>
+                                    </Block>
                                 </>
                             )}
                             <SøknadFormComponents.YesOrNoQuestion
                                 legend={intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.spm.${tekstLiktHverUke}`)}
-                                useTwoColumns={false}
                                 labels={{
                                     yes: intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.yes.${tekstLiktHverUke}`),
                                     no: intlHelper(intl, `steg.omsorgstilbud.erLiktHverUke.no.${tekstLiktHverUke}`),
@@ -170,8 +184,8 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                                         ? {
                                               key: error,
                                               values: {
-                                                  fra: prettifyDateFull(periode.from),
-                                                  til: prettifyDateFull(periode.to),
+                                                  fra: dateFormatter.full(periode.from),
+                                                  til: dateFormatter.full(periode.to),
                                               },
                                           }
                                         : undefined;
@@ -214,8 +228,8 @@ const OmsorgstilbudSpørsmål = ({ periode, omsorgstilbud, onOmsorgstilbudChange
                         </FormBlock>
                     )}
                     {((inkluderFastPlan === false &&
-                        (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES ||
-                            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES)) ||
+                        (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES ||
+                            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES)) ||
                         omsorgstilbud.erLiktHverUke === YesOrNo.NO) && (
                         <FormBlock>
                             <ResponsivePanel>

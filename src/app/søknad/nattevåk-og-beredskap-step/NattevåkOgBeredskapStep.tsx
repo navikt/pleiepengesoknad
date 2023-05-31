@@ -1,13 +1,11 @@
 import React, { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getStringValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 import { useFormikContext } from 'formik';
 import useEffectOnce from '../../hooks/useEffectOnce';
 import usePersistOnChange from '../../hooks/usePersistOnChange';
@@ -15,6 +13,8 @@ import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValu
 import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import FormSection from '../../components/form-section/FormSection';
 
 const cleanupStep = (values: SøknadFormValues): SøknadFormValues => {
     const cleanedValues = { ...values };
@@ -43,11 +43,11 @@ const NattevåkOgBeredskapStep = ({ onValidSubmit }: StepConfigProps) => {
 
     return (
         <SøknadFormStep id={StepID.NATTEVÅK_OG_BEREDSKAP} onValidFormSubmit={onValidSubmit} onStepCleanup={cleanupStep}>
-            <Box padBottom="xl">
-                <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+            <Block padBottom="xl">
+                <SifGuidePanel compact={true}>
                     <FormattedMessage id={'steg.nattevåkOgBeredskap.veileder'} />
-                </CounsellorPanel>
-            </Box>
+                </SifGuidePanel>
+            </Block>
             <FormSection title="Nattevåk">
                 <FormattedMessage id={'steg.nattevåkOgBeredskap.nattevåk.veileder'} tagName="p" />
 

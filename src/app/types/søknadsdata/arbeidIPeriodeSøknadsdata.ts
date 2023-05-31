@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';
 
 export type ArbeidsukerTimerSøknadsdata = {

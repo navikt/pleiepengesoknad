@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import dayjs from 'dayjs';
 import { SøknadFormValues, SøknadFormField } from '../../types/SøknadFormValues';
 import * as fieldValidations from '../fieldValidations';

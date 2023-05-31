@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 
 export const booleanToYesOrNo = (value: boolean): YesOrNo =>
     value !== undefined && value === true ? YesOrNo.YES : YesOrNo.NO;

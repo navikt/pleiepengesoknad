@@ -1,12 +1,12 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { extractFerieuttakIPeriodenSøknadsdata } from '../extractFerieuttakIPeriodenSøknadsdata';
 
 const mock = {
     skalTaUtFerieIPerioden: YesOrNo.YES,
     ferieuttakIPerioden: [
         {
-            fom: new Date(),
-            tom: new Date(),
+            from: new Date(),
+            to: new Date(),
         },
     ],
 };

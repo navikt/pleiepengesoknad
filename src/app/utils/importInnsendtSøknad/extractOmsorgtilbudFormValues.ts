@@ -1,7 +1,7 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
 import { InnsendtSøknadInnhold } from '../../types/InnsendtSøknad';
 import { OmsorgstilbudSvarApi } from '../../types/søknad-api-data/SøknadApiData';
 import { SøknadFormField, SøknadFormValues } from '../../types/SøknadFormValues';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 import { booleanToYesOrNo } from '../booleanToYesOrNo';
 import {
     mapTidEnkeltdagApiDataToDateDurationMap,
@@ -10,14 +10,14 @@ import {
 
 type OmsorgstilbudFormValues = Pick<SøknadFormValues, SøknadFormField.omsorgstilbud>;
 
-const omsorgstilbudSvarApiToYesOrNo = (svar?: OmsorgstilbudSvarApi): YesOrNo | undefined => {
+const omsorgstilbudSvarApiToYesOrNo = (svar?: OmsorgstilbudSvarApi): YesOrNoOrDoNotKnow | undefined => {
     switch (svar) {
         case OmsorgstilbudSvarApi.JA:
-            return YesOrNo.YES;
+            return YesOrNoOrDoNotKnow.YES;
         case OmsorgstilbudSvarApi.NEI:
-            return YesOrNo.NO;
+            return YesOrNoOrDoNotKnow.NO;
         case OmsorgstilbudSvarApi.USIKKER:
-            return YesOrNo.DO_NOT_KNOW;
+            return YesOrNoOrDoNotKnow.DO_NOT_KNOW;
         default:
             return undefined;
     }

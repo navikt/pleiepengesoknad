@@ -1,9 +1,9 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import VirksomhetSummary from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetSummary';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import VirksomhetSummary from '@navikt/sif-common-forms-ds/lib/forms/virksomhet/VirksomhetSummary';
 import { Element } from 'nav-frontend-typografi';
 import { SelvstendigApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
@@ -16,7 +16,7 @@ function ArbeidssituasjonSelvstendigSummary({ selvstendig }: Props) {
     const intl = useIntl();
     return (
         <div data-testid="arbeidssituasjon-sn">
-            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')} headerTag="h3">
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.selvstendig.header')}>
                 {selvstendig.harInntektSomSelvstendig === false && (
                     <ul>
                         <li>
@@ -45,11 +45,11 @@ function ArbeidssituasjonSelvstendigSummary({ selvstendig }: Props) {
                             </li>
                         </ul>
                         <Element tag="h4">{intlHelper(intl, 'summary.virksomhet.virksomhetInfo.tittel')}</Element>
-                        <Box margin="m">
+                        <Block margin="m">
                             <div style={{ paddingLeft: '1rem' }}>
                                 <VirksomhetSummary virksomhet={selvstendig.virksomhet} />
                             </div>
-                        </Box>
+                        </Block>
                     </>
                 )}
             </SummaryBlock>

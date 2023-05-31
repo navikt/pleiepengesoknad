@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { DateRange, getNumberFromNumberInputValue } from '@navikt/sif-common-formik-ds/lib';
 import { durationUtils, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { RegistrerteBarn } from '../../types';
 import { ArbeidsforholdFormValues } from '../../types/ArbeidsforholdFormValues';

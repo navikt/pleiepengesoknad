@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import FrilansoppdragListe from '../frilansoppdrag-liste/FrilansoppdragListe';
 import { Arbeidsgiver } from '../../../../types';
 
@@ -9,14 +9,14 @@ interface Props {
 }
 
 const FrilansoppdragInfo: React.FunctionComponent<Props> = ({ frilansoppdrag }) => (
-    <Box padBottom="m">
+    <Block padBottom="m">
         <FormattedMessage id="frilansoppdragInfo.tittel" values={{ antall: frilansoppdrag.length }} />
-        <Box margin="l">
+        <Block margin="l">
             <FormattedMessage id="frilansoppdragInfo.tittel.1" />
-        </Box>
+        </Block>
 
         <FrilansoppdragListe frilansoppdrag={frilansoppdrag} />
-    </Box>
+    </Block>
 );
 
 export default FrilansoppdragInfo;

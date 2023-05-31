@@ -1,6 +1,6 @@
 import React from 'react';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import { DateRange } from '@navikt/sif-common-utils';
 import { DateDurationMap, getDatesInMonthOutsideDateRange, getMonthsInDateRange } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { Element } from 'nav-frontend-typografi';
@@ -67,27 +67,27 @@ const OmsorgstilbudVariert: React.FunctionComponent<Props> = ({
 
     return (
         <>
-            <Box padBottom="m">
+            <Block padBottom="m">
                 <Element tag="h2">{tittel}</Element>
-            </Box>
+            </Block>
             <SøknadFormComponents.InputGroup
                 name={formFieldName}
-                tag="div"
+                legend="TODO"
                 validate={() => validateOmsorgstilbudEnkeltdagerIPeriode(tidIOmsorgstilbud, periode)}>
                 {kanLeggeTilPeriode && (
                     <>
-                        <Box margin="m" padBottom="xl">
+                        <Block margin="m" padBottom="xl">
                             <OmsorgstilbudPeriode periode={periode} onPeriodeChange={handleOnPeriodeChange} />
-                        </Box>
+                        </Block>
                     </>
                 )}
-                <Box margin="l">
+                <Block margin="l">
                     <SøknadsperioderMånedListe
                         periode={periode}
                         årstallHeadingLevel={3}
                         månedContentRenderer={omsorgstilbudMånedRenderer}
                     />
-                </Box>
+                </Block>
             </SøknadFormComponents.InputGroup>
         </>
     );

@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import { ISODate, ISODateToDate, ISODuration, ISODurationToDuration } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import groupBy from 'lodash.groupby';
@@ -42,7 +42,7 @@ const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager, ukeHeadingLevel
                     return ingenDagerRegistrertMelding;
                 }
                 return (
-                    <Box margin="m" key={key}>
+                    <Block margin="m" key={key}>
                         <EkspanderbartPanel
                             tittel={
                                 <span style={{ textTransform: 'capitalize', fontSize: '1rem' }}>
@@ -55,7 +55,7 @@ const TidEnkeltdager: React.FunctionComponent<Props> = ({ dager, ukeHeadingLevel
                                 ukeHeadingLevel={ukeHeadingLevel}
                             />
                         </EkspanderbartPanel>
-                    </Box>
+                    </Block>
                 );
             })}
         </div>

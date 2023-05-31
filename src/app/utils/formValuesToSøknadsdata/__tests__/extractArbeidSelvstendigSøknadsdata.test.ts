@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { Virksomhet } from '@navikt/sif-common-forms-ds/lib';
 import { ISODateRangeToDateRange, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { ArbeidsforholdSelvstendigFormValues } from '../../../types/ArbeidsforholdFormValues';
 import { SelvstendigFormData } from '../../../types/SelvstendigFormData';

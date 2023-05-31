@@ -1,0 +1,109 @@
+.hodefot {
+    .btn-login,
+    .btn-logout {
+        min-height: auto;
+    }
+}
+
+.panel {
+    background-color: #f1f2f2;
+    padding: 2rem;
+    &--border {
+        background-color: transparent;
+    }
+}
+
+.bekreftCheckboksPanel--checked a {
+    color: #00478a;
+}
+
+/** Flytte ikon i alertstriper over innhold på mindre skjermer */
+.alertstripe {
+    @media screen and (max-width: 400px) {
+        flex-direction: column;
+        padding: 0.75rem 0.5rem 0.75rem 0.5rem;
+        &__ikon {
+            margin: 0 auto 0.5rem auto;
+        }
+    }
+}
+.alertstripe__tekst > p:first-child {
+    margin-top: 0;
+}
+
+.alertstripe__tekst > p:last-child {
+    margin-bottom: 0;
+}
+
+@media screen and (max-width: 400px) {
+    .knapp,
+    .knapp--mini {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        white-space: initial;
+    }
+}
+@media screen and (max-width: 576px) {
+    .knapp,
+    .knapp--mini {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        white-space: initial;
+    }
+    .feiloppsummering {
+        padding: 0.5rem;
+        &__liste {
+            padding-left: 0.75rem;
+            li {
+                margin-bottom: 0.5rem;
+            }
+        }
+    }
+    .nav-veilederpanel--plakat.nav-veilederpanel--kompakt {
+        padding-left: 1rem;
+        padding-right: 1rem;
+        ul {
+            margin-left: 0.75rem;
+            padding: 0;
+        }
+    }
+
+    .bekreftCheckboksPanel {
+        padding: 0.5rem;
+    }
+
+    .inputPanelGruppe {
+        .inputPanel {
+            max-width: initial !important;
+            margin: 0 0 0.5rem 0 !important;
+            padding: 0.75rem 0.5rem 0.75rem 2.5rem;
+            .inputPanel__label:before {
+                left: 0.5rem;
+                top: 0.625rem;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 400px) {
+    .nav-veileder--flytende {
+        zoom: 0.6;
+        top: -3.25rem !important;
+    }
+    .nav-veilederpanel--plakat.nav-veilederpanel--kompakt {
+        padding-left: 0.5rem;
+        padding-right: 0.5rem;
+        padding-top: 2rem;
+    }
+}
+
+.checkboks + .skjemaelement__label,
+.radioknapp + .skjemaelement__label {
+    line-height: 1.5rem;
+    padding-left: 1.5rem;
+    &:before {
+        height: 1rem;
+        width: 1rem;
+        top: 0.25rem;
+    }
+}

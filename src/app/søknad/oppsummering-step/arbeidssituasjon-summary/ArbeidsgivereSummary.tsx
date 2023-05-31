@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import { DateRange, prettifyDateFull } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import { dateFormatter, DateRange } from '@navikt/sif-common-utils';
 import { ArbeidsgiverApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import NormalarbeidstidSummary from './NormalarbeidstidSummary';
 
@@ -16,9 +16,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
 
     if (arbeidsgivere === undefined || arbeidsgivere.length === 0) {
         return (
-            <SummaryBlock
-                header={intlHelper(intl, 'oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header')}
-                headerTag="h3">
+            <SummaryBlock header={intlHelper(intl, 'oppsummering.arbeidssituasjon.arbeidsgivere.ingenIPeriode.header')}>
                 <ul>
                     <li>
                         <FormattedMessage
@@ -40,9 +38,7 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                     <div data-testid={`arbeidssituasjon-ansatt-${organisasjonsnummer}`} key={organisasjonsnummer}>
                         <SummaryBlock
                             key={organisasjonsnummer}
-                            header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}
-                            headerTag="h3"
-                            indentChildren={false}>
+                            header={intlHelper(intl, 'arbeidsgiver.tittel', { navn, organisasjonsnummer })}>
                             <ul>
                                 <li>
                                     <FormattedMessage
@@ -70,8 +66,8 @@ const ArbeidsgivereSummary: React.FunctionComponent<Props> = ({ arbeidsgivere, s
                                                     : 'oppsummering.arbeidssituasjon.avsluttet.sluttetISøknadsperiode'
                                             }
                                             values={{
-                                                periodeFra: prettifyDateFull(søknadsperiode.from),
-                                                periodeTil: prettifyDateFull(søknadsperiode.to),
+                                                periodeFra: dateFormatter.full(søknadsperiode.from),
+                                                periodeTil: dateFormatter.full(søknadsperiode.to),
                                             }}
                                         />
                                     </li>

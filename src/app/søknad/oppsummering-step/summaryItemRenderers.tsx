@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import SummaryList from '@navikt/sif-common-core/lib/components/summary-list/SummaryList';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import { apiStringDateToDate, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SummaryList from '@navikt/sif-common-soknad-ds/lib/components/summary-list/SummaryList';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
+import { ISODateToDate, prettifyDateExtended } from '@navikt/sif-common-utils';
+import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/types';
 import {
     BostedUtlandApiData,
     PeriodeApiData,
@@ -17,8 +17,8 @@ const bem = bemUtils('utenlandsoppholdSummaryItem');
 export const renderFerieuttakIPeriodenSummary = (ferieuttak: PeriodeApiData): React.ReactNode => (
     <div className={bem.classNames(bem.block, bem.modifier('no-details'))}>
         <span className={bem.element('dates')}>
-            {prettifyDateExtended(apiStringDateToDate(ferieuttak.fraOgMed))} -{' '}
-            {prettifyDateExtended(apiStringDateToDate(ferieuttak.tilOgMed))}
+            {prettifyDateExtended(ISODateToDate(ferieuttak.fraOgMed))} -{' '}
+            {prettifyDateExtended(ISODateToDate(ferieuttak.tilOgMed))}
         </span>
     </div>
 );
@@ -26,8 +26,8 @@ export const renderFerieuttakIPeriodenSummary = (ferieuttak: PeriodeApiData): Re
 export const renderUtenlandsoppholdSummary = (opphold: BostedUtlandApiData): React.ReactNode => (
     <div className={bem.block}>
         <span className={bem.element('dates')}>
-            {prettifyDateExtended(apiStringDateToDate(opphold.fraOgMed))} -{' '}
-            {prettifyDateExtended(apiStringDateToDate(opphold.tilOgMed))}
+            {prettifyDateExtended(ISODateToDate(opphold.fraOgMed))} -{' '}
+            {prettifyDateExtended(ISODateToDate(opphold.tilOgMed))}
         </span>
         <span className={bem.element('country')}>{opphold.landnavn}</span>
     </div>
@@ -36,15 +36,15 @@ export const renderUtenlandsoppholdSummary = (opphold: BostedUtlandApiData): Rea
 export const renderUtenlandsoppholdIPeriodenSummary = (opphold: UtenlandsoppholdIPeriodenApiData): React.ReactNode => {
     return (
         <>
-            <Box>
+            <Block>
                 <span className={bem.element('dates')}>
-                    {prettifyDateExtended(apiStringDateToDate(opphold.fraOgMed))} -{' '}
-                    {prettifyDateExtended(apiStringDateToDate(opphold.tilOgMed))}
+                    {prettifyDateExtended(ISODateToDate(opphold.fraOgMed))} -{' '}
+                    {prettifyDateExtended(ISODateToDate(opphold.tilOgMed))}
                 </span>
                 <span className={bem.element('country')}>{opphold.landnavn}</span>
-            </Box>
+            </Block>
             {isUtenlandsoppholdUtenforEØSApiData(opphold) && opphold.erBarnetInnlagt === true && (
-                <Box margin="l">
+                <Block margin="l">
                     {opphold.perioderBarnetErInnlagt !== undefined && opphold.perioderBarnetErInnlagt.length > 0 && (
                         <>
                             <FormattedMessage id={`utenlandsopphold.form.perioderBarnetErInnlag.listTitle`} />:
@@ -52,8 +52,8 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                                 items={opphold.perioderBarnetErInnlagt}
                                 itemRenderer={(periode: PeriodeApiData) => (
                                     <>
-                                        {prettifyDateExtended(apiStringDateToDate(periode.fraOgMed))} -{' '}
-                                        {prettifyDateExtended(apiStringDateToDate(periode.tilOgMed))}
+                                        {prettifyDateExtended(ISODateToDate(periode.fraOgMed))} -{' '}
+                                        {prettifyDateExtended(ISODateToDate(periode.tilOgMed))}
                                     </>
                                 )}></SummaryList>
                         </>
@@ -68,7 +68,7 @@ export const renderUtenlandsoppholdIPeriodenSummary = (opphold: Utenlandsopphold
                     {opphold.årsak === UtenlandsoppholdÅrsak.ANNET && (
                         <FormattedMessage id={`utenlandsopphold.oppsummering.årsak.ANNET`} />
                     )}
-                </Box>
+                </Block>
             )}
         </>
     );

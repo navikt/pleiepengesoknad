@@ -1,9 +1,9 @@
 import React from 'react';
 import { IntlShape, useIntl } from 'react-intl';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import { apiStringDateToDate, DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import SummarySection from '@navikt/sif-common-soknad-ds/lib/components/summary-section/SummarySection';
+import { ISODateToDate, DateRange, prettifyDateExtended } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import dayjs from 'dayjs';
 import { ArbeidsgiverType } from '../../../types';
 import {
@@ -39,8 +39,8 @@ const getTittel = (intl: IntlShape, arbeidsgiver: ArbeidsgiverApiData, periode: 
         case ArbeidsgiverType.PRIVATPERSON:
             return arbeidsgiver.navn;
         case ArbeidsgiverType.FRILANSOPPDRAG:
-            const startdato = arbeidsgiver.ansattFom && apiStringDateToDate(arbeidsgiver.ansattFom);
-            const sluttdato = arbeidsgiver.ansattTom && apiStringDateToDate(arbeidsgiver.ansattTom);
+            const startdato = arbeidsgiver.ansattFom && ISODateToDate(arbeidsgiver.ansattFom);
+            const sluttdato = arbeidsgiver.ansattTom && ISODateToDate(arbeidsgiver.ansattTom);
 
             if (startdato || sluttdato) {
                 const intlValues = {

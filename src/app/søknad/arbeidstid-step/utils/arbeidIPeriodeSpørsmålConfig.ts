@@ -1,5 +1,4 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { QuestionConfig, Questions } from '@navikt/sif-common-question-config/lib';
+import { DateRange, QuestionConfig, Questions, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 import { ArbeiderIPeriodenSvar } from '../../../local-sif-common-pleiepenger';
 import {
     ArbeidIPeriodeFormField,

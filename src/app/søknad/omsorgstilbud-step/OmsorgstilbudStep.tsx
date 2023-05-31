@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { useFormikContext } from 'formik';
 import usePersistSoknad from '../../hooks/usePersistSoknad';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
@@ -33,7 +33,7 @@ const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps &
             id={StepID.OMSORGSTILBUD}
             onStepCleanup={(values) => cleanupOmsorgstilbudStep(values, søknadsperiode)}
             onValidFormSubmit={onValidSubmit}>
-            <Box padBottom="xl">{omsorgstilbudInfo.stepIntro}</Box>
+            <Block padBottom="xl">{omsorgstilbudInfo.stepIntro}</Block>
 
             <OmsorgstilbudSpørsmål
                 periode={søknadsperiode}
@@ -42,7 +42,7 @@ const OmsorgstilbudStep = ({ onValidSubmit, søknadsperiode }: StepConfigProps &
             />
 
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
-                <Box margin="xl">{omsorgstilbudInfo.advarselSøkerKunHelgedager}</Box>
+                <Block margin="xl">{omsorgstilbudInfo.advarselSøkerKunHelgedager}</Block>
             )}
         </SøknadFormStep>
     );

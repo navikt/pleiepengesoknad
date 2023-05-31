@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 import { ArbeiderIPeriodenSvar, ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
 import { getArbeidstidIPeriodeIntlValues } from '../../../local-sif-common-pleiepenger/utils';
 import { TimerEllerProsent } from '../../../types';
@@ -104,7 +104,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
         <ResponsivePanel>
             {frilansType.some((type) => type === FrilansTyper.FRILANS) && (
                 <FormBlock margin="m">
-                    <SøknadFormComponents.RadioPanelGroup
+                    <SøknadFormComponents.RadioGroup
                         name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
                         legend={intlHelper(intl, 'arbeidIPeriode.arbeiderIPerioden.frilans.spm')}
                         validate={getArbeidIPeriodeArbeiderIPeriodenFrilanserValidator()}
@@ -139,7 +139,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
 
             {frilansType.some((type) => type === FrilansTyper.STYREVERV && misterHonorarer === YesOrNo.YES) && (
                 <FormBlock>
-                    <SøknadFormComponents.RadioPanelGroup
+                    <SøknadFormComponents.RadioGroup
                         name={getFieldName(ArbeidIPeriodeFormField.misterHonorarerFraVervIPerioden)}
                         legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.verv.spm`)}
                         validate={getArbeidIPeriodeArbeiderIPeriodenVervValidator()}
@@ -162,18 +162,18 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
             {(frilansRedusert || vervRedusert) && (
                 <FormBlock>
                     {frilansRedusert && !vervRedusert && (
-                        <Box margin="l">
+                        <Block margin="l">
                             <FormattedMessage id="arbeidIPeriode.redusert.info.frilans.info.tittel" />
-                        </Box>
+                        </Block>
                     )}
                     {vervRedusert && !frilansRedusert && (
-                        <Box margin="l">
+                        <Block margin="l">
                             <FormattedMessage id="arbeidIPeriode.redusert.info.verv.info.tittel" />
-                        </Box>
+                        </Block>
                     )}
 
                     {vervRedusert && frilansRedusert && (
-                        <Box margin="l">
+                        <Block margin="l">
                             <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.1" />
                             <ul>
                                 <li>
@@ -184,7 +184,7 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                                     <FormattedMessage id="arbeidIPeriode.redusert.info.frilansVerv.info.tittel.4" />
                                 </li>
                             </ul>
-                        </Box>
+                        </Block>
                     )}
 
                     {søkerNoeFremtid(arbeidsperiode) && (
@@ -192,9 +192,9 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                             <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                         </p>
                     )}
-                    <Box margin="m">
+                    <Block margin="m">
                         <InfoOmEndring aktivitetType="frilans" />
-                    </Box>
+                    </Block>
 
                     {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (
                         <FormBlock>
@@ -202,7 +202,6 @@ const ArbeidIPeriodeSpørsmålFrilans = ({
                                 name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                                 legend={intlHelper(intl, 'arbeidIPeriode.erLiktHverUke.frilans.spm')}
                                 validate={getArbeidIPeriodeErLiktHverUkeFrilansVervValidator()}
-                                useTwoColumns={true}
                                 data-testid="er-likt-hver-uke"
                                 labels={{
                                     yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),

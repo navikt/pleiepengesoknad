@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { ArbeiderIPeriodenSvar } from '../../local-sif-common-pleiepenger';
 import { MisterHonorarerFraVervIPerioden } from '../ArbeidIPeriodeFormValues';
 import { ArbeidIPeriodeType } from '../arbeidIPeriodeType';

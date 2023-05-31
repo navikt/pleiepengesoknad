@@ -1,8 +1,8 @@
 import React from 'react';
+import ResponsivePanel from '../../../../components/responsive-panel/ResponsivePanel';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import { Undertittel } from 'nav-frontend-typografi';
 import './arbeidssituasjonPanel.less';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
 
 interface Props {
     title: string;

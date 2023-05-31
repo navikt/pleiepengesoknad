@@ -1,15 +1,15 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
-import VirksomhetInfoAndDialog from '@navikt/sif-common-forms/lib/virksomhet/VirksomhetInfoAndDialog';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik-ds/lib';
+import { getRequiredFieldValidator, getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
+import VirksomhetInfoAndDialog from '@navikt/sif-common-forms-ds/lib/forms/virksomhet/VirksomhetInfoAndDialog';
 import { AlertStripeInfo } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { SelvstendigFormData, SelvstendigFormField } from '../../../types/SelvstendigFormData';
@@ -32,7 +32,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
 
     return (
         <div data-testid="arbeidssituasjonSelvstendig">
-            <Box margin="l">
+            <Block margin="l">
                 <ArbSNFormComponents.YesOrNoQuestion
                     name={SelvstendigFormField.harHattInntektSomSN}
                     legend={intlHelper(intl, 'selvstendig.harDuHattInntekt.spm')}
@@ -49,7 +49,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
                         </ExpandableInfo>
                     }
                 />
-            </Box>
+            </Block>
             {harHattInntektSomSN === YesOrNo.YES && (
                 <FormBlock margin="l">
                     <ResponsivePanel>
@@ -70,7 +70,7 @@ const ArbeidssituasjonSN = ({ formValues, urlSkatteetatenSN, søknadsperiode }: 
                                     'data-testid': 'har-flere-virksomheter_no',
                                 },
                             ]}
-                            checked={harFlereVirksomheter}
+                            value={harFlereVirksomheter}
                         />
 
                         {søkerHarFlereVirksomheter && (

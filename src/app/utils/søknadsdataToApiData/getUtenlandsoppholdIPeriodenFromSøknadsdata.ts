@@ -1,21 +1,22 @@
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
 import { SøknadApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { UtenlandsoppholdIPeriodenSøknadsdata } from '../../types/søknadsdata/utenlandsoppholdIPeriodenSøknadsdata';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { formatDateToApiFormat, sortItemsByFomTom } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { countryIsMemberOfEøsOrEfta, getCountryName } from '@navikt/sif-common-formik';
-import { DateTidsperiode } from '@navikt/sif-common-forms/lib/tidsperiode';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { dateToISODate } from '@navikt/sif-common-utils';
+import { countryIsMemberOfEøsOrEfta, getCountryName } from '@navikt/sif-common-formik-ds';
+import { DateTidsperiode } from '@navikt/sif-common-forms-ds/lib/forms/tidsperiode';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/types';
 import {
     PeriodeApiData,
     UtenlandsoppholdIPeriodenApiData,
     UtenlandsoppholdUtenforEøsIPeriodenApiData,
 } from '../../types/søknad-api-data/SøknadApiData';
+import { sortItemsByFomTom } from '../../local-sif-common-pleiepenger/utils';
 
 const mapBarnInnlagtPeriodeToApiFormat = (periode: DateTidsperiode): PeriodeApiData => {
     return {
-        fraOgMed: formatDateToApiFormat(periode.fom),
-        tilOgMed: formatDateToApiFormat(periode.tom),
+        fraOgMed: dateToISODate(periode.fom),
+        tilOgMed: dateToISODate(periode.tom),
     };
 };
 
@@ -29,8 +30,8 @@ export const mapUtenlandsoppholdIPeriodenApiData = (
     const apiData: UtenlandsoppholdIPeriodenApiData = {
         landnavn: getCountryName(opphold.landkode, locale),
         landkode: opphold.landkode,
-        fraOgMed: formatDateToApiFormat(opphold.fom),
-        tilOgMed: formatDateToApiFormat(opphold.tom),
+        fraOgMed: dateToISODate(opphold.fom),
+        tilOgMed: dateToISODate(opphold.tom),
     };
 
     if (erUtenforEØS && opphold.årsak && opphold.barnInnlagtPerioder) {

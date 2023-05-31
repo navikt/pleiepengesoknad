@@ -1,10 +1,9 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { ApiError, ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude';
-import BekreftDialog from '@navikt/sif-common-core/lib/components/dialogs/bekreft-dialog/BekreftDialog';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import apiUtils from '@navikt/sif-common-core/lib/utils/apiUtils';
-import { dateToday } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import apiUtils from '@navikt/sif-common-core-ds/lib/utils/apiUtils';
+import { dateToday } from '@navikt/sif-common-utils';
 import { useFormikContext } from 'formik';
 import { purge } from '../api/api';
 import { SKJEMANAVN } from '../App';
@@ -40,6 +39,7 @@ import OppsummeringStep from './oppsummering-step/OppsummeringStep';
 import { useSøknadsdataContext } from './SøknadsdataContext';
 import { StepID } from './søknadStepsConfig';
 import TidsromStep from './tidsrom-step/TidsromStep';
+import BekreftDialog from '../components/bekreft-dialog/BekreftDialog';
 
 interface PleiepengesøknadContentProps {
     /** Sist steg som bruker submittet skjema */

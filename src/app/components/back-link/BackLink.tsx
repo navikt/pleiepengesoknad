@@ -1,10 +1,10 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import Chevron from 'nav-frontend-chevron';
+import { useNavigate } from 'react-router-dom';
+import { Back } from '@navikt/ds-icons';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import Lenke from 'nav-frontend-lenker';
 import './backLink.less';
-import { useNavigate } from 'react-router-dom';
 
 interface BackLinkProps {
     className?: string;
@@ -27,7 +27,7 @@ const BackLink = ({ className, href, ariaLabel }: Props) => {
                     evt.stopPropagation();
                     navigate(href);
                 }}>
-                <Chevron className={bem.element('chevron')} type="venstre" />
+                <Back className={bem.element('chevron')} type="venstre" />
                 <FormattedMessage id="backlink.label" />
             </Lenke>
         </div>

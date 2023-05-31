@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
-import ActionLink from '@navikt/sif-common-core/lib/components/action-link/ActionLink';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
+import ActionLink from '@navikt/sif-common-core-ds/lib/atoms/action-link/ActionLink';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
 import { guid } from '@navikt/sif-common-utils/lib';
 import { usePrevious } from '../../hooks/usePrevious';
 
@@ -50,18 +50,18 @@ const CollapsedText: React.FunctionComponent<Props> = ({
             <div id={introId} ref={introContent} tabIndex={-1}>
                 {intro}
                 {isExpanded === false && (
-                    <Box margin="l">
+                    <Block margin="l">
                         <ActionLink onClick={() => setIsExpanded(true)}>{expandLinkLabel}</ActionLink>
-                    </Box>
+                    </Block>
                 )}
             </div>
             {isExpanded && (
                 <div tabIndex={-1} ref={moreContent} aria-describedby={introId}>
                     {children}
                     {enableCollapse && (
-                        <Box margin="l">
+                        <Block margin="l">
                             <ActionLink onClick={() => setIsExpanded(false)}>{collapseLinkLabel}</ActionLink>
-                        </Box>
+                        </Block>
                     )}
                 </div>
             )}

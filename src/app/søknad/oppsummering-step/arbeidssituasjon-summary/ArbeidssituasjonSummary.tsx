@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import SummarySection from '@navikt/sif-common-soknad-ds/lib/components/summary-section/SummarySection';
+import { DateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
 import ArbeidsgivereSummary from './ArbeidsgivereSummary';
 import ArbeidssituasjonFrilansSummary from './ArbeidssituasjonFrilansSummary';
@@ -51,7 +51,7 @@ const ArbeidssituasjonSummary: React.FunctionComponent<Props> = ({
 
                 {/* Vernepliktig */}
                 {harVærtEllerErVernepliktig !== undefined && (
-                    <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')} headerTag="h3">
+                    <SummaryBlock header={intlHelper(intl, 'verneplikt.summary.header')}>
                         <ul>
                             <li>
                                 {intlHelper(

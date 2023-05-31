@@ -1,15 +1,15 @@
 import { IntlShape } from 'react-intl';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { VirksomhetApiData } from '@navikt/sif-common-forms/lib/virksomhet/types';
-import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { VirksomhetApiData } from '@navikt/sif-common-forms-ds/lib/forms/virksomhet/types';
+import { durationToDecimalDuration, ISODurationToDuration, summarizeDurations } from '@navikt/sif-common-utils/lib';
+import { isEqual } from 'lodash';
 import { StepID } from '../søknad/søknadStepsConfig';
 import { OmsorgstilbudApiData, SøknadApiData, TimerFasteDagerApiData } from '../types/søknad-api-data/SøknadApiData';
-import { søkerKunHelgedager } from '../utils/formDataUtils';
-import { durationToDecimalDuration, ISODurationToDuration, summarizeDurations } from '@navikt/sif-common-utils/lib';
 import { SøknadFormValues } from '../types/SøknadFormValues';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+import { søkerKunHelgedager } from '../utils/formDataUtils';
 import { getAttachmentsApiDataFromSøknadsdata } from '../utils/søknadsdataToApiData/getAttachmentsApiDataFromSøknadsdata';
-import { isEqual } from 'lodash';
+import { FeiloppsummeringFeil } from 'nav-frontend-skjema';
 
 export const apiVedleggIsInvalid = (apiVedlegg: string[], vedleggFormData: Attachment[]) => {
     const apiVedleggFromFormdata = vedleggFormData ? getAttachmentsApiDataFromSøknadsdata(vedleggFormData) : [];

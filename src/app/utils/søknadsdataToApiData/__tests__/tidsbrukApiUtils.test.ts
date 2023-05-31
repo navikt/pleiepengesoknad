@@ -1,4 +1,4 @@
-import { apiStringDateToDate, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { ISODateToDate, DateRange } from '@navikt/sif-common-utils';
 import { getEnkeltdagerIPeriodeApiData, getFasteDagerApiData } from '../tidsbrukApiUtils';
 
 describe('tidsbrukApiUtils', () => {
@@ -34,8 +34,8 @@ describe('tidsbrukApiUtils', () => {
     });
     describe('getEnkeltdagerIPeriodeApiData', () => {
         const periode: DateRange = {
-            from: apiStringDateToDate('2021-02-02'),
-            to: apiStringDateToDate('2021-02-05'),
+            from: ISODateToDate('2021-02-02'),
+            to: ISODateToDate('2021-02-05'),
         };
         it('returnerer tom liste dersom ingen dager satt', () => {
             const result = getEnkeltdagerIPeriodeApiData({}, periode);

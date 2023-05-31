@@ -1,11 +1,10 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import Page from '@navikt/sif-common-core/lib/components/page/Page';
-import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import Lenke from 'nav-frontend-lenker';
 import getLenker from '../../lenker';
 
@@ -16,17 +15,17 @@ const IkkeTilgangPage = () => {
         <Page
             className="ikkeTilgangPage"
             title={intlHelper(intl, 'application.title')}
-            topContentRenderer={() => <StepBanner text={intlHelper(intl, 'application.title')} />}>
-            <Box margin="xxl">
-                <CounsellorPanel type="plakat">
+            topContentRenderer={() => <h1>{intlHelper(intl, 'application.title')}</h1>}>
+            <Block margin="xxl">
+                <SifGuidePanel poster={true}>
                     <p>
                         <FormattedMessage id="page.ikkeTilgang.tekst" />
                     </p>
                     <Lenke href={getLenker(intl.locale).papirskjemaPrivat} target="_blank">
                         <FormattedMessage id="page.ikkeTilgang.lastNed" />
                     </Lenke>
-                </CounsellorPanel>
-            </Box>
+                </SifGuidePanel>
+            </Block>
         </Page>
     );
 };

@@ -1,9 +1,10 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { getDurationsInDateRange } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import { OmsorgstilbudFormValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import { skalBrukerSvarePåBeredskapOgNattevåk } from '../../utils/stepUtils';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 
 export const MIN_ANTALL_DAGER_FOR_FAST_PLAN_I_OMSORGSTILBUD = 6;
 
@@ -21,8 +22,8 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperi
 
     if (cleanedValues.omsorgstilbud) {
         if (
-            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFortid !== YesOrNo.YES &&
-            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFremtid !== YesOrNo.YES
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFortid !== YesOrNoOrDoNotKnow.YES &&
+            cleanedValues.omsorgstilbud?.erIOmsorgstilbudFremtid !== YesOrNoOrDoNotKnow.YES
         ) {
             cleanedValues.omsorgstilbud.enkeltdager = undefined;
             cleanedValues.omsorgstilbud.fasteDager = undefined;
@@ -56,9 +57,9 @@ export const cleanupOmsorgstilbudStep = (values: SøknadFormValues, søknadsperi
 export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: OmsorgstilbudFormValues): DateRange => {
     if (
         omsorgstilbud &&
-        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES &&
-        (omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO ||
-            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW)
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES &&
+        (omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.NO ||
+            omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW)
     ) {
         return {
             from: søknadsperiode.from,
@@ -68,8 +69,8 @@ export const getPeriode = (søknadsperiode: DateRange, omsorgstilbud?: Omsorgsti
 
     if (
         omsorgstilbud &&
-        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
-        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES
     ) {
         return {
             from: dayjs().toDate(),
@@ -90,23 +91,32 @@ export const visLiktHverUke = (
         return false;
     }
 
-    if (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO && omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO) {
+    if (
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.NO
+    ) {
         return false;
     }
     if (
-        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO &&
-        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW
     ) {
         return false;
     }
 
-    if (omsorgstilbud.erIOmsorgstilbudFremtid !== YesOrNo.YES && omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.NO)
-        return false;
-    if (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES && omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO)
+    if (
+        omsorgstilbud.erIOmsorgstilbudFremtid !== YesOrNoOrDoNotKnow.YES &&
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO
+    )
         return false;
     if (
-        omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
-        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+        omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNoOrDoNotKnow.YES &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.NO
+    )
+        return false;
+    if (
+        omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNoOrDoNotKnow.YES &&
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW
     )
         return false;
 
@@ -127,21 +137,28 @@ export const visLiktHverUke = (
 
 export const getSpmTeksterLiktHverUke = (omsorgstilbud?: OmsorgstilbudFormValues): string => {
     if (
-        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
-        (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.NO || omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)
+        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES &&
+        (omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.NO ||
+            omsorgstilbud?.erIOmsorgstilbudFremtid === undefined)
     )
         return 'fortid';
 
     if (
-        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.YES &&
-        omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW
+        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES &&
+        omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW
     )
         return 'fortidFremtidUsiker';
 
-    if (omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNo.NO && omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+    if (
+        omsorgstilbud?.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO &&
+        omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES
+    )
         return 'fremtid';
 
-    if (omsorgstilbud?.erIOmsorgstilbudFortid === undefined && omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNo.YES)
+    if (
+        omsorgstilbud?.erIOmsorgstilbudFortid === undefined &&
+        omsorgstilbud?.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES
+    )
         return 'kunFremtid';
 
     return 'fortidFremtid';

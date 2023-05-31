@@ -1,33 +1,36 @@
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import {
     attachmentHasBeenUploaded,
     getTotalSizeOfAttachments,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import {
-    date3YearsAgo,
-    DateRange,
-    dateRangesCollide,
-    dateRangesExceedsRange,
-    dateRangesHasFromDateEqualPreviousRangeToDate,
-} from '@navikt/sif-common-core/lib/utils/dateUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
+
+import datepickerUtils from '@navikt/sif-common-formik-ds/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
     getDateValidator,
     getFødselsnummerValidator,
     getStringValidator,
-} from '@navikt/sif-common-formik/lib/validation';
-import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
-import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
-import { durationToDecimalDuration, DateDurationMap } from '@navikt/sif-common-utils';
+} from '@navikt/sif-common-formik-ds/lib/validation';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik-ds/lib/validation/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib';
+import { Ferieuttak } from '@navikt/sif-common-forms-ds/lib/forms/ferieuttak/types';
+import {
+    durationToDecimalDuration,
+    DateDurationMap,
+    date3YearsAgo,
+    DateRange,
+    dateRangesCollide,
+    dateRangesExceedsRange,
+} from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import isoWeek from 'dayjs/plugin/isoWeek';
 import minMax from 'dayjs/plugin/minMax';
 import { getDurationsInDateRange, getValidDurations, summarizeDateDurationMap } from '@navikt/sif-common-utils';
 import { StønadGodtgjørelseFormData } from 'app/types/StønadGodtgjørelseFormData';
+import { dateRangesHasFromDateEqualPreviousRangeToDate } from '../utils/dateRangeUtils';
+import { YesOrNoOrDoNotKnow } from '../types/YesOrNoOrDoNotKnow';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 
 dayjs.extend(minMax);
 dayjs.extend(isoWeek);
@@ -55,8 +58,13 @@ export enum AppFieldValidationErrors {
     'starter_slutter_undeveis_nei' = 'starter_slutter_undeveis_nei',
 }
 
-export const isYesOrNoAnswered = (answer?: YesOrNo) => {
-    return answer !== undefined && (answer === YesOrNo.NO || answer === YesOrNo.YES || answer === YesOrNo.DO_NOT_KNOW);
+export const isYesOrNoAnswered = (answer?: YesOrNoOrDoNotKnow | YesOrNo) => {
+    return (
+        answer !== undefined &&
+        (answer === YesOrNoOrDoNotKnow.NO ||
+            answer === YesOrNoOrDoNotKnow.YES ||
+            answer === YesOrNoOrDoNotKnow.DO_NOT_KNOW)
+    );
 };
 
 export const validateNavn = (value: string): ValidationResult<ValidationError> => {
@@ -136,7 +144,7 @@ export const validateFerieuttakIPerioden = (
     if (ferieuttak.length === 0) {
         return AppFieldValidationErrors.ferieuttak_ikke_registrert;
     }
-    const dateRanges = ferieuttak.map((u) => ({ from: u.fom, to: u.tom }));
+    const dateRanges = ferieuttak.map((u) => ({ from: u.from, to: u.to }));
     if (dateRangesCollide(dateRanges)) {
         return AppFieldValidationErrors.ferieuttak_overlapper;
     }

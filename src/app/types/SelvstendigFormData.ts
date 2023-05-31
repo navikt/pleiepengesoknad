@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { Virksomhet } from '@navikt/sif-common-forms-ds/lib';
 import { ArbeidsforholdSelvstendigFormValues } from './ArbeidsforholdFormValues';
 
 export enum SelvstendigFormField {

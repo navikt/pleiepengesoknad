@@ -17,7 +17,9 @@ const webpackConfig = {
         fallback: {
             url: 'false',
         },
-        alias: {},
+        alias: {
+            types: './app/types',
+        },
     },
     module: {
         rules: [
@@ -39,6 +41,11 @@ const webpackConfig = {
                     },
                 ],
             },
+            {
+                test: /\.s[ac]ss$/i,
+                use: ['style-loader', 'css-loader', 'sass-loader'],
+            },
+
             { test: /\.css$/i, use: ['style-loader', 'css-loader'] },
             {
                 test: /\.less$/,

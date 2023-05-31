@@ -1,10 +1,11 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { extractNattevåkSøknadsdata } from '../extractNattevåkSøknadsdata';
+import { YesOrNoOrDoNotKnow } from '../../../types/YesOrNoOrDoNotKnow';
 
 describe('extractNattevåkSøknadsdata', () => {
     it('returnerer type harNattevåk og harNattevåk === true', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.YES },
+            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNoOrDoNotKnow.YES },
             harNattevåk: YesOrNo.YES,
             harNattevåk_ekstrainfo: 'Tekst',
         });
@@ -15,7 +16,7 @@ describe('extractNattevåkSøknadsdata', () => {
 
     it('returnerer type harIkkeNattevåk og harNattevåk === false', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.YES },
+            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNoOrDoNotKnow.YES },
             harNattevåk: YesOrNo.NO,
         });
         expect(result).toBeDefined();
@@ -32,7 +33,10 @@ describe('extractNattevåkSøknadsdata', () => {
 
     it('returnerer undefined hvis bruker skal ikke svare på beredskap og nattevåk med Omsorgstibud.erIOmsorgstilbud === NO', () => {
         const result = extractNattevåkSøknadsdata({
-            omsorgstilbud: { erIOmsorgstilbudFremtid: YesOrNo.NO, erIOmsorgstilbudFortid: YesOrNo.NO },
+            omsorgstilbud: {
+                erIOmsorgstilbudFremtid: YesOrNoOrDoNotKnow.NO,
+                erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.NO,
+            },
             harNattevåk: YesOrNo.YES,
             harNattevåk_ekstrainfo: 'Tekst',
         });

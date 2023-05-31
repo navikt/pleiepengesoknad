@@ -1,10 +1,5 @@
-import {
-    date1YearAgo,
-    date1YearFromNow,
-    dateRangesCollide,
-    dateRangesExceedsRange,
-} from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib';
+import { date1YearAgo, date1YearFromNow, dateRangesCollide, dateRangesExceedsRange } from '@navikt/sif-common-utils';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib';
 import dayjs from 'dayjs';
 
 enum UtenlandsoppholdErrors {

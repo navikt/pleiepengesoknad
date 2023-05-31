@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { ImportertSøknadMetadata } from '../types/ImportertSøknad';

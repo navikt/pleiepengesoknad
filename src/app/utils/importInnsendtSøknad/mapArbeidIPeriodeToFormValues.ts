@@ -1,4 +1,4 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 import { dateRangeToISODateRange, ISODateToDate, ISODurationToDecimalDuration } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { TimerEllerProsent } from '../../types';

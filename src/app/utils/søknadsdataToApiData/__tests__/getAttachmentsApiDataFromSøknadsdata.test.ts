@@ -1,4 +1,4 @@
-import { Attachment, PersistedFile } from '@navikt/sif-common-core/lib/types/Attachment';
+import { Attachment, PersistedFile } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 import { getAttachmentsApiDataFromSøknadsdata } from '../getAttachmentsApiDataFromSøknadsdata';
 
 describe('getAttachmentsApiDataFromSøknadsdata', () => {

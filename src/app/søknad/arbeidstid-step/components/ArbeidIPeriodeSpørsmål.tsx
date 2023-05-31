@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, IntlShape, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { Ingress } from 'nav-frontend-typografi';
 import {
     ArbeiderIPeriodenSvar,
@@ -83,7 +83,7 @@ const ArbeidIPeriodeSpørsmål = ({
 
     return (
         <>
-            <SøknadFormComponents.RadioPanelGroup
+            <SøknadFormComponents.RadioGroup
                 name={getFieldName(ArbeidIPeriodeFormField.arbeiderIPerioden)}
                 legend={intlHelper(intl, `arbeidIPeriode.arbeiderIPerioden.spm`, intlValues)}
                 validate={getArbeidIPeriodeArbeiderIPeriodenValidator(intlValues)}
@@ -117,9 +117,9 @@ const ArbeidIPeriodeSpørsmål = ({
                                 <FormattedMessage id="arbeidIPeriode.redusert.info.tekst" />
                             </p>
                         )}
-                        <Box margin="m">
+                        <Block margin="m">
                             <InfoOmEndring aktivitetType={aktivitetType} />
-                        </Box>
+                        </Block>
 
                         {visibility.isIncluded(ArbeidIPeriodeFormField.erLiktHverUke) && (
                             <FormBlock>
@@ -127,7 +127,6 @@ const ArbeidIPeriodeSpørsmål = ({
                                     name={getFieldName(ArbeidIPeriodeFormField.erLiktHverUke)}
                                     legend={intlHelper(intl, `arbeidIPeriode.erLiktHverUke.spm`, intlValues)}
                                     validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
-                                    useTwoColumns={true}
                                     data-testid="er-likt-hver-uke"
                                     labels={{
                                         yes: intlHelper(intl, `arbeidIPeriode.erLiktHverUke.ja`),
@@ -138,12 +137,11 @@ const ArbeidIPeriodeSpørsmål = ({
                         )}
                         {visibility.isIncluded(ArbeidIPeriodeFormField.timerEllerProsent) && (
                             <FormBlock>
-                                <SøknadFormComponents.RadioPanelGroup
+                                <SøknadFormComponents.RadioGroup
                                     name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
                                     legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
                                     radios={getTimerEllerProsentRadios(intl, intlValues)}
                                     validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
-                                    useTwoColumns={true}
                                 />
                             </FormBlock>
                         )}

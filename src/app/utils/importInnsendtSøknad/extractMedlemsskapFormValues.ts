@@ -1,5 +1,5 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
-import { BostedUtland } from '@navikt/sif-common-forms/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
+import { BostedUtland } from '@navikt/sif-common-forms-ds/lib';
 import { dateRangesCollide, dateToday, guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { SøknadsimportEndring, SøknadsimportEndringstype } from '../../types/ImportertSøknad';
 import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-data/SøknadApiData';

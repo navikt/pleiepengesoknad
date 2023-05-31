@@ -1,16 +1,15 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
-import { getYesOrNoValidator } from '@navikt/sif-common-formik/lib/validation';
-import FerieuttakListAndDialog from '@navikt/sif-common-forms/lib/ferieuttak/FerieuttakListAndDialog';
-import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
-import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms/lib/utenlandsopphold/UtenlandsoppholdListAndDialog';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import { date1YearAgo, date1YearFromNow, date3YearsAgo, DateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import datepickerUtils from '@navikt/sif-common-formik-ds/lib/components/formik-datepicker/datepickerUtils';
+import { getYesOrNoValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import FerieuttakListAndDialog from '@navikt/sif-common-forms-ds/lib/forms/ferieuttak/FerieuttakListAndDialog';
+import { Ferieuttak } from '@navikt/sif-common-forms-ds/lib/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/types';
+import UtenlandsoppholdListAndDialog from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/UtenlandsoppholdListAndDialog';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
 import { useFormikContext } from 'formik';
@@ -29,7 +28,8 @@ import SøknadFormComponents from '../SøknadFormComponents';
 import SøknadFormStep from '../SøknadFormStep';
 import { StepConfigProps, StepID } from '../søknadStepsConfig';
 import harUtenlandsoppholdUtenInnleggelseEllerInnleggeleForEgenRegning from './harUtenlandsoppholdUtenInnleggelseEllerInnleggelseForEgenRegning';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import { YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 
 dayjs.extend(minMax);
 
@@ -118,31 +118,31 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                     label: intlHelper(intl, 'steg.tidsrom.hvilketTidsrom.tom'),
                     validate: validateTilDatoField,
                     name: SøknadFormField.periodeTil,
-                    dayPickerProps: { initialMonth: periodeFra ? new Date(periodeFra) : undefined },
+                    dayPickerProps: { defaultMonth: periodeFra ? new Date(periodeFra) : undefined },
                 }}
                 disableWeekend={false}
                 fullScreenOnMobile={true}
             />
             {søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
-                <Box padBottom="xl">
+                <Block padBottom="xl">
                     <Alertstripe type="advarsel">
                         <FormattedMessage id="step.tidsrom.søkerKunHelgedager.alert" />
                     </Alertstripe>
-                </Box>
+                </Block>
             )}
 
             {!søkerKunHelgedager(values.periodeFra, values.periodeTil) && (
                 <>
-                    <Box margin="xl">
+                    <Block margin="xl">
                         <SøknadFormComponents.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.iUtlandetIPerioden.spm')}
                             name={SøknadFormField.skalOppholdeSegIUtlandetIPerioden}
                             validate={getYesOrNoValidator()}
                             data-testid="er-iUtlandetIPerioden"
                         />
-                    </Box>
+                    </Block>
                     {values.skalOppholdeSegIUtlandetIPerioden === YesOrNo.YES && (
-                        <Box margin="m">
+                        <Block margin="m">
                             <UtenlandsoppholdListAndDialog<SøknadFormField>
                                 name={SøknadFormField.utenlandsoppholdIPerioden}
                                 minDate={periode.from}
@@ -159,26 +159,26 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                         : undefined
                                 }
                             />
-                        </Box>
+                        </Block>
                     )}
                     {visInfoOmUtenlandsopphold && (
-                        <Box margin="l" padBottom="l">
-                            <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+                        <Block margin="l" padBottom="l">
+                            <SifGuidePanel compact={true}>
                                 <FormattedMessage id="steg.tidsrom.veileder.utenlandsopphold" />
-                            </CounsellorPanel>
-                        </Box>
+                            </SifGuidePanel>
+                        </Block>
                     )}
 
-                    <Box margin="xl">
+                    <Block margin="xl">
                         <SøknadFormComponents.YesOrNoQuestion
                             legend={intlHelper(intl, 'steg.tidsrom.ferieuttakIPerioden.spm')}
                             name={SøknadFormField.skalTaUtFerieIPerioden}
                             validate={getYesOrNoValidator()}
                             data-testid="er-ferieuttakIPerioden"
                         />
-                    </Box>
+                    </Block>
                     {values.skalTaUtFerieIPerioden === YesOrNo.YES && (
-                        <Box margin="m" padBottom="l">
+                        <Block margin="m" padBottom="l">
                             <FerieuttakListAndDialog<SøknadFormField>
                                 name={SøknadFormField.ferieuttakIPerioden}
                                 minDate={periode.from}
@@ -194,7 +194,7 @@ const TidsromStep = ({ onValidSubmit }: StepConfigProps) => {
                                         : undefined
                                 }
                             />
-                        </Box>
+                        </Block>
                     )}
                 </>
             )}

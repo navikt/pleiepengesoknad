@@ -1,13 +1,13 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ContentWithHeader from '@navikt/sif-common-core/lib/components/content-with-header/ContentWithHeader';
-import SummaryBlock from '@navikt/sif-common-core/lib/components/summary-block/SummaryBlock';
-import Sitat from '@navikt/sif-common-core/lib/components/summary-enkeltsvar/Sitat';
-import SummarySection from '@navikt/sif-common-core/lib/components/summary-section/SummarySection';
-import TextareaSummary from '@navikt/sif-common-core/lib/components/textarea-summary/TextareaSummary';
-import { DateRange, prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ContentWithHeader from '@navikt/sif-common-core-ds/lib/components/content-with-header/ContentWithHeader';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import TextareaSummary from '@navikt/sif-common-soknad-ds/lib/components/summary-answers/TextareaSvar';
+import SummaryBlock from '@navikt/sif-common-soknad-ds/lib/components/summary-block/SummaryBlock';
+import SummarySection from '@navikt/sif-common-soknad-ds/lib/components/summary-section/SummarySection';
+import { DateRange, prettifyDateExtended } from '@navikt/sif-common-utils';
+import Sitat from '../../../components/sitat/Sitat';
 import TidEnkeltdager from '../../../local-sif-common-pleiepenger/components/dager-med-tid/TidEnkeltdager';
 import TidFasteDager from '../../../local-sif-common-pleiepenger/components/dager-med-tid/TidFasteDager';
 import { SøknadApiData } from '../../../types/søknad-api-data/SøknadApiData';
@@ -34,9 +34,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                 {omsorgstilbud === undefined && (
                     <>
                         {(søkerKunFortid(søknadsperiode) || søkerFortidOgFremtid(søknadsperiode)) && (
-                            <SummaryBlock
-                                header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
-                                headerTag="h3">
+                            <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}>
                                 <div data-testid="oppsummering-omsorgstilbud-svarFortid">
                                     <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fortid.svar.NEI`} />
                                 </div>
@@ -49,8 +47,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                                     søkerFortidOgFremtid(søknadsperiode)
                                         ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
                                         : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
-                                )}
-                                headerTag="h3">
+                                )}>
                                 <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
                                     <FormattedMessage id={`steg.oppsummering.omsorgstilbud.fremtid.svar.NEI`} />
                                 </div>
@@ -59,9 +56,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                     </>
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.svarFortid && (
-                    <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}
-                        headerTag="h3">
+                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.fortid.spm')}>
                         <div data-testid="oppsummering-omsorgstilbud-svarFortid">
                             <FormattedMessage
                                 id={`steg.oppsummering.omsorgstilbud.fortid.svar.${omsorgstilbud.svarFortid}`}
@@ -76,8 +71,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                             søkerFortidOgFremtid(søknadsperiode)
                                 ? 'steg.oppsummering.omsorgstilbud.fremtid.spm'
                                 : 'steg.oppsummering.omsorgstilbud.fremtid.spm.kunFremtid'
-                        )}
-                        headerTag="h3">
+                        )}>
                         <div data-testid="oppsummering-omsorgstilbud-svarFremtid">
                             <FormattedMessage
                                 id={`steg.oppsummering.omsorgstilbud.fremtid.svar.${omsorgstilbud.svarFremtid}`}
@@ -92,15 +86,12 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                             søkerKunFortid(søknadsperiode)
                                 ? 'steg.oppsummering.omsorgstilbud.fast.header.fortid'
                                 : 'steg.oppsummering.omsorgstilbud.fast.header'
-                        )}
-                        headerTag="h3">
+                        )}>
                         <TidFasteDager fasteDager={omsorgstilbud.ukedager} />
                     </SummaryBlock>
                 )}
                 {omsorgstilbud !== undefined && omsorgstilbud.enkeltdager && (
-                    <SummaryBlock
-                        header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}
-                        headerTag="h3">
+                    <SummaryBlock header={intlHelper(intl, 'steg.oppsummering.omsorgstilbud.enkeltdager.header')}>
                         <TidEnkeltdager dager={omsorgstilbud.enkeltdager} />
                     </SummaryBlock>
                 )}
@@ -108,7 +99,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
             {(nattevåk || beredskap) && (
                 <SummarySection header={intlHelper(intl, 'steg.oppsummering.nattevåkBeredskap.header')}>
                     {nattevåk && (
-                        <Box margin="xl">
+                        <Block margin="xl">
                             <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.nattevåk.spm')}>
                                 <div data-testid="oppsummering-nattevåk">
                                     <FormattedMessage id={nattevåk.harNattevåk === true ? 'Ja' : 'Nei'} />
@@ -122,10 +113,10 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                                     </Sitat>
                                 )}
                             </ContentWithHeader>
-                        </Box>
+                        </Block>
                     )}
                     {beredskap && (
-                        <Box margin="xl">
+                        <Block margin="xl">
                             <ContentWithHeader header={intlHelper(intl, 'steg.nattevåkOgBeredskap.beredskap.spm')}>
                                 <div data-testid="oppsummering-beredskap">
                                     <FormattedMessage id={beredskap.beredskap === true ? 'Ja' : 'Nei'} />
@@ -138,7 +129,7 @@ const OmsorgstilbudSummary: React.FC<Props> = ({
                                     </Sitat>
                                 )}
                             </ContentWithHeader>
-                        </Box>
+                        </Block>
                     )}
                 </SummarySection>
             )}

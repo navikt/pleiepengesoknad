@@ -1,9 +1,10 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { OmsorgstilbudFormValues } from '../../../types/SøknadFormValues';
 import { extractOmsorgstibudSøknadsdata } from '../extractOmsorgstibudSøknadsdata';
+import { YesOrNoOrDoNotKnow } from '../../../types/YesOrNoOrDoNotKnow';
 
 const omsorgstilbud: OmsorgstilbudFormValues = {
-    erIOmsorgstilbudFortid: YesOrNo.YES,
+    erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.YES,
     enkeltdager: { '2021-02-01': { hours: '1', minutes: '0' } },
     erLiktHverUke: YesOrNo.NO,
 };
@@ -31,7 +32,7 @@ describe('extractOmsorgstibudSøknadsdata', () => {
     it('returnerer undefined dersom erIOmsorgstilbud === NO', () => {
         const result = extractOmsorgstibudSøknadsdata({
             ...omsorgstilbud,
-            erIOmsorgstilbudFortid: YesOrNo.NO,
+            erIOmsorgstilbudFortid: YesOrNoOrDoNotKnow.NO,
         });
         expect(result).toBeUndefined();
     });

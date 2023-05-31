@@ -1,4 +1,4 @@
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import { FerieuttakIPeriodenApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { FerieuttakIPeriodenSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 
@@ -19,8 +19,8 @@ export const getFerieuttakIPeriodenApiDataFromSøknadsdata = (
             return {
                 skalTaUtFerieIPerioden: true,
                 ferieuttak: ferieuttakIPerioden.ferieuttak.map((uttak) => ({
-                    fraOgMed: formatDateToApiFormat(uttak.fom),
-                    tilOgMed: formatDateToApiFormat(uttak.tom),
+                    fraOgMed: dateToISODate(uttak.from),
+                    tilOgMed: dateToISODate(uttak.to),
                 })),
             };
         case 'skalIkkeTaUtFerieSøknadsdata':

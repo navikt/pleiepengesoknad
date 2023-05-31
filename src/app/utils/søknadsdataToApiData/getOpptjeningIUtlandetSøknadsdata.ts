@@ -1,7 +1,7 @@
 import { OpptjeningIUtlandetApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { OpptjeningUtlandSøknadsdata } from '../../types/søknadsdata/opptjeningUtlandSøknadsdata';
-import { getCountryName } from '@navikt/sif-common-formik/lib';
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import { getCountryName } from '@navikt/sif-common-formik-ds/lib';
+import { dateToISODate } from '@navikt/sif-common-utils';
 
 export const getOpptjeningIUtlandetSøknadsdata = (
     locale: string,
@@ -15,8 +15,8 @@ export const getOpptjeningIUtlandetSøknadsdata = (
                 landnavn: getCountryName(opptjening.landkode, locale),
                 landkode: opptjening.landkode,
             },
-            fraOgMed: formatDateToApiFormat(opptjening.fom),
-            tilOgMed: formatDateToApiFormat(opptjening.tom),
+            fraOgMed: dateToISODate(opptjening.fom),
+            tilOgMed: dateToISODate(opptjening.tom),
         }));
 
         return apiData;

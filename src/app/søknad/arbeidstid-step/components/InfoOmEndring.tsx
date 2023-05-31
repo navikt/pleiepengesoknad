@@ -1,6 +1,6 @@
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import React from 'react';
 import { useIntl } from 'react-intl';
 

@@ -1,14 +1,15 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { OmsorgstilbudFormValues } from '../../types/SøknadFormValues';
 import { OmsorgstilbudSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
+import { YesOrNoOrDoNotKnow } from '../../types/YesOrNoOrDoNotKnow';
 
 export const extractOmsorgstibudSøknadsdata = (
     omsorgstilbud?: OmsorgstilbudFormValues
 ): OmsorgstilbudSøknadsdata | undefined => {
     if (
         !omsorgstilbud ||
-        (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNo.YES &&
-            (omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.NO ||
+        (omsorgstilbud.erIOmsorgstilbudFortid !== YesOrNoOrDoNotKnow.YES &&
+            (omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.NO ||
                 omsorgstilbud.erIOmsorgstilbudFremtid === undefined))
     ) {
         return undefined;
@@ -34,8 +35,8 @@ export const extractOmsorgstibudSøknadsdata = (
     }
 
     if (
-        erIOmsorgstilbudFremtid === YesOrNo.DO_NOT_KNOW &&
-        (erIOmsorgstilbudFortid === undefined || erIOmsorgstilbudFortid === YesOrNo.NO)
+        erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.DO_NOT_KNOW &&
+        (erIOmsorgstilbudFortid === undefined || erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.NO)
     ) {
         return {
             type: 'erIOmsorgstilbudFremtidUsikker',

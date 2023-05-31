@@ -1,4 +1,4 @@
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { Duration } from '@navikt/sif-common-utils/lib';
 import { RegistrerteBarn } from './RegistrerteBarn';
 import { SøknadFormValues } from './SøknadFormValues';

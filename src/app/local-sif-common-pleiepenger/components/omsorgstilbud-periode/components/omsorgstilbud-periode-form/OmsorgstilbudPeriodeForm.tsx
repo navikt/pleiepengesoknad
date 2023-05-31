@@ -1,17 +1,16 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik/lib';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { DateRange, getTypedFormComponents } from '@navikt/sif-common-formik-ds/lib';
+import datepickerUtils from '@navikt/sif-common-formik-ds/lib/components/formik-datepicker/datepickerUtils';
 import {
     getDateRangeValidator,
     ValidateDateError,
     ValidateDateRangeError,
-} from '@navikt/sif-common-formik/lib/validation';
-import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+} from '@navikt/sif-common-formik-ds/lib/validation';
+import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { DurationWeekdays } from '@navikt/sif-common-utils/lib';
-import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
 import TidFasteUkedagerInput from '../../../tid-faste-ukedager-input/TidFasteUkedagerInput';
 import { getOmsorgstilbudPeriodeIntl } from '../../i18n/omsorgstilbudPeriodeMessages';
@@ -37,8 +36,8 @@ enum FormFields {
 }
 
 interface FormValues {
-    [FormFields.fom]: InputDateString;
-    [FormFields.tom]: InputDateString;
+    [FormFields.fom]: string;
+    [FormFields.tom]: string;
     [FormFields.tidFasteDager]: DurationWeekdays;
 }
 
@@ -88,6 +87,7 @@ const OmsorgstilbudPeriodeForm: React.FC<OmsorgstilbudPeriodeFormProps> = ({ per
                                 <div style={{ maxWidth: '20rem' }}>
                                     <FormBlock>
                                         <FormComponents.DateIntervalPicker
+                                            legend="TODO"
                                             fromDatepickerProps={{
                                                 label: intlText('omsorgstilbudPeriodeForm.fraOgMed.label'),
                                                 name: FormFields.fom,
@@ -95,7 +95,7 @@ const OmsorgstilbudPeriodeForm: React.FC<OmsorgstilbudPeriodeFormProps> = ({ per
                                                 fullscreenOverlay: true,
                                                 fullScreenOnMobile: true,
                                                 dayPickerProps: {
-                                                    initialMonth: periode.from,
+                                                    defaultMonth: periode.from,
                                                 },
                                                 minDate: periode.from,
                                                 maxDate: to || periode.to,
@@ -117,7 +117,7 @@ const OmsorgstilbudPeriodeForm: React.FC<OmsorgstilbudPeriodeFormProps> = ({ per
                                                 minDate: from || periode.from,
                                                 maxDate: periode.to,
                                                 dayPickerProps: {
-                                                    initialMonth: from || periode.from,
+                                                    defaultMonth: from || periode.from,
                                                 },
                                                 validate: getDateRangeValidator({
                                                     required: true,

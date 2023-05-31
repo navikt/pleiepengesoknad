@@ -1,17 +1,18 @@
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Ferieuttak } from '@navikt/sif-common-forms/lib/ferieuttak/types';
-import { Utenlandsopphold } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { Ferieuttak } from '@navikt/sif-common-forms-ds/lib/forms/ferieuttak/types';
+import { Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/types';
 import { DateDurationMap, DurationWeekdays } from '@navikt/sif-common-utils';
 import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '.';
 import { ArbeidsforholdFormValues } from './ArbeidsforholdFormValues';
 import { Arbeidsgiver } from './Arbeidsgiver';
 import { FrilansFormData } from './FrilansFormData';
 import { SelvstendigFormData } from './SelvstendigFormData';
-import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
-import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
-import { BostedUtland } from '@navikt/sif-common-forms/lib';
+import { OpptjeningUtland } from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland';
+import { UtenlandskNæring } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring';
+import { BostedUtland } from '@navikt/sif-common-forms-ds/lib';
 import { StønadGodtgjørelseFormData } from '../types/StønadGodtgjørelseFormData';
+import { YesOrNoOrDoNotKnow } from './YesOrNoOrDoNotKnow';
 
 export enum SøknadFormField {
     brukForrigeSøknad = 'brukForrigeSøknad',
@@ -64,8 +65,8 @@ export enum SøknadFormField {
 }
 
 export interface OmsorgstilbudFormValues {
-    erIOmsorgstilbudFortid?: YesOrNo;
-    erIOmsorgstilbudFremtid?: YesOrNo;
+    erIOmsorgstilbudFortid?: YesOrNoOrDoNotKnow;
+    erIOmsorgstilbudFremtid?: YesOrNoOrDoNotKnow;
     erLiktHverUke?: YesOrNo;
     fasteDager?: DurationWeekdays;
     enkeltdager?: DateDurationMap;

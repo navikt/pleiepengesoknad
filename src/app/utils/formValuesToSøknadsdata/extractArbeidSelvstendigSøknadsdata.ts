@@ -1,4 +1,4 @@
-import { DateRange, YesOrNo } from '@navikt/sif-common-formik/lib';
+import { DateRange, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
 import dayjs from 'dayjs';
 import { ArbeidsforholdType } from '../../local-sif-common-pleiepenger';
 import { SelvstendigFormData } from '../../types/SelvstendigFormData';

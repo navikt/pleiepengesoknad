@@ -1,12 +1,11 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import FormSection from '@navikt/sif-common-core/lib/components/form-section/FormSection';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { useFormikContext } from 'formik';
 import usePersistSoknad from '../../../hooks/usePersistSoknad';
 import { ArbeidsforholdType } from '../../../local-sif-common-pleiepenger';
@@ -21,6 +20,7 @@ import { StepConfigProps, StepID } from '../../søknadStepsConfig';
 import { cleanupArbeidstidStep } from '../utils/cleanupArbeidstidStep';
 import ArbeidIPeriodeSpørsmål from './ArbeidIPeriodeSpørsmål';
 import ArbeidIPeriodeSpørsmålFrilans from './ArbeidIPeriodeSpørsmålFrilans';
+import FormSection from '../../../components/form-section/FormSection';
 
 interface Props extends StepConfigProps {
     periode: DateRange;
@@ -55,16 +55,16 @@ const ArbeidstidStep = ({ onValidSubmit, periode }: Props) => {
             id={StepID.ARBEIDSTID}
             onValidFormSubmit={onValidSubmit}
             onStepCleanup={(values) => cleanupArbeidstidStep(values, arbeid, periode)}>
-            <Box padBottom="m">
-                <CounsellorPanel>
+            <Block padBottom="m">
+                <SifGuidePanel>
                     <p>
                         <FormattedMessage id={'arbeidIPeriode.StepInfo.1'} />
                     </p>
                     <p>
                         <FormattedMessage id={'arbeidIPeriode.StepInfo.2'} />
                     </p>
-                </CounsellorPanel>
-            </Box>
+                </SifGuidePanel>
+            </Block>
 
             {ansatt_arbeidsforhold.length > 0 && (
                 <FormBlock>

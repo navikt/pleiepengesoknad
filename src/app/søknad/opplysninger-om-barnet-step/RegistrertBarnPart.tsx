@@ -1,16 +1,16 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { prettifyDate } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { formatName } from '@navikt/sif-common-core/lib/utils/personUtils';
-import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { prettifyDate } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { formatName } from '@navikt/sif-common-core-ds/lib/utils/personUtils';
+import { resetFieldValue, resetFieldValues, SkjemagruppeQuestion } from '@navikt/sif-common-formik-ds';
 import { useFormikContext } from 'formik';
 import { Normaltekst } from 'nav-frontend-typografi';
 import { SøknadFormField, initialValues, SøknadFormValues } from '../../types/SøknadFormValues';
 import SøknadFormComponents from '../SøknadFormComponents';
-import { getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
+import { getRequiredFieldValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
 import { RegistrerteBarn } from '../../types';
 
 interface Props {
@@ -25,8 +25,8 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
     } = useFormikContext<SøknadFormValues>();
 
     return (
-        <SkjemagruppeQuestion>
-            <SøknadFormComponents.RadioPanelGroup
+        <SkjemagruppeQuestion legend="TODO">
+            <SøknadFormComponents.RadioGroup
                 name={SøknadFormField.barnetSøknadenGjelder}
                 legend={intlHelper(intl, 'steg.omBarnet.hvilketBarn.spm')}
                 description={
@@ -42,7 +42,6 @@ const RegistrertBarnPart = ({ søkersBarn }: Props) => {
                         </p>
                     </ExpandableInfo>
                 }
-                useTwoColumns={true}
                 radios={søkersBarn.map((barn) => {
                     const { fornavn, mellomnavn, etternavn, fødselsdato, aktørId } = barn;
                     const barnetsNavn = formatName(fornavn, etternavn, mellomnavn);

@@ -3,11 +3,11 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import Page from '@navikt/sif-common-core/lib/components/page/Page';
-import StepBanner from '@navikt/sif-common-core/lib/components/step-banner/StepBanner';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
+
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import './unavailablePage.less';
 
 const bem = bemUtils('introPage');
@@ -19,8 +19,8 @@ const UnavailablePage = () => {
     const title = intlHelper(intl, 'application.title');
     useLogSidevisning(SIFCommonPageKey.ikkeTilgjengelig);
     return (
-        <Page className={bem.block} title={title} topContentRenderer={() => <StepBanner text={title} />}>
-            <Box margin="xxxl">
+        <Page className={bem.block} title={title} topContentRenderer={() => <h1>title</h1>}>
+            <Block margin="xxxl">
                 <AlertStripeAdvarsel>
                     <p>
                         <FormattedMessage id="page.unavailable.1" />{' '}
@@ -35,7 +35,7 @@ const UnavailablePage = () => {
                         <FormattedMessage id="page.unavailable.3" />
                     </p>
                 </AlertStripeAdvarsel>
-            </Box>
+            </Block>
         </Page>
     );
 };

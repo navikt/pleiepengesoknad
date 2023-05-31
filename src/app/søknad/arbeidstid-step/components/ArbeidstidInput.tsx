@@ -1,8 +1,8 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import { dateFormatter, dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { Normaltekst } from 'nav-frontend-typografi';
@@ -13,7 +13,7 @@ import { ArbeidIPeriodeFormField, ArbeidIPeriodeFormValues } from '../../../type
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import SøknadFormComponents from '../../SøknadFormComponents';
-import { getArbeidsdagerIUkeTekst } from '../utils/arbeidstidUtils';
+// import { getArbeidsdagerIUkeTekst } from '../utils/arbeidstidUtils';
 import {
     getArbeidIPeriodeProsentAvNormaltValidator,
     getArbeidIPeriodeTimerPerUkeISnittValidator,
@@ -102,19 +102,19 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
         );
     };
 
-    const getTimerSuffix = () => {
-        if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode) {
-            return `timer (${getArbeidsdagerIUkeTekst(arbeidsuke.arbeidsdagerPeriode)})`;
-        }
-        return 'timer';
-    };
+    // const getTimerSuffix = () => {
+    //     if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode) {
+    //         return `timer (${getArbeidsdagerIUkeTekst(arbeidsuke.arbeidsdagerPeriode)})`;
+    //     }
+    //     return 'timer';
+    // };
 
-    const getProsentSuffix = () => {
-        if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode) {
-            return `prosent av normalt (${getArbeidsdagerIUkeTekst(arbeidsuke.arbeidsdagerPeriode)})`;
-        }
-        return `prosent av normalt`;
-    };
+    // const getProsentSuffix = () => {
+    //     if (arbeidsuke && arbeidsuke.arbeidsdagerPeriode) {
+    //         return `prosent av normalt (${getArbeidsdagerIUkeTekst(arbeidsuke.arbeidsdagerPeriode)})`;
+    //     }
+    //     return `prosent av normalt`;
+    // };
 
     return (
         <FormBlock paddingBottom="l" margin={arbeidsuke ? 'm' : undefined}>
@@ -125,10 +125,10 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                     label={getProsentLabel()}
                     data-testid="prosent-verdi"
                     validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues, arbeidsuke)}
-                    bredde="XS"
+                    width="xs"
                     maxLength={4}
-                    suffixStyle="text"
-                    suffix={getProsentSuffix()}
+                    // suffixStyle="text"
+                    // suffix={getProsentSuffix()}
                 />
             )}
             {timerEllerProsent === TimerEllerProsent.TIMER && (
@@ -144,10 +144,10 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                         frilansVervString
                     )}
                     data-testid="timer-verdi"
-                    bredde="XS"
+                    width="xs"
                     maxLength={4}
-                    suffixStyle="text"
-                    suffix={getTimerSuffix()}
+                    // suffixStyle="text"
+                    // suffix={getTimerSuffix()}
                 />
             )}
         </FormBlock>

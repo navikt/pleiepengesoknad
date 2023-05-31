@@ -1,6 +1,6 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import dayjs from 'dayjs';
 import { groupBy } from 'lodash';
 import { Element, Undertittel } from 'nav-frontend-typografi';

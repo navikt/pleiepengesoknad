@@ -1,10 +1,10 @@
-import { ApiStringDate } from '@navikt/sif-common-core/lib/types/ApiStringDate';
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
-import { OpptjeningAktivitet } from '@navikt/sif-common-forms/lib/opptjening-utland';
-import { UtenlandskNæringstype } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
-import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms/lib/utenlandsopphold/types';
+import { ISODateString } from '@navikt/ds-datepicker/lib/types';
+import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
+import { OpptjeningAktivitet } from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland';
+import { UtenlandskNæringstype } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring';
+import { UtenlandsoppholdÅrsak } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsopphold/types';
 import { ISODate, ISODuration } from '@navikt/sif-common-utils';
-import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '..';
+import { BarnRelasjon, ÅrsakManglerIdentitetsnummer } from '../';
 import { ArbeidsgiverApiData } from './arbeidsgiverApiData';
 import { FrilansApiData } from './frilansApiData';
 import { SelvstendigApiData } from './selvstendigApiData';
@@ -103,8 +103,8 @@ export interface OpptjeningIUtlandetApiData {
     navn: string;
     opptjeningType: OpptjeningAktivitet;
     land: LandApi;
-    fraOgMed: ApiStringDate;
-    tilOgMed: ApiStringDate;
+    fraOgMed: ISODateString;
+    tilOgMed: ISODateString;
 }
 
 export interface UtenlandskNæringApiData {
@@ -112,8 +112,8 @@ export interface UtenlandskNæringApiData {
     navnPåVirksomheten: string;
     land: LandApi;
     organisasjonsnummer?: string;
-    fraOgMed: ApiStringDate;
-    tilOgMed?: ApiStringDate;
+    fraOgMed: ISODateString;
+    tilOgMed?: ISODateString;
 }
 
 export type UtenlandsoppholdIPeriodenSøknadApiData = {

@@ -1,14 +1,13 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import ResponsivePanel from '@navikt/sif-common-core/lib/components/responsive-panel/ResponsivePanel';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { DateRange, getTypedFormComponents, InputTime } from '@navikt/sif-common-formik/lib';
-import { getDateValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik/lib/validation';
-import getIntlFormErrorHandler from '@navikt/sif-common-formik/lib/validation/intlFormErrorHandler';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { DateRange, getTypedFormComponents, InputTime } from '@navikt/sif-common-formik-ds/lib';
+import { getDateValidator, getRequiredFieldValidator } from '@navikt/sif-common-formik-ds/lib/validation';
+import getIntlFormErrorHandler from '@navikt/sif-common-formik-ds/lib/validation/intlFormErrorHandler';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import {
     DateDurationMap,
     dateFormatter,
@@ -23,8 +22,8 @@ import {
 } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import { InputDateString } from 'nav-datovelger/lib/types';
 import { Undertittel } from 'nav-frontend-typografi';
+import ResponsivePanel from '../../../components/responsive-panel/ResponsivePanel';
 import DurationText from '../duration-text/DurationText';
 // import { DurationText } from '../..';
 import {
@@ -80,7 +79,7 @@ export interface TidEnkeltdagFormValues {
     [FormFields.skalGjentas]: boolean;
     [FormFields.gjentagelse]: GjentagelseType;
     [FormFields.stoppGjentagelse]: boolean;
-    [FormFields.stopDato]: InputDateString;
+    [FormFields.stopDato]: string;
 }
 
 const FormComponents = getTypedFormComponents<FormFields, TidEnkeltdagFormValues, ValidationError>();
@@ -197,7 +196,7 @@ const TidEnkeltdagForm: React.FunctionComponent<TidEnkeltdagFormProps> = ({
                                     </FormBlock>
                                 )}
                                 {skalGjentas === true && (
-                                    <Box margin="l">
+                                    <Block margin="l">
                                         <ResponsivePanel>
                                             {/* <div style={{ paddingLeft: '1.5rem' }}> */}
 
@@ -275,7 +274,7 @@ const TidEnkeltdagForm: React.FunctionComponent<TidEnkeltdagFormProps> = ({
                                                                         fullScreenOnMobile={true}
                                                                         fullscreenOverlay={true}
                                                                         dayPickerProps={{
-                                                                            initialMonth: dato,
+                                                                            defaultMonth: dato,
                                                                         }}
                                                                         name={FormFields.stopDato}
                                                                     />
@@ -286,7 +285,7 @@ const TidEnkeltdagForm: React.FunctionComponent<TidEnkeltdagFormProps> = ({
                                                 </>
                                             )}
                                         </ResponsivePanel>
-                                    </Box>
+                                    </Block>
                                 )}
                             </FormComponents.Form>
                         );

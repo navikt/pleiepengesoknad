@@ -1,4 +1,4 @@
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
 import { SøknadFormValues } from '../../types/SøknadFormValues';
 import { UtenlandskNæringSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
 

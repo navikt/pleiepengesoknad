@@ -1,4 +1,4 @@
-import { UtenlandskNæring } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
+import { UtenlandskNæring } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { UtenlandskNæringApiData } from '../../types/søknad-api-data/SøknadApiData';
 

@@ -1,5 +1,4 @@
-import { OpenDateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import {
     dateFormatter,
     dateRangeUtils,
@@ -21,6 +20,7 @@ import { ArbeidsforholdSøknadsdata } from '../../../types/søknadsdata/arbeidsf
 import { ArbeidSøknadsdata } from '../../../types/søknadsdata/arbeidSøknadsdata';
 import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normalarbeidstidSøknadsdata';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
+import { OpenDateRange } from '../../../types';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);

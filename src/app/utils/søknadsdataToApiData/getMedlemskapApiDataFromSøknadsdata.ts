@@ -1,15 +1,15 @@
-import { formatDateToApiFormat } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { getCountryName } from '@navikt/sif-common-formik/lib';
-import { BostedUtland } from '@navikt/sif-common-forms/lib';
+import { dateToISODate } from '@navikt/sif-common-utils';
+import { getCountryName } from '@navikt/sif-common-formik-ds/lib';
+import { BostedUtland } from '@navikt/sif-common-forms-ds/lib';
 import { BostedUtlandApiData, MedlemskapApiData } from '../../types/søknad-api-data/SøknadApiData';
 import { MedlemskapSøknadsdata } from '../../types/søknadsdata/Søknadsdata';
-import { Locale } from '@navikt/sif-common-core/lib/types/Locale';
+import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
 
 const mapBostedUtlandToApi = (opphold: BostedUtland, locale: string): BostedUtlandApiData => ({
     landnavn: getCountryName(opphold.landkode, locale),
     landkode: opphold.landkode,
-    fraOgMed: formatDateToApiFormat(opphold.fom),
-    tilOgMed: formatDateToApiFormat(opphold.tom),
+    fraOgMed: dateToISODate(opphold.fom),
+    tilOgMed: dateToISODate(opphold.tom),
 });
 
 export const getMedlemskapApiDataFromSøknadsdata = (

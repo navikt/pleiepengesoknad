@@ -1,6 +1,6 @@
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import { YesOrNo } from '@navikt/sif-common-formik/lib';
-import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { DateRange } from '@navikt/sif-common-utils';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { Virksomhet } from '@navikt/sif-common-forms-ds/lib';
 import { ArbeiderIPeriodenSvar } from '../../../local-sif-common-pleiepenger';
 import { TimerEllerProsent } from '../../../types';
 import {

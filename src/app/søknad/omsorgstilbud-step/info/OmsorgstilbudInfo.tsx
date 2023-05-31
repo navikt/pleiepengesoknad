@@ -1,8 +1,8 @@
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CounsellorPanel from '@navikt/sif-common-core/lib/components/counsellor-panel/CounsellorPanel';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import SifGuidePanel from '@navikt/sif-common-core-ds/lib/components/sif-guide-panel/SifGuidePanel';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import AlertStripe from 'nav-frontend-alertstriper';
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -10,7 +10,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 const OmsorgstilbudStepInfo = () => {
     const intl = useIntl();
     return (
-        <CounsellorPanel switchToPlakatOnSmallScreenSize={true}>
+        <SifGuidePanel>
             <p>
                 <FormattedMessage id="steg.omsorgstilbud.veileder.1" />
             </p>
@@ -37,14 +37,14 @@ const OmsorgstilbudStepInfo = () => {
             <p>
                 <FormattedHtmlMessage id="steg.omsorgstilbud.veileder.2" />
             </p>
-            <Box>
-                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.eksempel.tittel')} filledBackground={false}>
+            <Block>
+                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.eksempel.tittel')}>
                     <p>{intlHelper(intl, 'steg.omsorgstilbud.eksempel.1')}</p>
                     <p>{intlHelper(intl, 'steg.omsorgstilbud.eksempel.2')}</p>
                 </ExpandableInfo>
-            </Box>
-            <Box>
-                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.3')} filledBackground={false}>
+            </Block>
+            <Block>
+                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.3')}>
                     <p>
                         <FormattedMessage id="steg.omsorgstilbud.veileder.3.1" />{' '}
                         <strong>
@@ -56,17 +56,17 @@ const OmsorgstilbudStepInfo = () => {
                         <FormattedMessage id="steg.omsorgstilbud.veileder.3.4" />
                     </p>
                 </ExpandableInfo>
-            </Box>
+            </Block>
 
-            <Box>
-                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.4')} filledBackground={false}>
+            <Block>
+                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.4')}>
                     <p>
                         <FormattedMessage id="steg.omsorgstilbud.veileder.4.1" />
                     </p>
                 </ExpandableInfo>
-            </Box>
-            <Box>
-                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.5')} filledBackground={false}>
+            </Block>
+            <Block>
+                <ExpandableInfo title={intlHelper(intl, 'steg.omsorgstilbud.veileder.5')}>
                     <p>
                         <FormattedMessage id="steg.omsorgstilbud.veileder.5.1" />
                     </p>
@@ -80,8 +80,8 @@ const OmsorgstilbudStepInfo = () => {
                         <FormattedMessage id="steg.omsorgstilbud.veileder.5.4" />
                     </p>
                 </ExpandableInfo>
-            </Box>
-        </CounsellorPanel>
+            </Block>
+        </SifGuidePanel>
     );
 };
 

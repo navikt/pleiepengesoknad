@@ -1,4 +1,4 @@
-import { OpptjeningUtland } from '@navikt/sif-common-forms/lib/opptjening-utland';
+import { OpptjeningUtland } from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland';
 import { guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import { OpptjeningIUtlandetApiData } from '../../types/søknad-api-data/SøknadApiData';
 

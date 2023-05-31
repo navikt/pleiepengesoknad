@@ -1,5 +1,5 @@
-import { OpptjeningAktivitet } from '@navikt/sif-common-forms/lib/opptjening-utland';
-import { UtenlandskNæringstype } from '@navikt/sif-common-forms/lib/utenlandsk-næring';
+import { OpptjeningAktivitet } from '@navikt/sif-common-forms-ds/lib/forms/opptjening-utland';
+import { UtenlandskNæringstype } from '@navikt/sif-common-forms-ds/lib/forms/utenlandsk-næring';
 import { dateToISODate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
 import { OpptjeningIUtlandetApiData, UtenlandskNæringApiData } from '../../../types/søknad-api-data/SøknadApiData';

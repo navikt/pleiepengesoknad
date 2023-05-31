@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ApplikasjonHendelse, useAmplitudeInstance } from '@navikt/sif-common-amplitude/lib';
-import { TypedFormikWrapper } from '@navikt/sif-common-formik';
+import { TypedFormikWrapper } from '@navikt/sif-common-formik-ds';
 import { initialValues, SøknadFormValues } from '../types/SøknadFormValues';
 import { getSøknadsdataFromFormValues } from '../utils/formValuesToSøknadsdata/getSøknadsdataFromFormValues';
 import { navigateToErrorPage } from '../utils/navigationUtils';

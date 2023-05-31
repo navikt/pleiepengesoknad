@@ -1,7 +1,7 @@
 import React from 'react';
 import { FormattedMessage } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import { prettifyDateExtended } from '@navikt/sif-common-core/lib/utils/dateUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import { prettifyDateExtended } from '@navikt/sif-common-utils';
 import { Element } from 'nav-frontend-typografi';
 import { Arbeidsgiver } from '../../../../types';
 import ArbeidssituasjonPanel from '../arbeidssituasjon-panel/ArbeidssituasjonPanel';
@@ -37,7 +37,7 @@ const FrilansoppdragListe: React.FunctionComponent<Props> = ({ frilansoppdrag })
             {frilansoppdrag.map((oppdrag) => (
                 <li key={oppdrag.id}>
                     <Element tag="h4">{oppdrag.navn}</Element>
-                    <Box padBottom="l">{renderTidsrom(oppdrag)}</Box>
+                    <Block padBottom="l">{renderTidsrom(oppdrag)}</Block>
                 </li>
             ))}
         </ul>

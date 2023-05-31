@@ -1,4 +1,4 @@
-import { hasValue } from '@navikt/sif-common-formik/lib/validation/validationUtils';
+import { hasValue } from '@navikt/sif-common-formik-ds/lib/validation/validationUtils';
 
 jest.mock('../../utils/envUtils', () => {
     return {

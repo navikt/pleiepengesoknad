@@ -1,18 +1,18 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import ExpandableInfo from '@navikt/sif-common-core/lib/components/expandable-content/ExpandableInfo';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { DateRange } from '@navikt/sif-common-core/lib/utils/dateUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents } from '@navikt/sif-common-formik/lib';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import ExpandableInfo from '@navikt/sif-common-core-ds/lib/components/expandable-info/ExpandableInfo';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { DateRange } from '@navikt/sif-common-utils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getTypedFormComponents } from '@navikt/sif-common-formik-ds/lib';
 import {
     getCheckedValidator,
     getRequiredFieldValidator,
     getYesOrNoValidator,
-} from '@navikt/sif-common-formik/lib/validation';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+} from '@navikt/sif-common-formik-ds/lib/validation';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import ConditionalResponsivePanel from '../../../components/conditional-responsive-panel/ConditionalResponsivePanel';
 import { Arbeidsgiver } from '../../../types';
 import { FrilansFormData, FrilansFormField, FrilansTyper } from '../../../types/FrilansFormData';
@@ -27,7 +27,7 @@ import {
     getstønadGodtgjørelseSluttdatoValidator,
     getstønadGodtgjørelseStartdatoValidator,
 } from '../../../validation/fieldValidations';
-import datepickerUtils from '@navikt/sif-common-formik/lib/components/formik-datepicker/datepickerUtils';
+import datepickerUtils from '@navikt/sif-common-formik-ds/lib/components/formik-datepicker/datepickerUtils';
 import { getFrilanserSluttdatoValidator } from '../validation/frilansSluttdatoValidator';
 import { ISODateToDate } from '@navikt/sif-common-utils/lib';
 import dayjs from 'dayjs';
@@ -143,9 +143,9 @@ const ArbeidssituasjonFrilans = ({
                     }
                 />
                 {stønadGodtgjørelse && stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.YES && (
-                    <Box margin="l">
+                    <Block margin="l">
                         <ConditionalResponsivePanel usePanelLayout={true}>
-                            <Box>
+                            <Block>
                                 <StønadGodtgjørelseFormComponents.RadioGroup
                                     name={StønadGodtgjørelseFormField.mottarStønadGodtgjørelseIHelePeroden}
                                     legend={intlHelper(
@@ -165,12 +165,12 @@ const ArbeidssituasjonFrilans = ({
                                         },
                                     ]}
                                     validate={getRequiredFieldValidator()}
-                                    checked={stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden}
+                                    value={stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden}
                                 />
-                            </Box>
+                            </Block>
                             {stønadGodtgjørelse.mottarStønadGodtgjørelseIHelePeroden === YesOrNo.NO && (
                                 <>
-                                    <Box margin="l">
+                                    <Block margin="l">
                                         <StønadGodtgjørelseFormComponents.RadioGroup
                                             name={StønadGodtgjørelseFormField.starterUndeveis}
                                             legend={intlHelper(
@@ -190,10 +190,10 @@ const ArbeidssituasjonFrilans = ({
                                                 },
                                             ]}
                                             validate={getRequiredFieldValidator()}
-                                            checked={stønadGodtgjørelse.starterUndeveis}
+                                            value={stønadGodtgjørelse.starterUndeveis}
                                         />
                                         {stønadGodtgjørelse.starterUndeveis === YesOrNo.YES && (
-                                            <Box margin="m">
+                                            <Block margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
                                                     name={StønadGodtgjørelseFormField.startdato}
                                                     label={intlHelper(
@@ -209,10 +209,10 @@ const ArbeidssituasjonFrilans = ({
                                                         søknadsperiode
                                                     )}
                                                 />
-                                            </Box>
+                                            </Block>
                                         )}
-                                    </Box>
-                                    <Box margin="l">
+                                    </Block>
+                                    <Block margin="l">
                                         <StønadGodtgjørelseFormComponents.RadioGroup
                                             name={StønadGodtgjørelseFormField.slutterUnderveis}
                                             legend={intlHelper(
@@ -241,11 +241,11 @@ const ArbeidssituasjonFrilans = ({
 
                                                 return getRequiredFieldValidator()(value);
                                             }}
-                                            checked={stønadGodtgjørelse.slutterUnderveis}
+                                            value={stønadGodtgjørelse.slutterUnderveis}
                                         />
 
                                         {stønadGodtgjørelse.slutterUnderveis === YesOrNo.YES && (
-                                            <Box margin="m">
+                                            <Block margin="m">
                                                 <StønadGodtgjørelseFormComponents.DatePicker
                                                     name={StønadGodtgjørelseFormField.sluttdato}
                                                     label={intlHelper(
@@ -261,13 +261,13 @@ const ArbeidssituasjonFrilans = ({
                                                         søknadsperiode
                                                     )}
                                                 />
-                                            </Box>
+                                            </Block>
                                         )}
-                                    </Box>
+                                    </Block>
                                 </>
                             )}
                         </ConditionalResponsivePanel>
-                    </Box>
+                    </Block>
                 )}
             </FormBlock>
             <FormBlock>
@@ -304,7 +304,7 @@ const ArbeidssituasjonFrilans = ({
                 />
             </FormBlock>
             {harHattInntektSomFrilanser === YesOrNo.YES && (
-                <Box margin="l">
+                <Block margin="l">
                     <ConditionalResponsivePanel usePanelLayout={harHattInntektSomFrilanser === YesOrNo.YES}>
                         <ArbFriFormComponents.CheckboxGroup
                             legend={intlHelper(intl, 'frilanser.type.tittel')}
@@ -349,7 +349,7 @@ const ArbeidssituasjonFrilans = ({
                                                 'data-testid': 'mister-honorarStyreverv_no',
                                             },
                                         ]}
-                                        checked={misterHonorarStyreverv}
+                                        value={misterHonorarStyreverv}
                                         description={
                                             <ExpandableInfo
                                                 title={intlHelper(
@@ -362,11 +362,11 @@ const ArbeidssituasjonFrilans = ({
                                     />
                                 </FormBlock>
                                 {misterHonorarStyreverv === YesOrNo.NO && (
-                                    <Box margin="l">
+                                    <Block margin="l">
                                         <AlertStripeInfo>
                                             <FormattedMessage id={'frilanser.misterHonorarStyreverv.nei.info'} />
                                         </AlertStripeInfo>
-                                    </Box>
+                                    </Block>
                                 )}
                             </>
                         )}
@@ -435,7 +435,7 @@ const ArbeidssituasjonFrilans = ({
                                                 'data-testid': 'er-fortsatt-frilanser_no',
                                             },
                                         ]}
-                                        checked={erFortsattFrilanser}
+                                        value={erFortsattFrilanser}
                                     />
                                 </FormBlock>
                                 {erFortsattFrilanser === YesOrNo.NO && (
@@ -491,19 +491,19 @@ const ArbeidssituasjonFrilans = ({
                             </>
                         )}
                     </ConditionalResponsivePanel>
-                </Box>
+                </Block>
             )}
 
             {frilansoppdrag.length > 0 &&
                 harHattInntektSomFrilanser === YesOrNo.NO &&
                 stønadGodtgjørelse.mottarStønadGodtgjørelse === YesOrNo.NO && (
-                    <Box margin="l">
+                    <Block margin="l">
                         <AlertStripeInfo>
                             Jobber du ikke lenger i frilansoppdrag registrert på deg og ønsker å få dette fjernet? Be de
                             som har gjort registreringen, om å oppdatere informasjonen i AA-registeret. Du kan fortsette
                             på søknaden uavhengig .
                         </AlertStripeInfo>
-                    </Box>
+                    </Block>
                 )}
         </div>
     );

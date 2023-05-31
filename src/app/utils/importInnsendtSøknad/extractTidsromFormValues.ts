@@ -1,5 +1,5 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { Ferieuttak, Utenlandsopphold } from '@navikt/sif-common-forms/lib';
+import { YesOrNo } from '@navikt/sif-common-core-ds/lib/types/YesOrNo';
+import { Ferieuttak, Utenlandsopphold } from '@navikt/sif-common-forms-ds/lib';
 import { guid, ISODateToDate } from '@navikt/sif-common-utils/lib';
 import {
     FerieuttakIPeriodenApiData,
@@ -25,8 +25,8 @@ type TidsromFormValues = UtenlandsoppholdIPeriodenFormValues & FerieIPeriodenFor
 
 const mapPeriodeApiDataToFerieuttak = (ferieuttak: PeriodeApiData): Ferieuttak => ({
     id: guid(),
-    fom: ISODateToDate(ferieuttak.fraOgMed),
-    tom: ISODateToDate(ferieuttak.tilOgMed),
+    from: ISODateToDate(ferieuttak.fraOgMed),
+    to: ISODateToDate(ferieuttak.tilOgMed),
 });
 
 export const extractFerieIPeriodenFormValues = (

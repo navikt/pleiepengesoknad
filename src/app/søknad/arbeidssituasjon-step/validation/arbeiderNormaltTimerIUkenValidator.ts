@@ -1,4 +1,4 @@
-import { getNumberValidator } from '@navikt/sif-common-formik/lib/validation';
+import { getNumberValidator } from '@navikt/sif-common-formik-ds/lib/validation';
 
 export const MIN_TIMER_NORMAL_ARBEIDSFORHOLD = 0;
 export const MAX_TIMER_NORMAL_ARBEIDSFORHOLD = 100;

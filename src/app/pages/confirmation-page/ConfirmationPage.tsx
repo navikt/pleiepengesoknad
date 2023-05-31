@@ -1,12 +1,12 @@
 import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { SIFCommonPageKey, useLogSidevisning } from '@navikt/sif-common-amplitude';
-import Box from '@navikt/sif-common-core/lib/components/box/Box';
-import CheckmarkIcon from '@navikt/sif-common-core/lib/components/checkmark-icon/CheckmarkIcon';
-import FormattedHtmlMessage from '@navikt/sif-common-core/lib/components/formatted-html-message/FormattedHtmlMessage';
-import Page from '@navikt/sif-common-core/lib/components/page/Page';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
+import Block from '@navikt/sif-common-core-ds/lib/atoms/block/Block';
+import CheckmarkIcon from '@navikt/sif-common-core-ds/lib/atoms/checkmark-icon/CheckmarkIcon';
+import FormattedHtmlMessage from '@navikt/sif-common-core-ds/lib/atoms/formatted-html-message/FormattedHtmlMessage';
+import Page from '@navikt/sif-common-core-ds/lib/components/page/Page';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
 import { AlertStripeAdvarsel } from 'nav-frontend-alertstriper';
 import Lenke from 'nav-frontend-lenker';
 import { Innholdstittel, Undertittel } from 'nav-frontend-typografi';
@@ -31,22 +31,22 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
         <Page title={intlHelper(intl, 'page.confirmation.sidetittel')} className={bem.block}>
             <div className={bem.element('centeredContent')}>
                 <CheckmarkIcon />
-                <Box margin="xl">
+                <Block margin="xl">
                     <Innholdstittel>
                         <FormattedMessage id="page.confirmation.tittel.1" />
                     </Innholdstittel>
-                    <Box margin="m">
+                    <Block margin="m">
                         <Innholdstittel tag="h2">
                             <FormattedMessage id="page.confirmation.tittel.2" />
                         </Innholdstittel>
                         <Innholdstittel tag="h2">
                             <FormattedMessage id="page.confirmation.tittel.3" />
                         </Innholdstittel>
-                    </Box>
-                </Box>
+                    </Block>
+                </Block>
             </div>
             {kvitteringInfo?.arbeidsgivere && (
-                <Box margin="xl">
+                <Block margin="xl">
                     <AlertStripeAdvarsel>
                         {intlHelper(intl, 'page.confirmation.tittel.advarsel.list.tittel')}
                         <ul style={{ marginTop: '0rem', marginBottom: '0rem' }}>
@@ -58,14 +58,14 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                             </li>
                         </ul>
                     </AlertStripeAdvarsel>
-                </Box>
+                </Block>
             )}
 
-            <Box margin="xxl">
+            <Block margin="xxl">
                 <Undertittel>
                     <FormattedHtmlMessage id="page.confirmation.dinePP.info.tittel" />
                 </Undertittel>
-                <Box margin="m">
+                <Block margin="m">
                     <ul>
                         {kvitteringInfo?.arbeidsgivere && (
                             <li>
@@ -82,13 +82,13 @@ const ConfirmationPage = ({ kvitteringInfo }: Props) => {
                             <FormattedMessage id="page.confirmation.dinePP.list.item.4" />
                         </li>
                     </ul>
-                    <Box margin="xl">
+                    <Block margin="xl">
                         <Lenke href={lenker.innsynSIF} target="_blank" className="knapp knapp--hoved">
                             <FormattedMessage id="page.confirmation.dinePP.lenke" />
                         </Lenke>
-                    </Box>
-                </Box>
-            </Box>
+                    </Block>
+                </Block>
+            </Block>
         </Page>
     );
 };

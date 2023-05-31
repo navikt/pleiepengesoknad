@@ -1,5 +1,5 @@
 import React from 'react';
-import bemUtils from '@navikt/sif-common-core/lib/utils/bemUtils';
+import bemUtils from '@navikt/sif-common-core-ds/lib/utils/bemUtils';
 import { Duration, durationsAreEqual, ensureDuration } from '@navikt/sif-common-utils';
 import { Undertekst } from 'nav-frontend-typografi';
 import { TidRenderer } from './TidsbrukKalender';

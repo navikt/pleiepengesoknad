@@ -1,9 +1,9 @@
 import React from 'react';
 import { useIntl } from 'react-intl';
-import FormBlock from '@navikt/sif-common-core/lib/components/form-block/FormBlock';
-import intlHelper from '@navikt/sif-common-core/lib/utils/intlUtils';
-import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik/lib';
-import { ValidationError } from '@navikt/sif-common-formik/lib/validation/types';
+import FormBlock from '@navikt/sif-common-core-ds/lib/atoms/form-block/FormBlock';
+import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
+import { getTypedFormComponents, YesOrNo } from '@navikt/sif-common-formik-ds/lib';
+import { ValidationError } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { ArbeidsforholdType } from '../../../../local-sif-common-pleiepenger';
 import {
     ArbeidsforholdFormField,
@@ -103,9 +103,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         misterHonorarStyreverv={misterHonorarStyreverv}
                     />
                 }
-                suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
-                suffixStyle="text"
-                bredde="XS"
+                // suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
+                // suffixStyle="text"
+                width="xs"
                 validate={getArbeiderNormaltTimerIUkenValidator({
                     ...intlValues,
                     jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',
@@ -147,9 +147,9 @@ const NormalarbeidstidSpørsmål: React.FunctionComponent<Props> = ({
                         frilansTyper={frilansTyper}
                     />
                 }
-                suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
-                suffixStyle="text"
-                bredde="XS"
+                // suffix={intlHelper(intl, `arbeidsforhold.timerPerUke.suffix`)}
+                // suffixStyle="text"
+                width="xs"
                 validate={getArbeiderNormaltTimerIUkenValidator({
                     ...intlValues,
                     jobber: erAktivtArbeidsforhold ? 'jobber' : 'jobbet',

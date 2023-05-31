@@ -1,11 +1,14 @@
-import { YesOrNo } from '@navikt/sif-common-core/lib/types/YesOrNo';
-import { ValidationError, ValidationResult } from '@navikt/sif-common-formik/lib/validation/types';
+import { ValidationError, ValidationResult } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { durationToDecimalDuration, summarizeDurationInDurationWeekdays } from '@navikt/sif-common-utils';
 import { OmsorgstilbudFormValues } from '../types/SøknadFormValues';
 import { AppFieldValidationErrors } from './fieldValidations';
+import { YesOrNoOrDoNotKnow } from '../types/YesOrNoOrDoNotKnow';
 
 export const validateOmsorgstilbud = (omsorgstilbud: OmsorgstilbudFormValues): ValidationResult<ValidationError> => {
-    if (omsorgstilbud.erIOmsorgstilbudFortid === YesOrNo.YES || omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNo.YES) {
+    if (
+        omsorgstilbud.erIOmsorgstilbudFortid === YesOrNoOrDoNotKnow.YES ||
+        omsorgstilbud.erIOmsorgstilbudFremtid === YesOrNoOrDoNotKnow.YES
+    ) {
         const { fasteDager } = omsorgstilbud;
 
         const hoursInTotal = fasteDager

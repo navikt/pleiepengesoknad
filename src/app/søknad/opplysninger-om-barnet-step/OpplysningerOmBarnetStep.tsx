@@ -10,8 +10,8 @@ import { Søkerdata } from '../../types/Søkerdata';
 import {
     getTotalSizeOfAttachments,
     MAX_TOTAL_ATTACHMENT_SIZE_BYTES,
-} from '@navikt/sif-common-core/lib/utils/attachmentUtils';
-import { Attachment } from '@navikt/sif-common-core/lib/types/Attachment';
+} from '@navikt/sif-common-core-ds/lib/utils/attachmentUtils';
+import { Attachment } from '@navikt/sif-common-core-ds/lib/types/Attachment';
 
 const harRegistrerteBarn = ({ barn }: Søkerdata) => {
     return barn && barn.length > 0;

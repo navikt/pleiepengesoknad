@@ -1,11 +1,11 @@
 import { IntlShape } from 'react-intl';
-import { DateRange } from '@navikt/sif-common-formik/lib';
+import { DateRange } from '@navikt/sif-common-formik-ds/lib';
 import {
     getNumberValidator,
     getRequiredFieldValidator,
     ValidateNumberError,
-} from '@navikt/sif-common-formik/lib/validation';
-import { IntlErrorObject } from '@navikt/sif-common-formik/lib/validation/types';
+} from '@navikt/sif-common-formik-ds/lib/validation';
+import { IntlErrorObject } from '@navikt/sif-common-formik-ds/lib/validation/types';
 import { dateRangeUtils, decimalDurationToDuration } from '@navikt/sif-common-utils/lib';
 import { ArbeidIPeriodeIntlValues } from '../../local-sif-common-pleiepenger';
 import { formatTimerOgMinutter } from '../../local-sif-common-pleiepenger/components/timer-og-minutter/TimerOgMinutter';

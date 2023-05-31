@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik/lib';
+import { DateRange, dateToISOString, InputTime } from '@navikt/sif-common-formik-ds/lib';
 import { DateDurationMap, durationIsZero, getDurationsInDateRange } from '@navikt/sif-common-utils';
 import dayjs from 'dayjs';
 import Ekspanderbartpanel from 'nav-frontend-ekspanderbartpanel';

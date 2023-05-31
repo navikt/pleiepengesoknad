@@ -1,4 +1,4 @@
-import { Virksomhet } from '@navikt/sif-common-forms/lib';
+import { Virksomhet } from '@navikt/sif-common-forms-ds/lib';
 import { ArbeidsforholdSøknadsdata } from './Søknadsdata';
 
 export interface ArbeidSelvstendigSøknadsdataErIkkeSN {
