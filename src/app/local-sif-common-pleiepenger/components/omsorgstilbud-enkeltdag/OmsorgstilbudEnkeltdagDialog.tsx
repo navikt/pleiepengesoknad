@@ -10,7 +10,7 @@ interface Props extends Omit<TidEnkeltdagDialogProps, 'dialogTitle' | 'formProps
     formProps: Omit<TidEnkeltdagFormProps, 'hvorMyeSpørsmålRenderer' | 'maksTid'>;
 }
 
-const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({ isOpen, formProps }: Props) => {
+const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({ open: isOpen, formProps }: Props) => {
     const intl = useIntl();
 
     const hvorMyeSpørsmålRenderer = (dato: Date): string => {
@@ -23,7 +23,7 @@ const OmsorgstilbudEnkeltdagDialog: React.FunctionComponent<Props> = ({ isOpen, 
     };
     return (
         <TidEnkeltdagDialog
-            isOpen={isOpen}
+            open={isOpen}
             dialogTitle={intlHelper(intl, 'omsorgstilbudEnkeltdagForm.tittel', {
                 dato: dateFormatter.full(formProps.dato),
             })}

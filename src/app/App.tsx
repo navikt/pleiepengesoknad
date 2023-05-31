@@ -1,4 +1,5 @@
 import { SanityConfig } from '@navikt/appstatus-react-ds';
+import { Modal } from '@navikt/ds-react';
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Navigate, Route, Routes } from 'react-router-dom';
@@ -6,7 +7,6 @@ import { AmplitudeProvider } from '@navikt/sif-common-amplitude/lib';
 import AppStatusWrapper from '@navikt/sif-common-core-ds/lib/components/app-status-wrapper/AppStatusWrapper';
 import { Locale } from '@navikt/sif-common-core-ds/lib/types/Locale';
 import dayjs from 'dayjs';
-import Modal from 'nav-frontend-modal';
 import ApplicationWrapper from './components/application-wrapper/ApplicationWrapper';
 import RouteConfig from './config/routeConfig';
 import GeneralErrorPage from './pages/general-error-page/GeneralErrorPage';
@@ -15,10 +15,10 @@ import Søknad from './søknad/Søknad';
 import appSentryLogger from './utils/appSentryLogger';
 import { getEnvironmentVariable } from './utils/envUtils';
 import { getLocaleFromSessionStorage, setLocaleInSessionStorage } from './utils/localeUtils';
-import './app.less';
-import './styles/globalStyles.less';
 import '@navikt/ds-css';
 import '@navikt/sif-common-core-ds/lib/styles/sif-ds-theme.css';
+import './app.less';
+import './styles/globalStyles.less';
 
 export const APPLICATION_KEY = 'pleiepengesoknad';
 export const SKJEMANAVN = 'Søknad om pleiepenger';

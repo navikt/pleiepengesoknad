@@ -156,7 +156,6 @@ const SøknadContent = ({
         setTimeout(() => {
             setSøknadsdata(getSøknadsdataFromFormValues(initialFormValues || values));
             navigateTo(`${RouteConfig.SØKNAD_ROUTE_PREFIX}/${StepID.OPPLYSNINGER_OM_BARNET}`, navigate);
-            // navigateTo(`${StepID.OPPLYSNINGER_OM_BARNET}`, navigate);
         });
     };
 
@@ -167,13 +166,13 @@ const SøknadContent = ({
         <>
             {confirmationDialog && (
                 <BekreftDialog
-                    isOpen={true}
+                    open={true}
                     bekreftLabel={confirmationDialog.okLabel}
                     avbrytLabel={confirmationDialog.cancelLabel}
                     onBekreft={confirmationDialog.onConfirm}
                     onAvbryt={confirmationDialog.onCancel}
-                    onRequestClose={confirmationDialog.onCancel}
-                    contentLabel={confirmationDialog.title}>
+                    onClose={confirmationDialog.onCancel}
+                    tittel={confirmationDialog.title}>
                     {confirmationDialog.content}
                 </BekreftDialog>
             )}

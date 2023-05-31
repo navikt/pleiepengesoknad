@@ -97,7 +97,7 @@ const OmsorgstilbudMåned: React.FunctionComponent<Props> = ({
             />
             {editDate && onEnkeltdagChange && (
                 <OmsorgstilbudEnkeltdagDialog
-                    isOpen={editDate !== undefined}
+                    open={editDate !== undefined}
                     formProps={{
                         periode,
                         dato: editDate.dato,

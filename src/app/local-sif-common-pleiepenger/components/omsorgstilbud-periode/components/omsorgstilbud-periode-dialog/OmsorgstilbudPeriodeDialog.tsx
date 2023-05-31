@@ -1,8 +1,7 @@
+import { Heading, Modal } from '@navikt/ds-react';
+import ModalContent from '@navikt/ds-react/esm/modal/ModalContent';
 import React from 'react';
-import { useIntl } from 'react-intl';
-import intlHelper from '@navikt/sif-common-core-ds/lib/utils/intlUtils';
-import Modal from 'nav-frontend-modal';
-import { Normaltekst } from 'nav-frontend-typografi';
+import { FormattedMessage } from 'react-intl';
 import OmsorgstilbudPeriodeForm, {
     OmsorgstilbudPeriodeFormProps,
 } from '../omsorgstilbud-periode-form/OmsorgstilbudPeriodeForm';
@@ -14,17 +13,18 @@ interface Props {
 }
 
 const OmsorgstilbudPeriodeDialog: React.FC<Props> = ({ formProps, isOpen }) => {
-    const intl = useIntl();
     return isOpen ? (
         <Modal
-            isOpen={isOpen}
-            contentLabel={intlHelper(intl, 'omsorgstilbudPeriodeDialog.contentLabel')}
-            onRequestClose={formProps.onCancel}
+            open={isOpen}
+            onClose={formProps.onCancel}
             shouldCloseOnOverlayClick={false}
             className="omsorgstilbudPeriodeDialog">
-            <Normaltekst tag="div">
+            <ModalContent>
+                <Heading level="1" size="medium" style={{ paddingRight: '3rem', minWidth: '14rem' }}>
+                    <FormattedMessage id="omsorgstilbudPeriodeDialog.contentLabel" />
+                </Heading>
                 <OmsorgstilbudPeriodeForm {...formProps} />
-            </Normaltekst>
+            </ModalContent>
         </Modal>
     ) : null;
 };
