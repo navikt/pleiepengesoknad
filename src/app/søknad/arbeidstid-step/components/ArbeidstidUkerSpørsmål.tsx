@@ -38,6 +38,7 @@ interface Props {
     intlValues: ArbeidIPeriodeIntlValues;
     erFrilanser?: boolean;
     frilansVervString?: string;
+    frilansVervValideringString?: string;
 }
 
 const getPeriodeISøknadsperiodeInfo = (intl: IntlShape, periode: DateRange, søknadsperiode: DateRange) => {
@@ -71,6 +72,7 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
     intlValues,
     erFrilanser,
     frilansVervString,
+    frilansVervValideringString,
 }) => {
     const arbeidsuker = getArbeidsukerIPerioden(periode);
     const intl = useIntl();
@@ -109,7 +111,9 @@ const ArbeidstidUkerSpørsmål: React.FunctionComponent<Props> = ({
                             intlValues={intlValues}
                             normalarbeidstid={normalarbeidstid}
                             timerEllerProsent={timerEllerProsent}
+                            frilans={erFrilanser}
                             frilansVervString={frilansVervString}
+                            frilansVervValideringString={frilansVervValideringString}
                         />
                     </div>
                 );

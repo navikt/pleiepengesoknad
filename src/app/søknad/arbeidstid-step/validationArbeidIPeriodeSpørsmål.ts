@@ -16,14 +16,17 @@ import { getArbeidsdagerIUkeTekst } from './utils/arbeidstidUtils';
 import { DateRange } from '@navikt/sif-common-formik/lib';
 
 export const getArbeidIPeriodeProsentAvNormaltValidator =
-    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: ArbeidsukeInfo) => (value: string) => {
+    (intlValues: ArbeidIPeriodeIntlValues, arbeidsuke?: ArbeidsukeInfo, frilansVervValideringString?: string) =>
+    (value: string) => {
         const ukeinfo = arbeidsuke ? `${arbeidsuke.ukenummer}` : undefined;
         const { min, max } = arbeidsuke ? { min: 0, max: 100 } : { min: 1, max: 99 };
         const error = getArbeidstidFastProsentValidator({ min, max })(value);
         return error
             ? {
-                  key: `validation.arbeidIPeriode.fast.prosent.${arbeidsuke ? 'uke.' : ''}${error.key}`,
-                  values: { ...intlValues, min, max, ukeinfo },
+                  key: `validation.arbeidIPeriode.fast.${frilansVervValideringString ? 'frilansVerv.' : ''}prosent.${
+                      arbeidsuke ? 'uke.' : ''
+                  }${error.key}`,
+                  values: { ...intlValues, min, max, ukeinfo, frilansVervValideringString },
                   keepKeyUnaltered: true,
               }
             : undefined;
@@ -57,7 +60,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
         intlValues: ArbeidIPeriodeIntlValues,
         timerNormalt: number,
         arbeidsuke?: ArbeidsukeInfo,
-        frilansVervString?: string
+        frilansVervValideringString?: string
     ) =>
     (value: string) => {
         const min = arbeidsuke ? 0 : 1;
@@ -67,7 +70,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
 
         if (error) {
             return {
-                key: `validation.arbeidIPeriode.fast.${frilansVervString ? 'frilansVerv.' : ''}timerPerUke.${
+                key: `validation.arbeidIPeriode.fast.${frilansVervValideringString ? 'frilansVerv.' : ''}timerPerUke.${
                     arbeidsuke ? 'uke.' : ''
                 }${error.key}`,
                 values: {
@@ -75,7 +78,7 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                     ukeinfo,
                     min,
                     max: formatTimerOgMinutter(intl, decimalDurationToDuration(timerNormalt)),
-                    frilansVervString,
+                    frilansVervValideringString,
                 },
                 keepKeyUnaltered: true,
             };
@@ -92,15 +95,16 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
                 forMangeTimerUtFraDagerError.key === ValidateNumberError.numberIsTooLarge
             ) {
                 return {
-                    key: `validation.arbeidIPeriode.fast.${frilansVervString ? 'frilansVerv.' : ''}timerPerUke.${
-                        arbeidsuke ? 'uke.' : ''
-                    }${'flereTimerEnnTilgjengeligIUke'}`,
+                    key: `validation.arbeidIPeriode.fast.${
+                        frilansVervValideringString ? 'frilansVerv.' : ''
+                    }timerPerUke.${arbeidsuke ? 'uke.' : ''}${'flereTimerEnnTilgjengeligIUke'}`,
                     values: {
                         ...intlValues,
                         ukeinfo,
                         min,
                         max: formatTimerOgMinutter(intl, decimalDurationToDuration(maksTimerIPeriode)),
                         dagInfo: getArbeidsdagerIUkeTekst(arbeidsuke.arbeidsdagerPeriode),
+                        frilansVervValideringString,
                     },
                     keepKeyUnaltered: true,
                 };
@@ -109,17 +113,20 @@ export const getArbeidIPeriodeTimerPerUkeISnittValidator =
         return undefined;
     };
 
-export const getArbeidIPeriodeTimerEllerProsentValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    if (error) {
-        return {
-            key: `validation.arbeidIPeriode.timerEllerProsent.${error}`,
-            values: { ...intlValues, min: 1, max: 99 },
-            keepKeyUnaltered: true,
-        };
-    }
-    return undefined;
-};
+export const getArbeidIPeriodeTimerEllerProsentValidator =
+    (intlValues: ArbeidIPeriodeIntlValues, frilansVerv?: string) => (value: any) => {
+        const error = getRequiredFieldValidator()(value);
+        if (error) {
+            return {
+                key: frilansVerv
+                    ? `validation.arbeidIPeriode.timerEllerProsent.${frilansVerv}.${error}`
+                    : `validation.arbeidIPeriode.timerEllerProsent.${error}`,
+                values: { ...intlValues, min: 1, max: 99 },
+                keepKeyUnaltered: true,
+            };
+        }
+        return undefined;
+    };
 
 export const getArbeidIPeriodeArbeiderIPeriodenValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
     const error = getRequiredFieldValidator()(value);
@@ -152,16 +159,19 @@ export const getArbeidIPeriodeArbeiderIPeriodenVervValidator = () => (value: any
         : error;
 };
 
-export const getArbeidIPeriodeErLiktHverUkeValidator = (intlValues: ArbeidIPeriodeIntlValues) => (value: any) => {
-    const error = getRequiredFieldValidator()(value);
-    return error
-        ? {
-              key: 'validation.arbeidIPeriode.erLiktHverUke',
-              values: intlValues,
-              keepKeyUnaltered: true,
-          }
-        : undefined;
-};
+export const getArbeidIPeriodeErLiktHverUkeValidator =
+    (intlValues: ArbeidIPeriodeIntlValues, frilansVerv?: string) => (value: any) => {
+        const error = getRequiredFieldValidator()(value);
+        return error
+            ? {
+                  key: frilansVerv
+                      ? `validation.arbeidIPeriode.erLiktHverUke.${frilansVerv}`
+                      : 'validation.arbeidIPeriode.erLiktHverUke',
+                  values: intlValues,
+                  keepKeyUnaltered: true,
+              }
+            : undefined;
+    };
 
 export const getArbeidIPeriodeErLiktHverUkeFrilansVervValidator = () => (value: any) => {
     const error = getRequiredFieldValidator()(value);

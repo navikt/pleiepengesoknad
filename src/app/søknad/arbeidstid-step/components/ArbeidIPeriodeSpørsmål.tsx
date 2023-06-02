@@ -209,11 +209,14 @@ const ArbeidIPeriodeSpørsmål = ({
                                     legend={intlHelper(
                                         intl,
                                         frilansRedusert || vervRedusert
-                                            ? 'arbeidIPeriode.erLiktHverUke.frilans.spm'
+                                            ? `arbeidIPeriode.erLiktHverUke.${getFrilansVerv()}.spm`
                                             : `arbeidIPeriode.erLiktHverUke.spm`,
                                         intlValues
                                     )}
-                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(intlValues)}
+                                    validate={getArbeidIPeriodeErLiktHverUkeValidator(
+                                        intlValues,
+                                        frilansRedusert || vervRedusert ? getFrilansVerv() : undefined
+                                    )}
                                     useTwoColumns={true}
                                     data-testid="er-likt-hver-uke"
                                     labels={{
@@ -227,9 +230,18 @@ const ArbeidIPeriodeSpørsmål = ({
                             <FormBlock>
                                 <SøknadFormComponents.RadioPanelGroup
                                     name={getFieldName(ArbeidIPeriodeFormField.timerEllerProsent)}
-                                    legend={intlHelper(intl, `arbeidIPeriode.timerEllerProsent.spm`, intlValues)}
+                                    legend={intlHelper(
+                                        intl,
+                                        frilansRedusert || vervRedusert
+                                            ? `arbeidIPeriode.timerEllerProsent.spm.${getFrilansVerv()}`
+                                            : `arbeidIPeriode.timerEllerProsent.spm`,
+                                        intlValues
+                                    )}
                                     radios={getTimerEllerProsentRadios(intl, intlValues)}
-                                    validate={getArbeidIPeriodeTimerEllerProsentValidator(intlValues)}
+                                    validate={getArbeidIPeriodeTimerEllerProsentValidator(
+                                        intlValues,
+                                        frilansRedusert || vervRedusert ? getFrilansVerv() : undefined
+                                    )}
                                     useTwoColumns={true}
                                 />
                             </FormBlock>
@@ -246,10 +258,23 @@ const ArbeidIPeriodeSpørsmål = ({
                                     arbeidIPeriode={arbeidIPeriode}
                                     intlValues={intlValues}
                                     erFrilanser={frilansRedusert || vervRedusert}
-                                    frilansVervString={intlHelper(
-                                        intl,
-                                        `arbeidIPeriode.timerAvNormalt.frilanser.spm.${getFrilansVerv()}`
-                                    )}
+                                    frilansVervString={
+                                        frilansRedusert || vervRedusert
+                                            ? intlHelper(
+                                                  intl,
+                                                  `arbeidIPeriode.ulikeUkerGruppe.frilanser.spm.${getFrilansVerv()}`
+                                              )
+                                            : undefined
+                                    }
+                                    frilansVervValideringString={
+                                        frilansRedusert || vervRedusert
+                                            ? intlHelper(
+                                                  intl,
+                                                  `validation.arbeidIPeriode.${getFrilansVerv()}.valideringString`,
+                                                  { hverUke: '' }
+                                              )
+                                            : undefined
+                                    }
                                 />
                             </FormBlock>
                         )}
@@ -263,6 +288,24 @@ const ArbeidIPeriodeSpørsmål = ({
                                     intlValues={intlValues}
                                     normalarbeidstid={normalarbeidstid}
                                     timerEllerProsent={timerEllerProsent}
+                                    frilans={frilansRedusert || vervRedusert}
+                                    frilansVervString={
+                                        frilansRedusert || vervRedusert
+                                            ? intlHelper(
+                                                  intl,
+                                                  `arbeidIPeriode.${timerEllerProsent}.frilanser.spm.${getFrilansVerv()}`
+                                              )
+                                            : undefined
+                                    }
+                                    frilansVervValideringString={
+                                        frilansRedusert || vervRedusert
+                                            ? intlHelper(
+                                                  intl,
+                                                  `validation.arbeidIPeriode.${getFrilansVerv()}.valideringString`,
+                                                  { hverUke: timerEllerProsent === 'timer' ? 'hver uke' : '' }
+                                              )
+                                            : undefined
+                                    }
                                 />
                             )}
                     </ResponsivePanel>

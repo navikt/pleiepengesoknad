@@ -27,6 +27,7 @@ interface Props {
     arbeidIPeriode: ArbeidIPeriodeFormValues;
     frilans?: boolean;
     frilansVervString?: string;
+    frilansVervValideringString?: string;
 }
 
 export const søkerKunHeleUker = (periode: DateRange): boolean => {
@@ -45,6 +46,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
     normalarbeidstid,
     frilans,
     frilansVervString,
+    frilansVervValideringString,
 }) => {
     const intl = useIntl();
 
@@ -73,6 +75,8 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                     <FormattedMessage id="arbeidIPeriode.uke.ukedatoer" values={{ ukedatoer }} />
                 </Normaltekst>
             </>
+        ) : frilans ? (
+            intlHelper(intl, 'arbeidIPeriode.prosent.frilanser.spm', { frilansVervString })
         ) : (
             intlHelper(
                 intl,
@@ -92,7 +96,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                 </Normaltekst>
             </>
         ) : frilans ? (
-            intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.frilanser.spm', { frilansVervString })
+            intlHelper(intl, 'arbeidIPeriode.timer.frilanser.spm', { frilansVervString })
         ) : (
             intlHelper(intl, 'arbeidIPeriode.timerAvNormalt.spm', {
                 ...intlValues,
@@ -123,7 +127,11 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                     name={prosentFieldName}
                     label={getProsentLabel()}
                     data-testid="prosent-verdi"
-                    validate={getArbeidIPeriodeProsentAvNormaltValidator(intlValues, arbeidsuke)}
+                    validate={getArbeidIPeriodeProsentAvNormaltValidator(
+                        intlValues,
+                        arbeidsuke,
+                        frilans ? frilansVervValideringString : undefined
+                    )}
                     bredde="XS"
                     maxLength={4}
                     suffixStyle="text"
@@ -140,7 +148,7 @@ const ArbeidstidInput: React.FunctionComponent<Props> = ({
                         intlValues,
                         normalarbeidstid.timerPerUkeISnitt,
                         arbeidsuke,
-                        frilansVervString
+                        frilans ? frilansVervValideringString : undefined
                     )}
                     data-testid="timer-verdi"
                     bredde="XS"
