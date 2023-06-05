@@ -5,6 +5,9 @@ import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
 import { FrilansFormData, FrilansTyper } from '../types/FrilansFormData';
 
+const minMax = require('dayjs/plugin/minMax');
+dayjs.extend(minMax);
+
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
 
