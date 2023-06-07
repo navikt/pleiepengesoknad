@@ -25,8 +25,15 @@ export interface ArbeidIPeriodeApiDataUlikeUkerTimer {
     arbeidsuker: ArbeidsukeTimerApiData[];
 }
 
+export interface ArbeidIPeriodeApiDataProsent {
+    type: ArbeidIPeriodeType.arbeiderProsentAvNormalt;
+    arbeiderIPerioden?: ArbeiderIPeriodenSvar;
+    prosentAvNormalt: number;
+}
+
 export type ArbeidIPeriodeFrilansApiData =
     | ArbeidIPeriodeApiDataJobberIkke
     | ArbeidIPeriodeApiDataJobberSomVanlig
     | ArbeidIPeriodeApiDataTimerPerUke
-    | ArbeidIPeriodeApiDataUlikeUkerTimer;
+    | ArbeidIPeriodeApiDataUlikeUkerTimer
+    | ArbeidIPeriodeApiDataProsent;

@@ -5,6 +5,9 @@ import dayjs from 'dayjs';
 import { Arbeidsgiver } from '../types';
 import { FrilansFormData, FrilansTyper } from '../types/FrilansFormData';
 
+const minMax = require('dayjs/plugin/minMax');
+dayjs.extend(minMax);
+
 export const harFrilansoppdrag = (frilansoppdrag: Arbeidsgiver[] | undefined) =>
     frilansoppdrag !== undefined && frilansoppdrag.length > 0;
 
@@ -24,10 +27,17 @@ export const erFrilanserITidsrom = (tidsrom: DateRange, frilansStartdato: Date, 
 
 export const erFrilanserISøknadsperiode = (
     søknadsperiode: DateRange,
-    { harHattInntektSomFrilanser, erFortsattFrilanser, sluttdato, startdato }: FrilansFormData
+    {
+        harHattInntektSomFrilanser,
+        erFortsattFrilanser,
+        sluttdato,
+        startdato,
+        frilansTyper,
+        misterHonorarStyreverv,
+    }: FrilansFormData
 ): boolean => {
     if (erFortsattFrilanser === YesOrNo.YES) {
-        return true;
+        return !kunStyrevervUtenNormalArbeidstid(frilansTyper, misterHonorarStyreverv);
     }
     const frilansStartdato = datepickerUtils.getDateFromDateString(startdato);
     const frilansSluttdato = datepickerUtils.getDateFromDateString(sluttdato);
