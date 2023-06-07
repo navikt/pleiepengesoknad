@@ -69,7 +69,7 @@
         "promise": "^8.3.0",
         "react": "^17.0.2",
         "react-day-picker": "^7.4.10",
-        "react-router": "^5.3.3",
+        "react-router": "^6.12.0",
         "ts-loader": "^9.4.3",
         "uuid": "^9.0.0"
     },
