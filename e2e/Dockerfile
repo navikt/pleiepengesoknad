@@ -1,4 +1,4 @@
-FROM cypress/included:12.8.1
+FROM cypress/included:12.11.0
 WORKDIR /usr/src/app
 COPY . .
 RUN CYPRESS_INSTALL_BINARY=0 npm ci
