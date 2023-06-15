@@ -20,7 +20,10 @@ import { NormalarbeidstidSøknadsdata } from '../../../types/søknadsdata/normal
 import { ArbeidsukeInfo } from '../../../types/ArbeidsukeInfo';
 import { getArbeidsukeInfoIPeriode } from '../../../utils/arbeidsukeInfoUtils';
 import { ArbeiderIPeriodenSvar } from '@navikt/sif-common-pleiepenger/lib';
-import { ArbeidIPeriodeFrilansSøknadsdata } from '../../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
+import {
+    ArbeidIPeriodeFrilansSøknadsdata,
+    isArbeidIPeriodeFrilansSøknadsdata,
+} from '../../../types/søknadsdata/arbeidIPeriodeFrilansSøknadsdata';
 
 dayjs.extend(isSameOrBefore);
 dayjs.extend(isSameOrAfter);
@@ -115,6 +118,12 @@ export const harFraværFraJobb = (arbeidsforhold: ArbeidsforholdSøknadsdata[]):
     return arbeidsforhold.some(({ arbeidISøknadsperiode }) => {
         if (!arbeidISøknadsperiode) {
             return false;
+        }
+
+        if (isArbeidIPeriodeFrilansSøknadsdata(arbeidISøknadsperiode)) {
+            if (arbeidISøknadsperiode.misterHonorarerFraVervIPerioden !== undefined) {
+                return true;
+            }
         }
 
         return (
