@@ -12,6 +12,6 @@
     "dependencies": {
         "cypress-file-upload": "^5.0.8",
         "@navikt/sif-common-pleiepenger": "^5.1.1",
-        "dayjs": "^1.11.7"
+        "dayjs": "^1.11.8"
     }
 }
