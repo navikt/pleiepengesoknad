@@ -144,7 +144,10 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         }
     }
 
-    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
+    if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær ||
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
+    ) {
         return {
             gjelderFrilans: true,
             type: ArbeidIPeriodeType.arbeiderIkke,
@@ -152,6 +155,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
         };
     }
+    console.log('Vi er her: arbeiderIPerioden: ', arbeiderIPerioden);
     return {
         gjelderFrilans: true,
         type: ArbeidIPeriodeType.arbeiderVanlig,
