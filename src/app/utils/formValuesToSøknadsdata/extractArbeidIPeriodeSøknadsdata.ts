@@ -99,17 +99,6 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     misterHonorarerFraVervIPerioden,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
     if (
-        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær &&
-        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
-    ) {
-        return {
-            gjelderFrilans: true,
-            type: ArbeidIPeriodeType.arbeiderIkke,
-            arbeiderIPerioden,
-            misterHonorarerFraVervIPerioden,
-        };
-    }
-    if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
         misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer ||
         (arbeiderIPerioden !== ArbeiderIPeriodenSvar.heltFravær &&
@@ -158,14 +147,18 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         }
     }
 
-    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
+    if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær ||
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
+    ) {
         return {
             gjelderFrilans: true,
             type: ArbeidIPeriodeType.arbeiderIkke,
-            arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
+            arbeiderIPerioden,
             misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
         };
     }
+
     return {
         gjelderFrilans: true,
         type: ArbeidIPeriodeType.arbeiderVanlig,
