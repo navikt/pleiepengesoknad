@@ -90,10 +90,12 @@ const ArbeidIPeriodeSpørsmål = ({
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert;
 
     const vervRedusert =
-        frilansType &&
-        frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
-        misterHonorarer === YesOrNo.YES &&
-        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer;
+        (frilansType &&
+            frilansType.some((type) => type === FrilansTyper.STYREVERV) &&
+            misterHonorarer === YesOrNo.YES &&
+            misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer) ||
+        (arbeiderIPerioden === ArbeiderIPeriodenSvar.somVanlig &&
+            misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer);
 
     const getFrilansVerv = (): string => {
         if (frilansRedusert && !vervRedusert) {

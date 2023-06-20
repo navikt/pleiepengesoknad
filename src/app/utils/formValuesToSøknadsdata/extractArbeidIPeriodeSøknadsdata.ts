@@ -99,8 +99,22 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
     misterHonorarerFraVervIPerioden,
 }: ArbeidIPeriodeFormValues): ArbeidIPeriodeFrilansSøknadsdata | undefined => {
     if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær &&
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
+    ) {
+        return {
+            gjelderFrilans: true,
+            type: ArbeidIPeriodeType.arbeiderIkke,
+            arbeiderIPerioden,
+            misterHonorarerFraVervIPerioden,
+        };
+    }
+    if (
         arbeiderIPerioden === ArbeiderIPeriodenSvar.redusert ||
-        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterDelerAvHonorarer ||
+        (arbeiderIPerioden !== ArbeiderIPeriodenSvar.heltFravær &&
+            misterHonorarerFraVervIPerioden !== undefined &&
+            misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer)
     ) {
         if (erLiktHverUke === YesOrNo.YES) {
             const arbeiderProsent =
@@ -144,18 +158,14 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         }
     }
 
-    if (
-        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær ||
-        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
-    ) {
+    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
         return {
             gjelderFrilans: true,
             type: ArbeidIPeriodeType.arbeiderIkke,
-            arbeiderIPerioden: arbeiderIPerioden,
+            arbeiderIPerioden: ArbeiderIPeriodenSvar.heltFravær,
             misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
         };
     }
-
     return {
         gjelderFrilans: true,
         type: ArbeidIPeriodeType.arbeiderVanlig,
