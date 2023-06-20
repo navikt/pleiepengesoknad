@@ -247,6 +247,7 @@ describe('extractArbeidIPeriodeFrilanserSøknadsdata', () => {
             });
             expect(result?.gjelderFrilans).toBeTruthy();
             expect(result?.arbeiderIPerioden).toBeUndefined();
+            expect(result?.type).toEqual(ArbeidIPeriodeType.arbeiderIkke);
             expect(result?.misterHonorarerFraVervIPerioden).toEqual(
                 MisterHonorarerFraVervIPerioden.misterAlleHonorarer
             );
