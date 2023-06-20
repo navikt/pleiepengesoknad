@@ -155,7 +155,7 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
             misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
         };
     }
-    console.log('Vi er her: arbeiderIPerioden: ', arbeiderIPerioden);
+
     return {
         gjelderFrilans: true,
         type: ArbeidIPeriodeType.arbeiderVanlig,
