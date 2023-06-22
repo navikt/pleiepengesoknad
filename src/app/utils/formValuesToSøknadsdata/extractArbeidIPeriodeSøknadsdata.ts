@@ -144,11 +144,14 @@ export const extractArbeidIPeriodeFrilanserSøknadsdata = ({
         }
     }
 
-    if (arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær) {
+    if (
+        arbeiderIPerioden === ArbeiderIPeriodenSvar.heltFravær ||
+        misterHonorarerFraVervIPerioden === MisterHonorarerFraVervIPerioden.misterAlleHonorarer
+    ) {
         return {
             gjelderFrilans: true,
             type: ArbeidIPeriodeType.arbeiderIkke,
-            arbeiderIPerioden: arbeiderIPerioden,
+            arbeiderIPerioden,
             misterHonorarerFraVervIPerioden: misterHonorarerFraVervIPerioden,
         };
     }
