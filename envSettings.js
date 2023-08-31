@@ -9,6 +9,7 @@ const envSettings = () => {
     const FRONTEND_API_PATH = process.env.FRONTEND_API_PATH;
     const FRONTEND_VEDLEGG_URL = process.env.FRONTEND_VEDLEGG_URL;
     const LOGIN_URL = process.env.LOGIN_URL;
+    const MINSIDE_URL = process.env.MINSIDE_URL;
     const PUBLIC_PATH = process.env.PUBLIC_PATH;
     const UTILGJENGELIG = process.env.UTILGJENGELIG;
     const NYNORSK = process.env.NYNORSK;
@@ -30,6 +31,7 @@ const envSettings = () => {
         FRONTEND_API_PATH: '${FRONTEND_API_PATH}',
         FRONTEND_VEDLEGG_URL:'${FRONTEND_VEDLEGG_URL}',
         LOGIN_URL: '${LOGIN_URL}',
+        MINSIDE_URL: '${MINSIDE_URL}',
         PUBLIC_PATH: '${PUBLIC_PATH}',
         UTILGJENGELIG: '${UTILGJENGELIG}',
         NYNORSK: '${NYNORSK}',

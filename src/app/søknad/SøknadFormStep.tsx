@@ -8,7 +8,7 @@ import { Knapp } from 'nav-frontend-knapper';
 import { purge } from '../api/api';
 import { getSøknadStepConfig } from './søknadStepsConfig';
 import { SøknadFormValues } from '../types/SøknadFormValues';
-import { relocateToDinePleiepenger, relocateToSoknad } from '../utils/navigationUtils';
+import { relocateToMinSide, relocateToSoknad } from '../utils/navigationUtils';
 import { getStepTexts } from '../utils/stepUtils';
 import SøknadFormComponents from './SøknadFormComponents';
 import InvalidStepPage from '../pages/invalid-step-page/InvalidStepPage';
@@ -56,7 +56,7 @@ const SøknadFormStep = (props: Props) => {
         const prevStep = stepConfig[id].prevStep;
         await persistSoknad({ stepID: prevStep });
         await logHendelse(ApplikasjonHendelse.fortsettSenere);
-        relocateToDinePleiepenger();
+        relocateToMinSide();
     };
 
     if (stepConfig === undefined || stepConfig[id] === undefined || stepConfig[id].included === false) {

@@ -27,7 +27,7 @@ export const navigateToSoknadStep = (step: StepID, history: History): void => hi
 export const relocateToLoginPage = (): void => relocateTo(getEnvironmentVariable('LOGIN_URL'));
 export const relocateToNavFrontpage = (): void => relocateTo('https://www.nav.no/');
 export const relocateToSoknad = (): void => relocateTo(getRouteUrl(RouteConfig.SØKNAD_ROUTE_PREFIX));
-export const relocateToDinePleiepenger = (): void => relocateTo(getEnvironmentVariable('INNSYN_URL'));
+export const relocateToMinSide = (): void => relocateTo(getEnvironmentVariable('MINSIDE_URL'));
 
 export const navigateToErrorPage = (history: History): void => {
     navigateTo(RouteConfig.ERROR_PAGE_ROUTE, history);
