@@ -29,7 +29,7 @@
         "server-test": "node ./server-test.js"
     },
     "dependencies": {
-        "@formatjs/intl-pluralrules": "^5.2.2",
+        "@formatjs/intl-pluralrules": "^5.2.5",
         "@navikt/sif-common-amplitude": "^2.9.3",
         "@navikt/sif-common-core": "^13.1.2",
         "@navikt/sif-common-formik": "^23.5.1",
